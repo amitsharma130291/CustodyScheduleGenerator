@@ -153,6 +153,66 @@ describe('generateCustodySchedule', () => {
 		expect(days.map((day) => day.parentName)).toEqual(['Alex', 'Alex', 'Jordan', 'Jordan']);
 	});
 
+	it('changing start date shifts the visible month ownership sequence correctly', () => {
+		const shifted = generateVisibleMonthSchedule({
+			scheduleType: '223',
+			startDate: '2026-01-02',
+			monthDate: '2026-01-01',
+		});
+
+		expect(shifted.days.slice(0, 14).map((day) => `${day.date}:${day.parent}`)).toEqual([
+			'2026-01-02:A',
+			'2026-01-03:A',
+			'2026-01-04:B',
+			'2026-01-05:B',
+			'2026-01-06:A',
+			'2026-01-07:A',
+			'2026-01-08:A',
+			'2026-01-09:B',
+			'2026-01-10:B',
+			'2026-01-11:A',
+			'2026-01-12:A',
+			'2026-01-13:B',
+			'2026-01-14:B',
+			'2026-01-15:B',
+		]);
+	});
+
+	it('monthly stats match the visible assigned days', () => {
+		const schedule = generateVisibleMonthSchedule({
+			scheduleType: '5225',
+			startDate: '2026-01-03',
+			monthDate: '2026-01-01',
+		});
+		const parentADays = schedule.days.filter((day) => day.parent === 'A').length;
+		const parentBDays = schedule.days.filter((day) => day.parent === 'B').length;
+
+		expect(schedule.summary.parentADays).toBe(parentADays);
+		expect(schedule.summary.parentBDays).toBe(parentBDays);
+		expect(schedule.summary.totalDays).toBe(schedule.days.length);
+		expect(schedule.days.every((day) => day.date >= '2026-01-03' && day.date <= '2026-01-31')).toBe(true);
+	});
+
+	it('parent names do not affect schedule ownership logic', () => {
+		const defaultNames = generateCustodySchedule({
+			scheduleType: '3443',
+			startDate,
+			numberOfDays: 30,
+		});
+		const customNames = generateCustodySchedule({
+			scheduleType: '3443',
+			startDate,
+			numberOfDays: 30,
+			parentAName: 'Alex',
+			parentBName: 'Jordan',
+		});
+
+		expect(customNames.days.map((day) => day.parent)).toEqual(defaultNames.days.map((day) => day.parent));
+		expect(customNames.summary).toEqual(defaultNames.summary);
+		expect(customNames.days.some((day) => day.parentName === 'Alex')).toBe(true);
+		expect(customNames.days.some((day) => day.parentName === 'Jordan')).toBe(true);
+	});
+
 	it('throws for invalid schedule type', () => {
 		expect(() =>
 			generateCustodySchedule({

@@ -33,7 +33,7 @@ const normalizedSelectedScheduleId = normalizeScheduleType(selectedScheduleId);
 	<form class={`${compact ? 'mt-3 gap-2.5' : 'mt-6 gap-4'} grid`} data-generator-form>
 		<label class="grid min-w-0 gap-1.5">
 			<span class="text-sm font-medium text-secondary">Schedule type</span>
-			<select name="scheduleId" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+			<select name="scheduleId" class="w-full min-w-0 truncate rounded-2xl bg-page px-4 py-2 pr-9 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
 				{scheduleDefinitionList.map((definition) => (
 					<option value={definition.id} selected={definition.id === normalizedSelectedScheduleId}>
 						{definition.name}
@@ -167,13 +167,6 @@ const normalizedSelectedScheduleId = normalizeScheduleType(selectedScheduleId);
 			parentAPercentage,
 			parentBPercentage,
 		} = schedule.summary;
-
-		console.log('[custody-schedule-generator]', {
-			selectedSchedule: definition.id,
-			pattern: definition.pattern,
-			parentADays,
-			parentBDays,
-		});
 
 		if (calendarMonth) calendarMonth.textContent = monthLabel;
 		if (parentALabel) parentALabel.textContent = parentA;
