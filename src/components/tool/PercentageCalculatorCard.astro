@@ -1,0 +1,210 @@
+---
+import {
+	buildVisitationPercentageInterpretation,
+	calculateCustodyPercentage,
+	formatCustodyPercentage,
+} from '../../lib/calculators/custodyPercentage';
+
+interface Props {
+	mode?: 'custody' | 'visitation';
+	heading: string;
+	ariaLabel: string;
+}
+
+const { mode = 'custody', heading, ariaLabel } = Astro.props;
+const initialParentAOvernights = 182;
+const initialParentBOvernights = 183;
+const initialResult = calculateCustodyPercentage({
+	parentAOvernights: initialParentAOvernights,
+	parentBOvernights: initialParentBOvernights,
+});
+const initialInterpretation =
+	mode === 'visitation'
+		? buildVisitationPercentageInterpretation({
+				parentAOvernights: initialParentAOvernights,
+				parentBOvernights: initialParentBOvernights,
+				result: initialResult,
+			})
+		: initialResult.interpretation;
+---
+
+<section
+	id="calculator"
+	class="premium-card rounded-[2rem] p-4 sm:p-5"
+	data-percentage-calculator-card
+	data-interpretation-mode={mode}
+>
+	<div class="rounded-[1.5rem] bg-surface-elevated p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.07)] sm:p-5">
+		<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Calculator</p>
+		<h2 class="mt-2 text-2xl font-semibold tracking-[-0.04em] text-primary">{heading}</h2>
+
+		<form class="mt-5 grid gap-4" data-percentage-calculator-form>
+			<div class="grid gap-4 sm:grid-cols-2">
+				<label class="grid gap-1.5">
+					<span class="text-sm font-medium text-secondary">Parent A name</span>
+					<input name="parentAName" value="Parent A" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+				</label>
+				<label class="grid gap-1.5">
+					<span class="text-sm font-medium text-secondary">Parent B name</span>
+					<input name="parentBName" value="Parent B" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+				</label>
+			</div>
+			<div class="grid gap-4 sm:grid-cols-2">
+				<label class="grid gap-1.5">
+					<span class="text-sm font-medium text-secondary">Parent A overnights</span>
+					<input name="parentAOvernights" type="number" min="0" step="1" value={initialParentAOvernights} class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+				</label>
+				<label class="grid gap-1.5">
+					<span class="text-sm font-medium text-secondary">Parent B overnights</span>
+					<input name="parentBOvernights" type="number" min="0" step="1" value={initialParentBOvernights} class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+				</label>
+			</div>
+			<p class="hidden rounded-2xl bg-page/70 p-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]" data-percentage-calculator-error></p>
+		</form>
+
+		<div class="mt-5 grid grid-cols-2 gap-2" aria-label={ariaLabel}>
+			<div class="rounded-2xl bg-page/55 p-3 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+				<p class="truncate text-xs font-medium text-secondary" data-parent-a-result-label>Parent A</p>
+				<p class="mt-1 text-[30px] font-bold leading-none tracking-[-0.05em] text-accent" data-parent-a-result-percent>{formatCustodyPercentage(initialResult.parentAPercentage)}</p>
+				<p class="mt-1 text-xs text-muted" data-parent-a-result-overnights>{initialParentAOvernights} overnights</p>
+			</div>
+			<div class="rounded-2xl bg-page/55 p-3 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+				<p class="truncate text-xs font-medium text-secondary" data-parent-b-result-label>Parent B</p>
+				<p class="mt-1 text-[30px] font-bold leading-none tracking-[-0.05em] text-parent-b" data-parent-b-result-percent>{formatCustodyPercentage(initialResult.parentBPercentage)}</p>
+				<p class="mt-1 text-xs text-muted" data-parent-b-result-overnights>{initialParentBOvernights} overnights</p>
+			</div>
+		</div>
+		<div class="mt-4 rounded-2xl bg-page/55 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+			<div class="grid min-w-0 gap-0 sm:grid-cols-[1fr_auto] sm:items-center sm:gap-x-4">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Results</p>
+				<button type="button" class="btn-secondary order-last mt-4 inline-flex h-9 w-full items-center justify-center rounded-full px-4 text-xs font-semibold transition-all duration-200 ease-out hover:-translate-y-px active:translate-y-0 sm:order-none sm:mt-0 sm:w-auto" data-copy-percentage-results>
+					Copy results
+				</button>
+				<p class="mt-2 min-w-0 text-sm leading-6 text-secondary sm:col-span-2" data-total-overnights>Total overnights: {initialResult.totalOvernights}</p>
+				<p class="mt-2 min-w-0 text-sm leading-6 text-secondary sm:col-span-2" data-result-interpretation>{initialInterpretation}</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	import {
+		buildCustodyPercentageCopyText,
+		buildVisitationPercentageInterpretation,
+		calculateCustodyPercentage,
+		formatCustodyPercentage,
+	} from '../../lib/calculators/custodyPercentage';
+
+	function getInterpretation({
+		mode,
+		parentAOvernights,
+		parentBOvernights,
+		result,
+	}) {
+		if (mode === 'visitation') {
+			return buildVisitationPercentageInterpretation({
+				parentAOvernights,
+				parentBOvernights,
+				result,
+			});
+		}
+
+		return result.interpretation;
+	}
+
+	document.querySelectorAll('[data-percentage-calculator-card]').forEach((card) => {
+		const form = card.querySelector('[data-percentage-calculator-form]');
+		const error = card.querySelector('[data-percentage-calculator-error]');
+		const copyButton = card.querySelector('[data-copy-percentage-results]');
+		const parentALabel = card.querySelector('[data-parent-a-result-label]');
+		const parentBLabel = card.querySelector('[data-parent-b-result-label]');
+		const parentAPercent = card.querySelector('[data-parent-a-result-percent]');
+		const parentBPercent = card.querySelector('[data-parent-b-result-percent]');
+		const parentAOvernights = card.querySelector('[data-parent-a-result-overnights]');
+		const parentBOvernights = card.querySelector('[data-parent-b-result-overnights]');
+		const totalOvernights = card.querySelector('[data-total-overnights]');
+		const interpretation = card.querySelector('[data-result-interpretation]');
+		const mode = card instanceof HTMLElement ? card.dataset.interpretationMode : 'custody';
+		let latestCopyText = '';
+		let copyResetTimeout;
+
+		function showError(message) {
+			if (!error) return;
+			error.textContent = message;
+			error.classList.remove('hidden');
+		}
+
+		function clearError() {
+			if (!error) return;
+			error.textContent = '';
+			error.classList.add('hidden');
+		}
+
+		async function copyResults() {
+			if (!latestCopyText || !(copyButton instanceof HTMLButtonElement)) return;
+
+			try {
+				await navigator.clipboard.writeText(latestCopyText);
+				copyButton.textContent = 'Copied';
+				window.clearTimeout(copyResetTimeout);
+				copyResetTimeout = window.setTimeout(() => {
+					copyButton.textContent = 'Copy results';
+				}, 2000);
+			} catch {
+				copyButton.textContent = 'Copy failed';
+				window.clearTimeout(copyResetTimeout);
+				copyResetTimeout = window.setTimeout(() => {
+					copyButton.textContent = 'Copy results';
+				}, 2000);
+			}
+		}
+
+		function updateCalculator() {
+			if (!(form instanceof HTMLFormElement)) return;
+
+			const data = new FormData(form);
+			const parentAName = String(data.get('parentAName') || 'Parent A');
+			const parentBName = String(data.get('parentBName') || 'Parent B');
+			const parentAValue = Number(data.get('parentAOvernights'));
+			const parentBValue = Number(data.get('parentBOvernights'));
+
+			try {
+				const result = calculateCustodyPercentage({
+					parentAOvernights: parentAValue,
+					parentBOvernights: parentBValue,
+				});
+				const resultInterpretation = getInterpretation({
+					mode,
+					parentAOvernights: parentAValue,
+					parentBOvernights: parentBValue,
+					result,
+				});
+
+				clearError();
+				if (parentALabel) parentALabel.textContent = parentAName;
+				if (parentBLabel) parentBLabel.textContent = parentBName;
+				if (parentAPercent) parentAPercent.textContent = formatCustodyPercentage(result.parentAPercentage);
+				if (parentBPercent) parentBPercent.textContent = formatCustodyPercentage(result.parentBPercentage);
+				if (parentAOvernights) parentAOvernights.textContent = `${parentAValue} overnights`;
+				if (parentBOvernights) parentBOvernights.textContent = `${parentBValue} overnights`;
+				if (totalOvernights) totalOvernights.textContent = `Total overnights: ${result.totalOvernights}`;
+				if (interpretation) interpretation.textContent = resultInterpretation.replace('Parent A', parentAName).replace('Parent B', parentBName);
+				latestCopyText = buildCustodyPercentageCopyText({
+					parentAName,
+					parentBName,
+					parentAOvernights: parentAValue,
+					parentBOvernights: parentBValue,
+					result,
+				});
+			} catch (caughtError) {
+				latestCopyText = '';
+				showError(caughtError instanceof Error ? caughtError.message : 'Enter valid overnight counts.');
+			}
+		}
+
+		copyButton?.addEventListener('click', copyResults);
+		form?.addEventListener('input', updateCalculator);
+		form?.addEventListener('change', updateCalculator);
+		updateCalculator();
+	});
+</script>
