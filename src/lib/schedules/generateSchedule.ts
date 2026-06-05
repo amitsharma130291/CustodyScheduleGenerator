@@ -15,6 +15,7 @@ import type {
 	ParentNames,
 	ScheduleDay,
 	ScheduleInputType,
+	SixtyFortyPatternId,
 } from './types';
 
 const defaultParentNames: ParentNames = {
@@ -35,11 +36,13 @@ export function generateSchedule({
 	startDate,
 	monthDate = startDate,
 	parentNames = defaultParentNames,
+	sixtyFortyPattern,
 }: {
 	scheduleId: ScheduleInputType;
 	startDate: string | Date;
 	monthDate?: string | Date;
 	parentNames?: Partial<ParentNames>;
+	sixtyFortyPattern?: SixtyFortyPatternId;
 }): GeneratedSchedule {
 	const pattern = getSchedulePattern(scheduleId);
 	const definition = {
@@ -66,6 +69,7 @@ export function generateSchedule({
 		monthDate: parsedMonthDate,
 		parentAName: normalizedParents.parentA,
 		parentBName: normalizedParents.parentB,
+		sixtyFortyPattern,
 	});
 	const daysByDate = new Map(visibleMonthSchedule.days.map((day) => [day.date, day]));
 	const days: GeneratedDay[] = [];

@@ -46,23 +46,39 @@ const schedule: ScheduleContent = {
 	faq: [
 		{
 			question: 'What is a 3-4-4-3 custody schedule?',
-			answer: 'A 3-4-4-3 custody schedule is a two-week rotation where Parent A has three days, Parent B has four days, Parent A has four days, and Parent B has three days.',
+			answer: 'A 3-4-4-3 custody schedule is a repeating two-week parenting plan that alternates three-day and four-day blocks. It is often used by parents who want equal parenting time with fewer exchanges than shorter rotations.',
 		},
 		{
-			question: 'How does a 3-4-4-3 schedule work?',
-			answer: 'The schedule alternates three-day and four-day parenting blocks. Over two weeks, each parent receives one three-day block and one four-day block.',
+			question: 'How does a 3-4-4-3 custody schedule work?',
+			answer: 'A 3-4-4-3 custody schedule gives one parent three days, the other parent four days, then reverses the pattern with four days and three days. Across the full 14-day cycle, both parents receive equal overnights.',
 		},
 		{
-			question: 'Is a 3-4-4-3 schedule 50/50 custody?',
-			answer: 'Yes. Across the full two-week cycle, each parent receives seven overnights, making 3-4-4-3 a common 50/50 custody schedule.',
+			question: 'Is a 3-4-4-3 schedule a 50/50 custody schedule?',
+			answer: 'Yes. A 3-4-4-3 schedule is generally a 50/50 custody schedule because each parent receives seven overnights in a two-week cycle. Holiday schedules and school breaks may adjust the exact annual count.',
 		},
 		{
-			question: 'How is 3-4-4-3 different from 2-2-3?',
-			answer: '3-4-4-3 uses longer blocks and fewer exchanges, while 2-2-3 gives each parent more frequent contact during the week.',
+			question: 'What does a 3-4-4-3 custody calendar look like?',
+			answer: 'A 3-4-4-3 custody calendar shows alternating three-day and four-day parenting blocks. The pattern can look uneven within one week, but it balances over the full two-week cycle when both parents receive seven overnights.',
 		},
 		{
-			question: 'Can parents customize a 3-4-4-3 schedule?',
-			answer: 'Yes. Parents can adjust exchange times, transportation, school breaks, and holidays while keeping the same three-day and four-day block structure.',
+			question: 'What are the pros and cons of a 3-4-4-3 custody schedule?',
+			answer: 'The main benefits are equal parenting time, fewer exchanges than 2-2-3, and predictable three- and four-day blocks. The drawbacks are that the pattern can feel confusing at first and may require careful planning around school and activities.',
+		},
+		{
+			question: 'What is the best age for a 3-4-4-3 custody schedule?',
+			answer: 'There is no single best age for a 3-4-4-3 custody schedule. It may work well for school-age children who can handle three- and four-day stretches in each home, especially when both homes can support school routines.',
+		},
+		{
+			question: 'How many overnights does each parent receive in a 3-4-4-3 schedule?',
+			answer: 'Each parent receives seven overnights in every 14-day 3-4-4-3 schedule cycle. This equal overnight count is why the schedule is commonly treated as a 50/50 custody arrangement.',
+		},
+		{
+			question: 'How do holidays work in a 3-4-4-3 custody schedule?',
+			answer: 'Holiday parenting time usually overrides the normal 3-4-4-3 custody schedule. Parents often define holidays, school breaks, and vacations separately, then return to the regular three-day and four-day rotation after the holiday period ends.',
+		},
+		{
+			question: 'What is the difference between a 3-4-4-3 and 2-2-3 custody schedule?',
+			answer: 'A 3-4-4-3 custody schedule uses longer three- and four-day blocks, while a 2-2-3 custody schedule uses shorter two-day and three-day blocks. The 3-4-4-3 schedule usually has fewer exchanges, while 2-2-3 gives more frequent contact.',
 		},
 	],
 	relatedSchedules: [
@@ -70,6 +86,8 @@ const schedule: ScheduleContent = {
 		'2-2-5-5-custody-schedule',
 		'5-2-2-5-custody-schedule',
 		'week-on-week-off-custody-schedule',
+		'60-40-custody-schedule',
+		'every-other-weekend-custody-schedule',
 		'50-50-custody-schedule',
 	],
 	relatedTools: [

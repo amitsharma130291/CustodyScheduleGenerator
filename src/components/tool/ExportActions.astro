@@ -16,6 +16,7 @@
 
 		const data = new FormData(form);
 		const schedule = data.get('scheduleId');
+		const pattern = data.get('pattern');
 		const start = data.get('startDate');
 		const parentAName = data.get('parentA') || 'Parent A';
 		const parentBName = data.get('parentB') || 'Parent B';
@@ -27,6 +28,7 @@
 			start: String(start),
 			parentAName: String(parentAName),
 			parentBName: String(parentBName),
+			pattern: schedule === '60-40' && pattern ? String(pattern) : undefined,
 		};
 	}
 

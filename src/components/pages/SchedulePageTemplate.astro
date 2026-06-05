@@ -124,6 +124,7 @@ const schema = [
 				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">On this page</p>
 				<ul class="mt-4 space-y-3 text-sm text-secondary">
 					<li><a href="#overview" class="hover:text-primary">Overview</a></li>
+					{schedule.howItWorks && <li><a href="#how-it-works" class="hover:text-primary">How it works</a></li>}
 					{schedule.comparison && <li><a href="#comparison" class="hover:text-primary">Comparison table</a></li>}
 					<li><a href="#example" class="hover:text-primary">Calendar example</a></li>
 					{schedule.examples && <li><a href="#schedule-examples" class="hover:text-primary">Schedule examples</a></li>}
@@ -135,11 +136,20 @@ const schema = [
 
 			<div class="grid gap-10">
 				<section id="overview" class="grid gap-4">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">How the {schedule.title} works</h2>
+					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">{schedule.overviewTitle ?? `How the ${schedule.title} works`}</h2>
 					{schedule.overview.map((paragraph) => (
 						<p class="text-base leading-8 text-secondary">{paragraph}</p>
 					))}
 				</section>
+
+				{schedule.howItWorks && (
+					<section id="how-it-works" class="grid gap-4">
+						<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">{schedule.howItWorks.title}</h2>
+						{schedule.howItWorks.description.map((paragraph) => (
+							<p class="text-base leading-8 text-secondary">{paragraph}</p>
+						))}
+					</section>
+				)}
 
 				{schedule.comparison && (
 					<section id="comparison" class="grid gap-5">
@@ -284,14 +294,14 @@ const schema = [
 									{item.question}
 									<span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-surface/80 text-muted shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-transform duration-200 group-open:rotate-45">+</span>
 								</summary>
-								<p class="mt-4 text-sm leading-6 text-secondary">{item.answer}</p>
+								<p class="mt-4 text-sm leading-6 text-secondary" set:html={item.answerHtml ?? item.answer} />
 							</details>
 						))}
 					</div>
 				</section>
 
 				<section id="related" class="grid gap-5">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Related schedules and tools</h2>
+					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">{schedule.relatedHeading ?? 'Related schedules and tools'}</h2>
 					<div class="grid gap-4 md:grid-cols-2">
 						{relatedLinks.map((link) => (
 							<a href={`/${link.slug}`} class="soft-card rounded-[1.5rem] p-5">

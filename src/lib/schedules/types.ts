@@ -2,18 +2,23 @@ export type Parent = 'A' | 'B';
 
 export type ParentKey = 'parentA' | 'parentB';
 
-export type ScheduleType = '223' | '2255' | '5225' | '3443' | 'week-on-week-off';
+export type ScheduleType = '223' | '2255' | '5225' | '3443' | 'week-on-week-off' | 'every-other-weekend' | '60-40';
 
 export type LegacyScheduleType =
 	| '2-2-3'
 	| '2-2-5-5'
 	| '5-2-2-5'
 	| '3-4-4-3'
-	| '50-50';
+	| '50-50'
+	| 'every-other-weekend'
+	| '60-40'
+	| '60/40';
 
 export type ScheduleId = ScheduleType;
 
 export type ScheduleInputType = ScheduleType | LegacyScheduleType;
+
+export type SixtyFortyPatternId = '4-3' | 'extended-weekend' | 'exact-60-40';
 
 export interface ParentNames {
 	parentA: string;
@@ -61,6 +66,7 @@ export interface GenerateCustodyScheduleOptions {
 	numberOfDays?: number;
 	parentAName?: string;
 	parentBName?: string;
+	sixtyFortyPattern?: SixtyFortyPatternId;
 }
 
 export interface GenerateVisibleMonthScheduleOptions extends Omit<GenerateCustodyScheduleOptions, 'numberOfDays'> {

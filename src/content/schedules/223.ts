@@ -48,23 +48,43 @@ const schedule: ScheduleContent = {
 	faq: [
 		{
 			question: 'What is a 2-2-3 custody schedule?',
-			answer: 'A 2-2-3 custody schedule is a shared parenting rotation where a child spends two days with one parent, two days with the other parent, then three days back with the first parent. The pattern reverses the next week so weekends alternate.',
+			answer: 'A 2-2-3 custody schedule is a 50/50 parenting arrangement where a child spends two days with one parent, two days with the other parent, and then three days back with the first parent. The pattern reverses the following week.',
 		},
 		{
-			question: 'How does a 2-2-3 schedule work?',
-			answer: 'A common setup is Parent A on Monday and Tuesday, Parent B on Wednesday and Thursday, and Parent A on Friday through Sunday. The following week, Parent B receives the two-day start and the three-day weekend block.',
+			question: 'How does a 2-2-3 custody schedule work?',
+			answer: 'A typical 2-2-3 schedule gives Parent A Monday and Tuesday, Parent B Wednesday and Thursday, and Parent A Friday through Sunday. The next week reverses the arrangement so parenting time stays equal.',
 		},
 		{
-			question: 'Is a 2-2-3 schedule 50/50 custody?',
-			answer: 'Yes. Across a full two-week cycle, each parent receives seven overnights, making the 2-2-3 schedule a common 50/50 custody arrangement.',
+			question: 'Is a 2-2-3 custody schedule a 50/50 custody schedule?',
+			answer: 'Yes. Over a complete two-week cycle, each parent receives seven overnights, making the 2-2-3 schedule one of the most common 50/50 custody schedules.',
 		},
 		{
-			question: 'At what age does a 2-2-3 schedule work best?',
-			answer: 'A 2-2-3 schedule can work well for younger children because neither parent goes many days without contact. It can also work for school-aged children when exchanges, school routines, and transportation are manageable.',
+			question: 'What does a 2-2-3 custody calendar look like?',
+			answer: 'A 2-2-3 custody calendar alternates parenting time in repeating two-day, two-day, and three-day blocks. Most families use a printable calendar to visualize exchanges and upcoming weekends.',
 		},
 		{
-			question: 'Can parents customize a 2-2-3 schedule?',
-			answer: 'Yes. Parents can adjust exchange times, holidays, school breaks, and special events while keeping the same basic two-day, two-day, three-day rotation.',
+			question: 'What are the pros and cons of a 2-2-3 custody schedule?',
+			answer: 'Advantages include frequent contact with both parents and balanced parenting time. Drawbacks include more exchanges and schedule transitions than longer custody rotations.',
+		},
+		{
+			question: 'Is a 2-2-3 custody schedule good for toddlers?',
+			answer: 'Many parents choose a 2-2-3 schedule for toddlers and younger children because neither parent goes long periods without seeing the child.',
+		},
+		{
+			question: 'How many overnights does each parent receive in a 2-2-3 schedule?',
+			answer: 'Each parent receives seven overnights during every two-week cycle, creating an equal 50/50 split.',
+		},
+		{
+			question: 'What is the difference between a 2-2-3 schedule and a 2-2-5-5 schedule?',
+			answer: 'A 2-2-3 schedule uses shorter parenting blocks and more exchanges. A 2-2-5-5 schedule provides longer stretches with each parent and fewer transitions.',
+		},
+		{
+			question: 'What is the best 50/50 custody schedule?',
+			answer: "The best 50/50 custody schedule depends on the child's age, school schedule, distance between homes, and parent availability. Common options include 2-2-3, 2-2-5-5, 5-2-2-5, and week-on-week-off schedules.",
+		},
+		{
+			question: 'How do holidays work in a 2-2-3 custody schedule?',
+			answer: 'Holiday parenting time often overrides the regular 2-2-3 custody schedule. Parents usually define holiday exchanges, school breaks, vacations, and special events separately so the normal two-day, two-day, three-day rotation can resume afterward.',
 		},
 	],
 	relatedSchedules: [
@@ -72,6 +92,8 @@ const schedule: ScheduleContent = {
 		'5-2-2-5-custody-schedule',
 		'3-4-4-3-custody-schedule',
 		'week-on-week-off-custody-schedule',
+		'60-40-custody-schedule',
+		'every-other-weekend-custody-schedule',
 		'50-50-custody-schedule',
 	],
 	relatedTools: [],

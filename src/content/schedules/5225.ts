@@ -46,23 +46,43 @@ const schedule: ScheduleContent = {
 	faq: [
 		{
 			question: 'What is a 5-2-2-5 custody schedule?',
-			answer: 'A 5-2-2-5 custody schedule is a two-week shared parenting rotation where the child spends five days with one parent, two days with the other parent, two days back with the first parent, and five days with the other parent.',
+			answer: 'A 5-2-2-5 custody schedule is a repeating two-week parenting plan with one five-day block and one two-day block for each parent. It is commonly used when parents want equal parenting time with fewer exchanges than shorter rotations.',
 		},
 		{
-			question: 'How does a 5-2-2-5 schedule work?',
-			answer: 'A common version gives Parent A a five-day block, Parent B a two-day weekend block, Parent A two more days, and Parent B the next five-day block. The cycle then repeats.',
+			question: 'How does a 5-2-2-5 custody schedule work?',
+			answer: 'A typical 5-2-2-5 custody schedule gives Parent A five days, Parent B two days, Parent A two days, and then Parent B five days. The pattern repeats every 14 days and can be easier to understand when shown on a custody calendar.',
 		},
 		{
-			question: 'Is a 5-2-2-5 schedule 50/50 custody?',
-			answer: 'Yes. Across the full two-week cycle, each parent receives seven overnights, so the 5-2-2-5 schedule is commonly used as a 50/50 custody schedule.',
+			question: 'Is a 5-2-2-5 schedule a 50/50 custody schedule?',
+			answer: 'Yes. A 5-2-2-5 schedule is usually a 50/50 custody schedule because each parent receives seven overnights in every 14-day cycle. Holidays, vacations, and school breaks may change annual totals slightly.',
 		},
 		{
-			question: 'Is 5-2-2-5 better than 2-2-3?',
-			answer: 'It depends on the child and logistics. 5-2-2-5 usually has fewer exchanges and longer blocks, while 2-2-3 keeps contact more frequent.',
+			question: 'What does a 5-2-2-5 custody calendar look like?',
+			answer: 'A 5-2-2-5 custody calendar shows longer five-day blocks alternating with shorter two-day blocks. This can make weekends and school-night responsibilities easier to preview, especially when parents need a printable calendar for exchanges and overnights.',
 		},
 		{
-			question: 'Can parents customize a 5-2-2-5 schedule?',
-			answer: 'Yes. Parents can adjust exchange times, holidays, school breaks, and transportation details while keeping the same basic five-day, two-day, two-day, five-day rotation.',
+			question: 'What are the pros and cons of a 5-2-2-5 custody schedule?',
+			answer: 'The main advantage is fewer exchanges than a 2-2-3 schedule while still giving both parents equal parenting time. The drawbacks are longer blocks away from each parent and more planning around school materials, activities, and transportation.',
+		},
+		{
+			question: 'Is a 5-2-2-5 custody schedule good for school-age children?',
+			answer: 'A 5-2-2-5 custody schedule can work well for school-age children who can handle longer stretches in each home. It gives each parent meaningful school-week time, but both homes need to manage homework, transportation, activities, and school materials. The fit depends on the child’s routine and the distance between homes.',
+		},
+		{
+			question: 'How many overnights does each parent receive in a 5-2-2-5 schedule?',
+			answer: 'Each parent receives seven overnights in every 14-day 5-2-2-5 schedule cycle. That equal overnight count is why the schedule is usually treated as a 50/50 custody arrangement.',
+		},
+		{
+			question: 'How do holidays work in a 5-2-2-5 custody schedule?',
+			answer: 'Holiday parenting time is usually written separately from the regular 5-2-2-5 custody schedule. Many families let holidays override the normal rotation, then return to the regular five-day, two-day, two-day, five-day pattern afterward.',
+		},
+		{
+			question: 'What is the difference between a 5-2-2-5 and 2-2-5-5 custody schedule?',
+			answer: 'A 5-2-2-5 custody schedule and a 2-2-5-5 custody schedule use the same block lengths but start from a different point in the sequence. Both can provide equal parenting time, so the better fit often depends on preferred weekdays and exchange timing.',
+		},
+		{
+			question: 'Can parents customize a 5-2-2-5 custody schedule?',
+			answer: 'Yes. Parents can customize a 5-2-2-5 custody schedule by adjusting exchange times, pickup locations, holidays, school breaks, vacations, and special events. The core five-day, two-day, two-day, five-day rotation can stay the same while the parenting plan adds practical details for each family’s needs.',
 		},
 	],
 	relatedSchedules: [
@@ -70,6 +90,8 @@ const schedule: ScheduleContent = {
 		'2-2-5-5-custody-schedule',
 		'3-4-4-3-custody-schedule',
 		'week-on-week-off-custody-schedule',
+		'60-40-custody-schedule',
+		'every-other-weekend-custody-schedule',
 		'50-50-custody-schedule',
 	],
 	relatedTools: [],

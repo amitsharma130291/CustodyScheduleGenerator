@@ -140,27 +140,39 @@ const schedule: ScheduleContent = {
 	faq: [
 		{
 			question: 'What is a 50/50 custody schedule?',
-			answer: 'A 50/50 custody schedule is a shared parenting plan designed to give each parent roughly equal overnights across the repeating schedule cycle.',
+			answer: 'A 50/50 custody schedule is a shared parenting plan designed to give each parent roughly equal overnights. It can use several different rotations, including 2-2-3, 2-2-5-5, 5-2-2-5, 3-4-4-3, and week-on/week-off schedules.',
 		},
 		{
 			question: 'What is the best 50/50 custody schedule?',
-			answer: 'The best 50/50 custody schedule depends on the child’s age, school routine, distance between homes, work schedules, and how often parents can manage exchanges.',
+			answer: 'The best 50/50 custody schedule depends on the child’s age, school routine, distance between homes, work schedules, and exchange logistics. Younger children may need more frequent contact, while older children may handle longer blocks more easily.',
 		},
 		{
-			question: 'Is a 2-2-3 schedule considered 50/50?',
-			answer: 'Yes. Across a full two-week cycle, each parent receives seven overnights, so 2-2-3 is one of the most common 50/50 custody schedules.',
+			question: 'How does a 50/50 custody schedule work?',
+			answer: 'A 50/50 custody schedule works by repeating a parenting-time pattern that balances overnights between both parents. The schedule may not be perfectly equal every month, but the full cycle should divide parenting time as evenly as possible.',
 		},
 		{
-			question: 'Is week-on/week-off good for children?',
-			answer: 'Week-on/week-off can work well for older children and teens who can handle full weeks in each home. Younger children may need more frequent contact with both parents.',
+			question: 'What does a 50/50 custody calendar look like?',
+			answer: 'A 50/50 custody calendar shows which parent has each overnight across the repeating schedule. Calendar views are helpful because some equal-time schedules look uneven within one week but balance over a two-week cycle.',
 		},
 		{
-			question: 'How do parents choose a 50/50 custody schedule?',
-			answer: 'Parents usually compare exchange frequency, weekend balance, school-night stability, transportation, distance between homes, and how the child handles transitions.',
+			question: 'How many overnights does each parent receive in a 50/50 custody schedule?',
+			answer: 'In a typical two-week 50/50 custody schedule, each parent receives seven overnights. Over a full year, the exact count may vary slightly depending on the start date, holidays, school breaks, and whether the year has 365 or 366 days.',
 		},
 		{
-			question: 'Can a 50/50 schedule be customized?',
-			answer: 'Yes. Parents can customize exchange times, holidays, school breaks, transportation, and special events while keeping the main rotation balanced.',
+			question: 'What are the pros and cons of a 50/50 custody schedule?',
+			answer: 'The main advantage is that both parents remain closely involved in daily routines. The drawbacks are that equal-time schedules can require more coordination, reliable transportation, and homes close enough to support school, activities, and consistent exchanges.',
+		},
+		{
+			question: 'What is the best age for a 50/50 custody schedule?',
+			answer: 'There is no single best age for a 50/50 custody schedule. The right fit depends on the child’s development, school routine, attachment needs, and how well both homes can support consistent parenting time.',
+		},
+		{
+			question: 'What is the difference between 2-2-3 and week-on/week-off custody?',
+			answer: 'A 2-2-3 schedule uses shorter blocks and more frequent exchanges, which can help younger children see both parents often. Week-on/week-off uses full seven-day blocks, which reduces exchanges but may be a long stretch for some children.',
+		},
+		{
+			question: 'How do holidays work in a 50/50 custody schedule?',
+			answer: 'Holiday parenting time is usually handled separately from the regular 50/50 custody schedule. Parents often alternate major holidays, split school breaks, or assign fixed holidays before returning to the normal repeating rotation.',
 		},
 	],
 	relatedSchedules: [
@@ -169,6 +181,8 @@ const schedule: ScheduleContent = {
 		'5-2-2-5-custody-schedule',
 		'3-4-4-3-custody-schedule',
 		'week-on-week-off-custody-schedule',
+		'60-40-custody-schedule',
+		'every-other-weekend-custody-schedule',
 	],
 	relatedTools: [
 		{
@@ -192,6 +206,11 @@ const schedule: ScheduleContent = {
 			title: 'Custody percentage calculator',
 			slug: 'custody-percentage-calculator',
 			description: 'Estimate parenting time percentages from overnights.',
+		},
+		{
+			title: '60/40 Custody Schedule',
+			slug: '60-40-custody-schedule',
+			description: 'Compare equal parenting time with a modest majority-time schedule.',
 		},
 		{
 			title: '2-2-5-5 Custody Schedule',

@@ -5,8 +5,9 @@ export {
 	getAllSchedules,
 	getScheduleBySlug,
 	getSchedulePattern,
+	normalizeSixtyFortyPattern,
 } from './engine';
-export { legacyScheduleTypeMap, normalizeScheduleType, schedulePatterns } from './patterns';
+export { defaultSixtyFortyPattern, legacyScheduleTypeMap, normalizeScheduleType, schedulePatterns, sixtyFortyPatternOptions } from './patterns';
 export type {
 	GenerateCustodyScheduleOptions,
 	GenerateVisibleMonthScheduleOptions,
@@ -18,4 +19,5 @@ export type {
 	ScheduleResult,
 	ScheduleSummary,
 	ScheduleType,
+	SixtyFortyPatternId,
 } from './types';

@@ -63,6 +63,37 @@ describe('schedule share and print actions', () => {
 		expect(writeText).toHaveBeenCalledWith(copiedUrl);
 	});
 
+	it('normalizes 60/40 share links to the canonical schedule id', () => {
+		const url = buildScheduleShareUrl('https://example.com/60-40-custody-schedule', {
+			schedule: '60/40',
+			start: '2026-06-01',
+			parentAName: 'Alex',
+			parentBName: 'Jordan',
+		});
+
+		expect(url).toBe('https://example.com/60-40-custody-schedule?schedule=60-40&start=2026-06-01&a=Alex&b=Jordan&pattern=4-3');
+		expect(restoreScheduleStateFromUrl(url)).toMatchObject({
+			schedule: '60-40',
+			pattern: '4-3',
+		});
+	});
+
+	it('preserves selected 60/40 pattern in share links', () => {
+		const url = buildScheduleShareUrl('https://example.com/60-40-custody-schedule', {
+			schedule: '60-40',
+			start: '2026-06-01',
+			parentAName: 'Alex',
+			parentBName: 'Jordan',
+			pattern: 'extended-weekend',
+		});
+
+		expect(url).toBe('https://example.com/60-40-custody-schedule?schedule=60-40&start=2026-06-01&a=Alex&b=Jordan&pattern=extended-weekend');
+		expect(restoreScheduleStateFromUrl(url)).toMatchObject({
+			schedule: '60-40',
+			pattern: 'extended-weekend',
+		});
+	});
+
 	it('print action calls window.print-compatible callback', () => {
 		const print = vi.fn();
 

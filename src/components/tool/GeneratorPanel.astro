@@ -1,5 +1,6 @@
 ---
 import { scheduleDefinitionList } from '../../lib/schedules/definitions';
+import { defaultSixtyFortyPattern, sixtyFortyPatternOptions } from '../../lib/schedules/patterns';
 import { normalizeScheduleType } from '../../lib/schedules/patterns';
 import type { ScheduleInputType } from '../../lib/schedules/types';
 
@@ -19,6 +20,11 @@ const {
 	compact = false,
 } = Astro.props;
 const normalizedSelectedScheduleId = normalizeScheduleType(selectedScheduleId);
+const featureLabels = normalizedSelectedScheduleId === 'every-other-weekend'
+	? ['Alternating weekends', 'Friday-Sunday visits', 'Printable calendar', 'Shareable link']
+	: normalizedSelectedScheduleId === '60-40'
+		? ['60/40 parenting time', '6/4 overnights', 'Printable calendar', 'Shareable link']
+		: ['Equal parenting time', '50/50 custody split', 'Printable calendar', 'Shareable link'];
 ---
 
 <section class={`soft-card rounded-[1.5rem] ${compact ? 'p-3' : 'p-6'}`} data-generator-panel>
@@ -33,7 +39,7 @@ const normalizedSelectedScheduleId = normalizeScheduleType(selectedScheduleId);
 	<form class={`${compact ? 'mt-3 gap-2.5' : 'mt-6 gap-4'} grid`} data-generator-form>
 		<label class="grid min-w-0 gap-1.5">
 			<span class="text-sm font-medium text-secondary">Schedule type</span>
-			<select name="scheduleId" class="w-full min-w-0 truncate rounded-2xl bg-page px-4 py-2 pr-9 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+			<select name="scheduleId" aria-label="Schedule type" class="w-full min-w-0 truncate rounded-2xl bg-page px-4 py-2 pr-9 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
 				{scheduleDefinitionList.map((definition) => (
 					<option value={definition.id} selected={definition.id === normalizedSelectedScheduleId}>
 						{definition.name}
@@ -42,37 +48,54 @@ const normalizedSelectedScheduleId = normalizeScheduleType(selectedScheduleId);
 			</select>
 		</label>
 
+		<div class={`${normalizedSelectedScheduleId === '60-40' ? 'grid' : 'hidden'} min-w-0 gap-1.5`} data-sixty-forty-pattern-field>
+			<label class="grid min-w-0 gap-1.5">
+				<span class="text-sm font-medium text-secondary">60/40 pattern</span>
+				<select name="pattern" aria-label="60/40 schedule pattern" class="w-full min-w-0 truncate rounded-2xl bg-page px-4 py-2 pr-9 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+					{sixtyFortyPatternOptions.map((option) => (
+						<option value={option.id} selected={option.id === defaultSixtyFortyPattern}>
+							{option.label}
+						</option>
+					))}
+				</select>
+			</label>
+			<p class="text-xs leading-5 text-muted" data-sixty-forty-pattern-description>
+				{sixtyFortyPatternOptions.find((option) => option.id === defaultSixtyFortyPattern)?.description}
+			</p>
+		</div>
+
 		<label class="grid min-w-0 gap-1.5">
 			<span class="text-sm font-medium text-secondary">Start date</span>
-			<input name="startDate" type="date" value={startDate ?? ''} class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+			<input name="startDate" type="date" value={startDate ?? ''} aria-label="Schedule start date" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" />
 		</label>
 
 		<div class="hero-form-fields grid gap-2.5">
 			<label class="grid min-w-0 gap-1.5">
 				<span class="text-sm font-medium text-secondary">Parent A</span>
-				<input name="parentA" value={parentA} class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+				<input name="parentA" value={parentA} aria-label="Parent A name" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" />
 			</label>
 			<label class="grid min-w-0 gap-1.5">
 				<span class="text-sm font-medium text-secondary">Parent B</span>
-				<input name="parentB" value={parentB} class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+				<input name="parentB" value={parentB} aria-label="Parent B name" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" />
 			</label>
 		</div>
 	</form>
 
 	<ul class={`${compact ? 'mt-3 gap-1.5 text-[11px]' : 'mt-5 gap-2 text-xs'} grid grid-cols-2 text-muted`} aria-label="Generator features">
-		<li class="cursor-pointer rounded-full bg-page/55 px-2.5 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">Equal parenting time</li>
-		<li class="cursor-pointer rounded-full bg-page/55 px-2.5 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">50/50 custody split</li>
-		<li class="cursor-pointer rounded-full bg-page/55 px-2.5 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">Printable calendar</li>
-		<li class="cursor-pointer rounded-full bg-page/55 px-2.5 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">Shareable link</li>
+		{featureLabels.map((label) => (
+			<li class="cursor-pointer rounded-full bg-page/55 px-2.5 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">{label}</li>
+		))}
 	</ul>
 </section>
 
 <script>
 	import { addDays, format, isValid, parseISO, startOfMonth, startOfWeek } from 'date-fns';
-	import { generateVisibleMonthSchedule, getAllSchedules, normalizeScheduleType } from '../../lib/schedules';
+	import { defaultSixtyFortyPattern, generateVisibleMonthSchedule, getAllSchedules, normalizeScheduleType, normalizeSixtyFortyPattern, sixtyFortyPatternOptions } from '../../lib/schedules';
 
 	const definitions = getAllSchedules();
 	const form = document.querySelector('[data-generator-form]');
+	const sixtyFortyPatternField = document.querySelector('[data-sixty-forty-pattern-field]');
+	const sixtyFortyPatternDescription = document.querySelector('[data-sixty-forty-pattern-description]');
 	const calendarGrid = document.querySelector('[data-calendar-grid]');
 	const calendarMonth = document.querySelector('[data-calendar-month]');
 	const parentALabel = document.querySelector('[data-parent-a-label]');
@@ -83,12 +106,17 @@ const normalizedSelectedScheduleId = normalizeScheduleType(selectedScheduleId);
 	const summaryParentBPercent = document.querySelector('[data-summary-parent-b-percent]');
 	const summaryParentADays = document.querySelector('[data-summary-parent-a-days]');
 	const summaryParentBDays = document.querySelector('[data-summary-parent-b-days]');
+	const sixtyFortyRangeNote = document.querySelector('[data-sixty-forty-range-note]');
+	const sixtyFortyRangeNoteText = document.querySelector('[data-sixty-forty-range-note-text]');
 	const printDescription = document.querySelector('[data-print-description]');
 	const printTitle = document.querySelector('[data-print-title]');
 	const printScheduleName = document.querySelector('[data-print-schedule-name]');
+	const printPatternName = document.querySelector('[data-print-pattern-name]');
 	const printStartDate = document.querySelector('[data-print-start-date]');
+	const printGeneratedDate = document.querySelector('[data-print-generated-date]');
 	const printParentAName = document.querySelector('[data-print-parent-a-name]');
 	const printParentBName = document.querySelector('[data-print-parent-b-name]');
+	const scheduleCache = new Map();
 
 	const parentColors = {
 		A: 'bg-[rgba(94,106,210,0.2)] text-accent shadow-[inset_0_0_0_1px_rgba(94,106,210,0.28)]',
@@ -109,10 +137,12 @@ const normalizedSelectedScheduleId = normalizeScheduleType(selectedScheduleId);
 
 		const params = new URLSearchParams(window.location.search);
 		const schedule = params.get('schedule');
+		const pattern = params.get('pattern');
 		const start = params.get('start');
 		const parentA = params.get('a');
 		const parentB = params.get('b');
 		const scheduleInput = form.elements.namedItem('scheduleId');
+		const patternInput = form.elements.namedItem('pattern');
 		const startInput = form.elements.namedItem('startDate');
 		const parentAInput = form.elements.namedItem('parentA');
 		const parentBInput = form.elements.namedItem('parentB');
@@ -123,9 +153,75 @@ const normalizedSelectedScheduleId = normalizeScheduleType(selectedScheduleId);
 			} catch {}
 		}
 
-		if (startInput instanceof HTMLInputElement) startInput.value = start || getBrowserLocalDate();
+		if (patternInput instanceof HTMLSelectElement) {
+			patternInput.value = normalizeSixtyFortyPattern(pattern);
+		}
+		if (startInput instanceof HTMLInputElement) {
+			startInput.value = start || startInput.value || getBrowserLocalDate();
+		}
 		if (parentAInput instanceof HTMLInputElement && parentA) parentAInput.value = parentA;
 		if (parentBInput instanceof HTMLInputElement && parentB) parentBInput.value = parentB;
+	}
+
+	function updateSixtyFortyPatternField(scheduleId, patternId) {
+		const isSixtyForty = String(scheduleId) === '60-40';
+		sixtyFortyPatternField?.classList.toggle('hidden', !isSixtyForty);
+		sixtyFortyPatternField?.classList.toggle('grid', isSixtyForty);
+
+		if (sixtyFortyPatternDescription) {
+			const option = sixtyFortyPatternOptions.find((item) => item.id === patternId) || sixtyFortyPatternOptions.find((item) => item.id === defaultSixtyFortyPattern);
+			sixtyFortyPatternDescription.textContent = option ? `${option.description} ${option.note}` : '';
+		}
+	}
+
+	function getSixtyFortyLongTermAverage(patternId) {
+		if (patternId === 'exact-60-40') {
+			return {
+				parentA: 60,
+				parentB: 40,
+			};
+		}
+
+		if (patternId === 'extended-weekend') {
+			return {
+				parentA: 57,
+				parentB: 43,
+			};
+		}
+
+		return {
+			parentA: 57,
+			parentB: 43,
+		};
+	}
+
+	function getSixtyFortyRangeNote(patternId, visibleParentAPercentage, visibleParentBPercentage) {
+		const longTerm = getSixtyFortyLongTermAverage(patternId);
+		const longTermLabel = patternId === 'extended-weekend' ? 'Long-term average approaches' : 'Long-term average';
+		const longTermText = `${longTermLabel}: ${longTerm.parentA}% / ${longTerm.parentB}%.`;
+
+		if (visibleParentAPercentage === longTerm.parentA && visibleParentBPercentage === longTerm.parentB) {
+			return longTermText;
+		}
+
+		return `Visible month: ${visibleParentAPercentage}% / ${visibleParentBPercentage}%. ${longTermText} Visible month percentages may differ depending on the selected start date and calendar month.`;
+	}
+
+	function getCachedVisibleSchedule({ scheduleId, startDate, parentA, parentB, pattern }) {
+		const cacheKey = JSON.stringify({ scheduleId, startDate, parentA, parentB, pattern });
+		const cachedSchedule = scheduleCache.get(cacheKey);
+		if (cachedSchedule) return cachedSchedule;
+
+		const generatedSchedule = generateVisibleMonthSchedule({
+			scheduleType: String(scheduleId),
+			startDate: String(startDate),
+			monthDate: String(startDate),
+			parentAName: String(parentA),
+			parentBName: String(parentB),
+			sixtyFortyPattern: scheduleId === '60-40' ? pattern : undefined,
+		});
+		scheduleCache.set(cacheKey, generatedSchedule);
+		return generatedSchedule;
 	}
 
 	function renderSchedule(updateUrl = true) {
@@ -133,10 +229,12 @@ const normalizedSelectedScheduleId = normalizeScheduleType(selectedScheduleId);
 
 		const data = new FormData(form);
 		const scheduleId = data.get('scheduleId');
+		const selectedPattern = normalizeSixtyFortyPattern(String(data.get('pattern') || defaultSixtyFortyPattern));
 		const startDateValue = data.get('startDate');
 		const parentA = data.get('parentA') || 'Parent A';
 		const parentB = data.get('parentB') || 'Parent B';
 		const definition = definitions.find((item) => item.id === scheduleId) || definitions[0];
+		updateSixtyFortyPatternField(definition.id, selectedPattern);
 		const startDate = parseISO(String(startDateValue));
 		if (!isValid(startDate)) return;
 		const monthStart = startOfMonth(startDate);
@@ -146,12 +244,12 @@ const normalizedSelectedScheduleId = normalizeScheduleType(selectedScheduleId);
 		let schedule;
 
 		try {
-			schedule = generateVisibleMonthSchedule({
-				scheduleType: String(scheduleId),
+			schedule = getCachedVisibleSchedule({
+				scheduleId: definition.id,
 				startDate: String(startDateValue),
-				monthDate: String(startDateValue),
-				parentAName: String(parentA),
-				parentBName: String(parentB),
+				parentA: String(parentA),
+				parentB: String(parentB),
+				pattern: selectedPattern,
 			});
 		} catch {
 			return;
@@ -189,13 +287,27 @@ const normalizedSelectedScheduleId = normalizeScheduleType(selectedScheduleId);
 		if (summaryParentBPercent) summaryParentBPercent.textContent = `${parentBPercentage}%`;
 		if (summaryParentADays) summaryParentADays.textContent = `${parentADays} overnights`;
 		if (summaryParentBDays) summaryParentBDays.textContent = `${parentBDays} overnights`;
+		const shouldShowRangeNote = definition.id === '60-40';
+		const rangeNote = getSixtyFortyRangeNote(selectedPattern, parentAPercentage, parentBPercentage);
+		if (sixtyFortyRangeNoteText) sixtyFortyRangeNoteText.textContent = rangeNote;
+		sixtyFortyRangeNote?.classList.toggle('hidden', !shouldShowRangeNote);
+		sixtyFortyRangeNote?.classList.toggle('flex', shouldShowRangeNote);
 		if (printTitle) printTitle.textContent = `${definition.shortName} custody calendar`;
 		if (printScheduleName) printScheduleName.textContent = definition.name;
+		if (printPatternName) {
+			printPatternName.textContent = definition.id === '60-40'
+				? sixtyFortyPatternOptions.find((item) => item.id === selectedPattern)?.label || '4-3 schedule'
+				: 'Default pattern';
+		}
 		if (printStartDate) printStartDate.textContent = String(startDateValue);
+		if (printGeneratedDate) printGeneratedDate.textContent = new Date().toLocaleDateString('en-US');
 		if (printParentAName) printParentAName.textContent = String(parentA);
 		if (printParentBName) printParentBName.textContent = String(parentB);
 		if (printDescription) {
-			printDescription.textContent = `${monthLabel} preview starting ${startDateValue}. ${parentA}: ${parentADays} overnights (${parentAPercentage}%). ${parentB}: ${parentBDays} overnights (${parentBPercentage}%).`;
+			const patternText = definition.id === '60-40'
+				? ` Pattern: ${sixtyFortyPatternOptions.find((item) => item.id === selectedPattern)?.label || '4-3 schedule'}.`
+				: '';
+			printDescription.textContent = `${monthLabel} preview starting ${startDateValue}.${patternText} ${parentA}: ${parentADays} overnights (${parentAPercentage}%). ${parentB}: ${parentBDays} overnights (${parentBPercentage}%).`;
 		}
 
 		if (updateUrl) {
@@ -204,6 +316,11 @@ const normalizedSelectedScheduleId = normalizeScheduleType(selectedScheduleId);
 			params.set('start', startDateValue);
 			params.set('a', parentA);
 			params.set('b', parentB);
+			if (definition.id === '60-40') {
+				params.set('pattern', selectedPattern);
+			} else {
+				params.delete('pattern');
+			}
 			window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
 		}
 	}

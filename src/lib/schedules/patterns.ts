@@ -1,4 +1,32 @@
-import type { LegacyScheduleType, ScheduleInputType, SchedulePattern, ScheduleType } from './types';
+import type { LegacyScheduleType, ScheduleInputType, SchedulePattern, ScheduleType, SixtyFortyPatternId } from './types';
+
+export const defaultSixtyFortyPattern: SixtyFortyPatternId = '4-3';
+
+export const sixtyFortyPatternOptions: Array<{
+	id: SixtyFortyPatternId;
+	label: string;
+	description: string;
+	note: string;
+}> = [
+	{
+		id: '4-3',
+		label: '4-3 schedule',
+		description: 'Parent A has 4 days and Parent B has 3 days each week. Often grouped under 60/40 schedules although the actual overnight split is about 57/43.',
+		note: '',
+	},
+	{
+		id: 'extended-weekend',
+		label: 'Every extended weekend',
+		description: 'Parent A has most weekdays while Parent B has a long weekend each week. Common practical 60/40 arrangement.',
+		note: '',
+	},
+	{
+		id: 'exact-60-40',
+		label: 'Exact 60/40',
+		description: 'Uses a repeating 10-day cycle with 6 overnights for one parent and 4 for the other. Mathematically exact 60/40.',
+		note: '',
+	},
+];
 
 export const schedulePatterns: Record<ScheduleType, SchedulePattern> = {
 	'223': {
@@ -66,6 +94,28 @@ export const schedulePatterns: Record<ScheduleType, SchedulePattern> = {
 			{ parent: 'B', days: 7 },
 		],
 	},
+	'every-other-weekend': {
+		id: 'every-other-weekend',
+		slug: 'every-other-weekend-custody-schedule',
+		name: 'Every other weekend custody schedule',
+		shortName: 'Every other weekend',
+		description: 'A primary-parent schedule with alternating three-day weekend blocks for the other parent.',
+		pattern: [
+			{ parent: 'B', days: 3 },
+			{ parent: 'A', days: 11 },
+		],
+	},
+	'60-40': {
+		id: '60-40',
+		slug: '60-40-custody-schedule',
+		name: '60/40 custody schedule',
+		shortName: '60/40',
+		description: 'A 60/40-style custody schedule with selectable 4-3, extended weekend, and exact 60/40 patterns.',
+		pattern: [
+			{ parent: 'A', days: 4 },
+			{ parent: 'B', days: 3 },
+		],
+	},
 };
 
 export const legacyScheduleTypeMap: Record<LegacyScheduleType, ScheduleType> = {
@@ -74,6 +124,9 @@ export const legacyScheduleTypeMap: Record<LegacyScheduleType, ScheduleType> = {
 	'5-2-2-5': '5225',
 	'3-4-4-3': '3443',
 	'50-50': '223',
+	'every-other-weekend': 'every-other-weekend',
+	'60-40': '60-40',
+	'60/40': '60-40',
 };
 
 export function normalizeScheduleType(scheduleType: ScheduleInputType): ScheduleType {

@@ -44,23 +44,53 @@ const schedule: ScheduleContent = {
 	faq: [
 		{
 			question: 'What is a week-on week-off custody schedule?',
-			answer: 'A week-on week-off custody schedule is a shared parenting rotation where the child spends one full week with one parent, then one full week with the other parent.',
+			answer:
+				'A week-on week-off custody schedule is a parenting-time rotation where the child spends seven consecutive days with one parent, then seven consecutive days with the other parent. It is simple to understand, easy to show on a custody calendar, and often considered for older children who can handle longer stretches in each home.',
 		},
 		{
-			question: 'How does a week-on week-off schedule work?',
-			answer: 'One parent has seven consecutive overnights, then the other parent has the next seven consecutive overnights. The schedule repeats every two weeks.',
+			question: 'How does a week-on week-off custody schedule work?',
+			answer:
+				'In a week-on week-off custody schedule, Parent A has one full week of overnights, then Parent B has the next full week of overnights. The exchange usually happens on the same day each week, and the two-week cycle repeats throughout the year unless holidays or school breaks override it.',
 		},
 		{
 			question: 'Is week-on week-off a 50/50 custody schedule?',
-			answer: 'Yes. Alternating full weeks gives each parent seven overnights across every two-week cycle.',
+			answer:
+				'Yes. A week-on week-off custody schedule is normally a 50/50 custody schedule because each parent receives seven overnights in every two-week cycle. Over a full year, the exact count can vary slightly depending on the start date, holidays, and how exchanges are handled.',
 		},
 		{
-			question: 'What day should exchanges happen?',
-			answer: 'Many families choose Friday, Sunday, or Monday depending on school, work, and transportation routines.',
+			question: 'What are the pros and cons of a week-on week-off custody schedule?',
+			answer:
+				'The main benefit is fewer exchanges, which can make school weeks and transportation easier to manage. The drawback is that seven days away from one parent may feel long for some children. A week-on week-off custody schedule usually works best when both homes can support full-week routines.',
 		},
 		{
-			question: 'Is week-on week-off good for toddlers?',
-			answer: 'It is often better for older children and teens. Toddlers may need more frequent contact with each parent than a full-week rotation provides.',
+			question: 'Is a week-on week-off schedule good for teenagers?',
+			answer:
+				'A week-on week-off schedule can work well for teenagers because it reduces transitions and gives each home a full school-week rhythm. Teens may appreciate fewer exchanges, but the schedule still depends on school distance, activities, work schedules, transportation, and whether both homes can support homework and social routines.',
+		},
+		{
+			question: 'Is a week-on week-off schedule good for toddlers?',
+			answer:
+				'A week-on week-off custody schedule is often harder for toddlers because seven days can be a long separation from either parent. Younger children may do better with more frequent contact and shorter rotations. Families sometimes compare it with a 2-2-3 custody schedule before choosing a toddler-friendly plan.',
+		},
+		{
+			question: 'How many overnights does each parent receive in a week-on week-off schedule?',
+			answer:
+				'Each parent receives seven overnights in every two-week cycle, which is why a week-on week-off custody schedule is usually treated as 50/50 parenting time. For annual totals, use a custody percentage calculator because leap years, start dates, and holiday overrides can shift the final count.',
+		},
+		{
+			question: 'How do holidays work in a week-on week-off custody schedule?',
+			answer:
+				'Holiday parenting time usually overrides the regular week-on week-off custody schedule. Parents often write separate holiday, school break, and vacation rules so the weekly rotation can resume after the special parenting time ends.',
+		},
+		{
+			question: 'What is the difference between week-on week-off and a 2-2-3 custody schedule?',
+			answer:
+				'A week-on week-off custody schedule uses seven-day blocks, while a 2-2-3 custody schedule uses shorter two-day and three-day blocks. Week-on week-off has fewer exchanges and longer stretches in each home. A 2-2-3 custody schedule gives more frequent contact with both parents.',
+		},
+		{
+			question: 'Can I create a printable week-on week-off custody calendar?',
+			answer:
+				'Yes. Use the generator on this page to choose the week-on week-off custody schedule, set a start date, customize parent names, and preview the custody calendar. You can print the calendar or copy a shareable link for planning conversations.',
 		},
 	],
 	relatedSchedules: [
@@ -68,6 +98,8 @@ const schedule: ScheduleContent = {
 		'2-2-5-5-custody-schedule',
 		'5-2-2-5-custody-schedule',
 		'3-4-4-3-custody-schedule',
+		'60-40-custody-schedule',
+		'every-other-weekend-custody-schedule',
 		'50-50-custody-schedule',
 	],
 	relatedTools: [

@@ -1,11 +1,13 @@
 import { normalizeScheduleType } from './patterns';
-import type { ScheduleInputType, ScheduleType } from './types';
+import { normalizeSixtyFortyPattern } from './engine';
+import type { ScheduleInputType, ScheduleType, SixtyFortyPatternId } from './types';
 
 export interface ScheduleShareState {
 	schedule: ScheduleInputType;
 	start: string;
 	parentAName: string;
 	parentBName: string;
+	pattern?: SixtyFortyPatternId;
 }
 
 export interface RestoredScheduleShareState {
@@ -13,6 +15,7 @@ export interface RestoredScheduleShareState {
 	start: string;
 	parentAName: string;
 	parentBName: string;
+	pattern?: SixtyFortyPatternId;
 }
 
 export interface ClipboardLike {
@@ -22,10 +25,16 @@ export interface ClipboardLike {
 export function buildScheduleShareUrl(baseUrl: string, state: ScheduleShareState) {
 	const url = new URL(baseUrl);
 
-	url.searchParams.set('schedule', normalizeScheduleType(state.schedule));
+	const schedule = normalizeScheduleType(state.schedule);
+	url.searchParams.set('schedule', schedule);
 	url.searchParams.set('start', state.start);
 	url.searchParams.set('a', state.parentAName);
 	url.searchParams.set('b', state.parentBName);
+	if (schedule === '60-40') {
+		url.searchParams.set('pattern', normalizeSixtyFortyPattern(state.pattern));
+	} else {
+		url.searchParams.delete('pattern');
+	}
 
 	return url.toString();
 }
@@ -36,16 +45,20 @@ export function restoreScheduleStateFromUrl(url: string): RestoredScheduleShareS
 	const start = parsedUrl.searchParams.get('start');
 	const parentAName = parsedUrl.searchParams.get('a');
 	const parentBName = parsedUrl.searchParams.get('b');
+	const pattern = parsedUrl.searchParams.get('pattern');
 
 	if (!schedule || !start || !parentAName || !parentBName) {
 		return null;
 	}
 
+	const normalizedSchedule = normalizeScheduleType(schedule);
+
 	return {
-		schedule: normalizeScheduleType(schedule),
+		schedule: normalizedSchedule,
 		start,
 		parentAName,
 		parentBName,
+		pattern: normalizedSchedule === '60-40' ? normalizeSixtyFortyPattern(pattern) : undefined,
 	};
 }
 

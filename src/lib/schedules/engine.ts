@@ -1,5 +1,5 @@
-import { addDays, differenceInCalendarDays, endOfMonth, format, isValid, isSameMonth, parseISO, startOfMonth } from 'date-fns';
-import { normalizeScheduleType, schedulePatterns } from './patterns';
+import { addDays, differenceInCalendarDays, endOfMonth, format, getDay, isValid, isSameMonth, parseISO, startOfMonth } from 'date-fns';
+import { defaultSixtyFortyPattern, normalizeScheduleType, schedulePatterns, sixtyFortyPatternOptions } from './patterns';
 import type {
 	GenerateCustodyScheduleOptions,
 	GenerateVisibleMonthScheduleOptions,
@@ -9,6 +9,7 @@ import type {
 	ScheduleResult,
 	ScheduleSummary,
 	ScheduleType,
+	SixtyFortyPatternId,
 } from './types';
 
 const defaultNumberOfDays = 365;
@@ -52,6 +53,72 @@ function getPatternPosition(pattern: SchedulePattern['pattern'], dayIndex: numbe
 	};
 }
 
+function getFirstFridayOnOrAfter(date: Date) {
+	const friday = 5;
+	const daysUntilFriday = (friday - getDay(date) + 7) % 7;
+	return addDays(date, daysUntilFriday);
+}
+
+function getEveryOtherWeekendPosition(date: Date, startDate: Date) {
+	const firstWeekendStart = getFirstFridayOnOrAfter(startDate);
+	const daysFromFirstWeekend = differenceInCalendarDays(date, firstWeekendStart);
+
+	if (daysFromFirstWeekend < 0) {
+		return {
+			parent: 'A' as const,
+			patternIndex: 1,
+		};
+	}
+
+	const cycleDay = daysFromFirstWeekend % 14;
+	const isParentBWeekend = cycleDay >= 0 && cycleDay <= 2;
+
+	return {
+		parent: isParentBWeekend ? 'B' as const : 'A' as const,
+		patternIndex: isParentBWeekend ? 0 : 1,
+	};
+}
+
+function normalizeSixtyFortyPattern(pattern?: string | null): SixtyFortyPatternId {
+	return sixtyFortyPatternOptions.some((option) => option.id === pattern)
+		? pattern as SixtyFortyPatternId
+		: defaultSixtyFortyPattern;
+}
+
+function getSixtyFortyPattern(pattern?: SixtyFortyPatternId): SchedulePattern['pattern'] {
+	const normalizedPattern = normalizeSixtyFortyPattern(pattern);
+
+	if (normalizedPattern === 'exact-60-40') {
+		return [
+			{ parent: 'A', days: 3 },
+			{ parent: 'B', days: 2 },
+			{ parent: 'A', days: 3 },
+			{ parent: 'B', days: 2 },
+		];
+	}
+
+	return [
+		{ parent: 'A', days: 4 },
+		{ parent: 'B', days: 3 },
+	];
+}
+
+function getSixtyFortyPosition(date: Date, dayIndex: number, pattern?: SixtyFortyPatternId) {
+	const normalizedPattern = normalizeSixtyFortyPattern(pattern);
+
+	if (normalizedPattern === 'extended-weekend') {
+		const dayOfWeek = getDay(date);
+		const isParentBWeekend = dayOfWeek === 5 || dayOfWeek === 6 || dayOfWeek === 0;
+
+		return {
+			parent: isParentBWeekend ? 'B' as const : 'A' as const,
+			patternIndex: isParentBWeekend ? 1 : 0,
+		};
+	}
+
+	return getPatternPosition(getSixtyFortyPattern(normalizedPattern), dayIndex);
+}
+
 export function getAllSchedules() {
 	return Object.values(schedulePatterns);
 }
@@ -87,6 +154,7 @@ export function generateCustodySchedule({
 	numberOfDays = defaultNumberOfDays,
 	parentAName = defaultParentAName,
 	parentBName = defaultParentBName,
+	sixtyFortyPattern,
 }: GenerateCustodyScheduleOptions): ScheduleResult {
 	validateNumberOfDays(numberOfDays);
 
@@ -94,7 +162,11 @@ export function generateCustodySchedule({
 	const parsedStartDate = parseStartDate(startDate);
 	const days: ScheduleDay[] = Array.from({ length: numberOfDays }, (_, dayIndex) => {
 		const date = addDays(parsedStartDate, dayIndex);
-		const { parent, patternIndex } = getPatternPosition(pattern.pattern, dayIndex);
+		const { parent, patternIndex } = pattern.id === 'every-other-weekend'
+			? getEveryOtherWeekendPosition(date, parsedStartDate)
+			: pattern.id === '60-40'
+				? getSixtyFortyPosition(date, dayIndex, sixtyFortyPattern)
+				: getPatternPosition(pattern.pattern, dayIndex);
 
 		return {
 			date: format(date, 'yyyy-MM-dd'),
@@ -117,6 +189,7 @@ export function generateVisibleMonthSchedule({
 	monthDate = startDate,
 	parentAName = defaultParentAName,
 	parentBName = defaultParentBName,
+	sixtyFortyPattern,
 }: GenerateVisibleMonthScheduleOptions): ScheduleResult {
 	const parsedStartDate = parseStartDate(startDate);
 	const parsedMonthDate = parseStartDate(monthDate);
@@ -137,6 +210,7 @@ export function generateVisibleMonthSchedule({
 		numberOfDays,
 		parentAName,
 		parentBName,
+		sixtyFortyPattern,
 	});
 	const days = generatedSchedule.days.filter((day) => isSameMonth(parseISO(day.date), monthStart));
 
@@ -146,4 +220,5 @@ export function generateVisibleMonthSchedule({
 	};
 }
 
+export { normalizeSixtyFortyPattern };
 export type { ScheduleInputType, ScheduleType };

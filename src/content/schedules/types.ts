@@ -3,6 +3,7 @@ import type { ScheduleInputType } from '../../lib/schedules/types';
 export interface ScheduleFAQ {
 	question: string;
 	answer: string;
+	answerHtml?: string;
 }
 
 export interface RelatedSchedule {
@@ -51,7 +52,12 @@ export interface ScheduleContent {
 	metaDescription: string;
 	canonicalUrl?: string;
 	lede: string;
+	overviewTitle?: string;
 	overview: string[];
+	howItWorks?: {
+		title: string;
+		description: string[];
+	};
 	pros: string[];
 	cons: string[];
 	example: {
@@ -76,5 +82,6 @@ export interface ScheduleContent {
 	faq: ScheduleFAQ[];
 	relatedSchedules: string[];
 	relatedTools: RelatedSchedule[];
+	relatedHeading?: string;
 	relatedLinks?: ScheduleInternalLink[];
 }
