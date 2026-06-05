@@ -12,6 +12,29 @@ const parentBPercentage = 100 - parentAPercentage;
 ---
 
 <section class="box-border min-w-0 overflow-hidden rounded-[1.5rem] bg-page/55 p-3 shadow-[inset_0_0_0_1px_var(--border-subtle)]" data-calendar-preview>
+	<div class="hidden" data-print-header>
+		<h1>Custody Schedule</h1>
+		<dl>
+			<div>
+				<dt>Schedule</dt>
+				<dd data-print-schedule-name>{schedule.definition.name}</dd>
+			</div>
+			<div>
+				<dt>Start date</dt>
+				<dd data-print-start-date>{schedule.startDate}</dd>
+			</div>
+			<div>
+				<dt>Parent A</dt>
+				<dd data-print-parent-a-name>{schedule.parentNames.parentA}</dd>
+			</div>
+			<div>
+				<dt>Parent B</dt>
+				<dd data-print-parent-b-name>{schedule.parentNames.parentB}</dd>
+			</div>
+		</dl>
+		<p>Planning tool only. Not legal advice.</p>
+	</div>
+
 	<div class="flex flex-col gap-2 border-b border-line-subtle pb-3 sm:flex-row sm:items-center sm:justify-between">
 		<div>
 			<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Calendar preview</p>
