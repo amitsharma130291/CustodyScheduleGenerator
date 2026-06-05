@@ -5,7 +5,7 @@ import type { ScheduleInputType } from '../../lib/schedules/types';
 
 interface Props {
 	selectedScheduleId: ScheduleInputType;
-	startDate: string;
+	startDate?: string;
 	parentA?: string;
 	parentB?: string;
 	compact?: boolean;
@@ -44,7 +44,7 @@ const normalizedSelectedScheduleId = normalizeScheduleType(selectedScheduleId);
 
 		<label class="grid min-w-0 gap-1.5">
 			<span class="text-sm font-medium text-secondary">Start date</span>
-			<input name="startDate" type="date" value={startDate} class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+			<input name="startDate" type="date" value={startDate ?? ''} class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
 		</label>
 
 		<div class="hero-form-fields grid gap-2.5">
@@ -96,6 +96,14 @@ const normalizedSelectedScheduleId = normalizeScheduleType(selectedScheduleId);
 		inactive: 'text-muted opacity-30 shadow-[inset_0_0_0_1px_var(--border-subtle)]',
 	};
 
+	function getBrowserLocalDate() {
+		const today = new Date();
+		const year = today.getFullYear();
+		const month = String(today.getMonth() + 1).padStart(2, '0');
+		const day = String(today.getDate()).padStart(2, '0');
+		return `${year}-${month}-${day}`;
+	}
+
 	function applyQueryParamsToForm() {
 		if (!(form instanceof HTMLFormElement)) return;
 
@@ -115,7 +123,7 @@ const normalizedSelectedScheduleId = normalizeScheduleType(selectedScheduleId);
 			} catch {}
 		}
 
-		if (startInput instanceof HTMLInputElement && start) startInput.value = start;
+		if (startInput instanceof HTMLInputElement) startInput.value = start || getBrowserLocalDate();
 		if (parentAInput instanceof HTMLInputElement && parentA) parentAInput.value = parentA;
 		if (parentBInput instanceof HTMLInputElement && parentB) parentBInput.value = parentB;
 	}
@@ -207,5 +215,5 @@ const normalizedSelectedScheduleId = normalizeScheduleType(selectedScheduleId);
 		renderSchedule(false);
 	});
 	applyQueryParamsToForm();
-	renderSchedule();
+	renderSchedule(false);
 </script>

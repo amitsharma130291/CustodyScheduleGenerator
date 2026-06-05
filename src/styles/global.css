@@ -194,6 +194,10 @@ textarea {
 	min-width: 0;
 }
 
+.schedule-generator-card {
+	max-width: none;
+}
+
 .calendar-day-cell {
 	min-width: 0;
 }
@@ -226,6 +230,10 @@ textarea {
 		overflow: visible;
 	}
 
+	.schedule-generator-card {
+		max-width: none;
+	}
+
 	.hero-trust-chips {
 		display: none;
 	}
@@ -242,6 +250,10 @@ textarea {
 
 	.hero-generator-card {
 		max-width: 720px;
+	}
+
+	.schedule-generator-card {
+		max-width: none;
 	}
 }
 

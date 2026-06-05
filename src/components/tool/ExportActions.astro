@@ -10,6 +10,26 @@
 <script>
 	import { copyShareLink, printSchedule } from '../../lib/schedules/share';
 
+	function getCurrentScheduleState() {
+		const form = document.querySelector('[data-generator-form]');
+		if (!(form instanceof HTMLFormElement)) return undefined;
+
+		const data = new FormData(form);
+		const schedule = data.get('scheduleId');
+		const start = data.get('startDate');
+		const parentAName = data.get('parentA') || 'Parent A';
+		const parentBName = data.get('parentB') || 'Parent B';
+
+		if (!schedule || !start) return undefined;
+
+		return {
+			schedule: String(schedule),
+			start: String(start),
+			parentAName: String(parentAName),
+			parentBName: String(parentBName),
+		};
+	}
+
 	document.addEventListener('click', async (event) => {
 		const target = event.target;
 		if (!(target instanceof HTMLButtonElement)) return;
@@ -27,6 +47,7 @@
 				await copyShareLink({
 					currentUrl: window.location.href,
 					clipboard: navigator.clipboard,
+					state: getCurrentScheduleState(),
 				});
 				target.textContent = 'Copied';
 				window.setTimeout(() => {

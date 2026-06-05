@@ -45,6 +45,24 @@ describe('schedule share and print actions', () => {
 		expect(writeText).toHaveBeenCalledWith(copiedUrl);
 	});
 
+	it('copy link can generate a share URL from a clean page URL', async () => {
+		const writeText = vi.fn().mockResolvedValue(undefined);
+
+		const copiedUrl = await copyShareLink({
+			currentUrl: 'https://example.com/50-50-custody-schedule',
+			clipboard: { writeText },
+			state: {
+				schedule: '223',
+				start: '2026-08-01',
+				parentAName: 'Parent A',
+				parentBName: 'Parent B',
+			},
+		});
+
+		expect(copiedUrl).toBe('https://example.com/50-50-custody-schedule?schedule=223&start=2026-08-01&a=Parent+A&b=Parent+B');
+		expect(writeText).toHaveBeenCalledWith(copiedUrl);
+	});
+
 	it('print action calls window.print-compatible callback', () => {
 		const print = vi.fn();
 

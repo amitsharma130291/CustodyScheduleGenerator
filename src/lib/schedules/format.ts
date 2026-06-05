@@ -1,8 +1,8 @@
-import { format, startOfMonth } from 'date-fns';
+import { format } from 'date-fns';
 import type { GeneratedSchedule } from './types';
 
 export function getDefaultStartDate() {
-	return format(startOfMonth(new Date()), 'yyyy-MM-dd');
+	return format(new Date(), 'yyyy-MM-dd');
 }
 
 export function formatParentingSummary(schedule: GeneratedSchedule) {

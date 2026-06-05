@@ -1,51 +1,222 @@
 import type { ScheduleContent } from './types';
 
 const schedule: ScheduleContent = {
-	id: '50-50',
+	id: '223',
 	title: '50/50 Custody Schedule',
 	slug: '50-50-custody-schedule',
 	description: 'Compare 50/50 custody schedule options and preview an equal parenting time calendar.',
-	metaTitle: '50/50 Custody Schedule Generator',
-	metaDescription: 'Create a 50/50 custody schedule with calendar examples, common rotations, pros and cons, and printable parenting time output.',
-	lede: 'A 50/50 custody schedule is any parenting plan designed to divide overnights evenly between both parents.',
+	metaTitle: '50/50 Custody Schedule Examples, Calendar & Parenting Plans',
+	metaDescription: 'Compare common 50/50 custody schedules, view examples, calculate parenting time, and create a printable shared parenting calendar.',
+	canonicalUrl: 'https://future-domain.com/50-50-custody-schedule',
+	lede: 'A 50/50 custody schedule gives both parents roughly equal parenting time across the repeating schedule. Common 50/50 parenting schedules include 2-2-3, 2-2-5-5, 5-2-2-5, 3-4-4-3, and week-on/week-off rotations.',
 	overview: [
-		'There is no single 50/50 custody schedule. Families commonly use 2-2-3, 2-2-5-5, 5-2-2-5, 3-4-4-3, or week-on week-off rotations depending on the child’s needs and the parents’ logistics.',
-		'The best way to compare 50/50 schedules is to look at the calendar, exchange frequency, school-night stability, and weekend balance side by side.',
+		'A 50/50 custody schedule is a shared parenting schedule designed to divide overnights as evenly as possible between both parents. The schedule may not be perfectly equal every individual month, but the repeating cycle should balance parenting time over time.',
+		'There is no single best 50/50 custody schedule for every family. The right option depends on the child’s age, school routine, distance between homes, exchange logistics, weekend balance, and how well parents can coordinate transitions.',
 	],
 	pros: [
-		'Equal parenting time over the full rotation.',
-		'Both parents stay closely involved in routines.',
-		'Multiple rotation options can fit different ages and logistics.',
+		'Both parents stay closely involved in routines',
+		'Parenting time balances over the full rotation',
+		'Multiple schedule patterns can fit different ages and logistics',
 	],
 	cons: [
-		'Equal time does not automatically mean equal convenience.',
-		'Some rotations require frequent exchanges.',
-		'Distance between homes can make certain 50/50 schedules difficult.',
+		'Equal time does not automatically mean equal convenience',
+		'Some shared parenting schedules require frequent exchanges',
+		'Distance between homes can make certain 50/50 schedules difficult',
 	],
 	example: {
-		title: 'Example 50/50 calendar',
-		description: 'A 2-2-3 pattern is a common 50/50 example because each parent receives seven overnights across two weeks.',
+		title: 'Example: 2-2-3 50/50 Custody Schedule',
+		description: 'The 2-2-3 pattern below is one example of a 50/50 custody arrangement. It gives each parent seven overnights across two weeks while alternating the three-day weekend block.',
+		weeks: [
+			{
+				label: 'Week 1',
+				blocks: [
+					{ parent: 'Parent A', days: 'Mon Tue' },
+					{ parent: 'Parent B', days: 'Wed Thu' },
+					{ parent: 'Parent A', days: 'Fri Sat Sun' },
+				],
+			},
+			{
+				label: 'Week 2',
+				blocks: [
+					{ parent: 'Parent B', days: 'Mon Tue' },
+					{ parent: 'Parent A', days: 'Wed Thu' },
+					{ parent: 'Parent B', days: 'Fri Sat Sun' },
+				],
+			},
+		],
+	},
+	comparison: {
+		title: 'Compare Common 50/50 Custody Schedules',
+		description: 'Use this table to compare common equal parenting time schedules by exchange frequency, weekend pattern, and the situations they tend to fit best.',
+		rows: [
+			{
+				schedule: '2-2-3',
+				href: '/2-2-3-custody-schedule',
+				bestFor: 'Younger children who benefit from frequent contact',
+				exchangeFrequency: 'Frequent exchanges',
+				weekendPattern: 'Alternating three-day weekends',
+				notes: 'Balanced and common, but requires more coordination.',
+			},
+			{
+				schedule: '2-2-5-5',
+				href: '/2-2-5-5-custody-schedule',
+				bestFor: 'Families who want stable weekdays',
+				exchangeFrequency: 'Moderate exchanges',
+				weekendPattern: 'Alternating five-day blocks',
+				notes: 'Each parent can keep the same two weekdays.',
+			},
+			{
+				schedule: '5-2-2-5',
+				href: '/5-2-2-5-custody-schedule',
+				bestFor: 'Longer blocks with predictable exchanges',
+				exchangeFrequency: 'Moderate exchanges',
+				weekendPattern: 'Alternating five-day blocks',
+				notes: 'Fewer transitions than 2-2-3 with balanced time.',
+			},
+			{
+				schedule: '3-4-4-3',
+				href: '/3-4-4-3-custody-schedule',
+				bestFor: 'Families wanting three- and four-day blocks',
+				exchangeFrequency: 'Moderate exchanges',
+				weekendPattern: 'Balanced across two weeks',
+				notes: 'Can feel clearer when viewed on a calendar.',
+			},
+			{
+				schedule: 'Week-on/week-off',
+				href: '/week-on-week-off-custody-schedule',
+				bestFor: 'Older children and fewer exchanges',
+				exchangeFrequency: 'Weekly exchanges',
+				weekendPattern: 'Full alternating weeks',
+				notes: 'Simple, but seven days apart may be long for younger children.',
+			},
+		],
+		cta: {
+			title: 'Which 50/50 schedule is right for you?',
+			links: [
+				{
+					title: '2-2-3 Custody Schedule',
+					slug: '2-2-3-custody-schedule',
+					description: 'Best when younger children benefit from frequent contact with both parents.',
+				},
+				{
+					title: '2-2-5-5 Custody Schedule',
+					slug: '2-2-5-5-custody-schedule',
+					description: 'Useful when parents want stable weekdays plus alternating longer weekend blocks.',
+				},
+				{
+					title: '5-2-2-5 Custody Schedule',
+					slug: '5-2-2-5-custody-schedule',
+					description: 'A strong option for longer parenting blocks with fewer exchanges than 2-2-3.',
+				},
+				{
+					title: 'Week-On/Week-Off Custody Schedule',
+					slug: 'week-on-week-off-custody-schedule',
+					description: 'Simple weekly rotation that often works best for older children and teens.',
+				},
+			],
+		},
+	},
+	examples: {
+		title: '50/50 Custody Schedule Examples',
+		description: 'These examples show how different shared parenting schedules divide time while creating different rhythms for exchanges and weekends.',
+		items: [
+			{
+				title: '2-2-3 schedule',
+				href: '/2-2-3-custody-schedule',
+				description: 'Parent A has two days, Parent B has two days, then Parent A has a three-day weekend block. The pattern reverses the next week so weekends alternate.',
+			},
+			{
+				title: '2-2-5-5 schedule',
+				href: '/2-2-5-5-custody-schedule',
+				description: 'Parent A may keep Monday and Tuesday, Parent B may keep Wednesday and Thursday, and the longer five-day blocks alternate weekends.',
+			},
+			{
+				title: 'Week-on/week-off schedule',
+				href: '/week-on-week-off-custody-schedule',
+				description: 'Parent A has one full week, then Parent B has the next full week. This is simple and has fewer exchanges, but creates longer stretches apart.',
+			},
+		],
 	},
 	faq: [
 		{
+			question: 'What is a 50/50 custody schedule?',
+			answer: 'A 50/50 custody schedule is a shared parenting plan designed to give each parent roughly equal overnights across the repeating schedule cycle.',
+		},
+		{
 			question: 'What is the best 50/50 custody schedule?',
-			answer: 'The best option depends on the child’s age, school schedule, distance between homes, and how well parents can coordinate exchanges.',
+			answer: 'The best 50/50 custody schedule depends on the child’s age, school routine, distance between homes, work schedules, and how often parents can manage exchanges.',
 		},
 		{
-			question: 'Does 50/50 mean exactly equal every month?',
-			answer: 'Not always. Some months may vary slightly, but the schedule should balance over the full repeating cycle.',
+			question: 'Is a 2-2-3 schedule considered 50/50?',
+			answer: 'Yes. Across a full two-week cycle, each parent receives seven overnights, so 2-2-3 is one of the most common 50/50 custody schedules.',
 		},
 		{
-			question: 'Which 50/50 schedule has the fewest exchanges?',
-			answer: 'Week-on week-off usually has the fewest exchanges, while 2-2-3 has more frequent transitions.',
+			question: 'Is week-on/week-off good for children?',
+			answer: 'Week-on/week-off can work well for older children and teens who can handle full weeks in each home. Younger children may need more frequent contact with both parents.',
+		},
+		{
+			question: 'How do parents choose a 50/50 custody schedule?',
+			answer: 'Parents usually compare exchange frequency, weekend balance, school-night stability, transportation, distance between homes, and how the child handles transitions.',
+		},
+		{
+			question: 'Can a 50/50 schedule be customized?',
+			answer: 'Yes. Parents can customize exchange times, holidays, school breaks, transportation, and special events while keeping the main rotation balanced.',
 		},
 	],
-	relatedSchedules: ['2-2-3-custody-schedule', '2-2-5-5-custody-schedule', 'week-on-week-off-custody-schedule'],
+	relatedSchedules: [
+		'2-2-3-custody-schedule',
+		'2-2-5-5-custody-schedule',
+		'5-2-2-5-custody-schedule',
+		'3-4-4-3-custody-schedule',
+		'week-on-week-off-custody-schedule',
+	],
 	relatedTools: [
 		{
 			title: 'Custody percentage calculator',
 			slug: 'custody-percentage-calculator',
 			description: 'Estimate parenting time percentages from overnights.',
+		},
+		{
+			title: 'Custody schedule template',
+			slug: 'custody-schedule-template',
+			description: 'Use a printable custody schedule template to document the rotation.',
+		},
+	],
+	relatedLinks: [
+		{
+			title: '2-2-3 Custody Schedule',
+			slug: '2-2-3-custody-schedule',
+			description: 'A frequent-contact 50/50 schedule with alternating three-day weekends.',
+		},
+		{
+			title: 'Custody percentage calculator',
+			slug: 'custody-percentage-calculator',
+			description: 'Estimate parenting time percentages from overnights.',
+		},
+		{
+			title: '2-2-5-5 Custody Schedule',
+			slug: '2-2-5-5-custody-schedule',
+			description: 'A shared parenting schedule with stable weekdays and alternating five-day blocks.',
+		},
+		{
+			title: '5-2-2-5 Custody Schedule',
+			slug: '5-2-2-5-custody-schedule',
+			description: 'A 50/50 schedule with longer parenting blocks and predictable exchange days.',
+		},
+		{
+			title: '3-4-4-3 Custody Schedule',
+			slug: '3-4-4-3-custody-schedule',
+			description: 'A two-week schedule using alternating three- and four-day parenting blocks.',
+		},
+		{
+			title: 'Week-On/Week-Off Custody Schedule',
+			slug: 'week-on-week-off-custody-schedule',
+			description: 'A simple weekly rotation with fewer exchanges and full-week blocks.',
+		},
+		{
+			title: 'Custody Schedule Template',
+			slug: 'custody-schedule-template',
+			description: 'Use a printable custody schedule template to document the rotation.',
 		},
 	],
 };
