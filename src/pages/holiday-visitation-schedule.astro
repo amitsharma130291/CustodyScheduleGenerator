@@ -1,0 +1,526 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import {
+	buildBreadcrumbSchema,
+	buildFAQSchema,
+	buildSoftwareApplicationSchema,
+	buildWebPageSchema,
+} from '../lib/seo/schema';
+
+const title = 'Holiday Visitation Schedule | Holiday Parenting Time Planner';
+const description =
+	'Create a holiday visitation schedule to preview how major holidays, school breaks, and parenting time can be divided between Parent A and Parent B.';
+const canonical = '/holiday-visitation-schedule';
+const canonicalUrl = getCanonicalUrl(canonical);
+const currentYear = new Date().getFullYear();
+const initialHolidays = [
+	{ name: "New Year's Day", date: `January 1, ${currentYear}`, parent: 'Parent A' },
+	{ name: 'Spring Break', date: `March 17, ${currentYear}`, parent: 'Parent B' },
+	{ name: 'Memorial Day', date: `May 26, ${currentYear}`, parent: 'Parent A' },
+	{ name: 'July 4th', date: `July 4, ${currentYear}`, parent: 'Parent B' },
+	{ name: 'Labor Day', date: `September 1, ${currentYear}`, parent: 'Parent A' },
+	{ name: 'Thanksgiving', date: `November 27, ${currentYear}`, parent: 'Parent B' },
+	{ name: 'Christmas Eve', date: `December 24, ${currentYear}`, parent: 'Parent A' },
+	{ name: 'Christmas Day', date: `December 25, ${currentYear}`, parent: 'Parent B' },
+];
+const faq = [
+	{
+		question: 'What is a holiday visitation schedule?',
+		answer:
+			'A holiday visitation schedule explains which parent has parenting time for major holidays, school breaks, and special days that may override the regular custody calendar.',
+	},
+	{
+		question: 'How do alternating holiday schedules work?',
+		answer:
+			'Many parents alternate major holidays by year or by holiday. For example, one parent may have Thanksgiving in even years while the other parent has it in odd years.',
+	},
+	{
+		question: 'Can a holiday schedule override a regular custody schedule?',
+		answer:
+			'Yes. Many parenting plans say that holiday parenting time takes priority over the regular weekly or monthly schedule.',
+	},
+	{
+		question: 'What holidays should be included?',
+		answer:
+			'Common schedules include Thanksgiving, Christmas Eve, Christmas Day, New Year’s Day, spring break, Memorial Day, Labor Day, July 4th, school breaks, birthdays, and religious holidays.',
+	},
+	{
+		question: 'Is this the same as a visitation calculator?',
+		answer:
+			'No. A holiday visitation schedule shows holiday assignments, while a visitation calculator estimates parenting time percentages from overnight totals.',
+	},
+	{
+		question: 'Does this replace legal advice?',
+		answer:
+			'No. This planner is for education and organization only. Holiday custody rules and parenting plan requirements vary by jurisdiction.',
+	},
+];
+const relatedLinks = [
+	{
+		title: 'Custody Calendar Template',
+		href: '/custody-calendar-template',
+		description: 'Preview regular parenting time on a printable custody calendar.',
+	},
+	{
+		title: 'Visitation Calculator',
+		href: '/visitation-calculator',
+		description: 'Estimate visitation percentages from overnight counts.',
+	},
+	{
+		title: 'Custody Percentage Calculator',
+		href: '/custody-percentage-calculator',
+		description: 'Calculate parenting time percentages for each parent.',
+	},
+	{
+		title: '50/50 Custody Schedule',
+		href: '/50-50-custody-schedule',
+		description: 'Compare common equal parenting time schedule patterns.',
+	},
+];
+const breadcrumbs = [
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: 'Holiday Visitation Schedule', url: canonicalUrl },
+];
+const schema = [
+	buildFAQSchema(faq),
+	buildBreadcrumbSchema(breadcrumbs),
+	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+	buildSoftwareApplicationSchema({ name: 'Holiday Visitation Schedule Planner', description, url: canonicalUrl }),
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical}>
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<Breadcrumbs items={breadcrumbs} />
+	<main>
+		<section class="container-shell grid gap-8 py-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:py-16">
+			<div>
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Holiday parenting-time planner</p>
+				<h1 class="mt-4 max-w-3xl text-5xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary lg:text-6xl">
+					Holiday Visitation Schedule
+				</h1>
+				<p class="mt-6 max-w-2xl text-lg leading-8 text-secondary">
+					Plan holiday parenting time for major holidays, school breaks, and special days. Enter parent names, choose a year and rotation style, then preview which parent is assigned each holiday.
+				</p>
+				<div class="mt-8 flex flex-col gap-3 sm:flex-row">
+					<a href="#planner" class="btn-primary inline-flex h-13 w-full items-center justify-center whitespace-nowrap rounded-full px-8 text-base font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_30px_rgba(94,106,210,0.14)] active:translate-y-0 sm:w-auto">
+						Build Holiday Schedule
+					</a>
+					<a href="#examples" class="btn-secondary inline-flex h-13 w-full items-center justify-center whitespace-nowrap rounded-full px-8 text-base font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_24px_rgba(0,0,0,0.12)] active:translate-y-0 sm:w-auto">
+						View Examples
+					</a>
+				</div>
+			</div>
+
+			<section id="planner" class="premium-card rounded-[2rem] p-4 sm:p-5" data-holiday-planner>
+				<div class="rounded-[1.5rem] bg-surface-elevated p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.07)] sm:p-5">
+					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Planner</p>
+					<h2 class="mt-2 text-2xl font-semibold tracking-[-0.04em] text-primary">Build a holiday visitation schedule</h2>
+
+					<form class="mt-5 grid gap-4" data-holiday-form>
+						<div class="grid gap-4 sm:grid-cols-2">
+							<label class="grid gap-1.5">
+								<span class="text-sm font-medium text-secondary">Parent A name</span>
+								<input name="parentAName" value="Parent A" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+							</label>
+							<label class="grid gap-1.5">
+								<span class="text-sm font-medium text-secondary">Parent B name</span>
+								<input name="parentBName" value="Parent B" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+							</label>
+						</div>
+						<div class="grid gap-4 sm:grid-cols-3">
+							<label class="grid gap-1.5">
+								<span class="text-sm font-medium text-secondary">Year</span>
+								<input name="year" type="number" min="2024" max="2100" step="1" value={currentYear} class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+							</label>
+							<label class="grid gap-1.5">
+								<span class="text-sm font-medium text-secondary">Rotation type</span>
+								<select name="rotationType" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+									<option value="alternate-years">Alternate years</option>
+									<option value="alternate-holidays">Alternate holidays</option>
+									<option value="fixed-assignment">Fixed assignment</option>
+								</select>
+							</label>
+							<label class="grid gap-1.5">
+								<span class="text-sm font-medium text-secondary">Holiday set</span>
+								<select name="holidaySet" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+									<option value="major-us">Major US Holidays</option>
+									<option value="school-breaks">School Breaks</option>
+									<option value="custom">Custom</option>
+								</select>
+							</label>
+						</div>
+					</form>
+
+					<div class="mt-5 grid grid-cols-2 gap-2" aria-label="Holiday assignment summary">
+						<div class="rounded-2xl bg-page/55 p-3 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+							<p class="truncate text-xs font-medium text-secondary" data-summary-parent-a-label>Parent A</p>
+							<p class="mt-1 text-[30px] font-bold leading-none tracking-[-0.05em] text-accent" data-summary-parent-a-count>4</p>
+							<p class="mt-1 text-xs text-muted">assigned holidays</p>
+						</div>
+						<div class="rounded-2xl bg-page/55 p-3 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+							<p class="truncate text-xs font-medium text-secondary" data-summary-parent-b-label>Parent B</p>
+							<p class="mt-1 text-[30px] font-bold leading-none tracking-[-0.05em] text-parent-b" data-summary-parent-b-count>4</p>
+							<p class="mt-1 text-xs text-muted">assigned holidays</p>
+						</div>
+					</div>
+
+					<div class="mt-4 rounded-2xl bg-page/55 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]" data-holiday-print>
+						<div class="flex flex-col gap-3 border-b border-line-subtle pb-3 sm:flex-row sm:items-center sm:justify-between">
+							<div>
+								<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Preview</p>
+								<h2 class="mt-1 text-xl font-semibold tracking-[-0.04em] text-primary" data-holiday-preview-title>
+									{currentYear} holiday schedule
+								</h2>
+							</div>
+							<p class="rounded-full bg-surface/70 px-3 py-1.5 text-xs font-medium text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]" data-balance-indicator>
+								Balanced schedule
+							</p>
+						</div>
+						<div class="mt-4 overflow-x-auto">
+							<table class="w-full min-w-[520px] border-collapse text-left text-sm">
+								<thead class="text-xs uppercase tracking-[0.14em] text-muted">
+									<tr class="border-b border-line-subtle">
+										<th class="py-3 pr-4 font-semibold">Holiday</th>
+										<th class="px-4 py-3 font-semibold">Date</th>
+										<th class="py-3 pl-4 font-semibold">Assigned Parent</th>
+									</tr>
+								</thead>
+								<tbody class="divide-y divide-line-subtle text-secondary" data-holiday-table-body>
+									{initialHolidays.map((holiday) => (
+										<tr>
+											<td class="py-3 pr-4 font-semibold text-primary">{holiday.name}</td>
+											<td class="px-4 py-3">{holiday.date}</td>
+											<td class="py-3 pl-4">{holiday.parent}</td>
+										</tr>
+									))}
+								</tbody>
+							</table>
+						</div>
+					</div>
+
+					<div class="mt-4 grid w-full min-w-0 grid-cols-1 gap-3 sm:grid-cols-2">
+						<button type="button" class="btn-secondary flex h-12 w-full min-w-0 items-center justify-center overflow-hidden text-ellipsis whitespace-nowrap rounded-full px-4 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--accent)_28%,var(--border-subtle)),0_10px_24px_rgba(0,0,0,0.12)] active:translate-y-0 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-copy-holiday-schedule>
+							Copy schedule
+						</button>
+						<button type="button" class="btn-primary flex h-12 w-full min-w-0 items-center justify-center overflow-hidden text-ellipsis whitespace-nowrap rounded-full px-4 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_30px_rgba(94,106,210,0.14)] active:translate-y-0 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-print-holiday-schedule>
+							Print schedule
+						</button>
+					</div>
+				</div>
+			</section>
+		</section>
+
+		<section class="container-shell grid gap-8 py-12 lg:grid-cols-[0.72fr_1.28fr] lg:py-16">
+			<aside class="soft-card h-fit rounded-[1.5rem] p-6">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">On this page</p>
+				<ul class="mt-4 space-y-3 text-sm text-secondary">
+					<li><a href="#planner" class="hover:text-primary">Planner</a></li>
+					<li><a href="#what-is" class="hover:text-primary">What it is</a></li>
+					<li><a href="#arrangements" class="hover:text-primary">Arrangements</a></li>
+					<li><a href="#alternating" class="hover:text-primary">Alternating schedules</a></li>
+					<li><a href="#fixed" class="hover:text-primary">Fixed schedules</a></li>
+					<li><a href="#examples" class="hover:text-primary">Examples</a></li>
+					<li><a href="#faq" class="hover:text-primary">FAQ</a></li>
+					<li><a href="#related" class="hover:text-primary">Related tools</a></li>
+				</ul>
+			</aside>
+
+			<div class="grid gap-10">
+				<section id="what-is" class="grid gap-4">
+					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">What is a holiday visitation schedule?</h2>
+					<p class="text-base leading-8 text-secondary">
+						A holiday visitation schedule is a parenting-time plan for holidays and school breaks that may override the regular weekly schedule. It helps parents decide where children spend Thanksgiving, Christmas, New Year’s, spring break, and other important days.
+					</p>
+					<p class="text-base leading-8 text-secondary">
+						Use it alongside a <a href="/custody-calendar-template" class="font-medium text-primary hover:text-accent">custody calendar template</a> so regular parenting days and holiday exceptions are easy to review together.
+					</p>
+				</section>
+
+				<section id="arrangements" class="grid gap-5">
+					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Common holiday parenting-time arrangements</h2>
+					<div class="grid gap-4 md:grid-cols-3">
+						<article class="soft-card rounded-[1.5rem] p-5">
+							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">Alternate years</h3>
+							<p class="mt-2 text-sm leading-6 text-secondary">Parents trade holiday assignments each year so both parents get major holidays over time.</p>
+						</article>
+						<article class="soft-card rounded-[1.5rem] p-5">
+							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">Alternate holidays</h3>
+							<p class="mt-2 text-sm leading-6 text-secondary">Parents divide the holiday list within the same year, often alternating down the calendar.</p>
+						</article>
+						<article class="soft-card rounded-[1.5rem] p-5">
+							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">Fixed assignment</h3>
+							<p class="mt-2 text-sm leading-6 text-secondary">Certain holidays stay with one parent every year, which can help with family traditions or travel.</p>
+						</article>
+					</div>
+				</section>
+
+				<section id="alternating" class="grid gap-4">
+					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Alternating holiday schedules</h2>
+					<p class="text-base leading-8 text-secondary">
+						Alternating holiday schedules are common when parents want a balanced long-term arrangement. Some plans alternate every holiday by year, while others alternate individual holidays within the same year.
+					</p>
+					<p class="text-base leading-8 text-secondary">
+						If you also need to estimate annual parenting-time percentages, pair the holiday plan with the <a href="/custody-percentage-calculator" class="font-medium text-primary hover:text-accent">custody percentage calculator</a>.
+					</p>
+				</section>
+
+				<section id="fixed" class="grid gap-4">
+					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Fixed holiday schedules</h2>
+					<p class="text-base leading-8 text-secondary">
+						A fixed holiday schedule assigns the same holiday to the same parent each year. This may work when one parent has a recurring family event, travel tradition, or religious observance.
+					</p>
+					<p class="text-base leading-8 text-secondary">
+						Fixed holidays can still fit into a broader <a href="/50-50-custody-schedule" class="font-medium text-primary hover:text-accent">50/50 custody schedule</a> if the regular calendar balances parenting time elsewhere.
+					</p>
+				</section>
+
+				<section id="examples" class="grid gap-5">
+					<div>
+						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Examples</p>
+						<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">Holiday schedule examples</h2>
+						<p class="mt-3 text-base leading-8 text-secondary">
+							Common examples include splitting Christmas Eve and Christmas Day, alternating Thanksgiving each year, and assigning spring break in full-week blocks. For visitation-specific percentage planning, use the <a href="/visitation-calculator" class="font-medium text-primary hover:text-accent">visitation calculator</a>.
+						</p>
+					</div>
+					<div class="premium-card overflow-x-auto rounded-[1.5rem]">
+						<table class="w-full min-w-[620px] border-collapse text-left text-sm">
+							<thead class="text-xs uppercase tracking-[0.14em] text-muted">
+								<tr class="border-b border-line-subtle">
+									<th class="px-5 py-4 font-semibold">Holiday</th>
+									<th class="px-5 py-4 font-semibold">Common option</th>
+									<th class="px-5 py-4 font-semibold">Notes</th>
+								</tr>
+							</thead>
+							<tbody class="divide-y divide-line-subtle text-secondary">
+								<tr>
+									<td class="px-5 py-4 font-semibold text-primary">Thanksgiving</td>
+									<td class="px-5 py-4">Alternate by year</td>
+									<td class="px-5 py-4">Often includes the long weekend.</td>
+								</tr>
+								<tr>
+									<td class="px-5 py-4 font-semibold text-primary">Christmas</td>
+									<td class="px-5 py-4">Split Eve and Day</td>
+									<td class="px-5 py-4">Some families alternate the full winter break.</td>
+								</tr>
+								<tr>
+									<td class="px-5 py-4 font-semibold text-primary">Spring Break</td>
+									<td class="px-5 py-4">Full week assignment</td>
+									<td class="px-5 py-4">Can alternate yearly or follow travel plans.</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</section>
+
+				<section id="faq" class="grid gap-5">
+					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">FAQ</h2>
+					<div class="premium-card divide-y divide-line-subtle overflow-hidden rounded-[1.5rem]">
+						{faq.map((item) => (
+							<details class="group p-5 transition-colors duration-200 open:bg-surface-elevated/70 hover:bg-surface-hover/60">
+								<summary class="flex cursor-pointer list-none items-center justify-between gap-6 text-left text-base font-semibold tracking-[-0.02em] text-primary">
+									{item.question}
+									<span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-surface/80 text-muted shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-transform duration-200 group-open:rotate-45">+</span>
+								</summary>
+								<p class="mt-4 text-sm leading-6 text-secondary">{item.answer}</p>
+							</details>
+						))}
+					</div>
+				</section>
+
+				<section id="related" class="grid gap-5">
+					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Related tools</h2>
+					<div class="grid gap-4 md:grid-cols-2">
+						{relatedLinks.map((item) => (
+							<a href={item.href} class="soft-card rounded-[1.5rem] p-5">
+								<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{item.title}</h3>
+								<p class="mt-2 text-sm leading-6 text-secondary">{item.description}</p>
+							</a>
+						))}
+					</div>
+				</section>
+			</div>
+		</section>
+	</main>
+	<Footer />
+</BaseLayout>
+
+<script>
+	function formatDate(date) {
+		return date.toLocaleDateString('en-US', {
+			month: 'long',
+			day: 'numeric',
+			year: 'numeric',
+		});
+	}
+
+	function getNthWeekday(year, monthIndex, weekday, occurrence) {
+		const date = new Date(year, monthIndex, 1);
+		const offset = (weekday - date.getDay() + 7) % 7;
+		return new Date(year, monthIndex, 1 + offset + (occurrence - 1) * 7);
+	}
+
+	function getLastWeekday(year, monthIndex, weekday) {
+		const date = new Date(year, monthIndex + 1, 0);
+		const offset = (date.getDay() - weekday + 7) % 7;
+		return new Date(year, monthIndex, date.getDate() - offset);
+	}
+
+	function getHolidayOptions(year, holidaySet) {
+		const majorHolidays = [
+			{ name: "New Year's Day", date: new Date(year, 0, 1) },
+			{ name: 'Spring Break', date: new Date(year, 2, 17) },
+			{ name: 'Memorial Day', date: getLastWeekday(year, 4, 1) },
+			{ name: 'July 4th', date: new Date(year, 6, 4) },
+			{ name: 'Labor Day', date: getNthWeekday(year, 8, 1, 1) },
+			{ name: 'Thanksgiving', date: getNthWeekday(year, 10, 4, 4) },
+			{ name: 'Christmas Eve', date: new Date(year, 11, 24) },
+			{ name: 'Christmas Day', date: new Date(year, 11, 25) },
+		];
+
+		if (holidaySet === 'school-breaks') {
+			return [
+				{ name: 'Spring Break', date: new Date(year, 2, 17) },
+				{ name: 'Summer Break Start', date: new Date(year, 5, 1) },
+				{ name: 'Fall Break', date: new Date(year, 9, 14) },
+				{ name: 'Thanksgiving Break', date: getNthWeekday(year, 10, 4, 4) },
+				{ name: 'Winter Break Start', date: new Date(year, 11, 23) },
+				{ name: "New Year's Day", date: new Date(year, 0, 1) },
+			];
+		}
+
+		if (holidaySet === 'custom') {
+			return [
+				{ name: 'Custom Holiday 1', date: new Date(year, 0, 15) },
+				{ name: 'Custom Holiday 2', date: new Date(year, 3, 15) },
+				{ name: 'Custom Holiday 3', date: new Date(year, 6, 15) },
+				{ name: 'Custom Holiday 4', date: new Date(year, 9, 15) },
+			];
+		}
+
+		return majorHolidays;
+	}
+
+	function getAssignedParent(index, year, rotationType) {
+		if (rotationType === 'fixed-assignment') {
+			return [0, 2, 4, 6].includes(index) ? 'A' : 'B';
+		}
+
+		if (rotationType === 'alternate-holidays') {
+			return index % 2 === 0 ? 'A' : 'B';
+		}
+
+		return (year + index) % 2 === 0 ? 'A' : 'B';
+	}
+
+	const form = document.querySelector('[data-holiday-form]');
+	const tableBody = document.querySelector('[data-holiday-table-body]');
+	const previewTitle = document.querySelector('[data-holiday-preview-title]');
+	const parentALabel = document.querySelector('[data-summary-parent-a-label]');
+	const parentBLabel = document.querySelector('[data-summary-parent-b-label]');
+	const parentACount = document.querySelector('[data-summary-parent-a-count]');
+	const parentBCount = document.querySelector('[data-summary-parent-b-count]');
+	const balanceIndicator = document.querySelector('[data-balance-indicator]');
+	const copyButton = document.querySelector('[data-copy-holiday-schedule]');
+	const printButton = document.querySelector('[data-print-holiday-schedule]');
+	let currentRows = [];
+
+	function getState() {
+		if (!(form instanceof HTMLFormElement)) return undefined;
+		const data = new FormData(form);
+		return {
+			parentAName: String(data.get('parentAName') || 'Parent A'),
+			parentBName: String(data.get('parentBName') || 'Parent B'),
+			year: Number(data.get('year')) || new Date().getFullYear(),
+			rotationType: String(data.get('rotationType') || 'alternate-years'),
+			holidaySet: String(data.get('holidaySet') || 'major-us'),
+		};
+	}
+
+	function renderPlanner() {
+		const state = getState();
+		if (!state || !tableBody) return;
+
+		const holidays = getHolidayOptions(state.year, state.holidaySet);
+		let parentATotal = 0;
+		let parentBTotal = 0;
+		currentRows = holidays.map((holiday, index) => {
+			const parentKey = getAssignedParent(index, state.year, state.rotationType);
+			const parentName = parentKey === 'A' ? state.parentAName : state.parentBName;
+			if (parentKey === 'A') parentATotal += 1;
+			if (parentKey === 'B') parentBTotal += 1;
+			return {
+				holiday: holiday.name,
+				date: formatDate(holiday.date),
+				parent: parentName,
+			};
+		});
+
+		tableBody.textContent = '';
+		currentRows.forEach((row) => {
+			const tableRow = document.createElement('tr');
+			const holidayCell = document.createElement('td');
+			const dateCell = document.createElement('td');
+			const parentCell = document.createElement('td');
+
+			holidayCell.className = 'py-3 pr-4 font-semibold text-primary';
+			dateCell.className = 'px-4 py-3';
+			parentCell.className = 'py-3 pl-4';
+			holidayCell.textContent = row.holiday;
+			dateCell.textContent = row.date;
+			parentCell.textContent = row.parent;
+
+			tableRow.append(holidayCell, dateCell, parentCell);
+			tableBody.append(tableRow);
+		});
+
+		if (previewTitle) previewTitle.textContent = `${state.year} holiday schedule`;
+		if (parentALabel) parentALabel.textContent = state.parentAName;
+		if (parentBLabel) parentBLabel.textContent = state.parentBName;
+		if (parentACount) parentACount.textContent = String(parentATotal);
+		if (parentBCount) parentBCount.textContent = String(parentBTotal);
+		if (balanceIndicator) {
+			const difference = Math.abs(parentATotal - parentBTotal);
+			balanceIndicator.textContent =
+				difference <= 1 ? 'Balanced schedule' : `${difference} holiday difference`;
+		}
+	}
+
+	function buildCopyText() {
+		const state = getState();
+		const heading = `${state?.year || ''} Holiday Visitation Schedule`.trim();
+		return [
+			heading,
+			...currentRows.map((row) => `${row.holiday}: ${row.date} - ${row.parent}`),
+		].join('\n');
+	}
+
+	form?.addEventListener('input', renderPlanner);
+	form?.addEventListener('change', renderPlanner);
+	copyButton?.addEventListener('click', async () => {
+		if (!(copyButton instanceof HTMLButtonElement)) return;
+		const originalLabel = 'Copy schedule';
+		copyButton.disabled = true;
+		copyButton.textContent = 'Copying...';
+
+		try {
+			await navigator.clipboard.writeText(buildCopyText());
+			copyButton.textContent = 'Copied';
+		} catch {
+			copyButton.textContent = 'Copy failed';
+		}
+
+		window.setTimeout(() => {
+			copyButton.textContent = originalLabel;
+			copyButton.disabled = false;
+		}, 2000);
+	});
+	printButton?.addEventListener('click', () => window.print());
+	renderPlanner();
+</script>

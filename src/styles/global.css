@@ -563,4 +563,50 @@ button:disabled,
 	[data-calendar-preview] > div:last-child {
 		display: none !important;
 	}
+
+	body:has([data-holiday-print]) header,
+	body:has([data-holiday-print]) footer,
+	body:has([data-holiday-print]) main > section:not(:has([data-holiday-print])),
+	body:has([data-holiday-print]) main > section:has([data-holiday-print]) > :not(:has([data-holiday-print])),
+	body:has([data-holiday-print]) [data-holiday-form],
+	body:has([data-holiday-print]) [data-copy-holiday-schedule],
+	body:has([data-holiday-print]) [data-print-holiday-schedule] {
+		display: none !important;
+	}
+
+	body:has([data-holiday-print]) main,
+	body:has([data-holiday-print]) main > section:has([data-holiday-print]),
+	body:has([data-holiday-print]) main > section:has([data-holiday-print]) > :has([data-holiday-print]),
+	body:has([data-holiday-print]) [data-holiday-planner],
+	body:has([data-holiday-print]) [data-holiday-planner] > div,
+	body:has([data-holiday-print]) [data-holiday-print] {
+		display: block !important;
+		width: 100% !important;
+		max-width: none !important;
+		margin: 0 !important;
+		padding: 0 !important;
+		overflow: visible !important;
+		background: #ffffff !important;
+		border: 0 !important;
+		box-shadow: none !important;
+		color: #111827 !important;
+	}
+
+	body:has([data-holiday-print]) [data-holiday-print] * {
+		color: #111827 !important;
+		break-inside: avoid !important;
+		page-break-inside: avoid !important;
+	}
+
+	body:has([data-holiday-print]) [data-holiday-print] table {
+		width: 100% !important;
+		min-width: 0 !important;
+		border-collapse: collapse !important;
+	}
+
+	body:has([data-holiday-print]) [data-holiday-print] th,
+	body:has([data-holiday-print]) [data-holiday-print] td {
+		border-bottom: 1px solid #e5e7eb !important;
+		padding: 8px !important;
+	}
 }
