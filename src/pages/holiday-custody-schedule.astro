@@ -73,7 +73,7 @@ const faq = [
 	{
 		question: 'Is this holiday custody schedule legal advice?',
 		answer:
-			'No. This tool is for planning and educational purposes only. It is not legal advice and does not replace a court order or advice from a qualified professional. Custody laws and court practices vary by location.',
+			'No. Educational planning tool. Not legal advice. This tool does not replace a court order or advice from a qualified professional. Custody laws and court practices vary by location.',
 	},
 ];
 const breadcrumbs = [
@@ -89,27 +89,27 @@ const schema = [
 const holidayExamples = [
 	{
 		title: 'Alternating holidays',
-		description: 'Parents trade major holidays by odd- and even-numbered years so each parent gets important holidays over time.',
+		description: 'Parents alternate major holidays each year so both parents receive important holiday parenting time.',
 	},
 	{
 		title: 'Split Christmas / winter break',
-		description: 'Christmas Eve, Christmas Day, or winter break can be divided into first half and second half blocks.',
+		description: 'Christmas Eve, Christmas Day, or winter break may be divided into two parenting periods.',
 	},
 	{
 		title: 'Thanksgiving rotation',
-		description: 'Thanksgiving can alternate yearly or be paired with the long weekend after Thanksgiving Day.',
+		description: 'Parents alternate Thanksgiving by year or pair it with the surrounding holiday weekend.',
 	},
 	{
 		title: 'Mother’s Day and Father’s Day',
-		description: 'These holidays are often assigned to the matching parent, regardless of the normal weekly schedule.',
+		description: 'These holidays are often assigned to the matching parent regardless of the normal schedule.',
 	},
 	{
 		title: 'Child birthday schedule',
-		description: 'Parents can alternate birthdays, split the day, or reserve a short visit for the non-scheduled parent.',
+		description: 'Parents may alternate birthdays, split the day, or provide a short visit for the other parent.',
 	},
 	{
 		title: 'School break custody schedule',
-		description: 'Spring break may alternate each year, while winter break is commonly split into two parenting time blocks.',
+		description: 'School breaks are often alternated or divided into separate parenting periods.',
 	},
 ];
 const checklistItems = [
@@ -153,37 +153,37 @@ const relatedTools = [
 	{
 		title: 'Custody Schedule Generator',
 		href: '/#generator',
-		description: 'Build a regular parenting time calendar before adding holiday exceptions.',
+		description: 'Create a regular parenting schedule and compare holiday exceptions.',
 	},
 	{
 		title: '50/50 Custody Schedule',
 		href: '/50-50-custody-schedule',
-		description: 'Compare equal parenting time schedules that holidays may override.',
+		description: 'Compare equal parenting time schedules and holiday overrides.',
 	},
 	{
 		title: '60/40 Custody Schedule',
 		href: '/60-40-custody-schedule',
-		description: 'Preview 60/40-style schedules and compare holiday exceptions.',
+		description: 'Preview 60/40 schedules and plan holiday parenting time around them.',
 	},
 	{
 		title: '70/30 Custody Schedule',
 		href: '/#generator',
-		description: 'Compare a larger majority-time arrangement with holiday custody planning.',
+		description: 'Explore majority-time schedules and compare holiday arrangements.',
 	},
 	{
 		title: '80/20 Custody Schedule',
 		href: '/#generator',
-		description: 'Review a primary-parent schedule where holidays may add important parenting time.',
+		description: 'Explore schedules where one parent has most parenting time and compare holiday arrangements.',
 	},
 	{
 		title: 'Custody Calendar Template',
 		href: '/custody-calendar-template',
-		description: 'Turn a regular custody schedule into a printable calendar view.',
+		description: 'Map parenting time, holidays, and school breaks on a printable calendar.',
 	},
 	{
 		title: 'Custody Schedule Template',
 		href: '/custody-schedule-template',
-		description: 'Document the regular rotation, holiday exceptions, and exchange details.',
+		description: 'Document regular parenting time, holiday exceptions, and exchange details.',
 	},
 ];
 ---
@@ -195,7 +195,7 @@ const relatedTools = [
 	<main>
 		<section class="container-shell grid gap-8 py-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:py-16">
 			<div>
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Holiday parenting calendar</p>
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Holiday custody schedule tool</p>
 				<h1 class="mt-4 max-w-3xl text-5xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary lg:text-6xl">
 					Holiday Custody Schedule
 				</h1>
@@ -265,17 +265,17 @@ const relatedTools = [
 								<p class="mt-1 text-xs text-muted" data-holiday-preview-subtitle>United States · Alternating holidays</p>
 							</div>
 							<p class="rounded-full bg-surface/70 px-3 py-1.5 text-xs font-medium text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-								Educational planning tool
+								Educational planning tool. Not legal advice.
 							</p>
 						</div>
 						<div class="mt-4 overflow-x-auto">
-							<table class="w-full min-w-[620px] border-collapse text-left text-sm">
+							<table class="w-full min-w-[500px] border-collapse text-left text-sm">
 								<thead class="text-xs uppercase tracking-[0.14em] text-muted">
 									<tr class="border-b border-line-subtle">
 										<th class="py-3 pr-4 font-semibold">Holiday</th>
 										<th class="px-4 py-3 font-semibold">Date</th>
 										<th class="px-4 py-3 font-semibold">Parenting time</th>
-										<th class="py-3 pl-4 font-semibold">Notes</th>
+										<th class="hidden py-3 pl-4 font-semibold md:table-cell">Notes</th>
 									</tr>
 								</thead>
 								<tbody class="divide-y divide-line-subtle text-secondary" data-holiday-custody-table></tbody>
@@ -291,7 +291,7 @@ const relatedTools = [
 							Copy schedule
 						</button>
 					</div>
-					<p class="mt-4 text-xs leading-5 text-muted">This tool is for planning and educational purposes only. It is not legal advice.</p>
+					<p class="mt-4 text-xs leading-5 text-muted">Educational planning tool. Not legal advice.</p>
 				</div>
 			</section>
 		</section>
@@ -318,7 +318,7 @@ const relatedTools = [
 						Holiday schedules often take priority over regular parenting schedules. If a holiday is assigned to one parent, that holiday arrangement may override the normal weekly custody schedule for the holiday period.
 					</p>
 					<p class="text-base leading-8 text-secondary">
-						This holiday custody schedule tool demonstrates common holiday parenting arrangements, including alternating holidays, split holidays, fixed-parent holidays, and school break schedules. It is intended for planning and educational purposes only and does not replace legal advice, court orders, or requirements in your location.
+						This holiday custody schedule tool demonstrates common holiday parenting arrangements, including alternating holidays, split holidays, fixed-parent holidays, and school break schedules. Educational planning tool. Not legal advice. It does not replace court orders, professional guidance, or requirements in your location.
 					</p>
 				</section>
 
@@ -385,8 +385,8 @@ const relatedTools = [
 				<section id="faq" class="grid gap-5">
 					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">FAQ</h2>
 					<div class="premium-card divide-y divide-line-subtle overflow-hidden rounded-[1.5rem]">
-						{faq.map((item) => (
-							<details class="group p-5 transition-colors duration-200 open:bg-surface-elevated/70 hover:bg-surface-hover/60">
+						{faq.map((item, index) => (
+							<details open={index === 0} class="group p-5 transition-colors duration-200 open:bg-surface-elevated/70 hover:bg-surface-hover/60">
 								<summary class="flex cursor-pointer list-none items-center justify-between gap-6 text-left text-base font-semibold tracking-[-0.02em] text-primary">
 									{item.question}
 									<span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-surface/80 text-muted shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-transform duration-200 group-open:rotate-45">+</span>
@@ -534,9 +534,9 @@ const relatedTools = [
 			{ name: labels.mayHoliday, date: isUnitedStates ? getLastWeekday(year, 4, 1) : variableDate, category: 'standard' },
 			{ name: 'Father’s Day', date: getNthWeekday(year, 5, 0, 3), category: 'father' },
 			{ name: labels.midYearHoliday, date: isUnitedStates ? new Date(year, 6, 4) : variableDate, category: 'standard' },
-			{ name: 'Child’s birthday', date: "Enter child’s birthday", category: 'child-birthday' },
-			{ name: 'Parent A birthday', date: "Enter Parent A’s birthday", category: 'parent-a-birthday' },
-			{ name: 'Parent B birthday', date: "Enter Parent B’s birthday", category: 'parent-b-birthday' },
+			{ name: 'Child’s birthday', date: "Child’s actual birthday", category: 'child-birthday' },
+			{ name: 'Parent A birthday', date: 'Parent A birthday', category: 'parent-a-birthday' },
+			{ name: 'Parent B birthday', date: 'Parent B birthday', category: 'parent-b-birthday' },
 			{ name: labels.fallHoliday, date: isUnitedStates ? getNthWeekday(year, 8, 1, 1) : variableDate, category: 'standard' },
 			{ name: labels.thanksgiving, date: isUnitedStates ? getNthWeekday(year, 10, 4, 4) : variableDate, category: 'thanksgiving' },
 			{ name: labels.christmasEve, date: new Date(year, 11, 24), category: 'christmas-eve' },
@@ -607,7 +607,7 @@ const relatedTools = [
 			holidayCell.className = 'py-3 pr-4 font-semibold text-primary';
 			dateCell.className = 'px-4 py-3';
 			parentCell.className = 'px-4 py-3 font-medium text-primary';
-			notesCell.className = 'py-3 pl-4 text-muted';
+			notesCell.className = 'hidden py-3 pl-4 text-muted md:table-cell';
 
 			holidayCell.textContent = row.name;
 			dateCell.textContent = row.date instanceof Date ? formatDate(row.date) : row.date;
