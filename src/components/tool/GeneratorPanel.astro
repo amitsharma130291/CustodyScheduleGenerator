@@ -1,9 +1,10 @@
 ---
 import { scheduleDefinitionList } from '../../lib/schedules/definitions';
-import type { ScheduleId } from '../../lib/schedules/types';
+import { normalizeScheduleType } from '../../lib/schedules/patterns';
+import type { ScheduleInputType } from '../../lib/schedules/types';
 
 interface Props {
-	selectedScheduleId: ScheduleId;
+	selectedScheduleId: ScheduleInputType;
 	startDate: string;
 	parentA?: string;
 	parentB?: string;
@@ -17,6 +18,7 @@ const {
 	parentB = 'Parent B',
 	compact = false,
 } = Astro.props;
+const normalizedSelectedScheduleId = normalizeScheduleType(selectedScheduleId);
 ---
 
 <section class={`soft-card rounded-[1.5rem] ${compact ? 'p-3' : 'p-6'}`} data-generator-panel>
@@ -33,7 +35,7 @@ const {
 			<span class="text-sm font-medium text-secondary">Schedule type</span>
 			<select name="scheduleId" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
 				{scheduleDefinitionList.map((definition) => (
-					<option value={definition.id} selected={definition.id === selectedScheduleId}>
+					<option value={definition.id} selected={definition.id === normalizedSelectedScheduleId}>
 						{definition.name}
 					</option>
 				))}
@@ -65,7 +67,11 @@ const {
 	</ul>
 </section>
 
-<script define:vars={{ definitions: scheduleDefinitionList }}>
+<script>
+	import { addDays, format, isValid, parseISO, startOfMonth, startOfWeek } from 'date-fns';
+	import { generateVisibleMonthSchedule, getAllSchedules, normalizeScheduleType } from '../../lib/schedules';
+
+	const definitions = getAllSchedules();
 	const form = document.querySelector('[data-generator-form]');
 	const calendarGrid = document.querySelector('[data-calendar-grid]');
 	const calendarMonth = document.querySelector('[data-calendar-month]');
@@ -81,48 +87,37 @@ const {
 	const printTitle = document.querySelector('[data-print-title]');
 
 	const parentColors = {
-		parentA: 'bg-[rgba(94,106,210,0.2)] text-accent shadow-[inset_0_0_0_1px_rgba(94,106,210,0.28)]',
-		parentB: 'bg-[rgba(34,197,94,0.14)] text-parent-b shadow-[inset_0_0_0_1px_rgba(34,197,94,0.18)]',
+		A: 'bg-[rgba(94,106,210,0.2)] text-accent shadow-[inset_0_0_0_1px_rgba(94,106,210,0.28)]',
+		B: 'bg-[rgba(34,197,94,0.14)] text-parent-b shadow-[inset_0_0_0_1px_rgba(34,197,94,0.18)]',
 		inactive: 'text-muted opacity-30 shadow-[inset_0_0_0_1px_var(--border-subtle)]',
 	};
 
-	function parseDate(date) {
-		const [year, month, day] = date.split('-').map(Number);
-		return new Date(year, month - 1, day);
-	}
+	function applyQueryParamsToForm() {
+		if (!(form instanceof HTMLFormElement)) return;
 
-	function formatDate(date) {
-		return date.toISOString().slice(0, 10);
-	}
+		const params = new URLSearchParams(window.location.search);
+		const schedule = params.get('schedule');
+		const start = params.get('start');
+		const parentA = params.get('a');
+		const parentB = params.get('b');
+		const scheduleInput = form.elements.namedItem('scheduleId');
+		const startInput = form.elements.namedItem('startDate');
+		const parentAInput = form.elements.namedItem('parentA');
+		const parentBInput = form.elements.namedItem('parentB');
 
-	function addDays(date, days) {
-		const next = new Date(date);
-		next.setDate(next.getDate() + days);
-		return next;
-	}
-
-	function startOfWeekMonday(date) {
-		const next = new Date(date);
-		const day = next.getDay() || 7;
-		next.setDate(next.getDate() - day + 1);
-		return next;
-	}
-
-	function getParentForOffset(definition, offset) {
-		const cycleLength = definition.cycle.reduce((total, segment) => total + segment.days, 0);
-		const normalizedOffset = ((offset % cycleLength) + cycleLength) % cycleLength;
-		let cursor = 0;
-
-		for (const segment of definition.cycle) {
-			cursor += segment.days;
-			if (normalizedOffset < cursor) return segment.parent;
+		if (scheduleInput instanceof HTMLSelectElement && schedule) {
+			try {
+				scheduleInput.value = normalizeScheduleType(schedule);
+			} catch {}
 		}
 
-		return definition.cycle[0].parent;
+		if (startInput instanceof HTMLInputElement && start) startInput.value = start;
+		if (parentAInput instanceof HTMLInputElement && parentA) parentAInput.value = parentA;
+		if (parentBInput instanceof HTMLInputElement && parentB) parentBInput.value = parentB;
 	}
 
-	function renderSchedule() {
-		if (!form || !calendarGrid) return;
+	function renderSchedule(updateUrl = true) {
+		if (!(form instanceof HTMLFormElement) || !calendarGrid) return;
 
 		const data = new FormData(form);
 		const scheduleId = data.get('scheduleId');
@@ -130,33 +125,55 @@ const {
 		const parentA = data.get('parentA') || 'Parent A';
 		const parentB = data.get('parentB') || 'Parent B';
 		const definition = definitions.find((item) => item.id === scheduleId) || definitions[0];
-		const startDate = parseDate(startDateValue);
-		const monthStart = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
-		const gridStart = startOfWeekMonday(monthStart);
-		const days = [];
-		const counts = { parentA: 0, parentB: 0 };
+		const startDate = parseISO(String(startDateValue));
+		if (!isValid(startDate)) return;
+		const monthStart = startOfMonth(startDate);
+		const gridStart = startOfWeek(monthStart, { weekStartsOn: 1 });
+		const gridDays = Array.from({ length: 42 }, (_, index) => addDays(gridStart, index));
 
-		for (let index = 0; index < 42; index += 1) {
-			const day = addDays(gridStart, index);
-			const offset = Math.round((day - startDate) / 86400000);
-			const parent = getParentForOffset(definition, offset);
-			const isCurrentMonth = day.getMonth() === monthStart.getMonth();
-			if (isCurrentMonth) counts[parent] += 1;
-			days.push({ day, parent, isCurrentMonth });
+		let schedule;
+
+		try {
+			schedule = generateVisibleMonthSchedule({
+				scheduleType: String(scheduleId),
+				startDate: String(startDateValue),
+				monthDate: String(startDateValue),
+				parentAName: String(parentA),
+				parentBName: String(parentB),
+			});
+		} catch {
+			return;
 		}
 
-		calendarGrid.innerHTML = days
-			.map(({ day, parent, isCurrentMonth }) => {
-				const color = isCurrentMonth ? parentColors[parent] : parentColors.inactive;
-				const parentName = parent === 'parentA' ? parentA : parentB;
-				return `<span class="calendar-day-cell flex aspect-square max-h-[34px] min-h-0 items-center justify-center rounded-xl text-xs font-semibold sm:max-h-[34px] sm:rounded-2xl sm:text-sm ${color}" title="${parentName} - ${formatDate(day)}">${day.getDate()}</span>`;
+		const daysByDate = new Map(schedule.days.map((day) => [day.date, day]));
+
+		calendarGrid.innerHTML = gridDays
+			.map((day) => {
+				const date = format(day, 'yyyy-MM-dd');
+				const generatedDay = daysByDate.get(date);
+				const isCurrentMonth = day.getMonth() === monthStart.getMonth();
+				const isActiveCurrentMonth = isCurrentMonth && Boolean(generatedDay);
+				const color = isActiveCurrentMonth && generatedDay ? parentColors[generatedDay.parent] : parentColors.inactive;
+				const parentName = generatedDay?.parentName || '';
+
+				return `<span class="calendar-day-cell flex aspect-square max-h-[34px] min-h-0 items-center justify-center rounded-xl text-xs font-semibold sm:max-h-[34px] sm:rounded-2xl sm:text-sm ${color}" title="${parentName ? `${parentName} - ` : ''}${date}">${day.getDate()}</span>`;
 			})
 			.join('');
 
-		const monthLabel = monthStart.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
-		const total = counts.parentA + counts.parentB || 1;
-		const parentAPercentage = Math.round((counts.parentA / total) * 100);
-		const parentBPercentage = 100 - parentAPercentage;
+		const monthLabel = format(monthStart, 'MMMM yyyy');
+		const {
+			parentADays,
+			parentBDays,
+			parentAPercentage,
+			parentBPercentage,
+		} = schedule.summary;
+
+		console.log('[custody-schedule-generator]', {
+			selectedSchedule: definition.id,
+			pattern: definition.pattern,
+			parentADays,
+			parentBDays,
+		});
 
 		if (calendarMonth) calendarMonth.textContent = monthLabel;
 		if (parentALabel) parentALabel.textContent = parentA;
@@ -165,22 +182,29 @@ const {
 		if (summaryParentBLabel) summaryParentBLabel.textContent = parentB;
 		if (summaryParentAPercent) summaryParentAPercent.textContent = `${parentAPercentage}%`;
 		if (summaryParentBPercent) summaryParentBPercent.textContent = `${parentBPercentage}%`;
-		if (summaryParentADays) summaryParentADays.textContent = `${counts.parentA} overnights`;
-		if (summaryParentBDays) summaryParentBDays.textContent = `${counts.parentB} overnights`;
+		if (summaryParentADays) summaryParentADays.textContent = `${parentADays} overnights`;
+		if (summaryParentBDays) summaryParentBDays.textContent = `${parentBDays} overnights`;
 		if (printTitle) printTitle.textContent = `${definition.shortName} custody calendar`;
 		if (printDescription) {
-			printDescription.textContent = `${monthLabel} preview starting ${startDateValue}. ${parentA}: ${counts.parentA} overnights (${parentAPercentage}%). ${parentB}: ${counts.parentB} overnights (${parentBPercentage}%).`;
+			printDescription.textContent = `${monthLabel} preview starting ${startDateValue}. ${parentA}: ${parentADays} overnights (${parentAPercentage}%). ${parentB}: ${parentBDays} overnights (${parentBPercentage}%).`;
 		}
 
-		const params = new URLSearchParams(window.location.search);
-		params.set('schedule', definition.id);
-		params.set('start', startDateValue);
-		params.set('a', parentA);
-		params.set('b', parentB);
-		window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
+		if (updateUrl) {
+			const params = new URLSearchParams(window.location.search);
+			params.set('schedule', definition.id);
+			params.set('start', startDateValue);
+			params.set('a', parentA);
+			params.set('b', parentB);
+			window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
+		}
 	}
 
-	form?.addEventListener('input', renderSchedule);
-	form?.addEventListener('change', renderSchedule);
+	form?.addEventListener('input', () => renderSchedule());
+	form?.addEventListener('change', () => renderSchedule());
+	window.addEventListener('popstate', () => {
+		applyQueryParamsToForm();
+		renderSchedule(false);
+	});
+	applyQueryParamsToForm();
 	renderSchedule();
 </script>

@@ -7,7 +7,7 @@ import { getDefaultStartDate } from '../lib/schedules/format';
 
 const startDate = getDefaultStartDate();
 const schedule = generateSchedule({
-	scheduleId: '2-2-3',
+	scheduleId: '223',
 	startDate,
 });
 ---
@@ -67,7 +67,7 @@ const schedule = generateSchedule({
 			<div class="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" aria-hidden="true"></div>
 			<div class="hero-generator-inner rounded-[1.4rem] bg-surface-elevated p-0 shadow-[inset_0_1px_0_rgba(255,255,255,0.07)] sm:rounded-[1.8rem]">
 				<div class="hero-generator-grid">
-					<GeneratorPanel selectedScheduleId="2-2-3" startDate={startDate} compact />
+					<GeneratorPanel selectedScheduleId="223" startDate={startDate} compact />
 					<div class="hero-calendar-column grid gap-3">
 						<CalendarPreview schedule={schedule}>
 							<ExportActions slot="actions" />

@@ -1,4 +1,4 @@
-import type { ScheduleId } from '../../lib/schedules/types';
+import type { ScheduleInputType } from '../../lib/schedules/types';
 
 export interface ScheduleFAQ {
 	question: string;
@@ -12,7 +12,7 @@ export interface RelatedSchedule {
 }
 
 export interface ScheduleContent {
-	id: ScheduleId;
+	id: ScheduleInputType;
 	title: string;
 	slug: string;
 	description: string;
