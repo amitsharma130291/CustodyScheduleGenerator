@@ -1,13 +1,13 @@
 import { normalizeScheduleType } from './patterns';
-import { normalizeSixtyFortyPattern } from './engine';
-import type { ScheduleInputType, ScheduleType, SixtyFortyPatternId } from './types';
+import { normalizeEightyTwentyPattern, normalizeSeventyThirtyPattern, normalizeSixtyFortyPattern } from './engine';
+import type { RatioSchedulePatternId, ScheduleInputType, ScheduleType } from './types';
 
 export interface ScheduleShareState {
 	schedule: ScheduleInputType;
 	start: string;
 	parentAName: string;
 	parentBName: string;
-	pattern?: SixtyFortyPatternId;
+	pattern?: RatioSchedulePatternId;
 }
 
 export interface RestoredScheduleShareState {
@@ -15,7 +15,7 @@ export interface RestoredScheduleShareState {
 	start: string;
 	parentAName: string;
 	parentBName: string;
-	pattern?: SixtyFortyPatternId;
+	pattern?: RatioSchedulePatternId;
 }
 
 export interface ClipboardLike {
@@ -32,6 +32,10 @@ export function buildScheduleShareUrl(baseUrl: string, state: ScheduleShareState
 	url.searchParams.set('b', state.parentBName);
 	if (schedule === '60-40') {
 		url.searchParams.set('pattern', normalizeSixtyFortyPattern(state.pattern));
+	} else if (schedule === '70-30') {
+		url.searchParams.set('pattern', normalizeSeventyThirtyPattern(state.pattern));
+	} else if (schedule === '80-20') {
+		url.searchParams.set('pattern', normalizeEightyTwentyPattern(state.pattern));
 	} else {
 		url.searchParams.delete('pattern');
 	}
@@ -58,7 +62,13 @@ export function restoreScheduleStateFromUrl(url: string): RestoredScheduleShareS
 		start,
 		parentAName,
 		parentBName,
-		pattern: normalizedSchedule === '60-40' ? normalizeSixtyFortyPattern(pattern) : undefined,
+		pattern: normalizedSchedule === '60-40'
+			? normalizeSixtyFortyPattern(pattern)
+			: normalizedSchedule === '70-30'
+				? normalizeSeventyThirtyPattern(pattern)
+				: normalizedSchedule === '80-20'
+					? normalizeEightyTwentyPattern(pattern)
+					: undefined,
 	};
 }
 

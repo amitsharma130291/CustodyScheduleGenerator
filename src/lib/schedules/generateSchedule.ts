@@ -13,8 +13,10 @@ import type {
 	GeneratedSchedule,
 	ParentKey,
 	ParentNames,
+	EightyTwentyPatternId,
 	ScheduleDay,
 	ScheduleInputType,
+	SeventyThirtyPatternId,
 	SixtyFortyPatternId,
 } from './types';
 
@@ -37,12 +39,16 @@ export function generateSchedule({
 	monthDate = startDate,
 	parentNames = defaultParentNames,
 	sixtyFortyPattern,
+	seventyThirtyPattern,
+	eightyTwentyPattern,
 }: {
 	scheduleId: ScheduleInputType;
 	startDate: string | Date;
 	monthDate?: string | Date;
 	parentNames?: Partial<ParentNames>;
 	sixtyFortyPattern?: SixtyFortyPatternId;
+	seventyThirtyPattern?: SeventyThirtyPatternId;
+	eightyTwentyPattern?: EightyTwentyPatternId;
 }): GeneratedSchedule {
 	const pattern = getSchedulePattern(scheduleId);
 	const definition = {
@@ -70,8 +76,14 @@ export function generateSchedule({
 		parentAName: normalizedParents.parentA,
 		parentBName: normalizedParents.parentB,
 		sixtyFortyPattern,
+		seventyThirtyPattern,
+		eightyTwentyPattern,
 	});
 	const daysByDate = new Map(visibleMonthSchedule.days.map((day) => [day.date, day]));
+	const eventsByDate = new Map<string, typeof visibleMonthSchedule.events>();
+	for (const event of visibleMonthSchedule.events ?? []) {
+		eventsByDate.set(event.date, [...(eventsByDate.get(event.date) ?? []), event]);
+	}
 	const days: GeneratedDay[] = [];
 	const parentDayCounts: Record<ParentKey, number> = {
 		parentA: 0,
@@ -96,6 +108,7 @@ export function generateSchedule({
 			parent,
 			parentName: generatedDay?.parentName ?? normalizedParents[parent],
 			isCurrentMonth: isActiveCurrentMonth,
+			events: eventsByDate.get(date) ?? [],
 		});
 	}
 
@@ -106,5 +119,7 @@ export function generateSchedule({
 		parentNames: normalizedParents,
 		days,
 		parentDayCounts,
+		events: visibleMonthSchedule.events,
+		patternSummary: visibleMonthSchedule.patternSummary,
 	};
 }

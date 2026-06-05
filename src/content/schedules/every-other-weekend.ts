@@ -11,14 +11,14 @@ const schedule: ScheduleContent = {
 	lede: 'An every other weekend custody schedule is a common visitation arrangement where one parent has primary custody and the other parent has alternating weekends. It is often used when parents live apart, when one parent handles the school-week routine, or when one parent is the primary caregiver.',
 	overviewTitle: 'What Is an Every Other Weekend Custody Schedule?',
 	overview: [
-		'In an every other weekend custody schedule, one parent usually has the child during most weekdays and non-visitation weekends. The other parent receives scheduled parenting time on alternating weekends, often from Friday after school through Sunday evening or Monday morning.',
+		'In an every other weekend custody schedule, one parent usually has the child during most weekdays and non-visitation weekends. In an overnight-based calendar, the other parent commonly receives Friday and Saturday overnights on alternating weekends.',
 		'This schedule is not usually a 50/50 custody schedule. It often gives the weekend parent about 20-30% of parenting time when holidays, school breaks, summer time, or added weekday visits are included.',
 	],
 	howItWorks: {
 		title: 'How an Every Other Weekend Schedule Works',
 		description: [
-			'In the generator, the selected start date is used to find the first Parent B weekend. If the selected date is Friday, Parent B receives that Friday, Saturday, and Sunday; if it is not Friday, the schedule aligns Parent B to the next Friday after the selected date.',
-			'Parents can adjust the exact exchange time to fit school pickup, work schedules, travel distance, and whether the weekend visit ends Sunday evening or Monday morning.',
+			'In the generator, the selected start date is used to find the first Parent B weekend. If the selected date is Friday, Parent B receives that Friday and Saturday; if it is not Friday, the schedule aligns Parent B to the next Friday after the selected date.',
+			'This calculator is based on overnights. Daytime visits, exchange times, school hours, and hourly parenting time are not included in the percentage estimate.',
 		],
 	},
 	pros: [
@@ -33,13 +33,13 @@ const schedule: ScheduleContent = {
 	],
 	example: {
 		title: 'Example Every Other Weekend Custody Calendar',
-		description: 'Parent B has parenting time every other Friday through Sunday, while Parent A has all remaining overnights.',
+		description: 'Parent B has parenting time every other Friday and Saturday overnight, while Parent A has all remaining overnights.',
 		weeks: [
 			{
 				label: 'Week 1',
 				blocks: [
-					{ parent: 'Parent A', days: 'Mon Tue Wed Thu' },
-					{ parent: 'Parent B', days: 'Fri Sat Sun' },
+					{ parent: 'Parent A', days: 'Sun Mon Tue Wed Thu' },
+					{ parent: 'Parent B', days: 'Fri Sat' },
 				],
 			},
 			{
@@ -51,8 +51,8 @@ const schedule: ScheduleContent = {
 			{
 				label: 'Week 3',
 				blocks: [
-					{ parent: 'Parent A', days: 'Mon Tue Wed Thu' },
-					{ parent: 'Parent B', days: 'Fri Sat Sun' },
+					{ parent: 'Parent A', days: 'Sun Mon Tue Wed Thu' },
+					{ parent: 'Parent B', days: 'Fri Sat' },
 				],
 			},
 			{
@@ -119,11 +119,11 @@ const schedule: ScheduleContent = {
 	},
 	examples: {
 		title: 'Parenting Time Percentage',
-		description: 'Every other weekend custody usually gives the non-primary parent a smaller percentage than shared rotation schedules. A basic alternating weekend schedule is about 21% of overnights across the repeating cycle, and may land around 20-30% when holidays, school breaks, summer time, or added weekday visits are counted.',
+		description: 'Every other weekend custody usually gives the non-primary parent a smaller percentage than shared rotation schedules. A basic alternating Friday/Saturday overnight schedule is about 14% of overnights across the repeating cycle. Holiday and school-break overnights can change the annual percentage.',
 		items: [
 			{
 				title: 'Weekend-only visitation',
-				description: 'A Friday-to-Sunday weekend every other week is roughly 20% of overnights across the repeating cycle.',
+				description: 'A Friday/Saturday overnight weekend every other week is roughly 14% of overnights across the repeating cycle.',
 			},
 			{
 				title: 'Weekend plus weekday dinner',
@@ -138,23 +138,23 @@ const schedule: ScheduleContent = {
 	faq: [
 		{
 			question: 'What is an every other weekend custody schedule?',
-			answer: 'An every other weekend custody schedule is a parenting time arrangement where one parent has most school-week overnights and the other parent has alternating weekends. In a common version, Parent B has Friday through Sunday every other week, while Parent A has the remaining overnights.',
-			answerHtml: 'An every other weekend custody schedule is a parenting time arrangement where one parent has most school-week overnights and the other parent has alternating weekends. In a common version, Parent B has Friday through Sunday every other week, while Parent A has the remaining overnights.',
+			answer: 'An every other weekend custody schedule is a parenting time arrangement where one parent has most school-week overnights and the other parent has alternating weekends. In this overnight-based version, Parent B has Friday and Saturday every other week, while Parent A has the remaining overnights.',
+			answerHtml: 'An every other weekend custody schedule is a parenting time arrangement where one parent has most school-week overnights and the other parent has alternating weekends. In this overnight-based version, Parent B has Friday and Saturday every other week, while Parent A has the remaining overnights.',
 		},
 		{
 			question: 'How does an every other weekend custody schedule work?',
-			answer: 'A typical every other weekend custody schedule gives the weekend parent time from Friday after school through Sunday evening or Monday morning every other week. If the selected date is not a Friday, this generator aligns the first Parent B weekend to the next Friday, then repeats every 14 days.',
-			answerHtml: 'A typical every other weekend custody schedule gives the weekend parent time from Friday after school through Sunday evening or Monday morning every other week. If the selected date is not a Friday, this generator aligns the first Parent B weekend to the next Friday, then repeats every 14 days.',
+			answer: 'A typical overnight-based every other weekend custody schedule gives the weekend parent Friday and Saturday overnights every other week. If the selected date is not a Friday, this generator aligns the first Parent B weekend to the next Friday, then repeats every 14 days.',
+			answerHtml: 'A typical overnight-based every other weekend custody schedule gives the weekend parent Friday and Saturday overnights every other week. If the selected date is not a Friday, this generator aligns the first Parent B weekend to the next Friday, then repeats every 14 days.',
 		},
 		{
 			question: 'What percentage of parenting time is every other weekend custody?',
-			answer: 'A Friday-through-Sunday every other weekend schedule gives the weekend parent 3 overnights in each 14-day cycle, or about 21% parenting time. The yearly percentage can move closer to 20-30% when holiday overrides, school breaks, summer blocks, or optional midweek visits are included.',
-			answerHtml: 'A Friday-through-Sunday every other weekend schedule gives the weekend parent 3 overnights in each 14-day cycle, or about 21% parenting time. By comparison, a <a href="/50-50-custody-schedule" class="text-accent hover:underline">50/50 custody schedule</a> is designed for a much more even split. The yearly percentage can move closer to 20-30% when holiday overrides, school breaks, summer blocks, or optional midweek visits are included.',
+			answer: 'A Friday/Saturday every other weekend schedule gives the weekend parent 2 overnights in each 14-day cycle, or about 14% parenting time by overnights. Holiday overrides, school breaks, summer blocks, or added overnight visits can change the annual percentage.',
+			answerHtml: 'A Friday/Saturday every other weekend schedule gives the weekend parent 2 overnights in each 14-day cycle, or about 14% parenting time by overnights. By comparison, a <a href="/50-50-custody-schedule" class="text-accent hover:underline">50/50 custody schedule</a> is designed for a much more even split. Holiday overrides, school breaks, summer blocks, or added overnight visits can change the annual percentage.',
 		},
 		{
 			question: 'What does an every other weekend custody calendar look like?',
-			answer: 'An every other weekend custody calendar usually shows Parent B on alternating Friday-through-Sunday blocks, then Parent A on all other dates. The calendar should make the weekend blocks easy to see, along with longer gaps, holiday overrides, and any added weekday visits.',
-			answerHtml: 'An every other weekend custody calendar usually shows Parent B on alternating Friday-through-Sunday blocks, then Parent A on all other dates. The calendar should make the weekend blocks easy to see, along with longer gaps, holiday overrides, and any added weekday visits.',
+			answer: 'An every other weekend custody calendar usually shows Parent B on alternating Friday/Saturday overnight blocks, then Parent A on all other dates. The calendar should make the weekend blocks easy to see, along with longer gaps and holiday overrides.',
+			answerHtml: 'An every other weekend custody calendar usually shows Parent B on alternating Friday/Saturday overnight blocks, then Parent A on all other dates. The calendar should make the weekend blocks easy to see, along with longer gaps and holiday overrides.',
 		},
 		{
 			question: 'What age is best for an every other weekend custody schedule?',
@@ -168,13 +168,13 @@ const schedule: ScheduleContent = {
 		},
 		{
 			question: 'What are the pros and cons of every other weekend custody?',
-			answer: 'The main benefits are a stable school routine, fewer exchanges, and a simple Friday-through-Sunday weekend pattern. The drawbacks are less parenting time for the weekend parent, longer gaps between visits, and fewer chances to participate in weekday school routines unless midweek visits are added.',
-			answerHtml: 'The main benefits are a stable school routine, fewer exchanges, and a simple Friday-through-Sunday weekend pattern. The drawbacks are less parenting time for the weekend parent, longer gaps between visits, and fewer chances to participate in weekday school routines unless midweek visits are added. Families wanting fewer exchanges but more time may compare it with a <a href="/week-on-week-off-custody-schedule" class="text-accent hover:underline">week-on week-off custody schedule</a>.',
+			answer: 'The main benefits are a stable school routine, fewer exchanges, and a simple Friday/Saturday overnight pattern. The drawbacks are less parenting time for the weekend parent, longer gaps between visits, and fewer chances to participate in weekday school routines unless midweek visits are added.',
+			answerHtml: 'The main benefits are a stable school routine, fewer exchanges, and a simple Friday/Saturday overnight pattern. The drawbacks are less parenting time for the weekend parent, longer gaps between visits, and fewer chances to participate in weekday school routines unless midweek visits are added. Families wanting fewer exchanges but more time may compare it with a <a href="/week-on-week-off-custody-schedule" class="text-accent hover:underline">week-on week-off custody schedule</a>.',
 		},
 		{
 			question: 'How do holidays work in an every other weekend custody schedule?',
-			answer: 'Holiday parenting time usually overrides the regular every other weekend custody schedule. Parents often alternate major holidays, split school breaks, or give the weekend parent additional holiday time before returning to the regular alternating Friday-through-Sunday weekend pattern.',
-			answerHtml: 'Holiday parenting time usually overrides the regular every other weekend custody schedule. Parents often alternate major holidays, split school breaks, or give the weekend parent additional holiday time before returning to the regular alternating Friday-through-Sunday weekend pattern.',
+			answer: 'Holiday parenting time usually overrides the regular every other weekend custody schedule. Parents often alternate major holidays, split school breaks, or give the weekend parent additional holiday overnights before returning to the regular alternating Friday/Saturday weekend pattern.',
+			answerHtml: 'Holiday parenting time usually overrides the regular every other weekend custody schedule. Parents often alternate major holidays, split school breaks, or give the weekend parent additional holiday overnights before returning to the regular alternating Friday/Saturday weekend pattern.',
 		},
 		{
 			question: 'Is every other weekend custody good for school-age children?',
@@ -183,8 +183,8 @@ const schedule: ScheduleContent = {
 		},
 		{
 			question: 'Can parents customize an every other weekend custody schedule?',
-			answer: 'Yes. Parents can customize an every other weekend custody schedule by adjusting Friday and Sunday exchange times, adding weekday visits, splitting holidays, adding summer blocks, or changing transportation details. The core alternating weekend pattern can stay in place while the parenting plan adds practical details.',
-			answerHtml: 'Yes. Parents can customize an every other weekend custody schedule by adjusting Friday and Sunday exchange times, adding weekday visits, splitting holidays, adding summer blocks, or changing transportation details. The core alternating weekend pattern can stay in place while the parenting plan adds practical details.',
+			answer: 'Yes. Parents can customize an every other weekend custody schedule by adjusting exchanges, adding weekday visits, splitting holidays, adding summer blocks, or changing transportation details. Overnight percentages should be recalculated when extra overnights are added.',
+			answerHtml: 'Yes. Parents can customize an every other weekend custody schedule by adjusting exchanges, adding weekday visits, splitting holidays, adding summer blocks, or changing transportation details. Overnight percentages should be recalculated when extra overnights are added.',
 		},
 	],
 	relatedSchedules: [

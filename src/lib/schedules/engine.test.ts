@@ -28,8 +28,10 @@ describe('generateCustodySchedule', () => {
 		['5225', [5, 2, 2, 5]],
 		['3443', [3, 4, 4, 3]],
 		['week-on-week-off', [7, 7]],
-		['every-other-weekend', [3, 11]],
+		['every-other-weekend', [2, 12]],
 		['60-40', [4, 3]],
+		['70-30', [5, 2]],
+		['80-20', [4, 1]],
 	] satisfies Array<[ScheduleType, number[]]>)('maps %s to the correct pattern', (scheduleType, expectedPattern) => {
 		expect(getSchedulePattern(scheduleType).pattern.map((segment) => segment.days)).toEqual(expectedPattern);
 	});
@@ -121,6 +123,442 @@ describe('generateCustodySchedule', () => {
 		]);
 	});
 
+	it('generates every-weekend ownership for the default 70/30 pattern', () => {
+		const days = generateCustodySchedule({
+			scheduleType: '70-30',
+			startDate: '2026-06-01',
+			numberOfDays: 7,
+		}).days.map((day) => `${day.date}:${day.parent}`);
+
+		expect(days).toEqual([
+			'2026-06-01:A',
+			'2026-06-02:A',
+			'2026-06-03:A',
+			'2026-06-04:A',
+			'2026-06-05:B',
+			'2026-06-06:B',
+			'2026-06-07:A',
+		]);
+	});
+
+	it('generates the default 80/20 pattern as every other Friday and Saturday overnights', () => {
+		const days = generateCustodySchedule({
+			scheduleType: '80-20',
+			startDate: '2026-06-12',
+			numberOfDays: 14,
+		}).days.map((day) => `${day.date}:${day.parent}`);
+
+		expect(days).toEqual([
+			'2026-06-12:B',
+			'2026-06-13:B',
+			'2026-06-14:A',
+			'2026-06-15:A',
+			'2026-06-16:A',
+			'2026-06-17:A',
+			'2026-06-18:A',
+			'2026-06-19:A',
+			'2026-06-20:A',
+			'2026-06-21:A',
+			'2026-06-22:A',
+			'2026-06-23:A',
+			'2026-06-24:A',
+			'2026-06-25:A',
+		]);
+	});
+
+	it('generates every-weekend 80/20 calendar ownership with Friday and Saturday overnights', () => {
+		const { summary } = generateCustodySchedule({
+			scheduleType: '80-20',
+			startDate: '2026-06-12',
+			numberOfDays: 14,
+			eightyTwentyPattern: 'every-weekend',
+		});
+
+		expect(summary).toEqual({
+			parentADays: 10,
+			parentBDays: 4,
+			parentAPercentage: 71,
+			parentBPercentage: 29,
+			totalDays: 14,
+		});
+	});
+
+	it('generates monthly 1st, 3rd and 5th weekend 80/20 ownership', () => {
+		const june = generateVisibleMonthSchedule({
+			scheduleType: '80-20',
+			startDate: '2026-06-01',
+			monthDate: '2026-06-01',
+			eightyTwentyPattern: 'first-third-fifth-weekends',
+		});
+
+		expect(june.days.filter((day) => day.parent === 'B').map((day) => day.date)).toEqual([
+			'2026-06-05',
+			'2026-06-06',
+			'2026-06-19',
+			'2026-06-20',
+		]);
+		expect(june.summary.parentBDays).toBe(4);
+	});
+
+	it('generates monthly 2nd, 4th and 5th weekend 80/20 ownership', () => {
+		const june = generateVisibleMonthSchedule({
+			scheduleType: '80-20',
+			startDate: '2026-06-01',
+			monthDate: '2026-06-01',
+			eightyTwentyPattern: 'second-fourth-fifth-weekends',
+		});
+
+		expect(june.days.filter((day) => day.parent === 'B').map((day) => day.date)).toEqual([
+			'2026-06-12',
+			'2026-06-13',
+			'2026-06-26',
+			'2026-06-27',
+		]);
+		expect(june.summary.parentBDays).toBe(4);
+	});
+
+	it('generates every-third-weekend 80/20 ownership', () => {
+		const { summary } = generateCustodySchedule({
+			scheduleType: '80-20',
+			startDate: '2026-06-12',
+			numberOfDays: 21,
+			eightyTwentyPattern: 'every-3rd-weekend',
+		});
+
+		expect(summary).toEqual({
+			parentADays: 19,
+			parentBDays: 2,
+			parentAPercentage: 90,
+			parentBPercentage: 10,
+			totalDays: 21,
+		});
+	});
+
+	it('does not add overnight credit for the 80/20 midweek dinner variant', () => {
+		const { summary } = generateCustodySchedule({
+			scheduleType: '80-20',
+			startDate: '2026-06-12',
+			numberOfDays: 14,
+			eightyTwentyPattern: 'every-other-weekend-midweek-dinner',
+		});
+
+		expect(summary).toEqual({
+			parentADays: 12,
+			parentBDays: 2,
+			parentAPercentage: 86,
+			parentBPercentage: 14,
+			totalDays: 14,
+		});
+	});
+
+	it('adds one weekday overnight for the 80/20 one-overnight variant', () => {
+		const parentBDates = generateCustodySchedule({
+			scheduleType: '80-20',
+			startDate: '2026-06-12',
+			numberOfDays: 14,
+			eightyTwentyPattern: 'every-other-weekend-one-overnight',
+		}).days.filter((day) => day.parent === 'B').map((day) => day.date);
+
+		expect(parentBDates).toEqual(['2026-06-12', '2026-06-13', '2026-06-24']);
+	});
+
+	it('generates long-distance 80/20 ownership as one week every five weeks', () => {
+		const { summary } = generateCustodySchedule({
+			scheduleType: '80-20',
+			startDate,
+			numberOfDays: 35,
+			eightyTwentyPattern: 'long-distance',
+		});
+
+		expect(summary).toEqual({
+			parentADays: 28,
+			parentBDays: 7,
+			parentAPercentage: 80,
+			parentBPercentage: 20,
+			totalDays: 35,
+		});
+	});
+
+	it('keeps long-distance 80/20 annual averages inside the intended range', () => {
+		const { patternSummary } = generateCustodySchedule({
+			scheduleType: '80-20',
+			startDate,
+			eightyTwentyPattern: 'long-distance',
+		});
+
+		expect(patternSummary?.annualAverage.parentAPercentage).toBeGreaterThanOrEqual(78);
+		expect(patternSummary?.annualAverage.parentAPercentage).toBeLessThanOrEqual(82);
+		expect(patternSummary?.annualAverage.parentBPercentage).toBeGreaterThanOrEqual(18);
+		expect(patternSummary?.annualAverage.parentBPercentage).toBeLessThanOrEqual(22);
+		expect(patternSummary?.validationWarnings).toEqual([]);
+	});
+
+	it('generates exchange events on 80/20 ownership changes', () => {
+		const { events } = generateCustodySchedule({
+			scheduleType: '80-20',
+			startDate: '2026-06-12',
+			numberOfDays: 17,
+		});
+
+		expect(events?.filter((event) => event.type === 'exchange').map((event) => `${event.date}:${event.label}`)).toEqual([
+			'2026-06-14:Sun 6 PM Return',
+			'2026-06-26:Fri 6 PM Exchange',
+			'2026-06-28:Sun 6 PM Return',
+		]);
+	});
+
+	it('shows dinner visits without changing overnight counts', () => {
+		const schedule = generateCustodySchedule({
+			scheduleType: '80-20',
+			startDate: '2026-06-12',
+			numberOfDays: 14,
+			eightyTwentyPattern: 'every-other-weekend-midweek-dinner',
+		});
+
+		expect(schedule.summary).toEqual({
+			parentADays: 12,
+			parentBDays: 2,
+			parentAPercentage: 86,
+			parentBPercentage: 14,
+			totalDays: 14,
+		});
+		expect(schedule.events?.some((event) => event.date === '2026-06-17' && event.type === 'dinner' && event.label === 'Dinner Visit')).toBe(true);
+	});
+
+	it('summarizes visible and annual 80/20 percentages separately', () => {
+		const { summary, patternSummary } = generateVisibleMonthSchedule({
+			scheduleType: '80-20',
+			startDate: '2026-06-20',
+			monthDate: '2026-06-20',
+			eightyTwentyPattern: 'long-distance',
+		});
+
+		expect(summary.parentBPercentage).not.toBe(patternSummary?.annualAverage.parentBPercentage);
+		expect(patternSummary?.explanatoryText).toContain('Visible month');
+		expect(patternSummary?.explanatoryText).toContain('Annual average');
+	});
+
+	it.each([
+		['2026-06-06', { parentADays: 18, parentBDays: 7, parentAPercentage: 72, parentBPercentage: 28, totalDays: 25 }],
+		['2026-06-07', { parentADays: 18, parentBDays: 6, parentAPercentage: 75, parentBPercentage: 25, totalDays: 24 }],
+		['2026-06-08', { parentADays: 17, parentBDays: 6, parentAPercentage: 74, parentBPercentage: 26, totalDays: 23 }],
+		['2026-06-09', { parentADays: 16, parentBDays: 6, parentAPercentage: 73, parentBPercentage: 27, totalDays: 22 }],
+	])('keeps every-weekend 70/30 visible-month math overnight-based for %s', (startsOn, expectedSummary) => {
+		const { summary } = generateVisibleMonthSchedule({
+			scheduleType: '70-30',
+			startDate: startsOn,
+			monthDate: startsOn,
+			seventyThirtyPattern: 'every-weekend',
+		});
+
+		expect(summary).toEqual(expectedSummary);
+	});
+
+	it('assigns every Friday and Saturday to Parent B for 70/30 every-weekend in June 2026', () => {
+		const june = generateVisibleMonthSchedule({
+			scheduleType: '70-30',
+			startDate: '2026-06-06',
+			monthDate: '2026-06-06',
+			seventyThirtyPattern: 'every-weekend',
+		});
+
+		expect(june.days.filter((day) => day.parent === 'B').map((day) => day.date)).toEqual([
+			'2026-06-06',
+			'2026-06-12',
+			'2026-06-13',
+			'2026-06-19',
+			'2026-06-20',
+			'2026-06-26',
+			'2026-06-27',
+		]);
+		expect(june.days.find((day) => day.date === '2026-06-07')?.parent).toBe('A');
+	});
+
+	it('starts the first full 70/30 every-weekend block on the next Friday after a Tuesday start', () => {
+		const june = generateVisibleMonthSchedule({
+			scheduleType: '70-30',
+			startDate: '2026-06-09',
+			monthDate: '2026-06-09',
+			seventyThirtyPattern: 'every-weekend',
+		});
+
+		expect(june.days.filter((day) => day.parent === 'B').map((day) => day.date).slice(0, 2)).toEqual([
+			'2026-06-12',
+			'2026-06-13',
+		]);
+		expect(june.days.find((day) => day.date === '2026-06-09')?.parent).toBe('A');
+	});
+
+	it('distinguishes every-weekend from alternating-weekends for 70/30', () => {
+		const everyWeekend = generateVisibleMonthSchedule({
+			scheduleType: '70-30',
+			startDate: '2026-06-09',
+			monthDate: '2026-06-09',
+			seventyThirtyPattern: 'every-weekend',
+		}).days.filter((day) => day.parent === 'B').map((day) => day.date);
+		const alternatingWeekends = generateVisibleMonthSchedule({
+			scheduleType: '70-30',
+			startDate: '2026-06-09',
+			monthDate: '2026-06-09',
+			seventyThirtyPattern: 'alternating-weekends',
+		}).days.filter((day) => day.parent === 'B').map((day) => day.date);
+
+		expect(everyWeekend).toEqual([
+			'2026-06-12',
+			'2026-06-13',
+			'2026-06-19',
+			'2026-06-20',
+			'2026-06-26',
+			'2026-06-27',
+		]);
+		expect(alternatingWeekends).toEqual([
+			'2026-06-12',
+			'2026-06-13',
+			'2026-06-26',
+			'2026-06-27',
+		]);
+	});
+
+	it('generates the structured 5-2 pattern for 70/30', () => {
+		const { summary } = generateCustodySchedule({
+			scheduleType: '70-30',
+			startDate,
+			numberOfDays: 7,
+			seventyThirtyPattern: '5-2',
+		});
+
+		expect(summary).toEqual({
+			parentADays: 5,
+			parentBDays: 2,
+			parentAPercentage: 71,
+			parentBPercentage: 29,
+			totalDays: 7,
+		});
+	});
+
+	it('generates every-3rd-week 70/30-style blocks as 14/7 over 21 days', () => {
+		const { summary } = generateCustodySchedule({
+			scheduleType: '70-30',
+			startDate,
+			numberOfDays: 21,
+			seventyThirtyPattern: 'every-3rd-week',
+		});
+
+		expect(summary).toEqual({
+			parentADays: 14,
+			parentBDays: 7,
+			parentAPercentage: 67,
+			parentBPercentage: 33,
+			totalDays: 21,
+		});
+	});
+
+	it('generates every-3rd-day 70/30-style blocks as 2/1 over 3 days', () => {
+		const parents = generateCustodySchedule({
+			scheduleType: '70-30',
+			startDate,
+			numberOfDays: 6,
+			seventyThirtyPattern: 'every-3rd-day',
+		}).days.map((day) => day.parent);
+
+		expect(parents).toEqual(['A', 'A', 'B', 'A', 'A', 'B']);
+	});
+
+	it('generates alternating-weekend 70/30-style blocks as Friday and Saturday overnights', () => {
+		const days = generateCustodySchedule({
+			scheduleType: '70-30',
+			startDate: '2026-06-12',
+			numberOfDays: 5,
+			seventyThirtyPattern: 'alternating-weekends',
+		}).days.map((day) => `${day.date}:${day.parent}`);
+
+		expect(days).toEqual([
+			'2026-06-12:B',
+			'2026-06-13:B',
+			'2026-06-14:A',
+			'2026-06-15:A',
+			'2026-06-16:A',
+		]);
+	});
+
+	it.each([
+		['2026-06-13'],
+	])('keeps Saturday starts inside the same Parent B weekend for 70/30 alternating weekends: %s', (startsOn) => {
+		const days = generateCustodySchedule({
+			scheduleType: '70-30',
+			startDate: startsOn,
+			numberOfDays: 4,
+			seventyThirtyPattern: 'alternating-weekends',
+		}).days.map((day) => `${day.date}:${day.parent}`);
+
+		expect(days.at(0)).toBe(`${startsOn}:B`);
+		expect(days).not.toContain('2026-06-15:B');
+		expect(days).toContain('2026-06-15:A');
+	});
+
+	it('normalizes a midweek 70/30 alternating-weekends start to that week’s Friday', () => {
+		const june = generateVisibleMonthSchedule({
+			scheduleType: '70-30',
+			startDate: '2026-06-09',
+			monthDate: '2026-06-09',
+			seventyThirtyPattern: 'alternating-weekends',
+		});
+		const parentBDates = june.days.filter((day) => day.parent === 'B').map((day) => day.date);
+
+		expect(parentBDates).toEqual([
+			'2026-06-12',
+			'2026-06-13',
+			'2026-06-26',
+			'2026-06-27',
+		]);
+		expect(parentBDates).not.toContain('2026-06-14');
+		expect(parentBDates).not.toContain('2026-06-15');
+		expect(parentBDates).not.toContain('2026-06-28');
+		expect(parentBDates).not.toContain('2026-06-29');
+	});
+
+	it('calculates 70/30 alternating-weekends visible-month counts from colored overnight ownership', () => {
+		const june = generateVisibleMonthSchedule({
+			scheduleType: '70-30',
+			startDate: '2026-06-12',
+			monthDate: '2026-06-12',
+			seventyThirtyPattern: 'alternating-weekends',
+		});
+		const parentADays = june.days.filter((day) => day.parent === 'A').length;
+		const parentBDays = june.days.filter((day) => day.parent === 'B').length;
+
+		expect(june.days.filter((day) => day.parent === 'B').map((day) => day.date)).toEqual([
+			'2026-06-12',
+			'2026-06-13',
+			'2026-06-26',
+			'2026-06-27',
+		]);
+		expect(june.summary).toEqual({
+			parentADays,
+			parentBDays,
+			parentAPercentage: Math.round((parentADays / (parentADays + parentBDays)) * 100),
+			parentBPercentage: 100 - Math.round((parentADays / (parentADays + parentBDays)) * 100),
+			totalDays: parentADays + parentBDays,
+		});
+	});
+
+	it('keeps the overnight-only 70/30 alternating-weekends long-cycle split at 12/2 over 14 days', () => {
+		const { summary } = generateCustodySchedule({
+			scheduleType: '70-30',
+			startDate: '2026-06-12',
+			numberOfDays: 14,
+			seventyThirtyPattern: 'alternating-weekends',
+		});
+
+		expect(summary).toEqual({
+			parentADays: 12,
+			parentBDays: 2,
+			parentAPercentage: 86,
+			parentBPercentage: 14,
+			totalDays: 14,
+		});
+	});
+
 	it('every-other-weekend aligns a Monday start date to the next Friday', () => {
 		const june = generateVisibleMonthSchedule({
 			scheduleType: 'every-other-weekend',
@@ -131,16 +569,14 @@ describe('generateCustodySchedule', () => {
 		expect(june.days.filter((day) => day.parent === 'B').map((day) => day.date)).toEqual([
 			'2026-06-05',
 			'2026-06-06',
-			'2026-06-07',
 			'2026-06-19',
 			'2026-06-20',
-			'2026-06-21',
 		]);
 		expect(june.summary).toEqual({
-			parentADays: 24,
-			parentBDays: 6,
-			parentAPercentage: 80,
-			parentBPercentage: 20,
+			parentADays: 26,
+			parentBDays: 4,
+			parentAPercentage: 87,
+			parentBPercentage: 13,
 			totalDays: 30,
 		});
 	});
@@ -155,7 +591,7 @@ describe('generateCustodySchedule', () => {
 		expect(days).toEqual([
 			'2026-06-05:B',
 			'2026-06-06:B',
-			'2026-06-07:B',
+			'2026-06-07:A',
 			'2026-06-08:A',
 			'2026-06-09:A',
 			'2026-06-10:A',
@@ -169,7 +605,7 @@ describe('generateCustodySchedule', () => {
 			'2026-06-18:A',
 			'2026-06-19:B',
 			'2026-06-20:B',
-			'2026-06-21:B',
+			'2026-06-21:A',
 			'2026-06-22:A',
 			'2026-06-23:A',
 			'2026-06-24:A',
@@ -177,7 +613,7 @@ describe('generateCustodySchedule', () => {
 		]);
 	});
 
-	it('every-other-weekend only assigns Parent B to Friday, Saturday, and Sunday blocks', () => {
+	it('every-other-weekend only assigns Parent B to Friday and Saturday blocks', () => {
 		const june = generateVisibleMonthSchedule({
 			scheduleType: 'every-other-weekend',
 			startDate: '2026-06-01',
@@ -185,7 +621,7 @@ describe('generateCustodySchedule', () => {
 		});
 		const parentBDays = june.days.filter((day) => day.parent === 'B');
 
-		expect(parentBDays.map((day) => getDay(parseISO(day.date)))).toEqual([5, 6, 0, 5, 6, 0]);
+		expect(parentBDays.map((day) => getDay(parseISO(day.date)))).toEqual([5, 6, 5, 6]);
 		expect(parentBDays.map((day) => day.date)).not.toContain('2026-06-01');
 		expect(parentBDays.map((day) => day.date)).not.toContain('2026-06-02');
 		expect(parentBDays.map((day) => day.date)).not.toContain('2026-06-03');
@@ -201,13 +637,10 @@ describe('generateCustodySchedule', () => {
 		expect(days).toEqual([
 			'2026-06-05',
 			'2026-06-06',
-			'2026-06-07',
 			'2026-06-19',
 			'2026-06-20',
-			'2026-06-21',
 			'2026-07-03',
 			'2026-07-04',
-			'2026-07-05',
 		]);
 	});
 
@@ -282,10 +715,10 @@ describe('generateCustodySchedule', () => {
 		});
 
 		expect(summary).toEqual({
-			parentADays: 11,
-			parentBDays: 3,
-			parentAPercentage: 79,
-			parentBPercentage: 21,
+			parentADays: 12,
+			parentBDays: 2,
+			parentAPercentage: 86,
+			parentBPercentage: 14,
 			totalDays: 14,
 		});
 	});
@@ -320,6 +753,22 @@ describe('generateCustodySchedule', () => {
 			parentAPercentage: 60,
 			parentBPercentage: 40,
 			totalDays: 10,
+		});
+	});
+
+	it('calculates 80/20 summary over a 14-day every-other-weekend cycle', () => {
+		const { summary } = generateCustodySchedule({
+			scheduleType: '80-20',
+			startDate: '2026-06-12',
+			numberOfDays: 14,
+		});
+
+		expect(summary).toEqual({
+			parentADays: 12,
+			parentBDays: 2,
+			parentAPercentage: 86,
+			parentBPercentage: 14,
+			totalDays: 14,
 		});
 	});
 
@@ -473,6 +922,8 @@ describe('generateCustodySchedule', () => {
 		['3443', { parentADays: 17, parentBDays: 14, parentAPercentage: 55, parentBPercentage: 45, totalDays: 31 }],
 		['week-on-week-off', { parentADays: 17, parentBDays: 14, parentAPercentage: 55, parentBPercentage: 45, totalDays: 31 }],
 		['60-40', { parentADays: 19, parentBDays: 12, parentAPercentage: 61, parentBPercentage: 39, totalDays: 31 }],
+		['70-30', { parentADays: 21, parentBDays: 10, parentAPercentage: 68, parentBPercentage: 32, totalDays: 31 }],
+		['80-20', { parentADays: 25, parentBDays: 6, parentAPercentage: 81, parentBPercentage: 19, totalDays: 31 }],
 	] satisfies Array<[ScheduleType, ReturnType<typeof generateVisibleMonthSchedule>['summary']]>)(
 		'calculates visible January monthly stats for %s',
 		(scheduleType, expectedSummary) => {

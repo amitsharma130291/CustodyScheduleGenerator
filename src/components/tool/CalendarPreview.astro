@@ -40,7 +40,7 @@ const parentBPercentage = 100 - parentAPercentage;
 				<dd data-print-parent-b-name>{schedule.parentNames.parentB}</dd>
 			</div>
 		</dl>
-		<p>Planning tool only. Not legal advice.</p>
+		<p>Educational planning tool. Not legal advice.</p>
 	</div>
 
 	<div class="flex flex-col gap-2 border-b border-line-subtle pb-3 sm:flex-row sm:items-center sm:justify-between">
@@ -70,10 +70,9 @@ const parentBPercentage = 100 - parentAPercentage;
 
 			return (
 				<span
-					class={`calendar-day-cell flex aspect-square max-h-[34px] min-h-0 items-center justify-center rounded-xl text-xs font-semibold sm:max-h-[34px] sm:rounded-2xl sm:text-sm ${color}`}
-					title={`${day.parentName} - ${day.date}`}
+					class={`calendar-day-cell flex aspect-square max-h-[34px] min-h-0 items-center justify-center rounded-xl px-0.5 text-xs font-semibold sm:max-h-[34px] sm:rounded-2xl sm:text-sm ${color}`}
 				>
-					{day.dayOfMonth}
+					<span class="leading-none">{day.dayOfMonth}</span>
 				</span>
 			);
 		})}
@@ -85,6 +84,7 @@ const parentBPercentage = 100 - parentAPercentage;
 				<i class="h-2 w-2 shrink-0 rounded-full bg-accent" aria-hidden="true"></i>
 				<span class="truncate" data-summary-parent-a-label>{schedule.parentNames.parentA}</span>
 			</p>
+			<p class="mt-1 text-[9px] font-semibold uppercase tracking-[0.16em] text-muted" data-current-view-label>Overnight split</p>
 			<p class="mt-1 text-[28px] font-bold leading-none tracking-[-0.05em] text-accent" data-summary-parent-a-percent>
 				{parentAPercentage}%
 			</p>
@@ -95,19 +95,23 @@ const parentBPercentage = 100 - parentAPercentage;
 				<i class="h-2 w-2 shrink-0 rounded-full bg-parent-b" aria-hidden="true"></i>
 				<span class="truncate" data-summary-parent-b-label>{schedule.parentNames.parentB}</span>
 			</p>
+			<p class="mt-1 text-[9px] font-semibold uppercase tracking-[0.16em] text-muted" data-current-view-label>Overnight split</p>
 			<p class="mt-1 text-[28px] font-bold leading-none tracking-[-0.05em] text-parent-b" data-summary-parent-b-percent>
 				{parentBPercentage}%
 			</p>
 			<p class="mt-0.5 text-[11px] leading-none text-muted/90" data-summary-parent-b-days>{schedule.parentDayCounts.parentB} overnights</p>
 		</div>
+		<p class="col-span-2 -mt-0.5 text-center text-[11px] leading-none text-muted" data-annual-estimate>
+			Annual estimate: calculated after generation
+		</p>
 	</div>
 
-	<p class="mt-1.5 hidden items-start gap-1.5 text-xs leading-5 text-muted print:hidden" data-sixty-forty-range-note>
-		<span class="mt-0.5 inline-flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full bg-surface-elevated text-[9px] font-semibold text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]" aria-hidden="true">i</span>
-		<span data-sixty-forty-range-note-text>Long-term average: 60% / 40%.</span>
-	</p>
-
-	<div class="mt-3 w-full min-w-0">
+	<div class="mt-2 w-full min-w-0">
 		<slot name="actions" />
 	</div>
+
+	<p class="mt-1.5 flex items-start gap-1.5 text-[11px] leading-4 text-muted print:hidden" data-sixty-forty-range-note>
+		<span class="mt-0.5 inline-flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full bg-surface-elevated text-[9px] font-semibold text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]" aria-hidden="true">i</span>
+		<span data-sixty-forty-range-note-text>Based on overnight counts only</span>
+	</p>
 </section>

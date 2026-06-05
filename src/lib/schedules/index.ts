@@ -5,9 +5,11 @@ export {
 	getAllSchedules,
 	getScheduleBySlug,
 	getSchedulePattern,
+	normalizeEightyTwentyPattern,
+	normalizeSeventyThirtyPattern,
 	normalizeSixtyFortyPattern,
 } from './engine';
-export { defaultSixtyFortyPattern, legacyScheduleTypeMap, normalizeScheduleType, schedulePatterns, sixtyFortyPatternOptions } from './patterns';
+export { defaultEightyTwentyPattern, defaultRatioSchedulePatterns, defaultSeventyThirtyPattern, defaultSixtyFortyPattern, eightyTwentyPatternOptions, legacyScheduleTypeMap, normalizeScheduleType, ratioSchedulePatternOptions, schedulePatterns, seventyThirtyPatternOptions, sixtyFortyPatternOptions } from './patterns';
 export type {
 	GenerateCustodyScheduleOptions,
 	GenerateVisibleMonthScheduleOptions,
@@ -19,5 +21,7 @@ export type {
 	ScheduleResult,
 	ScheduleSummary,
 	ScheduleType,
+	EightyTwentyPatternId,
+	SeventyThirtyPatternId,
 	SixtyFortyPatternId,
 } from './types';

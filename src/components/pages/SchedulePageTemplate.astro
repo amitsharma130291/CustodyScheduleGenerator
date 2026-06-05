@@ -45,6 +45,14 @@ const relatedLinks = schedule.relatedLinks ?? [
 	})),
 	...schedule.relatedTools,
 ];
+const comparisonHasWeekendPattern = schedule.comparison?.rows.some((row) => Boolean(row.weekendPattern)) ?? false;
+const comparisonLabels = {
+	schedule: schedule.comparison?.columnLabels?.schedule ?? 'Schedule',
+	bestFor: schedule.comparison?.columnLabels?.bestFor ?? 'Best for',
+	exchangeFrequency: schedule.comparison?.columnLabels?.exchangeFrequency ?? 'Exchange frequency',
+	weekendPattern: schedule.comparison?.columnLabels?.weekendPattern ?? 'Weekend pattern',
+	notes: schedule.comparison?.columnLabels?.notes ?? 'Notes',
+};
 const breadcrumbs = [
 	{ name: 'Home', url: getCanonicalUrl('/', canonicalOrigin) },
 	{ name: 'Schedules', url: getCanonicalUrl('/#schedules', canonicalOrigin) },
@@ -165,19 +173,21 @@ const schema = [
 									</h3>
 									<dl class="mt-4 grid gap-3 text-sm">
 										<div>
-											<dt class="text-xs font-semibold uppercase tracking-[0.14em] text-muted">Best For</dt>
+											<dt class="text-xs font-semibold uppercase tracking-[0.14em] text-muted">{comparisonLabels.bestFor}</dt>
 											<dd class="mt-1 text-secondary">{row.bestFor}</dd>
 										</div>
 										<div>
-											<dt class="text-xs font-semibold uppercase tracking-[0.14em] text-muted">Exchange Frequency</dt>
+											<dt class="text-xs font-semibold uppercase tracking-[0.14em] text-muted">{comparisonLabels.exchangeFrequency}</dt>
 											<dd class="mt-1 text-secondary">{row.exchangeFrequency}</dd>
 										</div>
+										{comparisonHasWeekendPattern && (
+											<div>
+												<dt class="text-xs font-semibold uppercase tracking-[0.14em] text-muted">{comparisonLabels.weekendPattern}</dt>
+												<dd class="mt-1 text-secondary">{row.weekendPattern}</dd>
+											</div>
+										)}
 										<div>
-											<dt class="text-xs font-semibold uppercase tracking-[0.14em] text-muted">Weekend Pattern</dt>
-											<dd class="mt-1 text-secondary">{row.weekendPattern}</dd>
-										</div>
-										<div>
-											<dt class="text-xs font-semibold uppercase tracking-[0.14em] text-muted">Notes</dt>
+											<dt class="text-xs font-semibold uppercase tracking-[0.14em] text-muted">{comparisonLabels.notes}</dt>
 											<dd class="mt-1 text-secondary">{row.notes}</dd>
 										</div>
 									</dl>
@@ -188,11 +198,11 @@ const schema = [
 							<table class="w-full min-w-[760px] border-collapse text-left text-sm">
 								<thead class="text-xs uppercase tracking-[0.14em] text-muted">
 									<tr class="border-b border-line-subtle">
-										<th class="px-5 py-4 font-semibold">Schedule</th>
-										<th class="px-5 py-4 font-semibold">Best for</th>
-										<th class="px-5 py-4 font-semibold">Exchange frequency</th>
-										<th class="px-5 py-4 font-semibold">Weekend pattern</th>
-										<th class="px-5 py-4 font-semibold">Notes</th>
+										<th class="px-5 py-4 font-semibold">{comparisonLabels.schedule}</th>
+										<th class="px-5 py-4 font-semibold">{comparisonLabels.bestFor}</th>
+										<th class="px-5 py-4 font-semibold">{comparisonLabels.exchangeFrequency}</th>
+										{comparisonHasWeekendPattern && <th class="px-5 py-4 font-semibold">{comparisonLabels.weekendPattern}</th>}
+										<th class="px-5 py-4 font-semibold">{comparisonLabels.notes}</th>
 									</tr>
 								</thead>
 								<tbody class="divide-y divide-line-subtle text-secondary">
@@ -201,7 +211,7 @@ const schema = [
 											<td class="px-5 py-4 font-semibold text-primary"><a href={row.href} class="hover:text-accent">{row.schedule}</a></td>
 											<td class="px-5 py-4">{row.bestFor}</td>
 											<td class="px-5 py-4">{row.exchangeFrequency}</td>
-											<td class="px-5 py-4">{row.weekendPattern}</td>
+											{comparisonHasWeekendPattern && <td class="px-5 py-4">{row.weekendPattern}</td>}
 											<td class="px-5 py-4">{row.notes}</td>
 										</tr>
 									))}
@@ -225,8 +235,8 @@ const schema = [
 				)}
 
 				<section id="example" class="grid gap-5">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">{schedule.example.title}</h2>
-					<p class="text-base leading-8 text-secondary">{schedule.example.description}</p>
+					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary" data-example-section-title>{schedule.example.title}</h2>
+					<p class="text-base leading-8 text-secondary" data-example-section-description>{schedule.example.description}</p>
 					{schedule.example.weeks && (
 						<div class="premium-card overflow-hidden rounded-[1.5rem]">
 							<div class="grid divide-y divide-line-subtle md:grid-cols-2 md:divide-x md:divide-y-0">
@@ -262,6 +272,22 @@ const schema = [
 										{item.href ? <a href={item.href} class="hover:text-accent">{item.title}</a> : item.title}
 									</h3>
 									<p class="mt-3 text-sm leading-6 text-secondary">{item.description}</p>
+									{(item.approxSplit || item.bestUseCase) && (
+										<dl class="mt-4 grid gap-2 text-sm">
+											{item.approxSplit && (
+												<div class="rounded-2xl bg-surface/70 p-3 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+													<dt class="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted">Approx overnight split</dt>
+													<dd class="mt-1 text-secondary">{item.approxSplit}</dd>
+												</div>
+											)}
+											{item.bestUseCase && (
+												<div class="rounded-2xl bg-surface/70 p-3 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+													<dt class="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted">Best use case</dt>
+													<dd class="mt-1 text-secondary">{item.bestUseCase}</dd>
+												</div>
+											)}
+										</dl>
+									)}
 								</article>
 							))}
 						</div>
@@ -288,8 +314,8 @@ const schema = [
 				<section id="faq" class="grid gap-5">
 					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">FAQ</h2>
 					<div class="premium-card divide-y divide-line-subtle overflow-hidden rounded-[1.5rem]">
-						{schedule.faq.map((item) => (
-							<details class="group p-5 transition-colors duration-200 open:bg-surface-elevated/70 hover:bg-surface-hover/60">
+						{schedule.faq.map((item, index) => (
+							<details open={index === 0} class="group p-5 transition-colors duration-200 open:bg-surface-elevated/70 hover:bg-surface-hover/60">
 								<summary class="flex cursor-pointer list-none items-center justify-between gap-6 text-left text-base font-semibold tracking-[-0.02em] text-primary">
 									{item.question}
 									<span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-surface/80 text-muted shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-transform duration-200 group-open:rotate-45">+</span>

@@ -1,6 +1,6 @@
 ---
 import { scheduleDefinitionList } from '../../lib/schedules/definitions';
-import { defaultSixtyFortyPattern, sixtyFortyPatternOptions } from '../../lib/schedules/patterns';
+import { defaultRatioSchedulePatterns, ratioSchedulePatternOptions } from '../../lib/schedules/patterns';
 import { normalizeScheduleType } from '../../lib/schedules/patterns';
 import type { ScheduleInputType } from '../../lib/schedules/types';
 
@@ -20,23 +20,34 @@ const {
 	compact = false,
 } = Astro.props;
 const normalizedSelectedScheduleId = normalizeScheduleType(selectedScheduleId);
+const isEightyTwentySchedule = normalizedSelectedScheduleId === '80-20';
 const featureLabels = normalizedSelectedScheduleId === 'every-other-weekend'
-	? ['Alternating weekends', 'Friday-Sunday visits', 'Printable calendar', 'Shareable link']
+	? ['Alternating weekends', 'Friday-Saturday overnights', 'Printable calendar', 'Shareable link']
 	: normalizedSelectedScheduleId === '60-40'
 		? ['60/40 parenting time', '6/4 overnights', 'Printable calendar', 'Shareable link']
-		: ['Equal parenting time', '50/50 custody split', 'Printable calendar', 'Shareable link'];
+		: normalizedSelectedScheduleId === '70-30'
+			? ['70/30 parenting time', 'Pattern options', 'Printable calendar', 'Shareable link']
+			: normalizedSelectedScheduleId === '80-20'
+				? ['80/20 parenting time', 'Pattern options', 'Printable calendar', 'Shareable link']
+				: ['Equal parenting time', '50/50 custody split', 'Printable calendar', 'Shareable link'];
+const isRatioSchedule = normalizedSelectedScheduleId === '60-40' || normalizedSelectedScheduleId === '70-30' || normalizedSelectedScheduleId === '80-20';
+const initialPatternLabel = normalizedSelectedScheduleId === '80-20' ? '80/20 pattern' : normalizedSelectedScheduleId === '70-30' ? '70/30 pattern' : '60/40 pattern';
+const initialPatternAriaLabel = normalizedSelectedScheduleId === '80-20' ? '80/20 schedule pattern' : normalizedSelectedScheduleId === '70-30' ? '70/30 schedule pattern' : '60/40 schedule pattern';
+const initialPatternOptions = isRatioSchedule ? ratioSchedulePatternOptions[normalizedSelectedScheduleId as keyof typeof ratioSchedulePatternOptions] : [];
+const initialDefaultPattern = isRatioSchedule ? defaultRatioSchedulePatterns[normalizedSelectedScheduleId as keyof typeof defaultRatioSchedulePatterns] : '';
+const initialPatternOption = initialPatternOptions.find((option) => option.id === initialDefaultPattern);
 ---
 
-<section class={`soft-card rounded-[1.5rem] ${compact ? 'p-3' : 'p-6'}`} data-generator-panel>
+<section class={`soft-card rounded-[1.5rem] ${compact ? 'p-3' : isEightyTwentySchedule ? 'p-4' : 'p-6'}`} data-generator-panel>
 	<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Generator</p>
-	<h2 class={`${compact ? 'mt-1.5 text-lg' : 'mt-3 text-2xl'} font-semibold tracking-[-0.04em] text-primary`}>Build a custody schedule</h2>
-	{!compact && (
+	<h2 class={`${compact ? 'mt-1.5 text-lg' : isEightyTwentySchedule ? 'mt-2 text-xl' : 'mt-3 text-2xl'} font-semibold tracking-[-0.04em] text-primary`}>Build a custody schedule</h2>
+	{!compact && !isEightyTwentySchedule && (
 		<p class="mt-3 text-sm leading-6 text-secondary">
 			Choose a schedule type, start date, and parent names to preview the calendar.
 		</p>
 	)}
 
-	<form class={`${compact ? 'mt-3 gap-2.5' : 'mt-6 gap-4'} grid`} data-generator-form>
+	<form class={`${compact ? 'mt-3 gap-2.5' : isEightyTwentySchedule ? 'mt-4 gap-3' : 'mt-6 gap-4'} grid`} data-generator-form>
 		<label class="grid min-w-0 gap-1.5">
 			<span class="text-sm font-medium text-secondary">Schedule type</span>
 			<select name="scheduleId" aria-label="Schedule type" class="w-full min-w-0 truncate rounded-2xl bg-page px-4 py-2 pr-9 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
@@ -48,20 +59,25 @@ const featureLabels = normalizedSelectedScheduleId === 'every-other-weekend'
 			</select>
 		</label>
 
-		<div class={`${normalizedSelectedScheduleId === '60-40' ? 'grid' : 'hidden'} min-w-0 gap-1.5`} data-sixty-forty-pattern-field>
+		<div class={`${isRatioSchedule ? 'grid' : 'hidden'} min-w-0 gap-1.5`} data-ratio-pattern-field>
 			<label class="grid min-w-0 gap-1.5">
-				<span class="text-sm font-medium text-secondary">60/40 pattern</span>
-				<select name="pattern" aria-label="60/40 schedule pattern" class="w-full min-w-0 truncate rounded-2xl bg-page px-4 py-2 pr-9 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
-					{sixtyFortyPatternOptions.map((option) => (
-						<option value={option.id} selected={option.id === defaultSixtyFortyPattern}>
+				<span class="text-sm font-medium text-secondary" data-ratio-pattern-label>{initialPatternLabel}</span>
+				<select name="pattern" aria-label={initialPatternAriaLabel} class="w-full min-w-0 truncate rounded-2xl bg-page px-4 py-2 pr-9 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-ratio-pattern-select>
+					{initialPatternOptions.map((option) => (
+						<option value={option.id} selected={option.id === initialDefaultPattern}>
 							{option.label}
 						</option>
 					))}
 				</select>
 			</label>
-			<p class="text-xs leading-5 text-muted" data-sixty-forty-pattern-description>
-				{sixtyFortyPatternOptions.find((option) => option.id === defaultSixtyFortyPattern)?.description}
+			<p class={`${isEightyTwentySchedule ? 'hidden' : 'line-clamp-2'} text-xs leading-5 text-muted`} data-ratio-pattern-description>
+				{initialPatternOption?.description}
 			</p>
+			<div class={`${isEightyTwentySchedule ? 'flex' : 'hidden'} min-w-0 flex-wrap gap-1.5`} data-pattern-chip-row>
+				<span class="rounded-full bg-page/55 px-2 py-1 text-[10px] font-medium leading-none text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]" data-pattern-chip-split>Split calculated</span>
+				<span class="rounded-full bg-page/55 px-2 py-1 text-[10px] font-medium leading-none text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]" data-pattern-chip-exchanges>Exchanges/mo</span>
+				<span class="rounded-full bg-page/55 px-2 py-1 text-[10px] font-medium leading-none text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]" data-pattern-chip-decision>{initialPatternOption?.heroDecisionChip}</span>
+			</div>
 		</div>
 
 		<label class="grid min-w-0 gap-1.5">
@@ -79,9 +95,17 @@ const featureLabels = normalizedSelectedScheduleId === 'every-other-weekend'
 				<input name="parentB" value={parentB} aria-label="Parent B name" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" />
 			</label>
 		</div>
+		<div class="grid w-full min-w-0 grid-cols-1 gap-2 sm:grid-cols-2" data-pdf-export-actions>
+			<button type="button" class="btn-secondary flex h-10 w-full min-w-0 items-center justify-center whitespace-nowrap rounded-full px-4 text-center text-sm font-semibold leading-none transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--accent)_28%,var(--border-subtle)),0_10px_24px_rgba(0,0,0,0.12)] active:translate-y-0 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-download-monthly-pdf>
+				Monthly PDF
+			</button>
+			<button type="button" class="btn-secondary flex h-10 w-full min-w-0 items-center justify-center whitespace-nowrap rounded-full px-4 text-center text-sm font-semibold leading-none transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--accent)_28%,var(--border-subtle)),0_10px_24px_rgba(0,0,0,0.12)] active:translate-y-0 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-download-yearly-pdf>
+				Yearly PDF
+			</button>
+		</div>
 	</form>
 
-	<ul class={`${compact ? 'mt-3 gap-1.5 text-[11px]' : 'mt-5 gap-2 text-xs'} grid grid-cols-2 text-muted`} aria-label="Generator features">
+	<ul class={`${compact ? 'hidden' : 'mt-5 gap-2 text-xs'} ${isEightyTwentySchedule ? 'hidden' : 'grid'} grid-cols-2 text-muted`} aria-label="Generator features" data-generator-features>
 		{featureLabels.map((label) => (
 			<li class="cursor-pointer rounded-full bg-page/55 px-2.5 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">{label}</li>
 		))}
@@ -90,12 +114,21 @@ const featureLabels = normalizedSelectedScheduleId === 'every-other-weekend'
 
 <script>
 	import { addDays, format, isValid, parseISO, startOfMonth, startOfWeek } from 'date-fns';
-	import { defaultSixtyFortyPattern, generateVisibleMonthSchedule, getAllSchedules, normalizeScheduleType, normalizeSixtyFortyPattern, sixtyFortyPatternOptions } from '../../lib/schedules';
+	import { defaultRatioSchedulePatterns, eightyTwentyPatternOptions, generateVisibleMonthSchedule, getAllSchedules, normalizeEightyTwentyPattern, normalizeScheduleType, normalizeSeventyThirtyPattern, normalizeSixtyFortyPattern, ratioSchedulePatternOptions } from '../../lib/schedules';
+	import { downloadSchedulePdf } from '../../lib/schedules/pdfExport';
 
 	const definitions = getAllSchedules();
 	const form = document.querySelector('[data-generator-form]');
-	const sixtyFortyPatternField = document.querySelector('[data-sixty-forty-pattern-field]');
-	const sixtyFortyPatternDescription = document.querySelector('[data-sixty-forty-pattern-description]');
+	const ratioPatternField = document.querySelector('[data-ratio-pattern-field]');
+	const ratioPatternLabel = document.querySelector('[data-ratio-pattern-label]');
+	const ratioPatternSelect = document.querySelector('[data-ratio-pattern-select]');
+	const ratioPatternDescription = document.querySelector('[data-ratio-pattern-description]');
+	const patternChipRow = document.querySelector('[data-pattern-chip-row]');
+	const patternChipSplit = document.querySelector('[data-pattern-chip-split]');
+	const patternChipExchanges = document.querySelector('[data-pattern-chip-exchanges]');
+	const patternChipDecision = document.querySelector('[data-pattern-chip-decision]');
+	const exampleSectionTitle = document.querySelector('[data-example-section-title]');
+	const exampleSectionDescription = document.querySelector('[data-example-section-description]');
 	const calendarGrid = document.querySelector('[data-calendar-grid]');
 	const calendarMonth = document.querySelector('[data-calendar-month]');
 	const parentALabel = document.querySelector('[data-parent-a-label]');
@@ -106,8 +139,11 @@ const featureLabels = normalizedSelectedScheduleId === 'every-other-weekend'
 	const summaryParentBPercent = document.querySelector('[data-summary-parent-b-percent]');
 	const summaryParentADays = document.querySelector('[data-summary-parent-a-days]');
 	const summaryParentBDays = document.querySelector('[data-summary-parent-b-days]');
+	const annualEstimate = document.querySelector('[data-annual-estimate]');
+	const currentViewLabels = document.querySelectorAll('[data-current-view-label]');
 	const sixtyFortyRangeNote = document.querySelector('[data-sixty-forty-range-note]');
 	const sixtyFortyRangeNoteText = document.querySelector('[data-sixty-forty-range-note-text]');
+	const generatorFeatures = document.querySelector('[data-generator-features]');
 	const printDescription = document.querySelector('[data-print-description]');
 	const printTitle = document.querySelector('[data-print-title]');
 	const printScheduleName = document.querySelector('[data-print-schedule-name]');
@@ -154,7 +190,8 @@ const featureLabels = normalizedSelectedScheduleId === 'every-other-weekend'
 		}
 
 		if (patternInput instanceof HTMLSelectElement) {
-			patternInput.value = normalizeSixtyFortyPattern(pattern);
+			const normalizedSchedule = scheduleInput instanceof HTMLSelectElement ? scheduleInput.value : '';
+			updateRatioPatternField(normalizedSchedule, pattern);
 		}
 		if (startInput instanceof HTMLInputElement) {
 			startInput.value = start || startInput.value || getBrowserLocalDate();
@@ -163,14 +200,55 @@ const featureLabels = normalizedSelectedScheduleId === 'every-other-weekend'
 		if (parentBInput instanceof HTMLInputElement && parentB) parentBInput.value = parentB;
 	}
 
-	function updateSixtyFortyPatternField(scheduleId, patternId) {
-		const isSixtyForty = String(scheduleId) === '60-40';
-		sixtyFortyPatternField?.classList.toggle('hidden', !isSixtyForty);
-		sixtyFortyPatternField?.classList.toggle('grid', isSixtyForty);
+	function getRatioPatternOptions(scheduleId) {
+		return ratioSchedulePatternOptions[String(scheduleId)] || [];
+	}
 
-		if (sixtyFortyPatternDescription) {
-			const option = sixtyFortyPatternOptions.find((item) => item.id === patternId) || sixtyFortyPatternOptions.find((item) => item.id === defaultSixtyFortyPattern);
-			sixtyFortyPatternDescription.textContent = option ? `${option.description} ${option.note}` : '';
+	function getDefaultRatioPattern(scheduleId) {
+		return defaultRatioSchedulePatterns[String(scheduleId)] || '';
+	}
+
+	function normalizeRatioPattern(scheduleId, patternId) {
+		if (String(scheduleId) === '80-20') return normalizeEightyTwentyPattern(patternId);
+		if (String(scheduleId) === '70-30') return normalizeSeventyThirtyPattern(patternId);
+		if (String(scheduleId) === '60-40') return normalizeSixtyFortyPattern(patternId);
+		return '';
+	}
+
+	function updateRatioPatternField(scheduleId, patternId) {
+		const isRatioSchedule = String(scheduleId) === '60-40' || String(scheduleId) === '70-30' || String(scheduleId) === '80-20';
+		const normalizedPattern = normalizeRatioPattern(scheduleId, patternId || getDefaultRatioPattern(scheduleId));
+		const options = getRatioPatternOptions(scheduleId);
+
+		ratioPatternField?.classList.toggle('hidden', !isRatioSchedule);
+		ratioPatternField?.classList.toggle('grid', isRatioSchedule);
+
+		if (ratioPatternLabel) {
+			ratioPatternLabel.textContent = String(scheduleId) === '80-20' ? '80/20 pattern' : String(scheduleId) === '70-30' ? '70/30 pattern' : '60/40 pattern';
+		}
+
+		if (ratioPatternSelect instanceof HTMLSelectElement) {
+			ratioPatternSelect.setAttribute('aria-label', String(scheduleId) === '80-20' ? '80/20 schedule pattern' : String(scheduleId) === '70-30' ? '70/30 schedule pattern' : '60/40 schedule pattern');
+			ratioPatternSelect.innerHTML = options
+				.map((option) => `<option value="${option.id}">${option.label}</option>`)
+				.join('');
+			ratioPatternSelect.value = normalizedPattern || getDefaultRatioPattern(scheduleId);
+		}
+
+		if (ratioPatternDescription) {
+			const option = options.find((item) => item.id === normalizedPattern) || options.find((item) => item.id === getDefaultRatioPattern(scheduleId));
+			ratioPatternDescription.textContent = option ? [option.description, option.note].filter(Boolean).join(' ') : '';
+		}
+
+		const option = options.find((item) => item.id === normalizedPattern) || options.find((item) => item.id === getDefaultRatioPattern(scheduleId));
+		patternChipRow?.classList.toggle('hidden', String(scheduleId) !== '80-20');
+		patternChipRow?.classList.toggle('flex', String(scheduleId) === '80-20');
+		generatorFeatures?.classList.toggle('hidden', String(scheduleId) === '80-20');
+		generatorFeatures?.classList.toggle('grid', String(scheduleId) !== '80-20');
+		if (String(scheduleId) === '80-20' && option) {
+			if (patternChipSplit) patternChipSplit.textContent = 'Split calculated';
+			if (patternChipExchanges) patternChipExchanges.textContent = 'Exchanges/mo';
+			if (patternChipDecision) patternChipDecision.textContent = option.heroDecisionChip || option.heroChips?.[1] || option.note || 'Pattern';
 		}
 	}
 
@@ -197,14 +275,59 @@ const featureLabels = normalizedSelectedScheduleId === 'every-other-weekend'
 
 	function getSixtyFortyRangeNote(patternId, visibleParentAPercentage, visibleParentBPercentage) {
 		const longTerm = getSixtyFortyLongTermAverage(patternId);
-		const longTermLabel = patternId === 'extended-weekend' ? 'Long-term average approaches' : 'Long-term average';
-		const longTermText = `${longTermLabel}: ${longTerm.parentA}% / ${longTerm.parentB}%.`;
+		const longTermText = patternId === 'exact-60-40'
+			? 'Long-term target: 60% / 40%.'
+			: `Long-term average: approximately ${longTerm.parentA}% / ${longTerm.parentB}%.`;
 
 		if (visibleParentAPercentage === longTerm.parentA && visibleParentBPercentage === longTerm.parentB) {
 			return longTermText;
 		}
 
 		return `Visible month: ${visibleParentAPercentage}% / ${visibleParentBPercentage}%. ${longTermText} Visible month percentages may differ depending on the selected start date and calendar month.`;
+	}
+
+	function getSeventyThirtyRangeNote(patternId) {
+		if (patternId === 'alternating-weekends') {
+			return 'Long-term average: approximately 86% / 14% by overnights.';
+		}
+
+		if (patternId === 'every-3rd-week' || patternId === 'every-3rd-day') {
+			return 'Long-term average: approximately 67% / 33%.';
+		}
+
+		return 'Current month percentages may vary. Long-term average: approximately 71% / 29%.';
+	}
+
+	function getSeventyThirtyLongTermAverage(patternId) {
+		if (patternId === 'alternating-weekends') {
+			return {
+				parentA: 86,
+				parentB: 14,
+			};
+		}
+
+		if (patternId === 'every-3rd-week' || patternId === 'every-3rd-day') {
+			return {
+				parentA: 67,
+				parentB: 33,
+			};
+		}
+
+		return {
+			parentA: 71,
+			parentB: 29,
+		};
+	}
+
+	function updateEightyTwentyExampleSection(scheduleId, patternId) {
+		if (!(exampleSectionTitle instanceof HTMLElement) || !(exampleSectionDescription instanceof HTMLElement)) return;
+		if (String(scheduleId) !== '80-20') return;
+
+		const option = eightyTwentyPatternOptions.find((item) => item.id === patternId) || eightyTwentyPatternOptions.find((item) => item.id === defaultRatioSchedulePatterns['80-20']);
+		if (!option) return;
+
+		exampleSectionTitle.textContent = `${option.name} example calendar`;
+		exampleSectionDescription.textContent = `${option.description} Best for: ${option.bestFor} The calculator below shows the current month and generated annual average from the selected pattern.`;
 	}
 
 	function getCachedVisibleSchedule({ scheduleId, startDate, parentA, parentB, pattern }) {
@@ -219,9 +342,58 @@ const featureLabels = normalizedSelectedScheduleId === 'every-other-weekend'
 			parentAName: String(parentA),
 			parentBName: String(parentB),
 			sixtyFortyPattern: scheduleId === '60-40' ? pattern : undefined,
+			seventyThirtyPattern: scheduleId === '70-30' ? pattern : undefined,
+			eightyTwentyPattern: scheduleId === '80-20' ? pattern : undefined,
 		});
 		scheduleCache.set(cacheKey, generatedSchedule);
 		return generatedSchedule;
+	}
+
+	function getCurrentPdfState() {
+		if (!(form instanceof HTMLFormElement)) return undefined;
+
+		const data = new FormData(form);
+		const schedule = data.get('scheduleId');
+		const pattern = data.get('pattern');
+		const start = data.get('startDate');
+		const parentAName = data.get('parentA') || 'Parent A';
+		const parentBName = data.get('parentB') || 'Parent B';
+
+		if (!schedule || !start) return undefined;
+
+		return {
+			schedule: String(schedule),
+			start: String(start),
+			parentAName: String(parentAName),
+			parentBName: String(parentBName),
+			pattern: (schedule === '60-40' || schedule === '70-30' || schedule === '80-20') && pattern ? String(pattern) : undefined,
+		};
+	}
+
+	async function handlePdfExportClick(event) {
+		const target = event.target;
+		if (!(target instanceof HTMLButtonElement)) return;
+		if (!target.matches('[data-download-monthly-pdf], [data-download-yearly-pdf]')) return;
+
+		const range = target.matches('[data-download-yearly-pdf]') ? 'yearly' : 'monthly';
+		const defaultLabel = target.textContent?.trim() || (range === 'yearly' ? 'Yearly PDF' : 'Monthly PDF');
+		const state = getCurrentPdfState();
+
+		target.disabled = true;
+		target.textContent = 'Preparing...';
+
+		try {
+			if (!state) throw new Error('Schedule state is incomplete.');
+			await downloadSchedulePdf(range, state);
+			target.textContent = 'Downloaded';
+		} catch {
+			target.textContent = 'PDF failed';
+		}
+
+		window.setTimeout(() => {
+			target.textContent = defaultLabel;
+			target.disabled = false;
+		}, 2000);
 	}
 
 	function renderSchedule(updateUrl = true) {
@@ -229,12 +401,13 @@ const featureLabels = normalizedSelectedScheduleId === 'every-other-weekend'
 
 		const data = new FormData(form);
 		const scheduleId = data.get('scheduleId');
-		const selectedPattern = normalizeSixtyFortyPattern(String(data.get('pattern') || defaultSixtyFortyPattern));
 		const startDateValue = data.get('startDate');
 		const parentA = data.get('parentA') || 'Parent A';
 		const parentB = data.get('parentB') || 'Parent B';
 		const definition = definitions.find((item) => item.id === scheduleId) || definitions[0];
-		updateSixtyFortyPatternField(definition.id, selectedPattern);
+		const selectedPattern = normalizeRatioPattern(definition.id, String(data.get('pattern') || getDefaultRatioPattern(definition.id)));
+		updateRatioPatternField(definition.id, selectedPattern);
+		updateEightyTwentyExampleSection(definition.id, selectedPattern);
 		const startDate = parseISO(String(startDateValue));
 		if (!isValid(startDate)) return;
 		const monthStart = startOfMonth(startDate);
@@ -264,9 +437,8 @@ const featureLabels = normalizedSelectedScheduleId === 'every-other-weekend'
 				const isCurrentMonth = day.getMonth() === monthStart.getMonth();
 				const isActiveCurrentMonth = isCurrentMonth && Boolean(generatedDay);
 				const color = isActiveCurrentMonth && generatedDay ? parentColors[generatedDay.parent] : parentColors.inactive;
-				const parentName = generatedDay?.parentName || '';
 
-				return `<span class="calendar-day-cell flex aspect-square max-h-[34px] min-h-0 items-center justify-center rounded-xl text-xs font-semibold sm:max-h-[34px] sm:rounded-2xl sm:text-sm ${color}" title="${parentName ? `${parentName} - ` : ''}${date}">${day.getDate()}</span>`;
+				return `<span class="calendar-day-cell flex aspect-square max-h-[34px] min-h-0 items-center justify-center rounded-xl px-0.5 text-xs font-semibold sm:max-h-[34px] sm:rounded-2xl sm:text-sm ${color}"><span class="leading-none">${day.getDate()}</span></span>`;
 			})
 			.join('');
 
@@ -287,16 +459,37 @@ const featureLabels = normalizedSelectedScheduleId === 'every-other-weekend'
 		if (summaryParentBPercent) summaryParentBPercent.textContent = `${parentBPercentage}%`;
 		if (summaryParentADays) summaryParentADays.textContent = `${parentADays} overnights`;
 		if (summaryParentBDays) summaryParentBDays.textContent = `${parentBDays} overnights`;
-		const shouldShowRangeNote = definition.id === '60-40';
-		const rangeNote = getSixtyFortyRangeNote(selectedPattern, parentAPercentage, parentBPercentage);
-		if (sixtyFortyRangeNoteText) sixtyFortyRangeNoteText.textContent = rangeNote;
-		sixtyFortyRangeNote?.classList.toggle('hidden', !shouldShowRangeNote);
-		sixtyFortyRangeNote?.classList.toggle('flex', shouldShowRangeNote);
+		if (annualEstimate) {
+			annualEstimate.textContent = schedule.patternSummary?.annualAverage
+				? `Annual estimate: ${schedule.patternSummary.annualAverage.parentAPercentage}/${schedule.patternSummary.annualAverage.parentBPercentage}`
+				: 'Annual estimate: calculated after generation';
+		}
+		if (definition.id === '80-20' && patternChipSplit && schedule.patternSummary?.annualAverage) {
+			patternChipSplit.textContent = `${schedule.patternSummary.annualAverage.parentAPercentage}/${schedule.patternSummary.annualAverage.parentBPercentage} split`;
+		}
+		if (definition.id === '80-20' && patternChipExchanges && schedule.patternSummary?.exchangeFrequencyText) {
+			patternChipExchanges.textContent = schedule.patternSummary.exchangeFrequencyText.replace(' exchanges this month', ' Exchanges/mo').replace(' exchange this month', ' Exchange/mo');
+		}
+		const baseNote = definition.id === '80-20'
+			? 'Based on overnight counts only'
+			: 'Percentages are based on overnight counts only. Daytime visits, dinner visits, school hours, and exchange times are not included.';
+		const ratioNote = definition.id === '70-30'
+			? getSeventyThirtyRangeNote(selectedPattern)
+			: definition.id === '60-40'
+				? getSixtyFortyRangeNote(selectedPattern, parentAPercentage, parentBPercentage)
+				: '';
+		if (sixtyFortyRangeNoteText) sixtyFortyRangeNoteText.textContent = [baseNote, ratioNote].filter(Boolean).join(' ');
+		sixtyFortyRangeNote?.classList.remove('hidden');
+		sixtyFortyRangeNote?.classList.add('flex');
+		currentViewLabels.forEach((label) => {
+			label.textContent = 'Overnight split';
+			label.classList.remove('hidden');
+		});
 		if (printTitle) printTitle.textContent = `${definition.shortName} custody calendar`;
 		if (printScheduleName) printScheduleName.textContent = definition.name;
 		if (printPatternName) {
-			printPatternName.textContent = definition.id === '60-40'
-				? sixtyFortyPatternOptions.find((item) => item.id === selectedPattern)?.label || '4-3 schedule'
+			printPatternName.textContent = definition.id === '60-40' || definition.id === '70-30' || definition.id === '80-20'
+				? getRatioPatternOptions(definition.id).find((item) => item.id === selectedPattern)?.label || getDefaultRatioPattern(definition.id)
 				: 'Default pattern';
 		}
 		if (printStartDate) printStartDate.textContent = String(startDateValue);
@@ -304,10 +497,13 @@ const featureLabels = normalizedSelectedScheduleId === 'every-other-weekend'
 		if (printParentAName) printParentAName.textContent = String(parentA);
 		if (printParentBName) printParentBName.textContent = String(parentB);
 		if (printDescription) {
-			const patternText = definition.id === '60-40'
-				? ` Pattern: ${sixtyFortyPatternOptions.find((item) => item.id === selectedPattern)?.label || '4-3 schedule'}.`
+			const patternText = definition.id === '60-40' || definition.id === '70-30' || definition.id === '80-20'
+				? ` Pattern: ${getRatioPatternOptions(definition.id).find((item) => item.id === selectedPattern)?.label || getDefaultRatioPattern(definition.id)}.`
 				: '';
-			printDescription.textContent = `${monthLabel} preview starting ${startDateValue}.${patternText} ${parentA}: ${parentADays} overnights (${parentAPercentage}%). ${parentB}: ${parentBDays} overnights (${parentBPercentage}%).`;
+			const annualText = schedule.patternSummary?.annualAverage
+				? ` Annual average: ${parentA} ${schedule.patternSummary.annualAverage.parentAPercentage}%, ${parentB} ${schedule.patternSummary.annualAverage.parentBPercentage}%.`
+				: '';
+			printDescription.textContent = `${monthLabel} preview starting ${startDateValue}.${patternText} ${parentA}: ${parentADays} overnights (${parentAPercentage}%). ${parentB}: ${parentBDays} overnights (${parentBPercentage}%).${annualText}`;
 		}
 
 		if (updateUrl) {
@@ -316,7 +512,7 @@ const featureLabels = normalizedSelectedScheduleId === 'every-other-weekend'
 			params.set('start', startDateValue);
 			params.set('a', parentA);
 			params.set('b', parentB);
-			if (definition.id === '60-40') {
+			if (definition.id === '60-40' || definition.id === '70-30' || definition.id === '80-20') {
 				params.set('pattern', selectedPattern);
 			} else {
 				params.delete('pattern');
@@ -327,6 +523,7 @@ const featureLabels = normalizedSelectedScheduleId === 'every-other-weekend'
 
 	form?.addEventListener('input', () => renderSchedule());
 	form?.addEventListener('change', () => renderSchedule());
+	form?.addEventListener('click', handlePdfExportClick);
 	window.addEventListener('popstate', () => {
 		applyQueryParamsToForm();
 		renderSchedule(false);

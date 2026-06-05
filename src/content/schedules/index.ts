@@ -4,6 +4,8 @@ import schedule3443 from './3443';
 import schedule5050 from './5050';
 import schedule5225 from './5225';
 import schedule6040 from './6040';
+import schedule7030 from './7030';
+import schedule8020 from './8020';
 import everyOtherWeekend from './every-other-weekend';
 import weekOnWeekOff from './week-on-week-off';
 import type { ScheduleContent } from './types';
@@ -16,6 +18,8 @@ export const schedules: ScheduleContent[] = [
 	weekOnWeekOff,
 	schedule5050,
 	schedule6040,
+	schedule7030,
+	schedule8020,
 	everyOtherWeekend,
 ];
 

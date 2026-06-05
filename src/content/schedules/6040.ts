@@ -76,7 +76,7 @@ const schedule: ScheduleContent = {
 				href: '/every-other-weekend-custody-schedule',
 				bestFor: 'Families where one parent has most overnights',
 				exchangeFrequency: 'Usually every other weekend',
-				weekendPattern: 'Parent B has Friday through Sunday every other weekend',
+				weekendPattern: 'Parent B has Friday and Saturday overnights every other weekend',
 				notes: 'Often gives the weekend parent less time than a 60/40 arrangement.',
 			},
 		],

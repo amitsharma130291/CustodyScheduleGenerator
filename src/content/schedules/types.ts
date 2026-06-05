@@ -27,7 +27,7 @@ export interface ScheduleComparisonRow {
 	href: string;
 	bestFor: string;
 	exchangeFrequency: string;
-	weekendPattern: string;
+	weekendPattern?: string;
 	notes: string;
 }
 
@@ -35,6 +35,8 @@ export interface ScheduleExampleSummary {
 	title: string;
 	description: string;
 	href?: string;
+	approxSplit?: string;
+	bestUseCase?: string;
 }
 
 export interface ScheduleInternalLink {
@@ -68,6 +70,13 @@ export interface ScheduleContent {
 	comparison?: {
 		title: string;
 		description: string;
+		columnLabels?: {
+			schedule?: string;
+			bestFor?: string;
+			exchangeFrequency?: string;
+			weekendPattern?: string;
+			notes?: string;
+		};
 		rows: ScheduleComparisonRow[];
 		cta?: {
 			title: string;

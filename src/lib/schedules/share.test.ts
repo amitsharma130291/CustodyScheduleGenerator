@@ -94,6 +94,37 @@ describe('schedule share and print actions', () => {
 		});
 	});
 
+	it('normalizes 70/30 share links to the canonical schedule id and default pattern', () => {
+		const url = buildScheduleShareUrl('https://example.com/70-30-custody-schedule', {
+			schedule: '70/30',
+			start: '2026-06-01',
+			parentAName: 'Alex',
+			parentBName: 'Jordan',
+		});
+
+		expect(url).toBe('https://example.com/70-30-custody-schedule?schedule=70-30&start=2026-06-01&a=Alex&b=Jordan&pattern=every-weekend');
+		expect(restoreScheduleStateFromUrl(url)).toMatchObject({
+			schedule: '70-30',
+			pattern: 'every-weekend',
+		});
+	});
+
+	it('preserves selected 70/30 pattern in share links', () => {
+		const url = buildScheduleShareUrl('https://example.com/70-30-custody-schedule', {
+			schedule: '70-30',
+			start: '2026-06-01',
+			parentAName: 'Alex',
+			parentBName: 'Jordan',
+			pattern: 'every-3rd-week',
+		});
+
+		expect(url).toBe('https://example.com/70-30-custody-schedule?schedule=70-30&start=2026-06-01&a=Alex&b=Jordan&pattern=every-3rd-week');
+		expect(restoreScheduleStateFromUrl(url)).toMatchObject({
+			schedule: '70-30',
+			pattern: 'every-3rd-week',
+		});
+	});
+
 	it('print action calls window.print-compatible callback', () => {
 		const print = vi.fn();
 
