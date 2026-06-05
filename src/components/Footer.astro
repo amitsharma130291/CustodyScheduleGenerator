@@ -1,0 +1,110 @@
+---
+const columns = [
+	{
+		title: 'Product',
+		links: [
+			{ label: 'Schedule generator', href: '/#generator' },
+			{ label: 'Calendar preview', href: '/#generator' },
+			{ label: 'Printable plans', href: '/#how-it-works' },
+			{ label: 'Parenting time tools', href: '/#schedules' },
+		],
+	},
+	{
+		title: 'Tools',
+		links: [
+			{ label: '2-2-3 schedule', href: '/2-2-3-custody-schedule' },
+			{ label: '2-2-5-5 schedule', href: '/2-2-5-5-custody-schedule' },
+			{ label: '5-2-2-5 schedule', href: '/5-2-2-5-custody-schedule' },
+			{ label: '50/50 custody schedule', href: '/50-50-custody-schedule' },
+		],
+	},
+	{
+		title: 'Resources',
+		links: [
+			{ label: 'How it works', href: '/#how-it-works' },
+			{ label: 'Custody schedule template', href: '/custody-schedule-template' },
+			{ label: 'Custody percentage calculator', href: '/custody-percentage-calculator' },
+			{ label: 'Co-parent planning', href: '/#how-it-works' },
+			{ label: 'FAQ', href: '/#faq' },
+		],
+	},
+	{
+		title: 'Company',
+		links: [
+			{ label: 'About', href: '/' },
+			{ label: 'Product roadmap', href: '/#how-it-works' },
+			{ label: 'Contact', href: '/#faq' },
+		],
+	},
+	{
+		title: 'Legal',
+		links: [
+			{ label: 'Privacy', href: '/' },
+			{ label: 'Terms', href: '/' },
+			{ label: 'Disclaimer', href: '/#faq' },
+		],
+	},
+];
+---
+
+<footer class="relative border-t border-line-subtle/70 py-9 lg:py-10">
+	<div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/12 to-transparent" aria-hidden="true"></div>
+	<div class="container-shell">
+		<div class="grid gap-6 lg:grid-cols-[1fr_2.2fr]">
+			<div>
+				<a href="/" class="inline-flex items-center gap-3">
+					<span class="flex h-9 w-9 items-center justify-center rounded-xl bg-surface-elevated text-sm font-semibold shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						CS
+					</span>
+					<span class="text-sm font-semibold tracking-[-0.02em]">Custody Schedule Generator</span>
+				</a>
+				<p class="mt-2 max-w-sm text-sm leading-6 text-muted">
+					A calm, focused way to draft parenting time calendars before you export, print, or discuss the details.
+				</p>
+			</div>
+
+			<div class="grid gap-3 lg:hidden">
+				{columns.map((column) => (
+					<details class="rounded-2xl bg-surface/60 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<summary class="cursor-pointer list-none text-xs font-semibold uppercase tracking-[0.18em] text-muted">
+							{column.title}
+						</summary>
+						<ul class="mt-3 space-y-2">
+							{column.links.map((link) => (
+								<li>
+									<a href={link.href} class="text-sm text-secondary transition-colors duration-200 hover:text-primary">
+										{link.label}
+									</a>
+								</li>
+							))}
+						</ul>
+					</details>
+				))}
+			</div>
+
+			<div class="hidden gap-5 lg:grid lg:grid-cols-5">
+				{columns.map((column) => (
+					<div>
+						<h2 class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
+							{column.title}
+						</h2>
+						<ul class="mt-2.5 space-y-1.5">
+							{column.links.map((link) => (
+								<li>
+									<a href={link.href} class="text-sm text-secondary transition-colors duration-200 hover:text-primary">
+										{link.label}
+									</a>
+								</li>
+							))}
+						</ul>
+					</div>
+				))}
+			</div>
+		</div>
+
+		<div class="mt-6 flex flex-col gap-2 border-t border-line-subtle/70 pt-4 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
+			<p>© {new Date().getFullYear()} Custody Schedule Generator. All rights reserved.</p>
+			<p>Planning tool only. Not legal advice.</p>
+		</div>
+	</div>
+</footer>

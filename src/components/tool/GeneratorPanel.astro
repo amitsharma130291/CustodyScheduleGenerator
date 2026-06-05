@@ -1,0 +1,186 @@
+---
+import { scheduleDefinitionList } from '../../lib/schedules/definitions';
+import type { ScheduleId } from '../../lib/schedules/types';
+
+interface Props {
+	selectedScheduleId: ScheduleId;
+	startDate: string;
+	parentA?: string;
+	parentB?: string;
+	compact?: boolean;
+}
+
+const {
+	selectedScheduleId,
+	startDate,
+	parentA = 'Parent A',
+	parentB = 'Parent B',
+	compact = false,
+} = Astro.props;
+---
+
+<section class={`soft-card rounded-[1.5rem] ${compact ? 'p-3' : 'p-6'}`} data-generator-panel>
+	<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Generator</p>
+	<h2 class={`${compact ? 'mt-1.5 text-lg' : 'mt-3 text-2xl'} font-semibold tracking-[-0.04em] text-primary`}>Build a custody schedule</h2>
+	{!compact && (
+		<p class="mt-3 text-sm leading-6 text-secondary">
+			Choose a schedule type, start date, and parent names to preview the calendar.
+		</p>
+	)}
+
+	<form class={`${compact ? 'mt-3 gap-2.5' : 'mt-6 gap-4'} grid`} data-generator-form>
+		<label class="grid min-w-0 gap-1.5">
+			<span class="text-sm font-medium text-secondary">Schedule type</span>
+			<select name="scheduleId" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+				{scheduleDefinitionList.map((definition) => (
+					<option value={definition.id} selected={definition.id === selectedScheduleId}>
+						{definition.name}
+					</option>
+				))}
+			</select>
+		</label>
+
+		<label class="grid min-w-0 gap-1.5">
+			<span class="text-sm font-medium text-secondary">Start date</span>
+			<input name="startDate" type="date" value={startDate} class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+		</label>
+
+		<div class="hero-form-fields grid gap-2.5">
+			<label class="grid min-w-0 gap-1.5">
+				<span class="text-sm font-medium text-secondary">Parent A</span>
+				<input name="parentA" value={parentA} class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+			</label>
+			<label class="grid min-w-0 gap-1.5">
+				<span class="text-sm font-medium text-secondary">Parent B</span>
+				<input name="parentB" value={parentB} class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+			</label>
+		</div>
+	</form>
+
+	<ul class={`${compact ? 'mt-3 gap-1.5 text-[11px]' : 'mt-5 gap-2 text-xs'} grid grid-cols-2 text-muted`} aria-label="Generator features">
+		<li class="rounded-full bg-page/55 px-2.5 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">Equal parenting time</li>
+		<li class="rounded-full bg-page/55 px-2.5 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">50/50 custody split</li>
+		<li class="rounded-full bg-page/55 px-2.5 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">Printable calendar</li>
+		<li class="rounded-full bg-page/55 px-2.5 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">Shareable link</li>
+	</ul>
+</section>
+
+<script define:vars={{ definitions: scheduleDefinitionList }}>
+	const form = document.querySelector('[data-generator-form]');
+	const calendarGrid = document.querySelector('[data-calendar-grid]');
+	const calendarMonth = document.querySelector('[data-calendar-month]');
+	const parentALabel = document.querySelector('[data-parent-a-label]');
+	const parentBLabel = document.querySelector('[data-parent-b-label]');
+	const summaryParentALabel = document.querySelector('[data-summary-parent-a-label]');
+	const summaryParentBLabel = document.querySelector('[data-summary-parent-b-label]');
+	const summaryParentAPercent = document.querySelector('[data-summary-parent-a-percent]');
+	const summaryParentBPercent = document.querySelector('[data-summary-parent-b-percent]');
+	const summaryParentADays = document.querySelector('[data-summary-parent-a-days]');
+	const summaryParentBDays = document.querySelector('[data-summary-parent-b-days]');
+	const printDescription = document.querySelector('[data-print-description]');
+	const printTitle = document.querySelector('[data-print-title]');
+
+	const parentColors = {
+		parentA: 'bg-[rgba(94,106,210,0.2)] text-accent shadow-[inset_0_0_0_1px_rgba(94,106,210,0.28)]',
+		parentB: 'bg-[rgba(34,197,94,0.14)] text-parent-b shadow-[inset_0_0_0_1px_rgba(34,197,94,0.18)]',
+		inactive: 'text-muted opacity-30 shadow-[inset_0_0_0_1px_var(--border-subtle)]',
+	};
+
+	function parseDate(date) {
+		const [year, month, day] = date.split('-').map(Number);
+		return new Date(year, month - 1, day);
+	}
+
+	function formatDate(date) {
+		return date.toISOString().slice(0, 10);
+	}
+
+	function addDays(date, days) {
+		const next = new Date(date);
+		next.setDate(next.getDate() + days);
+		return next;
+	}
+
+	function startOfWeekMonday(date) {
+		const next = new Date(date);
+		const day = next.getDay() || 7;
+		next.setDate(next.getDate() - day + 1);
+		return next;
+	}
+
+	function getParentForOffset(definition, offset) {
+		const cycleLength = definition.cycle.reduce((total, segment) => total + segment.days, 0);
+		const normalizedOffset = ((offset % cycleLength) + cycleLength) % cycleLength;
+		let cursor = 0;
+
+		for (const segment of definition.cycle) {
+			cursor += segment.days;
+			if (normalizedOffset < cursor) return segment.parent;
+		}
+
+		return definition.cycle[0].parent;
+	}
+
+	function renderSchedule() {
+		if (!form || !calendarGrid) return;
+
+		const data = new FormData(form);
+		const scheduleId = data.get('scheduleId');
+		const startDateValue = data.get('startDate');
+		const parentA = data.get('parentA') || 'Parent A';
+		const parentB = data.get('parentB') || 'Parent B';
+		const definition = definitions.find((item) => item.id === scheduleId) || definitions[0];
+		const startDate = parseDate(startDateValue);
+		const monthStart = new Date(startDate.getFullYear(), startDate.getMonth(), 1);
+		const gridStart = startOfWeekMonday(monthStart);
+		const days = [];
+		const counts = { parentA: 0, parentB: 0 };
+
+		for (let index = 0; index < 42; index += 1) {
+			const day = addDays(gridStart, index);
+			const offset = Math.round((day - startDate) / 86400000);
+			const parent = getParentForOffset(definition, offset);
+			const isCurrentMonth = day.getMonth() === monthStart.getMonth();
+			if (isCurrentMonth) counts[parent] += 1;
+			days.push({ day, parent, isCurrentMonth });
+		}
+
+		calendarGrid.innerHTML = days
+			.map(({ day, parent, isCurrentMonth }) => {
+				const color = isCurrentMonth ? parentColors[parent] : parentColors.inactive;
+				const parentName = parent === 'parentA' ? parentA : parentB;
+				return `<span class="calendar-day-cell flex aspect-square max-h-[34px] min-h-0 items-center justify-center rounded-xl text-xs font-semibold sm:max-h-[34px] sm:rounded-2xl sm:text-sm ${color}" title="${parentName} - ${formatDate(day)}">${day.getDate()}</span>`;
+			})
+			.join('');
+
+		const monthLabel = monthStart.toLocaleDateString(undefined, { month: 'long', year: 'numeric' });
+		const total = counts.parentA + counts.parentB || 1;
+		const parentAPercentage = Math.round((counts.parentA / total) * 100);
+		const parentBPercentage = 100 - parentAPercentage;
+
+		if (calendarMonth) calendarMonth.textContent = monthLabel;
+		if (parentALabel) parentALabel.textContent = parentA;
+		if (parentBLabel) parentBLabel.textContent = parentB;
+		if (summaryParentALabel) summaryParentALabel.textContent = parentA;
+		if (summaryParentBLabel) summaryParentBLabel.textContent = parentB;
+		if (summaryParentAPercent) summaryParentAPercent.textContent = `${parentAPercentage}%`;
+		if (summaryParentBPercent) summaryParentBPercent.textContent = `${parentBPercentage}%`;
+		if (summaryParentADays) summaryParentADays.textContent = `${counts.parentA} overnights`;
+		if (summaryParentBDays) summaryParentBDays.textContent = `${counts.parentB} overnights`;
+		if (printTitle) printTitle.textContent = `${definition.shortName} custody calendar`;
+		if (printDescription) {
+			printDescription.textContent = `${monthLabel} preview starting ${startDateValue}. ${parentA}: ${counts.parentA} overnights (${parentAPercentage}%). ${parentB}: ${counts.parentB} overnights (${parentBPercentage}%).`;
+		}
+
+		const params = new URLSearchParams(window.location.search);
+		params.set('schedule', definition.id);
+		params.set('start', startDateValue);
+		params.set('a', parentA);
+		params.set('b', parentB);
+		window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
+	}
+
+	form?.addEventListener('input', renderSchedule);
+	form?.addEventListener('change', renderSchedule);
+	renderSchedule();
+</script>

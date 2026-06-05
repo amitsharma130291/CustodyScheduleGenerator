@@ -1,0 +1,44 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+
+const navItems = [
+	{ label: 'Generator', href: '#generator' },
+	{ label: 'Schedules', href: '#schedules' },
+	{ label: 'How it works', href: '#how-it-works' },
+	{ label: 'FAQ', href: '#faq' },
+];
+---
+
+<header class="sticky top-0 z-50 border-b border-line-subtle/50 bg-page/72 backdrop-blur-2xl">
+	<nav class="container-shell flex h-16 items-center justify-between gap-3 sm:h-20 sm:gap-6">
+		<a href="/" class="group flex items-center gap-3" aria-label="Custody Schedule Generator home">
+			<span class="flex h-9 w-9 items-center justify-center rounded-xl border border-line-subtle bg-surface/70 text-sm font-semibold text-primary shadow-[inset_0_1px_0_rgba(255,255,255,0.05)] backdrop-blur-xl transition-all duration-200 group-hover:-translate-y-0.5 group-hover:border-accent">
+				CS
+			</span>
+			<span class="hidden text-sm font-semibold tracking-[-0.02em] text-primary sm:inline">
+				Custody Schedule Generator
+			</span>
+		</a>
+
+		<div class="hidden rounded-full border border-line-subtle bg-surface/55 px-2 py-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur-xl md:flex md:items-center">
+			{navItems.map((item) => (
+				<a
+					href={item.href}
+					class="rounded-full px-4 py-2 text-[13px] font-medium text-muted transition-colors duration-200 hover:bg-surface-hover hover:text-primary"
+				>
+					{item.label}
+				</a>
+			))}
+		</div>
+
+		<div class="flex shrink-0 items-center gap-2">
+			<ThemeToggle />
+			<a
+				href="#generator"
+				class="btn-primary hidden rounded-full px-5 py-2.5 text-[13px] font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_30px_rgba(94,106,210,0.14)] active:translate-y-0 sm:inline-flex"
+			>
+				Build my schedule
+			</a>
+		</div>
+	</nav>
+</header>

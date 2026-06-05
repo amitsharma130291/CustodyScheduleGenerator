@@ -1,0 +1,110 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import GeneratorPanel from '../components/tool/GeneratorPanel.astro';
+import CalendarPreview from '../components/tool/CalendarPreview.astro';
+import PrintableSchedule from '../components/tool/PrintableSchedule.astro';
+import ExportActions from '../components/tool/ExportActions.astro';
+import { generateSchedule } from '../lib/schedules/generateSchedule';
+import { getDefaultStartDate } from '../lib/schedules/format';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import {
+	buildBreadcrumbSchema,
+	buildFAQSchema,
+	buildSoftwareApplicationSchema,
+	buildWebPageSchema,
+} from '../lib/seo/schema';
+
+const title = 'Custody Schedule Template';
+const description =
+	'Use a printable custody schedule template with a live calendar preview, common schedule examples, and parenting time planning guidance.';
+const canonical = '/custody-schedule-template';
+const canonicalUrl = getCanonicalUrl(canonical);
+const startDate = getDefaultStartDate();
+const schedule = generateSchedule({
+	scheduleId: '2-2-3',
+	startDate,
+});
+const faq = [
+	{
+		question: 'What should a custody schedule template include?',
+		answer:
+			'A useful template should include parent names, exchange days, start date, recurring schedule pattern, calendar preview, and notes for holidays or special arrangements.',
+	},
+	{
+		question: 'Can I print this custody schedule template?',
+		answer:
+			'Yes. Use the print action to create a printable view of the calendar and parenting time summary.',
+	},
+	{
+		question: 'Is this custody template legal advice?',
+		answer:
+			'No. This template is for planning and educational purposes only and should be reviewed with a qualified professional when legal advice is needed.',
+	},
+];
+const breadcrumbs = [
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: title, url: canonicalUrl },
+];
+const schema = [
+	buildFAQSchema(faq),
+	buildBreadcrumbSchema(breadcrumbs),
+	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+	buildSoftwareApplicationSchema({
+		name: 'Custody Schedule Template Generator',
+		description,
+		url: canonicalUrl,
+	}),
+];
+---
+
+<BaseLayout title={`${title} | Custody Schedule Generator`} description={description} canonical={canonical}>
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<Breadcrumbs items={breadcrumbs} />
+	<main>
+		<section class="container-shell grid gap-10 py-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:py-16">
+			<div>
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Printable template</p>
+				<h1 class="mt-4 max-w-3xl text-5xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary lg:text-6xl">
+					Custody Schedule Template
+				</h1>
+				<p class="mt-6 max-w-2xl text-lg leading-8 text-secondary">
+					Start from a clean custody calendar template, choose a schedule pattern, and prepare a printable parenting time plan.
+				</p>
+				<div class="mt-8">
+					<GeneratorPanel selectedScheduleId="2-2-3" startDate={startDate} />
+				</div>
+			</div>
+			<div class="grid gap-5">
+				<CalendarPreview schedule={schedule}>
+					<ExportActions slot="actions" />
+				</CalendarPreview>
+			</div>
+		</section>
+
+		<section class="container-shell grid gap-10 py-12 lg:py-16">
+			<div class="grid gap-4">
+				<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">How to use the template</h2>
+				<p class="text-base leading-8 text-secondary">
+					A custody schedule template helps parents turn a recurring parenting time pattern into a clear calendar. Choose a pattern, set the first exchange date, add parent names, and review the monthly calendar before printing.
+				</p>
+				<p class="text-base leading-8 text-secondary">
+					Use the related schedule pages to compare 2-2-3, 2-2-5-5, 5-2-2-5, 3-4-4-3, week-on week-off, and other common custody schedules.
+				</p>
+			</div>
+
+			<PrintableSchedule schedule={schedule} />
+
+			<div class="grid gap-4 md:grid-cols-3">
+				<a href="/2-2-3-custody-schedule" class="soft-card rounded-[1.5rem] p-5">2-2-3 custody schedule</a>
+				<a href="/2-2-5-5-custody-schedule" class="soft-card rounded-[1.5rem] p-5">2-2-5-5 custody schedule</a>
+				<a href="/50-50-custody-schedule" class="soft-card rounded-[1.5rem] p-5">50/50 custody schedule</a>
+			</div>
+		</section>
+	</main>
+	<Footer />
+</BaseLayout>

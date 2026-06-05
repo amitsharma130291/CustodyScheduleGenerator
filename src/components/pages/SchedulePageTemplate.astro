@@ -1,0 +1,164 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Navbar from '../Navbar.astro';
+import Footer from '../Footer.astro';
+import Breadcrumbs from '../seo/Breadcrumbs.astro';
+import JsonLd from '../seo/JsonLd.astro';
+import GeneratorPanel from '../tool/GeneratorPanel.astro';
+import CalendarPreview from '../tool/CalendarPreview.astro';
+import PrintableSchedule from '../tool/PrintableSchedule.astro';
+import ExportActions from '../tool/ExportActions.astro';
+import { generateSchedule } from '../../lib/schedules/generateSchedule';
+import { getDefaultStartDate } from '../../lib/schedules/format';
+import { getCanonicalUrl } from '../../lib/seo/metadata';
+import {
+	buildBreadcrumbSchema,
+	buildFAQSchema,
+	buildSoftwareApplicationSchema,
+	buildWebPageSchema,
+} from '../../lib/seo/schema';
+import { getRelatedSchedules } from '../../content/schedules';
+import type { ScheduleContent } from '../../content/schedules/types';
+
+interface Props {
+	schedule: ScheduleContent;
+}
+
+const { schedule } = Astro.props;
+const canonical = `/${schedule.slug}`;
+const canonicalUrl = getCanonicalUrl(canonical);
+const startDate = getDefaultStartDate();
+const generatedSchedule = generateSchedule({
+	scheduleId: schedule.id,
+	startDate,
+	parentNames: {
+		parentA: 'Parent A',
+		parentB: 'Parent B',
+	},
+});
+const relatedSchedules = getRelatedSchedules(schedule);
+const breadcrumbs = [
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: schedule.title, url: canonicalUrl },
+];
+const schema = [
+	buildFAQSchema(schedule.faq),
+	buildBreadcrumbSchema(breadcrumbs),
+	buildWebPageSchema({
+		name: schedule.metaTitle,
+		description: schedule.metaDescription,
+		url: canonicalUrl,
+	}),
+	buildSoftwareApplicationSchema({
+		name: `${schedule.title} Generator`,
+		description: schedule.description,
+		url: canonicalUrl,
+	}),
+];
+---
+
+<BaseLayout title={schedule.metaTitle} description={schedule.metaDescription} canonical={canonical}>
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<Breadcrumbs items={breadcrumbs} />
+	<main>
+		<section class="container-shell grid gap-10 py-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:py-16">
+			<div>
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Custody schedule generator</p>
+				<h1 class="mt-4 max-w-3xl text-5xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary lg:text-6xl">
+					{schedule.title}
+				</h1>
+				<p class="mt-6 max-w-2xl text-lg leading-8 text-secondary">{schedule.lede}</p>
+				<div class="mt-8">
+					<GeneratorPanel selectedScheduleId={schedule.id} startDate={startDate} />
+				</div>
+			</div>
+
+			<div class="grid gap-5">
+				<CalendarPreview schedule={generatedSchedule}>
+					<ExportActions slot="actions" />
+				</CalendarPreview>
+			</div>
+		</section>
+
+		<section class="container-shell grid gap-8 py-12 lg:grid-cols-[0.72fr_1.28fr] lg:py-16">
+			<aside class="soft-card h-fit rounded-[1.5rem] p-6">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">On this page</p>
+				<ul class="mt-4 space-y-3 text-sm text-secondary">
+					<li><a href="#overview" class="hover:text-primary">Overview</a></li>
+					<li><a href="#pros-cons" class="hover:text-primary">Pros and cons</a></li>
+					<li><a href="#example" class="hover:text-primary">Calendar example</a></li>
+					<li><a href="#faq" class="hover:text-primary">FAQ</a></li>
+					<li><a href="#related" class="hover:text-primary">Related schedules</a></li>
+				</ul>
+			</aside>
+
+			<div class="grid gap-10">
+				<section id="overview" class="grid gap-4">
+					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">How the {schedule.title} works</h2>
+					{schedule.overview.map((paragraph) => (
+						<p class="text-base leading-8 text-secondary">{paragraph}</p>
+					))}
+				</section>
+
+				<section id="pros-cons" class="grid gap-5">
+					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Pros and cons</h2>
+					<div class="grid gap-5 md:grid-cols-2">
+						<div class="soft-card rounded-[1.5rem] p-6">
+							<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary">Pros</h3>
+							<ul class="mt-4 space-y-3 text-sm leading-6 text-secondary">
+								{schedule.pros.map((item) => <li>• {item}</li>)}
+							</ul>
+						</div>
+						<div class="soft-card rounded-[1.5rem] p-6">
+							<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary">Cons</h3>
+							<ul class="mt-4 space-y-3 text-sm leading-6 text-secondary">
+								{schedule.cons.map((item) => <li>• {item}</li>)}
+							</ul>
+						</div>
+					</div>
+				</section>
+
+				<section id="example" class="grid gap-5">
+					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">{schedule.example.title}</h2>
+					<p class="text-base leading-8 text-secondary">{schedule.example.description}</p>
+					<PrintableSchedule schedule={generatedSchedule} />
+				</section>
+
+				<section id="faq" class="grid gap-5">
+					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">FAQ</h2>
+					<div class="premium-card divide-y divide-line-subtle overflow-hidden rounded-[1.5rem]">
+						{schedule.faq.map((item) => (
+							<details class="group p-5 transition-colors duration-200 open:bg-surface-elevated/70 hover:bg-surface-hover/60">
+								<summary class="flex cursor-pointer list-none items-center justify-between gap-6 text-left text-base font-semibold tracking-[-0.02em] text-primary">
+									{item.question}
+									<span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-surface/80 text-muted shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-transform duration-200 group-open:rotate-45">+</span>
+								</summary>
+								<p class="mt-4 text-sm leading-6 text-secondary">{item.answer}</p>
+							</details>
+						))}
+					</div>
+				</section>
+
+				<section id="related" class="grid gap-5">
+					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Related schedules and tools</h2>
+					<div class="grid gap-4 md:grid-cols-2">
+						{relatedSchedules.map((related) => (
+							<a href={`/${related.slug}`} class="soft-card rounded-[1.5rem] p-5">
+								<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{related.title}</h3>
+								<p class="mt-2 text-sm leading-6 text-secondary">{related.description}</p>
+							</a>
+						))}
+						{schedule.relatedTools.map((tool) => (
+							<a href={`/${tool.slug}`} class="soft-card rounded-[1.5rem] p-5">
+								<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{tool.title}</h3>
+								<p class="mt-2 text-sm leading-6 text-secondary">{tool.description}</p>
+							</a>
+						))}
+					</div>
+				</section>
+			</div>
+		</section>
+	</main>
+	<Footer />
+</BaseLayout>

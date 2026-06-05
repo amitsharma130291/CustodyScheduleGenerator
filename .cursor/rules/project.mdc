@@ -1,0 +1,41 @@
+# Project Rules
+
+Always read and follow:
+
+- docs/design.md
+- docs/skills.md
+- docs/astro.md
+- docs/seo.md
+- docs/product.md
+
+Stack:
+- Astro
+- TypeScript
+- Tailwind CSS
+- date-fns
+- pdf-lib
+- lucide-astro
+
+Design:
+- Linear-inspired
+- Dark and light mode required
+- Theme switch required
+- Premium SaaS aesthetic
+- Minimal shadows
+- Subtle borders
+- Large typography
+- Mobile-first
+
+Development:
+- Static pages by default
+- Use Astro islands only when needed
+- Keep JavaScript minimal
+- No auth, database, payments, or backend unless explicitly requested
+
+SEO:
+- Tool above the fold
+- Semantic HTML
+- One H1 per page
+- FAQ section
+- Related internal links
+- Fast loading

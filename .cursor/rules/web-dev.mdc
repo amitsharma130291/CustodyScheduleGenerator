@@ -1,0 +1,179 @@
+# Web Development Rules
+
+## Required Reading
+
+Before making ANY UI, component, page, or feature, read:
+
+* docs/design.md
+* docs/architecture.md
+* docs/seo.md
+* docs/product.md
+* docs/skills.md
+
+Treat those documents as the source of truth.
+
+---
+
+## Design Authority
+
+docs/design.md is the primary authority for:
+
+* colors
+* spacing
+* typography
+* dark mode
+* light mode
+* layout
+* buttons
+* cards
+* navigation
+* page structure
+* motion
+* accessibility
+
+Never invent alternative styles.
+
+If design.md conflicts with generated code, design.md wins.
+
+---
+
+## Theme Rules
+
+Dark mode is the default theme.
+
+Requirements:
+
+* Dark mode loads immediately.
+* No flash of light mode.
+* Store theme in localStorage.
+* Respect saved preference.
+* Light mode must also work.
+* All components must support both themes.
+
+Never ship components that only work in one theme.
+
+---
+
+## Visual Quality Rules
+
+The UI must feel comparable to:
+
+* Linear
+* Vercel
+* Raycast
+* Resend
+* Stripe Dashboard
+
+Characteristics:
+
+* Large typography
+* Quiet interfaces
+* Premium spacing
+* Minimal shadows
+* Strong hierarchy
+* Subtle borders
+* Calm animations
+
+Avoid:
+
+* Bootstrap appearance
+* Generic Tailwind examples
+* Bright gradients
+* Marketing-site clutter
+* Loud colors
+
+---
+
+## Astro Rules
+
+Use Astro first.
+
+Prefer:
+
+* Astro components
+* Static rendering
+* Content collections
+* Minimal hydration
+
+Only use client-side JavaScript when interaction is required.
+
+---
+
+## Component Rules
+
+Create reusable components.
+
+Never duplicate large sections.
+
+Use:
+
+* Navbar
+* Footer
+* Hero
+* FeatureCard
+* ToolCard
+* GeneratorPanel
+* CalendarPreview
+* FAQAccordion
+
+---
+
+## Mobile Rules
+
+Every change must be tested for:
+
+* 375px width
+* 768px width
+* Desktop
+
+Never allow:
+
+* horizontal scroll
+* clipped cards
+* overflowing text
+* broken navigation
+
+---
+
+## SEO Rules
+
+Every page must contain:
+
+* title
+* meta description
+* canonical
+* one H1
+* FAQ section
+* internal links
+
+Tool functionality must appear above the fold.
+
+---
+
+## Performance Rules
+
+Target:
+
+* Lighthouse Performance 95+
+* Lighthouse SEO 100
+* Lighthouse Accessibility 95+
+
+Avoid:
+
+* unnecessary hydration
+* large dependencies
+* excessive JavaScript
+
+---
+
+## Before Finishing
+
+Verify:
+
+1. Design follows docs/design.md
+2. Dark mode works
+3. Light mode works
+4. Mobile works
+5. SEO structure exists
+6. Components are reusable
+7. No visual regressions

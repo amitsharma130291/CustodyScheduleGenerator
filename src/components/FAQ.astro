@@ -1,0 +1,38 @@
+---
+interface FAQItem {
+	question: string;
+	answer: string;
+}
+
+interface Props {
+	items: FAQItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<section id="faq" class="container-shell py-12 lg:py-16">
+	<div class="mx-auto max-w-3xl text-center">
+		<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">FAQ</p>
+		<h2 class="mt-4 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-5xl">
+			Questions before you build a parenting calendar
+		</h2>
+		<p class="mt-4 text-lg leading-8 text-secondary">
+			Learn how common custody schedules work, how parenting time is divided, and what to consider before creating a calendar.
+		</p>
+	</div>
+
+	<div class="premium-card mx-auto mt-8 max-w-3xl divide-y divide-line-subtle overflow-hidden rounded-[1.75rem]">
+		{items.map((item) => (
+			<details class="group p-5 transition-colors duration-200 open:bg-surface-elevated/70 hover:bg-surface-hover/60">
+				<summary class="flex cursor-pointer list-none items-center justify-between gap-6 text-left text-base font-semibold tracking-[-0.02em] text-primary">
+					{item.question}
+					<span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-surface/80 text-muted shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-transform duration-200 group-open:rotate-45">
+						+
+					</span>
+				</summary>
+				<p class="mt-4 max-w-2xl text-sm leading-6 text-secondary">{item.answer}</p>
+			</details>
+		))}
+	</div>
+</section>

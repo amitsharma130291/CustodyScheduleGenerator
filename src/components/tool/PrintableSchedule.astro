@@ -1,0 +1,24 @@
+---
+import type { GeneratedSchedule } from '../../lib/schedules/types';
+import { formatParentingSummary } from '../../lib/schedules/format';
+
+interface Props {
+	schedule: GeneratedSchedule;
+}
+
+const { schedule } = Astro.props;
+const summary = formatParentingSummary(schedule);
+---
+
+<section class="soft-card rounded-[1.5rem] p-6" data-printable-summary>
+	<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Printable summary</p>
+	<h2 class="mt-3 text-2xl font-semibold tracking-[-0.04em] text-primary" data-print-title>
+		{schedule.definition.shortName} custody calendar
+	</h2>
+	<p class="mt-3 text-sm leading-6 text-secondary" data-print-description>
+		{schedule.monthLabel} preview starting {schedule.startDate}. {summary.parentA}. {summary.parentB}.
+	</p>
+	<p class="mt-4 text-xs leading-5 text-muted">
+		This tool is for planning and educational purposes only. It is not legal advice.
+	</p>
+</section>

@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Navbar from '../Navbar.astro';
+import Footer from '../Footer.astro';
+import Breadcrumbs from '../seo/Breadcrumbs.astro';
+import JsonLd from '../seo/JsonLd.astro';
+import { getCanonicalUrl } from '../../lib/seo/metadata';
+import { buildBreadcrumbSchema, buildFAQSchema, buildWebPageSchema } from '../../lib/seo/schema';
+
+interface Props {
+	title: string;
+	description: string;
+	slug: string;
+	lede: string;
+}
+
+const { title, description, slug, lede } = Astro.props;
+const canonical = `/${slug}`;
+const canonicalUrl = getCanonicalUrl(canonical);
+const breadcrumbs = [
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: title, url: canonicalUrl },
+];
+const faq = [
+	{
+		question: 'Should custody schedules change by age?',
+		answer: 'Often, yes. Younger children may need shorter gaps between parents, while older children may handle longer blocks more easily.',
+	},
+];
+const schema = [
+	buildFAQSchema(faq),
+	buildBreadcrumbSchema(breadcrumbs),
+	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+];
+---
+
+<BaseLayout title={`${title} | Custody Schedule Generator`} description={description} canonical={canonical}>
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<Breadcrumbs items={breadcrumbs} />
+	<main>
+		<section class="container-shell py-12 lg:py-16">
+			<div class="premium-card rounded-[2rem] p-6 lg:p-8">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Age-based custody schedules</p>
+				<h1 class="mt-4 max-w-3xl text-5xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary lg:text-6xl">{title}</h1>
+				<p class="mt-6 max-w-3xl text-lg leading-8 text-secondary">{lede}</p>
+				<div class="mt-8 grid gap-4 md:grid-cols-2">
+					<a href="/2-2-3-custody-schedule" class="soft-card rounded-[1.5rem] p-5">Compare frequent-contact schedules</a>
+					<a href="/week-on-week-off-custody-schedule" class="soft-card rounded-[1.5rem] p-5">Compare weekly schedules</a>
+				</div>
+			</div>
+		</section>
+	</main>
+	<Footer />
+</BaseLayout>
