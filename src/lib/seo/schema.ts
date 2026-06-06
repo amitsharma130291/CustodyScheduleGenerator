@@ -12,6 +12,7 @@ export function buildFAQSchema(items: FAQItem[]) {
 	return {
 		'@context': 'https://schema.org',
 		'@type': 'FAQPage',
+		inLanguage: 'en-US',
 		mainEntity: items.map((item) => ({
 			'@type': 'Question',
 			name: item.question,
@@ -27,6 +28,7 @@ export function buildBreadcrumbSchema(items: BreadcrumbItem[]) {
 	return {
 		'@context': 'https://schema.org',
 		'@type': 'BreadcrumbList',
+		inLanguage: 'en-US',
 		itemListElement: items.map((item, index) => ({
 			'@type': 'ListItem',
 			position: index + 1,
@@ -51,6 +53,7 @@ export function buildWebPageSchema({
 		name,
 		description,
 		url,
+		inLanguage: 'en-US',
 	};
 }
 
@@ -69,6 +72,7 @@ export function buildAboutPageSchema({
 		name,
 		description,
 		url,
+		inLanguage: 'en-US',
 	};
 }
 
@@ -87,6 +91,7 @@ export function buildWebSiteSchema({
 		name,
 		url,
 		description,
+		inLanguage: 'en-US',
 	};
 }
 
@@ -105,6 +110,7 @@ export function buildBlogSchema({
 		name,
 		url,
 		description,
+		inLanguage: 'en-US',
 	};
 }
 
@@ -120,6 +126,7 @@ export function buildOrganizationSchema({
 		'@type': 'Organization',
 		name,
 		url,
+		areaServed: 'US',
 	};
 }
 
@@ -140,6 +147,8 @@ export function buildSoftwareApplicationSchema({
 		name,
 		description,
 		url,
+		inLanguage: 'en-US',
+		areaServed: 'US',
 		applicationCategory,
 		operatingSystem: 'Web',
 		offers: {

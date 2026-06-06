@@ -24,13 +24,15 @@ canonicalObject.search = '';
 canonicalObject.hash = '';
 const canonicalUrl = canonicalObject.toString();
 const defaultImageUrl = new URL('/logo/custodybuilder-icon.svg', siteUrl).toString();
+const shouldLoadAnalytics = import.meta.env.PROD;
 ---
 
 <!doctype html>
-<html lang="en" data-theme="light" style="color-scheme: light;">
+<html lang="en-US" data-theme="light" style="color-scheme: light;">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<meta http-equiv="content-language" content="en-US" />
 		<script is:inline>
 			try {
 				const storedTheme = localStorage.getItem('theme');
@@ -66,6 +68,28 @@ const defaultImageUrl = new URL('/logo/custodybuilder-icon.svg', siteUrl).toStri
 		<meta name="twitter:image" content={defaultImageUrl} />
 		<meta name="theme-color" content="#0F172A" />
 		<meta name="generator" content={Astro.generator} />
+		{shouldLoadAnalytics && (
+			<>
+				<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZEM3ECSRZH"></script>
+				<script is:inline>
+					window.dataLayer = window.dataLayer || [];
+					function gtag(){dataLayer.push(arguments);}
+					gtag('js', new Date());
+					gtag('config', 'G-ZEM3ECSRZH');
+
+					let trackedLocation = window.location.href;
+					document.addEventListener('astro:page-load', () => {
+						if (window.location.href === trackedLocation) return;
+						trackedLocation = window.location.href;
+						gtag('config', 'G-ZEM3ECSRZH', {
+							page_title: document.title,
+							page_location: window.location.href,
+							page_path: window.location.pathname + window.location.search,
+						});
+					});
+				</script>
+			</>
+		)}
 		<slot name="head" />
 		<title>{title}</title>
 	</head>
