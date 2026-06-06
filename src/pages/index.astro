@@ -22,13 +22,14 @@ import {
 	buildBreadcrumbSchema,
 	buildFAQSchema,
 	buildOrganizationSchema,
+	buildSoftwareApplicationSchema,
 	buildWebPageSchema,
 	buildWebSiteSchema,
 } from '../lib/seo/schema';
 
-const title = 'Custody Schedule Generator | Parenting Time Calendar Tool';
+const title = 'Custody Schedule Generator and Calendar | CustodyBuilder';
 const description =
-	'Create a clean custody schedule, preview common parenting time rotations, and prepare a printable calendar with a premium custody schedule generator.';
+	'Create a custody schedule, compare parenting time, calculate percentages, and print a custody calendar template you can share or review online.';
 
 const scheduleCards = [
 	{
@@ -107,40 +108,64 @@ const scheduleCards = [
 
 const popularTools = [
 	{
+		title: '2-2-3 Custody Schedule',
+		description: 'Preview a frequent-exchange 50/50 parenting schedule.',
+		href: '/2-2-3-custody-schedule',
+		icon: Repeat2,
+	},
+	{
+		title: '2-2-5-5 Custody Schedule',
+		description: 'Create a stable weekday schedule with alternating weekends.',
+		href: '/2-2-5-5-custody-schedule',
+		icon: CalendarDays,
+	},
+	{
+		title: '5-2-2-5 Custody Schedule',
+		description: 'Compare longer shared-parenting blocks over two weeks.',
+		href: '/5-2-2-5-custody-schedule',
+		icon: Repeat2,
+	},
+	{
+		title: '50/50 Custody Schedule',
+		description: 'Compare equal-time custody schedules and calendar examples.',
+		href: '/50-50-custody-schedule',
+		icon: Users,
+	},
+	{
+		title: '60/40 Custody Schedule',
+		description: 'Preview majority-time schedules with substantial shared time.',
+		href: '/60-40-custody-schedule',
+		icon: Clock3,
+	},
+	{
+		title: '70/30 Custody Schedule',
+		description: 'Build a primary-home schedule with regular overnights.',
+		href: '/70-30-custody-schedule',
+		icon: CalendarDays,
+	},
+	{
+		title: '80/20 Custody Schedule',
+		description: 'Review common primary-home schedules and weekend patterns.',
+		href: '/80-20-custody-schedule',
+		icon: CalendarDays,
+	},
+	{
 		title: 'Custody Percentage Calculator',
-		description: 'Estimate parenting time percentages from overnights and schedule patterns.',
+		description: 'Estimate parenting time percentages from overnight totals.',
 		href: '/custody-percentage-calculator',
 		icon: Calculator,
 	},
 	{
-		title: 'Parenting Time Calculator',
-		description: 'Compare days and overnights in a parenting time schedule.',
-		href: '/parenting-time-calculator',
-		icon: Clock3,
-	},
-	{
-		title: 'Visitation Calculator',
-		description: 'Review visitation time and plan a clearer custody calendar.',
-		href: '/visitation-calculator',
-		icon: CalendarDays,
-	},
-	{
 		title: 'Custody Calendar Template',
-		description: 'Start from a printable custody calendar template for shared parenting.',
+		description: 'Use a printable calendar template for parenting time.',
 		href: '/custody-calendar-template',
 		icon: FileDown,
 	},
 	{
-		title: 'Parenting Plan Template',
-		description: 'Organize schedule, decision-making, and parenting plan details.',
-		href: '/parenting-plan-template',
+		title: 'Visitation Calculator',
+		description: 'Calculate visitation percentages and overnight totals.',
+		href: '/visitation-calculator',
 		icon: FileText,
-	},
-	{
-		title: '50/50 Custody Schedule',
-		description: 'Compare equal-time custody schedules and printable calendar examples.',
-		href: '/50-50-custody-schedule',
-		icon: Users,
 	},
 ];
 
@@ -194,24 +219,54 @@ const steps = [
 
 const faqItems = [
 	{
-		question: 'How does a custody schedule generator help?',
+		question: 'What is a custody schedule template?',
 		answer:
-			'Use the calendar preview to understand how a custody schedule is arranged visually before printing, exporting, or discussing the plan with the other parent.',
+			'A custody schedule template is a pre-built parenting time calendar that helps parents organize overnights, exchanges, weekends, holidays, and school breaks. Many families start with a 50/50 custody schedule, 60/40 custody schedule, or 70/30 custody schedule template before customizing it to fit their needs.',
 	},
 	{
-		question: 'What custody schedule types can I compare?',
+		question: 'What is a 2-2-3 custody schedule?',
 		answer:
-			'You can start with common parenting time patterns such as 2-2-3, alternating weeks, every weekend, and other shared custody rotations.',
+			'A 2-2-3 custody schedule is a repeating two-week parenting time pattern where children spend two days with one parent, two days with the other parent, then a three-day weekend block. The pattern reverses the next week, so each parent gets alternating weekends. Many families use a 2-2-3 custody schedule when they want frequent contact with both homes and a balanced 50/50 custody schedule. It can work well for younger children, but it requires more exchanges than longer-block schedules.',
 	},
 	{
-		question: 'Is this legal advice?',
+		question: 'What is a 50/50 custody schedule?',
 		answer:
-			'No. The product is a planning and calendar generation tool. Families should confirm legal requirements with a qualified professional.',
+			'A 50/50 custody schedule is a parenting time arrangement where each parent has roughly equal overnights. Common examples include the 2-2-3 custody schedule, 2-2-5-5 custody schedule, 5-2-2-5 schedule, 3-4-4-3 schedule, and week-on/week-off schedule. A 50/50 custody schedule can be simple to understand when shown on a calendar, but the best pattern depends on school routines, parent work schedules, distance between homes, and how well exchanges can be managed.',
 	},
 	{
-		question: 'Will the schedule be printable?',
+		question: 'What is a 2-2-5-5 custody schedule?',
 		answer:
-			'Yes. The product is designed around clear calendar output, with print and PDF export as core parts of the custody planning workflow.',
+			'A 2-2-5-5 custody schedule is a two-week shared parenting rotation where each parent keeps the same two weekdays every week and weekends alternate through longer five-day blocks. For example, one parent may have Monday and Tuesday, the other parent may have Wednesday and Thursday, and weekends rotate. A 2-2-5-5 custody schedule is often used as a 50/50 custody schedule because it creates predictable school-week routines while still giving both parents alternating weekend time.',
+	},
+	{
+		question: 'What does a 70/30 custody schedule look like?',
+		answer:
+			'A 70/30 custody schedule usually gives one parent most school nights while the other parent has regular overnight time, often weekends or recurring blocks. Some families use every weekend, alternating weekends with added time, or a repeating 5-2 pattern depending on what they mean by 70/30. The exact percentage can vary by month, so CustodyBuilder uses overnight counts to show the visible calendar and percentage split. A 70/30 custody schedule may work when one home handles the primary weekday routine.',
+	},
+	{
+		question: 'What is a 60/40 custody schedule?',
+		answer:
+			'A 60/40 custody schedule gives one parent a modest majority of overnights while the other parent still has substantial parenting time. Common examples include a 4-3 schedule, extended weekends, or a repeating cycle that averages close to 60% and 40% over time. Like any custody schedule template, the exact calendar matters more than the label. A 60/40 custody schedule can be useful when parents want one primary school-week home while keeping frequent and predictable time with the other parent.',
+	},
+	{
+		question: 'What custody schedule is best for kids?',
+		answer:
+			'The best custody schedule for kids depends on age, school routine, distance between homes, parent availability, conflict level, and how well transitions are handled. Younger children may benefit from frequent contact, while older children may prefer longer blocks and fewer exchanges. A 50/50 custody schedule can work well for some families, while a 60/40 custody schedule, 70/30 custody schedule, or alternating weekends custody schedule may fit others better. CustodyBuilder helps you compare patterns visually before choosing what to discuss or review.',
+	},
+	{
+		question: 'Can I create an alternating weekends custody schedule?',
+		answer:
+			'Yes. You can create an alternating weekends custody schedule by choosing a pattern where one parent has every other weekend, typically Friday and Saturday overnights, while the other parent has the remaining overnights. Some families add a midweek dinner, holiday time, or school-break time, but those details should be tracked clearly because not every visit changes overnight percentages. CustodyBuilder can help you preview an alternating weekends custody schedule on a calendar and export it as a custody schedule template.',
+	},
+	{
+		question: 'Can I print a custody schedule calendar?',
+		answer:
+			'Yes. CustodyBuilder is designed to create a printable custody schedule calendar from the schedule type, start date, and parent names you enter. You can preview the calendar first, then print it or download a monthly or yearly PDF. This makes it easier to review a 2-2-3 custody schedule, 2-2-5-5 custody schedule, 60/40 custody schedule, or 70/30 custody schedule in a format that is easier to discuss, share, or keep as a planning reference.',
+	},
+	{
+		question: 'Is CustodyBuilder legal advice?',
+		answer:
+			'No. CustodyBuilder is an educational planning tool and custody schedule template builder, not legal advice. It can help you visualize parenting time, compare custody schedule options, calculate overnight-based percentages, and prepare printable calendars for discussion. It does not create a court order, legal agreement, or guarantee that a schedule is appropriate for your situation. Parents should review custody terms, local rules, and legal requirements with a qualified professional before relying on any schedule in a formal agreement.',
 	},
 ];
 
@@ -233,62 +288,99 @@ const homepageSchema = [
 		name: 'CustodyBuilder',
 		url: canonicalUrl,
 	}),
+	buildSoftwareApplicationSchema({
+		name: 'CustodyBuilder',
+		description: 'Custody schedule generator, parenting time calculator, and printable custody calendar builder.',
+		url: canonicalUrl,
+		applicationCategory: 'Parenting Planning Tool',
+	}),
 ];
 ---
 
 <BaseLayout title={title} description={description}>
 	<JsonLd slot="head" data={homepageSchema} />
 	<Navbar />
-	<main class="relative overflow-hidden">
+	<main class="relative overflow-x-clip">
 		<Hero />
 
 		<section class="container-shell py-10 lg:py-12" aria-labelledby="custody-schedule-guide-title">
-			<div class="premium-card rounded-[2rem] p-4 sm:p-6 lg:p-8">
-				<div class="grid gap-8 lg:grid-cols-[0.82fr_1.18fr]">
-					<div>
-						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Custody schedule guide</p>
-						<h2 id="custody-schedule-guide-title" class="mt-4 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-5xl">
-							What Is a Custody Schedule?
-						</h2>
-						<p class="mt-5 text-base leading-8 text-secondary">
-							A custody schedule is more than a list of exchange days. It is the repeating structure that determines where a child sleeps, how school nights are handled, when weekends alternate, and how each parent can plan work, activities, and family time. A clear custody calendar makes that structure visible. Instead of trying to interpret a paragraph in a parenting plan, parents can see the actual monthly pattern and decide whether it feels realistic.
+			<div class="premium-card rounded-[2rem] p-5 sm:p-6 lg:p-8">
+				<div class="max-w-3xl">
+					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Custody schedule guide</p>
+					<p id="custody-schedule-guide-title" class="mt-4 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-5xl">
+						Plan parenting time with a clear custody calendar
+					</p>
+					<p class="mt-5 text-lg leading-8 text-secondary">
+						CustodyBuilder helps parents compare schedule options, preview parenting time on a calendar, and prepare printable planning materials before discussing details with a co-parent, mediator, or qualified professional.
+					</p>
+				</div>
+
+				<div class="mt-8 grid gap-7 text-base leading-8 text-secondary lg:grid-cols-2">
+					<section>
+						<h2 class="text-2xl font-semibold tracking-[-0.04em] text-primary">What Is a Custody Schedule?</h2>
+						<h3 class="mt-4 text-base font-semibold tracking-[-0.02em] text-primary">A practical parenting-time roadmap</h3>
+						<p class="mt-3">
+							A custody schedule is the written and visual plan for where a child spends regular parenting time. It usually explains school nights, weekends, overnights, exchanges, holidays, school breaks, and how parents handle exceptions. A good custody schedule is specific enough that both parents can follow it without guessing, but practical enough to fit work, school, transportation, and the child’s routine.
 						</p>
-						<p class="mt-4 text-base leading-8 text-secondary">
-							This homepage is the hub for comparing schedules, building a parenting schedule, and moving from a rough idea to a printable plan. Use the generator first, then follow the schedule guides and tools that match your family’s situation.
+						<p class="mt-3">
+							Parents often start with a simple label such as shared custody, alternating weekends, or primary residence. The next step is turning that idea into actual dates. A custody calendar makes the pattern easier to understand because it shows the overnight count, the weekend rotation, and long gaps between homes. That visual view is often more helpful than a paragraph of legal-style wording.
 						</p>
-					</div>
+					</section>
 
-					<div class="grid gap-6 text-sm leading-7 text-secondary">
-						<section>
-							<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary">Common Custody Schedule Types</h3>
-							<p class="mt-3">
-								Many families start with a <a href="/2-2-3-custody-schedule" class="text-primary underline decoration-line underline-offset-4">2-2-3 custody schedule</a> because it keeps both parents involved throughout the week and alternates weekends. Others prefer the steadier weekday rhythm of a <a href="/2-2-5-5-custody-schedule" class="text-primary underline decoration-line underline-offset-4">2-2-5-5 custody schedule</a> or <a href="/5-2-2-5-custody-schedule" class="text-primary underline decoration-line underline-offset-4">5-2-2-5 custody schedule</a>. A <a href="/3-4-4-3-custody-schedule" class="text-primary underline decoration-line underline-offset-4">3-4-4-3 custody schedule</a> can reduce exchanges while keeping both homes involved during the school week. If your goal is equal time, the <a href="/50-50-custody-schedule" class="text-primary underline decoration-line underline-offset-4">50/50 custody schedule</a> page compares several shared parenting schedule options in one place.
-							</p>
-							<p class="mt-3">
-								The best schedule is usually the one that parents can follow consistently. A shared parenting schedule should account for school drop-offs, work hours, extracurricular activities, transportation, and the child’s ability to handle transitions. Calendar-first planning makes those tradeoffs easier to see before the schedule is printed or shared.
-							</p>
-						</section>
+					<section>
+						<h2 class="text-2xl font-semibold tracking-[-0.04em] text-primary">Common Custody Schedule Types</h2>
+						<h3 class="mt-4 text-base font-semibold tracking-[-0.02em] text-primary">Equal-time and majority-time options</h3>
+						<p class="mt-3">
+							Common parenting time arrangements include equal-time schedules, majority-time schedules, and visitation-style schedules. A <a href="/50-50-custody-schedule" class="text-primary underline decoration-line underline-offset-4">50/50 custody schedule</a> can use a <a href="/2-2-3-custody-schedule" class="text-primary underline decoration-line underline-offset-4">2-2-3 custody schedule</a>, <a href="/2-2-5-5-custody-schedule" class="text-primary underline decoration-line underline-offset-4">2-2-5-5 custody schedule</a>, <a href="/5-2-2-5-custody-schedule" class="text-primary underline decoration-line underline-offset-4">5-2-2-5 custody schedule</a>, 3-4-4-3 rotation, or week-on/week-off plan. These patterns divide time evenly over the repeating cycle, but they feel very different in daily life.
+						</p>
+						<p class="mt-3">
+							Some families need one home to handle more school-week structure. In those situations, a <a href="/60-40-custody-schedule" class="text-primary underline decoration-line underline-offset-4">60/40 custody schedule</a>, <a href="/70-30-custody-schedule" class="text-primary underline decoration-line underline-offset-4">70/30 custody schedule</a>, or <a href="/80-20-custody-schedule" class="text-primary underline decoration-line underline-offset-4">80/20 custody schedule</a> may be easier to follow. The best label is less important than whether the actual calendar is stable, age-appropriate, and clear.
+						</p>
+					</section>
 
-						<section>
-							<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary">Custody Schedule Templates</h3>
-							<p class="mt-3">
-								A useful <a href="/custody-schedule-template" class="text-primary underline decoration-line underline-offset-4">custody schedule template</a> should show the schedule type, start date, parent names, and a monthly calendar preview. For parents who need a more visual document, a future <a href="/custody-calendar-template" class="text-primary underline decoration-line underline-offset-4">custody calendar template</a> can help turn the parenting time schedule into something easier to review with the other parent, a mediator, or a lawyer.
-							</p>
-							<p class="mt-3">
-								Templates are most helpful when they are specific. A generic parenting plan template may describe decision-making, holidays, and communication rules, but the custody calendar should show the actual repeating pattern. That is why the generator focuses on turning schedule rules into a visible month instead of leaving parents with a blank form.
-							</p>
-						</section>
+					<section>
+						<h2 class="text-2xl font-semibold tracking-[-0.04em] text-primary">How Parenting Time Percentages Work</h2>
+						<h3 class="mt-4 text-base font-semibold tracking-[-0.02em] text-primary">Overnights are the usual starting point</h3>
+						<p class="mt-3">
+							Parenting time percentages are commonly estimated from overnight totals. For example, a parent with 182 or 183 overnights in a year is close to 50%, while fewer overnights may reflect a 60/40, 70/30, or 80/20 arrangement. Percentages can look different in a partial month, especially when the schedule starts mid-month or when holidays change the normal rotation.
+						</p>
+						<p class="mt-3">
+							Use the <a href="/custody-percentage-calculator" class="text-primary underline decoration-line underline-offset-4">custody percentage calculator</a> when you need to compare overnight counts, and use the <a href="/parenting-time-calculator" class="text-primary underline decoration-line underline-offset-4">parenting time calculator</a> for broader parenting time planning. Daytime visits can be valuable for the child, but they may not change an overnight-based custody percentage unless an extra overnight is added.
+						</p>
+					</section>
 
-						<section>
-							<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary">Parenting Time Calculators</h3>
-							<p class="mt-3">
-								Some parents need to estimate overnights with a <a href="/custody-percentage-calculator" class="text-primary underline decoration-line underline-offset-4">custody percentage calculator</a> or compare days in a <a href="/parenting-time-calculator" class="text-primary underline decoration-line underline-offset-4">parenting time calculator</a>. Others are choosing a parenting schedule based on age, school routines, or developmental needs, which is why a <a href="/custody-schedule-by-age" class="text-primary underline decoration-line underline-offset-4">custody schedule by age</a> hub belongs in the same cluster. The goal is to make every custody schedule easier to understand, preview, print, and improve before it becomes a source of conflict.
-							</p>
-							<p class="mt-3">
-								As the resource grows, the <a href="/blog" class="text-primary underline decoration-line underline-offset-4">custody schedule blog</a> will explain common questions such as how parenting time percentages work, how to compare 2-2-5-5 versus 5-2-2-5, and which schedules tend to fit toddlers, school-aged children, or teenagers. Those articles should support the tool, not replace it.
-							</p>
-						</section>
-					</div>
+					<section>
+						<h2 class="text-2xl font-semibold tracking-[-0.04em] text-primary">Creating a Printable Custody Calendar</h2>
+						<h3 class="mt-4 text-base font-semibold tracking-[-0.02em] text-primary">Turn schedule rules into dates</h3>
+						<p class="mt-3">
+							A printable custody calendar gives parents a shared reference for the schedule. Instead of scrolling through messages or reinterpreting the plan every week, each parent can see which home is scheduled for each overnight. This is especially useful for school routines, sports, travel, holidays, and recurring exchanges.
+						</p>
+						<p class="mt-3">
+							If you need a visual document, start with the <a href="/custody-calendar-template" class="text-primary underline decoration-line underline-offset-4">custody calendar template</a>. If you need a written structure, use the <a href="/custody-schedule-template" class="text-primary underline decoration-line underline-offset-4">custody schedule template</a>. Many parents use both: a calendar for everyday planning and a written template for exchange times, transportation notes, and special rules.
+						</p>
+					</section>
+
+					<section>
+						<h2 class="text-2xl font-semibold tracking-[-0.04em] text-primary">Choosing the Right Custody Schedule</h2>
+						<h3 class="mt-4 text-base font-semibold tracking-[-0.02em] text-primary">Compare the calendar, not just the label</h3>
+						<p class="mt-3">
+							The right parenting schedule depends on more than the percentage split. Consider the child’s age, school location, distance between homes, parent work schedules, activity commitments, transportation, and how the child handles transitions. Younger children may need frequent contact and shorter separations. Older children and teenagers may prefer fewer exchanges and more flexibility around school, sports, jobs, and friends.
+						</p>
+						<p class="mt-3">
+							Age-based guidance can help narrow the options, but every family is different. Compare the calendar, not just the name. If a schedule looks balanced but creates rushed mornings, long drives, or confusing weekend changes, it may need adjustment before it becomes part of a parenting plan.
+						</p>
+					</section>
+
+					<section>
+						<h2 class="text-2xl font-semibold tracking-[-0.04em] text-primary">How CustodyBuilder Helps</h2>
+						<h3 class="mt-4 text-base font-semibold tracking-[-0.02em] text-primary">Preview, calculate, print, and refine</h3>
+						<p class="mt-3">
+							CustodyBuilder turns schedule ideas into a practical planning view. Choose a pattern, add a start date and parent names, review the custody calendar, calculate overnight-based parenting time, and print or export a monthly or yearly schedule. The goal is to make custody schedule conversations clearer before parents finalize language.
+						</p>
+						<p class="mt-3">
+							When you are ready to document more than the calendar, the <a href="/parenting-plan-template" class="text-primary underline decoration-line underline-offset-4">parenting plan template</a> helps organize holiday rules, communication expectations, decision-making, travel notice, expenses, and how parents handle changes. CustodyBuilder is a planning tool, not legal advice, but it can make the schedule easier to review, discuss, and refine.
+						</p>
+					</section>
 				</div>
 			</div>
 		</section>
@@ -301,12 +393,12 @@ const homepageSchema = [
 				</h2>
 			</div>
 
-			<div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+			<div class="mt-8 grid items-stretch gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
 				{popularTools.map((tool) => {
 					const Icon = tool.icon;
 					return (
-						<a href={tool.href} class="soft-card group rounded-[1.5rem] p-5">
-							<span class="inline-grid h-9 w-9 place-items-center rounded-full bg-surface-elevated text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<a href={tool.href} class="soft-card group flex h-full min-h-[12rem] flex-col rounded-[1.5rem] p-5 transition-all duration-200 ease-out hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-[0_18px_44px_rgba(15,23,42,0.08)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent">
+							<span class="inline-grid h-9 w-9 place-items-center rounded-full bg-surface-elevated text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-transform duration-200 group-hover:-translate-y-0.5">
 								<Icon size={18} aria-hidden="true" />
 							</span>
 							<h3 class="mt-4 text-lg font-semibold tracking-[-0.03em] text-primary">{tool.title}</h3>
@@ -368,7 +460,7 @@ const homepageSchema = [
 								Designed around the planning flow, not paperwork.
 							</h2>
 							<p class="mt-5 text-lg leading-8 text-secondary">
-								The static interface sets up the future generator experience: select a pattern, preview the calendar, and prepare an exportable result.
+								Select a pattern, preview the custody calendar, review parenting time, and prepare a printable result without wrestling with a blank form.
 							</p>
 						</div>
 
@@ -382,12 +474,12 @@ const homepageSchema = [
 										<h3 class="text-base font-semibold tracking-[-0.02em] text-primary">{step}</h3>
 										<p class="mt-1.5 text-sm leading-6 text-secondary">
 											{index === 0
-												? 'Begin from recognizable custody schedule names for clearer search intent.'
+												? 'Begin from recognizable custody schedule names that match real parenting time patterns.'
 												: index === 1
 													? 'Keep inputs simple and approachable for both parents.'
 													: index === 2
 														? 'Make the calendar the source of truth before exports.'
-														: 'Future actions can reuse the same visual structure.'}
+														: 'Print, copy, or export the schedule once the calendar looks right.'}
 										</p>
 									</div>
 								</li>

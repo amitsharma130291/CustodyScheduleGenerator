@@ -4,42 +4,332 @@ import Navbar from '../Navbar.astro';
 import Footer from '../Footer.astro';
 import Breadcrumbs from '../seo/Breadcrumbs.astro';
 import JsonLd from '../seo/JsonLd.astro';
+import LastUpdated from '../seo/LastUpdated.astro';
 import { getCanonicalUrl } from '../../lib/seo/metadata';
-import { buildBreadcrumbSchema, buildWebPageSchema } from '../../lib/seo/schema';
+import { buildBlogSchema, buildBreadcrumbSchema, buildFAQSchema, buildWebPageSchema } from '../../lib/seo/schema';
 
-const title = 'Custody Schedule Blog';
-const description = 'Guides to custody schedules, parenting time, custody calendars, and shared parenting templates.';
+const title = 'Custody Schedule Guides and Blog Hub | CustodyBuilder';
+const description = 'Read custody schedule guides, compare parenting time options, explore calculators and templates, and build a clearer plan before review online.';
 const canonical = '/blog';
 const canonicalUrl = getCanonicalUrl(canonical);
 const breadcrumbs = [
 	{ name: 'Home', url: getCanonicalUrl('/') },
-	{ name: 'Blog', url: canonicalUrl },
+	{ name: 'Guides' },
+	{ name: title, url: canonicalUrl },
+];
+
+const featuredGuides = [
+	{
+		title: 'Best Custody Schedule for Toddlers',
+		href: '/best-custody-schedule-for-toddler',
+		category: 'Age-Based Guides',
+		description: 'Compare frequent-contact schedules, shorter separations, and toddler-friendly routines.',
+	},
+	{
+		title: 'Best Custody Schedule for 5 Year Olds',
+		href: '/best-custody-schedule-for-5-year-old',
+		category: 'Age-Based Guides',
+		description: 'Plan around school readiness, bedtime consistency, and balanced weekends.',
+	},
+	{
+		title: 'Best Custody Schedule for 7 Year Olds',
+		href: '/best-custody-schedule-for-7-year-old',
+		category: 'Age-Based Guides',
+		description: 'Review school-age schedules that account for homework, activities, and friends.',
+	},
+	{
+		title: 'Best Custody Schedule for Teenagers',
+		href: '/best-custody-schedule-for-teenager',
+		category: 'Age-Based Guides',
+		description: 'Compare teen-friendly rotations that reduce transition stress and support independence.',
+	},
+	{
+		title: '2-2-3 Custody Schedule',
+		href: '/2-2-3-custody-schedule',
+		category: 'Schedule Comparisons',
+		description: 'Understand how the 2-2-3 rotation works and when frequent exchanges make sense.',
+	},
+	{
+		title: '2-2-5-5 Custody Schedule',
+		href: '/2-2-5-5-custody-schedule',
+		category: 'Schedule Comparisons',
+		description: 'Compare stable weekdays, alternating weekends, and two-week shared parenting blocks.',
+	},
+	{
+		title: '50/50 Custody Schedule',
+		href: '/50-50-custody-schedule',
+		category: 'Schedule Comparisons',
+		description: 'See common equal-time custody schedules and how they compare on a calendar.',
+	},
+	{
+		title: 'Parenting Plan Template',
+		href: '/parenting-plan-template',
+		category: 'Parenting Plan Resources',
+		description: 'Create a printable plan covering schedules, holidays, exchanges, and decisions.',
+	},
+];
+
+const categories = [
+	{
+		title: 'Age-Based Guides',
+		description:
+			'Age-based custody planning helps parents think beyond percentages. Toddlers may need shorter separations and consistent bedtime routines, while school-age children need a schedule that supports homework, transportation, friends, and activities. Teenagers often need fewer transitions, more flexibility, and a voice in practical details. These guides explain how common schedules may feel different at each stage.',
+		links: [
+			{ title: 'Best Custody Schedule for Toddlers', href: '/best-custody-schedule-for-toddler' },
+			{ title: 'Best Custody Schedule for 5 Year Olds', href: '/best-custody-schedule-for-5-year-old' },
+			{ title: 'Best Custody Schedule for 7 Year Olds', href: '/best-custody-schedule-for-7-year-old' },
+			{ title: 'Best Custody Schedule for Teenagers', href: '/best-custody-schedule-for-teenager' },
+		],
+	},
+	{
+		title: 'Schedule Comparisons',
+		description:
+			'Schedule comparison pages help parents see the tradeoffs between frequent contact, fewer exchanges, stable weekdays, and longer parenting blocks. A 2-2-3 schedule keeps both parents involved throughout each week. A 2-2-5-5 or 5-2-2-5 schedule can make school-week routines more predictable. Alternating weeks can reduce handoffs for older children and teens.',
+		links: [
+			{ title: '2-2-3 Custody Schedule', href: '/2-2-3-custody-schedule' },
+			{ title: '2-2-5-5 Custody Schedule', href: '/2-2-5-5-custody-schedule' },
+			{ title: '5-2-2-5 Custody Schedule', href: '/5-2-2-5-custody-schedule' },
+			{ title: '50/50 Custody Schedule', href: '/50-50-custody-schedule' },
+			{ title: '60/40 Custody Schedule', href: '/60-40-custody-schedule' },
+			{ title: '70/30 Custody Schedule', href: '/70-30-custody-schedule' },
+			{ title: '80/20 Custody Schedule', href: '/80-20-custody-schedule' },
+		],
+	},
+	{
+		title: 'Parenting Plan Resources',
+		description:
+			'A custody schedule is only one part of a parenting plan. Parents also need to document exchange times, school responsibilities, communication rules, transportation, travel notice, decision-making, expenses, and how changes will be handled. These resources help turn a calendar into a clearer plan that can be printed, discussed, and refined.',
+		links: [
+			{ title: 'Parenting Plan Template', href: '/parenting-plan-template' },
+			{ title: 'Custody Schedule Template', href: '/custody-schedule-template' },
+			{ title: 'Custody Calendar Template', href: '/custody-calendar-template' },
+			{ title: 'Custody Percentage Calculator', href: '/custody-percentage-calculator' },
+			{ title: 'Visitation Calculator', href: '/visitation-calculator' },
+		],
+	},
+	{
+		title: 'Holiday Planning',
+		description:
+			'Holiday and school-break planning prevents the regular weekly schedule from becoming confusing when Thanksgiving, winter break, birthdays, summer vacation, or long weekends arrive. A good holiday plan explains which holidays override the regular schedule, when exchanges happen, how travel notice works, and how parents handle years when school calendars change.',
+		links: [
+			{ title: 'Holiday Custody Schedule', href: '/holiday-custody-schedule' },
+			{ title: 'Holiday Visitation Schedule', href: '/holiday-visitation-schedule' },
+			{ title: 'Custody Calendar Template', href: '/custody-calendar-template' },
+			{ title: 'Parenting Plan Template', href: '/parenting-plan-template' },
+		],
+	},
+];
+
+const faq = [
+	{
+		question: 'How do I choose the best custody schedule?',
+		answer:
+			'Start with the child\'s age, school routine, distance between homes, exchange quality, parent work schedules, and activity calendar. Then compare common schedules visually so you can see overnights, weekends, and transition points before choosing a plan.',
+	},
+	{
+		question: 'Which custody schedule is best for equal parenting time?',
+		answer:
+			'Common 50/50 custody schedules include 2-2-3, 2-2-5-5, 5-2-2-5, 3-4-4-3, and week-on/week-off. The best option depends on whether the child needs frequent contact, stable weekdays, fewer exchanges, or longer blocks.',
+	},
+	{
+		question: 'Should a parenting plan include holidays?',
+		answer:
+			'Yes. A strong parenting plan should explain how holidays, birthdays, school breaks, summer vacation, and special days override the regular custody schedule. This prevents confusion when the normal weekly pattern does not apply.',
+	},
 ];
 const schema = [
+	buildFAQSchema(faq),
 	buildBreadcrumbSchema(breadcrumbs),
 	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+	buildBlogSchema({ name: 'Custody Schedule Guides', description, url: canonicalUrl }),
 ];
 ---
 
-<BaseLayout title={`${title} | CustodyBuilder`} description={description} canonical={canonical}>
+<BaseLayout title={title} description={description} canonical={canonical}>
 	<JsonLd slot="head" data={schema} />
 	<Navbar />
 	<Breadcrumbs items={breadcrumbs} />
 	<main>
-		<section class="container-shell py-12 lg:py-16">
+		<section class="container-shell py-10 lg:py-14">
 			<div class="premium-card rounded-[2rem] p-6 lg:p-8">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Blog</p>
-				<h1 class="mt-4 max-w-3xl text-5xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary lg:text-6xl">Custody Schedule Blog</h1>
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">CustodyBuilder library</p>
+				<h1 class="mt-4 max-w-4xl text-5xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary lg:text-6xl">Custody Schedule Guides</h1>
+				<LastUpdated />
 				<p class="mt-6 max-w-3xl text-lg leading-8 text-secondary">
-					Practical guides for comparing custody schedules, understanding parenting time, and turning a schedule into a printable custody calendar.
+					Learn how common custody schedules work, compare parenting time arrangements, and create better parenting plans.
 				</p>
-				<div class="mt-8 grid gap-4 md:grid-cols-3">
-					<a href="/2-2-3-custody-schedule" class="soft-card rounded-[1.5rem] p-5">How does a 2-2-3 schedule work?</a>
-					<a href="/50-50-custody-schedule" class="soft-card rounded-[1.5rem] p-5">Best 50/50 custody schedules</a>
-					<a href="/custody-percentage-calculator" class="soft-card rounded-[1.5rem] p-5">Parenting time percentage explained</a>
+				<div class="mt-6 grid gap-4 text-sm leading-7 text-secondary lg:grid-cols-3">
+					<p>
+						Custody schedules are easier to compare when you can see the actual pattern: who has weekdays, who has weekends, how many exchanges happen, and whether the child has long gaps away from either parent.
+					</p>
+					<p>
+						This hub brings together age-based guidance, schedule comparisons, parenting plan templates, holiday planning resources, and calculators so parents can move from research to a printable calendar.
+					</p>
+					<p>
+						Use these guides to understand the tradeoffs, then open the custody schedule generator to preview a schedule with parent names, start dates, overnights, percentages, and printable calendar exports.
+					</p>
 				</div>
+				<div class="mt-8 flex flex-col gap-3 sm:flex-row">
+					<a href="/#generator" class="btn-primary inline-flex h-12 w-full items-center justify-center rounded-full px-7 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_30px_rgba(94,106,210,0.14)] active:translate-y-0 sm:w-auto">
+						Open Custody Schedule Generator
+					</a>
+					<a href="#featured-guides" class="btn-secondary inline-flex h-12 w-full items-center justify-center rounded-full px-7 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-px active:translate-y-0 sm:w-auto">
+						Browse guides
+					</a>
+				</div>
+			</div>
+		</section>
+
+		<section id="featured-guides" class="container-shell py-10 lg:py-12" data-guide-search-root>
+			<div class="grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
+				<div>
+					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Featured guides</p>
+					<h2 class="mt-4 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-5xl">Start with the most useful custody schedule topics</h2>
+				</div>
+				<label class="grid gap-2">
+					<span class="text-sm font-medium text-secondary">Search guides</span>
+					<input
+						type="search"
+						class="w-full rounded-2xl bg-surface px-4 py-3 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] placeholder:text-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+						placeholder="Search by age, schedule, template, or calculator"
+						data-guide-search
+					/>
+				</label>
+			</div>
+
+			<div class="mt-8 grid items-stretch gap-4 md:grid-cols-2 xl:grid-cols-4" data-guide-grid>
+				{featuredGuides.map((guide) => (
+					<a href={guide.href} class="soft-card group flex h-full min-h-[13rem] flex-col rounded-[1.5rem] p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-[0_18px_44px_rgba(15,23,42,0.08)]" data-guide-card data-guide-text={`${guide.title} ${guide.category} ${guide.description}`.toLowerCase()}>
+						<p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted">{guide.category}</p>
+						<h3 class="mt-4 text-xl font-semibold tracking-[-0.04em] text-primary">{guide.title}</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">{guide.description}</p>
+					</a>
+				))}
+			</div>
+			<p class="mt-5 hidden text-sm text-muted" data-guide-empty>No guides match that search yet.</p>
+		</section>
+
+		<section class="container-shell py-10 lg:py-12">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Categories</p>
+				<h2 class="mt-4 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-5xl">Explore by planning need</h2>
+				<p class="mt-4 text-base leading-7 text-secondary">
+					Parents usually need more than one article. Start with the child and schedule type, then review templates, calendars, percentages, and holiday rules before finalizing a parenting plan.
+				</p>
+			</div>
+
+			<div class="mt-8 grid gap-5 lg:grid-cols-2">
+				{categories.map((category) => (
+					<section class="soft-card rounded-[1.75rem] p-5 lg:p-6">
+						<h3 class="text-2xl font-semibold tracking-[-0.04em] text-primary">{category.title}</h3>
+						<p class="mt-3 text-sm leading-7 text-secondary">{category.description}</p>
+						<div class="mt-5 flex flex-wrap gap-2">
+							{category.links.map((link) => (
+								<a href={link.href} class="rounded-full bg-surface-elevated px-3.5 py-2 text-sm font-medium text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-colors duration-200 hover:text-primary hover:shadow-[inset_0_0_0_1px_var(--accent)]">
+									{link.title}
+								</a>
+							))}
+						</div>
+					</section>
+				))}
+			</div>
+		</section>
+
+		<section class="container-shell py-10 lg:py-12">
+			<div class="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
+				<div>
+					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">How to use this hub</p>
+					<h2 class="mt-4 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">From research to printable calendar</h2>
+				</div>
+				<div class="grid gap-4 md:grid-cols-3">
+					<div class="soft-card rounded-[1.5rem] p-5">
+						<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">1. Choose the schedule family</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">Compare frequent-contact, stable-weekday, longer-block, and primary-home schedules before deciding which pattern deserves a calendar preview.</p>
+					</div>
+					<div class="soft-card rounded-[1.5rem] p-5">
+						<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">2. Check the child fit</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">Use the age guides to think through separation length, school demands, activities, social consistency, transportation, and independence.</p>
+					</div>
+					<div class="soft-card rounded-[1.5rem] p-5">
+						<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">3. Generate and document</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">Open the generator, create a printable calendar, estimate percentages, and use a parenting plan template to capture the details.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell py-10 lg:py-12">
+			<div class="premium-card rounded-[2rem] p-6 lg:p-8">
+				<div class="grid gap-6 lg:grid-cols-[0.75fr_1.25fr]">
+					<div>
+						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Comparison framework</p>
+						<h2 class="mt-4 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">What to look for in any custody schedule guide</h2>
+					</div>
+					<div class="grid gap-4 text-sm leading-7 text-secondary">
+						<p>
+							Good custody schedule research should answer practical questions, not just define the rotation. Parents need to know how many exchanges happen, which parent gets school nights, whether weekends alternate, how long the child is away from each home, and how the schedule changes during holidays or school breaks. Those details are what make a plan workable.
+						</p>
+						<p>
+							When comparing guides, look for a calendar example and an explanation of the tradeoffs. Frequent-contact schedules can be reassuring for younger children but may create more handoffs. Longer-block schedules can reduce transition stress but may create longer separations. Primary-home schedules may be necessary for distance, school stability, or work demands, but they should still preserve meaningful parenting time when possible.
+						</p>
+						<p>
+							After reading, use the generator to turn the idea into dates. A printable custody calendar can reveal problems that an article cannot: awkward exchange days, uneven weekend distribution, holiday conflicts, or confusing monthly percentages. The strongest parenting plans usually come from combining research, a visual schedule, and a written plan that explains how parents handle exceptions.
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell py-10 lg:py-12">
+			<div class="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
+				<div>
+					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">FAQ</p>
+					<h2 class="mt-4 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Custody schedule questions</h2>
+				</div>
+				<div class="grid gap-3">
+					{faq.map((item) => (
+						<details class="soft-card group rounded-[1.5rem] p-5">
+							<summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-base font-semibold text-primary">
+								{item.question}
+								<span class="text-muted transition-transform duration-200 group-open:rotate-180" aria-hidden="true">▼</span>
+							</summary>
+							<p class="mt-3 text-sm leading-6 text-secondary">{item.answer}</p>
+						</details>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell py-10 lg:py-16">
+			<div class="premium-card rounded-[2rem] p-6 text-center lg:p-8">
+				<h2 class="text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Build a personalized custody schedule</h2>
+				<p class="mx-auto mt-4 max-w-2xl text-base leading-7 text-secondary">
+					Compare schedules and generate printable custody calendars in minutes.
+				</p>
+				<a href="/#generator" class="btn-primary mt-6 inline-flex h-12 items-center justify-center rounded-full px-7 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_30px_rgba(94,106,210,0.14)] active:translate-y-0">
+					Open Custody Schedule Generator
+				</a>
 			</div>
 		</section>
 	</main>
 	<Footer />
+	<script>
+		const root = document.querySelector('[data-guide-search-root]');
+		const input = root?.querySelector<HTMLInputElement>('[data-guide-search]');
+		const cards = Array.from(root?.querySelectorAll<HTMLElement>('[data-guide-card]') ?? []);
+		const empty = root?.querySelector<HTMLElement>('[data-guide-empty]');
+
+		input?.addEventListener('input', () => {
+			const query = input.value.trim().toLowerCase();
+			let visibleCount = 0;
+
+			cards.forEach((card) => {
+				const matches = !query || (card.dataset.guideText ?? '').includes(query);
+				card.classList.toggle('hidden', !matches);
+				if (matches) visibleCount += 1;
+			});
+
+			empty?.classList.toggle('hidden', visibleCount > 0);
+		});
+	</script>
 </BaseLayout>

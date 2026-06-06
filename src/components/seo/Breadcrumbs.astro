@@ -1,7 +1,7 @@
 ---
 interface BreadcrumbItem {
 	name: string;
-	url: string;
+	url?: string;
 }
 
 interface Props {
@@ -16,7 +16,7 @@ const { items } = Astro.props;
 		{items.map((item, index) => (
 			<li class="flex items-center gap-2">
 				{index > 0 && <span aria-hidden="true">/</span>}
-				{index === items.length - 1 ? (
+				{index === items.length - 1 || !item.url ? (
 					<span aria-current="page" class="text-secondary">{item.name}</span>
 				) : (
 					<a href={item.url} class="transition-colors duration-200 hover:text-primary">{item.name}</a>

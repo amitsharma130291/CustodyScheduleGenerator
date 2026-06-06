@@ -41,7 +41,7 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 	<form class={`${compact ? 'mt-3 gap-2.5' : isEightyTwentySchedule ? 'mt-4 gap-3' : 'mt-6 gap-4'} grid`} data-generator-form>
 		<label class="grid min-w-0 gap-1.5">
 			<span class="text-sm font-medium text-secondary">Schedule type</span>
-			<select name="scheduleId" aria-label="Schedule type" class="w-full min-w-0 truncate rounded-2xl bg-page px-4 py-2 pr-9 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+			<select id="schedule-type" name="scheduleId" aria-label="Schedule type" class="w-full min-w-0 truncate rounded-2xl bg-page px-4 py-2 pr-9 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-schedule-select>
 				{scheduleDefinitionList.map((definition) => (
 					<option value={definition.id} selected={definition.id === normalizedSelectedScheduleId}>
 						{definition.name}
@@ -86,14 +86,17 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 				<input name="parentB" value={parentB} aria-label="Parent B name" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" />
 			</label>
 		</div>
+		<button type="button" class="btn-primary flex h-12 w-full min-w-0 items-center justify-center whitespace-nowrap rounded-full px-5 text-center text-[15px] font-semibold leading-none shadow-[0_10px_24px_rgba(15,23,42,0.16)] transition-all duration-150 ease-out hover:-translate-y-px hover:shadow-[0_12px_30px_rgba(15,23,42,0.20)] active:translate-y-0 active:scale-[0.99] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-generate-calendar>
+			Generate Calendar
+		</button>
 		<div class="mt-4 mb-2 grid w-full min-w-0 gap-3" data-pdf-export-actions>
 			<p class="mb-0 text-xs font-semibold uppercase tracking-[0.16em] text-muted">Export calendar</p>
 			<div class="grid w-full min-w-0 gap-3">
-				<button type="button" class="flex h-14 w-full min-w-0 cursor-pointer items-center justify-center gap-2.5 whitespace-nowrap rounded-full border-0 bg-[#0f172a] px-5 text-center text-[15px] font-semibold leading-none text-white transition-all duration-150 ease-out hover:-translate-y-px hover:bg-[#1e293b] hover:shadow-[0_10px_24px_rgba(15,23,42,0.18)] active:translate-y-0 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-download-monthly-pdf>
+				<button type="button" class="btn-primary flex h-14 w-full min-w-0 cursor-pointer items-center justify-center gap-2.5 whitespace-nowrap rounded-full px-5 text-center text-[15px] font-semibold leading-none transition-all duration-150 ease-out hover:-translate-y-px hover:shadow-[0_10px_24px_rgba(15,23,42,0.18)] active:translate-y-0 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-download-monthly-pdf>
 					<span class="text-sm leading-none opacity-85" aria-hidden="true">📄</span>
 					<span class="leading-none" data-pdf-button-label>Monthly Calendar PDF</span>
 				</button>
-				<button type="button" class="flex h-14 w-full min-w-0 cursor-pointer items-center justify-center gap-2.5 whitespace-nowrap rounded-full border-0 bg-[#0f172a] px-5 text-center text-[15px] font-semibold leading-none text-white transition-all duration-150 ease-out hover:-translate-y-px hover:bg-[#1e293b] hover:shadow-[0_10px_24px_rgba(15,23,42,0.18)] active:translate-y-0 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-download-yearly-pdf>
+				<button type="button" class="btn-primary flex h-14 w-full min-w-0 cursor-pointer items-center justify-center gap-2.5 whitespace-nowrap rounded-full px-5 text-center text-[15px] font-semibold leading-none transition-all duration-150 ease-out hover:-translate-y-px hover:shadow-[0_10px_24px_rgba(15,23,42,0.18)] active:translate-y-0 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-download-yearly-pdf>
 					<span class="text-sm leading-none opacity-85" aria-hidden="true">📄</span>
 					<span class="leading-none" data-pdf-button-label>Yearly Calendar PDF</span>
 				</button>
@@ -155,6 +158,20 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 		const month = String(today.getMonth() + 1).padStart(2, '0');
 		const day = String(today.getDate()).padStart(2, '0');
 		return `${year}-${month}-${day}`;
+	}
+
+	function prefersReducedMotion() {
+		return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	}
+
+	function scrollCalendarPreviewIntoView() {
+		const calendarPreview = document.querySelector('[data-calendar-preview]');
+		if (!(calendarPreview instanceof HTMLElement)) return;
+
+		calendarPreview.scrollIntoView({
+			block: 'center',
+			behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+		});
 	}
 
 	function applyQueryParamsToForm() {
@@ -388,6 +405,17 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 		}, 2000);
 	}
 
+	function handleGenerateCalendarClick(event) {
+		const target = event.target;
+		const button = target instanceof Element ? target.closest('[data-generate-calendar]') : null;
+		if (!(button instanceof HTMLButtonElement)) return;
+
+		event.preventDefault();
+		event.stopPropagation();
+		renderSchedule();
+		scrollCalendarPreviewIntoView();
+	}
+
 	function renderSchedule(updateUrl = true) {
 		if (!(form instanceof HTMLFormElement) || !calendarGrid) return;
 
@@ -516,6 +544,7 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 	form?.addEventListener('input', () => renderSchedule());
 	form?.addEventListener('change', () => renderSchedule());
 	form?.addEventListener('click', handlePdfExportClick);
+	form?.addEventListener('click', handleGenerateCalendarClick);
 	window.addEventListener('popstate', () => {
 		applyQueryParamsToForm();
 		renderSchedule(false);

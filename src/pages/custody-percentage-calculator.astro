@@ -9,14 +9,13 @@ import { getCanonicalUrl } from '../lib/seo/metadata';
 import {
 	buildBreadcrumbSchema,
 	buildFAQSchema,
-	buildSoftwareApplicationSchema,
 	buildWebPageSchema,
 } from '../lib/seo/schema';
 import { calculateCustodyPercentage, formatCustodyPercentage } from '../lib/calculators/custodyPercentage';
 
-const title = 'Custody Percentage Calculator | Parenting Time Calculator';
+const title = 'Custody Percentage Calculator Tool | CustodyBuilder';
 const description =
-	'Estimate custody percentages and parenting time from overnight counts with a simple custody percentage calculator.';
+	'Use a custody percentage calculator to estimate parenting time from overnights, compare schedules, and plan your calendar before review online.';
 const canonical = '/custody-percentage-calculator';
 const canonicalUrl = getCanonicalUrl(canonical);
 const commonExamples = [
@@ -55,13 +54,13 @@ const faq = [
 ];
 const breadcrumbs = [
 	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: 'Calculators' },
 	{ name: 'Custody Percentage Calculator', url: canonicalUrl },
 ];
 const schema = [
 	buildFAQSchema(faq),
 	buildBreadcrumbSchema(breadcrumbs),
 	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
-	buildSoftwareApplicationSchema({ name: 'Custody Percentage Calculator', description, url: canonicalUrl }),
 ];
 ---
 
@@ -172,6 +171,18 @@ const schema = [
 						<a href="/custody-calendar-template" class="soft-card rounded-[1.5rem] p-5">
 							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">Custody Calendar Template</h3>
 							<p class="mt-2 text-sm leading-6 text-secondary">Start from a printable calendar format.</p>
+						</a>
+						<a href="/60-40-custody-schedule" class="soft-card rounded-[1.5rem] p-5">
+							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">60/40 Custody Schedule</h3>
+							<p class="mt-2 text-sm leading-6 text-secondary">Compare a common majority-time parenting schedule.</p>
+						</a>
+						<a href="/70-30-custody-schedule" class="soft-card rounded-[1.5rem] p-5">
+							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">70/30 Custody Schedule</h3>
+							<p class="mt-2 text-sm leading-6 text-secondary">Estimate parenting time for a larger majority schedule.</p>
+						</a>
+						<a href="/parenting-plan-template" class="soft-card rounded-[1.5rem] p-5">
+							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">Parenting Plan Template</h3>
+							<p class="mt-2 text-sm leading-6 text-secondary">Document schedules, exchanges, holidays, and decision-making rules.</p>
 						</a>
 					</div>
 				</section>

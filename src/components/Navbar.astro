@@ -2,26 +2,26 @@
 import ThemeToggle from './ThemeToggle.astro';
 
 const navItems = [
-	{ label: 'Generator', href: '#generator' },
-	{ label: 'Schedules', href: '#schedules' },
-	{ label: 'How it works', href: '#how-it-works' },
-	{ label: 'FAQ', href: '#faq' },
+	{ label: 'Generator', href: '/#generator' },
+	{ label: 'Schedules', href: '/#schedules' },
+	{ label: 'How it works', href: '/#how-it-works' },
+	{ label: 'FAQ', href: '/#faq' },
 ];
 ---
 
-<header class="sticky top-0 z-50 border-b border-line-subtle/60 bg-page/78 shadow-[0_1px_0_rgba(255,255,255,0.03)] backdrop-blur-2xl">
-	<nav class="container-shell flex h-16 items-center justify-between gap-3 sm:h-20 sm:gap-6">
+<header class="site-header sticky top-0 z-[1000] border-b shadow-[0_1px_0_rgba(15,23,42,0.02)] backdrop-blur-[16px]">
+	<nav class="container-shell relative flex h-16 items-center justify-between gap-3 sm:h-[72px] sm:gap-6">
 		<a href="/" class="group flex min-w-0 items-center" aria-label="CustodyBuilder home">
-			<span class="inline-flex max-w-[178px] items-center rounded-2xl bg-white px-3 py-1.5 shadow-[0_10px_28px_rgba(0,0,0,0.16),inset_0_0_0_1px_rgba(15,23,42,0.08)] transition-all duration-200 group-hover:-translate-y-0.5 group-hover:shadow-[0_14px_34px_rgba(0,0,0,0.20),inset_0_0_0_1px_rgba(15,23,42,0.12)] sm:max-w-none sm:px-3.5 sm:py-2">
-				<img src="/logo/logo.svg" alt="CustodyBuilder" class="h-8 w-auto sm:h-10" decoding="async" />
+			<span class="site-logo-lockup inline-flex max-w-[172px] items-center rounded-xl px-2 py-1 transition-all duration-200 group-hover:-translate-y-0.5 sm:max-w-none sm:px-2.5 sm:py-1">
+				<img src="/logo/custodybuilder-logo.svg" alt="CustodyBuilder" class="h-[34px] w-auto sm:h-[38px]" decoding="async" />
 			</span>
 		</a>
 
-		<div class="hidden rounded-full border border-line-subtle bg-surface/55 px-2 py-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur-xl md:flex md:items-center md:justify-center">
+		<div class="site-nav-pill hidden rounded-full border px-2 py-1 shadow-[0_8px_24px_rgba(15,23,42,0.04)] backdrop-blur-xl lg:flex lg:items-center lg:justify-center">
 			{navItems.map((item) => (
 				<a
 					href={item.href}
-					class="rounded-full px-4 py-2 text-[13px] font-medium text-muted transition-colors duration-200 hover:bg-surface-hover hover:text-primary"
+					class="site-nav-link rounded-full px-5 py-2.5 text-[15px] font-medium transition-colors duration-200"
 				>
 					{item.label}
 				</a>
@@ -30,12 +30,81 @@ const navItems = [
 
 		<div class="flex shrink-0 items-center gap-2">
 			<ThemeToggle />
-			<a
-				href="#generator"
-				class="btn-primary hidden whitespace-nowrap rounded-full px-5 py-2.5 text-[13px] font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_30px_rgba(94,106,210,0.14)] active:translate-y-0 sm:inline-flex"
+			<button
+				type="button"
+				class="site-mobile-menu-button inline-flex h-11 w-11 items-center justify-center rounded-full border text-primary shadow-[0_8px_24px_rgba(15,23,42,0.04)] transition-colors duration-200 hover:bg-surface-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent lg:hidden"
+				aria-label="Open navigation menu"
+				aria-expanded="false"
+				aria-controls="mobile-navigation-menu"
+				data-mobile-menu-button
 			>
-				Build my schedule
-			</a>
+				<span class="sr-only">Menu</span>
+				<span class="relative h-4 w-5" aria-hidden="true">
+					<span class="absolute left-0 top-0 h-0.5 w-5 rounded-full bg-current transition-transform duration-200" data-menu-line-top></span>
+					<span class="absolute left-0 top-[7px] h-0.5 w-5 rounded-full bg-current transition-opacity duration-200" data-menu-line-middle></span>
+					<span class="absolute bottom-0 left-0 h-0.5 w-5 rounded-full bg-current transition-transform duration-200" data-menu-line-bottom></span>
+				</span>
+			</button>
 		</div>
+
 	</nav>
+	<div
+		id="mobile-navigation-menu"
+		class="site-mobile-menu absolute left-4 right-4 top-full z-[999] hidden rounded-3xl border p-2 shadow-[0_20px_50px_rgba(15,23,42,0.16)] lg:hidden"
+		data-mobile-menu
+	>
+		{navItems.map((item) => (
+			<a
+				href={item.href}
+				class="site-nav-link flex min-h-12 w-full items-center rounded-2xl px-[18px] py-3.5 text-left text-base font-semibold transition-colors duration-200"
+				data-mobile-menu-link
+			>
+				{item.label}
+			</a>
+		))}
+	</div>
+	<script>
+		const button = document.querySelector('[data-mobile-menu-button]');
+		const menu = document.querySelector('[data-mobile-menu]');
+		const links = Array.from(document.querySelectorAll('[data-mobile-menu-link]'));
+		const topLine = document.querySelector('[data-menu-line-top]');
+		const middleLine = document.querySelector('[data-menu-line-middle]');
+		const bottomLine = document.querySelector('[data-menu-line-bottom]');
+
+		function setMenuOpen(isOpen) {
+			if (!(button instanceof HTMLButtonElement) || !(menu instanceof HTMLElement)) return;
+
+			button.setAttribute('aria-expanded', String(isOpen));
+			button.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+			menu.classList.toggle('hidden', !isOpen);
+			topLine?.classList.toggle('translate-y-[7px]', isOpen);
+			topLine?.classList.toggle('rotate-45', isOpen);
+			middleLine?.classList.toggle('opacity-0', isOpen);
+			bottomLine?.classList.toggle('-translate-y-[7px]', isOpen);
+			bottomLine?.classList.toggle('-rotate-45', isOpen);
+		}
+
+		button?.addEventListener('click', (event) => {
+			event.stopPropagation();
+			const isOpen = button instanceof HTMLButtonElement && button.getAttribute('aria-expanded') === 'true';
+			setMenuOpen(!isOpen);
+		});
+
+		links.forEach((link) => {
+			link.addEventListener('click', () => setMenuOpen(false));
+		});
+
+		document.addEventListener('click', (event) => {
+			if (!(menu instanceof HTMLElement) || !(button instanceof HTMLButtonElement)) return;
+			const target = event.target;
+			if (!(target instanceof Node)) return;
+			if (menu.classList.contains('hidden')) return;
+			if (menu.contains(target) || button.contains(target)) return;
+			setMenuOpen(false);
+		});
+
+		document.addEventListener('keydown', (event) => {
+			if (event.key === 'Escape') setMenuOpen(false);
+		});
+	</script>
 </header>

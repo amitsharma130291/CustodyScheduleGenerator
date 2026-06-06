@@ -5,7 +5,7 @@ interface FAQItem {
 
 interface BreadcrumbItem {
 	name: string;
-	url: string;
+	url?: string;
 }
 
 export function buildFAQSchema(items: FAQItem[]) {
@@ -31,7 +31,7 @@ export function buildBreadcrumbSchema(items: BreadcrumbItem[]) {
 			'@type': 'ListItem',
 			position: index + 1,
 			name: item.name,
-			item: item.url,
+			...(item.url ? { item: item.url } : {}),
 		})),
 	};
 }
@@ -54,6 +54,24 @@ export function buildWebPageSchema({
 	};
 }
 
+export function buildAboutPageSchema({
+	name,
+	description,
+	url,
+}: {
+	name: string;
+	description: string;
+	url: string;
+}) {
+	return {
+		'@context': 'https://schema.org',
+		'@type': 'AboutPage',
+		name,
+		description,
+		url,
+	};
+}
+
 export function buildWebSiteSchema({
 	name,
 	url,
@@ -66,6 +84,24 @@ export function buildWebSiteSchema({
 	return {
 		'@context': 'https://schema.org',
 		'@type': 'WebSite',
+		name,
+		url,
+		description,
+	};
+}
+
+export function buildBlogSchema({
+	name,
+	url,
+	description,
+}: {
+	name: string;
+	url: string;
+	description: string;
+}) {
+	return {
+		'@context': 'https://schema.org',
+		'@type': 'Blog',
 		name,
 		url,
 		description,
@@ -91,10 +127,12 @@ export function buildSoftwareApplicationSchema({
 	name,
 	description,
 	url,
+	applicationCategory = 'UtilitiesApplication',
 }: {
 	name: string;
 	description: string;
 	url: string;
+	applicationCategory?: string;
 }) {
 	return {
 		'@context': 'https://schema.org',
@@ -102,7 +140,7 @@ export function buildSoftwareApplicationSchema({
 		name,
 		description,
 		url,
-		applicationCategory: 'UtilitiesApplication',
+		applicationCategory,
 		operatingSystem: 'Web',
 		offers: {
 			'@type': 'Offer',

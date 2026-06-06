@@ -9,14 +9,13 @@ import { getCanonicalUrl } from '../lib/seo/metadata';
 import {
 	buildBreadcrumbSchema,
 	buildFAQSchema,
-	buildSoftwareApplicationSchema,
 	buildWebPageSchema,
 } from '../lib/seo/schema';
 import { calculateCustodyPercentage, formatCustodyPercentage } from '../lib/calculators/custodyPercentage';
 
-const title = 'Visitation Calculator | Calculate Parenting Time & Visitation Percentage';
+const title = 'Visitation Calculator Parenting Time Tool | CustodyBuilder';
 const description =
-	'Use this visitation calculator to estimate parenting time percentages and overnight counts. Calculate visitation schedules and compare custody arrangements.';
+	'Use a visitation calculator to estimate parenting time percentages, compare custody arrangements, and plan overnight schedules before review.';
 const canonical = '/visitation-calculator';
 const canonicalUrl = getCanonicalUrl(canonical);
 const commonExamples = [
@@ -65,13 +64,13 @@ const faq = [
 ];
 const breadcrumbs = [
 	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: 'Calculators' },
 	{ name: 'Visitation Calculator', url: canonicalUrl },
 ];
 const schema = [
 	buildFAQSchema(faq),
 	buildBreadcrumbSchema(breadcrumbs),
 	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
-	buildSoftwareApplicationSchema({ name: 'Visitation Calculator', description, url: canonicalUrl }),
 ];
 ---
 

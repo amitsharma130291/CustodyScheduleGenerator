@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import { buildWebPageSchema } from '../lib/seo/schema';
+
+const title = 'Page Not Found | CustodyBuilder';
+const description = 'The page you are looking for may have been moved, renamed, or no longer exists.';
+const canonical = '/404';
+const canonicalUrl = getCanonicalUrl(canonical);
+const schema = buildWebPageSchema({ name: title, description, url: canonicalUrl });
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} robots="noindex, follow">
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<main>
+		<section class="container-shell py-16 lg:py-24">
+			<div class="premium-card mx-auto max-w-3xl rounded-[2rem] p-6 text-center sm:p-8 lg:p-10">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">404</p>
+				<h1 class="mt-4 text-5xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary lg:text-6xl">
+					Page Not Found
+				</h1>
+				<p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-secondary">
+					The page you are looking for may have been moved, renamed, or no longer exists.
+				</p>
+				<div class="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+					<a href="/" class="btn-primary inline-flex h-13 w-full items-center justify-center rounded-full px-8 text-base font-semibold sm:w-auto">
+						Go Home
+					</a>
+					<a href="/#generator" class="btn-secondary inline-flex h-13 w-full items-center justify-center rounded-full px-8 text-base font-semibold sm:w-auto">
+						Open Schedule Generator
+					</a>
+					<a href="/blog" class="btn-secondary inline-flex h-13 w-full items-center justify-center rounded-full px-8 text-base font-semibold sm:w-auto">
+						View Custody Schedule Guides
+					</a>
+				</div>
+			</div>
+		</section>
+	</main>
+	<Footer />
+</BaseLayout>

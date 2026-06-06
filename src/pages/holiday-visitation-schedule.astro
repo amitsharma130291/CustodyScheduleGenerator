@@ -8,13 +8,12 @@ import { getCanonicalUrl } from '../lib/seo/metadata';
 import {
 	buildBreadcrumbSchema,
 	buildFAQSchema,
-	buildSoftwareApplicationSchema,
 	buildWebPageSchema,
 } from '../lib/seo/schema';
 
-const title = 'Holiday Visitation Schedule | Holiday Parenting Time Planner';
+const title = 'Holiday Visitation Schedule Planner | CustodyBuilder';
 const description =
-	'Create a holiday visitation schedule to preview how major holidays, school breaks, and parenting time can be divided between Parent A and Parent B.';
+	'Create a holiday visitation schedule, divide school breaks and special days, preview assignments, and print a parenting time plan for review.';
 const canonical = '/holiday-visitation-schedule';
 const canonicalUrl = getCanonicalUrl(canonical);
 const currentYear = new Date().getFullYear();
@@ -81,6 +80,16 @@ const relatedLinks = [
 		href: '/50-50-custody-schedule',
 		description: 'Compare common equal parenting time schedule patterns.',
 	},
+	{
+		title: 'Holiday Custody Schedule',
+		href: '/holiday-custody-schedule',
+		description: 'Build a full holiday custody schedule with yearly assignments.',
+	},
+	{
+		title: 'Parenting Plan Template',
+		href: '/parenting-plan-template',
+		description: 'Document holiday rules, travel notice, and exchange details.',
+	},
 ];
 const breadcrumbs = [
 	{ name: 'Home', url: getCanonicalUrl('/') },
@@ -90,7 +99,6 @@ const schema = [
 	buildFAQSchema(faq),
 	buildBreadcrumbSchema(breadcrumbs),
 	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
-	buildSoftwareApplicationSchema({ name: 'Holiday Visitation Schedule Planner', description, url: canonicalUrl }),
 ];
 ---
 

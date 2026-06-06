@@ -1,0 +1,13 @@
+---
+const buildDate = new Date();
+const isoDate = buildDate.toISOString().slice(0, 10);
+const displayDate = buildDate.toLocaleDateString('en-US', {
+	month: 'long',
+	day: 'numeric',
+	year: 'numeric',
+});
+---
+
+<p class="mt-4 text-sm font-medium text-muted">
+	Last Updated: <time datetime={isoDate}>{displayDate}</time>
+</p>

@@ -6,13 +6,15 @@ interface Props {
 	description?: string;
 	canonical?: string;
 	ogType?: string;
+	robots?: string;
 }
 
 const {
-	title = 'CustodyBuilder | Parenting Time Calendar Tool',
+	title = 'CustodyBuilder | Free Custody Schedule Generator',
 	description = 'Create clear, printable custody and parenting time schedules with a premium, easy-to-use calendar generator.',
 	canonical = Astro.url.pathname,
 	ogType = 'website',
+	robots = 'index, follow',
 } = Astro.props;
 
 const siteUrl = 'https://custodybuilder.com';
@@ -25,19 +27,19 @@ const defaultImageUrl = new URL('/logo/custodybuilder-icon.svg', siteUrl).toStri
 ---
 
 <!doctype html>
-<html lang="en" data-theme="dark" style="color-scheme: dark;">
+<html lang="en" data-theme="light" style="color-scheme: light;">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<script is:inline>
 			try {
 				const storedTheme = localStorage.getItem('theme');
-				const theme = storedTheme === 'light' || storedTheme === 'dark' ? storedTheme : 'dark';
+				const theme = storedTheme === 'light' || storedTheme === 'dark' ? storedTheme : 'light';
 				document.documentElement.dataset.theme = theme;
 				document.documentElement.style.colorScheme = theme;
 			} catch {
-				document.documentElement.dataset.theme = 'dark';
-				document.documentElement.style.colorScheme = 'dark';
+				document.documentElement.dataset.theme = 'light';
+				document.documentElement.style.colorScheme = 'light';
 			}
 		</script>
 		<link rel="icon" type="image/svg+xml" href="/logo/custodybuilder-icon.svg" />
@@ -49,7 +51,7 @@ const defaultImageUrl = new URL('/logo/custodybuilder-icon.svg', siteUrl).toStri
 			rel="stylesheet"
 		/>
 		<meta name="description" content={description} />
-		<meta name="robots" content="index, follow" />
+		<meta name="robots" content={robots} />
 		<link rel="canonical" href={canonicalUrl} />
 		<meta property="og:type" content={ogType} />
 		<meta property="og:site_name" content="CustodyBuilder" />

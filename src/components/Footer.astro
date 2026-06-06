@@ -1,51 +1,55 @@
 ---
 const columns = [
 	{
-		title: 'Product',
+		title: 'Custody Schedules',
 		links: [
-			{ label: 'Schedule generator', href: '/#generator' },
-			{ label: 'Calendar preview', href: '/#generator' },
-			{ label: 'Printable plans', href: '/#how-it-works' },
-			{ label: 'Parenting time tools', href: '/#schedules' },
+			{ label: '2-2-3 Custody Schedule', href: '/2-2-3-custody-schedule' },
+			{ label: '2-2-5-5 Custody Schedule', href: '/2-2-5-5-custody-schedule' },
+			{ label: '5-2-2-5 Custody Schedule', href: '/5-2-2-5-custody-schedule' },
+			{ label: '3-4-4-3 Custody Schedule', href: '/3-4-4-3-custody-schedule' },
+			{ label: 'Week-On Week-Off Custody Schedule', href: '/week-on-week-off-custody-schedule' },
+			{ label: 'Every Other Weekend Custody Schedule', href: '/every-other-weekend-custody-schedule' },
 		],
 	},
 	{
-		title: 'Tools',
+		title: 'Parenting Time',
 		links: [
-			{ label: '2-2-3 schedule', href: '/2-2-3-custody-schedule' },
-			{ label: '2-2-5-5 schedule', href: '/2-2-5-5-custody-schedule' },
-			{ label: '5-2-2-5 schedule', href: '/5-2-2-5-custody-schedule' },
-			{ label: '50/50 custody schedule', href: '/50-50-custody-schedule' },
-			{ label: '60/40 custody schedule', href: '/60-40-custody-schedule' },
-			{ label: '70/30 custody schedule', href: '/70-30-custody-schedule' },
-			{ label: '80/20 custody schedule', href: '/80-20-custody-schedule' },
+			{ label: '50/50 Custody Schedule', href: '/50-50-custody-schedule' },
+			{ label: '60/40 Custody Schedule', href: '/60-40-custody-schedule' },
+			{ label: '70/30 Custody Schedule', href: '/70-30-custody-schedule' },
+			{ label: '80/20 Custody Schedule', href: '/80-20-custody-schedule' },
+			{ label: 'Custody Schedule By Age', href: '/custody-schedule-by-age' },
+			{ label: 'Holiday Custody Schedule', href: '/holiday-custody-schedule' },
 		],
 	},
 	{
-		title: 'Resources',
+		title: 'Templates & Calculators',
 		links: [
-			{ label: 'How it works', href: '/#how-it-works' },
-			{ label: 'Custody schedule template', href: '/custody-schedule-template' },
-			{ label: 'Holiday custody schedule', href: '/holiday-custody-schedule' },
-			{ label: 'Custody percentage calculator', href: '/custody-percentage-calculator' },
-			{ label: 'Co-parent planning', href: '/#how-it-works' },
-			{ label: 'FAQ', href: '/#faq' },
+			{ label: 'Custody Calendar Template', href: '/custody-calendar-template' },
+			{ label: 'Custody Schedule Template', href: '/custody-schedule-template' },
+			{ label: 'Parenting Plan Template', href: '/parenting-plan-template' },
+			{ label: 'Custody Percentage Calculator', href: '/custody-percentage-calculator' },
+			{ label: 'Parenting Time Calculator', href: '/parenting-time-calculator' },
+			{ label: 'Visitation Calculator', href: '/visitation-calculator' },
 		],
 	},
 	{
-		title: 'Company',
+		title: 'Guides',
 		links: [
-			{ label: 'About', href: '/' },
-			{ label: 'Product roadmap', href: '/#how-it-works' },
-			{ label: 'Contact', href: '/#faq' },
+			{ label: 'Best Custody Schedule For Toddlers', href: '/best-custody-schedule-for-toddler' },
+			{ label: 'Best Custody Schedule For 5 Year Olds', href: '/best-custody-schedule-for-5-year-old' },
+			{ label: 'Best Custody Schedule For 7 Year Olds', href: '/best-custody-schedule-for-7-year-old' },
+			{ label: 'Best Custody Schedule For Teenagers', href: '/best-custody-schedule-for-teenager' },
+			{ label: 'Holiday Visitation Schedule', href: '/holiday-visitation-schedule' },
+			{ label: 'Blog', href: '/blog' },
 		],
 	},
 	{
 		title: 'Legal',
 		links: [
-			{ label: 'Privacy', href: '/' },
-			{ label: 'Terms', href: '/' },
-			{ label: 'Disclaimer', href: '/#faq' },
+			{ label: 'Privacy', href: '/privacy' },
+			{ label: 'Disclaimer', href: '/disclaimer' },
+			{ label: 'Terms', href: '/terms' },
 		],
 	},
 ];
@@ -54,60 +58,41 @@ const columns = [
 <footer class="relative border-t border-line-subtle/70 py-9 lg:py-10">
 	<div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/12 to-transparent" aria-hidden="true"></div>
 	<div class="container-shell">
-		<div class="grid gap-6 lg:grid-cols-[1fr_2.2fr]">
-			<div>
-				<a href="/" class="inline-flex items-center">
-					<span class="inline-flex items-center rounded-2xl bg-white px-3 py-1.5 shadow-[0_10px_28px_rgba(0,0,0,0.14),inset_0_0_0_1px_rgba(15,23,42,0.08)]">
-						<img src="/logo/logo.svg" alt="CustodyBuilder" class="h-9 w-auto" loading="lazy" decoding="async" />
+		<div class="grid gap-7 text-center sm:grid-cols-2 sm:text-left lg:grid-cols-[1.2fr_repeat(5,minmax(0,1fr))] lg:gap-5 xl:gap-7">
+			<div class="flex flex-col items-center sm:items-start">
+				<a href="/" class="inline-flex items-center" aria-label="CustodyBuilder home">
+					<span class="site-logo-lockup inline-flex max-w-[172px] items-center rounded-xl px-2 py-1 transition-all duration-200 hover:-translate-y-0.5 sm:max-w-none sm:px-2.5 sm:py-1">
+						<img src="/logo/custodybuilder-logo.svg" alt="CustodyBuilder" class="h-[34px] w-auto sm:h-[38px]" loading="lazy" decoding="async" />
 					</span>
 				</a>
-				<p class="mt-2 max-w-sm text-sm leading-6 text-muted">
-					A calm, focused way to draft parenting time calendars before you export, print, or discuss the details.
+				<p class="mt-3 max-w-xs text-sm leading-6 text-muted">
+					Create clear custody schedules, parenting calendars, and printable parenting plans.
 				</p>
+				<a href="/about" class="group/link relative mt-3 inline-flex text-sm leading-5 text-secondary outline-none after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-current after:opacity-70 after:transition-transform after:duration-200 after:ease-out hover:after:scale-x-100 focus-visible:after:scale-x-100 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--color-page)]">
+					About
+				</a>
 			</div>
 
-			<div class="grid gap-3 lg:hidden">
-				{columns.map((column) => (
-					<details class="rounded-2xl bg-surface/60 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-						<summary class="cursor-pointer list-none text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-							{column.title}
-						</summary>
-						<ul class="mt-3 space-y-2">
-							{column.links.map((link) => (
-								<li>
-									<a href={link.href} class="text-sm text-secondary transition-colors duration-200 hover:text-primary">
-										{link.label}
-									</a>
-								</li>
-							))}
-						</ul>
-					</details>
-				))}
-			</div>
-
-			<div class="hidden gap-5 lg:grid lg:grid-cols-5">
-				{columns.map((column) => (
-					<div>
-						<h2 class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
-							{column.title}
-						</h2>
-						<ul class="mt-2.5 space-y-1.5">
-							{column.links.map((link) => (
-								<li>
-									<a href={link.href} class="text-sm text-secondary transition-colors duration-200 hover:text-primary">
-										{link.label}
-									</a>
-								</li>
-							))}
-						</ul>
-					</div>
-				))}
-			</div>
+			{columns.map((column) => (
+				<nav aria-label={column.title}>
+					<h2 class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
+						{column.title}
+					</h2>
+					<ul class="mt-3 space-y-1.5">
+						{column.links.map((link) => (
+							<li>
+								<a href={link.href} class="group/link relative inline-flex text-sm leading-5 text-secondary outline-none after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-current after:opacity-70 after:transition-transform after:duration-200 after:ease-out hover:after:scale-x-100 focus-visible:after:scale-x-100 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--color-page)]">
+									{link.label}
+								</a>
+							</li>
+						))}
+					</ul>
+				</nav>
+			))}
 		</div>
 
-		<div class="mt-6 flex flex-col gap-2 border-t border-line-subtle/70 pt-4 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
+		<div class="mt-7 border-t border-line-subtle/70 pt-4 text-center text-sm text-muted sm:text-left">
 			<p>© {new Date().getFullYear()} CustodyBuilder. All rights reserved.</p>
-			<p>Educational planning tool. Not legal advice.</p>
 		</div>
 	</div>
 </footer>

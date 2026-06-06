@@ -8,13 +8,12 @@ import { getCanonicalUrl } from '../lib/seo/metadata';
 import {
 	buildBreadcrumbSchema,
 	buildFAQSchema,
-	buildSoftwareApplicationSchema,
 	buildWebPageSchema,
 } from '../lib/seo/schema';
 
-const title = 'Holiday Custody Schedule Generator | Printable Holiday Parenting Calendar';
+const title = 'Holiday Custody Schedule Calendar | CustodyBuilder';
 const description =
-	'Create a holiday custody schedule for Thanksgiving, Christmas, school breaks, birthdays, and other special days. Preview, print, and share a simple holiday parenting calendar.';
+	'Create a holiday custody schedule for school breaks, birthdays, and special days. Preview, print, and share a parenting calendar for review.';
 const canonical = '/holiday-custody-schedule';
 const canonicalUrl = getCanonicalUrl(canonical);
 const currentYear = new Date().getFullYear();
@@ -84,7 +83,6 @@ const schema = [
 	buildFAQSchema(faq),
 	buildBreadcrumbSchema(breadcrumbs),
 	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
-	buildSoftwareApplicationSchema({ name: 'Holiday Custody Schedule Generator', description, url: canonicalUrl }),
 ];
 const holidayExamples = [
 	{

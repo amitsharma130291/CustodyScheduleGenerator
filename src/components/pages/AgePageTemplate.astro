@@ -4,6 +4,7 @@ import Navbar from '../Navbar.astro';
 import Footer from '../Footer.astro';
 import Breadcrumbs from '../seo/Breadcrumbs.astro';
 import JsonLd from '../seo/JsonLd.astro';
+import LastUpdated from '../seo/LastUpdated.astro';
 import { getCanonicalUrl } from '../../lib/seo/metadata';
 import { buildBreadcrumbSchema, buildFAQSchema, buildWebPageSchema } from '../../lib/seo/schema';
 
@@ -17,18 +18,277 @@ interface Props {
 const { title, description, slug, lede } = Astro.props;
 const canonical = `/${slug}`;
 const canonicalUrl = getCanonicalUrl(canonical);
-const breadcrumbs = [
-	{ name: 'Home', url: getCanonicalUrl('/') },
-	{ name: title, url: canonicalUrl },
-];
-const faq = [
+
+const sharedSchedules = [
 	{
-		question: 'Should custody schedules change by age?',
-		answer: 'Often, yes. Younger children may need shorter gaps between parents, while older children may handle longer blocks more easily.',
+		name: '2-2-3 Custody Schedule',
+		href: '/2-2-3-custody-schedule',
+		bestFor: 'Families that want both parents involved every week and can manage more frequent exchanges.',
+		pros: 'Shorter gaps between homes, alternating weekends, and steady contact with both parents.',
+		cons: 'More handoffs, more coordination, and less ideal when homes are far apart.',
+	},
+	{
+		name: '2-2-5-5 Custody Schedule',
+		href: '/2-2-5-5-custody-schedule',
+		bestFor: 'Parents who want stable weekdays with longer five-day blocks on alternating weekends.',
+		pros: 'Predictable school-week pattern, easier weekday planning, and meaningful weekend time.',
+		cons: 'Five-day stretches may feel long for younger children and require consistent routines in both homes.',
+	},
+	{
+		name: '5-2-2-5 Custody Schedule',
+		href: '/5-2-2-5-custody-schedule',
+		bestFor: 'Families that want fewer exchanges while keeping a balanced two-week rotation.',
+		pros: 'Longer blocks, predictable exchange days, and less back-and-forth than 2-2-3.',
+		cons: 'Can be harder for children who need very frequent contact or who struggle with longer separations.',
+	},
+	{
+		name: 'Week-On Week-Off Custody Schedule',
+		href: '/week-on-week-off-custody-schedule',
+		bestFor: 'Older children and teens who can handle full weeks in each home.',
+		pros: 'Few exchanges, simple calendar, and easier planning for homework, sports, and transportation.',
+		cons: 'Full weeks away from one parent can be too long for younger children or high-conflict transitions.',
 	},
 ];
+
+const relatedLinks = [
+	{ title: '2-2-3 Custody Schedule', href: '/2-2-3-custody-schedule', description: 'A frequent-contact 50/50 schedule with alternating weekends.' },
+	{ title: '2-2-5-5 Custody Schedule', href: '/2-2-5-5-custody-schedule', description: 'A 50/50 schedule with stable weekdays and alternating longer blocks.' },
+	{ title: '5-2-2-5 Custody Schedule', href: '/5-2-2-5-custody-schedule', description: 'A two-week 50/50 schedule with predictable five-day blocks.' },
+	{ title: '50/50 Custody Schedule', href: '/50-50-custody-schedule', description: 'Compare common equal parenting time schedule options.' },
+	{ title: 'Custody Calendar Template', href: '/custody-calendar-template', description: 'Create a printable calendar after choosing a custody schedule.' },
+	{ title: 'Custody Percentage Calculator', href: '/custody-percentage-calculator', description: 'Estimate parenting time percentages from overnight totals.' },
+	{ title: 'Parenting Plan Template', href: '/parenting-plan-template', description: 'Document the schedule, holidays, exchanges, and decision-making rules.' },
+];
+
+const sampleCalendars = [
+	{
+		title: 'Example 2-2-3 calendar',
+		description: 'Short blocks keep both parents involved during the week and alternate weekends.',
+		days: ['A', 'A', 'B', 'B', 'A', 'A', 'A', 'B', 'B', 'A', 'A', 'B', 'B', 'B'],
+	},
+	{
+		title: 'Example 50/50 calendar',
+		description: 'A two-week shared parenting pattern can be adjusted around school and activities.',
+		days: ['A', 'A', 'B', 'B', 'B', 'A', 'A', 'A', 'A', 'B', 'B', 'A', 'B', 'B'],
+	},
+	{
+		title: 'Example alternating-week schedule',
+		description: 'Full weeks reduce exchanges but usually fit older children better than younger children.',
+		days: ['A', 'A', 'A', 'A', 'A', 'A', 'A', 'B', 'B', 'B', 'B', 'B', 'B', 'B'],
+	},
+];
+
+const agePages = {
+	'best-custody-schedule-for-toddler': {
+		eyebrow: 'Toddler custody schedules',
+		intro: [
+			'The best custody schedule for a toddler is usually the one that protects frequent parent contact while keeping daily life predictable. Toddlers are still developing a sense of time, routine, sleep rhythm, and emotional security. A schedule that looks fair on paper may still be difficult if it creates long separations, rushed exchanges, inconsistent naps, or too many changes in caregivers and locations.',
+			'For many toddlers, the planning question is not simply whether a schedule is 50/50. It is whether the child can maintain secure relationships with both parents without being stretched beyond their developmental stage. Shorter blocks, clear exchange times, familiar bedtime routines, and regular communication between homes often matter more than a mathematically perfect split. Parents should also consider breastfeeding, daycare, medical needs, transportation time, and how the child reacts after transitions.',
+			'Use the comparisons below to think through common custody schedules for toddlers. The examples are planning guides, not legal advice. A toddler schedule should be reviewed as the child grows, because a plan that works at age two may need more school-year structure by age five.',
+		],
+		needs: [
+			{
+				title: 'Frequent parent contact',
+				text: 'Toddlers often do best when they see each parent often enough that neither home feels unfamiliar. Frequent contact can support attachment, especially when exchanges are calm and predictable.',
+			},
+			{
+				title: 'Consistency',
+				text: 'Consistent wake times, naps, meals, comfort items, and bedtime routines can make shared custody easier. Both homes do not need to be identical, but the child should know what to expect.',
+			},
+			{
+				title: 'Reduced separation time',
+				text: 'Long gaps away from either parent may be harder for toddlers than for older children. Shorter blocks can reduce separation stress while parents slowly build toward longer periods if appropriate.',
+			},
+		],
+		suitability: {
+			'2-2-3 Custody Schedule': 'Often the strongest 50/50 option for toddlers when exchanges are low conflict and homes are close.',
+			'2-2-5-5 Custody Schedule': 'Possible for some toddlers, but five-day blocks may be long and should be tested carefully.',
+			'5-2-2-5 Custody Schedule': 'Usually better for older preschool children than very young toddlers because of longer stretches.',
+			'Week-On Week-Off Custody Schedule': 'Usually not the first choice for toddlers because a full week away can feel too long.',
+		},
+		prosCons: [
+			{ schedule: '2-2-3', advantages: 'Frequent contact and alternating weekends.', drawbacks: 'More exchanges and more coordination.' },
+			{ schedule: '2-2-5-5', advantages: 'Stable weekdays for each parent.', drawbacks: 'Five-day stretches may be difficult.' },
+			{ schedule: '5-2-2-5', advantages: 'Fewer exchanges than 2-2-3.', drawbacks: 'Longer separations can be stressful.' },
+			{ schedule: 'Alternating weeks', advantages: 'Simple for parents to track.', drawbacks: 'Often too long between contacts for toddlers.' },
+		],
+		faq: [
+			{
+				question: 'What is the best custody schedule for a toddler?',
+				answer: 'Many toddlers do best with frequent-contact schedules such as 2-2-3 or another short-block plan, especially when both homes can keep routines consistent. The best schedule depends on the child, distance between homes, exchange quality, daycare needs, and each parent\'s availability.',
+			},
+			{
+				question: 'How many nights should a toddler spend away from each parent?',
+				answer: 'There is no universal number. Many parents start by limiting long separations and using shorter blocks so the toddler has regular contact with both parents. The schedule should account for sleep, attachment, daycare, feeding, and how the child handles transitions.',
+			},
+			{
+				question: 'Is alternating week custody good for toddlers?',
+				answer: 'Alternating weeks are usually better suited to older children and teenagers. For toddlers, a full week away from one parent can be difficult unless the child is already comfortable with longer separations and both homes maintain very consistent routines.',
+			},
+		],
+	},
+	'best-custody-schedule-for-5-year-old': {
+		eyebrow: 'Custody schedules for age five',
+		intro: [
+			'The best custody schedule for a 5-year-old should support school readiness, sleep consistency, and reliable time with both parents. At this age, many children are preparing for kindergarten or already adjusting to a school-day routine. They may be more capable of handling predictable overnight blocks than toddlers, but they still benefit from clear structure and frequent reassurance.',
+			'Parents comparing schedules for a 5-year-old should look beyond the percentage split. A workable plan should make mornings easier, protect bedtime, reduce last-minute changes, and give the child enough weekend time in both homes. The schedule should also account for drop-off logistics, daycare or kindergarten hours, parent work schedules, and whether the child can move between homes without losing school supplies, clothing, comfort items, or activity gear.',
+			'A 5-year-old may do well with 2-2-3, 2-2-5-5, or 5-2-2-5 depending on distance and temperament. Alternating weeks can work for some mature children with strong routines, but many families wait until the child is older before using full-week blocks.',
+		],
+		needs: [
+			{
+				title: 'School preparation',
+				text: 'A schedule for a 5-year-old should make school mornings predictable. Parents should agree on homework folders, clothing, lunch routines, and how information moves between homes.',
+			},
+			{
+				title: 'Predictable routines',
+				text: 'Children at this age often adjust better when exchange days, bedtimes, and weekend plans follow a clear rhythm. Predictability helps reduce anxiety and resistance.',
+			},
+			{
+				title: 'Weekend balance',
+				text: 'A good schedule gives each parent meaningful weekend time while avoiding constant disruption. Alternating weekends or shared weekend blocks can help the child feel connected to both homes.',
+			},
+		],
+		suitability: {
+			'2-2-3 Custody Schedule': 'Strong for frequent contact and younger school-age children who still need shorter blocks.',
+			'2-2-5-5 Custody Schedule': 'Often a good fit because weekday routines stay consistent and weekends alternate.',
+			'5-2-2-5 Custody Schedule': 'Can work well when the child handles longer blocks and parents want fewer exchanges.',
+			'Week-On Week-Off Custody Schedule': 'Possible for some 5-year-olds, but often easier after the child is more settled in school.',
+		},
+		prosCons: [
+			{ schedule: '2-2-3', advantages: 'Frequent contact and short gaps.', drawbacks: 'Can feel busy during school weeks.' },
+			{ schedule: '2-2-5-5', advantages: 'Stable weekdays and alternating weekends.', drawbacks: 'Five-day blocks require strong routines.' },
+			{ schedule: '5-2-2-5', advantages: 'Fewer exchanges and longer home time.', drawbacks: 'May be harder if the child misses either parent quickly.' },
+			{ schedule: 'Alternating weeks', advantages: 'Simple and low exchange frequency.', drawbacks: 'Full weeks may be too long for some 5-year-olds.' },
+		],
+		faq: [
+			{
+				question: 'What custody schedule works best for a 5-year-old?',
+				answer: 'Many 5-year-olds do well with predictable shared schedules such as 2-2-3, 2-2-5-5, or 5-2-2-5. The best choice depends on school logistics, distance between homes, the child\'s temperament, and how well both parents maintain consistent routines.',
+			},
+			{
+				question: 'Is 50/50 custody appropriate for a 5-year-old?',
+				answer: '50/50 custody can be appropriate for some 5-year-olds when both parents are active, live close enough for school, and can keep routines consistent. If long separations or exchanges are stressful, parents may start with shorter blocks and adjust over time.',
+			},
+			{
+				question: 'Should a 5-year-old use alternating week custody?',
+				answer: 'Alternating weeks can be simple for parents, but some 5-year-olds find a full week away from either parent too long. A shorter 50/50 schedule may be easier until the child is more settled in school.',
+			},
+		],
+	},
+	'best-custody-schedule-for-7-year-old': {
+		eyebrow: 'School-age custody schedules',
+		intro: [
+			'The best custody schedule for a 7-year-old should protect school stability while giving the child meaningful time in both homes. By this age, many children can understand a repeating calendar, anticipate exchange days, and handle longer blocks than younger children. They also have more school responsibilities, friendships, activities, and preferences that should be considered when choosing a custody schedule.',
+			'Parents should evaluate whether the schedule supports homework, reading time, extracurricular activities, sleep, transportation, and social consistency. A schedule that repeatedly interrupts sports practice, playdates, tutoring, or school projects may become frustrating even if the overnight split is fair. At the same time, a 7-year-old still needs dependable time with both parents and may struggle if one home feels like a weekend-only place.',
+			'Common options include 2-2-5-5, 5-2-2-5, 2-2-3, and alternating weeks. The best choice depends on how independent the child is, how close the homes are to school, and whether both parents can support weekday responsibilities.',
+		],
+		needs: [
+			{
+				title: 'School schedules',
+				text: 'The schedule should make homework, school drop-offs, projects, and early bedtimes manageable. Both homes need access to school information and supplies.',
+			},
+			{
+				title: 'Activity planning',
+				text: 'A 7-year-old may have sports, lessons, clubs, or tutoring. The custody calendar should identify who handles transportation and what happens when activities overlap parenting time.',
+			},
+			{
+				title: 'Friend and social consistency',
+				text: 'Children at this age are building friendships and routines outside both homes. A strong schedule leaves room for playdates, birthday parties, and community ties.',
+			},
+		],
+		suitability: {
+			'2-2-3 Custody Schedule': 'Good for frequent contact, but may create more school-week transitions.',
+			'2-2-5-5 Custody Schedule': 'Often strong for school-age children because weekdays are predictable.',
+			'5-2-2-5 Custody Schedule': 'A good fit when the child can handle longer blocks and parents want fewer exchanges.',
+			'Week-On Week-Off Custody Schedule': 'Can work for some 7-year-olds if school logistics are simple and both homes are prepared.',
+		},
+		prosCons: [
+			{ schedule: '2-2-3', advantages: 'Regular contact and no long gaps.', drawbacks: 'More transitions during school weeks.' },
+			{ schedule: '2-2-5-5', advantages: 'Predictable weekdays and balanced weekends.', drawbacks: 'Requires both homes to manage school routines.' },
+			{ schedule: '5-2-2-5', advantages: 'Fewer exchanges and stable blocks.', drawbacks: 'Longer stretches can affect activity planning.' },
+			{ schedule: 'Alternating weeks', advantages: 'Very simple calendar with fewer handoffs.', drawbacks: 'May feel too long if the child misses either parent.' },
+		],
+		faq: [
+			{
+				question: 'What custody schedule is best for school-age children?',
+				answer: 'Many school-age children do well with predictable schedules such as 2-2-5-5 or 5-2-2-5 because they support school routines while preserving regular time with both parents. Some children prefer 2-2-3 for more frequent contact, while others handle alternating weeks well.',
+			},
+			{
+				question: 'How does a 7-year-old adjust to shared custody?',
+				answer: 'A 7-year-old often adjusts best when the schedule is predictable, both homes support school responsibilities, exchanges are calm, and parents keep activity and homework expectations consistent. Visual calendars can help the child understand where they will be each day.',
+			},
+			{
+				question: 'Is alternating week custody good for a 7-year-old?',
+				answer: 'Alternating weeks can work for some 7-year-olds, especially when parents live near school and the child handles longer blocks well. Other children still need shorter blocks or midweek contact to feel connected to both parents.',
+			},
+		],
+	},
+	'best-custody-schedule-for-teenager': {
+		eyebrow: 'Teen custody schedules',
+		intro: [
+			'The best custody schedule for teenagers is often the one that respects school demands, independence, transportation, social life, and extracurricular commitments while preserving real relationships with both parents. Teens usually understand the custody calendar better than younger children, but they may also have stronger opinions about where they study, practice, work, sleep, and spend time with friends.',
+			'For teenagers, the schedule should be practical and durable. A technically balanced plan may fail if it creates too much driving, interrupts sports, separates the teen from school materials, or forces constant packing. Parents should consider homework load, exams, part-time jobs, athletics, music, clubs, friend groups, driving privileges, and how the teen communicates with each parent between visits.',
+			'Many teens can handle longer blocks such as 5-2-2-5 or alternating weeks, especially when both homes are near school and activities. Some still prefer shorter schedules because they want steady contact with both parents. The goal is not to let the teen control every decision, but to build a schedule that is realistic enough to follow.',
+		],
+		needs: [
+			{
+				title: 'Independence',
+				text: 'Teenagers need room for schoolwork, friendships, transportation, privacy, and growing independence. A good schedule supports responsibility without making either parent feel optional.',
+			},
+			{
+				title: 'Sports and extracurriculars',
+				text: 'Practices, games, rehearsals, clubs, jobs, and exams can dominate the calendar. Parenting time should account for who drives, who pays, and how missed time is handled.',
+			},
+			{
+				title: 'Flexibility',
+				text: 'Teens often need more flexible planning than younger children. Flexibility works best when the baseline schedule is clear and changes are discussed in advance.',
+			},
+			{
+				title: 'Reduced transition stress',
+				text: 'Fewer exchanges can help teens manage school materials, devices, uniforms, and homework. Longer blocks may reduce the feeling of constantly packing and unpacking.',
+			},
+		],
+		suitability: {
+			'2-2-3 Custody Schedule': 'May feel too choppy for busy teens unless frequent contact is a priority.',
+			'2-2-5-5 Custody Schedule': 'Can work when weekday routines are stable and transportation is manageable.',
+			'5-2-2-5 Custody Schedule': 'Often strong for teens because it offers longer blocks without full-week gaps.',
+			'Week-On Week-Off Custody Schedule': 'Often appropriate for teens who want fewer exchanges and can stay organized.',
+		},
+		prosCons: [
+			{ schedule: '2-2-3', advantages: 'Frequent parent contact and alternating weekends.', drawbacks: 'Can be disruptive with sports, homework, and social plans.' },
+			{ schedule: '2-2-5-5', advantages: 'Stable weekdays and predictable weekends.', drawbacks: 'Still requires midweek coordination.' },
+			{ schedule: '5-2-2-5', advantages: 'Longer blocks with regular time in both homes.', drawbacks: 'Needs careful activity and transportation planning.' },
+			{ schedule: 'Alternating weeks', advantages: 'Few transitions and simple planning.', drawbacks: 'Can reduce contact unless parents support calls or midweek time.' },
+		],
+		faq: [
+			{
+				question: 'What custody schedule is best for teenagers?',
+				answer: 'Many teenagers do well with longer-block schedules such as 5-2-2-5 or alternating weeks because they reduce transitions and support school, sports, work, and social plans. The best schedule should still preserve meaningful time with both parents.',
+			},
+			{
+				question: 'Should teenagers choose where they stay?',
+				answer: 'Teenagers can often provide useful input, especially about school, activities, transportation, and stress. Parents or courts generally make the final decision, but listening to a teen can make the schedule more realistic and easier to follow.',
+			},
+			{
+				question: 'Is alternating week custody good for teens?',
+				answer: 'Alternating week custody can work well for teenagers who want fewer exchanges and can manage school materials across homes. It works best when both parents support activities, transportation, communication, and consistent expectations.',
+			},
+		],
+	},
+};
+
+const pageData = agePages[slug as keyof typeof agePages] ?? agePages['best-custody-schedule-for-7-year-old'];
+const scheduleCards = sharedSchedules.map((schedule) => ({
+	...schedule,
+	suitability: pageData.suitability[schedule.name as keyof typeof pageData.suitability],
+}));
+const breadcrumbs = [
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: 'Guides' },
+	{ name: title, url: canonicalUrl },
+];
 const schema = [
-	buildFAQSchema(faq),
+	buildFAQSchema(pageData.faq),
 	buildBreadcrumbSchema(breadcrumbs),
 	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
 ];
@@ -39,15 +299,190 @@ const schema = [
 	<Navbar />
 	<Breadcrumbs items={breadcrumbs} />
 	<main>
-		<section class="container-shell py-12 lg:py-16">
+		<section class="container-shell py-10 lg:py-14">
 			<div class="premium-card rounded-[2rem] p-6 lg:p-8">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Age-based custody schedules</p>
-				<h1 class="mt-4 max-w-3xl text-5xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary lg:text-6xl">{title}</h1>
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">{pageData.eyebrow}</p>
+				<h1 class="mt-4 max-w-4xl text-5xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary lg:text-6xl">{title}</h1>
+				<LastUpdated />
 				<p class="mt-6 max-w-3xl text-lg leading-8 text-secondary">{lede}</p>
-				<div class="mt-8 grid gap-4 md:grid-cols-2">
-					<a href="/2-2-3-custody-schedule" class="soft-card rounded-[1.5rem] p-5">Compare frequent-contact schedules</a>
-					<a href="/week-on-week-off-custody-schedule" class="soft-card rounded-[1.5rem] p-5">Compare weekly schedules</a>
+				<div class="mt-6 grid gap-4 text-sm leading-7 text-secondary lg:grid-cols-3">
+					{pageData.intro.map((paragraph) => <p>{paragraph}</p>)}
 				</div>
+				<div class="mt-8 flex flex-col gap-3 sm:flex-row">
+					<a href="/#generator" class="btn-primary inline-flex h-12 w-full items-center justify-center rounded-full px-7 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_30px_rgba(94,106,210,0.14)] active:translate-y-0 sm:w-auto">
+						Open Custody Schedule Generator
+					</a>
+					<a href="#recommended-schedules" class="btn-secondary inline-flex h-12 w-full items-center justify-center rounded-full px-7 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-px active:translate-y-0 sm:w-auto">
+						Compare schedules
+					</a>
+				</div>
+			</div>
+		</section>
+
+		<section id="recommended-schedules" class="container-shell py-10 lg:py-12">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Recommended schedules</p>
+				<h2 class="mt-4 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-5xl">Compare custody schedules by age</h2>
+				<p class="mt-4 text-base leading-7 text-secondary">
+					No schedule fits every family. The most useful comparison is how each rotation affects exchanges, school routines, parent contact, and the child's ability to feel settled in both homes.
+				</p>
+			</div>
+			<div class="mt-8 grid items-stretch gap-4 md:grid-cols-2 xl:grid-cols-4">
+				{scheduleCards.map((schedule) => (
+					<a href={schedule.href} class="soft-card group flex h-full flex-col rounded-[1.5rem] p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-[0_18px_44px_rgba(15,23,42,0.08)]">
+						<h3 class="text-xl font-semibold tracking-[-0.04em] text-primary">{schedule.name}</h3>
+						<div class="mt-4 grid gap-3 text-sm leading-6 text-secondary">
+							<p><span class="font-semibold text-primary">Best for:</span> {schedule.bestFor}</p>
+							<p><span class="font-semibold text-primary">Pros:</span> {schedule.pros}</p>
+							<p><span class="font-semibold text-primary">Cons:</span> {schedule.cons}</p>
+							<p><span class="font-semibold text-primary">Age suitability:</span> {schedule.suitability}</p>
+						</div>
+					</a>
+				))}
+			</div>
+		</section>
+
+		<section class="container-shell py-10 lg:py-12">
+			<div class="grid gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+				<div>
+					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Development needs</p>
+					<h2 class="mt-4 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">What children need at this age</h2>
+					<p class="mt-4 text-base leading-7 text-secondary">
+						Age should not be the only factor, but it changes how children experience time, transitions, school demands, and separation from each parent.
+					</p>
+				</div>
+				<div class="grid gap-4 md:grid-cols-2">
+					{pageData.needs.map((item) => (
+						<div class="soft-card rounded-[1.5rem] p-5">
+							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{item.title}</h3>
+							<p class="mt-2 text-sm leading-6 text-secondary">{item.text}</p>
+						</div>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell py-10 lg:py-12">
+			<div class="premium-card rounded-[2rem] p-6 lg:p-8">
+				<div class="grid gap-6 lg:grid-cols-[0.75fr_1.25fr]">
+					<div>
+						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Choosing a schedule</p>
+						<h2 class="mt-4 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">How to compare options before deciding</h2>
+					</div>
+					<div class="grid gap-4 text-sm leading-7 text-secondary">
+						<p>
+							Start by comparing the calendar, not just the label. Two families can both say they use a 50/50 custody schedule while living with very different routines. A 2-2-3 schedule creates frequent movement and regular contact. A 2-2-5-5 schedule creates more stable weekdays. A 5-2-2-5 schedule gives longer blocks. Alternating weeks reduce exchanges but create the longest gaps between homes.
+						</p>
+						<p>
+							Next, test the schedule against normal life. Ask who handles school mornings, homework, medical appointments, bedtime, sports, transportation, and unexpected changes. If the child needs a backpack, medication, uniform, tablet, instrument, or comfort item in both homes, the schedule should include a realistic plan for keeping those things available.
+						</p>
+						<p>
+							Finally, decide how the schedule will grow with the child. Younger children may need frequent contact and shorter separations now, but the same family may move toward longer blocks later. Older children may value fewer exchanges, but they still need predictable time with both parents. A good custody schedule should be specific enough to follow and flexible enough to review when school, activities, or developmental needs change.
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell py-10 lg:py-12">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Sample custody calendar</p>
+				<h2 class="mt-4 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Visual examples to compare</h2>
+				<p class="mt-4 text-base leading-7 text-secondary">
+					A calendar view makes the tradeoffs easier to understand. These examples show how the same child may experience very different transition patterns depending on the schedule.
+				</p>
+			</div>
+			<div class="mt-8 grid gap-4 lg:grid-cols-3">
+				{sampleCalendars.map((calendar) => (
+					<div class="soft-card rounded-[1.5rem] p-5">
+						<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{calendar.title}</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">{calendar.description}</p>
+						<div class="mt-5 grid grid-cols-7 gap-1.5" aria-label={calendar.title}>
+							{calendar.days.map((day, index) => (
+								<div class={`grid h-10 place-items-center rounded-xl text-xs font-semibold ${day === 'A' ? 'bg-accent/15 text-accent' : 'bg-surface-elevated text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]'}`} title={`Day ${index + 1}: Parent ${day}`}>
+									{day}
+								</div>
+							))}
+						</div>
+						<p class="mt-3 text-xs leading-5 text-muted">A = Parent A overnight. B = Parent B overnight.</p>
+					</div>
+				))}
+			</div>
+		</section>
+
+		<section class="container-shell py-10 lg:py-12">
+			<div class="soft-card overflow-hidden rounded-[1.75rem]">
+				<div class="p-5 lg:p-6">
+					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Pros and cons</p>
+					<h2 class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary">Schedule advantages and drawbacks</h2>
+				</div>
+				<div class="overflow-x-auto">
+					<table class="w-full min-w-[720px] border-collapse text-left text-sm">
+						<thead class="bg-surface-elevated text-xs uppercase tracking-[0.16em] text-muted">
+							<tr>
+								<th class="px-5 py-3 font-semibold">Schedule</th>
+								<th class="px-5 py-3 font-semibold">Advantages</th>
+								<th class="px-5 py-3 font-semibold">Drawbacks</th>
+							</tr>
+						</thead>
+						<tbody class="divide-y divide-line-subtle/70">
+							{pageData.prosCons.map((row) => (
+								<tr>
+									<td class="px-5 py-4 font-semibold text-primary">{row.schedule}</td>
+									<td class="px-5 py-4 leading-6 text-secondary">{row.advantages}</td>
+									<td class="px-5 py-4 leading-6 text-secondary">{row.drawbacks}</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell py-10 lg:py-12">
+			<div class="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
+				<div>
+					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">FAQ</p>
+					<h2 class="mt-4 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Common questions</h2>
+				</div>
+				<div class="grid gap-3">
+					{pageData.faq.map((item) => (
+						<details class="soft-card group rounded-[1.5rem] p-5">
+							<summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-base font-semibold text-primary">
+								{item.question}
+								<span class="text-muted transition-transform duration-200 group-open:rotate-180" aria-hidden="true">▼</span>
+							</summary>
+							<p class="mt-3 text-sm leading-6 text-secondary">{item.answer}</p>
+						</details>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell py-10 lg:py-12">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Related schedules</p>
+				<h2 class="mt-4 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Keep comparing options</h2>
+			</div>
+			<div class="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-5">
+				{relatedLinks.map((link) => (
+					<a href={link.href} class="soft-card group flex h-full flex-col rounded-[1.5rem] p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40">
+						<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{link.title}</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">{link.description}</p>
+					</a>
+				))}
+			</div>
+		</section>
+
+		<section class="container-shell py-10 lg:py-16">
+			<div class="premium-card rounded-[2rem] p-6 text-center lg:p-8">
+				<h2 class="text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Build a personalized custody schedule</h2>
+				<p class="mx-auto mt-4 max-w-2xl text-base leading-7 text-secondary">
+					Compare schedules and generate printable custody calendars in minutes.
+				</p>
+				<a href="/#generator" class="btn-primary mt-6 inline-flex h-12 items-center justify-center rounded-full px-7 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_30px_rgba(94,106,210,0.14)] active:translate-y-0">
+					Open Custody Schedule Generator
+				</a>
 			</div>
 		</section>
 	</main>

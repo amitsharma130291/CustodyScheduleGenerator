@@ -14,13 +14,12 @@ import { getCanonicalUrl } from '../lib/seo/metadata';
 import {
 	buildBreadcrumbSchema,
 	buildFAQSchema,
-	buildSoftwareApplicationSchema,
 	buildWebPageSchema,
 } from '../lib/seo/schema';
 
-const title = 'Custody Calendar Template | Printable Parenting Time Calendar';
+const title = 'Custody Calendar Template Printable PDF | CustodyBuilder';
 const description =
-	'Use this custody calendar template to plan parenting time, preview custody schedules, and create a printable calendar for co-parenting arrangements.';
+	'Use a custody calendar template to plan parenting time, preview custody schedules, and print a clear calendar to share with a co-parent online.';
 const canonical = '/custody-calendar-template';
 const canonicalUrl = getCanonicalUrl(canonical);
 const generatedSchedule = generateSchedule({
@@ -169,16 +168,26 @@ const relatedLinks = [
 		href: '/2-2-3-custody-schedule',
 		description: 'Preview a common alternating weekend custody calendar.',
 	},
+	{
+		title: 'Parenting Plan Template',
+		href: '/parenting-plan-template',
+		description: 'Document calendar rules, holidays, exchanges, and decision-making details.',
+	},
+	{
+		title: 'Holiday Custody Schedule',
+		href: '/holiday-custody-schedule',
+		description: 'Add holidays, school breaks, and special days to the regular calendar.',
+	},
 ];
 const breadcrumbs = [
 	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: 'Templates' },
 	{ name: 'Custody Calendar Template', url: canonicalUrl },
 ];
 const schema = [
 	buildFAQSchema(faq),
 	buildBreadcrumbSchema(breadcrumbs),
 	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
-	buildSoftwareApplicationSchema({ name: 'Custody Calendar Template', description, url: canonicalUrl }),
 ];
 ---
 
