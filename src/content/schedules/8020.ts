@@ -7,7 +7,7 @@ const schedule: ScheduleContent = {
 	description: 'Build an 80/20 custody schedule, compare common 80/20 parenting plans, preview an overnight custody calendar, and estimate parenting time percentages.',
 	metaTitle: '80/20 Custody Schedule Generator | Parenting Calendar',
 	metaDescription: 'Build an 80/20 custody schedule, compare common 80/20 parenting plans, preview a custody calendar, and estimate overnight parenting time percentages.',
-	canonicalUrl: 'https://future-domain.com/80-20-custody-schedule',
+	canonicalUrl: 'https://custodybuilder.com/80-20-custody-schedule',
 	lede: 'An 80/20 custody schedule gives one parent a strong majority of overnights while the other parent has regular scheduled parenting time. Use this 80/20 parenting schedule tool to preview an overnight custody calendar, compare common 80/20 visitation schedule examples, and estimate parenting time percentages.',
 	overviewTitle: 'What Is an 80/20 Custody Schedule?',
 	overview: [

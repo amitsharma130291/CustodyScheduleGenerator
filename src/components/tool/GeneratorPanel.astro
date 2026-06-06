@@ -21,15 +21,6 @@ const {
 } = Astro.props;
 const normalizedSelectedScheduleId = normalizeScheduleType(selectedScheduleId);
 const isEightyTwentySchedule = normalizedSelectedScheduleId === '80-20';
-const featureLabels = normalizedSelectedScheduleId === 'every-other-weekend'
-	? ['Alternating weekends', 'Friday-Saturday overnights', 'Printable calendar', 'Shareable link']
-	: normalizedSelectedScheduleId === '60-40'
-		? ['60/40 parenting time', '6/4 overnights', 'Printable calendar', 'Shareable link']
-		: normalizedSelectedScheduleId === '70-30'
-			? ['70/30 parenting time', 'Pattern options', 'Printable calendar', 'Shareable link']
-			: normalizedSelectedScheduleId === '80-20'
-				? ['80/20 parenting time', 'Pattern options', 'Printable calendar', 'Shareable link']
-				: ['Equal parenting time', '50/50 custody split', 'Printable calendar', 'Shareable link'];
 const isRatioSchedule = normalizedSelectedScheduleId === '60-40' || normalizedSelectedScheduleId === '70-30' || normalizedSelectedScheduleId === '80-20';
 const initialPatternLabel = normalizedSelectedScheduleId === '80-20' ? '80/20 pattern' : normalizedSelectedScheduleId === '70-30' ? '70/30 pattern' : '60/40 pattern';
 const initialPatternAriaLabel = normalizedSelectedScheduleId === '80-20' ? '80/20 schedule pattern' : normalizedSelectedScheduleId === '70-30' ? '70/30 schedule pattern' : '60/40 schedule pattern';
@@ -95,21 +86,20 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 				<input name="parentB" value={parentB} aria-label="Parent B name" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" />
 			</label>
 		</div>
-		<div class="grid w-full min-w-0 grid-cols-1 gap-2 sm:grid-cols-2" data-pdf-export-actions>
-			<button type="button" class="btn-secondary flex h-10 w-full min-w-0 items-center justify-center whitespace-nowrap rounded-full px-4 text-center text-sm font-semibold leading-none transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--accent)_28%,var(--border-subtle)),0_10px_24px_rgba(0,0,0,0.12)] active:translate-y-0 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-download-monthly-pdf>
-				Monthly PDF
-			</button>
-			<button type="button" class="btn-secondary flex h-10 w-full min-w-0 items-center justify-center whitespace-nowrap rounded-full px-4 text-center text-sm font-semibold leading-none transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--accent)_28%,var(--border-subtle)),0_10px_24px_rgba(0,0,0,0.12)] active:translate-y-0 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-download-yearly-pdf>
-				Yearly PDF
-			</button>
+		<div class="mt-4 mb-2 grid w-full min-w-0 gap-3" data-pdf-export-actions>
+			<p class="mb-0 text-xs font-semibold uppercase tracking-[0.16em] text-muted">Export calendar</p>
+			<div class="grid w-full min-w-0 gap-3">
+				<button type="button" class="flex h-14 w-full min-w-0 cursor-pointer items-center justify-center gap-2.5 whitespace-nowrap rounded-full border-0 bg-[#0f172a] px-5 text-center text-[15px] font-semibold leading-none text-white transition-all duration-150 ease-out hover:-translate-y-px hover:bg-[#1e293b] hover:shadow-[0_10px_24px_rgba(15,23,42,0.18)] active:translate-y-0 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-download-monthly-pdf>
+					<span class="text-sm leading-none opacity-85" aria-hidden="true">📄</span>
+					<span class="leading-none" data-pdf-button-label>Monthly Calendar PDF</span>
+				</button>
+				<button type="button" class="flex h-14 w-full min-w-0 cursor-pointer items-center justify-center gap-2.5 whitespace-nowrap rounded-full border-0 bg-[#0f172a] px-5 text-center text-[15px] font-semibold leading-none text-white transition-all duration-150 ease-out hover:-translate-y-px hover:bg-[#1e293b] hover:shadow-[0_10px_24px_rgba(15,23,42,0.18)] active:translate-y-0 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-download-yearly-pdf>
+					<span class="text-sm leading-none opacity-85" aria-hidden="true">📄</span>
+					<span class="leading-none" data-pdf-button-label>Yearly Calendar PDF</span>
+				</button>
+			</div>
 		</div>
 	</form>
-
-	<ul class={`${compact ? 'hidden' : 'mt-5 gap-2 text-xs'} ${isEightyTwentySchedule ? 'hidden' : 'grid'} grid-cols-2 text-muted`} aria-label="Generator features" data-generator-features>
-		{featureLabels.map((label) => (
-			<li class="cursor-pointer rounded-full bg-page/55 px-2.5 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">{label}</li>
-		))}
-	</ul>
 </section>
 
 <script>
@@ -143,7 +133,6 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 	const currentViewLabels = document.querySelectorAll('[data-current-view-label]');
 	const sixtyFortyRangeNote = document.querySelector('[data-sixty-forty-range-note]');
 	const sixtyFortyRangeNoteText = document.querySelector('[data-sixty-forty-range-note-text]');
-	const generatorFeatures = document.querySelector('[data-generator-features]');
 	const printDescription = document.querySelector('[data-print-description]');
 	const printTitle = document.querySelector('[data-print-title]');
 	const printScheduleName = document.querySelector('[data-print-schedule-name]');
@@ -243,8 +232,6 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 		const option = options.find((item) => item.id === normalizedPattern) || options.find((item) => item.id === getDefaultRatioPattern(scheduleId));
 		patternChipRow?.classList.toggle('hidden', String(scheduleId) !== '80-20');
 		patternChipRow?.classList.toggle('flex', String(scheduleId) === '80-20');
-		generatorFeatures?.classList.toggle('hidden', String(scheduleId) === '80-20');
-		generatorFeatures?.classList.toggle('grid', String(scheduleId) !== '80-20');
 		if (String(scheduleId) === '80-20' && option) {
 			if (patternChipSplit) patternChipSplit.textContent = 'Split calculated';
 			if (patternChipExchanges) patternChipExchanges.textContent = 'Exchanges/mo';
@@ -372,27 +359,32 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 
 	async function handlePdfExportClick(event) {
 		const target = event.target;
-		if (!(target instanceof HTMLButtonElement)) return;
-		if (!target.matches('[data-download-monthly-pdf], [data-download-yearly-pdf]')) return;
+		const button = target instanceof Element ? target.closest('[data-download-monthly-pdf], [data-download-yearly-pdf]') : null;
+		if (!(button instanceof HTMLButtonElement)) return;
 
-		const range = target.matches('[data-download-yearly-pdf]') ? 'yearly' : 'monthly';
-		const defaultLabel = target.textContent?.trim() || (range === 'yearly' ? 'Yearly PDF' : 'Monthly PDF');
+		event.preventDefault();
+		event.stopPropagation();
+
+		const range = button.matches('[data-download-yearly-pdf]') ? 'yearly' : 'monthly';
+		const label = button.querySelector('[data-pdf-button-label]');
+		const defaultLabel = label?.textContent?.trim() || (range === 'yearly' ? 'Yearly Calendar PDF' : 'Monthly Calendar PDF');
 		const state = getCurrentPdfState();
 
-		target.disabled = true;
-		target.textContent = 'Preparing...';
+		button.disabled = true;
+		if (label) label.textContent = 'Preparing...';
 
 		try {
 			if (!state) throw new Error('Schedule state is incomplete.');
 			await downloadSchedulePdf(range, state);
-			target.textContent = 'Downloaded';
-		} catch {
-			target.textContent = 'PDF failed';
+			if (label) label.textContent = 'Downloaded';
+		} catch (error) {
+			console.error('Failed to generate custody schedule PDF:', error);
+			if (label) label.textContent = 'PDF failed';
 		}
 
 		window.setTimeout(() => {
-			target.textContent = defaultLabel;
-			target.disabled = false;
+			if (label) label.textContent = defaultLabel;
+			button.disabled = false;
 		}, 2000);
 	}
 

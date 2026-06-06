@@ -4,14 +4,14 @@ import { buildScheduleShareUrl, copyShareLink, printSchedule, restoreScheduleSta
 
 describe('schedule share and print actions', () => {
 	it('builds a share URL with schedule, start date, Parent A, and Parent B', () => {
-		const url = buildScheduleShareUrl('https://custodyschedulegenerator.com/', {
+		const url = buildScheduleShareUrl('https://custodybuilder.com/', {
 			schedule: '223',
 			start: '2026-06-01',
 			parentAName: 'Parent A',
 			parentBName: 'Parent B',
 		});
 
-		expect(url).toBe('https://custodyschedulegenerator.com/?schedule=223&start=2026-06-01&a=Parent+A&b=Parent+B');
+		expect(url).toBe('https://custodybuilder.com/?schedule=223&start=2026-06-01&a=Parent+A&b=Parent+B');
 	});
 
 	it('copy link writes the current URL when no explicit state is provided', async () => {

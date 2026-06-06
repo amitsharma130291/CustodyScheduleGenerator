@@ -7,7 +7,7 @@ const schedule: ScheduleContent = {
 	description: 'Create a 60/40 custody schedule and preview 4-3, extended weekend, and exact 60/40 parenting time calendars.',
 	metaTitle: '60/40 Custody Schedule, Calendar & Examples',
 	metaDescription: 'Create a 60/40 custody schedule, preview a parenting time calendar, compare common 60/40 arrangements, and estimate custody percentages.',
-	canonicalUrl: 'https://future-domain.com/60-40-custody-schedule',
+	canonicalUrl: 'https://custodybuilder.com/60-40-custody-schedule',
 	lede: 'A 60/40 custody schedule gives one parent about 60% of overnights and the other parent about 40%. Use this 60/40 parenting schedule tool to compare a 60/40 visitation schedule, preview a 60/40 custody calendar, and understand how a 60/40 child custody arrangement may look in practice.',
 	overviewTitle: 'What Is a 60/40 Custody Schedule?',
 	overview: [

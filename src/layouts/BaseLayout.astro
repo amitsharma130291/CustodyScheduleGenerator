@@ -9,14 +9,19 @@ interface Props {
 }
 
 const {
-	title = 'Custody Schedule Generator | Parenting Time Calendar Tool',
+	title = 'CustodyBuilder | Parenting Time Calendar Tool',
 	description = 'Create clear, printable custody and parenting time schedules with a premium, easy-to-use calendar generator.',
 	canonical = Astro.url.pathname,
 	ogType = 'website',
 } = Astro.props;
 
-const siteUrl = Astro.site ?? Astro.url;
-const canonicalUrl = new URL(canonical, siteUrl).toString();
+const siteUrl = 'https://custodybuilder.com';
+const rawCanonicalObject = new URL(canonical, siteUrl);
+const canonicalObject = new URL(rawCanonicalObject.pathname, siteUrl);
+canonicalObject.search = '';
+canonicalObject.hash = '';
+const canonicalUrl = canonicalObject.toString();
+const defaultImageUrl = new URL('/logo/custodybuilder-icon.svg', siteUrl).toString();
 ---
 
 <!doctype html>
@@ -35,8 +40,8 @@ const canonicalUrl = new URL(canonical, siteUrl).toString();
 				document.documentElement.style.colorScheme = 'dark';
 			}
 		</script>
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
+		<link rel="icon" type="image/svg+xml" href="/logo/custodybuilder-icon.svg" />
+		<link rel="apple-touch-icon" href="/logo/apple-touch-icon.png" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link
@@ -47,16 +52,17 @@ const canonicalUrl = new URL(canonical, siteUrl).toString();
 		<meta name="robots" content="index, follow" />
 		<link rel="canonical" href={canonicalUrl} />
 		<meta property="og:type" content={ogType} />
-		<meta property="og:site_name" content="Custody Schedule Generator" />
+		<meta property="og:site_name" content="CustodyBuilder" />
 		<meta property="og:locale" content="en_US" />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:url" content={canonicalUrl} />
+		<meta property="og:image" content={defaultImageUrl} />
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
-		<meta name="theme-color" content="#08090A" media="(prefers-color-scheme: dark)" />
-		<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)" />
+		<meta name="twitter:image" content={defaultImageUrl} />
+		<meta name="theme-color" content="#0F172A" />
 		<meta name="generator" content={Astro.generator} />
 		<slot name="head" />
 		<title>{title}</title>

@@ -3,7 +3,7 @@ import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://custodyschedulegenerator.com',
+  site: 'https://custodybuilder.com',
   integrations: [sitemap()],
   vite: {
     plugins: [tailwindcss()],

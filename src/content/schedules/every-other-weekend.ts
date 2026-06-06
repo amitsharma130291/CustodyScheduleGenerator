@@ -7,7 +7,7 @@ const schedule: ScheduleContent = {
 	description: 'Create an every other weekend custody schedule and preview a visitation-style parenting time calendar.',
 	metaTitle: 'Every Other Weekend Custody Schedule, Calendar & Examples',
 	metaDescription: 'Create an every other weekend custody schedule, view custody calendar examples, estimate parenting time, and understand common visitation arrangements.',
-	canonicalUrl: 'https://future-domain.com/every-other-weekend-custody-schedule',
+	canonicalUrl: 'https://custodybuilder.com/every-other-weekend-custody-schedule',
 	lede: 'An every other weekend custody schedule is a common visitation arrangement where one parent has primary custody and the other parent has alternating weekends. It is often used when parents live apart, when one parent handles the school-week routine, or when one parent is the primary caregiver.',
 	overviewTitle: 'What Is an Every Other Weekend Custody Schedule?',
 	overview: [

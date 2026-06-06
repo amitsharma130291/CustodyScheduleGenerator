@@ -1,11 +1,14 @@
-const defaultSiteUrl = 'https://custodyschedulegenerator.com';
+const defaultSiteUrl = 'https://custodybuilder.com';
 
 export function getCanonicalUrl(pathname: string, siteUrl = defaultSiteUrl) {
-	return new URL(pathname, siteUrl).toString();
+	const url = new URL(pathname, siteUrl);
+	url.search = '';
+	url.hash = '';
+	return url.toString();
 }
 
 export function buildTitle(title: string) {
-	return title.includes('Custody Schedule Generator') ? title : `${title} | Custody Schedule Generator`;
+	return title.includes('CustodyBuilder') ? title : `${title} | CustodyBuilder`;
 }
 
 export function truncateDescription(description: string) {

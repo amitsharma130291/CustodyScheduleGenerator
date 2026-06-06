@@ -25,8 +25,7 @@ interface Props {
 
 const { schedule } = Astro.props;
 const canonical = `/${schedule.slug}`;
-const canonicalUrl = schedule.canonicalUrl ?? getCanonicalUrl(canonical);
-const canonicalOrigin = new URL(canonicalUrl).origin;
+const canonicalUrl = getCanonicalUrl(canonical);
 const startDate = getDefaultStartDate();
 const generatedSchedule = generateSchedule({
 	scheduleId: schedule.id,
@@ -54,8 +53,8 @@ const comparisonLabels = {
 	notes: schedule.comparison?.columnLabels?.notes ?? 'Notes',
 };
 const breadcrumbs = [
-	{ name: 'Home', url: getCanonicalUrl('/', canonicalOrigin) },
-	{ name: 'Schedules', url: getCanonicalUrl('/#schedules', canonicalOrigin) },
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: 'Schedules', url: getCanonicalUrl('/#schedules') },
 	{ name: schedule.title, url: canonicalUrl },
 ];
 const schema = [
@@ -74,7 +73,7 @@ const schema = [
 ];
 ---
 
-<BaseLayout title={schedule.metaTitle} description={schedule.metaDescription} canonical={schedule.canonicalUrl ?? canonical}>
+<BaseLayout title={schedule.metaTitle} description={schedule.metaDescription} canonical={canonical}>
 	<JsonLd slot="head" data={schema} />
 	<Navbar />
 	<main>
