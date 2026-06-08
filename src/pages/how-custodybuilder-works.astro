@@ -1,0 +1,97 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import { buildBreadcrumbSchema, buildWebPageSchema } from '../lib/seo/schema';
+
+const title = 'How CustodyBuilder Works | Custody Schedule Planning Methodology';
+const description =
+	'Learn how CustodyBuilder generates custody calendars, calculates overnight percentages, recommends schedules, and explains planning assumptions.';
+const canonical = '/how-custodybuilder-works';
+const canonicalUrl = getCanonicalUrl(canonical);
+const breadcrumbs = [
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: 'Guides' },
+	{ name: 'How CustodyBuilder Works', url: canonicalUrl },
+];
+const schema = [
+	buildBreadcrumbSchema(breadcrumbs),
+	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+];
+const methodologySections = [
+	{
+		title: 'How schedules are generated',
+		copy:
+			'CustodyBuilder starts with a common parenting-time pattern, a start date, and parent labels. It repeats the selected pattern across a visible calendar month so parents can see actual overnight dates instead of only reading a schedule name.',
+	},
+	{
+		title: 'How overnight percentages are calculated',
+		copy:
+			'Parenting time percentages are based on overnight counts in the generated calendar view. For example, an equal-time pattern should usually land near 50/50 over a full repeating cycle, while majority-time schedules may show 60/40, 70/30, or 80/20 style estimates.',
+	},
+	{
+		title: 'How recommendation logic works',
+		copy:
+			'The schedule finder uses practical planning inputs: child age, desired parenting split, distance between homes, exchange preference, and school routine importance. It recommends a starting schedule that fits those answers and shows tradeoffs so parents can compare alternatives.',
+	},
+	{
+		title: 'Assumptions and limitations',
+		copy:
+			'The generator focuses on recurring parenting schedules and overnight counts. It does not automatically decide holidays, school breaks, transportation rules, child support, legal custody, exchange locations, or state-specific legal requirements.',
+	},
+	{
+		title: 'Planning information, not legal advice',
+		copy:
+			'CustodyBuilder provides educational planning tools. It can help parents prepare clearer calendars and discussion materials, but it does not create a court order, legal agreement, or legal advice. Local laws and terminology vary.',
+	},
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical}>
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<Breadcrumbs items={breadcrumbs} />
+	<main>
+		<section class="container-shell py-12 lg:py-16">
+			<div class="mx-auto max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Methodology</p>
+				<h1 class="mt-4 text-5xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary lg:text-6xl">
+					How CustodyBuilder works
+				</h1>
+				<p class="mt-6 text-lg leading-8 text-secondary">
+					CustodyBuilder is designed to make parenting-time planning easier to see, compare, and discuss. This page explains how the tool creates calendars, calculates overnight percentages, and recommends a starting schedule.
+				</p>
+			</div>
+		</section>
+
+		<section class="container-shell pb-12 lg:pb-16">
+			<div class="mx-auto grid max-w-4xl gap-5">
+				{methodologySections.map((section) => (
+					<article class="soft-card rounded-[1.5rem] p-5 sm:p-6">
+						<h2 class="text-2xl font-semibold tracking-[-0.04em] text-primary">{section.title}</h2>
+						<p class="mt-3 text-base leading-8 text-secondary">{section.copy}</p>
+					</article>
+				))}
+			</div>
+		</section>
+
+		<section class="container-shell pb-16">
+			<div class="premium-card mx-auto max-w-4xl rounded-[2rem] p-3">
+				<div class="rounded-[1.7rem] bg-surface-elevated/80 p-5 sm:p-7">
+					<h2 class="text-3xl font-semibold tracking-[-0.045em] text-primary">Use the calendar as a planning aid</h2>
+					<p class="mt-4 text-base leading-8 text-secondary">
+						After generating a schedule, review exchange days, school mornings, long gaps between homes, holiday conflicts, and overnight percentages. If a schedule may become part of a formal parenting plan or court order, review the details with a qualified professional.
+					</p>
+					<div class="mt-5 flex flex-col gap-3 sm:flex-row">
+						<a href="/#generator" class="btn-primary inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-semibold">Open the generator</a>
+						<a href="/#find-a-schedule" class="btn-secondary inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-semibold">Find a schedule</a>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+	<Footer />
+</BaseLayout>

@@ -55,6 +55,7 @@ const scheduleLinkLibrary = [
 	{ title: 'Custody Percentage Calculator', slug: 'custody-percentage-calculator', description: 'Estimate parenting time percentages from overnight totals.' },
 	{ title: 'Parenting Time Calculator', slug: 'parenting-time-calculator', description: 'Compare parenting time totals and overnight counts.' },
 	{ title: 'Visitation Calculator', slug: 'visitation-calculator', description: 'Estimate visitation time and compare calendar-based arrangements.' },
+	{ title: 'Texas Child Support Calculator', slug: 'texas-child-support-calculator', description: 'Estimate Texas guideline child support after comparing parenting schedules.' },
 ];
 const contextualRelatedSlugs = {
 	'223': ['2-2-5-5-custody-schedule', '5-2-2-5-custody-schedule', '50-50-custody-schedule', 'custody-schedule-by-age', 'custody-calendar-template', 'parenting-plan-template'],
@@ -191,7 +192,7 @@ const comparisonLabels = {
 };
 const breadcrumbs = [
 	{ name: 'Home', url: getCanonicalUrl('/') },
-	{ name: 'Schedules', url: getCanonicalUrl('/#schedules') },
+	{ name: 'Schedules', url: getCanonicalUrl('/#popular-schedules') },
 	{ name: schedule.title, url: canonicalUrl },
 ];
 const schema = [
@@ -268,6 +269,7 @@ const schema = [
 					{schedule.comparison && <li><a href="#comparison" class="hover:text-primary">Comparison table</a></li>}
 					<li><a href="#example" class="hover:text-primary">Calendar example</a></li>
 					{schedule.examples && <li><a href="#schedule-examples" class="hover:text-primary">Schedule examples</a></li>}
+					<li><a href="#child-support" class="hover:text-primary">Child support</a></li>
 					<li><a href="#pros-cons" class="hover:text-primary">Pros and cons</a></li>
 					<li><a href="#best-age-groups" class="hover:text-primary">Best age groups</a></li>
 					<li><a href="#common-variations" class="hover:text-primary">Common variations</a></li>
@@ -427,6 +429,26 @@ const schema = [
 						</div>
 					</section>
 				)}
+
+				<section id="child-support" class="grid gap-5">
+					<div>
+						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Support planning</p>
+						<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">How This Schedule May Affect Child Support</h2>
+						<p class="mt-3 text-base leading-8 text-secondary">
+							Texas usually calculates child support from monthly net resources, not simply from the name of a parenting schedule. Still, the actual parenting arrangement can influence negotiations, budgeting, and the facts a court may consider when reviewing support, expenses, and the child’s needs.
+						</p>
+						<p class="mt-3 text-base leading-8 text-secondary">
+							Use the {schedule.title} calendar to understand exchanges, overnights, and practical responsibilities. Then estimate Texas guideline child support with income, children before the court, other supported children, and optional deductions.
+						</p>
+					</div>
+					<div class="soft-card grid gap-4 rounded-[1.5rem] p-5 md:grid-cols-[1fr_auto] md:items-center">
+						<div>
+							<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary">Compare the schedule with support.</h3>
+							<p class="mt-2 text-sm leading-6 text-secondary">Parenting time may influence discussions, but the calculator helps keep the support estimate focused on Texas net resources and guideline percentages.</p>
+						</div>
+						<a href="/texas-child-support-calculator" class="btn-primary inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-semibold">Estimate Texas Child Support</a>
+					</div>
+				</section>
 
 				<section id="pros-cons" class="grid gap-5">
 					<div class="grid gap-5 md:grid-cols-2">

@@ -8,6 +8,7 @@
 </div>
 
 <script>
+	import { trackGa4Event } from '../../lib/analytics/ga4';
 	import { copyShareLink, printSchedule } from '../../lib/schedules/share';
 
 	function getCurrentScheduleState() {
@@ -44,6 +45,7 @@
 			const defaultLabel = 'Copy link';
 			target.disabled = true;
 			target.textContent = 'Copying...';
+			trackGa4Event('copy_calendar_link');
 
 			try {
 				await copyShareLink({

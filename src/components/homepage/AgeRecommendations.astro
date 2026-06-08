@@ -1,0 +1,42 @@
+---
+interface AgeRecommendation {
+	age: string;
+	range: string;
+	recommended: string;
+	rationale: string;
+	href: string;
+	cta: string;
+}
+
+interface Props {
+	recommendations: AgeRecommendation[];
+}
+
+const { recommendations } = Astro.props;
+---
+
+<section id="age-recommendations" class="container-shell py-10 lg:py-12" aria-labelledby="age-recommendations-title">
+	<div class="grid gap-8 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
+		<div>
+			<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Age-based recommendations</p>
+			<h2 id="age-recommendations-title" class="mt-4 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-5xl">
+				Which custody schedule fits your child&apos;s age?
+			</h2>
+			<p class="mt-5 text-base leading-8 text-secondary">
+				Age does not decide the schedule by itself, but it changes what tradeoffs matter most: separation length, school stability, activities, and how well a child handles transitions.
+			</p>
+		</div>
+
+		<div class="grid gap-4 sm:grid-cols-2">
+			{recommendations.map((item) => (
+				<a href={item.href} class="soft-card group rounded-[1.5rem] p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-[0_18px_44px_rgba(15,23,42,0.08)]">
+					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Ages {item.range}</p>
+					<h3 class="mt-3 text-xl font-semibold tracking-[-0.03em] text-primary">{item.age}</h3>
+					<p class="mt-3 text-sm font-semibold text-accent">{item.recommended}</p>
+					<p class="mt-2 text-sm leading-6 text-secondary">{item.rationale}</p>
+					<span class="mt-4 inline-flex text-sm font-semibold text-primary underline decoration-line underline-offset-4">{item.cta}</span>
+				</a>
+			))}
+		</div>
+	</div>
+</section>

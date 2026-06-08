@@ -1,0 +1,316 @@
+---
+import {
+	calculateTexasChildSupport,
+	formatTexasCurrency,
+	formatTexasPercentage,
+} from '../../lib/calculators/texasChildSupport';
+
+const initialInput = {
+	grossIncome: 5000,
+	childrenBeforeCourt: 1,
+	otherChildrenSupported: 0,
+} as const;
+const initialResult = calculateTexasChildSupport(initialInput);
+const initialAdvancedDeductions =
+	initialResult.deductions.monthlyUnionDues +
+	initialResult.deductions.monthlyHealthDentalInsurance +
+	initialResult.deductions.monthlyMandatoryRetirement;
+---
+
+<section id="calculator" class="premium-card rounded-[1.6rem] p-3 sm:p-4" data-texas-child-support-calculator>
+	<div class="rounded-[1.25rem] bg-surface-elevated p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.07)] sm:p-4">
+		<div class="grid gap-4 xl:grid-cols-[0.92fr_1.08fr] xl:items-start">
+			<div>
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Estimate inputs</p>
+				<h2 class="mt-1.5 text-xl font-semibold tracking-[-0.04em] text-primary sm:text-2xl">Enter the basics</h2>
+				<p class="mt-1.5 text-xs leading-4 text-muted">
+					Start with monthly income and children. Advanced fields stay optional.
+				</p>
+
+				<form class="mt-2.5 grid gap-2.5" data-texas-child-support-form>
+					<label class="grid gap-0.5">
+						<span class="text-sm font-medium text-secondary">Monthly Gross Income ($)</span>
+						<input name="grossIncome" type="number" min="0" step="0.01" value={initialInput.grossIncome} inputmode="decimal" class="w-full min-w-0 rounded-xl bg-page px-3.5 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+						<span class="text-[11px] leading-4 text-muted">Paying parent’s monthly income before taxes.</span>
+					</label>
+
+					<label class="grid gap-0.5">
+						<span class="text-sm font-medium text-secondary">Children Before the Court</span>
+						<select name="childrenBeforeCourt" class="w-full min-w-0 rounded-xl bg-page px-3.5 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+							<option value="1" selected>1 child</option>
+							<option value="2">2 children</option>
+							<option value="3">3 children</option>
+							<option value="4">4 children</option>
+							<option value="5">5 children</option>
+							<option value="6">6+ children</option>
+						</select>
+					</label>
+
+					<label class="grid gap-0.5">
+						<span class="text-sm font-medium text-secondary">Children supported outside this case</span>
+						<input name="otherChildrenSupported" type="number" min="0" step="1" value={initialInput.otherChildrenSupported} inputmode="numeric" class="w-full min-w-0 rounded-xl bg-page px-3.5 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+						<span class="text-[11px] leading-4 text-muted">Use 0 if there are no other supported children.</span>
+					</label>
+
+					<details class="group rounded-[1.1rem] bg-page/45 p-2.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 text-sm font-semibold text-primary">
+							Advanced options
+							<span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-surface text-lg leading-none text-muted shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-transform group-open:rotate-45">+</span>
+						</summary>
+						<div class="mt-3 grid gap-3">
+							<label class="grid gap-1">
+								<span class="text-sm font-medium text-secondary">Union dues ($/month)</span>
+								<input name="monthlyUnionDues" type="number" min="0" step="0.01" value="0" inputmode="decimal" class="w-full min-w-0 rounded-xl bg-page px-3.5 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+							</label>
+							<label class="grid gap-1">
+								<span class="text-sm font-medium text-secondary">Child health insurance ($/month)</span>
+								<input name="monthlyHealthDentalInsurance" type="number" min="0" step="0.01" value="0" inputmode="decimal" class="w-full min-w-0 rounded-xl bg-page px-3.5 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+							</label>
+							<label class="flex items-start gap-3 rounded-xl bg-surface/60 p-3 text-sm leading-5 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+								<input name="doesNotPaySocialSecurity" type="checkbox" class="mt-1 h-4 w-4 rounded border-line-subtle accent-[var(--color-accent)]" data-no-social-security />
+								<span>I do not pay Social Security taxes</span>
+							</label>
+							<label class="hidden gap-1" data-retirement-field>
+								<span class="text-sm font-medium text-secondary">Mandatory retirement ($/month)</span>
+								<input name="monthlyMandatoryRetirement" type="number" min="0" step="0.01" value="0" inputmode="decimal" disabled class="w-full min-w-0 rounded-xl bg-page px-3.5 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" data-retirement-input />
+							</label>
+							<p class="rounded-xl bg-surface/60 p-3 text-[11px] leading-4 text-muted shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+								Self-employed income can require additional calculations. This tool gives an estimate only.
+							</p>
+						</div>
+					</details>
+
+					<p class="flex items-start gap-2 rounded-xl bg-[rgba(94,106,210,0.07)] px-2.5 py-2 text-xs leading-[1.25] text-[color-mix(in_srgb,var(--accent)_72%,var(--text-secondary))] shadow-[inset_0_0_0_1px_rgba(94,106,210,0.16)] sm:items-center">
+						<span class="mt-px grid h-4 w-4 shrink-0 place-items-center rounded-full bg-[rgba(94,106,210,0.1)] text-[10px] font-semibold leading-none text-accent sm:mt-0" aria-hidden="true">i</span>
+						<span>Optional fields for self-employment income, insurance, union dues, and deduction adjustments.</span>
+					</p>
+
+					<button type="submit" class="btn-primary inline-flex h-12 w-full items-center justify-center whitespace-nowrap rounded-full px-5 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-px active:translate-y-0">
+						Calculate Estimate
+					</button>
+					<p class="hidden rounded-xl bg-page/70 p-2.5 text-xs leading-5 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]" data-texas-child-support-error></p>
+				</form>
+			</div>
+
+			<div class="rounded-[1.35rem] bg-page/65 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]" aria-live="polite">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Estimated Monthly Support</p>
+				<p class="mt-2 text-4xl font-bold leading-none tracking-[-0.06em] text-accent sm:text-5xl" data-texas-support-monthly>
+					{formatTexasCurrency(initialResult.monthlySupport)}
+				</p>
+				<p class="mt-2 text-xs leading-5 text-muted">Planning estimate based on the inputs shown here.</p>
+
+				<div class="mt-5 rounded-[1.15rem] bg-surface-elevated/75 p-4 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<p class="font-semibold text-primary">Calculation</p>
+					<div class="mt-3 grid gap-3">
+						<div class="flex items-start justify-between gap-4">
+							<span>Gross monthly income</span>
+							<strong class="text-right text-green-600" data-texas-breakdown-gross>{formatTexasCurrency(initialResult.grossIncome)}</strong>
+						</div>
+						<div class="grid gap-2 border-t border-line-subtle pt-3">
+							<div class="flex items-start justify-between gap-4">
+								<span>Estimated deductions</span>
+								<strong class="text-right text-red-600" data-texas-breakdown-total-deductions>-{formatTexasCurrency(initialResult.totalDeductions)}</strong>
+							</div>
+							<details class="group rounded-xl bg-page/45 p-2.5 text-xs leading-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+								<summary class="flex cursor-pointer list-none items-center justify-between gap-3 font-semibold text-primary">
+									View deduction breakdown
+									<span class="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-surface text-muted transition-transform group-open:rotate-45">+</span>
+								</summary>
+								<div class="mt-2 grid gap-1.5 text-secondary">
+									<div class="flex items-center justify-between gap-4">
+										<span>Social Security tax (6.2%)</span>
+										<strong class="text-red-600" data-texas-breakdown-social-security>{formatTexasCurrency(initialResult.deductions.socialSecurityTax)}</strong>
+									</div>
+									<div class="flex items-center justify-between gap-4">
+										<span>Medicare tax (1.45%)</span>
+										<strong class="text-red-600" data-texas-breakdown-medicare>{formatTexasCurrency(initialResult.deductions.medicareTax)}</strong>
+									</div>
+									<div class="flex items-center justify-between gap-4">
+										<span>Federal income tax estimate</span>
+										<strong class="text-red-600" data-texas-breakdown-federal>{formatTexasCurrency(initialResult.deductions.estimatedFederalIncomeTax)}</strong>
+									</div>
+									<div class="flex items-center justify-between gap-4 text-muted">
+										<span>Union dues</span>
+										<strong class="text-primary" data-texas-breakdown-union>none</strong>
+									</div>
+									<div class="flex items-center justify-between gap-4 text-muted">
+										<span>Child health insurance</span>
+										<strong class="text-primary" data-texas-breakdown-health>none</strong>
+									</div>
+									<div class="flex items-center justify-between gap-4 text-muted">
+										<span>Social Security exception</span>
+										<strong class="text-primary" data-texas-breakdown-ss-exception>no</strong>
+									</div>
+									<div class="flex items-center justify-between gap-4 text-muted">
+										<span>Mandatory retirement</span>
+										<strong class="text-primary" data-texas-breakdown-retirement>none</strong>
+									</div>
+								</div>
+							</details>
+						</div>
+						<div class="flex items-start justify-between gap-4 border-t border-line-subtle pt-3">
+							<span>Estimated net resources</span>
+							<strong class="text-right text-lg font-bold tracking-[-0.04em] text-indigo-600" data-texas-support-net>{formatTexasCurrency(initialResult.netResources)}</strong>
+						</div>
+						<div class="flex items-start justify-between gap-4 border-t border-line-subtle pt-3">
+							<span>Texas guideline percentage</span>
+							<strong class="rounded-full bg-page px-2.5 py-1 text-right text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" data-texas-support-percentage>{formatTexasPercentage(initialResult.guidelinePercentage)}</strong>
+						</div>
+						<div class="flex items-start justify-between gap-4 rounded-xl bg-page/70 p-3">
+							<span class="font-semibold text-primary">Estimated monthly support</span>
+							<strong class="text-right text-xl font-bold tracking-[-0.04em] text-primary" data-texas-support-summary>{formatTexasCurrency(initialResult.monthlySupport)}</strong>
+						</div>
+					</div>
+				</div>
+
+				<div class="mt-3 grid gap-2 text-sm leading-5 text-secondary sm:grid-cols-2">
+					<div class="rounded-xl bg-surface-elevated/60 px-3 py-2 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<span class="text-xs font-semibold uppercase tracking-[0.12em] text-muted">Other children adjustment</span>
+						<strong class="mt-1 block text-primary" data-texas-support-adjustment>{initialResult.hasOtherChildrenAdjustment ? 'Applied' : 'Not applied'}</strong>
+					</div>
+					<div class="rounded-xl bg-surface-elevated/60 px-3 py-2 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<span class="text-xs font-semibold uppercase tracking-[0.12em] text-muted">Advanced deductions</span>
+						<strong class="mt-1 block text-primary" data-texas-support-advanced-status>{initialAdvancedDeductions > 0 ? `${formatTexasCurrency(initialAdvancedDeductions)} added` : 'None added'}</strong>
+					</div>
+				</div>
+
+				<div class="mt-4 grid gap-2 rounded-xl bg-surface-elevated/70 p-3 text-xs leading-5 text-secondary">
+					<p class="font-semibold text-primary">How this estimate was calculated</p>
+					<ul class="grid gap-1.5 pl-4 [list-style:disc]">
+						<li>Start with gross monthly income.</li>
+						<li>Subtract estimated taxes and allowed deductions to estimate net resources.</li>
+						<li>Apply the Texas guideline percentage to estimate monthly support.</li>
+					</ul>
+				</div>
+
+				<p class="mt-3 rounded-xl bg-surface/70 p-3 text-[11px] leading-4 text-muted shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					This estimate is intended for planning and comparison purposes. Actual court orders may differ.
+				</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	import { trackGa4Event } from '../../lib/analytics/ga4';
+	import {
+		calculateTexasChildSupport,
+		formatTexasCurrency,
+		formatTexasPercentage,
+	} from '../../lib/calculators/texasChildSupport';
+
+	document.querySelectorAll('[data-texas-child-support-calculator]').forEach((calculator) => {
+		const form = calculator.querySelector('[data-texas-child-support-form]');
+		const error = calculator.querySelector('[data-texas-child-support-error]');
+		const monthly = calculator.querySelector('[data-texas-support-monthly]');
+		const summarySupport = calculator.querySelector('[data-texas-support-summary]');
+		const net = calculator.querySelector('[data-texas-support-net]');
+		const percentage = calculator.querySelector('[data-texas-support-percentage]');
+		const adjustment = calculator.querySelector('[data-texas-support-adjustment]');
+		const advancedStatus = calculator.querySelector('[data-texas-support-advanced-status]');
+		const breakdownGross = calculator.querySelector('[data-texas-breakdown-gross]');
+		const breakdownTotalDeductions = calculator.querySelector('[data-texas-breakdown-total-deductions]');
+		const breakdownSocialSecurity = calculator.querySelector('[data-texas-breakdown-social-security]');
+		const breakdownMedicare = calculator.querySelector('[data-texas-breakdown-medicare]');
+		const breakdownFederal = calculator.querySelector('[data-texas-breakdown-federal]');
+		const breakdownUnion = calculator.querySelector('[data-texas-breakdown-union]');
+		const breakdownHealth = calculator.querySelector('[data-texas-breakdown-health]');
+		const breakdownSocialSecurityException = calculator.querySelector('[data-texas-breakdown-ss-exception]');
+		const breakdownRetirement = calculator.querySelector('[data-texas-breakdown-retirement]');
+		const noSocialSecurity = calculator.querySelector('[data-no-social-security]');
+		const retirementField = calculator.querySelector('[data-retirement-field]');
+		const retirementInput = calculator.querySelector('[data-retirement-input]');
+
+		function setDeductionValue(element, value) {
+			if (!element) return;
+			const amount = Number(value);
+			element.textContent = amount > 0 ? formatTexasCurrency(amount) : 'none';
+			element.className = amount > 0 ? 'text-red-600' : 'text-primary';
+		}
+
+		function setTaxValue(element, value) {
+			if (!element) return;
+			const amount = Number(value);
+			element.textContent = formatTexasCurrency(amount);
+			element.className = amount > 0 ? 'text-red-600' : 'text-primary';
+		}
+
+		function showError(message) {
+			if (!error) return;
+			error.textContent = message;
+			error.classList.remove('hidden');
+		}
+
+		function clearError() {
+			if (!error) return;
+			error.textContent = '';
+			error.classList.add('hidden');
+		}
+
+		function updateCalculator() {
+			if (!(form instanceof HTMLFormElement)) return;
+
+			const data = new FormData(form);
+
+			try {
+				const result = calculateTexasChildSupport({
+					grossIncome: Number(data.get('grossIncome')),
+					childrenBeforeCourt: Number(data.get('childrenBeforeCourt')),
+					otherChildrenSupported: Number(data.get('otherChildrenSupported')),
+					monthlyUnionDues: Number(data.get('monthlyUnionDues')),
+					monthlyHealthDentalInsurance: Number(data.get('monthlyHealthDentalInsurance')),
+					doesNotPaySocialSecurity: data.get('doesNotPaySocialSecurity') === 'on',
+					monthlyMandatoryRetirement: Number(data.get('monthlyMandatoryRetirement')),
+				});
+
+				clearError();
+				if (monthly) monthly.textContent = formatTexasCurrency(result.monthlySupport);
+				if (summarySupport) summarySupport.textContent = formatTexasCurrency(result.monthlySupport);
+				if (net) net.textContent = formatTexasCurrency(result.netResources);
+				if (percentage) percentage.textContent = formatTexasPercentage(result.guidelinePercentage);
+				if (adjustment) {
+					adjustment.textContent = result.hasOtherChildrenAdjustment ? 'Applied' : 'Not applied';
+				}
+				const advancedDeductionTotal =
+					result.deductions.monthlyUnionDues +
+					result.deductions.monthlyHealthDentalInsurance +
+					result.deductions.monthlyMandatoryRetirement;
+				if (advancedStatus) {
+					advancedStatus.textContent = advancedDeductionTotal > 0 ? `${formatTexasCurrency(advancedDeductionTotal)} added` : 'None added';
+				}
+				if (breakdownGross) breakdownGross.textContent = formatTexasCurrency(result.grossIncome);
+				if (breakdownTotalDeductions) breakdownTotalDeductions.textContent = `-${formatTexasCurrency(result.totalDeductions)}`;
+				setTaxValue(breakdownSocialSecurity, result.deductions.socialSecurityTax);
+				setTaxValue(breakdownMedicare, result.deductions.medicareTax);
+				setTaxValue(breakdownFederal, result.deductions.estimatedFederalIncomeTax);
+				setDeductionValue(breakdownUnion, result.deductions.monthlyUnionDues);
+				setDeductionValue(breakdownHealth, result.deductions.monthlyHealthDentalInsurance);
+				if (breakdownSocialSecurityException) breakdownSocialSecurityException.textContent = result.deductions.socialSecurityTax === 0 ? 'yes' : 'no';
+				setDeductionValue(breakdownRetirement, result.deductions.monthlyMandatoryRetirement);
+			} catch (caughtError) {
+				showError(caughtError instanceof Error ? caughtError.message : 'Enter valid calculator values.');
+			}
+		}
+
+		function updateAdvancedVisibility() {
+			if (!(noSocialSecurity instanceof HTMLInputElement)) return;
+			const showRetirement = noSocialSecurity.checked;
+			retirementField?.classList.toggle('hidden', !showRetirement);
+			retirementField?.classList.toggle('grid', showRetirement);
+			if (retirementInput instanceof HTMLInputElement) retirementInput.disabled = !showRetirement;
+		}
+
+		form?.addEventListener('submit', (event) => {
+			event.preventDefault();
+			updateCalculator();
+			trackGa4Event('calculate_child_support');
+		});
+		form?.addEventListener('input', updateCalculator);
+		form?.addEventListener('change', () => {
+			updateAdvancedVisibility();
+			updateCalculator();
+		});
+		updateAdvancedVisibility();
+		updateCalculator();
+	});
+</script>

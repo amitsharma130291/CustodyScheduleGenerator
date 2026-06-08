@@ -12,50 +12,56 @@ const schedule = generateSchedule({
 });
 ---
 
-<section class="atmosphere hero-tool-section container-shell grid items-center gap-8 py-10 sm:gap-10 sm:py-12">
+<section class="atmosphere hero-tool-section container-shell grid items-center gap-5 py-6 scroll-mt-24 sm:gap-6 sm:py-8">
 	<div class="relative z-10">
 		<p class="inline-flex rounded-full border border-line-subtle bg-surface/50 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-muted shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur-xl">
 			Parenting time calendar builder
 		</p>
-		<h1 class="mt-6 max-w-[720px] text-[clamp(44px,13vw,56px)] font-semibold leading-[0.97] tracking-[-0.055em] text-primary lg:text-[clamp(52px,5vw,64px)] lg:leading-[0.96] xl:text-[clamp(60px,4.8vw,72px)] xl:leading-[0.94]">
-			Create a custody schedule that is clear from day one.
+		<h1 class="mt-5 max-w-[720px] text-[clamp(44px,13vw,56px)] font-semibold leading-[0.97] tracking-[-0.055em] text-primary lg:text-[clamp(52px,5vw,64px)] lg:leading-[0.96] xl:text-[clamp(60px,4.8vw,72px)] xl:leading-[0.94]">
+			Custody Schedule Generator
 		</h1>
-		<p class="mt-6 max-w-[620px] text-lg leading-[1.55] text-secondary lg:mt-7 lg:text-xl lg:leading-[1.6] xl:mt-[22px] xl:leading-[1.52]">
-			Create parenting schedules, compare custody rotations, and generate printable calendars in minutes.
+		<p class="mt-4 max-w-[620px] text-lg leading-[1.5] text-secondary lg:mt-5 lg:text-xl lg:leading-[1.55] xl:mt-5 xl:leading-[1.5]">
+			Create a custody schedule, compare parenting schedules, build a custody calendar, and estimate parenting time percentages using common custody arrangements.
+		</p>
+		<div class="mt-3 flex max-w-2xl flex-wrap gap-2 text-xs font-semibold text-muted" aria-label="Popular custody schedule options">
+			<span class="rounded-full bg-surface/55 px-3 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">50/50 Custody</span>
+			<span class="rounded-full bg-surface/55 px-3 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">60/40 Custody</span>
+			<span class="rounded-full bg-surface/55 px-3 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">70/30 Custody</span>
+			<span class="rounded-full bg-surface/55 px-3 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">80/20 Custody</span>
+			<span class="rounded-full bg-surface/55 px-3 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">2-2-3 Schedule</span>
+			<span class="rounded-full bg-surface/55 px-3 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">2-2-5-5 Schedule</span>
+		</div>
+		<p class="mt-3 max-w-[620px] text-sm font-semibold leading-6 text-muted">
+			Free custody calendar builder • Parenting time calculator • Printable PDF exports
+		</p>
+		<p class="mt-1.5 max-w-[620px] text-xs font-medium leading-5 text-muted">
+			Updated June 2026 · Free custody schedule generator for planning and comparison.
 		</p>
 
-		<ol class="mt-4 flex max-w-[620px] flex-wrap gap-2 text-xs font-medium text-muted" aria-label="How to build a custody schedule">
-			<li class="rounded-full bg-surface/60 px-3 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">1. Choose a schedule</li>
-			<li class="rounded-full bg-surface/60 px-3 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">2. Generate your calendar</li>
-			<li class="rounded-full bg-surface/60 px-3 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">3. Download PDF</li>
-		</ol>
-
-		<div class="mt-5 flex flex-col gap-3 sm:flex-row lg:mt-5 xl:mt-5">
+		<div class="mt-4 flex flex-col gap-3 sm:flex-row lg:mt-4 xl:mt-4">
 			<a
-				href="#schedules"
+				href="#generator"
+				class="btn-primary inline-flex h-13 w-full items-center justify-center whitespace-nowrap rounded-full px-8 text-base font-semibold transition-all duration-200 ease-out hover:-translate-y-px active:translate-y-0 sm:w-auto"
+			>
+				Start with the generator
+			</a>
+			<a
+				href="#find-a-schedule"
 				class="btn-secondary inline-flex h-13 w-full items-center justify-center rounded-full px-8 text-base font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_24px_rgba(0,0,0,0.12)] active:translate-y-0 sm:w-auto"
 			>
-				View schedule examples
+				Find the right schedule
 			</a>
 		</div>
 
-		<div class="hero-trust-chips mt-6 grid max-w-xl grid-cols-1 gap-3 text-sm text-muted sm:grid-cols-3">
-			<div class="soft-card rounded-2xl p-4">
-				<p class="font-semibold text-primary">Fast</p>
-				<p class="mt-1">Static and lightweight</p>
-			</div>
-			<div class="soft-card rounded-2xl p-4">
-				<p class="font-semibold text-primary">Clear</p>
-				<p class="mt-1">Calendar-first output</p>
-			</div>
-			<div class="soft-card rounded-2xl p-4">
-				<p class="font-semibold text-primary">Printable</p>
-				<p class="mt-1">Built for export</p>
-			</div>
+		<div class="mt-3 flex max-w-2xl flex-wrap gap-2 text-xs font-semibold text-secondary" aria-label="CustodyBuilder trust signals">
+			<span class="inline-flex items-center gap-1.5 rounded-full bg-surface/70 px-3 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]"><span class="text-parent-b" aria-hidden="true">✓</span> No account required</span>
+			<span class="inline-flex items-center gap-1.5 rounded-full bg-surface/70 px-3 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]"><span class="text-parent-b" aria-hidden="true">✓</span> No signup required</span>
+			<span class="inline-flex items-center gap-1.5 rounded-full bg-surface/70 px-3 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]"><span class="text-parent-b" aria-hidden="true">✓</span> Printable PDF exports</span>
 		</div>
+
 	</div>
 
-	<div id="generator" class="hero-generator-shell relative">
+	<div id="generator" class="hero-generator-shell relative scroll-mt-24 lg:-mt-3 xl:-mt-5">
 		<div class="absolute -inset-8 rounded-full bg-[radial-gradient(circle,rgba(94,106,210,0.2),transparent_66%)] blur-3xl" aria-hidden="true"></div>
 		<div class="premium-card hero-generator-card relative overflow-visible rounded-[1.75rem] border-line p-4 sm:rounded-[2.25rem] sm:p-5">
 			<div class="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" aria-hidden="true"></div>

@@ -1,0 +1,26 @@
+---
+interface Props {
+	pattern: string[];
+	label?: string;
+}
+
+const { pattern, label = 'Mini custody schedule preview' } = Astro.props;
+const dayLabels = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+---
+
+<div class="rounded-2xl bg-page/45 p-3 shadow-[inset_0_0_0_1px_var(--border-subtle)]" aria-label={label}>
+	<div class="grid grid-cols-7 gap-1 text-center text-[10px] font-semibold uppercase tracking-[0.08em] text-muted" aria-hidden="true">
+		{dayLabels.map((day) => <span>{day}</span>)}
+	</div>
+	<div class="mt-2 grid grid-cols-7 gap-1" aria-hidden="true">
+		{pattern.map((parent, index) => (
+			<span class={`grid h-7 place-items-center rounded-lg text-[10px] font-semibold leading-none ${parent === 'A' ? 'bg-[rgba(94,106,210,0.2)] text-accent shadow-[inset_0_0_0_1px_rgba(94,106,210,0.28)]' : 'bg-[rgba(34,197,94,0.14)] text-parent-b shadow-[inset_0_0_0_1px_rgba(34,197,94,0.18)]'}`}>
+				{index + 1}
+			</span>
+		))}
+	</div>
+	<div class="mt-2 flex items-center justify-center gap-3 text-[11px] text-muted">
+		<span class="inline-flex items-center gap-1.5"><i class="h-2 w-2 rounded-full bg-accent"></i>Parent A</span>
+		<span class="inline-flex items-center gap-1.5"><i class="h-2 w-2 rounded-full bg-parent-b"></i>Parent B</span>
+	</div>
+</div>

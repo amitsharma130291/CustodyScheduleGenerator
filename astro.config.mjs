@@ -7,6 +7,19 @@ export default defineConfig({
   integrations: [
     sitemap({
       filter: (page) => !page.endsWith('/404') && !page.endsWith('/500'),
+      serialize: (item) => {
+        const normalizedUrl = item.url.replace(/\/$/, '');
+
+        if (normalizedUrl === 'https://custodybuilder.com/texas-child-support-calculator') {
+          return {
+            ...item,
+            changefreq: 'weekly',
+            priority: 0.8,
+          };
+        }
+
+        return item;
+      },
     }),
   ],
   vite: {

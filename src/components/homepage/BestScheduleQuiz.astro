@@ -1,0 +1,195 @@
+---
+const recommendations = {
+	'2-2-3': {
+		title: '2-2-3 custody schedule',
+		href: '/2-2-3-custody-schedule',
+		scheduleId: '223',
+		recommendedFor: 'Younger children, close homes, and parents who can handle frequent exchanges.',
+		why: 'It keeps both parents in the weekly routine and avoids long gaps away from either home.',
+		tradeoff: 'It creates more handoffs than longer-block schedules.',
+		alternatives: ['2-2-5-5 custody schedule', '60/40 custody schedule'],
+		copy: 'A frequent-contact 50/50 schedule that can work when children are young, homes are close, and exchanges are manageable.',
+	},
+	'2-2-5-5': {
+		title: '2-2-5-5 custody schedule',
+		href: '/2-2-5-5-custody-schedule',
+		scheduleId: '2255',
+		recommendedFor: 'School-age children who benefit from consistent weekdays.',
+		why: 'Each parent can keep the same school nights while weekends alternate.',
+		tradeoff: 'The five-day block may feel long for younger children.',
+		alternatives: ['5-2-2-5 custody schedule', '2-2-3 custody schedule'],
+		copy: 'A 50/50 schedule with stable weekdays and alternating longer blocks, often useful for school routines.',
+	},
+	'week-on-week-off': {
+		title: 'Week on week off custody schedule',
+		href: '/week-on-week-off-custody-schedule',
+		scheduleId: 'week-on-week-off',
+		recommendedFor: 'Older children, long-distance homes, and families wanting fewer exchanges.',
+		why: 'It is simple to follow and reduces midweek transitions.',
+		tradeoff: 'A full week away from one parent may not fit younger children.',
+		alternatives: ['5-2-2-5 custody schedule', '2-2-5-5 custody schedule'],
+		copy: 'A simple 50/50 schedule with fewer exchanges, usually better for older children and stable homes.',
+	},
+	'70-30': {
+		title: '70/30 custody schedule',
+		href: '/70-30-custody-schedule',
+		scheduleId: '70-30',
+		recommendedFor: 'Families needing one primary home with regular overnight contact.',
+		why: 'It keeps a stable main routine while preserving scheduled parenting time.',
+		tradeoff: 'It is not equal time, so expectations should be clear.',
+		alternatives: ['60/40 custody schedule', '80/20 custody schedule'],
+		copy: 'A primary-home schedule with regular overnight time when equal time is not practical.',
+	},
+	'80-20': {
+		title: '80/20 custody schedule',
+		href: '/80-20-custody-schedule',
+		scheduleId: '80-20',
+		recommendedFor: 'Families needing a strong primary-home routine and fewer transitions.',
+		why: 'It is easier to manage when distance, work, or school logistics make frequent exchanges hard.',
+		tradeoff: 'One parent has substantially fewer overnights.',
+		alternatives: ['70/30 custody schedule', 'Every other weekend custody schedule'],
+		copy: 'A primary-home schedule for families that need fewer exchanges or one main school-week home.',
+	},
+};
+---
+
+<section id="find-a-schedule" class="container-shell scroll-mt-24 py-8 lg:py-10" aria-labelledby="schedule-quiz-title">
+	<div class="premium-card rounded-[2rem] p-3">
+		<div class="rounded-[1.7rem] bg-surface-elevated/80 p-5 sm:p-6 lg:p-7">
+			<div class="grid gap-6 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+				<div>
+					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Decision helper</p>
+					<h2 id="schedule-quiz-title" class="mt-3 text-3xl font-semibold leading-[1.08] tracking-[-0.045em] text-primary sm:text-4xl">
+						Not sure which custody schedule to start with?
+					</h2>
+					<p class="mt-4 text-base leading-7 text-secondary">
+						Answer five quick questions and get a starting schedule to compare. This is not a legal recommendation; it is a planning shortcut.
+					</p>
+				</div>
+
+				<div class="grid gap-4" data-schedule-quiz data-recommendations={JSON.stringify(recommendations)}>
+					<form class="grid gap-3" data-schedule-quiz-form>
+						<label class="grid gap-1.5">
+							<span class="text-sm font-medium text-secondary">Child age</span>
+							<select name="age" class="w-full rounded-2xl bg-page px-4 py-2.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+								<option value="toddler">Toddler or preschool</option>
+								<option value="elementary" selected>Elementary school</option>
+								<option value="middle">Middle school</option>
+								<option value="teen">Teenager</option>
+							</select>
+						</label>
+						<label class="grid gap-1.5">
+							<span class="text-sm font-medium text-secondary">Desired parenting split</span>
+							<select name="split" class="w-full rounded-2xl bg-page px-4 py-2.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+								<option value="50-50" selected>50/50 shared parenting</option>
+								<option value="70-30">One primary home with regular overnights</option>
+								<option value="80-20">Primary home with fewer exchanges</option>
+							</select>
+						</label>
+						<div class="grid gap-3 sm:grid-cols-3">
+							<label class="grid gap-1.5">
+								<span class="text-sm font-medium text-secondary">Distance between homes</span>
+								<select name="distance" class="w-full rounded-2xl bg-page px-4 py-2.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+									<option value="close" selected>Close</option>
+									<option value="moderate">Moderate</option>
+									<option value="far">Far</option>
+								</select>
+							</label>
+							<label class="grid gap-1.5">
+								<span class="text-sm font-medium text-secondary">Fewer exchanges?</span>
+								<select name="fewerExchanges" class="w-full rounded-2xl bg-page px-4 py-2.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+									<option value="no" selected>No</option>
+									<option value="yes">Yes</option>
+								</select>
+							</label>
+							<label class="grid gap-1.5">
+								<span class="text-sm font-medium text-secondary">School routine</span>
+								<select name="school" class="w-full rounded-2xl bg-page px-4 py-2.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+									<option value="normal" selected>Normal</option>
+									<option value="high">Very important</option>
+								</select>
+							</label>
+						</div>
+					</form>
+
+					<div class="rounded-[1.5rem] bg-page/55 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]" data-schedule-quiz-result>
+						<div class="flex flex-wrap items-start justify-between gap-3">
+							<div>
+								<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Suggested starting point</p>
+								<h3 class="mt-2 text-2xl font-semibold tracking-[-0.04em] text-primary" data-quiz-result-title>{recommendations['2-2-5-5'].title}</h3>
+							</div>
+						</div>
+						<div class="mt-4 grid gap-3 text-sm leading-6">
+							<p><strong class="text-primary">Recommended for:</strong> <span class="text-secondary" data-quiz-result-for>{recommendations['2-2-5-5'].recommendedFor}</span></p>
+							<p><strong class="text-primary">Why it fits:</strong> <span class="text-secondary" data-quiz-result-why>{recommendations['2-2-5-5'].why}</span></p>
+							<p><strong class="text-primary">Key tradeoff:</strong> <span class="text-secondary" data-quiz-result-tradeoff>{recommendations['2-2-5-5'].tradeoff}</span></p>
+							<p><strong class="text-primary">Also consider:</strong> <span class="text-secondary" data-quiz-result-alternatives>{recommendations['2-2-5-5'].alternatives.join(', ')}</span></p>
+						</div>
+						<div class="mt-5 flex flex-col gap-3 sm:flex-row">
+							<a href={recommendations['2-2-5-5'].href} class="btn-secondary inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-semibold" data-quiz-result-link>
+								Preview this schedule
+							</a>
+							<button type="button" class="btn-secondary inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-semibold" data-use-schedule={recommendations['2-2-5-5'].scheduleId} data-quiz-use-schedule>
+								Use in generator
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script>
+	import { trackGa4Event } from '../../lib/analytics/ga4';
+
+	document.querySelectorAll('[data-schedule-quiz]').forEach((quiz) => {
+		const form = quiz.querySelector('[data-schedule-quiz-form]');
+		const title = quiz.querySelector('[data-quiz-result-title]');
+		const recommendedFor = quiz.querySelector('[data-quiz-result-for]');
+		const why = quiz.querySelector('[data-quiz-result-why]');
+		const tradeoff = quiz.querySelector('[data-quiz-result-tradeoff]');
+		const alternatives = quiz.querySelector('[data-quiz-result-alternatives]');
+		const link = quiz.querySelector('[data-quiz-result-link]');
+		const useButton = quiz.querySelector('[data-quiz-use-schedule]');
+		const recommendations = JSON.parse(quiz.getAttribute('data-recommendations') || '{}');
+		let lastTrackedRecommendation = '';
+
+		function getRecommendation(data) {
+			const age = String(data.get('age'));
+			const split = String(data.get('split'));
+			const distance = String(data.get('distance'));
+			const fewerExchanges = String(data.get('fewerExchanges')) === 'yes';
+			const school = String(data.get('school'));
+
+			if (split === '80-20') return '80-20';
+			if (split === '70-30') return '70-30';
+			if (age === 'teen' || distance === 'far' || fewerExchanges) return 'week-on-week-off';
+			if (school === 'high' || age === 'elementary' || age === 'middle') return '2-2-5-5';
+			return '2-2-3';
+		}
+
+		function updateResult() {
+			if (!(form instanceof HTMLFormElement)) return;
+			const recommendationKey = getRecommendation(new FormData(form));
+			const result = recommendations[recommendationKey] || recommendations['2-2-5-5'];
+			if (title) title.textContent = result.title;
+			if (recommendedFor) recommendedFor.textContent = result.recommendedFor;
+			if (why) why.textContent = result.why;
+			if (tradeoff) tradeoff.textContent = result.tradeoff;
+			if (alternatives) alternatives.textContent = Array.isArray(result.alternatives) ? result.alternatives.join(', ') : '';
+			if (link instanceof HTMLAnchorElement) link.href = result.href;
+			if (useButton instanceof HTMLButtonElement) useButton.dataset.useSchedule = result.scheduleId;
+			if (recommendationKey !== lastTrackedRecommendation) {
+				lastTrackedRecommendation = recommendationKey;
+				trackGa4Event('view_schedule_recommendation', {
+					recommendation: recommendationKey,
+				});
+			}
+		}
+
+		form?.addEventListener('change', updateResult);
+		form?.addEventListener('input', updateResult);
+		updateResult();
+	});
+</script>
