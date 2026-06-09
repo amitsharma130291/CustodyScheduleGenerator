@@ -5,7 +5,7 @@ interface FAQItem {
 
 interface BreadcrumbItem {
 	name: string;
-	url?: string;
+	url: string;
 }
 
 export function buildFAQSchema(items: FAQItem[]) {
@@ -25,6 +25,12 @@ export function buildFAQSchema(items: FAQItem[]) {
 }
 
 export function buildBreadcrumbSchema(items: BreadcrumbItem[]) {
+	items.forEach((item) => {
+		if (!item.url || !/^https?:\/\//.test(item.url)) {
+			throw new Error(`Breadcrumb item "${item.name}" must include an absolute item URL.`);
+		}
+	});
+
 	return {
 		'@context': 'https://schema.org',
 		'@type': 'BreadcrumbList',
@@ -33,7 +39,7 @@ export function buildBreadcrumbSchema(items: BreadcrumbItem[]) {
 			'@type': 'ListItem',
 			position: index + 1,
 			name: item.name,
-			...(item.url ? { item: item.url } : {}),
+			item: item.url,
 		})),
 	};
 }
