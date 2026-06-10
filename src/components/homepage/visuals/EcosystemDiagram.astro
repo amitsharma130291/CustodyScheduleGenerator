@@ -1,0 +1,37 @@
+---
+const nodes = [
+	{ label: 'Schedules', status: 'Available', className: 'ecosystem-node-top', active: true },
+	{ label: 'Parenting Time', status: 'Coming soon', className: 'ecosystem-node-right-top' },
+	{ label: 'Holidays', status: 'Coming soon', className: 'ecosystem-node-right-bottom' },
+	{ label: 'Support', status: 'Coming soon', className: 'ecosystem-node-bottom' },
+	{ label: 'Agreements', status: 'Coming soon', className: 'ecosystem-node-left-bottom' },
+	{ label: 'Reports', status: 'Coming soon', className: 'ecosystem-node-left-top' },
+];
+---
+
+<div class="ecosystem-map relative mx-auto mt-6 min-h-[22rem] max-w-[34rem] rounded-[1.5rem] bg-page/55 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]" aria-label="CustodyBuilder product ecosystem">
+	<svg class="ecosystem-connectors absolute inset-0 h-full w-full" viewBox="0 0 520 360" aria-hidden="true" preserveAspectRatio="none">
+		<line x1="260" y1="180" x2="260" y2="54" />
+		<line x1="260" y1="180" x2="424" y2="104" />
+		<line x1="260" y1="180" x2="424" y2="258" />
+		<line x1="260" y1="180" x2="260" y2="306" />
+		<line x1="260" y1="180" x2="96" y2="258" />
+		<line x1="260" y1="180" x2="96" y2="104" />
+	</svg>
+	<div class="ecosystem-center absolute left-1/2 top-1/2 z-10 grid h-28 w-28 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-primary text-center text-sm font-bold leading-5 text-white shadow-[0_18px_44px_rgba(15,23,42,0.18)]">
+		Custody<br />Builder
+	</div>
+	{nodes.map((node, index) => (
+		node.active ? (
+			<a href="/custody-schedule-generator" class={`ecosystem-node ${node.className} ecosystem-float ecosystem-delay-${index} group/tool bg-parent-b/10 shadow-[inset_0_0_0_1px_rgba(67,176,141,0.22)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent`}>
+				<span class="text-sm font-semibold text-primary">{node.label}</span>
+				<span class="mt-1 rounded-full bg-surface px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-parent-b">{node.status}</span>
+			</a>
+		) : (
+			<div class={`ecosystem-node ${node.className} ecosystem-float ecosystem-delay-${index} bg-surface/90 shadow-[inset_0_0_0_1px_var(--border-subtle)]`}>
+				<span class="text-sm font-semibold text-primary">{node.label}</span>
+				<span class="mt-1 rounded-full bg-page px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-muted">{node.status}</span>
+			</div>
+		)
+	))}
+</div>
