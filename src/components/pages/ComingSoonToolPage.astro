@@ -1,0 +1,55 @@
+---
+import Footer from '../Footer.astro';
+import Navbar from '../Navbar.astro';
+import JsonLd from '../seo/JsonLd.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCanonicalUrl } from '../../lib/seo/metadata';
+import { buildBreadcrumbSchema, buildWebPageSchema } from '../../lib/seo/schema';
+
+interface Props {
+	title: string;
+	description: string;
+	canonical: string;
+}
+
+const { title, description, canonical } = Astro.props;
+const canonicalUrl = getCanonicalUrl(canonical);
+const schema = [
+	buildBreadcrumbSchema([
+		{ name: 'Home', url: getCanonicalUrl('/') },
+		{ name: 'Tools', url: getCanonicalUrl('/#tools') },
+		{ name: title, url: canonicalUrl },
+	]),
+	{
+		...buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+		isAccessibleForFree: true,
+	},
+];
+---
+
+<BaseLayout title={`${title} | CustodyBuilder`} description={description} canonical={canonical}>
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<main class="container-shell py-14 lg:py-20">
+		<section class="premium-card rounded-[2rem] p-3">
+			<div class="rounded-[1.7rem] bg-surface-elevated/80 p-6 sm:p-8 lg:p-10">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Coming soon</p>
+				<h1 class="mt-4 max-w-3xl text-4xl font-semibold leading-[1.02] tracking-[-0.05em] text-primary sm:text-5xl">
+					{title}
+				</h1>
+				<p class="mt-4 max-w-2xl text-base leading-7 text-secondary">
+					{description}
+				</p>
+				<div class="mt-7 flex flex-col gap-3 sm:flex-row">
+					<a href="/#tools" class="btn-primary inline-flex h-12 items-center justify-center rounded-full px-6 text-sm font-semibold">
+						Explore Available Tools
+					</a>
+					<a href="/custody-schedule-generator" class="btn-secondary inline-flex h-12 items-center justify-center rounded-full px-6 text-sm font-semibold">
+						Open Schedule Generator
+					</a>
+				</div>
+			</div>
+		</section>
+	</main>
+	<Footer />
+</BaseLayout>

@@ -244,7 +244,7 @@ export const relatedTools = [
 export const familyLawTools = [
 	{
 		title: 'Custody Schedule Generator',
-		href: '/#generator',
+		href: '/custody-schedule-generator',
 		when: 'Build a custody calendar, compare exchanges, and preview parenting time before discussing support.',
 	},
 	{
@@ -266,6 +266,41 @@ export const familyLawTools = [
 		title: 'Custody Calendar Template',
 		href: '/custody-calendar-template',
 		when: 'Turn a parenting schedule into a printable calendar for mediation, planning, or co-parent review.',
+	},
+];
+
+export const platformFaqItems = [
+	{
+		question: 'What is CustodyBuilder?',
+		answer:
+			'CustodyBuilder is a custody planning platform that helps parents create custody schedules, compare parenting time, organize holiday planning, and prepare printable calendar outputs for discussion and planning.',
+	},
+	{
+		question: 'Is CustodyBuilder free to use?',
+		answer:
+			'The custody schedule generator can be used without creating an account. CustodyBuilder may add paid platform features later, but the current schedule-building experience is available for quick planning and comparison.',
+	},
+	{
+		question: 'What tools are available now?',
+		answer:
+			'The custody schedule generator is available now, including common schedule patterns, calendar previews, parenting time estimates, printable outputs, and PDF export options. Additional planning modules are represented as part of the broader CustodyBuilder workspace direction.',
+	},
+	{
+		question: 'Can I print or export a custody calendar?',
+		answer:
+			'Yes. After generating a custody calendar, you can print it or export monthly and yearly PDF versions for planning, mediation preparation, co-parent discussion, or personal records.',
+	},
+	{
+		question: 'Do I need an account to use CustodyBuilder?',
+		answer:
+			'No account is required to use the current custody schedule generator. It is designed for fast planning directly in your browser, and you control any copied, printed, or exported output.',
+		links: [{ label: 'Privacy policy', href: '/privacy' }],
+	},
+	{
+		question: 'Does CustodyBuilder provide legal advice?',
+		answer:
+			'No. CustodyBuilder provides planning tools and educational information, not legal advice. It does not create a court order or replace guidance from a qualified family law professional.',
+		links: [{ label: 'Legal disclaimer', href: '/disclaimer' }],
 	},
 ];
 
@@ -366,16 +401,6 @@ export const homepageFaqItems = [
 			'Yes. CustodyBuilder can help you bring a visual calendar, schedule examples, and parenting time percentages into mediation. It does not replace legal advice, but it can make the conversation more concrete than discussing schedule names alone.',
 	},
 	{
-		question: 'Is CustodyBuilder free to use?',
-		answer:
-			'You can use the homepage custody schedule generator without creating an account. CustodyBuilder may add paid features later, but the current generator experience is designed for quick planning and comparison.',
-	},
-	{
-		question: 'Can I make a printable custody calendar?',
-		answer:
-			'Yes. After generating a calendar, you can print it or download monthly and yearly PDF versions. This is useful for parenting plan discussions, personal records, mediation preparation, or comparing schedule options with a co-parent.',
-	},
-	{
 		question: 'Can I compare 50/50, 60/40, and 70/30 custody schedules?',
 		answer:
 			'Yes. CustodyBuilder includes common 50/50 schedules like 2-2-3, 2-2-5-5, 5-2-2-5, and week on week off, plus 60/40, 70/30, and 80/20 schedule patterns for families comparing unequal parenting time.',
@@ -384,18 +409,6 @@ export const homepageFaqItems = [
 			{ label: '60/40 custody schedule guide', href: '/60-40-custody-schedule' },
 			{ label: '70/30 custody schedule guide', href: '/70-30-custody-schedule' },
 		],
-	},
-	{
-		question: 'Do I need to sign up, and is my data saved?',
-		answer:
-			'No signup is required to generate a custody calendar. The homepage generator is designed for quick planning in your browser. If you copy, print, or export a PDF, you control where that output goes.',
-		links: [{ label: 'Privacy policy', href: '/privacy' }],
-	},
-	{
-		question: 'Does CustodyBuilder provide legal advice?',
-		answer:
-			'No. CustodyBuilder provides planning tools and educational information. It can help you visualize schedules and prepare discussion materials, but it does not create a court order or provide legal advice. CustodyBuilder is designed around common parenting-time planning patterns. Local laws and terminology vary, so confirm details with a qualified professional.',
-		links: [{ label: 'Legal disclaimer', href: '/disclaimer' }],
 	},
 	{
 		question: 'What if parents live far apart?',

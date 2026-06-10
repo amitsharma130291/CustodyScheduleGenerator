@@ -27,7 +27,7 @@ const canonicalObject = new URL(rawCanonicalObject.pathname, siteUrl);
 canonicalObject.search = '';
 canonicalObject.hash = '';
 const canonicalUrl = canonicalObject.toString();
-const defaultImageUrl = new URL('/logo/custodybuilder-icon.svg', siteUrl).toString();
+const defaultImageUrl = new URL('/og/custodybuilder-og.png', siteUrl).toString();
 const shouldLoadAnalytics = import.meta.env.PROD;
 ---
 

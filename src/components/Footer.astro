@@ -38,7 +38,7 @@ const columns = [
 		title: 'Family Law Tools',
 		links: [
 			{ label: 'Texas Child Support Calculator', href: '/texas-child-support-calculator' },
-			{ label: 'Custody Schedule Generator', href: '/#generator' },
+			{ label: 'Custody Schedule Generator', href: '/custody-schedule-generator' },
 			{ label: 'Parenting Time Calculator', href: '/parenting-time-calculator' },
 			{ label: 'Visitation Calendar', href: '/visitation-calculator' },
 			{ label: 'Custody Calendar Template', href: '/custody-calendar-template' },
@@ -62,22 +62,24 @@ const columns = [
 			{ label: 'Privacy', href: '/privacy' },
 			{ label: 'Disclaimer', href: '/disclaimer' },
 			{ label: 'Terms', href: '/terms' },
+			{ label: 'Contact', href: '/contact' },
 		],
 	},
 ];
 ---
 
-<footer class="relative border-t border-line-subtle/70 py-9 lg:py-10">
-	<div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/12 to-transparent" aria-hidden="true"></div>
+<footer class="relative border-t border-line-subtle/70 py-12 lg:py-14">
+	<div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-accent/20 to-transparent" aria-hidden="true"></div>
+	<div class="absolute inset-x-0 top-0 -z-10 h-40 bg-[radial-gradient(circle_at_50%_0%,rgba(94,106,210,0.07),transparent_62%)]" aria-hidden="true"></div>
 	<div class="container-shell">
-		<div class="grid gap-7 text-center sm:grid-cols-2 sm:text-left lg:grid-cols-[1.2fr_repeat(6,minmax(0,1fr))] lg:gap-5 xl:gap-7">
+		<div class="grid gap-9 text-center sm:grid-cols-2 sm:text-left lg:grid-cols-[1.25fr_repeat(6,minmax(0,1fr))] lg:gap-6 xl:gap-8">
 			<div class="flex flex-col items-center sm:items-start">
 				<a href="/" class="inline-flex items-center" aria-label="CustodyBuilder home">
 					<span class="site-logo-lockup inline-flex max-w-[172px] items-center rounded-xl px-2 py-1 transition-all duration-200 hover:-translate-y-0.5 sm:max-w-none sm:px-2.5 sm:py-1">
 						<img src="/logo/custodybuilder-logo.svg" alt="CustodyBuilder custody schedule generator logo" width="498" height="120" class="h-[34px] w-auto sm:h-[38px]" loading="lazy" decoding="async" />
 					</span>
 				</a>
-				<p class="mt-3 max-w-xs text-sm leading-6 text-muted">
+				<p class="mt-4 max-w-xs text-sm leading-6 text-muted">
 					Create clear custody schedules, parenting calendars, and printable parenting plans.
 				</p>
 				<a href="/about" class="group/link relative mt-3 inline-flex text-sm leading-5 text-secondary outline-none after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-current after:opacity-70 after:transition-transform after:duration-200 after:ease-out hover:after:scale-x-100 focus-visible:after:scale-x-100 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--color-page)]">
@@ -87,13 +89,13 @@ const columns = [
 
 			{columns.map((column) => (
 				<nav aria-label={column.title}>
-					<h2 class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">
+					<h2 class="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">
 						{column.title}
 					</h2>
-					<ul class="mt-3 space-y-1.5">
+					<ul class="mt-4 space-y-2">
 						{column.links.map((link) => (
 							<li>
-								<a href={link.href} class="group/link relative inline-flex text-sm leading-5 text-secondary outline-none after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-current after:opacity-70 after:transition-transform after:duration-200 after:ease-out hover:after:scale-x-100 focus-visible:after:scale-x-100 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--color-page)]">
+								<a href={link.href} class="group/link relative inline-flex text-sm leading-5 text-secondary outline-none transition-colors duration-200 after:absolute after:-bottom-0.5 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-current after:opacity-70 after:transition-transform after:duration-200 after:ease-out hover:text-primary hover:after:scale-x-100 focus-visible:after:scale-x-100 focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-[var(--color-page)]">
 									{link.label}
 								</a>
 							</li>
@@ -103,7 +105,7 @@ const columns = [
 			))}
 		</div>
 
-		<div class="mt-7 border-t border-line-subtle/70 pt-4 text-center text-sm text-muted sm:text-left">
+		<div class="mt-10 border-t border-line-subtle/70 pt-5 text-center text-sm text-muted sm:text-left">
 			<p>© {new Date().getFullYear()} CustodyBuilder. All rights reserved.</p>
 		</div>
 	</div>

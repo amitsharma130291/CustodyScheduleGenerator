@@ -4,6 +4,7 @@ import ThemeToggle from './ThemeToggle.astro';
 interface NavItem {
 	label: string;
 	href: string;
+	children?: NavItem[];
 }
 
 interface Props {
@@ -11,9 +12,20 @@ interface Props {
 }
 
 const defaultNavItems = [
-	{ label: 'Generator', href: '/#generator' },
-	{ label: 'Find a Schedule', href: '/#find-a-schedule' },
-	{ label: 'Compare', href: '/#compare' },
+	{
+		label: 'Tools',
+		href: '/#tools',
+		children: [
+			{ label: 'Custody Schedule Generator', href: '/custody-schedule-generator' },
+			{ label: 'Parenting Time Calculator', href: '/parenting-time-calculator' },
+			{ label: 'Child Support Calculator', href: '/child-support-calculator' },
+			{ label: 'Holiday Planner', href: '/holiday-custody-planner' },
+			{ label: 'Agreement Builder', href: '/custody-agreement-builder' },
+		],
+	},
+	{ label: 'Schedules', href: '/#popular-schedules' },
+	{ label: 'Calculators', href: '/#tools' },
+	{ label: 'Resources', href: '/#resources' },
 	{ label: 'FAQ', href: '/#faq' },
 ];
 
@@ -28,14 +40,33 @@ const { navItems = defaultNavItems } = Astro.props;
 			</span>
 		</a>
 
-		<div class="site-nav-pill hidden min-w-0 flex-1 overflow-x-auto rounded-full border px-1.5 py-1 shadow-[0_8px_24px_rgba(15,23,42,0.04)] backdrop-blur-xl lg:flex lg:items-center lg:justify-start xl:justify-center">
+		<div class="site-nav-pill hidden min-w-0 flex-1 overflow-visible rounded-full border px-1.5 py-1 shadow-[0_8px_24px_rgba(15,23,42,0.04)] backdrop-blur-xl lg:flex lg:items-center lg:justify-start xl:justify-center">
 			{navItems.map((item) => (
-				<a
-					href={item.href}
-					class="site-nav-link shrink-0 whitespace-nowrap rounded-full px-3.5 py-2 text-sm font-medium transition-colors duration-200 xl:px-4"
-				>
-					{item.label}
-				</a>
+				item.children && item.children.length > 0 ? (
+					<div class="group/nav relative shrink-0">
+						<a
+							href={item.href}
+							class="site-nav-link inline-flex whitespace-nowrap rounded-full px-3.5 py-2 text-sm font-medium transition-colors duration-200 xl:px-4"
+							aria-haspopup="true"
+						>
+							{item.label}
+						</a>
+						<div class="invisible absolute left-0 top-full z-[1001] mt-2 w-64 translate-y-1 rounded-3xl border bg-surface-elevated p-2 opacity-0 shadow-[0_20px_50px_rgba(15,23,42,0.16)] transition-all duration-150 group-hover/nav:visible group-hover/nav:translate-y-0 group-hover/nav:opacity-100 group-focus-within/nav:visible group-focus-within/nav:translate-y-0 group-focus-within/nav:opacity-100">
+							{item.children.map((child) => (
+								<a href={child.href} class="site-nav-link flex rounded-2xl px-4 py-3 text-sm font-semibold text-secondary transition-colors duration-200 hover:text-primary">
+									{child.label}
+								</a>
+							))}
+						</div>
+					</div>
+				) : (
+					<a
+						href={item.href}
+						class="site-nav-link shrink-0 whitespace-nowrap rounded-full px-3.5 py-2 text-sm font-medium transition-colors duration-200 xl:px-4"
+					>
+						{item.label}
+					</a>
+				)
 			))}
 		</div>
 
@@ -65,13 +96,28 @@ const { navItems = defaultNavItems } = Astro.props;
 		data-mobile-menu
 	>
 		{navItems.map((item) => (
-			<a
-				href={item.href}
-				class="site-nav-link flex min-h-12 w-full items-center rounded-2xl px-[18px] py-3.5 text-left text-base font-semibold transition-colors duration-200"
-				data-mobile-menu-link
-			>
-				{item.label}
-			</a>
+			<>
+				<a
+					href={item.href}
+					class="site-nav-link flex min-h-12 w-full items-center rounded-2xl px-[18px] py-3.5 text-left text-base font-semibold transition-colors duration-200"
+					data-mobile-menu-link
+				>
+					{item.label}
+				</a>
+				{item.children && item.children.length > 0 && (
+					<div class="mb-1 grid gap-1 pl-3">
+						{item.children.map((child) => (
+							<a
+								href={child.href}
+								class="site-nav-link flex min-h-10 w-full items-center rounded-2xl px-[18px] py-2.5 text-left text-sm font-semibold text-secondary transition-colors duration-200"
+								data-mobile-menu-link
+							>
+								{child.label}
+							</a>
+						))}
+					</div>
+				)}
+			</>
 		))}
 	</div>
 	<script>
