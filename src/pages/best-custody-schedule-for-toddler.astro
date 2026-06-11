@@ -1,10 +1,558 @@
 ---
-import AgePageTemplate from '../components/pages/AgePageTemplate.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import LastUpdated from '../components/seo/LastUpdated.astro';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import { buildBreadcrumbSchema, buildFAQSchema, buildWebPageSchema } from '../lib/seo/schema';
+
+const title = 'Best Custody Schedule for a Toddler | Examples, Parenting Time & Tips';
+const description =
+	'Compare the best custody schedules for toddlers, including 2-2-3, 2-2-5-5, and 50/50 arrangements. Includes examples, parenting tips, overnights, and planning tools.';
+const canonical = '/best-custody-schedule-for-toddler';
+const canonicalUrl = getCanonicalUrl(canonical);
+
+const breadcrumbs = [
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: 'Guides', url: getCanonicalUrl('/blog') },
+	{ name: 'Best Custody Schedule for a Toddler', url: canonicalUrl },
+];
+
+const faqItems = [
+	{
+		question: 'What is the best custody schedule for a toddler?',
+		answer:
+			'The best custody schedule for a toddler is usually one that keeps both parent relationships active while protecting routine, sleep, and emotional security. Many toddlers do better with frequent contact and shorter separations than with long blocks away from either parent. A 2-2-3 schedule, a modified 2-2-5-5 schedule, or a custom plan with shorter visits may be worth comparing first when parents live nearby and exchanges are calm. The right answer still depends on the toddler, distance between homes, each parent\'s availability, safety, caregiving history, and how the child handles transitions.',
+	},
+	{
+		question: 'Is 50/50 custody good for a toddler?',
+		answer:
+			'50/50 custody can work for some toddlers, but equal time should not be the only goal. At this age, frequent contact, predictable routines, sleep consistency, and calm exchanges may matter more than a mathematically perfect split. A toddler-friendly 50/50 plan often uses shorter blocks, nearby homes, consistent bedtimes, duplicate supplies, and clear communication between parents. If the toddler has intense distress, disrupted sleep, long travel time, or repeated missed naps, a modified 60/40 or step-up plan may be more practical while the child grows.',
+	},
+	{
+		question: 'How long should a toddler be away from each parent?',
+		answer:
+			'There is no universal number of nights that works for every toddler. Many toddlers have a limited understanding of time, so two or three days can feel longer than adults expect. Some children handle short overnight blocks well, while others need more gradual steps. Parents often start by looking at the child\'s current caregiving routine, sleep pattern, attachment to each parent, and reaction after exchanges. Long separations may be harder for toddlers than older children, so any plan should be reviewed if it causes ongoing sleep disruption, distress, or regression.',
+	},
+	{
+		question: 'Is every other weekend enough for a toddler?',
+		answer:
+			'Every other weekend may be practical when parents live far apart, one parent has limited availability, or frequent exchanges would create conflict or travel stress. For many toddlers, however, a two-week gap between regular contact with one parent may feel long. If every other weekend is necessary, parents may consider short midweek visits, video calls, consistent routines, holiday time, or a gradual step-up plan if safe and practical. The key question is whether the toddler can maintain a familiar relationship with both parents without creating unnecessary stress.',
+	},
+	{
+		question: 'What custody schedule works best for a 2-year-old?',
+		answer:
+			'A 2-year-old often benefits from frequent, predictable contact and shorter separations. A 2-2-3 schedule or another short-block plan can be a useful starting point when both parents live close, both homes can manage naps and bedtime, and exchanges are calm. Some families use daytime or shorter overnight blocks before moving toward longer periods. A schedule for a 2-year-old should be simple enough for parents to follow consistently and should protect sleep, meals, daycare routines, comfort items, and communication about illness or missed naps.',
+	},
+	{
+		question: 'What custody schedule works best for a 3-year-old?',
+		answer:
+			'Many 3-year-olds can handle slightly longer blocks than younger toddlers, especially when both homes are familiar and routines are consistent. A 2-2-3 schedule may still work well, while some families begin testing a modified 2-2-5-5 or age-appropriate 50/50 arrangement. The plan should still avoid unnecessary complexity. Parents should watch how the child sleeps, separates, returns, and settles after exchanges. If the child struggles with longer gaps, a schedule with frequent shorter contact may be better than moving quickly into full-week blocks.',
+	},
+	{
+		question: 'Should toddlers have overnight visits?',
+		answer:
+			'Toddlers can have overnight visits when the arrangement is safe, familiar, and developmentally appropriate for the child. Overnights tend to work better when the parent already handles caregiving routines, has a comfortable sleep setup, understands naps and bedtime, and can respond to illness or night waking. Some families use gradual overnights, starting with shorter blocks and expanding as the child adapts. This guide is educational, not legal or medical advice. Parents with safety, feeding, health, or attachment concerns should seek qualified guidance before changing overnight patterns.',
+	},
+	{
+		question: 'How do I reduce toddler separation anxiety during exchanges?',
+		answer:
+			'Separation anxiety can be reduced by making exchanges predictable, brief, and calm. Use the same pickup routine when possible, bring a comfort item, avoid long emotional goodbyes, and keep adult conflict away from the child. Toddlers often do better when each home has duplicate basics, including pajamas, toothbrushes, favorite snacks, diapers or pull-ups, and familiar books. Parents can also use simple language such as, "After nap tomorrow, you will see Dad," rather than long explanations. If distress is extreme or persistent, the schedule may need review.',
+	},
+	{
+		question: 'Can siblings have different custody schedules?',
+		answer:
+			'Siblings can have different custody schedules in some families, but it should be handled carefully. An older child may manage week-on/week-off or long activity-based blocks, while a toddler may need shorter separations and more routine. Keeping siblings together can provide comfort, but forcing a toddler into an older child\'s schedule can create sleep, transition, or attachment stress. Families sometimes keep the same household exchange days but adjust nap timing, overnight length, calls, or step-up details for the toddler. The goal is to support each child without making the family calendar impossible to follow.',
+	},
+	{
+		question: 'How do I calculate toddler parenting time?',
+		answer:
+			'To calculate toddler parenting time, start with where the child sleeps each night, then adjust for holidays, vacations, daycare days, and custom visit blocks. Overnights are the simplest way to estimate custody percentages, but daytime visits can also be important for toddlers, especially during step-up plans. A parenting time calculator or custody percentage calculator can help compare 50/50, 60/40, 70/30, and 80/20 arrangements. The number is useful, but it should be read alongside the child\'s routine, travel time, exchange quality, and ability to stay connected with both parents.',
+	},
+];
+
+const toddlerAgeRows = [
+	['12-18 months', 'Strong routine, familiar caregivers, predictable sleep, and gradual transitions.', 'Shorter visits, careful overnight planning, and very clear feeding, nap, and bedtime communication.'],
+	['18-24 months', 'Frequent contact, comfort objects, language support, and simple routines.', 'Short blocks may work better than long separations; exchanges should be calm and easy to repeat.'],
+	['2 years old', 'Consistent naps, familiar bedtime rituals, and regular contact with both parents.', '2-2-3 or customized short-block plans may be worth comparing when homes are close.'],
+	['3 years old', 'More language, more independence, but still strong need for predictable routines.', 'Some children may handle modified 2-2-5-5 or age-appropriate 50/50 if transitions are smooth.'],
+];
+
+const scheduleAnalysis = [
+	{
+		title: '2-2-3 Schedule',
+		href: '/2-2-3-custody-schedule',
+		pros: 'Frequent contact with both parents, shorter separations, and alternating weekends. It can be easier for toddlers who struggle with long gaps.',
+		cons: 'More exchanges, more coordination, and more chances for naps, comfort items, or bedtime routines to be disrupted.',
+		bestFor: 'Parents who live nearby, communicate well, and can keep handoffs calm and predictable.',
+		avoid: 'Avoid or modify it when exchanges are high conflict, homes are far apart, or the toddler becomes exhausted by frequent movement.',
+	},
+	{
+		title: '2-2-5-5 Schedule',
+		href: '/2-2-5-5-custody-schedule',
+		pros: 'Stable weekdays can help parents plan childcare, work, and routines. It may be easier than 2-2-3 for some organized households.',
+		cons: 'The five-day blocks may feel long for younger toddlers, especially if the child is not used to sleeping in both homes.',
+		bestFor: 'Older toddlers or preschool-age children who already handle overnights well and have strong routines in both homes.',
+		avoid: 'Avoid it as a first step when the child has intense separation distress, inconsistent sleep, or limited familiarity with one home.',
+	},
+	{
+		title: '50/50 Custody Schedule',
+		href: '/50-50-custody-schedule',
+		pros: 'Can preserve meaningful time with both parents and support shared caregiving when both homes are stable and close.',
+		cons: 'Equal time can become stressful if it creates long separations, complicated rotations, or rushed exchanges around naps and bedtime.',
+		bestFor: 'Highly involved parents who both handle daily care, live near each other, and can maintain similar toddler routines.',
+		avoid: 'Avoid focusing on 50/50 alone when the schedule does not match the child\'s sleep, attachment, travel, or transition needs.',
+	},
+	{
+		title: 'Every Other Weekend Schedule',
+		href: '/every-other-weekend-custody-schedule',
+		pros: 'Fewer exchanges and simpler travel logistics. It may reduce direct conflict when parents cannot exchange often.',
+		cons: 'Long gaps between regular contact with one parent can be difficult for toddlers and may weaken routine familiarity.',
+		bestFor: 'Long-distance parenting, limited availability, or situations where frequent exchanges would be more stressful than helpful.',
+		avoid: 'Avoid it as the only contact pattern when both parents are nearby, safe, involved, and the toddler benefits from frequent contact.',
+	},
+];
+
+const decisionRows = [
+	['Parents live nearby', '2-2-3', 'Frequent contact is easier when travel is short and exchanges can stay calm.'],
+	['Child struggles with separation', 'Frequent shorter visits', 'Shorter gaps may be easier than long blocks away from either parent.'],
+	['Both parents highly involved', 'Age-appropriate 50/50', 'Equal time may work if both homes can maintain care routines.'],
+	['Parents live far apart', 'Modified plan', 'Less travel may protect naps, bedtime, and toddler regulation.'],
+	['High conflict', 'Fewer exchanges', 'Reducing direct handoffs may be more important than frequent rotation.'],
+	['One parent travels frequently', 'Customized 60/40', 'A realistic plan is better than a schedule that keeps changing.'],
+];
+
+const overnightRows = [
+	['50/50', '182-183', '182-183', 'Equal parenting time'],
+	['60/40', 'About 219', 'About 146', 'One home has more routine time'],
+	['70/30', 'About 255', 'About 110', 'Primary home with regular overnights'],
+	['80/20', 'About 292', 'About 73', 'Every-other-weekend style plan'],
+];
+
+const ageComparisonRows = [
+	['Toddler', 'Routine, attachment, naps, bedtime, and shorter separations.', '/best-custody-schedule-for-toddler', 'Current toddler guide'],
+	['5-Year-Old', 'School routine plus frequent parent contact.', '/best-custody-schedule-for-5-year-old', 'Best custody schedule for a 5-year-old'],
+	['7-Year-Old', 'School structure, activities, homework, and transportation.', '/best-custody-schedule-for-7-year-old', 'Best custody schedule for a 7-year-old'],
+	['Teenager', 'Independence, activities, driving, friends, and longer blocks.', '/best-custody-schedule-for-teenager', 'Best custody schedule for a teenager'],
+];
+
+const tools = [
+	{ title: 'Custody Schedule Generator', href: '/custody-schedule-generator', description: 'Generate a printable calendar after choosing a toddler-friendly pattern.' },
+	{ title: 'Custody Calendar Template', href: '/custody-calendar-template', description: 'Map exchange days, naps, overnights, holidays, and parent blocks.' },
+	{ title: 'Custody Percentage Calculator', href: '/custody-percentage-calculator', description: 'Estimate overnights and parenting time percentages.' },
+	{ title: 'Parenting Time Calculator', href: '/parenting-time-calculator', description: 'Compare custody time across different toddler schedule options.' },
+	{ title: 'Parenting Plan Template', href: '/parenting-plan-template', description: 'Write down routines, exchanges, illness rules, and communication expectations.' },
+];
+
+const schema = [
+	buildFAQSchema(faqItems),
+	buildBreadcrumbSchema(breadcrumbs),
+	{
+		...buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+		dateModified: '2026-06-11',
+		isAccessibleForFree: true,
+		about: [
+			'best custody schedule for toddler',
+			'toddler custody schedule',
+			'50/50 custody schedule for toddler',
+			'visitation schedule for toddler',
+			'parenting plan for toddler',
+		],
+	},
+];
 ---
 
-<AgePageTemplate
-	title="Best Custody Schedule for a Toddler | Examples & Tips"
-	description="Compare custody schedules for toddlers with examples, transition tips, parenting time options, and age-specific guidance."
-	slug="best-custody-schedule-for-toddler"
-	lede="Toddlers often benefit from predictable routines and shorter gaps between parents, making frequent-contact schedules worth comparing carefully."
-/>
+<BaseLayout title={title} description={description} canonical={canonical}>
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<Breadcrumbs items={breadcrumbs} />
+	<main>
+		<section class="container-shell py-10 lg:py-14">
+			<div class="premium-card rounded-[2rem] p-6 lg:p-8">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Custody schedules by age</p>
+				<h1 class="mt-4 max-w-4xl text-5xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary lg:text-6xl">
+					Best Custody Schedule for a Toddler
+				</h1>
+				<LastUpdated />
+				<div class="mt-6 grid gap-4 text-base leading-8 text-secondary lg:grid-cols-[1.2fr_0.8fr]">
+					<div class="grid gap-4">
+						<p>
+							A custody schedule that works for a 10-year-old may not work for a toddler. Toddlers are still building language, emotional regulation, sleep rhythms, and a sense of what it means when a parent leaves and comes back.
+						</p>
+						<p>
+							Many toddlers thrive on routine, struggle with long separations, and do not understand time the way older children do. When safe and practical, they often benefit from frequent contact with both parents, but that contact should be planned around naps, bedtime, comfort items, travel time, and calm exchanges.
+						</p>
+						<p>
+							The best toddler custody schedule is not simply the one that looks fairest on a calendar. It is the one the child can live with and the parents can follow consistently.
+						</p>
+					</div>
+					<div class="soft-card rounded-[1.5rem] p-5 text-sm leading-6">
+						<p class="font-semibold text-primary">Educational note</p>
+						<p class="mt-2 text-secondary">
+							This guide is educational and is not legal, medical, or mental health advice. Custody decisions should account for safety, the child\'s needs, existing orders, and qualified local guidance when needed.
+						</p>
+					</div>
+				</div>
+				<div class="mt-8 flex flex-col gap-3 sm:flex-row">
+					<a href="/custody-schedule-generator" class="btn-primary inline-flex h-12 w-full items-center justify-center rounded-full px-7 text-sm font-semibold sm:w-auto">Use the Custody Schedule Generator</a>
+					<a href="#schedule-options" class="btn-secondary inline-flex h-12 w-full items-center justify-center rounded-full px-7 text-sm font-semibold sm:w-auto">Compare toddler schedules</a>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<div class="premium-card rounded-[2rem] p-6 lg:p-8">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Practical recommendation</p>
+				<h2 class="mt-3 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Our Practical Recommendation</h2>
+				<div class="mt-5 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+					<div class="grid gap-4 text-base leading-8 text-secondary">
+						<p>
+							For many toddlers, frequent contact is usually more important than perfectly equal time. Long separations can be harder than they are for older children, and a simple repeatable plan often works better than a complicated rotation that changes every few days.
+						</p>
+						<p>
+							A strong starting point is usually a <a href="/2-2-3-custody-schedule" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-3 schedule</a>, a modified <a href="/2-2-5-5-custody-schedule" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-5-5 schedule</a>, an age-appropriate <a href="/50-50-custody-schedule" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 custody schedule</a>, or a customized parenting plan that grows with the child.
+						</p>
+						<p>
+							Consistent routines matter more than mathematical fairness. Before choosing a plan, test whether each parent can handle naps, bedtime, comfort items, daycare details, illness, and predictable exchanges.
+						</p>
+					</div>
+					<div class="soft-card rounded-[1.5rem] p-5">
+						<p class="text-sm font-semibold text-primary">Best first comparison</p>
+						<ol class="mt-3 grid gap-2 text-sm leading-6 text-secondary">
+							<li>1. 2-2-3 for frequent contact.</li>
+							<li>2. Modified 2-2-5-5 for older toddlers with strong routines.</li>
+							<li>3. Age-appropriate 50/50 only when both homes can support daily care.</li>
+							<li>4. Custom plans when work, travel, or attachment needs require flexibility.</li>
+						</ol>
+						<a href="/custody-schedule-generator" class="btn-primary mt-5 inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-semibold">Generate a toddler schedule</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<div class="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
+				<div>
+					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Toddler development</p>
+					<h2 class="mt-3 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">What Makes Toddlers Different?</h2>
+					<p class="mt-4 text-base leading-7 text-secondary">
+						Custody planning looks different at age 2 than at age 10 because toddlers depend heavily on adults to create safety, rhythm, and reassurance.
+					</p>
+				</div>
+				<div class="grid gap-4 md:grid-cols-2">
+					{[
+						['Attachment development', 'Toddlers are still building secure relationships. Frequent, calm, predictable contact can matter more than long blocks.'],
+						['Separation anxiety', 'A toddler may cry or cling because transitions are hard, not because one home is bad. Watch patterns over time.'],
+						['Language development', 'Many toddlers cannot explain what feels wrong. Behavior, sleep, appetite, and transition reactions become clues.'],
+						['Routine dependence', 'Meals, naps, bedtime, daycare, and comfort rituals help toddlers feel oriented when moving between homes.'],
+						['Sleep consistency', 'Sleep disruption can make an otherwise reasonable schedule feel unworkable. Bedtime routines should be realistic in both homes.'],
+						['Emotional regulation', 'Toddlers borrow calm from adults. Conflict at exchanges can affect the child more than the calendar itself.'],
+					].map(([heading, text]) => (
+						<article class="soft-card rounded-[1.5rem] p-5">
+							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{heading}</h3>
+							<p class="mt-2 text-sm leading-6 text-secondary">{text}</p>
+						</article>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<h2 class="text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Toddler Custody Schedule by Age</h2>
+			<p class="mt-4 max-w-3xl text-base leading-7 text-secondary">
+				"Toddler" covers a wide developmental range. A 14-month-old and a 3-year-old may need different separation lengths, sleep support, and exchange routines.
+			</p>
+			<div class="mt-6 overflow-x-auto rounded-[1.5rem] border border-line bg-surface shadow-[0_18px_44px_rgba(15,23,42,0.06)]">
+				<table class="min-w-[760px] w-full text-left text-sm">
+					<thead class="bg-surface-elevated text-xs uppercase tracking-[0.16em] text-muted">
+						<tr>
+							<th class="px-4 py-3">Age</th>
+							<th class="px-4 py-3">Typical Needs</th>
+							<th class="px-4 py-3">Schedule Considerations</th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-line text-secondary">
+						{toddlerAgeRows.map(([age, needs, considerations]) => (
+							<tr>
+								<td class="px-4 py-4 font-semibold text-primary">{age}</td>
+								<td class="px-4 py-4">{needs}</td>
+								<td class="px-4 py-4">{considerations}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<section id="schedule-options" class="container-shell py-8 lg:py-10">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Schedule options</p>
+				<h2 class="mt-3 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Best Custody Schedules for Toddlers</h2>
+				<p class="mt-4 text-base leading-7 text-secondary">
+					Some schedules are more toddler-friendly than others. The best plan should match the child\'s attachment needs, sleep rhythm, and ability to move between homes without constant disruption.
+				</p>
+			</div>
+			<div class="mt-6 grid gap-4 lg:grid-cols-2">
+				{scheduleAnalysis.map((schedule) => (
+					<article class="soft-card rounded-[1.5rem] p-5">
+						<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary"><a href={schedule.href} class="hover:text-accent">{schedule.title}</a></h3>
+						<div class="mt-4 grid gap-2 text-sm leading-6 text-secondary">
+							<p><span class="font-semibold text-primary">Pros:</span> {schedule.pros}</p>
+							<p><span class="font-semibold text-primary">Cons:</span> {schedule.cons}</p>
+							<p><span class="font-semibold text-primary">Best for:</span> {schedule.bestFor}</p>
+							<p><span class="font-semibold text-primary">When to avoid:</span> {schedule.avoid}</p>
+						</div>
+					</article>
+				))}
+			</div>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Calendar examples</p>
+				<h2 class="mt-3 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Visual Schedule Examples</h2>
+				<p class="mt-4 text-base leading-7 text-secondary">
+					These examples are not recommendations for every toddler. They show how different calendars change the length of separation and the number of exchanges.
+				</p>
+			</div>
+			<div class="mt-6 grid gap-5 lg:grid-cols-2">
+				<article class="soft-card rounded-[1.5rem] p-5">
+					<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary">Toddler-Friendly 2-2-3</h3>
+					<p class="mt-2 text-sm leading-6 text-secondary">Short blocks keep both parents in the toddler\'s week, but they require calm, organized exchanges.</p>
+					<div class="mt-4 overflow-x-auto rounded-[1.25rem] border border-line bg-surface">
+						<table class="min-w-[560px] w-full text-left text-sm">
+							<thead class="bg-surface-elevated text-xs uppercase tracking-[0.14em] text-muted">
+								<tr><th class="px-3 py-3">Week</th><th class="px-3 py-3">Mon</th><th class="px-3 py-3">Tue</th><th class="px-3 py-3">Wed</th><th class="px-3 py-3">Thu</th><th class="px-3 py-3">Fri</th><th class="px-3 py-3">Sat</th><th class="px-3 py-3">Sun</th></tr>
+							</thead>
+							<tbody class="divide-y divide-line text-secondary">
+								<tr><td class="px-3 py-3 font-semibold text-primary">Week 1</td><td class="px-3 py-3">A</td><td class="px-3 py-3">A</td><td class="px-3 py-3">B</td><td class="px-3 py-3">B</td><td class="px-3 py-3">A</td><td class="px-3 py-3">A</td><td class="px-3 py-3">A</td></tr>
+								<tr><td class="px-3 py-3 font-semibold text-primary">Week 2</td><td class="px-3 py-3">B</td><td class="px-3 py-3">B</td><td class="px-3 py-3">A</td><td class="px-3 py-3">A</td><td class="px-3 py-3">B</td><td class="px-3 py-3">B</td><td class="px-3 py-3">B</td></tr>
+							</tbody>
+						</table>
+					</div>
+				</article>
+				<article class="soft-card rounded-[1.5rem] p-5">
+					<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary">Toddler-Friendly 50/50</h3>
+					<p class="mt-2 text-sm leading-6 text-secondary">An equal-time plan may need shorter blocks or modified exchanges so the toddler does not go too long without either parent.</p>
+					<div class="mt-4 overflow-x-auto rounded-[1.25rem] border border-line bg-surface">
+						<table class="min-w-[560px] w-full text-left text-sm">
+							<thead class="bg-surface-elevated text-xs uppercase tracking-[0.14em] text-muted">
+								<tr><th class="px-3 py-3">Week</th><th class="px-3 py-3">Mon</th><th class="px-3 py-3">Tue</th><th class="px-3 py-3">Wed</th><th class="px-3 py-3">Thu</th><th class="px-3 py-3">Fri</th><th class="px-3 py-3">Sat</th><th class="px-3 py-3">Sun</th></tr>
+							</thead>
+							<tbody class="divide-y divide-line text-secondary">
+								<tr><td class="px-3 py-3 font-semibold text-primary">Week 1</td><td class="px-3 py-3">A</td><td class="px-3 py-3">A</td><td class="px-3 py-3">B</td><td class="px-3 py-3">B</td><td class="px-3 py-3">A</td><td class="px-3 py-3">A</td><td class="px-3 py-3">A</td></tr>
+								<tr><td class="px-3 py-3 font-semibold text-primary">Week 2</td><td class="px-3 py-3">A</td><td class="px-3 py-3">A</td><td class="px-3 py-3">B</td><td class="px-3 py-3">B</td><td class="px-3 py-3">B</td><td class="px-3 py-3">B</td><td class="px-3 py-3">B</td></tr>
+							</tbody>
+						</table>
+					</div>
+				</article>
+			</div>
+			<p class="mt-5 text-sm leading-6 text-secondary">
+				Generate your own version using the <a href="/custody-schedule-generator" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Custody Schedule Generator</a>.
+			</p>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<h2 class="text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Find the Best Toddler Custody Schedule</h2>
+			<div class="mt-6 overflow-x-auto rounded-[1.5rem] border border-line bg-surface shadow-[0_18px_44px_rgba(15,23,42,0.06)]">
+				<table class="min-w-[760px] w-full text-left text-sm">
+					<thead class="bg-surface-elevated text-xs uppercase tracking-[0.16em] text-muted">
+						<tr><th class="px-4 py-3">Situation</th><th class="px-4 py-3">Consider</th><th class="px-4 py-3">Why</th></tr>
+					</thead>
+					<tbody class="divide-y divide-line text-secondary">
+						{decisionRows.map(([situation, consider, why]) => (
+							<tr><td class="px-4 py-4 font-semibold text-primary">{situation}</td><td class="px-4 py-4">{consider}</td><td class="px-4 py-4">{why}</td></tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+			<p class="mt-4 text-sm leading-6 text-secondary">
+				If frequent equal-time exchanges are too much, compare a <a href="/60-40-custody-schedule" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">60/40 custody schedule</a>, <a href="/70-30-custody-schedule" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">70/30 custody schedule</a>, or a custom plan in the <a href="/custody-schedule-generator" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">schedule generator</a>.
+			</p>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<div class="grid gap-6 lg:grid-cols-2">
+				<div class="soft-card rounded-[1.75rem] p-6">
+					<h2 class="text-3xl font-semibold tracking-[-0.045em] text-primary">Nap Time and Sleep Considerations</h2>
+					<div class="mt-4 grid gap-3 text-sm leading-7 text-secondary">
+						<p>Naps are a custody issue for toddlers because missed sleep can affect exchanges, meals, bedtime, and behavior. Parents should share nap times, wake windows, favorite sleep cues, and whether the child still needs a crib, sound machine, pacifier, night light, or special blanket.</p>
+						<p>Bedtime routines do not need to be identical, but they should be similar enough that the toddler is not constantly adjusting. A bath, book, song, comfort item, and predictable lights-out time can make both homes feel safer.</p>
+						<p>Sleep regressions, illness, travel, and daycare changes can temporarily make a schedule harder. That does not automatically mean the plan is wrong, but it may mean parents need clearer communication and fewer unnecessary schedule changes.</p>
+					</div>
+				</div>
+				<div class="soft-card rounded-[1.75rem] p-6">
+					<h2 class="text-3xl font-semibold tracking-[-0.045em] text-primary">Making Exchanges Easier for Toddlers</h2>
+					<ul class="mt-4 grid gap-2 text-sm leading-6 text-secondary">
+						<li>Use the same pickup routine when possible.</li>
+						<li>Send a favorite toy, blanket, or transition object.</li>
+						<li>Keep the exchange location consistent.</li>
+						<li>Make handoffs calm, brief, and predictable.</li>
+						<li>Avoid adult conflict during pickup and drop-off.</li>
+						<li>Use simple words instead of long explanations.</li>
+						<li>Keep duplicate essentials in both homes.</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<div class="grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
+				<div>
+					<h2 class="text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Common Mistakes Parents Make</h2>
+					<p class="mt-4 text-base leading-7 text-secondary">A toddler custody plan can fail because of small daily details, not just because the schedule pattern is wrong.</p>
+				</div>
+				<ul class="grid gap-3 text-sm leading-6 text-secondary sm:grid-cols-2">
+					<li class="soft-card rounded-2xl p-4">Creating long separations before the toddler is ready.</li>
+					<li class="soft-card rounded-2xl p-4">Changing the plan every week instead of building rhythm.</li>
+					<li class="soft-card rounded-2xl p-4">Using very different bedtime routines in each home.</li>
+					<li class="soft-card rounded-2xl p-4">Forgetting naps, daycare timing, or travel fatigue.</li>
+					<li class="soft-card rounded-2xl p-4">Focusing only on equal time instead of daily function.</li>
+					<li class="soft-card rounded-2xl p-4">Leaving exchanges vague or emotionally intense.</li>
+				</ul>
+			</div>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<h2 class="text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Example Family Scenarios</h2>
+			<div class="mt-6 grid gap-4 lg:grid-cols-2">
+				{[
+					['2-year-old with parents living nearby', 'A 2-2-3 schedule may be a strong first comparison because travel is short and the toddler sees both parents often. The plan still needs clear nap, bedtime, and comfort-item rules.'],
+					['3-year-old with separation anxiety', 'Frequent shorter visits or a modified 2-2-5-5 may work better than long blocks. The exchange routine may matter as much as the percentage split.'],
+					['Parents living 45 minutes apart', 'A modified plan may be better than frequent exchanges. Protecting sleep and reducing car time may be more toddler-friendly than strict equal time.'],
+					['One parent works rotating shifts', 'A customized 60/40 plan may be more realistic. The schedule should be predictable to the child even if the parent work calendar changes.'],
+				].map(([heading, text]) => (
+					<article class="soft-card rounded-[1.5rem] p-5">
+						<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary">{heading}</h3>
+						<p class="mt-3 text-sm leading-6 text-secondary">{text}</p>
+					</article>
+				))}
+			</div>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<div class="grid gap-6 lg:grid-cols-2">
+				<div class="soft-card rounded-[1.75rem] p-6">
+					<h2 class="text-3xl font-semibold tracking-[-0.045em] text-primary">Sample Parenting Plan Clauses</h2>
+					<p class="mt-3 text-sm leading-6 text-secondary">These examples are for planning discussions only and are not legal advice.</p>
+					<div class="mt-4 grid gap-3 text-sm leading-6 text-secondary">
+						<p><span class="font-semibold text-primary">Bedtime clause:</span> Both parents will make reasonable efforts to keep a consistent bedtime routine, including bath, books, comfort items, and lights-out timing.</p>
+						<p><span class="font-semibold text-primary">Nap clause:</span> Parents will share nap timing, missed naps, and major sleep disruptions before the next exchange.</p>
+						<p><span class="font-semibold text-primary">Exchange clause:</span> Exchanges will be calm, brief, and held at the same location unless both parents agree otherwise.</p>
+						<p><span class="font-semibold text-primary">Communication clause:</span> Each parent will share daycare updates, illness, medication, sleep changes, and comfort-item needs.</p>
+						<p><span class="font-semibold text-primary">Illness clause:</span> If the toddler is sick on an exchange day, parents will communicate early and decide whether the exchange should proceed, be delayed, or be adjusted.</p>
+					</div>
+					<p class="mt-4 text-sm leading-6 text-secondary">Use a <a href="/parenting-plan-template" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting plan template</a> to put toddler routines in writing.</p>
+				</div>
+				<div class="soft-card rounded-[1.75rem] p-6">
+					<h2 class="text-3xl font-semibold tracking-[-0.045em] text-primary">Warning Signs a Schedule May Need Adjustment</h2>
+					<p class="mt-4 text-sm leading-7 text-secondary">These signs do not automatically mean the schedule is wrong, but they may suggest parents should simplify transitions, review sleep routines, or adjust separation length.</p>
+					<ul class="mt-4 grid gap-2 text-sm leading-6 text-secondary">
+						<li>Extreme distress at nearly every exchange.</li>
+						<li>Disrupted sleep after most transitions.</li>
+						<li>Persistent regressions that do not improve with routine.</li>
+						<li>Constant missed naps or exhausted handoffs.</li>
+						<li>Increased behavioral issues tied to exchange days.</li>
+						<li>Parents repeatedly changing the calendar informally.</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<h2 class="text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Typical Overnight Distribution</h2>
+			<p class="mt-4 max-w-3xl text-base leading-7 text-secondary">Overnight percentages help compare schedules, but toddler parenting time should also consider daytime care, naps, and the child\'s adjustment.</p>
+			<div class="mt-6 overflow-x-auto rounded-[1.5rem] border border-line bg-surface shadow-[0_18px_44px_rgba(15,23,42,0.06)]">
+				<table class="min-w-[760px] w-full text-left text-sm">
+					<thead class="bg-surface-elevated text-xs uppercase tracking-[0.16em] text-muted"><tr><th class="px-4 py-3">Schedule</th><th class="px-4 py-3">Parent A Overnights</th><th class="px-4 py-3">Parent B Overnights</th><th class="px-4 py-3">Common Label</th></tr></thead>
+					<tbody class="divide-y divide-line text-secondary">
+						{overnightRows.map(([schedule, parentA, parentB, label]) => (
+							<tr><td class="px-4 py-4 font-semibold text-primary">{schedule}</td><td class="px-4 py-4">{parentA}</td><td class="px-4 py-4">{parentB}</td><td class="px-4 py-4">{label}</td></tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+			<p class="mt-4 text-sm leading-6 text-secondary">Compare exact totals with the <a href="/custody-percentage-calculator" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">custody percentage calculator</a> or <a href="/parenting-time-calculator" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting time calculator</a>.</p>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<div class="premium-card rounded-[2rem] p-6 lg:p-8">
+				<h2 class="text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Which Schedule Is Best For Your Family?</h2>
+				<div class="mt-6 grid gap-4 md:grid-cols-2">
+					{[
+						['Choose 2-2-3 if...', ['Parents live nearby', 'The toddler needs frequent contact', 'Exchanges are calm', 'Both homes can manage naps and bedtime'], '/2-2-3-custody-schedule'],
+						['Choose 2-2-5-5 if...', ['The toddler is older or closer to preschool age', 'Both homes have strong routines', 'Stable weekdays matter', 'Five-day blocks are not too long'], '/2-2-5-5-custody-schedule'],
+						['Choose 50/50 if...', ['Both parents are highly involved', 'Homes are close', 'The child handles overnights well', 'Routines are consistent in both homes'], '/50-50-custody-schedule'],
+						['Choose every other weekend if...', ['Distance is a major issue', 'One parent has limited availability', 'Fewer exchanges reduce conflict', 'Holiday and midweek contact can support connection'], '/every-other-weekend-custody-schedule'],
+					].map(([heading, items, href]) => (
+						<a href={href} class="soft-card group rounded-[1.5rem] p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40">
+							<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary">{heading}</h3>
+							<ul class="mt-3 grid gap-2 text-sm leading-6 text-secondary">{items.map((item) => <li>{item}</li>)}</ul>
+						</a>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<div class="premium-card rounded-[2rem] p-6 lg:p-8">
+				<h2 class="text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">What Parents Often Underestimate</h2>
+				<div class="mt-6 grid gap-4 text-sm leading-7 text-secondary md:grid-cols-2">
+					<p>Toddlers do not understand calendars the way adults do. "See you next weekend" may not feel meaningful to a child who experiences time through meals, naps, bedtime, and familiar routines.</p>
+					<p>Transitions can feel longer to toddlers than they look on a schedule. A short drive, a missed nap, and an emotional goodbye can turn a simple exchange into a hard day.</p>
+					<p>Consistency often matters more than equal time. A slightly uneven plan that parents follow calmly may be better than a perfect 50/50 split that changes every week.</p>
+					<p>Duplicate essentials reduce stress. Pajamas, diapers, toiletries, comfort items, cups, favorite books, and daycare supplies in both homes can prevent every exchange from feeling like packing for a trip.</p>
+					<p>Transportation logistics matter. A toddler who falls asleep in the car before dinner may have a harder bedtime, even when the custody percentage looks reasonable.</p>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<h2 class="text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Toddler vs Older Children</h2>
+			<p class="mt-4 max-w-3xl text-base leading-7 text-secondary">Custody needs evolve. A plan that protects naps and attachment now may later shift toward school routines, activities, and independence.</p>
+			<div class="mt-6 overflow-x-auto rounded-[1.5rem] border border-line bg-surface shadow-[0_18px_44px_rgba(15,23,42,0.06)]">
+				<table class="min-w-[760px] w-full text-left text-sm">
+					<thead class="bg-surface-elevated text-xs uppercase tracking-[0.16em] text-muted"><tr><th class="px-4 py-3">Age/Stage</th><th class="px-4 py-3">Main Custody Need</th><th class="px-4 py-3">Suggested Guide</th></tr></thead>
+					<tbody class="divide-y divide-line text-secondary">
+						{ageComparisonRows.map(([stage, need, href, label]) => (
+							<tr><td class="px-4 py-4 font-semibold text-primary">{stage}</td><td class="px-4 py-4">{need}</td><td class="px-4 py-4"><a href={href} class="text-accent underline decoration-line underline-offset-4 hover:text-primary">{label}</a></td></tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<div class="premium-card rounded-[2rem] p-6 lg:p-8">
+				<h2 class="text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Helpful Custody Planning Tools</h2>
+				<div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+					{tools.map((tool) => (
+						<a href={tool.href} class="soft-card group rounded-[1.5rem] p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40">
+							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{tool.title}</h3>
+							<p class="mt-2 text-sm leading-6 text-secondary">{tool.description}</p>
+							<span class="mt-4 inline-flex text-sm font-semibold text-accent underline decoration-line underline-offset-4 group-hover:text-primary">Open tool</span>
+						</a>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<section id="faq" class="container-shell py-10 lg:py-12">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">FAQ</p>
+				<h2 class="mt-3 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Questions About Toddler Custody Schedules</h2>
+			</div>
+			<div class="mt-6 grid gap-3">
+				{faqItems.map((item) => (
+					<details class="soft-card group rounded-[1.35rem] p-5">
+						<summary class="cursor-pointer list-none text-base font-semibold text-primary">{item.question}</summary>
+						<p class="mt-3 text-sm leading-7 text-secondary">{item.answer}</p>
+					</details>
+				))}
+			</div>
+		</section>
+	</main>
+	<Footer />
+</BaseLayout>
