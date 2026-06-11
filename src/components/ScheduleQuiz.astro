@@ -1,10 +1,14 @@
 ---
+import CtaButton from './CtaButton.astro';
+
 interface Props {
 	title: string;
-	ageGroup: 'toddler' | 'five' | 'seven' | 'teen';
+	ageGroup?: 'toddler' | 'five' | 'seven' | 'teen';
+	quizType?: 'age' | 'fiftyFifty';
+	useContainer?: boolean;
 }
 
-const { title, ageGroup } = Astro.props;
+const { title, ageGroup = 'five', quizType = 'age', useContainer = true } = Astro.props;
 
 const ageQuestions = {
 	toddler: {
@@ -45,7 +49,7 @@ const ageQuestions = {
 	},
 };
 
-const questions = [
+const agePageQuestions = [
 	{
 		question: 'Do both parents live close enough for regular school/daycare exchanges?',
 		name: 'distance',
@@ -84,9 +88,69 @@ const questions = [
 	},
 	ageQuestions[ageGroup],
 ];
+
+const fiftyFiftyQuestions = [
+	{
+		question: 'Child age',
+		name: 'childAge',
+		options: [
+			['toddler', 'Toddler'],
+			['schoolYoung', '5-7'],
+			['schoolOlder', '8-12'],
+			['teen', 'Teenager'],
+		],
+	},
+	{
+		question: 'Distance between homes',
+		name: 'homeDistance',
+		options: [
+			['under15', 'Under 15 minutes'],
+			['fifteen45', '15-45 minutes'],
+			['over45', 'More than 45 minutes'],
+		],
+	},
+	{
+		question: 'School/daycare routine',
+		name: 'schoolRoutine',
+		options: [
+			['stable', 'Very predictable'],
+			['somewhat', 'Somewhat predictable'],
+			['unstable', 'Often changes'],
+		],
+	},
+	{
+		question: 'Activity level',
+		name: 'activityLevel',
+		options: [
+			['busy', 'Very busy'],
+			['moderate', 'Moderate'],
+			['minimal', 'Minimal'],
+		],
+	},
+	{
+		question: 'Parent work schedules',
+		name: 'workSchedules',
+		options: [
+			['predictable', 'Predictable'],
+			['variable', 'Somewhat variable'],
+			['highlyVariable', 'Highly variable'],
+		],
+	},
+	{
+		question: 'Child transition tolerance',
+		name: 'transitionTolerance',
+		options: [
+			['easy', 'Handles transitions well'],
+			['somewhat', 'Sometimes struggles'],
+			['hard', 'Strongly struggles'],
+		],
+	},
+];
+
+const questions = quizType === 'fiftyFifty' ? fiftyFiftyQuestions : agePageQuestions;
 ---
 
-<section class="container-shell py-8 lg:py-10" data-schedule-quiz data-age-group={ageGroup}>
+<section class:list={[useContainer && 'container-shell', 'py-8 lg:py-10']} data-schedule-quiz data-age-group={ageGroup} data-quiz-type={quizType}>
 	<div class="premium-card rounded-[2rem] p-6 lg:p-8">
 		<div class="grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
 			<div>
@@ -124,17 +188,17 @@ const questions = [
 							</div>
 						</fieldset>
 					))}
-					<div class="flex flex-col gap-2 sm:flex-row">
-						<button type="button" class="btn-secondary inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-semibold disabled:cursor-not-allowed disabled:opacity-50" data-quiz-prev disabled>Back</button>
-						<button type="button" class="btn-primary inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-semibold" data-quiz-next>Next</button>
+					<div class="quiz-nav-group">
+						<CtaButton variant="primary" size="small" data-quiz-next>Next</CtaButton>
+						<CtaButton variant="secondary" size="small" data-quiz-prev disabled>Back</CtaButton>
 					</div>
 				</form>
 				<div class="mt-5 rounded-[1.25rem] border border-line bg-surface-elevated p-4 text-sm leading-6 text-secondary" aria-live="polite" data-quiz-result>
 					<p class="font-semibold text-primary">2-2-5-5 may be a good starting point.</p>
 					<p class="mt-2">Nearby homes, equal-time goals, predictable routines, and manageable transitions make 2-2-5-5 worth comparing first.</p>
-					<div class="mt-4 flex flex-col gap-2 sm:flex-row">
-						<a href="/2-2-5-5-custody-schedule" class="btn-secondary inline-flex h-10 items-center justify-center rounded-full px-4 text-sm font-semibold">View 2-2-5-5 Schedule</a>
-						<a href="/custody-schedule-generator" class="btn-primary inline-flex h-10 items-center justify-center rounded-full px-4 text-sm font-semibold">Generate Calendar</a>
+					<div class="cta-group mt-4">
+						<CtaButton href="/2-2-5-5-custody-schedule" variant="secondary" size="small">View 2-2-5-5 Schedule</CtaButton>
+						<CtaButton href="/custody-schedule-generator" variant="primary" size="small">Test this schedule on a calendar</CtaButton>
 					</div>
 				</div>
 			</div>
@@ -151,14 +215,25 @@ const questions = [
 			twoTwoFiveFive: {
 				title: '2-2-5-5 may be a good starting point.',
 				body: 'This tends to fit nearby homes, equal-time goals, predictable routines, and children who handle transitions reasonably well.',
+				avoid: 'Avoid starting here if five-day blocks feel too long or school items are hard to track between homes.',
 				actions: [
 					['View 2-2-5-5 Schedule', '/2-2-5-5-custody-schedule', 'secondary'],
-					['Generate Calendar', '/custody-schedule-generator', 'primary'],
+					['Test this schedule on a calendar', '/custody-schedule-generator', 'primary'],
+				],
+			},
+			twoTwoThree: {
+				title: '2-2-3 may be a good starting point.',
+				body: 'This may fit younger children who benefit from frequent contact with both parents and families who can manage more frequent exchanges calmly.',
+				avoid: 'Avoid starting here if exchanges are high-conflict, homes are far apart, or the child struggles strongly with transitions.',
+				actions: [
+					['View 2-2-3 Schedule', '/2-2-3-custody-schedule', 'secondary'],
+					['Test this schedule on a calendar', '/custody-schedule-generator', 'primary'],
 				],
 			},
 			fiveTwoTwoFive: {
 				title: '5-2-2-5 may be a good starting point.',
 				body: 'This can fit families who want equal time but need predictable weekday blocks and fewer confusing transitions.',
+				avoid: 'Avoid starting here if either home cannot manage full school-night routines during longer blocks.',
 				actions: [
 					['View 5-2-2-5 Schedule', '/5-2-2-5-custody-schedule', 'secondary'],
 					['Calculate Parenting Time', '/custody-percentage-calculator', 'primary'],
@@ -167,6 +242,7 @@ const questions = [
 			sixtyForty: {
 				title: '60/40 may be more practical.',
 				body: 'This may work better when one parent handles more school or daycare logistics, distance adds stress, or equal time creates too much travel.',
+				avoid: 'Avoid using this only for convenience if a workable equal-time schedule would support the child well.',
 				actions: [
 					['View 60/40 Schedule', '/60-40-custody-schedule', 'secondary'],
 					['Calculate Parenting Time', '/parenting-time-calculator', 'primary'],
@@ -175,6 +251,7 @@ const questions = [
 			everyOtherWeekend: {
 				title: 'Every other weekend plus holidays may be more realistic.',
 				body: 'This may fit families with long distance, limited parent availability, or situations where fewer exchanges are better.',
+				avoid: 'Avoid using this as the default if both parents live close and can reliably support ordinary weekday routines.',
 				actions: [
 					['View Every Other Weekend Schedule', '/every-other-weekend-custody-schedule', 'secondary'],
 					['Plan Holidays', '/holiday-custody-schedule', 'primary'],
@@ -183,11 +260,47 @@ const questions = [
 			flexible: {
 				title: 'A flexible/custom schedule may be best.',
 				body: 'This may fit teenagers with driving, work, sports, or major social commitments, or families whose standard weekly patterns do not fit real life.',
+				avoid: 'Avoid leaving the plan vague; flexible schedules still need written rules for notice, exchanges, and make-up time.',
 				actions: [
-					['Open Generator', '/custody-schedule-generator', 'primary'],
+					['Test this schedule on a calendar', '/custody-schedule-generator', 'primary'],
 					['Create Parenting Plan', '/parenting-plan-template', 'secondary'],
 				],
 			},
+			weekOnWeekOff: {
+				title: 'Week-on/week-off may be a good starting point.',
+				body: 'This may fit older children and teenagers who can handle full-week blocks and benefit from fewer exchanges around school, activities, work, or social plans.',
+				avoid: 'Avoid starting here if the child needs more frequent contact or a full week away from either parent feels too long.',
+				actions: [
+					['View Week-On Week-Off', '/week-on-week-off-custody-schedule', 'secondary'],
+					['Test this schedule on a calendar', '/custody-schedule-generator', 'primary'],
+				],
+			},
+			customSchedule: {
+				title: 'A custom schedule may be better.',
+				body: 'This may fit families with highly variable work schedules, long travel times, or commitments that standard 50/50 patterns do not handle well.',
+				avoid: 'Avoid making it informal only; custom schedules work best when the rules are still clear and written down.',
+				actions: [
+					['Test this schedule on a calendar', '/custody-schedule-generator', 'primary'],
+					['Create Parenting Plan', '/parenting-plan-template', 'secondary'],
+				],
+			},
+		};
+
+		const getFiftyFiftyResultKey = (form) => {
+			const childAge = form.get('childAge');
+			const homeDistance = form.get('homeDistance');
+			const schoolRoutine = form.get('schoolRoutine');
+			const activityLevel = form.get('activityLevel');
+			const workSchedules = form.get('workSchedules');
+			const transitionTolerance = form.get('transitionTolerance');
+
+			if (workSchedules === 'highlyVariable' || homeDistance === 'over45' || schoolRoutine === 'unstable') return 'customSchedule';
+			if (childAge === 'toddler') return transitionTolerance === 'easy' && homeDistance === 'under15' ? 'twoTwoThree' : 'fiveTwoTwoFive';
+			if (childAge === 'teen') return activityLevel === 'busy' || workSchedules !== 'predictable' ? 'customSchedule' : 'weekOnWeekOff';
+			if (transitionTolerance === 'hard') return homeDistance === 'under15' ? 'fiveTwoTwoFive' : 'customSchedule';
+			if (childAge === 'schoolOlder' && activityLevel === 'minimal' && workSchedules === 'predictable') return 'weekOnWeekOff';
+			if (activityLevel === 'busy') return 'fiveTwoTwoFive';
+			return 'twoTwoFiveFive';
 		};
 
 		const getResultKey = (form, ageGroup) => {
@@ -216,18 +329,22 @@ const questions = [
 			const result = quiz.querySelector('[data-quiz-result]');
 			if (!form || !result) return;
 
-			const resultKey = getResultKey(new FormData(form), quiz.dataset.ageGroup);
+			const formData = new FormData(form);
+			const resultKey = quiz.dataset.quizType === 'fiftyFifty'
+				? getFiftyFiftyResultKey(formData)
+				: getResultKey(formData, quiz.dataset.ageGroup);
 			const recommendation = results[resultKey];
 			const actions = recommendation.actions.map(([label, href, style]) => {
 				const klass = style === 'primary' ? 'btn-primary' : 'btn-secondary';
-				return `<a href="${href}" class="${klass} inline-flex h-10 items-center justify-center rounded-full px-4 text-sm font-semibold">${label}</a>`;
+				return `<a href="${href}" class="${klass} h-11">${label}</a>`;
 			}).join('');
 
 			result.innerHTML = `
 				<p class="font-semibold text-primary">${recommendation.title}</p>
 				<p class="mt-2">${recommendation.body}</p>
+				${recommendation.avoid ? `<p class="mt-2"><span class="font-semibold text-primary">When to avoid:</span> ${recommendation.avoid}</p>` : ''}
 				<p class="mt-2 text-xs leading-5 text-muted">This is an educational starting point, not a legal recommendation.</p>
-				<div class="mt-4 flex flex-col gap-2 sm:flex-row">${actions}</div>
+				<div class="cta-group mt-4">${actions}</div>
 			`;
 		};
 
