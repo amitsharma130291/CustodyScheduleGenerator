@@ -32,26 +32,11 @@ import {
 const title = 'Custody Schedule Generator | Free Parenting Calendar Builder';
 const description =
 	'Generate a custody schedule calendar for 50/50, 60/40, 70/30, 80/20, 2-2-3, 2-2-5-5, and custom parenting schedules. Preview, print, and export your calendar.';
+const ogDescription =
+	'Create printable custody schedules and parenting calendars for 50/50, 60/40, 70/30, 2-2-3, 2-2-5-5, and custom schedules.';
 const canonical = '/custody-schedule-generator';
 const canonicalUrl = getCanonicalUrl(canonical);
 const dateModified = '2026-06-10';
-const generatorNavItems = [
-	{
-		label: 'Tools',
-		href: '/#tools',
-		children: [
-			{ label: 'Custody Schedule Generator', href: '/custody-schedule-generator' },
-			{ label: 'Parenting Time Calculator', href: '/parenting-time-calculator' },
-			{ label: 'Child Support Calculator', href: '/child-support-calculator' },
-			{ label: 'Holiday Planner', href: '/holiday-custody-planner' },
-			{ label: 'Agreement Builder', href: '/custody-agreement-builder' },
-		],
-	},
-	{ label: 'Schedules', href: '#popular-schedules' },
-	{ label: 'Calculators', href: '/#tools' },
-	{ label: 'Resources', href: '/#resources' },
-	{ label: 'FAQ', href: '#faq' },
-];
 const featuredComparisonRows = comparisonRows.slice(0, 4);
 const howToSchema = {
 	'@context': 'https://schema.org',
@@ -130,6 +115,11 @@ const schema = [
 		}),
 		operatingSystem: 'Web',
 		isAccessibleForFree: true,
+		provider: {
+			'@type': 'Organization',
+			name: 'CustodyBuilder',
+			url: getCanonicalUrl('/'),
+		},
 		featureList: [
 			'Custody schedule generator',
 			'Parenting time calculator',
@@ -144,9 +134,9 @@ const schema = [
 ];
 ---
 
-<BaseLayout title={title} description={description} canonical={canonical}>
+<BaseLayout title={title} description={description} canonical={canonical} ogDescription={ogDescription}>
 	<JsonLd slot="head" data={schema} />
-	<Navbar navItems={generatorNavItems} />
+	<Navbar />
 	<main class="relative overflow-x-clip">
 		<Hero />
 		<BestScheduleQuiz />

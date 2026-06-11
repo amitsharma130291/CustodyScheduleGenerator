@@ -13,7 +13,11 @@
   <url><loc>https://custodybuilder.com/custody-calendar-template</loc></url>
   <url><loc>https://custodybuilder.com/custody-percentage-calculator</loc></url>
   <url><loc>https://custodybuilder.com/custody-schedule-by-age</loc></url>
-  <url><loc>https://custodybuilder.com/custody-schedule-generator</loc></url>
+  <url>
+    <loc>https://custodybuilder.com/custody-schedule-generator</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
   <url><loc>https://custodybuilder.com/custody-schedule-template</loc></url>
   <url><loc>https://custodybuilder.com/disclaimer</loc></url>
   <url><loc>https://custodybuilder.com/holiday-custody-planner</loc></url>
