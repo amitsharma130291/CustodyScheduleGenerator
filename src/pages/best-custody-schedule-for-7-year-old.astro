@@ -1,10 +1,854 @@
 ---
-import AgePageTemplate from '../components/pages/AgePageTemplate.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import LastUpdated from '../components/seo/LastUpdated.astro';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import { buildBreadcrumbSchema, buildFAQSchema, buildWebPageSchema } from '../lib/seo/schema';
+
+const title = 'Best Custody Schedule for a 7-Year-Old | Examples, School Tips & Parenting Time';
+const description =
+	'Compare the best custody schedules for a 7-year-old, including 2-2-5-5, 5-2-2-5, week-on/week-off, and 60/40 schedules. Includes school tips, examples, parenting time calculators, and custody planning tools.';
+const canonical = '/best-custody-schedule-for-7-year-old';
+const canonicalUrl = getCanonicalUrl(canonical);
+
+const breadcrumbs = [
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: 'Guides', url: getCanonicalUrl('/blog') },
+	{ name: 'Best Custody Schedule for a 7-Year-Old', url: canonicalUrl },
+];
+
+const faqItems = [
+	{
+		question: 'What is the best custody schedule for a 7-year-old?',
+		answer:
+			'For many 7-year-olds, the best custody schedule is one that protects school stability while giving meaningful time with both parents. A 2-2-5-5 schedule or 5-2-2-5 schedule is often a strong starting point because each parent can handle predictable school nights and weekends still alternate. Some families can use week-on/week-off if the child is organized, both homes support school routines, and the child handles longer blocks well. A 60/40 schedule may be better when one home anchors more school mornings or activities. The right choice depends on distance, homework systems, transportation, extracurriculars, and the child\'s ability to stay organized. Use the Custody Schedule Generator to preview real dates, then test whether homework folders, activity equipment, reading logs, and transportation would actually work.',
+	},
+	{
+		question: 'Is 50/50 custody a good schedule for a 7-year-old?',
+		answer:
+			'50/50 custody can work well for a 7-year-old when parents live near school, communicate about homework, and can both manage school-night routines. At this age, equal time needs more than enough beds and clothes in each home. It needs backpacks, reading logs, activity equipment, school portals, project deadlines, library books, and transportation to move smoothly. A 2-2-5-5 or 5-2-2-5 plan often works better than a highly fragmented equal-time schedule because weekdays stay predictable. If equal time creates late homework, forgotten supplies, repeated lateness, or activity conflicts, a 60/40 or modified plan may be more practical. Before choosing 50/50, compare the calendar with a custody percentage calculator and ask whether both homes can handle ordinary school responsibilities, not just overnights.',
+	},
+	{
+		question: 'What custody schedule works best during the school year?',
+		answer:
+			'During the school year, many 7-year-olds do best with a schedule that makes weekdays easy to predict. 2-2-5-5 and 5-2-2-5 schedules can work because parents know which school nights they usually handle. Week-on/week-off can work for organized children and cooperative parents, but it may create long stretches away from one parent and requires strong homework systems in both homes. A 60/40 schedule may fit when one parent handles more school transportation or activities. The best school-year schedule should answer practical questions: who checks homework, who signs reading logs, who stores sports gear, and how school notices get shared. Many families use a different summer or holiday schedule, so the school-year plan should not be forced to solve vacations too.',
+	},
+	{
+		question: 'Is week-on/week-off custody good for a 7-year-old?',
+		answer:
+			'Week-on/week-off can be good for some 7-year-olds, but it is not the best first choice for every family. The benefit is simplicity: fewer exchanges, fewer backpack handoffs, and a full week for homework and activities in one home. The challenge is that a full week can feel long if the child misses the other parent, has anxiety around transitions, or needs more frequent contact. It also requires both homes to be fully prepared for school mornings, projects, activities, and transportation. Families considering week-on/week-off should compare it with 2-2-5-5 and 5-2-2-5 before deciding. It usually works best when parents live close enough to school, both homes track assignments well, and the child does not feel disconnected during the full-week block.',
+	},
+	{
+		question: 'How do sports and extracurricular activities affect custody schedules?',
+		answer:
+			'Sports and activities can quickly expose whether a custody schedule works in real life. A 7-year-old may have soccer practice, baseball games, dance, music lessons, martial arts, tutoring, or birthday parties. Parents need a plan for who drives, who pays, where equipment is stored, and whether both parents can attend events. A schedule that looks fair on paper may fail if cleats, uniforms, instruments, or homework folders are always at the wrong house. The parenting plan should identify transportation responsibilities, communication expectations, and how conflicts between custody time and activities will be handled. For activity-heavy children, 5-2-2-5 or a customized schedule may reduce midweek confusion because each parent has longer blocks to manage practice nights.',
+	},
+	{
+		question: 'Should homework stay in one house or both homes?',
+		answer:
+			'Homework usually needs a system in both homes, even if one parent handles more school nights. A 7-year-old may have reading logs, spelling practice, math worksheets, school projects, library books, or online assignments. Keeping all homework in one house can reduce lost papers, but it can also make the other home less connected to school. Many families use a shared folder, school portal access for both parents, duplicate supplies, and a rule that the backpack travels with the child. The goal is not to make each home identical. The goal is to make homework predictable no matter where the child sleeps. If homework repeatedly goes missing, the custody schedule may need fewer school-night exchanges or clearer responsibility rules in a parenting plan template.',
+	},
+	{
+		question: 'How do I create a custody schedule for a 7-year-old?',
+		answer:
+			'Start with the school week, not the weekend. Identify school start time, pickup time, homework expectations, activity days, transportation distance, and which parent can reliably handle mornings. Then compare common patterns such as 2-2-5-5, 5-2-2-5, week-on/week-off, and 60/40. Use a custody schedule generator to preview the calendar with real dates, then check whether backpacks, homework, sports gear, and parent-teacher communication will work. A good 7-year-old schedule should be easy enough for the child to understand and detailed enough that parents know who is responsible for school items, activities, and holiday changes. After choosing the weekly rhythm, put the details into a custody schedule template or parenting plan template.',
+	},
+	{
+		question: 'Is there a custody schedule template for a 7-year-old?',
+		answer:
+			'Yes. A custody schedule template for a 7-year-old should include regular weekly parenting time, exchange days, school transportation, homework responsibilities, activity transportation, holiday rules, summer changes, and communication expectations. A simple template is often better than a vague agreement because school-age children have more moving parts than preschoolers. The template should state who handles reading logs, school portals, backpacks, uniforms, equipment, sick days, and school breaks. You can start with a custody calendar template or custody schedule template, then add school-age details in a parenting plan template. The most useful template is specific enough that a parent knows what happens on a Thursday soccer practice night, not just who has the overnight.',
+	},
+	{
+		question: 'Can siblings have different custody schedules?',
+		answer:
+			'Siblings can have different custody schedules, but the decision should be practical and child-centered. A toddler may need shorter separations, while a 7-year-old may need a schedule built around school, homework, friendships, and activities. A teenager may prefer longer blocks or more flexibility. Keeping siblings together can be emotionally helpful and easier for parents, but forcing every child into the same schedule can create problems when their needs are very different. Some families keep the same exchange days but adjust calls, activity transportation, or overnight blocks. The key is to avoid creating a calendar so complicated that no one can follow it.',
+	},
+	{
+		question: 'What custody schedule works best if parents live far apart?',
+		answer:
+			'If parents live far apart, a frequent-exchange schedule may be hard for a 7-year-old because travel can interfere with homework, bedtime, activities, and school mornings. A 60/40 schedule, every other weekend plan with midweek contact, or custom arrangement may be more realistic than strict 50/50. The farther the homes are from school, the more important transportation planning becomes. Parents should decide who drives, how late exchanges can happen, how school supplies move, and whether the lower-time parent receives more holiday or summer time. Less equal does not always mean less thoughtful if it protects school stability. In long-drive situations, fewer exchanges may help the child arrive at school rested and prepared.',
+	},
+	{
+		question: 'What is a good visitation schedule for a 7-year-old?',
+		answer:
+			'A good visitation schedule for a 7-year-old gives the child predictable time with each parent without disrupting school, homework, activities, or friendships. If one parent has less overnight time, every other weekend plus a midweek dinner, activity attendance, school-event involvement, or extra holiday and summer time may work better than rare contact. When parents live close, a 60/40 or 70/30 schedule may preserve meaningful involvement while keeping one school-week base. The schedule should identify transportation, homework expectations, and activity responsibilities. Use the visitation calculator or parenting time calculator to understand overnights, but judge the plan by whether the child stays organized and connected.',
+	},
+	{
+		question: 'How often should a 7-year-old see each parent?',
+		answer:
+			'There is no universal number of visits or overnights for a 7-year-old. Many children this age benefit from regular contact with both parents, but the frequency should fit school and activity logistics. If parents live close and both can support school routines, 2-2-5-5, 5-2-2-5, or another 50/50 arrangement may keep both parents involved. If distance or work schedules make frequent exchanges stressful, a 60/40 or every-other-weekend arrangement with midweek contact may be more practical. The question is not only how often the child sees each parent, but whether those visits include ordinary parenting: homework, meals, practices, reading, bedtime, and school communication.',
+	},
+	{
+		question: 'Can a 7-year-old choose where they want to live?',
+		answer:
+			'A 7-year-old may express preferences, but this guide is not legal advice and custody decision rules vary by location. Practically, parents should listen carefully without putting the child in charge of adult decisions. At this age, a child may prefer one home because of a toy, a friend nearby, fewer rules, a favorite bedroom, or less homework pressure. That does not mean the preference should be ignored, but it should be understood in context. Parents can ask what feels hard about the schedule: backpack problems, long drives, missed activities, bedtime differences, or conflict. Those answers may help improve the plan without making the child choose between parents.',
+	},
+	{
+		question: 'What custody schedule works best for elementary school children?',
+		answer:
+			'Elementary school children often need schedules that protect school attendance, homework routines, friendships, activities, and consistent sleep. For many families, 2-2-5-5 and 5-2-2-5 are strong starting points because they create repeated school-night responsibilities while keeping both parents involved. Week-on/week-off can work better for older or highly organized elementary children when both homes handle school well. 60/40 may be more practical when one parent handles more transportation or parents live farther apart. The best schedule for an elementary school child is usually not the most complicated one. It is the plan parents can follow consistently while keeping the child prepared for school.',
+	},
+	{
+		question: 'What is the best parenting plan for a 7-year-old?',
+		answer:
+			'The best parenting plan for a 7-year-old includes more than a weekly custody rotation. It should define school transportation, homework routines, activity responsibilities, communication through school portals, parent-teacher contact, sick days, holidays, summer schedules, and how supplies move between homes. A parenting plan template can help parents write down details that are easy to overlook, such as who signs reading logs, where sports gear stays, and how birthday parties or school events are handled. The best plan is specific but not overly rigid. It should give parents enough structure to avoid conflict while still allowing reasonable flexibility for school projects, activities, and social events.',
+	},
+	{
+		question: 'What should be included in a custody schedule for a school-age child?',
+		answer:
+			'A custody schedule for a school-age child should include regular parenting time, exchange days, school pickup and drop-off rules, homework responsibilities, activity transportation, holidays, school breaks, summer changes, and communication expectations. It should also explain how backpacks, school folders, reading logs, devices, chargers, uniforms, sports gear, and project supplies move between homes. If the child participates in activities, the schedule should say how parents share calendars and who transports the child even when the activity falls on the other parent\'s day. A custody schedule template can cover the basic calendar, while a parenting plan template can capture the school-age rules that make the schedule actually work.',
+	},
+	{
+		question: 'What is the best custody schedule for a 6-year-old?',
+		answer:
+			'A 6-year-old is usually adjusting to early elementary school, so the best schedule often looks similar to a 7-year-old schedule but with slightly more emphasis on routine and transition support. Many families compare 2-2-5-5, 5-2-2-5, or a modified 60/40 plan. The schedule should protect school mornings, reading practice, early homework, bedtime, and backpack organization. Some 6-year-olds can handle week-on/week-off, but others still need more frequent contact and shorter gaps between parents. If a dedicated 6-year-old guide is not available, use this page with extra attention to early-elementary routines and compare it with the 5-year-old custody schedule guide. The practical test is whether the child gets to school rested, brings the right folder, and knows which parent handles each school night.',
+	},
+	{
+		question: 'What is the best custody schedule for an 8-year-old?',
+		answer:
+			'An 8-year-old may be ready for slightly longer blocks than a younger school-age child, especially if both homes are organized and close to school. 2-2-5-5 and 5-2-2-5 are still strong options, while week-on/week-off may become more realistic for some families. Activities, friendships, homework, and school projects often matter more at this stage. The best schedule should let the child participate in sports, birthday parties, school events, and homework routines without feeling like every transition disrupts the week. If a dedicated 8-year-old guide is not available, start with the same school-age principles on this page. Then adjust for maturity: an 8-year-old may track supplies better than a 7-year-old, but adults still need shared calendars, school portal access, and activity rules.',
+	},
+	{
+		question: 'What is the best custody schedule for a 10-year-old?',
+		answer:
+			'A 10-year-old often has stronger organization skills, more established friendships, more activities, and more opinions about the weekly routine. Many 10-year-olds can handle longer blocks better than a 7-year-old, so week-on/week-off may be more practical if both homes support school and activities. 2-2-5-5, 5-2-2-5, and 60/40 can still work well depending on travel and parent availability. The best plan should account for homework load, sports, sleepovers, clubs, and the child\'s ability to manage supplies between homes. If a dedicated 10-year-old guide is not available, use this page and lean toward older-child independence. Still, parents should avoid giving a child adult-level responsibility for coordinating calendars, rides, school projects, or schedule changes.',
+	},
+];
+
+const ageComparisonRows = [
+	['Toddler', 'Attachment, naps, bedtime, and short separations.', '/best-custody-schedule-for-toddler', 'Toddler custody guide'],
+	['5-year-old', 'Kindergarten routine, school readiness, and frequent contact.', '/best-custody-schedule-for-5-year-old', '5-year-old custody guide'],
+	['7-year-old', 'Homework, school activities, friendships, and predictable weekdays.', '/best-custody-schedule-for-7-year-old', 'Current guide'],
+	['Teenager', 'Independence, transportation, activities, and flexible planning.', '/best-custody-schedule-for-teenager', 'Teen custody guide'],
+];
+
+const scheduleRows = [
+	{
+		title: '2-2-5-5 Schedule',
+		href: '/2-2-5-5-custody-schedule',
+		pros: 'Stable weekdays, alternating weekends, and regular contact with both parents. It helps each parent know which school nights they usually manage.',
+		cons: 'Five-day blocks may feel long for some children, and both homes must track homework, reading logs, and activities.',
+		bestFor: 'Parents who live near school and want equal time with predictable weekday responsibilities.',
+		avoid: 'Avoid it when one parent cannot reliably handle school mornings or activity transportation.',
+	},
+	{
+		title: '5-2-2-5 Schedule',
+		href: '/5-2-2-5-custody-schedule',
+		pros: 'Longer home blocks can reduce scattered transitions while still keeping equal parenting time over two weeks.',
+		cons: 'The child may need support during longer stretches away from either parent, and school supplies must move consistently.',
+		bestFor: 'Families with activity-heavy weeks who want consistent blocks and fewer confusing changes.',
+		avoid: 'Avoid it when the child needs more frequent contact or one home is not prepared for full school-night routines.',
+	},
+	{
+		title: 'Week-On Week-Off Schedule',
+		href: '/week-on-week-off-custody-schedule',
+		pros: 'Simple calendar, few exchanges, and a full week to manage homework, projects, and activities in one home.',
+		cons: 'A full week away from one parent can feel long, and both homes must be fully equipped for school and activities.',
+		bestFor: 'Organized children, cooperative parents, nearby homes, and families that want fewer midweek exchanges.',
+		avoid: 'Avoid it when the child misses either parent quickly or one parent cannot manage school responsibilities for a full week.',
+	},
+	{
+		title: '60/40 Schedule',
+		href: '/60-40-custody-schedule',
+		pros: 'One home can anchor more school routines while the other parent still has substantial parenting time.',
+		cons: 'One parent may have fewer school-night experiences unless the schedule includes meaningful weekday contact.',
+		bestFor: 'Parents who live farther apart or when one parent handles more homework, transportation, or school logistics.',
+		avoid: 'Avoid using it just for convenience if both parents are nearby, involved, and a balanced schedule is realistic.',
+	},
+	{
+		title: 'Every Other Weekend Schedule',
+		href: '/every-other-weekend-custody-schedule',
+		pros: 'Fewer exchanges, clearer school-week base, and easier planning when distance or conflict is a major issue.',
+		cons: 'One parent may have less ordinary school-week involvement and fewer activity responsibilities.',
+		bestFor: 'Long distance, high conflict, or limited parent availability situations.',
+		avoid: 'Avoid it as the default when both parents live close, support school routines, and can share parenting time safely.',
+	},
+];
+
+const bestOverallRows = [
+	{
+		rank: '1',
+		title: '2-2-5-5 Schedule',
+		href: '/2-2-5-5-custody-schedule',
+		why: 'It gives each parent predictable school nights and alternating weekends, which helps with homework, reading logs, and activity planning.',
+		fit: 'Nearby parents who both can handle school mornings and want balanced parenting time.',
+		advantage: 'Predictable weekdays.',
+		drawback: 'Five-day stretches may feel long for some children.',
+	},
+	{
+		rank: '2',
+		title: '5-2-2-5 Schedule',
+		href: '/5-2-2-5-custody-schedule',
+		why: 'It keeps equal parenting time while creating longer home blocks that can reduce scattered school and equipment handoffs.',
+		fit: 'Families with activity-heavy weeks or children who do better with fewer midweek changes.',
+		advantage: 'Longer blocks for homework and activities.',
+		drawback: 'Requires both homes to track supplies well.',
+	},
+	{
+		rank: '3',
+		title: 'Week-On Week-Off Schedule',
+		href: '/week-on-week-off-custody-schedule',
+		why: 'It is simple and reduces exchanges, which can help organized children manage homework and activities in one home for a full week.',
+		fit: 'Children who handle longer blocks well and parents who both fully support school routines.',
+		advantage: 'Few exchanges.',
+		drawback: 'A full week away from one parent can feel long.',
+	},
+	{
+		rank: '4',
+		title: 'Customized 60/40 Schedule',
+		href: '/60-40-custody-schedule',
+		why: 'It can let one home anchor more school logistics while preserving substantial parenting time with the other parent.',
+		fit: 'Families with distance, work travel, activity conflicts, or one parent handling more school mornings.',
+		advantage: 'More realistic school-week logistics.',
+		drawback: 'Less equal school-night time.',
+	},
+];
+
+const decisionRows = [
+	['Parents live within 15 minutes', '2-2-5-5', 'Stable school nights and frequent contact are easier when travel is short.'],
+	['Child heavily involved in activities', '5-2-2-5', 'Longer blocks can reduce equipment handoffs and scheduling confusion.'],
+	['Parents live farther apart', '60/40', 'Fewer school-week transitions can protect homework, bedtime, and transportation.'],
+	['Child handles transitions well', 'Week-on/week-off', 'A simple weekly rhythm can work when the child stays connected and organized.'],
+	['High conflict', 'Fewer exchanges', 'Less direct handoff friction may protect the child emotionally and academically.'],
+	['One parent travels often', 'Customized schedule', 'A realistic calendar beats repeated last-minute changes.'],
+];
+
+const expandedScenarios = [
+	{
+		title: 'Scenario 1: 7-year-old plays soccer twice per week',
+		situation: 'The child has Tuesday practice, Thursday practice, and occasional Saturday games. Cleats, shin guards, water bottle, and uniform often move between homes.',
+		challenge: 'The schedule needs activity transportation and equipment tracking, not just a fair overnight split.',
+		recommendation: '5-2-2-5 or 2-2-5-5 with a written equipment rule.',
+		reasoning: 'Longer blocks reduce handoffs, while predictable weekdays make it clear which parent handles practice nights.',
+	},
+	{
+		title: 'Scenario 2: Parents live 10 minutes apart',
+		situation: 'Both parents live near school, can attend events, and can help with homework.',
+		challenge: 'The family wants equal time without creating confusion around school nights.',
+		recommendation: '2-2-5-5.',
+		reasoning: 'Nearby homes make forgotten items easier to solve, and stable weekdays help each parent own repeated school responsibilities.',
+	},
+	{
+		title: 'Scenario 3: Parents live 45 minutes apart',
+		situation: 'The child has a long drive between homes and is tired after evening exchanges.',
+		challenge: 'Frequent midweek transitions interfere with homework, dinner, and bedtime.',
+		recommendation: '60/40 or another lower-exchange custom schedule.',
+		reasoning: 'A less equal schedule may better protect school success if equal time creates too much travel stress.',
+	},
+	{
+		title: 'Scenario 4: Child struggles with homework organization',
+		situation: 'Assignments are missed because folders, library books, and log sheets do not reliably travel.',
+		challenge: 'The real problem is information flow and supply tracking.',
+		recommendation: '5-2-2-5 or 60/40 with shared school portal access and a backpack rule.',
+		reasoning: 'Longer blocks plus a consistent homework system can matter more than changing the percentage split.',
+	},
+	{
+		title: 'Scenario 5: Child participates in multiple activities',
+		situation: 'The child has dance, tutoring, birthday parties, and weekend games.',
+		challenge: 'The calendar needs to support social and activity participation without weekly arguments.',
+		recommendation: 'Customized schedule built from the custody calendar template.',
+		reasoning: 'A custom plan can assign transportation and equipment responsibilities around known activities.',
+	},
+	{
+		title: 'Scenario 6: Parents have very different work schedules',
+		situation: 'One parent works early mornings and the other travels several days per month.',
+		challenge: 'A standard 50/50 rotation creates repeated last-minute changes.',
+		recommendation: 'Customized 60/40 or 2-2-5-5 with defined backup rules.',
+		reasoning: 'A predictable but slightly uneven schedule is usually better than a theoretically equal plan that changes every week.',
+	},
+];
+
+const seasonRows = [
+	['Routine', 'School nights, homework, reading logs, and on-time mornings matter most.', 'More flexible mornings may allow longer blocks or travel.'],
+	['Activities', 'Sports, clubs, lessons, and homework need careful transportation planning.', 'Camps, vacations, and summer sports may replace school-year activities.'],
+	['Travel', 'Long drives can disrupt homework and bedtime.', 'Travel may be easier if school mornings are not involved.'],
+	['Parenting time', 'The schedule may prioritize predictable weekdays.', 'Families may add longer blocks or vacation weeks.'],
+	['Flexibility', 'Too much flexibility can create school confusion.', 'More flexibility may work if dates are written clearly.'],
+];
+
+const overnightRows = [
+	['50/50', '182-183', '182-183', 'Equal parenting time'],
+	['60/40', 'About 219', 'About 146', 'One home anchors more school routines'],
+	['70/30', 'About 255', 'About 110', 'Primary school-week home with regular parenting time'],
+	['80/20', 'About 292', 'About 73', 'Every-other-weekend style arrangement'],
+];
+
+const childAgeRows = [
+	['Toddler', 'Attachment, naps, routine, and shorter separations', '/best-custody-schedule-for-toddler', 'Best custody schedule for a toddler'],
+	['5-Year-Old', 'Kindergarten routine and frequent parent contact', '/best-custody-schedule-for-5-year-old', 'Best custody schedule for a 5-year-old'],
+	['6-Year-Old', 'Early elementary routine and reading practice', '/custody-schedule-by-age', 'Custody schedules by age'],
+	['7-Year-Old', 'Homework, activities, friendships, and school stability', '/best-custody-schedule-for-7-year-old', 'Current guide'],
+	['8-Year-Old', 'Activities, school projects, and growing independence', '/custody-schedule-by-age', 'Custody schedules by age'],
+	['10-Year-Old', 'Friendships, activities, and longer blocks', '/custody-schedule-by-age', 'Custody schedules by age'],
+	['Teenager', 'Independence, transportation, and flexible planning', '/best-custody-schedule-for-teenager', 'Best custody schedule for a teenager'],
+];
+
+const tools = [
+	{ title: 'Custody Schedule Generator', href: '/custody-schedule-generator', description: 'Generate a parenting calendar with real dates and exchange days.' },
+	{ title: 'Custody Calendar Template', href: '/custody-calendar-template', description: 'Organize school weeks, activities, holidays, and parenting time.' },
+	{ title: 'Custody Percentage Calculator', href: '/custody-percentage-calculator', description: 'Estimate overnight counts and parenting time percentages.' },
+	{ title: 'Parenting Time Calculator', href: '/parenting-time-calculator', description: 'Compare parenting time across common custody arrangements.' },
+	{ title: 'Parenting Plan Template', href: '/parenting-plan-template', description: 'Write down homework, activities, exchanges, holidays, and communication rules.' },
+	{ title: 'Custody Schedule Template', href: '/custody-schedule-template', description: 'Create a printable schedule template for school-age custody planning.' },
+];
+
+const schema = [
+	buildFAQSchema(faqItems),
+	buildBreadcrumbSchema(breadcrumbs),
+	{
+		...buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+		dateModified: '2026-06-11',
+		isAccessibleForFree: true,
+		about: [
+			'best custody schedule for 7 year old',
+			'custody schedule for 7 year old',
+			'best custody schedule for school age child',
+			'50/50 custody schedule for 7 year old',
+			'parenting plan for 7 year old',
+		],
+	},
+];
 ---
 
-<AgePageTemplate
-	title="Best Custody Schedule for a 7-Year-Old | Examples & Tips"
-	description="Compare custody schedules for a 7-year-old with school routines, activity planning, parenting time examples, and calendar tools."
-	slug="best-custody-schedule-for-7-year-old"
-	lede="A 7 year old custody schedule should balance school stability, activities, and meaningful parenting time in both homes."
-/>
+<BaseLayout title={title} description={description} canonical={canonical}>
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<Breadcrumbs items={breadcrumbs} />
+	<main>
+		<section class="container-shell py-10 lg:py-14">
+			<div class="premium-card rounded-[2rem] p-6 lg:p-8">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Custody schedules by age</p>
+				<h1 class="mt-4 max-w-4xl text-5xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary lg:text-6xl">
+					Best Custody Schedule for a 7-Year-Old
+				</h1>
+				<LastUpdated />
+				<div class="mt-6 grid gap-4 text-base leading-8 text-secondary lg:grid-cols-[1.2fr_0.8fr]">
+					<div class="grid gap-4">
+						<p>
+							At age 7, children are usually fully engaged in elementary school. They may be reading independently, bringing home assignments, joining sports, forming stronger friendships, and becoming more responsible for their own backpack, books, and routines.
+						</p>
+						<p>
+							A custody schedule that works for a toddler may not work for a 7-year-old. The focus shifts from naps and separation length to school success, homework, activity transportation, friendships, and predictable weekday routines.
+						</p>
+						<p>
+							The best custody schedule for a 7-year-old is the one that keeps the child connected to both parents while making school nights, homework, activities, and social life easier to manage.
+						</p>
+					</div>
+					<div class="soft-card rounded-[1.5rem] p-5 text-sm leading-6">
+						<p class="font-semibold text-primary">Educational note</p>
+						<p class="mt-2 text-secondary">
+							This guide is informational only and is not legal advice. Custody decisions should account for your child, existing orders, safety, school needs, and local guidance when needed.
+						</p>
+					</div>
+				</div>
+				<div class="mt-8 flex flex-col gap-3 sm:flex-row">
+					<a href="/custody-schedule-generator" class="btn-primary inline-flex h-12 w-full items-center justify-center rounded-full px-7 text-sm font-semibold sm:w-auto">Use the Custody Schedule Generator</a>
+					<a href="#schedule-options" class="btn-secondary inline-flex h-12 w-full items-center justify-center rounded-full px-7 text-sm font-semibold sm:w-auto">Compare school-age schedules</a>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<div class="premium-card rounded-[2rem] p-6 lg:p-8">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Practical recommendation</p>
+				<h2 class="mt-3 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Our Practical Recommendation</h2>
+				<div class="mt-5 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
+					<div class="grid gap-4 text-base leading-8 text-secondary">
+						<p>
+							For many 7-year-olds, the strongest first choices are a <a href="/2-2-5-5-custody-schedule" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-5-5 schedule</a> or <a href="/5-2-2-5-custody-schedule" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">5-2-2-5 schedule</a>. Both can protect school-night predictability while still giving both parents regular weekday and weekend time.
+						</p>
+						<p>
+							A <a href="/week-on-week-off-custody-schedule" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">week-on/week-off schedule</a> can work for some organized children and cooperative parents, especially when fewer exchanges help homework and activity planning. A <a href="/60-40-custody-schedule" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">60/40 schedule</a> may be better when one home handles more school transportation or activity logistics.
+						</p>
+						<p>
+							The key is school stability: fewer forgotten assignments, predictable reading and homework routines, clear activity transportation, and a calendar the child can understand.
+						</p>
+					</div>
+					<div class="soft-card rounded-[1.5rem] p-5">
+						<p class="text-sm font-semibold text-primary">Best first comparison</p>
+						<ol class="mt-3 grid gap-2 text-sm leading-6 text-secondary">
+							<li>1. 2-2-5-5 for predictable school nights.</li>
+							<li>2. 5-2-2-5 for consistent blocks and activities.</li>
+							<li>3. Week-on/week-off for some organized children.</li>
+							<li>4. Customized 60/40 when distance or logistics matter.</li>
+						</ol>
+						<a href="/custody-schedule-generator" class="btn-primary mt-5 inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-semibold">Generate a school-age schedule</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<div class="premium-card rounded-[2rem] p-6 lg:p-8">
+				<div class="max-w-3xl">
+					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Best overall starting point</p>
+					<h2 class="mt-3 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Best Overall Custody Schedule for Most 7-Year-Olds</h2>
+					<p class="mt-4 text-base leading-7 text-secondary">
+						There is no single best custody schedule for every family. For many school-age children, the strongest starting point is the schedule that keeps school mornings predictable, homework visible, activities manageable, and both parents meaningfully involved.
+					</p>
+				</div>
+				<div class="mt-6 grid gap-4 lg:grid-cols-2">
+					{bestOverallRows.map((schedule) => (
+						<a href={schedule.href} class="soft-card group rounded-[1.5rem] p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40">
+							<div class="flex items-start gap-4">
+								<span class="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent/10 text-sm font-bold text-accent">{schedule.rank}</span>
+								<div>
+									<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary group-hover:text-accent">{schedule.title}</h3>
+									<div class="mt-3 grid gap-2 text-sm leading-6 text-secondary">
+										<p><span class="font-semibold text-primary">Why it works:</span> {schedule.why}</p>
+										<p><span class="font-semibold text-primary">Best fit:</span> {schedule.fit}</p>
+										<p><span class="font-semibold text-primary">Biggest advantage:</span> {schedule.advantage}</p>
+										<p><span class="font-semibold text-primary">Biggest drawback:</span> {schedule.drawback}</p>
+									</div>
+								</div>
+							</div>
+						</a>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<div class="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
+				<div>
+					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">School-age custody</p>
+					<h2 class="mt-3 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Why Custody Planning Changes at Age 7</h2>
+					<p class="mt-4 text-base leading-7 text-secondary">
+						At 7, custody planning becomes less about basic routines and more about whether the calendar supports elementary school life.
+					</p>
+				</div>
+				<div class="grid gap-4 md:grid-cols-2">
+					{[
+						['Homework responsibilities', 'Reading logs, spelling lists, worksheets, and projects need a system in both homes.'],
+						['School projects', 'Longer assignments require parent communication so supplies and deadlines do not disappear between homes.'],
+						['Growing friendships', 'Birthday parties, playdates, and neighborhood friendships start to matter more.'],
+						['Sports and activities', 'Practices, uniforms, instruments, and lessons can shape the calendar as much as custody percentages.'],
+						['Increased independence', 'A 7-year-old may help pack a backpack, but adults still need the system.'],
+						['Stronger routines', 'Predictable school nights help the child know where homework, clothes, and activity gear belong.'],
+					].map(([heading, text]) => (
+						<article class="soft-card rounded-[1.5rem] p-5">
+							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{heading}</h3>
+							<p class="mt-2 text-sm leading-6 text-secondary">{text}</p>
+						</article>
+					))}
+				</div>
+			</div>
+			<div class="mt-6 overflow-x-auto rounded-[1.5rem] border border-line bg-surface shadow-[0_18px_44px_rgba(15,23,42,0.06)]">
+				<table class="min-w-[800px] w-full text-left text-sm">
+					<thead class="bg-surface-elevated text-xs uppercase tracking-[0.16em] text-muted">
+						<tr><th class="px-4 py-3">Age</th><th class="px-4 py-3">Main Custody Focus</th><th class="px-4 py-3">Recommended Reading</th></tr>
+					</thead>
+					<tbody class="divide-y divide-line text-secondary">
+						{ageComparisonRows.map(([age, focus, href, label]) => (
+							<tr><td class="px-4 py-4 font-semibold text-primary">{age}</td><td class="px-4 py-4">{focus}</td><td class="px-4 py-4"><a href={href} class="text-accent underline decoration-line underline-offset-4 hover:text-primary">{label}</a></td></tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<div class="premium-card rounded-[2rem] p-6 lg:p-8">
+				<h2 class="text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">What 7-Year-Olds Need From a Custody Schedule</h2>
+				<div class="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+					{[
+						['School stability', 'The child should arrive on time, prepared, rested, and with the right backpack and supplies.'],
+						['Predictable weekdays', 'Repeated school-night patterns help parents and children know what happens next.'],
+						['Homework time', 'Each home needs a clear place, routine, and expectation for reading and assignments.'],
+						['Activities', 'Sports, lessons, and clubs need transportation, equipment, and calendar coordination.'],
+						['Friendships', 'A schedule should leave room for birthdays, playdates, and neighborhood life when practical.'],
+						['Meaningful parent time', 'The child needs ordinary routines with both parents, not only fun weekends or rushed school nights.'],
+					].map(([heading, text]) => (
+						<article class="soft-card rounded-[1.5rem] p-5">
+							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{heading}</h3>
+							<p class="mt-2 text-sm leading-6 text-secondary">{text}</p>
+						</article>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<section id="schedule-options" class="container-shell py-8 lg:py-10">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Schedule options</p>
+				<h2 class="mt-3 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Best Custody Schedules for 7-Year-Olds</h2>
+				<p class="mt-4 text-base leading-7 text-secondary">
+					For school-age children, the schedule should be judged by how well it supports homework, activities, transportation, friendships, and parent involvement.
+				</p>
+			</div>
+			<div class="mt-6 grid gap-4 lg:grid-cols-2">
+				{scheduleRows.map((schedule) => (
+					<article class="soft-card rounded-[1.5rem] p-5">
+						<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary"><a href={schedule.href} class="hover:text-accent">{schedule.title}</a></h3>
+						<div class="mt-4 grid gap-2 text-sm leading-6 text-secondary">
+							<p><span class="font-semibold text-primary">Pros:</span> {schedule.pros}</p>
+							<p><span class="font-semibold text-primary">Cons:</span> {schedule.cons}</p>
+							<p><span class="font-semibold text-primary">Best for:</span> {schedule.bestFor}</p>
+							<p><span class="font-semibold text-primary">When to avoid:</span> {schedule.avoid}</p>
+						</div>
+					</article>
+				))}
+			</div>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<div class="grid gap-6 lg:grid-cols-2">
+				<div class="soft-card rounded-[1.75rem] p-6">
+					<h2 class="text-3xl font-semibold tracking-[-0.045em] text-primary">School and Homework Considerations</h2>
+					<div class="mt-4 grid gap-3 text-sm leading-7 text-secondary">
+						<p>One of the biggest differences at age 7 is that school work travels. Reading logs, spelling lists, math sheets, library books, project supplies, and online assignments can easily get lost between homes.</p>
+						<p>Both parents should have access to digital school portals, teacher emails, school calendars, and activity notices. A shared folder, duplicated supplies, and a rule that the backpack travels with the child can prevent avoidable conflict.</p>
+						<p>School transportation also matters. A schedule that requires a long drive before school may create lateness, stress, and missed assignments even if the custody split looks fair.</p>
+					</div>
+				</div>
+				<div class="soft-card rounded-[1.75rem] p-6">
+					<h2 class="text-3xl font-semibold tracking-[-0.045em] text-primary">School-Week Checklist</h2>
+					<ul class="mt-4 grid gap-2 text-sm leading-6 text-secondary">
+						<li>Both parents can access school portals and teacher messages.</li>
+						<li>The backpack travels with the child every exchange.</li>
+						<li>Reading logs and homework folders have one consistent location.</li>
+						<li>Each home has pencils, chargers, paper, and project supplies.</li>
+						<li>Parents agree who handles school transportation each day.</li>
+						<li>Activity gear is tracked before exchange days.</li>
+						<li>Late projects and tests are communicated early.</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<div class="premium-card rounded-[2rem] p-6 lg:p-8">
+				<div class="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+					<div>
+						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Practical school support</p>
+						<h2 class="mt-3 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">School Success Checklist for Shared Custody</h2>
+						<p class="mt-4 text-base leading-7 text-secondary">
+							A 7-year-old can help pack a backpack, but adults still need the system. Use this checklist to test whether the custody plan supports school success in both homes.
+						</p>
+					</div>
+					<ul class="grid gap-3 text-sm leading-6 text-secondary sm:grid-cols-2">
+						{[
+							'School supplies available in both homes',
+							'Parents have access to school portal',
+							'Homework routine exists',
+							'Transportation responsibilities defined',
+							'Reading assignments tracked',
+							'Activity schedules shared',
+							'Parent-teacher communication coordinated',
+							'School-night bedtime routine consistent',
+						].map((item) => (
+							<li class="soft-card rounded-2xl p-4"><span class="mr-2 font-semibold text-accent">□</span>{item}</li>
+						))}
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<div class="grid gap-6 lg:grid-cols-2">
+				<div class="soft-card rounded-[1.75rem] p-6">
+					<h2 class="text-3xl font-semibold tracking-[-0.045em] text-primary">Sports and Extracurricular Activities</h2>
+					<p class="mt-4 text-sm leading-7 text-secondary">
+						A 7-year-old may have soccer, baseball, dance, music lessons, martial arts, tutoring, clubs, or weekend games. The custody schedule should say who drives, where equipment is stored, how conflicts are handled, and whether both parents can attend events.
+					</p>
+					<p class="mt-3 text-sm leading-7 text-secondary">
+						For example, soccer cleats may need to stay in the backpack on exchange days, a dance bag may need a duplicate outfit, and a music lesson may require one parent to transport an instrument even during the other parent\'s time.
+					</p>
+				</div>
+				<div class="soft-card rounded-[1.75rem] p-6">
+					<h2 class="text-3xl font-semibold tracking-[-0.045em] text-primary">Friendships and Social Development</h2>
+					<p class="mt-4 text-sm leading-7 text-secondary">
+						At 7, friendships become part of the custody calendar. Birthday parties, after-school playdates, neighborhood friends, sleepover invitations, and school events may matter deeply to the child.
+					</p>
+					<p class="mt-3 text-sm leading-7 text-secondary">
+						A schedule should not turn every social event into a conflict. Parents can agree that invitations are shared promptly, both homes support reasonable activities, and transportation is discussed before saying yes or no.
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<div class="premium-card rounded-[2rem] p-6 lg:p-8">
+				<div class="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+					<div>
+						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Friendships and social life</p>
+						<h2 class="mt-3 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">How Custody Schedules Affect Friendships</h2>
+						<p class="mt-4 text-base leading-7 text-secondary">
+							A schedule that looks perfect on paper can still create problems if the child cannot attend birthday parties, after-school activities, sleepovers, or neighborhood playdates.
+						</p>
+					</div>
+					<div class="grid gap-4">
+						<p class="text-sm leading-7 text-secondary">
+							At 7, friendships are not just optional extras. Children may be invited to birthday parties, team celebrations, school events, and informal playdates that help them feel connected to classmates. A rigid schedule can accidentally make the child miss the same types of events every month.
+						</p>
+						<p class="text-sm leading-7 text-secondary">
+							The goal is not to say yes to every invitation. It is to create a communication rule so both parents share invitations quickly, decide transportation before the event, and avoid making the child responsible for negotiating social plans between homes.
+						</p>
+						<a href="/custody-calendar-template" class="btn-secondary inline-flex h-11 w-fit items-center justify-center rounded-full px-5 text-sm font-semibold">Use a custody calendar template</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Calendar examples</p>
+				<h2 class="mt-3 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Visual Calendar Examples</h2>
+				<p class="mt-4 text-base leading-7 text-secondary">
+					Use these examples to compare school-night stability, weekend flow, and how often backpacks and activity gear move.
+				</p>
+			</div>
+			<div class="mt-6 grid gap-5">
+				{[
+					['2-2-5-5 Example', ['A','A','B','B','A','A','A'], ['A','A','B','B','B','B','B']],
+					['5-2-2-5 Example', ['A','A','A','A','A','B','B'], ['A','A','B','B','B','B','B']],
+					['Week-On Week-Off Example', ['A','A','A','A','A','A','A'], ['B','B','B','B','B','B','B']],
+				].map(([heading, weekOne, weekTwo]) => (
+					<article class="soft-card rounded-[1.5rem] p-5">
+						<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary">{heading}</h3>
+						<div class="mt-4 overflow-x-auto rounded-[1.25rem] border border-line bg-surface">
+							<table class="min-w-[560px] w-full text-left text-sm">
+								<thead class="bg-surface-elevated text-xs uppercase tracking-[0.14em] text-muted">
+									<tr><th class="px-3 py-3">Week</th><th class="px-3 py-3">Mon</th><th class="px-3 py-3">Tue</th><th class="px-3 py-3">Wed</th><th class="px-3 py-3">Thu</th><th class="px-3 py-3">Fri</th><th class="px-3 py-3">Sat</th><th class="px-3 py-3">Sun</th></tr>
+								</thead>
+								<tbody class="divide-y divide-line text-secondary">
+									<tr><td class="px-3 py-3 font-semibold text-primary">Week 1</td>{weekOne.map((day) => <td class="px-3 py-3">Parent {day}</td>)}</tr>
+									<tr><td class="px-3 py-3 font-semibold text-primary">Week 2</td>{weekTwo.map((day) => <td class="px-3 py-3">Parent {day}</td>)}</tr>
+								</tbody>
+							</table>
+						</div>
+					</article>
+				))}
+			</div>
+			<p class="mt-5 text-sm leading-6 text-secondary">Generate your own schedule using the <a href="/custody-schedule-generator" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Custody Schedule Generator</a>.</p>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<h2 class="text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Find the Best Schedule for Your Situation</h2>
+			<div class="mt-6 overflow-x-auto rounded-[1.5rem] border border-line bg-surface shadow-[0_18px_44px_rgba(15,23,42,0.06)]">
+				<table class="min-w-[760px] w-full text-left text-sm">
+					<thead class="bg-surface-elevated text-xs uppercase tracking-[0.16em] text-muted"><tr><th class="px-4 py-3">Situation</th><th class="px-4 py-3">Consider</th><th class="px-4 py-3">Why</th></tr></thead>
+					<tbody class="divide-y divide-line text-secondary">
+						{decisionRows.map(([situation, consider, why]) => (
+							<tr><td class="px-4 py-4 font-semibold text-primary">{situation}</td><td class="px-4 py-4">{consider}</td><td class="px-4 py-4">{why}</td></tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<div class="premium-card rounded-[2rem] p-6 lg:p-8">
+				<div class="max-w-3xl">
+					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Decision tree</p>
+					<h2 class="mt-3 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Which Schedule Should You Start With?</h2>
+					<p class="mt-4 text-base leading-7 text-secondary">
+						Use this as an educational starting point before building your calendar in the <a href="/custody-schedule-generator" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Custody Schedule Generator</a>.
+					</p>
+				</div>
+				<div class="mt-6 grid gap-4 lg:grid-cols-2">
+					{[
+						['Does the child attend school near both homes?', 'Yes: Continue', 'No: Consider 60/40'],
+						['Does the child handle transitions well?', 'Yes: Continue', 'No: Consider 5-2-2-5'],
+						['Do both parents want equal parenting time?', 'Yes: 2-2-5-5 or 5-2-2-5', 'No: 60/40'],
+						['Does distance create transportation challenges?', 'Yes: Use fewer exchanges', 'No: 2-2-5-5 often works well'],
+					].map(([question, yes, no]) => (
+						<article class="soft-card rounded-[1.5rem] p-5">
+							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{question}</h3>
+							<div class="mt-4 grid gap-3 text-sm leading-6 text-secondary sm:grid-cols-2">
+								<p class="rounded-2xl bg-surface-elevated p-4"><span class="font-semibold text-primary">YES →</span> {yes.replace('Yes: ', '')}</p>
+								<p class="rounded-2xl bg-surface-elevated p-4"><span class="font-semibold text-primary">NO →</span> {no.replace('No: ', '')}</p>
+							</div>
+						</article>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<h2 class="text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Real Family Scenarios</h2>
+			<div class="mt-6 grid gap-4">
+				{expandedScenarios.map((scenario) => (
+					<article class="soft-card rounded-[1.5rem] p-5">
+						<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary">{scenario.title}</h3>
+						<div class="mt-4 grid gap-3 text-sm leading-6 text-secondary md:grid-cols-2">
+							<p><span class="font-semibold text-primary">Family situation:</span> {scenario.situation}</p>
+							<p><span class="font-semibold text-primary">Challenge:</span> {scenario.challenge}</p>
+							<p><span class="font-semibold text-primary">Recommended schedule:</span> {scenario.recommendation}</p>
+							<p><span class="font-semibold text-primary">Reasoning:</span> {scenario.reasoning}</p>
+						</div>
+					</article>
+				))}
+			</div>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<div class="grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
+				<div>
+					<h2 class="text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">What Parents of 7-Year-Olds Often Get Wrong</h2>
+					<p class="mt-4 text-base leading-7 text-secondary">School-age custody problems often come from logistics, not the schedule label.</p>
+				</div>
+				<ul class="grid gap-3 text-sm leading-6 text-secondary sm:grid-cols-2">
+					<li class="soft-card rounded-2xl p-4">Focusing only on equal time while homework falls apart.</li>
+					<li class="soft-card rounded-2xl p-4">Underestimating reading logs, projects, and digital school portals.</li>
+					<li class="soft-card rounded-2xl p-4">Forgetting transportation planning for activities.</li>
+					<li class="soft-card rounded-2xl p-4">Using inconsistent school-night routines in each home.</li>
+					<li class="soft-card rounded-2xl p-4">Not coordinating sports, lessons, and equipment.</li>
+					<li class="soft-card rounded-2xl p-4">Failing to plan school breaks separately from the weekly rotation.</li>
+				</ul>
+			</div>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<div class="premium-card rounded-[2rem] p-6 lg:p-8">
+				<div class="grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
+					<div>
+						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Original insight</p>
+						<h2 class="mt-3 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Forgotten Backpacks Cause More Problems Than Custody Percentages</h2>
+					</div>
+					<div class="grid gap-4 text-sm leading-7 text-secondary">
+						<p>
+							Many parents spend enormous effort debating 50/50 vs 60/40, but the schedule often succeeds or fails because of smaller school-age logistics: forgotten homework, missing sports equipment, unfinished school projects, unsigned reading assignments, and transportation gaps.
+						</p>
+						<p>
+							A mathematically balanced plan can still feel chaotic if the child arrives without sneakers, a library book, or the folder needed for Friday. The child may then feel responsible for adult systems they are not mature enough to manage.
+						</p>
+						<p>
+							For a 7-year-old, the best schedule is usually the one parents can run consistently for months. Use a <a href="/custody-schedule-template" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule template</a> to define the weekly pattern, then add school logistics in a <a href="/parenting-plan-template" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting plan template</a>.
+						</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<div class="grid gap-6 lg:grid-cols-2">
+				<div class="soft-card rounded-[1.75rem] p-6">
+					<h2 class="text-3xl font-semibold tracking-[-0.045em] text-primary">School Year vs Summer Schedules</h2>
+					<p class="mt-4 text-sm leading-7 text-secondary">Many families use one schedule during the school year and a different plan during summer. School-year schedules often prioritize homework, transportation, and activities. Summer can allow longer blocks, travel, camps, and more flexible weekday time.</p>
+					<div class="mt-5 overflow-x-auto rounded-[1.25rem] border border-line bg-surface">
+						<table class="min-w-[620px] w-full text-left text-sm">
+							<thead class="bg-surface-elevated text-xs uppercase tracking-[0.14em] text-muted">
+								<tr><th class="px-3 py-3">Need</th><th class="px-3 py-3">School Year Needs</th><th class="px-3 py-3">Summer Needs</th></tr>
+							</thead>
+							<tbody class="divide-y divide-line text-secondary">
+								{seasonRows.map(([need, school, summer]) => (
+									<tr><td class="px-3 py-3 font-semibold text-primary">{need}</td><td class="px-3 py-3">{school}</td><td class="px-3 py-3">{summer}</td></tr>
+								))}
+							</tbody>
+						</table>
+					</div>
+					<p class="mt-3 text-sm leading-7 text-secondary">Holiday breaks should be planned separately from the weekly rotation. Use a <a href="/holiday-custody-schedule" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">holiday custody schedule</a> or <a href="/holiday-visitation-schedule" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">holiday visitation schedule</a> to avoid confusion.</p>
+				</div>
+				<div class="soft-card rounded-[1.75rem] p-6">
+					<h2 class="text-3xl font-semibold tracking-[-0.045em] text-primary">Warning Signs the Schedule May Need Adjustment</h2>
+					<ul class="mt-4 grid gap-2 text-sm leading-6 text-secondary">
+						<li>Homework is consistently missing or late.</li>
+						<li>School performance or participation declines.</li>
+						<li>The child is frequently late after exchanges.</li>
+						<li>Activity conflicts happen every week.</li>
+						<li>The child shows ongoing emotional stress around the schedule.</li>
+						<li>Backpacks, books, uniforms, or equipment are often forgotten.</li>
+					</ul>
+					<p class="mt-4 text-sm leading-6 text-secondary">These signs do not automatically mean the schedule is wrong, but they suggest the family should review logistics, exchange timing, and communication.</p>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<h2 class="text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Typical Overnight Distribution</h2>
+			<div class="mt-6 overflow-x-auto rounded-[1.5rem] border border-line bg-surface shadow-[0_18px_44px_rgba(15,23,42,0.06)]">
+				<table class="min-w-[760px] w-full text-left text-sm">
+					<thead class="bg-surface-elevated text-xs uppercase tracking-[0.16em] text-muted"><tr><th class="px-4 py-3">Schedule</th><th class="px-4 py-3">Parent A Overnights</th><th class="px-4 py-3">Parent B Overnights</th><th class="px-4 py-3">Common Label</th></tr></thead>
+					<tbody class="divide-y divide-line text-secondary">
+						{overnightRows.map(([schedule, parentA, parentB, label]) => (
+							<tr><td class="px-4 py-4 font-semibold text-primary">{schedule}</td><td class="px-4 py-4">{parentA}</td><td class="px-4 py-4">{parentB}</td><td class="px-4 py-4">{label}</td></tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+			<p class="mt-4 text-sm leading-6 text-secondary">Estimate exact totals with the <a href="/custody-percentage-calculator" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">custody percentage calculator</a> or <a href="/parenting-time-calculator" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting time calculator</a>.</p>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<div class="premium-card rounded-[2rem] p-6 lg:p-8">
+				<h2 class="text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Which Schedule Is Best for Your Family?</h2>
+				<div class="mt-6 grid gap-4 md:grid-cols-2">
+					{[
+						['Choose 2-2-5-5 if...', ['Parents live nearby', 'Stable school nights matter', 'Both parents can manage homework', 'The child benefits from alternating weekends'], '/2-2-5-5-custody-schedule'],
+						['Choose 5-2-2-5 if...', ['The child has activities', 'Longer blocks reduce confusion', 'Both homes can track school supplies', 'Equal time is realistic'], '/5-2-2-5-custody-schedule'],
+						['Choose week-on/week-off if...', ['The child is organized', 'Fewer exchanges help', 'Both homes handle school fully', 'A week away is not too long'], '/week-on-week-off-custody-schedule'],
+						['Choose 60/40 if...', ['Parents live farther apart', 'One home anchors school mornings', 'Equal time creates too much travel', 'The other parent still has meaningful time'], '/60-40-custody-schedule'],
+						['Choose every other weekend if...', ['Distance is substantial', 'One parent has limited availability', 'Fewer exchanges reduce conflict', 'Holidays and summer can add time'], '/every-other-weekend-custody-schedule'],
+					].map(([heading, items, href]) => (
+						<a href={href} class="soft-card group rounded-[1.5rem] p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40">
+							<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary">{heading}</h3>
+							<ul class="mt-3 grid gap-2 text-sm leading-6 text-secondary">{items.map((item) => <li>{item}</li>)}</ul>
+						</a>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<div class="premium-card rounded-[2rem] p-6 lg:p-8">
+				<h2 class="text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">What Parents of School-Age Children Often Underestimate</h2>
+				<div class="mt-6 grid gap-4 text-sm leading-7 text-secondary md:grid-cols-2">
+					<p>School logistics can overwhelm an otherwise fair calendar. Backpacks, school portals, library books, reading logs, uniforms, and chargers all need a system.</p>
+					<p>Transportation matters. A schedule that requires long drives before school or after practice may create stress even if the parenting time percentage looks balanced.</p>
+					<p>Friendships matter more at this age. Birthday parties, playdates, and after-school events should not be ignored just because they fall on one parent\'s time.</p>
+					<p>Communication between homes is the schedule\'s hidden infrastructure. If parents do not share school updates, the child may become responsible for adult-level logistics.</p>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<h2 class="text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Child Custody Schedules by Age</h2>
+			<p class="mt-4 max-w-3xl text-base leading-7 text-secondary">Age does not decide custody by itself, but it changes what the schedule needs to protect.</p>
+			<div class="mt-6 overflow-x-auto rounded-[1.5rem] border border-line bg-surface shadow-[0_18px_44px_rgba(15,23,42,0.06)]">
+				<table class="min-w-[760px] w-full text-left text-sm">
+					<thead class="bg-surface-elevated text-xs uppercase tracking-[0.16em] text-muted"><tr><th class="px-4 py-3">Age</th><th class="px-4 py-3">Main Focus</th><th class="px-4 py-3">Recommended Reading</th></tr></thead>
+					<tbody class="divide-y divide-line text-secondary">
+						{childAgeRows.map(([age, focus, href, label]) => (
+							<tr><td class="px-4 py-4 font-semibold text-primary">{age}</td><td class="px-4 py-4">{focus}</td><td class="px-4 py-4"><a href={href} class="text-accent underline decoration-line underline-offset-4 hover:text-primary">{label}</a></td></tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<section class="container-shell py-8 lg:py-10">
+			<div class="premium-card rounded-[2rem] p-6 lg:p-8">
+				<h2 class="text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Helpful Custody Planning Tools</h2>
+				<div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+					{tools.map((tool) => (
+						<a href={tool.href} class="soft-card group rounded-[1.5rem] p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40">
+							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{tool.title}</h3>
+							<p class="mt-2 text-sm leading-6 text-secondary">{tool.description}</p>
+							<span class="mt-4 inline-flex text-sm font-semibold text-accent underline decoration-line underline-offset-4 group-hover:text-primary">Open tool</span>
+						</a>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<section id="faq" class="container-shell py-10 lg:py-12">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">FAQ</p>
+				<h2 class="mt-3 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Questions About Custody Schedules for 7-Year-Olds</h2>
+			</div>
+			<div class="mt-6 grid gap-3">
+				{faqItems.map((item) => (
+					<details class="soft-card group rounded-[1.35rem] p-5">
+						<summary class="cursor-pointer list-none text-base font-semibold text-primary">{item.question}</summary>
+						<p class="mt-3 text-sm leading-7 text-secondary">{item.answer}</p>
+					</details>
+				))}
+			</div>
+		</section>
+	</main>
+	<Footer />
+</BaseLayout>
