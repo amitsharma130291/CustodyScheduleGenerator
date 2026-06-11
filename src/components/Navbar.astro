@@ -4,32 +4,67 @@ import ThemeToggle from './ThemeToggle.astro';
 interface NavItem {
 	label: string;
 	href: string;
-	children?: NavItem[];
+	isActive?: boolean;
+	sectionId?: string;
 }
 
-interface Props {
-	navItems?: NavItem[];
-}
+type NavConfigItem =
+	| { label: string; href: string; type: 'page' }
+	| { label: string; anchor: string; type: 'home-anchor' };
 
-const defaultNavItems = [
+const homepageNavigationConfig: NavConfigItem[] = [
+	{ label: 'Generator', href: '/custody-schedule-generator', type: 'page' },
 	{
 		label: 'Tools',
-		href: '/#tools',
-		children: [
-			{ label: 'Custody Schedule Generator', href: '/custody-schedule-generator' },
-			{ label: 'Parenting Time Calculator', href: '/parenting-time-calculator' },
-			{ label: 'Child Support Calculator', href: '/child-support-calculator' },
-			{ label: 'Holiday Planner', href: '/holiday-custody-planner' },
-			{ label: 'Agreement Builder', href: '/custody-agreement-builder' },
-		],
+		anchor: 'tools',
+		type: 'home-anchor',
 	},
-	{ label: 'Schedules', href: '/#popular-schedules' },
-	{ label: 'Calculators', href: '/#tools' },
-	{ label: 'Resources', href: '/#resources' },
-	{ label: 'FAQ', href: '/#faq' },
+	{ label: 'Schedules', anchor: 'schedules', type: 'home-anchor' },
+	{ label: 'Calculators', anchor: 'calculators', type: 'home-anchor' },
+	{ label: 'Resources', anchor: 'resources', type: 'home-anchor' },
+	{ label: 'FAQ', anchor: 'faq', type: 'home-anchor' },
 ];
 
-const { navItems = defaultNavItems } = Astro.props;
+const generatorNavigationConfig: NavConfigItem[] = [
+	{ label: 'Home', href: '/', type: 'page' },
+	{ label: 'Generator', href: '/custody-schedule-generator', type: 'page' },
+	{ label: 'Schedules', anchor: 'schedules', type: 'home-anchor' },
+	{ label: 'Calculators', anchor: 'calculators', type: 'home-anchor' },
+	{ label: 'Resources', anchor: 'resources', type: 'home-anchor' },
+	{ label: 'FAQ', anchor: 'faq', type: 'home-anchor' },
+];
+
+const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isHome = pathname === '/';
+const isGeneratorPage = pathname === '/custody-schedule-generator';
+const getHomeSectionHref = (anchor: string) => (isHome ? `#${anchor}` : `/#${anchor}`);
+const isSchedulePage = /^\/(?:schedules\/)?(?:\d+-\d+-\d+(?:-\d+)?|week-on-week-off|every-other-weekend|50-50|60-40|70-30|80-20)-custody-schedule$/.test(pathname);
+const isCalculatorPage = pathname.includes('calculator') || pathname.startsWith('/calculators/');
+const navigationConfig = isGeneratorPage ? generatorNavigationConfig : homepageNavigationConfig;
+
+const navItems: NavItem[] = navigationConfig.map((item) => {
+	if (item.type === 'page') {
+		return {
+			label: item.label,
+			href: item.href,
+			isActive: pathname === item.href,
+		};
+	}
+
+	let isActive = false;
+	if (!isHome) {
+		if (item.anchor === 'schedules') isActive = isSchedulePage;
+		if (item.anchor === 'calculators') isActive = isCalculatorPage;
+		if (item.anchor === 'resources') isActive = pathname.startsWith('/blog') || pathname.includes('template') || pathname.includes('guide');
+	}
+
+	return {
+		label: item.label,
+		href: getHomeSectionHref(item.anchor),
+		sectionId: item.anchor,
+		isActive,
+	};
+});
 ---
 
 <header class="site-header sticky top-0 z-[1000] border-b shadow-[0_1px_0_rgba(15,23,42,0.02)] backdrop-blur-[16px]">
@@ -42,31 +77,14 @@ const { navItems = defaultNavItems } = Astro.props;
 
 		<div class="site-nav-pill hidden min-w-0 flex-1 overflow-visible rounded-full border px-1.5 py-1 shadow-[0_8px_24px_rgba(15,23,42,0.04)] backdrop-blur-xl lg:flex lg:items-center lg:justify-start xl:justify-center">
 			{navItems.map((item) => (
-				item.children && item.children.length > 0 ? (
-					<div class="group/nav relative shrink-0">
-						<a
-							href={item.href}
-							class="site-nav-link inline-flex whitespace-nowrap rounded-full px-3.5 py-2 text-sm font-medium transition-colors duration-200 xl:px-4"
-							aria-haspopup="true"
-						>
-							{item.label}
-						</a>
-						<div class="invisible absolute left-0 top-full z-[1001] mt-2 w-64 translate-y-1 rounded-3xl border bg-surface-elevated p-2 opacity-0 shadow-[0_20px_50px_rgba(15,23,42,0.16)] transition-all duration-150 group-hover/nav:visible group-hover/nav:translate-y-0 group-hover/nav:opacity-100 group-focus-within/nav:visible group-focus-within/nav:translate-y-0 group-focus-within/nav:opacity-100">
-							{item.children.map((child) => (
-								<a href={child.href} class="site-nav-link flex rounded-2xl px-4 py-3 text-sm font-semibold text-secondary transition-colors duration-200 hover:text-primary">
-									{child.label}
-								</a>
-							))}
-						</div>
-					</div>
-				) : (
-					<a
-						href={item.href}
-						class="site-nav-link shrink-0 whitespace-nowrap rounded-full px-3.5 py-2 text-sm font-medium transition-colors duration-200 xl:px-4"
-					>
-						{item.label}
-					</a>
-				)
+				<a
+					href={item.href}
+					class="site-nav-link shrink-0 whitespace-nowrap rounded-full px-3.5 py-2 text-sm font-medium transition-colors duration-200 xl:px-4"
+					aria-current={item.isActive ? 'page' : undefined}
+					data-home-section={isHome ? item.sectionId : undefined}
+				>
+					{item.label}
+				</a>
 			))}
 		</div>
 
@@ -100,23 +118,12 @@ const { navItems = defaultNavItems } = Astro.props;
 				<a
 					href={item.href}
 					class="site-nav-link flex min-h-12 w-full items-center rounded-2xl px-[18px] py-3.5 text-left text-base font-semibold transition-colors duration-200"
+					aria-current={item.isActive ? 'page' : undefined}
+					data-home-section={isHome ? item.sectionId : undefined}
 					data-mobile-menu-link
 				>
 					{item.label}
 				</a>
-				{item.children && item.children.length > 0 && (
-					<div class="mb-1 grid gap-1 pl-3">
-						{item.children.map((child) => (
-							<a
-								href={child.href}
-								class="site-nav-link flex min-h-10 w-full items-center rounded-2xl px-[18px] py-2.5 text-left text-sm font-semibold text-secondary transition-colors duration-200"
-								data-mobile-menu-link
-							>
-								{child.label}
-							</a>
-						))}
-					</div>
-				)}
 			</>
 		))}
 	</div>
@@ -162,6 +169,52 @@ const { navItems = defaultNavItems } = Astro.props;
 
 		document.addEventListener('keydown', (event) => {
 			if (event.key === 'Escape') setMenuOpen(false);
+		});
+
+		const sectionLinks = Array.from(document.querySelectorAll('[data-home-section]'));
+		const sectionIds = Array.from(new Set(sectionLinks.map((link) => link.getAttribute('data-home-section')).filter(Boolean)));
+		const sections = sectionIds
+			.map((id) => document.getElementById(id))
+			.filter((section) => section instanceof HTMLElement);
+
+		function setActiveSection(sectionId) {
+			sectionLinks.forEach((link) => {
+				if (!(link instanceof HTMLAnchorElement)) return;
+				if (link.getAttribute('data-home-section') === sectionId) {
+					link.setAttribute('aria-current', 'true');
+				} else if (link.getAttribute('aria-current') === 'true') {
+					link.removeAttribute('aria-current');
+				}
+			});
+		}
+
+		if (sections.length > 0 && 'IntersectionObserver' in window) {
+			const visibleSections = new Map();
+			const observer = new IntersectionObserver(
+				(entries) => {
+					entries.forEach((entry) => {
+						if (!(entry.target instanceof HTMLElement)) return;
+						if (entry.isIntersecting) {
+							visibleSections.set(entry.target.id, entry.intersectionRatio);
+						} else {
+							visibleSections.delete(entry.target.id);
+						}
+					});
+
+					const activeSection = Array.from(visibleSections.entries()).sort((a, b) => b[1] - a[1])[0]?.[0];
+					if (activeSection) setActiveSection(activeSection);
+				},
+				{ rootMargin: '-18% 0px -62% 0px', threshold: [0.01, 0.2, 0.45] },
+			);
+
+			sections.forEach((section) => observer.observe(section));
+		}
+
+		sectionLinks.forEach((link) => {
+			link.addEventListener('click', () => {
+				const sectionId = link.getAttribute('data-home-section');
+				if (sectionId) setActiveSection(sectionId);
+			});
 		});
 	</script>
 </header>

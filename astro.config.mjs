@@ -10,6 +10,14 @@ export default defineConfig({
       serialize: (item) => {
         const normalizedUrl = item.url.replace(/\/$/, '');
 
+        if (normalizedUrl === 'https://custodybuilder.com/custody-schedule-generator') {
+          return {
+            ...item,
+            changefreq: 'weekly',
+            priority: 1.0,
+          };
+        }
+
         if (normalizedUrl === 'https://custodybuilder.com/texas-child-support-calculator') {
           return {
             ...item,

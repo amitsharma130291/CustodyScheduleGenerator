@@ -275,7 +275,7 @@ const schema = [
 						Launch Schedule Generator
 					</a>
 					<a
-						href="/#tools"
+						href="#tools"
 						class="btn-secondary inline-flex h-13 w-full items-center justify-center whitespace-nowrap rounded-full px-8 text-base font-semibold transition-all duration-200 ease-out hover:-translate-y-px active:translate-y-0 sm:w-auto"
 						aria-label="Explore CustodyBuilder tools"
 						data-track-event="cta_click"
@@ -576,7 +576,8 @@ const schema = [
 			</div>
 		</section>
 
-		<section id="tools" class="container-shell scroll-mt-24 py-12 lg:py-20" aria-labelledby="tools-title">
+		<section id="tools" class="container-shell relative scroll-mt-24 py-12 lg:py-20" aria-labelledby="tools-title">
+			<span id="calculators" class="absolute -top-24 block h-px w-px" aria-hidden="true"></span>
 			<div class="max-w-3xl">
 				<p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted">Tools ecosystem</p>
 				<h2 id="tools-title" class="mt-2 text-3xl font-semibold leading-[1.08] tracking-[-0.045em] text-primary sm:text-4xl">
@@ -607,7 +608,7 @@ const schema = [
 			</div>
 		</section>
 
-		<section id="popular-schedules" class="container-shell scroll-mt-24 py-10 lg:py-16" aria-labelledby="popular-schedules-title">
+		<section id="schedules" class="container-shell scroll-mt-24 py-10 lg:py-16" aria-labelledby="popular-schedules-title">
 			<div class="max-w-3xl">
 				<p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted">Schedule library</p>
 				<h2 id="popular-schedules-title" class="mt-2 text-4xl font-semibold leading-[1.03] tracking-[-0.055em] text-primary sm:text-5xl">

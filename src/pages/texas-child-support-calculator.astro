@@ -127,18 +127,6 @@ const breadcrumbs = [
 	{ name: 'Calculators', url: getCanonicalUrl('/calculators') },
 	{ name: 'Texas Child Support Calculator', url: canonicalUrl },
 ];
-const texasNavItems = [
-	{ label: 'Calculator', href: '/texas-child-support-calculator#calculator' },
-	{ label: 'How', href: '/texas-child-support-calculator#how-calculated' },
-	{ label: 'Net Resources', href: '/texas-child-support-calculator#net-resources' },
-	{ label: 'Chart', href: '/texas-child-support-calculator#percentage-chart' },
-	{ label: '1–5 Children', href: '/texas-child-support-calculator#children-support' },
-	{ label: '50/50', href: '/texas-child-support-calculator#fifty-fifty' },
-	{ label: '2025 Cap', href: '/texas-child-support-calculator#cap-update' },
-	{ label: 'High Income', href: '/texas-child-support-calculator#high-income' },
-	{ label: 'Examples', href: '/texas-child-support-calculator#examples' },
-	{ label: 'FAQ', href: '/texas-child-support-calculator#faq' },
-];
 const schema = [
 	buildFAQSchema(faq),
 	buildBreadcrumbSchema(breadcrumbs),
@@ -386,7 +374,7 @@ const ctaClass =
 	ogDescription={description}
 >
 	<JsonLd slot="head" data={schema} />
-	<Navbar navItems={texasNavItems} />
+	<Navbar />
 	<Breadcrumbs items={breadcrumbs} />
 	<main>
 		<section id="calculator" class="container-shell grid gap-5 py-4 sm:py-5 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:items-start lg:gap-7 lg:py-6 xl:w-[min(100%,1360px)]">
