@@ -5,8 +5,8 @@ const schedule: ScheduleContent = {
 	title: '3-4-4-3 Custody Schedule',
 	slug: '3-4-4-3-custody-schedule',
 	description: 'Create a 3-4-4-3 custody schedule and see how three- and four-day blocks appear on a calendar.',
-	metaTitle: '3-4-4-3 Custody Schedule Calendar | CustodyBuilder',
-	metaDescription: 'Create a 3-4-4-3 custody schedule, compare three- and four-day blocks, calculate parenting time, and print a calendar for planning online now.',
+	metaTitle: '3-4-4-3 Custody Schedule | Calendar Examples & Tips',
+	metaDescription: 'See examples of a 3-4-4-3 custody schedule, compare pros and cons, and understand parenting time percentages.',
 	canonicalUrl: 'https://custodybuilder.com/3-4-4-3-custody-schedule',
 	lede: 'A 3-4-4-3 custody schedule is a two-week shared parenting rotation that alternates three-day and four-day blocks. It can work well for families who want fewer exchanges than a 2-2-3 schedule while still keeping both parents involved each week.',
 	overview: [

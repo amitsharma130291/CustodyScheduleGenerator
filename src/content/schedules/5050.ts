@@ -5,8 +5,8 @@ const schedule: ScheduleContent = {
 	title: '50/50 Custody Schedule',
 	slug: '50-50-custody-schedule',
 	description: 'Compare 50/50 custody schedule options and preview an equal parenting time calendar.',
-	metaTitle: '50/50 Custody Schedule Examples | CustodyBuilder',
-	metaDescription: 'Compare 50/50 custody schedule examples for US co-parents, calculate parenting time, preview calendars, and print a parenting plan.',
+	metaTitle: '50/50 Custody Schedule | Best Examples & Parenting Time',
+	metaDescription: 'Compare common 50/50 custody schedules, including 2-2-5-5, 5-2-2-5, 2-2-3, and week-on/week-off arrangements.',
 	canonicalUrl: 'https://custodybuilder.com/50-50-custody-schedule',
 	lede: 'A 50/50 custody schedule gives both parents roughly equal parenting time across the repeating schedule. Common 50/50 parenting schedules include 2-2-3, 2-2-5-5, 5-2-2-5, 3-4-4-3, and week-on/week-off rotations.',
 	overview: [

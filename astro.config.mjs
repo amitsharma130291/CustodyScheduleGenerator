@@ -6,7 +6,19 @@ export default defineConfig({
   site: 'https://custodybuilder.com',
   integrations: [
     sitemap({
-      filter: (page) => !page.endsWith('/404') && !page.endsWith('/500'),
+      filter: (page) => {
+        const url = new URL(page);
+        const pathname = url.pathname.replace(/\/$/, '') || '/';
+        const excludedPaths = new Set([
+          '/404',
+          '/500',
+          '/privacy',
+          '/disclaimer',
+          '/terms',
+        ]);
+
+        return !excludedPaths.has(pathname) && !pathname.startsWith('/schedules/');
+      },
       serialize: (item) => {
         const normalizedUrl = item.url.replace(/\/$/, '');
 
