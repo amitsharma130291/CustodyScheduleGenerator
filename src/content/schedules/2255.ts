@@ -5,8 +5,8 @@ const schedule: ScheduleContent = {
 	title: '2-2-5-5 Custody Schedule',
 	slug: '2-2-5-5-custody-schedule',
 	description: 'Preview a 2-2-5-5 custody schedule and understand how the two-week parenting rotation works.',
-	metaTitle: '2-2-5-5 Custody Schedule Explained | CustodyBuilder',
-	metaDescription: 'Compare a 2-2-5-5 custody schedule, preview stable weekday and alternating weekend examples, and print a US parenting time calendar.',
+	metaTitle: '2-2-5-5 Custody Schedule | Calendar Examples & Tips',
+	metaDescription: 'See how a 2-2-5-5 custody schedule works, view calendar examples, compare pros and cons, and calculate parenting time.',
 	canonicalUrl: 'https://custodybuilder.com/2-2-5-5-custody-schedule',
 	lede: 'A 2-2-5-5 custody schedule is a two-week parenting rotation where the child spends 2 days with Parent A, 2 days with Parent B, then 5 days with Parent A and 5 days with Parent B. It is often used by families who want stable weekdays, alternating weekends, and a balanced 50/50 custody schedule.',
 	overview: [

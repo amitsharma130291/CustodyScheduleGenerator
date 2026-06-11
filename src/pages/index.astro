@@ -17,9 +17,9 @@ import {
 	buildWebSiteSchema,
 } from '../lib/seo/schema';
 
-const title = 'CustodyBuilder | Free Custody Schedule Generator & Parenting Tools';
+const title = 'CustodyBuilder | Custody Schedules, Parenting Plans & Calculators';
 const description =
-	'Create custody schedules, parenting calendars, and printable custody plans with CustodyBuilder. Build 50/50, 60/40, 70/30, 2-2-3, 2-2-5-5, and custom parenting schedules.';
+	'Create custody schedules, compare parenting time, calculate custody percentages, build parenting plans, and manage visitation calendars for co-parents.';
 const ogDescription =
 	'Build custody schedules, parenting calendars, and printable co-parenting plans with free custody planning tools.';
 const canonical = '/';
@@ -34,13 +34,23 @@ const platformTools = [
 	{ title: 'Schedule Comparison Tool', href: '/schedule-comparison-tool', status: 'Platform module', isActive: false },
 ];
 const schedulePills = [
-	{ label: '50/50 Custody', href: '/schedules/50-50-custody-schedule' },
-	{ label: '2-2-3 Schedule', href: '/schedules/2-2-3-custody-schedule' },
-	{ label: '2-2-5-5 Schedule', href: '/schedules/2-2-5-5-custody-schedule' },
-	{ label: '5-2-2-5 Schedule', href: '/schedules/5-2-2-5-custody-schedule' },
-	{ label: '60/40 Custody', href: '/schedules/60-40-custody-schedule' },
-	{ label: '70/30 Custody', href: '/schedules/70-30-custody-schedule' },
-	{ label: '80/20 Custody', href: '/schedules/80-20-custody-schedule' },
+	{ label: '50/50 Custody', href: '/50-50-custody-schedule' },
+	{ label: '2-2-3 Schedule', href: '/2-2-3-custody-schedule' },
+	{ label: '2-2-5-5 Schedule', href: '/2-2-5-5-custody-schedule' },
+	{ label: '5-2-2-5 Schedule', href: '/5-2-2-5-custody-schedule' },
+	{ label: '60/40 Custody', href: '/60-40-custody-schedule' },
+	{ label: '70/30 Custody', href: '/70-30-custody-schedule' },
+	{ label: '80/20 Custody', href: '/80-20-custody-schedule' },
+];
+const hubLinks = [
+	{ label: 'Custody schedule generator', href: '/custody-schedule-generator' },
+	{ label: 'Custody percentage calculator', href: '/custody-percentage-calculator' },
+	{ label: 'Parenting time calculator', href: '/parenting-time-calculator' },
+	{ label: 'Custody calendar template', href: '/custody-calendar-template' },
+	{ label: 'Parenting plan template', href: '/parenting-plan-template' },
+	{ label: '50/50 custody schedules', href: '/50-50-custody-schedule' },
+	{ label: 'Holiday custody schedule', href: '/holiday-custody-schedule' },
+	{ label: 'Custody schedules by age', href: '/custody-schedule-by-age' },
 ];
 const platformFeatures = [
 	{
@@ -125,13 +135,13 @@ const workflowSteps = [
 	},
 ];
 const scheduleCards = [
-	{ title: '2-2-3 Schedule', split: '50/50', href: '/schedules/2-2-3-custody-schedule', description: 'Frequent exchanges with alternating weekends for a balanced 50/50 pattern.', pattern: ['A', 'A', 'B', 'B', 'A', 'A', 'A', 'B', 'B', 'A', 'A', 'B', 'B', 'B'] },
-	{ title: '2-2-5-5 Schedule', split: '50/50', href: '/schedules/2-2-5-5-custody-schedule', description: 'Stable weekdays with each parent keeping the same two weekdays.', pattern: ['A', 'A', 'B', 'B', 'A', 'A', 'A', 'A', 'A', 'B', 'B', 'A', 'A', 'B'] },
-	{ title: '5-2-2-5 Schedule', split: '50/50', href: '/schedules/5-2-2-5-custody-schedule', description: 'Predictable blocks with consistent weekday parenting time.', pattern: ['A', 'A', 'A', 'A', 'A', 'B', 'B', 'A', 'A', 'B', 'B', 'B', 'B', 'B'] },
-	{ title: '50/50 Custody', split: 'Equal time', href: '/schedules/50-50-custody-schedule', description: 'Equal parenting time options for families comparing shared custody plans.', pattern: ['A', 'A', 'A', 'A', 'A', 'A', 'A', 'B', 'B', 'B', 'B', 'B', 'B', 'B'] },
-	{ title: '60/40 Custody', split: '60/40', href: '/schedules/60-40-custody-schedule', description: 'A substantial parenting time split with one slightly larger school-week home.', pattern: ['A', 'A', 'A', 'A', 'B', 'B', 'B', 'A', 'A', 'A', 'A', 'B', 'B', 'A'] },
-	{ title: '70/30 Custody', split: '70/30', href: '/schedules/70-30-custody-schedule', description: 'A primary-home routine with regular overnight time in the other home.', pattern: ['A', 'A', 'A', 'A', 'A', 'B', 'B', 'A', 'A', 'A', 'A', 'A', 'B', 'A'] },
-	{ title: '80/20 Custody', split: '80/20', href: '/schedules/80-20-custody-schedule', description: 'A primary residence schedule with recurring weekends or set parenting blocks.', pattern: ['A', 'A', 'A', 'A', 'A', 'B', 'B', 'A', 'A', 'A', 'A', 'A', 'A', 'A'] },
+	{ title: '2-2-3 Schedule', split: '50/50', href: '/2-2-3-custody-schedule', description: 'Frequent exchanges with alternating weekends for a balanced 50/50 pattern.', pattern: ['A', 'A', 'B', 'B', 'A', 'A', 'A', 'B', 'B', 'A', 'A', 'B', 'B', 'B'] },
+	{ title: '2-2-5-5 Schedule', split: '50/50', href: '/2-2-5-5-custody-schedule', description: 'Stable weekdays with each parent keeping the same two weekdays.', pattern: ['A', 'A', 'B', 'B', 'A', 'A', 'A', 'A', 'A', 'B', 'B', 'A', 'A', 'B'] },
+	{ title: '5-2-2-5 Schedule', split: '50/50', href: '/5-2-2-5-custody-schedule', description: 'Predictable blocks with consistent weekday parenting time.', pattern: ['A', 'A', 'A', 'A', 'A', 'B', 'B', 'A', 'A', 'B', 'B', 'B', 'B', 'B'] },
+	{ title: '50/50 Custody', split: 'Equal time', href: '/50-50-custody-schedule', description: 'Equal parenting time options for families comparing shared custody plans.', pattern: ['A', 'A', 'A', 'A', 'A', 'A', 'A', 'B', 'B', 'B', 'B', 'B', 'B', 'B'] },
+	{ title: '60/40 Custody', split: '60/40', href: '/60-40-custody-schedule', description: 'A substantial parenting time split with one slightly larger school-week home.', pattern: ['A', 'A', 'A', 'A', 'B', 'B', 'B', 'A', 'A', 'A', 'A', 'B', 'B', 'A'] },
+	{ title: '70/30 Custody', split: '70/30', href: '/70-30-custody-schedule', description: 'A primary-home routine with regular overnight time in the other home.', pattern: ['A', 'A', 'A', 'A', 'A', 'B', 'B', 'A', 'A', 'A', 'A', 'A', 'B', 'A'] },
+	{ title: '80/20 Custody', split: '80/20', href: '/80-20-custody-schedule', description: 'A primary residence schedule with recurring weekends or set parenting blocks.', pattern: ['A', 'A', 'A', 'A', 'A', 'B', 'B', 'A', 'A', 'A', 'A', 'A', 'A', 'A'] },
 ];
 const resourceCards = [
 	{ title: 'Parenting Plans', href: '/resources/parenting-plans', description: 'Learn what to include when turning a custody calendar into a parenting plan.' },
@@ -372,6 +382,25 @@ const schema = [
 							data-location="homepage_trust_bar"
 						>
 							{pill.label}
+						</a>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell pb-8 lg:pb-10" aria-label="CustodyBuilder planning hubs">
+			<div class="premium-card rounded-[1.75rem] p-5 lg:p-6">
+				<div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+					<div>
+						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Planning hubs</p>
+						<h2 class="mt-2 text-2xl font-semibold tracking-[-0.04em] text-primary">Custody tools for schedules, calendars, plans, and holidays</h2>
+					</div>
+					<a href="/custody-schedule-by-age" class="btn-secondary inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-semibold">Compare by child age</a>
+				</div>
+				<div class="mt-5 flex flex-wrap gap-2">
+					{hubLinks.map((link) => (
+						<a href={link.href} class="rounded-full bg-surface px-3 py-2 text-xs font-semibold text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-surface-hover hover:text-primary">
+							{link.label}
 						</a>
 					))}
 				</div>

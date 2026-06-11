@@ -5,8 +5,8 @@ const schedule: ScheduleContent = {
 	title: '2-2-3 Custody Schedule',
 	slug: '2-2-3-custody-schedule',
 	description: 'Create and preview a 2-2-3 custody schedule with a clear parenting time calendar.',
-	metaTitle: '2-2-3 Custody Schedule Explained | CustodyBuilder',
-	metaDescription: 'Learn how a 2-2-3 custody schedule works, view US parenting time examples, calculate overnights, and print a co-parenting calendar.',
+	metaTitle: '2-2-3 Custody Schedule | Examples, Pros & Cons',
+	metaDescription: 'Learn how a 2-2-3 custody schedule works, see examples, compare parenting time, and decide whether it fits your family.',
 	canonicalUrl: 'https://custodybuilder.com/2-2-3-custody-schedule',
 	lede: 'A 2-2-3 custody schedule is a repeating two-week parenting plan where children spend two days with one parent, two days with the other parent, then a three-day weekend block. It can work well for families who want frequent contact with both parents, especially younger children who benefit from shorter stretches away from each household.',
 	overview: [

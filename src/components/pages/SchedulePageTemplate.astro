@@ -26,6 +26,7 @@ interface Props {
 const { schedule } = Astro.props;
 const canonical = `/${schedule.slug}`;
 const canonicalUrl = getCanonicalUrl(canonical);
+const robots = Astro.url.pathname.startsWith('/schedules/') ? 'noindex, follow' : 'index, follow';
 const startDate = getDefaultStartDate();
 const generatedSchedule = generateSchedule({
 	scheduleId: schedule.id,
@@ -206,7 +207,7 @@ const schema = [
 ];
 ---
 
-<BaseLayout title={schedule.metaTitle} description={schedule.metaDescription} canonical={canonical}>
+<BaseLayout title={schedule.metaTitle} description={schedule.metaDescription} canonical={canonical} robots={robots}>
 	<JsonLd slot="head" data={schema} />
 	<Navbar />
 	<main>

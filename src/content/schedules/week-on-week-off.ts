@@ -5,8 +5,8 @@ const schedule: ScheduleContent = {
 	title: 'Week-On Week-Off Custody Schedule',
 	slug: 'week-on-week-off-custody-schedule',
 	description: 'Build a week-on week-off custody schedule with a simple alternating weekly calendar.',
-	metaTitle: 'Week-On Week-Off Custody Schedule | CustodyBuilder',
-	metaDescription: 'Create a week-on week-off custody schedule, compare alternating weekly examples, calculate parenting time, and print a calendar for review online.',
+	metaTitle: 'Week-On Week-Off Custody Schedule | Examples & Calendar',
+	metaDescription: 'Learn how a week-on week-off custody schedule works, see calendar examples, and compare whether alternating weeks fit your family.',
 	canonicalUrl: 'https://custodybuilder.com/week-on-week-off-custody-schedule',
 	lede: 'A week-on week-off custody schedule alternates full weeks between parents. It is one of the simplest 50/50 custody schedules to understand and can work well for older children or teens who can handle longer stretches in each home.',
 	overview: [
