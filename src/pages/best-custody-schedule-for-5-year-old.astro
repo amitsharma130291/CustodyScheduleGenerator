@@ -5,6 +5,7 @@ import Footer from '../components/Footer.astro';
 import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import LastUpdated from '../components/seo/LastUpdated.astro';
+import ScheduleQuiz from '../components/ScheduleQuiz.astro';
 import { getCanonicalUrl } from '../lib/seo/metadata';
 import { buildBreadcrumbSchema, buildFAQSchema, buildWebPageSchema } from '../lib/seo/schema';
 
@@ -260,6 +261,8 @@ const schema = [
 			</div>
 		</section>
 
+		<ScheduleQuiz title="Find a Starting Custody Schedule for Your 5-Year-Old" ageGroup="five" />
+
 		<section class="container-shell py-8 lg:py-10">
 			<div class="grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
 				<div>
@@ -379,67 +382,6 @@ const schema = [
 			<p class="mt-4 text-sm leading-6 text-secondary">
 				If equal time is the goal, start with a <a href="/50-50-custody-schedule" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 custody schedule</a>. If travel or conflict makes equal time unrealistic, compare <a href="/60-40-custody-schedule" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">60/40</a>, <a href="/70-30-custody-schedule" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">70/30</a>, or every-other-weekend options.
 			</p>
-		</section>
-
-		<section class="container-shell py-8 lg:py-10">
-			<div class="premium-card rounded-[2rem] p-6 lg:p-8">
-				<div class="grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
-					<div>
-						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Educational quiz</p>
-						<h2 class="mt-3 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Find Your Best Starting Schedule</h2>
-						<p class="mt-4 text-base leading-7 text-secondary">
-							This simple quiz does not collect personal data and is not legal advice. It only gives an educational starting point so you know which schedule to compare first.
-						</p>
-					</div>
-					<div class="soft-card rounded-[1.5rem] p-5">
-						<form id="schedule-quiz" class="grid gap-4 text-sm leading-6 text-secondary">
-							<label class="grid gap-2">
-								<span class="font-semibold text-primary">Do both parents live within 20 minutes of the child’s school?</span>
-								<select name="nearSchool" class="rounded-xl border border-line bg-surface px-3 py-2 text-primary">
-									<option value="yes">Yes</option>
-									<option value="no">No</option>
-								</select>
-							</label>
-							<label class="grid gap-2">
-								<span class="font-semibold text-primary">Do both parents want close to equal parenting time?</span>
-								<select name="equalTime" class="rounded-xl border border-line bg-surface px-3 py-2 text-primary">
-									<option value="yes">Yes</option>
-									<option value="no">No</option>
-								</select>
-							</label>
-							<label class="grid gap-2">
-								<span class="font-semibold text-primary">Does the child handle transitions well?</span>
-								<select name="transitions" class="rounded-xl border border-line bg-surface px-3 py-2 text-primary">
-									<option value="yes">Yes</option>
-									<option value="no">No</option>
-								</select>
-							</label>
-							<label class="grid gap-2">
-								<span class="font-semibold text-primary">Do both parents have stable school-night availability?</span>
-								<select name="schoolNights" class="rounded-xl border border-line bg-surface px-3 py-2 text-primary">
-									<option value="yes">Yes</option>
-									<option value="no">No</option>
-								</select>
-							</label>
-							<label class="grid gap-2">
-								<span class="font-semibold text-primary">Is long-distance travel involved?</span>
-								<select name="longDistance" class="rounded-xl border border-line bg-surface px-3 py-2 text-primary">
-									<option value="no">No</option>
-									<option value="yes">Yes</option>
-								</select>
-							</label>
-						</form>
-						<div id="schedule-quiz-result" class="mt-5 rounded-[1.25rem] border border-line bg-surface-elevated p-4 text-sm leading-6 text-secondary" aria-live="polite">
-							<p class="font-semibold text-primary">2-2-5-5 may be a good starting point.</p>
-							<p class="mt-2">Because the default answers assume nearby homes, equal-time interest, smooth transitions, and stable school-night availability, start by comparing 2-2-5-5.</p>
-							<div class="mt-4 flex flex-col gap-2 sm:flex-row">
-								<a href="/2-2-5-5-custody-schedule" class="btn-secondary inline-flex h-10 items-center justify-center rounded-full px-4 text-sm font-semibold">Review schedule</a>
-								<a href="/custody-schedule-generator" class="btn-primary inline-flex h-10 items-center justify-center rounded-full px-4 text-sm font-semibold">Generate calendar</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
 		</section>
 
 		<section class="container-shell py-8 lg:py-10">
@@ -800,64 +742,5 @@ const schema = [
 			</div>
 		</section>
 	</main>
-	<script is:inline>
-		(() => {
-			const quiz = document.getElementById('schedule-quiz');
-			const result = document.getElementById('schedule-quiz-result');
-
-			if (!quiz || !result) return;
-
-			const results = {
-				twoTwoFiveFive: {
-					title: '2-2-5-5 may be a good starting point.',
-					body: 'Nearby homes, equal-time goals, smooth transitions, and stable school-night availability make 2-2-5-5 worth comparing first.',
-					href: '/2-2-5-5-custody-schedule',
-				},
-				fiveTwoTwoFive: {
-					title: '5-2-2-5 may be a good starting point.',
-					body: 'If equal time is important but transitions are harder, 5-2-2-5 may give the child longer blocks while keeping a predictable weekday pattern.',
-					href: '/5-2-2-5-custody-schedule',
-				},
-				sixtyForty: {
-					title: '60/40 may be more practical.',
-					body: 'When distance, school-night availability, or transition stress makes strict equal time difficult, a 60/40 plan may protect school routines better.',
-					href: '/60-40-custody-schedule',
-				},
-				everyOtherWeekend: {
-					title: 'Every other weekend plus holidays may be more realistic.',
-					body: 'When long-distance travel is involved, fewer school-week exchanges plus clear holiday and summer rules may be easier for the child.',
-					href: '/every-other-weekend-custody-schedule',
-				},
-			};
-
-			const getResult = () => {
-				const form = new FormData(quiz);
-				const nearSchool = form.get('nearSchool') === 'yes';
-				const equalTime = form.get('equalTime') === 'yes';
-				const transitions = form.get('transitions') === 'yes';
-				const schoolNights = form.get('schoolNights') === 'yes';
-				const longDistance = form.get('longDistance') === 'yes';
-
-				if (longDistance) return results.everyOtherWeekend;
-				if (!nearSchool || !schoolNights || !equalTime) return results.sixtyForty;
-				if (!transitions) return results.fiveTwoTwoFive;
-				return results.twoTwoFiveFive;
-			};
-
-			const render = () => {
-				const recommendation = getResult();
-				result.innerHTML = `
-					<p class="font-semibold text-primary">${recommendation.title}</p>
-					<p class="mt-2">${recommendation.body}</p>
-					<div class="mt-4 flex flex-col gap-2 sm:flex-row">
-						<a href="${recommendation.href}" class="btn-secondary inline-flex h-10 items-center justify-center rounded-full px-4 text-sm font-semibold">Review schedule</a>
-						<a href="/custody-schedule-generator" class="btn-primary inline-flex h-10 items-center justify-center rounded-full px-4 text-sm font-semibold">Generate calendar</a>
-					</div>
-				`;
-			};
-
-			quiz.addEventListener('change', render);
-		})();
-	</script>
 	<Footer />
 </BaseLayout>

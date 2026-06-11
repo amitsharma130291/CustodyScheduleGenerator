@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import ScrollToTop from '../components/ScrollToTop.astro';
 
 interface Props {
 	title?: string;
@@ -99,5 +100,6 @@ const shouldLoadAnalytics = import.meta.env.PROD;
 	</head>
 	<body>
 		<slot />
+		<ScrollToTop />
 	</body>
 </html>

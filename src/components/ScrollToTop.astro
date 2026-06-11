@@ -1,0 +1,58 @@
+<button
+	type="button"
+	class="fixed z-40 flex h-11 w-11 scale-95 items-center justify-center rounded-full bg-primary text-white opacity-0 shadow-[0_18px_40px_rgba(15,23,42,0.22)] transition-all duration-200 ease-out hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-accent/30 sm:h-12 sm:w-12"
+	style="bottom: calc(1rem + env(safe-area-inset-bottom)); right: calc(1rem + env(safe-area-inset-right)); pointer-events: none;"
+	aria-label="Scroll to top"
+	aria-hidden="true"
+	tabindex="-1"
+	data-scroll-to-top
+>
+	<svg aria-hidden="true" viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+		<path d="M12 19V5" />
+		<path d="m5 12 7-7 7 7" />
+	</svg>
+</button>
+
+<script is:inline>
+	(() => {
+		const button = document.querySelector('[data-scroll-to-top]');
+		if (!button) return;
+
+		const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+		let ticking = false;
+
+		const setVisible = (visible) => {
+			button.classList.toggle('opacity-100', visible);
+			button.classList.toggle('scale-100', visible);
+			button.classList.toggle('opacity-0', !visible);
+			button.classList.toggle('scale-95', !visible);
+			button.style.pointerEvents = visible ? 'auto' : 'none';
+			button.setAttribute('aria-hidden', visible ? 'false' : 'true');
+			button.tabIndex = visible ? 0 : -1;
+		};
+
+		const update = () => {
+			setVisible(window.scrollY > 500);
+			ticking = false;
+		};
+
+		const onScroll = () => {
+			if (ticking) return;
+			ticking = true;
+			window.requestAnimationFrame(update);
+		};
+
+		button.addEventListener('click', () => {
+			window.scrollTo({
+				top: 0,
+				behavior: reducedMotion.matches ? 'auto' : 'smooth',
+			});
+		});
+
+		window.addEventListener('scroll', onScroll, { passive: true });
+		document.addEventListener('astro:before-swap', () => {
+			window.removeEventListener('scroll', onScroll);
+		}, { once: true });
+		update();
+	})();
+</script>
