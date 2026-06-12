@@ -29,6 +29,7 @@ export interface ScheduleComparisonRow {
 	exchangeFrequency: string;
 	weekendPattern?: string;
 	notes: string;
+	badge?: string;
 }
 
 export interface ScheduleExampleSummary {
@@ -136,6 +137,78 @@ export interface ScheduleContent {
 				reason: string;
 			}>;
 		};
+		ageApproach?: {
+			title: string;
+			description: string;
+			rows: Array<{
+				age: string;
+				recommended: string;
+				guideHref?: string;
+				reason: string;
+			}>;
+		};
+		whenWorksBest?: {
+			title: string;
+			rows: Array<{
+				situation: string;
+				why: string;
+				watchFor: string;
+			}>;
+		};
+		whenMayNotFit?: {
+			title: string;
+			rows: Array<{
+				situation: string;
+				tradeoff: string;
+				consider: string;
+			}>;
+		};
+		percentageMatrix?: {
+			title: string;
+			rows: Array<{
+				schedule: string;
+				href: string;
+				parentA: string;
+				parentB: string;
+				bestFor: string;
+				stability: string;
+				exchangeFrequency: string;
+				badge?: string;
+			}>;
+		};
+		scheduleCards?: {
+			title: string;
+			description: string;
+			items: Array<{
+				title: string;
+				badge: string;
+				bestFor: string;
+				pros: string[];
+				watchOutFor: string;
+				complexity: 'Low' | 'Medium' | 'High';
+			}>;
+		};
+		mistakes?: {
+			title: string;
+			items: Array<{
+				title: string;
+				problem: string;
+				why: string;
+				betterApproach: string;
+			}>;
+		};
+		betterThanFifty?: {
+			title: string;
+			sixtyForty: string[];
+			fiftyFifty: string[];
+			ctaText: string;
+		};
+		shiftLater?: {
+			title: string;
+			description: string[];
+			reviewPoints: string[];
+			ctaText: string;
+		};
 		alternatingWeekends?: {
 			title: string;
 			description: string[];
@@ -212,6 +285,24 @@ export interface ScheduleContent {
 		insight?: {
 			title: string;
 			description: string[];
+		};
+		childSupport?: {
+			title: string;
+			description: string[];
+			factors: string[];
+			ctaText: string;
+		};
+		decisionSummary?: {
+			title: string;
+			description: string[];
+			primaryCta?: {
+				text: string;
+				href: string;
+			};
+			secondaryCta?: {
+				text: string;
+				href: string;
+			};
 		};
 		ctaHub?: {
 			title: string;

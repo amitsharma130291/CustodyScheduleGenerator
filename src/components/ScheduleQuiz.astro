@@ -4,7 +4,7 @@ import CtaButton from './CtaButton.astro';
 interface Props {
 	title: string;
 	ageGroup?: 'toddler' | 'five' | 'seven' | 'teen';
-	quizType?: 'age' | 'fiftyFifty';
+	quizType?: 'age' | 'fiftyFifty' | 'sixtyForty';
 	useContainer?: boolean;
 }
 
@@ -147,7 +147,70 @@ const fiftyFiftyQuestions = [
 	},
 ];
 
-const questions = quizType === 'fiftyFifty' ? fiftyFiftyQuestions : agePageQuestions;
+const sixtyFortyQuestions = [
+	{
+		question: 'Child age',
+		name: 'childAge',
+		options: [
+			['toddler', 'Toddler'],
+			['preschool', 'Preschool'],
+			['schoolYoung', '5-7'],
+			['schoolOlder', '8-12'],
+			['teen', 'Teenager'],
+		],
+	},
+	{
+		question: 'Distance between homes',
+		name: 'homeDistance',
+		options: [
+			['close', 'Under 15 minutes'],
+			['moderate', '15-35 minutes'],
+			['far', 'More than 35 minutes'],
+		],
+	},
+	{
+		question: 'School situation',
+		name: 'schoolSituation',
+		options: [
+			['oneAnchor', 'One parent handles most school routines'],
+			['shared', 'Both parents can handle school routines'],
+			['unstable', 'School transportation is difficult'],
+		],
+	},
+	{
+		question: 'Parent work schedule',
+		name: 'workSchedule',
+		options: [
+			['predictable', 'Mostly predictable'],
+			['uneven', 'Uneven but manageable'],
+			['variable', 'Highly variable'],
+		],
+	},
+	{
+		question: 'Desired parenting split',
+		name: 'desiredSplit',
+		options: [
+			['equal', 'As close to 50/50 as possible'],
+			['middle', 'A middle ground with one school-week anchor'],
+			['primary', 'One primary home with regular time for the other parent'],
+		],
+	},
+	{
+		question: 'Child transition tolerance',
+		name: 'transitionTolerance',
+		options: [
+			['easy', 'Handles transitions well'],
+			['somewhat', 'Sometimes struggles'],
+			['hard', 'Strongly struggles'],
+		],
+	},
+];
+
+const questions = quizType === 'fiftyFifty'
+	? fiftyFiftyQuestions
+	: quizType === 'sixtyForty'
+		? sixtyFortyQuestions
+		: agePageQuestions;
 ---
 
 <section class:list={[useContainer && 'container-shell', 'py-8 lg:py-10']} data-schedule-quiz data-age-group={ageGroup} data-quiz-type={quizType}>
@@ -240,12 +303,30 @@ const questions = quizType === 'fiftyFifty' ? fiftyFiftyQuestions : agePageQuest
 				],
 			},
 			sixtyForty: {
-				title: '60/40 may be more practical.',
-				body: 'This may work better when one parent handles more school or daycare logistics, distance adds stress, or equal time creates too much travel.',
-				avoid: 'Avoid using this only for convenience if a workable equal-time schedule would support the child well.',
+				title: '60/40 may be a good starting point.',
+				body: 'This may fit when one parent anchors more school routines, homes are not very close, or equal time would create too much transportation or transition stress.',
+				avoid: 'Compare 50/50 first if both homes are close, both parents can handle school routines, and the child handles transitions well.',
 				actions: [
 					['View 60/40 Schedule', '/60-40-custody-schedule', 'secondary'],
 					['Calculate Parenting Time', '/parenting-time-calculator', 'primary'],
+				],
+			},
+			fiftyFiftyCompare: {
+				title: '50/50 may be worth comparing.',
+				body: 'If both homes are close, school routines are realistic from either home, and both parents want equal time, a 50/50 schedule may be practical.',
+				avoid: 'Avoid forcing equal time if commute times, school mornings, work schedules, or frequent exchanges repeatedly create problems.',
+				actions: [
+					['Compare 50/50 Schedules', '/50-50-custody-schedule', 'secondary'],
+					['Test a Calendar', '/custody-schedule-generator', 'primary'],
+				],
+			},
+			seventyThirtyCompare: {
+				title: '70/30 may be worth comparing.',
+				body: 'This may fit when one parent needs to handle most school-week logistics or distance makes frequent overnights hard, while the other parent still has predictable time.',
+				avoid: 'Avoid moving to 70/30 only because it is simpler if a realistic 60/40 plan would support the child and both parent relationships.',
+				actions: [
+					['Compare 70/30 Schedule', '/70-30-custody-schedule', 'secondary'],
+					['Calculate Parenting Time', '/custody-percentage-calculator', 'primary'],
 				],
 			},
 			everyOtherWeekend: {
@@ -303,6 +384,21 @@ const questions = quizType === 'fiftyFifty' ? fiftyFiftyQuestions : agePageQuest
 			return 'twoTwoFiveFive';
 		};
 
+		const getSixtyFortyResultKey = (form) => {
+			const childAge = form.get('childAge');
+			const homeDistance = form.get('homeDistance');
+			const schoolSituation = form.get('schoolSituation');
+			const workSchedule = form.get('workSchedule');
+			const desiredSplit = form.get('desiredSplit');
+			const transitionTolerance = form.get('transitionTolerance');
+
+			if (workSchedule === 'variable' || schoolSituation === 'unstable') return 'customSchedule';
+			if (desiredSplit === 'equal' && homeDistance === 'close' && schoolSituation === 'shared' && transitionTolerance !== 'hard') return 'fiftyFiftyCompare';
+			if (desiredSplit === 'primary' || homeDistance === 'far' || transitionTolerance === 'hard') return 'seventyThirtyCompare';
+			if (childAge === 'teen' && homeDistance === 'close' && desiredSplit === 'equal') return 'fiftyFiftyCompare';
+			return 'sixtyForty';
+		};
+
 		const getResultKey = (form, ageGroup) => {
 			const distance = form.get('distance');
 			const equalTime = form.get('equalTime');
@@ -332,7 +428,9 @@ const questions = quizType === 'fiftyFifty' ? fiftyFiftyQuestions : agePageQuest
 			const formData = new FormData(form);
 			const resultKey = quiz.dataset.quizType === 'fiftyFifty'
 				? getFiftyFiftyResultKey(formData)
-				: getResultKey(formData, quiz.dataset.ageGroup);
+				: quiz.dataset.quizType === 'sixtyForty'
+					? getSixtyFortyResultKey(formData)
+					: getResultKey(formData, quiz.dataset.ageGroup);
 			const recommendation = results[resultKey];
 			const actions = recommendation.actions.map(([label, href, style]) => {
 				const klass = style === 'primary' ? 'btn-primary' : 'btn-secondary';
