@@ -13,7 +13,7 @@ type NavConfigItem =
 	| { label: string; anchor: string; type: 'home-anchor' };
 
 const homepageNavigationConfig: NavConfigItem[] = [
-	{ label: 'Generator', href: '/custody-schedule-generator', type: 'page' },
+	{ label: 'Generator', href: '/custody-schedule-generator/', type: 'page' },
 	{
 		label: 'Tools',
 		anchor: 'tools',
@@ -27,7 +27,7 @@ const homepageNavigationConfig: NavConfigItem[] = [
 
 const generatorNavigationConfig: NavConfigItem[] = [
 	{ label: 'Home', href: '/', type: 'page' },
-	{ label: 'Generator', href: '/custody-schedule-generator', type: 'page' },
+	{ label: 'Generator', href: '/custody-schedule-generator/', type: 'page' },
 	{ label: 'Schedules', anchor: 'schedules', type: 'home-anchor' },
 	{ label: 'Calculators', anchor: 'calculators', type: 'home-anchor' },
 	{ label: 'Resources', anchor: 'resources', type: 'home-anchor' },
@@ -36,7 +36,7 @@ const generatorNavigationConfig: NavConfigItem[] = [
 
 const pathname = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isHome = pathname === '/';
-const isGeneratorPage = pathname === '/custody-schedule-generator';
+const isGeneratorPage = pathname === '/custody-schedule-generator/';
 const getHomeSectionHref = (anchor: string) => (isHome ? `#${anchor}` : `/#${anchor}`);
 const isSchedulePage = /^\/(?:schedules\/)?(?:\d+-\d+-\d+(?:-\d+)?|week-on-week-off|every-other-weekend|50-50|60-40|70-30|80-20)-custody-schedule$/.test(pathname);
 const isCalculatorPage = pathname.includes('calculator') || pathname.startsWith('/calculators/');
@@ -55,7 +55,7 @@ const navItems: NavItem[] = navigationConfig.map((item) => {
 	if (!isHome) {
 		if (item.anchor === 'schedules') isActive = isSchedulePage;
 		if (item.anchor === 'calculators') isActive = isCalculatorPage;
-		if (item.anchor === 'resources') isActive = pathname.startsWith('/blog') || pathname.includes('template') || pathname.includes('guide');
+		if (item.anchor === 'resources') isActive = pathname.startsWith('/blog/') || pathname.includes('template') || pathname.includes('guide');
 	}
 
 	return {

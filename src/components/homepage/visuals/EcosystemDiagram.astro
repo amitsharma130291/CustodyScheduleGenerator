@@ -23,7 +23,7 @@ const nodes = [
 	</div>
 	{nodes.map((node, index) => (
 		node.active ? (
-			<a href="/custody-schedule-generator" class={`ecosystem-node ${node.className} ecosystem-float ecosystem-delay-${index} group/tool bg-parent-b/10 shadow-[inset_0_0_0_1px_rgba(67,176,141,0.22)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent`}>
+			<a href="/custody-schedule-generator/" class={`ecosystem-node ${node.className} ecosystem-float ecosystem-delay-${index} group/tool bg-parent-b/10 shadow-[inset_0_0_0_1px_rgba(67,176,141,0.22)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent`}>
 				<span class="text-sm font-semibold text-primary">{node.label}</span>
 				<span class="mt-1 rounded-full bg-surface px-2 py-0.5 text-[10px] font-bold uppercase tracking-[0.12em] text-parent-b">{node.status}</span>
 			</a>

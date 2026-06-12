@@ -1,7 +1,16 @@
 const defaultSiteUrl = 'https://custodybuilder.com';
 
+export function normalizeTrailingSlash(pathname: string) {
+	if (pathname === '/') return pathname;
+	const trimmedPathname = pathname.replace(/\/+$/, '');
+	const lastSegment = trimmedPathname.split('/').pop() ?? '';
+	if (lastSegment.includes('.')) return trimmedPathname;
+	return `${trimmedPathname}/`;
+}
+
 export function getCanonicalUrl(pathname: string, siteUrl = defaultSiteUrl) {
 	const url = new URL(pathname, siteUrl);
+	url.pathname = normalizeTrailingSlash(url.pathname);
 	url.search = '';
 	url.hash = '';
 	return url.toString();

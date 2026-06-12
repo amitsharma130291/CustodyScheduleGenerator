@@ -4,6 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   site: 'https://custodybuilder.com',
+  trailingSlash: 'always',
   integrations: [
     sitemap({
       filter: (page) => {
@@ -20,9 +21,11 @@ export default defineConfig({
         return !excludedPaths.has(pathname) && !pathname.startsWith('/schedules/');
       },
       serialize: (item) => {
-        const normalizedUrl = item.url.replace(/\/$/, '');
+        const url = new URL(item.url);
+        url.pathname = url.pathname === '/' ? '/' : `${url.pathname.replace(/\/+$/, '')}/`;
+        item.url = url.toString();
 
-        if (normalizedUrl === 'https://custodybuilder.com/custody-schedule-generator') {
+        if (item.url === 'https://custodybuilder.com/custody-schedule-generator/') {
           return {
             ...item,
             changefreq: 'weekly',
@@ -30,7 +33,7 @@ export default defineConfig({
           };
         }
 
-        if (normalizedUrl === 'https://custodybuilder.com/texas-child-support-calculator') {
+        if (item.url === 'https://custodybuilder.com/texas-child-support-calculator/') {
           return {
             ...item,
             changefreq: 'weekly',

@@ -10,11 +10,11 @@ import { buildBreadcrumbSchema, buildWebPageSchema } from '../lib/seo/schema';
 const title = 'How CustodyBuilder Works | Custody Schedule Planning Methodology';
 const description =
 	'Learn how CustodyBuilder generates custody calendars, calculates overnight percentages, recommends schedules, and explains planning assumptions.';
-const canonical = '/how-custodybuilder-works';
+const canonical = '/how-custodybuilder-works/';
 const canonicalUrl = getCanonicalUrl(canonical);
 const breadcrumbs = [
 	{ name: 'Home', url: getCanonicalUrl('/') },
-	{ name: 'Guides', url: getCanonicalUrl('/blog') },
+	{ name: 'Guides', url: getCanonicalUrl('/blog/') },
 	{ name: 'How CustodyBuilder Works', url: canonicalUrl },
 ];
 const schema = [
@@ -86,8 +86,8 @@ const methodologySections = [
 						After generating a schedule, review exchange days, school mornings, long gaps between homes, holiday conflicts, and overnight percentages. If a schedule may become part of a formal parenting plan or court order, review the details with a qualified professional.
 					</p>
 					<div class="mt-5 flex flex-col gap-3 sm:flex-row">
-						<a href="/custody-schedule-generator" class="btn-primary inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-semibold">Open the generator</a>
-						<a href="/custody-schedule-generator#find-a-schedule" class="btn-secondary inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-semibold">Find a schedule</a>
+						<a href="/custody-schedule-generator/" class="btn-primary inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-semibold">Open the generator</a>
+						<a href="/custody-schedule-generator/#find-a-schedule" class="btn-secondary inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-semibold">Find a schedule</a>
 					</div>
 				</div>
 			</div>

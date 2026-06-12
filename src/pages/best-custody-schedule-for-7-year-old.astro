@@ -12,12 +12,12 @@ import { buildBreadcrumbSchema, buildFAQSchema, buildWebPageSchema } from '../li
 const title = 'Best Custody Schedule for a 7-Year-Old | Examples, School Tips & Parenting Time';
 const description =
 	'Compare the best custody schedules for a 7-year-old, including 2-2-5-5, 5-2-2-5, week-on/week-off, and 60/40 schedules. Includes school tips, examples, parenting time calculators, and custody planning tools.';
-const canonical = '/best-custody-schedule-for-7-year-old';
+const canonical = '/best-custody-schedule-for-7-year-old/';
 const canonicalUrl = getCanonicalUrl(canonical);
 
 const breadcrumbs = [
 	{ name: 'Home', url: getCanonicalUrl('/') },
-	{ name: 'Guides', url: getCanonicalUrl('/blog') },
+	{ name: 'Guides', url: getCanonicalUrl('/blog/') },
 	{ name: 'Best Custody Schedule for a 7-Year-Old', url: canonicalUrl },
 ];
 
@@ -120,16 +120,16 @@ const faqItems = [
 ];
 
 const ageComparisonRows = [
-	['Toddler', 'Attachment, naps, bedtime, and short separations.', '/best-custody-schedule-for-toddler', 'Toddler custody guide'],
-	['5-year-old', 'Kindergarten routine, school readiness, and frequent contact.', '/best-custody-schedule-for-5-year-old', '5-year-old custody guide'],
-	['7-year-old', 'Homework, school activities, friendships, and predictable weekdays.', '/best-custody-schedule-for-7-year-old', 'Current guide'],
-	['Teenager', 'Independence, transportation, activities, and flexible planning.', '/best-custody-schedule-for-teenager', 'Teen custody guide'],
+	['Toddler', 'Attachment, naps, bedtime, and short separations.', '/best-custody-schedule-for-toddler/', 'Toddler custody guide'],
+	['5-year-old', 'Kindergarten routine, school readiness, and frequent contact.', '/best-custody-schedule-for-5-year-old/', '5-year-old custody guide'],
+	['7-year-old', 'Homework, school activities, friendships, and predictable weekdays.', '/best-custody-schedule-for-7-year-old/', 'Current guide'],
+	['Teenager', 'Independence, transportation, activities, and flexible planning.', '/best-custody-schedule-for-teenager/', 'Teen custody guide'],
 ];
 
 const scheduleRows = [
 	{
 		title: '2-2-5-5 Schedule',
-		href: '/2-2-5-5-custody-schedule',
+		href: '/2-2-5-5-custody-schedule/',
 		pros: 'Stable weekdays, alternating weekends, and regular contact with both parents. It helps each parent know which school nights they usually manage.',
 		cons: 'Five-day blocks may feel long for some children, and both homes must track homework, reading logs, and activities.',
 		bestFor: 'Parents who live near school and want equal time with predictable weekday responsibilities.',
@@ -137,7 +137,7 @@ const scheduleRows = [
 	},
 	{
 		title: '5-2-2-5 Schedule',
-		href: '/5-2-2-5-custody-schedule',
+		href: '/5-2-2-5-custody-schedule/',
 		pros: 'Longer home blocks can reduce scattered transitions while still keeping equal parenting time over two weeks.',
 		cons: 'The child may need support during longer stretches away from either parent, and school supplies must move consistently.',
 		bestFor: 'Families with activity-heavy weeks who want consistent blocks and fewer confusing changes.',
@@ -145,7 +145,7 @@ const scheduleRows = [
 	},
 	{
 		title: 'Week-On Week-Off Schedule',
-		href: '/week-on-week-off-custody-schedule',
+		href: '/week-on-week-off-custody-schedule/',
 		pros: 'Simple calendar, few exchanges, and a full week to manage homework, projects, and activities in one home.',
 		cons: 'A full week away from one parent can feel long, and both homes must be fully equipped for school and activities.',
 		bestFor: 'Organized children, cooperative parents, nearby homes, and families that want fewer midweek exchanges.',
@@ -153,7 +153,7 @@ const scheduleRows = [
 	},
 	{
 		title: '60/40 Schedule',
-		href: '/60-40-custody-schedule',
+		href: '/60-40-custody-schedule/',
 		pros: 'One home can anchor more school routines while the other parent still has substantial parenting time.',
 		cons: 'One parent may have fewer school-night experiences unless the schedule includes meaningful weekday contact.',
 		bestFor: 'Parents who live farther apart or when one parent handles more homework, transportation, or school logistics.',
@@ -161,7 +161,7 @@ const scheduleRows = [
 	},
 	{
 		title: 'Every Other Weekend Schedule',
-		href: '/every-other-weekend-custody-schedule',
+		href: '/every-other-weekend-custody-schedule/',
 		pros: 'Fewer exchanges, clearer school-week base, and easier planning when distance or conflict is a major issue.',
 		cons: 'One parent may have less ordinary school-week involvement and fewer activity responsibilities.',
 		bestFor: 'Long distance, high conflict, or limited parent availability situations.',
@@ -173,7 +173,7 @@ const bestOverallRows = [
 	{
 		rank: '1',
 		title: '2-2-5-5 Schedule',
-		href: '/2-2-5-5-custody-schedule',
+		href: '/2-2-5-5-custody-schedule/',
 		why: 'It gives each parent predictable school nights and alternating weekends, which helps with homework, reading logs, and activity planning.',
 		fit: 'Nearby parents who both can handle school mornings and want balanced parenting time.',
 		advantage: 'Predictable weekdays.',
@@ -182,7 +182,7 @@ const bestOverallRows = [
 	{
 		rank: '2',
 		title: '5-2-2-5 Schedule',
-		href: '/5-2-2-5-custody-schedule',
+		href: '/5-2-2-5-custody-schedule/',
 		why: 'It keeps equal parenting time while creating longer home blocks that can reduce scattered school and equipment handoffs.',
 		fit: 'Families with activity-heavy weeks or children who do better with fewer midweek changes.',
 		advantage: 'Longer blocks for homework and activities.',
@@ -191,7 +191,7 @@ const bestOverallRows = [
 	{
 		rank: '3',
 		title: 'Week-On Week-Off Schedule',
-		href: '/week-on-week-off-custody-schedule',
+		href: '/week-on-week-off-custody-schedule/',
 		why: 'It is simple and reduces exchanges, which can help organized children manage homework and activities in one home for a full week.',
 		fit: 'Children who handle longer blocks well and parents who both fully support school routines.',
 		advantage: 'Few exchanges.',
@@ -200,7 +200,7 @@ const bestOverallRows = [
 	{
 		rank: '4',
 		title: 'Customized 60/40 Schedule',
-		href: '/60-40-custody-schedule',
+		href: '/60-40-custody-schedule/',
 		why: 'It can let one home anchor more school logistics while preserving substantial parenting time with the other parent.',
 		fit: 'Families with distance, work travel, activity conflicts, or one parent handling more school mornings.',
 		advantage: 'More realistic school-week logistics.',
@@ -278,22 +278,22 @@ const overnightRows = [
 ];
 
 const childAgeRows = [
-	['Toddler', 'Attachment, naps, routine, and shorter separations', '/best-custody-schedule-for-toddler', 'Best custody schedule for a toddler'],
-	['5-Year-Old', 'Kindergarten routine and frequent parent contact', '/best-custody-schedule-for-5-year-old', 'Best custody schedule for a 5-year-old'],
-	['6-Year-Old', 'Early elementary routine and reading practice', '/custody-schedule-by-age', 'Custody schedules by age'],
-	['7-Year-Old', 'Homework, activities, friendships, and school stability', '/best-custody-schedule-for-7-year-old', 'Current guide'],
-	['8-Year-Old', 'Activities, school projects, and growing independence', '/custody-schedule-by-age', 'Custody schedules by age'],
-	['10-Year-Old', 'Friendships, activities, and longer blocks', '/custody-schedule-by-age', 'Custody schedules by age'],
-	['Teenager', 'Independence, transportation, and flexible planning', '/best-custody-schedule-for-teenager', 'Best custody schedule for a teenager'],
+	['Toddler', 'Attachment, naps, routine, and shorter separations', '/best-custody-schedule-for-toddler/', 'Best custody schedule for a toddler'],
+	['5-Year-Old', 'Kindergarten routine and frequent parent contact', '/best-custody-schedule-for-5-year-old/', 'Best custody schedule for a 5-year-old'],
+	['6-Year-Old', 'Early elementary routine and reading practice', '/custody-schedule-by-age/', 'Custody schedules by age'],
+	['7-Year-Old', 'Homework, activities, friendships, and school stability', '/best-custody-schedule-for-7-year-old/', 'Current guide'],
+	['8-Year-Old', 'Activities, school projects, and growing independence', '/custody-schedule-by-age/', 'Custody schedules by age'],
+	['10-Year-Old', 'Friendships, activities, and longer blocks', '/custody-schedule-by-age/', 'Custody schedules by age'],
+	['Teenager', 'Independence, transportation, and flexible planning', '/best-custody-schedule-for-teenager/', 'Best custody schedule for a teenager'],
 ];
 
 const tools = [
-	{ title: 'Custody Schedule Generator', href: '/custody-schedule-generator', description: 'Generate a parenting calendar with real dates and exchange days.' },
-	{ title: 'Custody Calendar Template', href: '/custody-calendar-template', description: 'Organize school weeks, activities, holidays, and parenting time.' },
-	{ title: 'Custody Percentage Calculator', href: '/custody-percentage-calculator', description: 'Estimate overnight counts and parenting time percentages.' },
-	{ title: 'Parenting Time Calculator', href: '/parenting-time-calculator', description: 'Compare parenting time across common custody arrangements.' },
-	{ title: 'Parenting Plan Template', href: '/parenting-plan-template', description: 'Write down homework, activities, exchanges, holidays, and communication rules.' },
-	{ title: 'Custody Schedule Template', href: '/custody-schedule-template', description: 'Create a printable schedule template for school-age custody planning.' },
+	{ title: 'Custody Schedule Generator', href: '/custody-schedule-generator/', description: 'Generate a parenting calendar with real dates and exchange days.' },
+	{ title: 'Custody Calendar Template', href: '/custody-calendar-template/', description: 'Organize school weeks, activities, holidays, and parenting time.' },
+	{ title: 'Custody Percentage Calculator', href: '/custody-percentage-calculator/', description: 'Estimate overnight counts and parenting time percentages.' },
+	{ title: 'Parenting Time Calculator', href: '/parenting-time-calculator/', description: 'Compare parenting time across common custody arrangements.' },
+	{ title: 'Parenting Plan Template', href: '/parenting-plan-template/', description: 'Write down homework, activities, exchanges, holidays, and communication rules.' },
+	{ title: 'Custody Schedule Template', href: '/custody-schedule-template/', description: 'Create a printable schedule template for school-age custody planning.' },
 ];
 
 const schema = [
@@ -346,7 +346,7 @@ const schema = [
 					</div>
 				</div>
 				<div class="mt-8 flex flex-col gap-3 sm:flex-row">
-					<a href="/custody-schedule-generator" class="btn-primary inline-flex h-12 w-full items-center justify-center rounded-full px-7 text-sm font-semibold sm:w-auto">Use the Custody Schedule Generator</a>
+					<a href="/custody-schedule-generator/" class="btn-primary inline-flex h-12 w-full items-center justify-center rounded-full px-7 text-sm font-semibold sm:w-auto">Use the Custody Schedule Generator</a>
 					<a href="#schedule-options" class="btn-secondary inline-flex h-12 w-full items-center justify-center rounded-full px-7 text-sm font-semibold sm:w-auto">Compare school-age schedules</a>
 				</div>
 			</div>
@@ -359,10 +359,10 @@ const schema = [
 				<div class="mt-5 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
 					<div class="grid gap-4 text-base leading-8 text-secondary">
 						<p>
-							For many 7-year-olds, the strongest first choices are a <a href="/2-2-5-5-custody-schedule" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-5-5 schedule</a> or <a href="/5-2-2-5-custody-schedule" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">5-2-2-5 schedule</a>. Both can protect school-night predictability while still giving both parents regular weekday and weekend time.
+							For many 7-year-olds, the strongest first choices are a <a href="/2-2-5-5-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-5-5 schedule</a> or <a href="/5-2-2-5-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">5-2-2-5 schedule</a>. Both can protect school-night predictability while still giving both parents regular weekday and weekend time.
 						</p>
 						<p>
-							A <a href="/week-on-week-off-custody-schedule" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">week-on/week-off schedule</a> can work for some organized children and cooperative parents, especially when fewer exchanges help homework and activity planning. A <a href="/60-40-custody-schedule" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">60/40 schedule</a> may be better when one home handles more school transportation or activity logistics.
+							A <a href="/week-on-week-off-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">week-on/week-off schedule</a> can work for some organized children and cooperative parents, especially when fewer exchanges help homework and activity planning. A <a href="/60-40-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">60/40 schedule</a> may be better when one home handles more school transportation or activity logistics.
 						</p>
 						<p>
 							The key is school stability: fewer forgotten assignments, predictable reading and homework routines, clear activity transportation, and a calendar the child can understand.
@@ -376,7 +376,7 @@ const schema = [
 							<li>3. Week-on/week-off for some organized children.</li>
 							<li>4. Customized 60/40 when distance or logistics matter.</li>
 						</ol>
-						<a href="/custody-schedule-generator" class="btn-primary mt-5 inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-semibold">Generate a school-age schedule</a>
+						<a href="/custody-schedule-generator/" class="btn-primary mt-5 inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-semibold">Generate a school-age schedule</a>
 					</div>
 				</div>
 			</div>
@@ -590,7 +590,7 @@ const schema = [
 						<p class="text-sm leading-7 text-secondary">
 							The goal is not to say yes to every invitation. It is to create a communication rule so both parents share invitations quickly, decide transportation before the event, and avoid making the child responsible for negotiating social plans between homes.
 						</p>
-						<a href="/custody-calendar-template" class="btn-secondary inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-semibold">Use a custody calendar template</a>
+						<a href="/custody-calendar-template/" class="btn-secondary inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-semibold">Use a custody calendar template</a>
 					</div>
 				</div>
 			</div>
@@ -626,7 +626,7 @@ const schema = [
 					</article>
 				))}
 			</div>
-			<p class="mt-5 text-sm leading-6 text-secondary">Generate your own schedule using the <a href="/custody-schedule-generator" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Custody Schedule Generator</a>.</p>
+			<p class="mt-5 text-sm leading-6 text-secondary">Generate your own schedule using the <a href="/custody-schedule-generator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Custody Schedule Generator</a>.</p>
 		</section>
 
 		<section class="container-shell py-8 lg:py-10">
@@ -649,7 +649,7 @@ const schema = [
 					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Decision tree</p>
 					<h2 class="mt-3 text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Which Schedule Should You Start With?</h2>
 					<p class="mt-4 text-base leading-7 text-secondary">
-						Use this as an educational starting point before building your calendar in the <a href="/custody-schedule-generator" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Custody Schedule Generator</a>.
+						Use this as an educational starting point before building your calendar in the <a href="/custody-schedule-generator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Custody Schedule Generator</a>.
 					</p>
 				</div>
 				<div class="mt-6 grid gap-4 lg:grid-cols-2">
@@ -720,7 +720,7 @@ const schema = [
 							A mathematically balanced plan can still feel chaotic if the child arrives without sneakers, a library book, or the folder needed for Friday. The child may then feel responsible for adult systems they are not mature enough to manage.
 						</p>
 						<p>
-							For a 7-year-old, the best schedule is usually the one parents can run consistently for months. Use a <a href="/custody-schedule-template" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule template</a> to define the weekly pattern, then add school logistics in a <a href="/parenting-plan-template" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting plan template</a>.
+							For a 7-year-old, the best schedule is usually the one parents can run consistently for months. Use a <a href="/custody-schedule-template/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule template</a> to define the weekly pattern, then add school logistics in a <a href="/parenting-plan-template/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting plan template</a>.
 						</p>
 					</div>
 				</div>
@@ -744,7 +744,7 @@ const schema = [
 							</tbody>
 						</table>
 					</div>
-					<p class="mt-3 text-sm leading-7 text-secondary">Holiday breaks should be planned separately from the weekly rotation. Use a <a href="/holiday-custody-schedule" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">holiday custody schedule</a> or <a href="/holiday-visitation-schedule" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">holiday visitation schedule</a> to avoid confusion.</p>
+					<p class="mt-3 text-sm leading-7 text-secondary">Holiday breaks should be planned separately from the weekly rotation. Use a <a href="/holiday-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">holiday custody schedule</a> or <a href="/holiday-visitation-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">holiday visitation schedule</a> to avoid confusion.</p>
 				</div>
 				<div class="soft-card rounded-[1.75rem] p-6">
 					<h2 class="text-3xl font-semibold tracking-[-0.045em] text-primary">Warning Signs the Schedule May Need Adjustment</h2>
@@ -773,7 +773,7 @@ const schema = [
 					</tbody>
 				</table>
 			</div>
-			<p class="mt-4 text-sm leading-6 text-secondary">Estimate exact totals with the <a href="/custody-percentage-calculator" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">custody percentage calculator</a> or <a href="/parenting-time-calculator" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting time calculator</a>.</p>
+			<p class="mt-4 text-sm leading-6 text-secondary">Estimate exact totals with the <a href="/custody-percentage-calculator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">custody percentage calculator</a> or <a href="/parenting-time-calculator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting time calculator</a>.</p>
 		</section>
 
 		<section class="container-shell py-8 lg:py-10">
@@ -781,11 +781,11 @@ const schema = [
 				<h2 class="text-4xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary">Which Schedule Is Best for Your Family?</h2>
 				<div class="mt-6 grid gap-4 md:grid-cols-2">
 					{[
-						['Choose 2-2-5-5 if...', ['Parents live nearby', 'Stable school nights matter', 'Both parents can manage homework', 'The child benefits from alternating weekends'], '/2-2-5-5-custody-schedule'],
-						['Choose 5-2-2-5 if...', ['The child has activities', 'Longer blocks reduce confusion', 'Both homes can track school supplies', 'Equal time is realistic'], '/5-2-2-5-custody-schedule'],
-						['Choose week-on/week-off if...', ['The child is organized', 'Fewer exchanges help', 'Both homes handle school fully', 'A week away is not too long'], '/week-on-week-off-custody-schedule'],
-						['Choose 60/40 if...', ['Parents live farther apart', 'One home anchors school mornings', 'Equal time creates too much travel', 'The other parent still has meaningful time'], '/60-40-custody-schedule'],
-						['Choose every other weekend if...', ['Distance is substantial', 'One parent has limited availability', 'Fewer exchanges reduce conflict', 'Holidays and summer can add time'], '/every-other-weekend-custody-schedule'],
+						['Choose 2-2-5-5 if...', ['Parents live nearby', 'Stable school nights matter', 'Both parents can manage homework', 'The child benefits from alternating weekends'], '/2-2-5-5-custody-schedule/'],
+						['Choose 5-2-2-5 if...', ['The child has activities', 'Longer blocks reduce confusion', 'Both homes can track school supplies', 'Equal time is realistic'], '/5-2-2-5-custody-schedule/'],
+						['Choose week-on/week-off if...', ['The child is organized', 'Fewer exchanges help', 'Both homes handle school fully', 'A week away is not too long'], '/week-on-week-off-custody-schedule/'],
+						['Choose 60/40 if...', ['Parents live farther apart', 'One home anchors school mornings', 'Equal time creates too much travel', 'The other parent still has meaningful time'], '/60-40-custody-schedule/'],
+						['Choose every other weekend if...', ['Distance is substantial', 'One parent has limited availability', 'Fewer exchanges reduce conflict', 'Holidays and summer can add time'], '/every-other-weekend-custody-schedule/'],
 					].map(([heading, items, href]) => (
 						<a href={href} class="soft-card group rounded-[1.5rem] p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40">
 							<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary">{heading}</h3>

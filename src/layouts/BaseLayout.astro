@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import ScrollToTop from '../components/ScrollToTop.astro';
+import { getCanonicalUrl } from '../lib/seo/metadata';
 
 interface Props {
 	title?: string;
@@ -23,11 +24,7 @@ const {
 } = Astro.props;
 
 const siteUrl = 'https://custodybuilder.com';
-const rawCanonicalObject = new URL(canonical, siteUrl);
-const canonicalObject = new URL(rawCanonicalObject.pathname, siteUrl);
-canonicalObject.search = '';
-canonicalObject.hash = '';
-const canonicalUrl = canonicalObject.toString();
+const canonicalUrl = getCanonicalUrl(canonical, siteUrl);
 const defaultImageUrl = new URL('/og/custodybuilder-og.png', siteUrl).toString();
 const shouldLoadAnalytics = import.meta.env.PROD;
 ---
