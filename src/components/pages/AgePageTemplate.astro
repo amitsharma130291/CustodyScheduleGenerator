@@ -22,28 +22,28 @@ const canonicalUrl = getCanonicalUrl(canonical);
 const sharedSchedules = [
 	{
 		name: '2-2-3 Custody Schedule',
-		href: '/2-2-3-custody-schedule',
+		href: '/2-2-3-custody-schedule/',
 		bestFor: 'Families that want both parents involved every week and can manage more frequent exchanges.',
 		pros: 'Shorter gaps between homes, alternating weekends, and steady contact with both parents.',
 		cons: 'More handoffs, more coordination, and less ideal when homes are far apart.',
 	},
 	{
 		name: '2-2-5-5 Custody Schedule',
-		href: '/2-2-5-5-custody-schedule',
+		href: '/2-2-5-5-custody-schedule/',
 		bestFor: 'Parents who want stable weekdays with longer five-day blocks on alternating weekends.',
 		pros: 'Predictable school-week pattern, easier weekday planning, and meaningful weekend time.',
 		cons: 'Five-day stretches may feel long for younger children and require consistent routines in both homes.',
 	},
 	{
 		name: '5-2-2-5 Custody Schedule',
-		href: '/5-2-2-5-custody-schedule',
+		href: '/5-2-2-5-custody-schedule/',
 		bestFor: 'Families that want fewer exchanges while keeping a balanced two-week rotation.',
 		pros: 'Longer blocks, predictable exchange days, and less back-and-forth than 2-2-3.',
 		cons: 'Can be harder for children who need very frequent contact or who struggle with longer separations.',
 	},
 	{
 		name: 'Week-On Week-Off Custody Schedule',
-		href: '/week-on-week-off-custody-schedule',
+		href: '/week-on-week-off-custody-schedule/',
 		bestFor: 'Older children and teens who can handle full weeks in each home.',
 		pros: 'Few exchanges, simple calendar, and easier planning for homework, sports, and transportation.',
 		cons: 'Full weeks away from one parent can be too long for younger children or high-conflict transitions.',
@@ -51,13 +51,13 @@ const sharedSchedules = [
 ];
 
 const relatedLinks = [
-	{ title: '2-2-3 Custody Schedule', href: '/2-2-3-custody-schedule', description: 'A frequent-contact 50/50 schedule with alternating weekends.' },
-	{ title: '2-2-5-5 Custody Schedule', href: '/2-2-5-5-custody-schedule', description: 'A 50/50 schedule with stable weekdays and alternating longer blocks.' },
-	{ title: '5-2-2-5 Custody Schedule', href: '/5-2-2-5-custody-schedule', description: 'A two-week 50/50 schedule with predictable five-day blocks.' },
-	{ title: '50/50 Custody Schedule', href: '/50-50-custody-schedule', description: 'Compare common equal parenting time schedule options.' },
-	{ title: 'Custody Calendar Template', href: '/custody-calendar-template', description: 'Create a printable calendar after choosing a custody schedule.' },
-	{ title: 'Custody Percentage Calculator', href: '/custody-percentage-calculator', description: 'Estimate parenting time percentages from overnight totals.' },
-	{ title: 'Parenting Plan Template', href: '/parenting-plan-template', description: 'Document the schedule, holidays, exchanges, and decision-making rules.' },
+	{ title: '2-2-3 Custody Schedule', href: '/2-2-3-custody-schedule/', description: 'A frequent-contact 50/50 schedule with alternating weekends.' },
+	{ title: '2-2-5-5 Custody Schedule', href: '/2-2-5-5-custody-schedule/', description: 'A 50/50 schedule with stable weekdays and alternating longer blocks.' },
+	{ title: '5-2-2-5 Custody Schedule', href: '/5-2-2-5-custody-schedule/', description: 'A two-week 50/50 schedule with predictable five-day blocks.' },
+	{ title: '50/50 Custody Schedule', href: '/50-50-custody-schedule/', description: 'Compare common equal parenting time schedule options.' },
+	{ title: 'Custody Calendar Template', href: '/custody-calendar-template/', description: 'Create a printable calendar after choosing a custody schedule.' },
+	{ title: 'Custody Percentage Calculator', href: '/custody-percentage-calculator/', description: 'Estimate parenting time percentages from overnight totals.' },
+	{ title: 'Parenting Plan Template', href: '/parenting-plan-template/', description: 'Document the schedule, holidays, exchanges, and decision-making rules.' },
 ];
 
 const sampleCalendars = [
@@ -284,7 +284,7 @@ const scheduleCards = sharedSchedules.map((schedule) => ({
 }));
 const breadcrumbs = [
 	{ name: 'Home', url: getCanonicalUrl('/') },
-	{ name: 'Guides', url: getCanonicalUrl('/blog') },
+	{ name: 'Guides', url: getCanonicalUrl('/blog/') },
 	{ name: title, url: canonicalUrl },
 ];
 const schema = [
@@ -309,7 +309,7 @@ const schema = [
 					{pageData.intro.map((paragraph) => <p>{paragraph}</p>)}
 				</div>
 				<div class="mt-8 flex flex-col gap-3 sm:flex-row">
-					<a href="/custody-schedule-generator" class="btn-primary inline-flex h-12 w-full items-center justify-center rounded-full px-7 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_30px_rgba(94,106,210,0.14)] active:translate-y-0 sm:w-auto">
+					<a href="/custody-schedule-generator/" class="btn-primary inline-flex h-12 w-full items-center justify-center rounded-full px-7 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_30px_rgba(94,106,210,0.14)] active:translate-y-0 sm:w-auto">
 						Open Custody Schedule Generator
 					</a>
 					<a href="#recommended-schedules" class="btn-secondary inline-flex h-12 w-full items-center justify-center rounded-full px-7 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-px active:translate-y-0 sm:w-auto">
@@ -480,7 +480,7 @@ const schema = [
 				<p class="mx-auto mt-4 max-w-2xl text-base leading-7 text-secondary">
 					Compare schedules and generate printable custody calendars in minutes.
 				</p>
-				<a href="/custody-schedule-generator" class="btn-primary mt-6 inline-flex h-12 items-center justify-center rounded-full px-7 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_30px_rgba(94,106,210,0.14)] active:translate-y-0">
+				<a href="/custody-schedule-generator/" class="btn-primary mt-6 inline-flex h-12 items-center justify-center rounded-full px-7 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_30px_rgba(94,106,210,0.14)] active:translate-y-0">
 					Open Custody Schedule Generator
 				</a>
 			</div>

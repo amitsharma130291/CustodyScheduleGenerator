@@ -16,7 +16,7 @@ import { calculateCustodyPercentage, formatCustodyPercentage } from '../lib/calc
 const title = 'Custody Percentage Calculator | Calculate Parenting Time';
 const description =
 	'Calculate custody percentages and parenting time based on overnights, visitation schedules, and shared custody arrangements.';
-const canonical = '/custody-percentage-calculator';
+const canonical = '/custody-percentage-calculator/';
 const canonicalUrl = getCanonicalUrl(canonical);
 const commonExamples = [
 	{ split: '50/50', parentAOvernights: 182, parentBOvernights: 183 },
@@ -54,7 +54,7 @@ const faq = [
 ];
 const breadcrumbs = [
 	{ name: 'Home', url: getCanonicalUrl('/') },
-	{ name: 'Calculators', url: getCanonicalUrl('/calculators') },
+	{ name: 'Calculators', url: getCanonicalUrl('/calculators/') },
 	{ name: 'Custody Percentage Calculator', url: canonicalUrl },
 ];
 const schema = [
@@ -82,7 +82,7 @@ const schema = [
 					<a href="#calculator" class="btn-primary inline-flex h-13 w-full items-center justify-center rounded-full px-8 text-base font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_30px_rgba(94,106,210,0.14)] active:translate-y-0 sm:w-auto">
 						Calculate Percentage
 					</a>
-					<a href="/50-50-custody-schedule" class="btn-secondary inline-flex h-13 w-full items-center justify-center rounded-full px-8 text-base font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_24px_rgba(0,0,0,0.12)] active:translate-y-0 sm:w-auto">
+					<a href="/50-50-custody-schedule/" class="btn-secondary inline-flex h-13 w-full items-center justify-center rounded-full px-8 text-base font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_24px_rgba(0,0,0,0.12)] active:translate-y-0 sm:w-auto">
 						Compare 50/50 Schedules
 					</a>
 				</div>
@@ -160,27 +160,27 @@ const schema = [
 				<section id="related" class="grid gap-5">
 					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Related custody tools</h2>
 					<div class="grid gap-4 md:grid-cols-3">
-						<a href="/50-50-custody-schedule" class="soft-card rounded-[1.5rem] p-5">
+						<a href="/50-50-custody-schedule/" class="soft-card rounded-[1.5rem] p-5">
 							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">50/50 Custody Schedule</h3>
 							<p class="mt-2 text-sm leading-6 text-secondary">Compare common shared parenting schedules.</p>
 						</a>
-						<a href="/2-2-3-custody-schedule" class="soft-card rounded-[1.5rem] p-5">
+						<a href="/2-2-3-custody-schedule/" class="soft-card rounded-[1.5rem] p-5">
 							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">2-2-3 Custody Schedule</h3>
 							<p class="mt-2 text-sm leading-6 text-secondary">Preview a frequent-contact 50/50 schedule.</p>
 						</a>
-						<a href="/custody-calendar-template" class="soft-card rounded-[1.5rem] p-5">
+						<a href="/custody-calendar-template/" class="soft-card rounded-[1.5rem] p-5">
 							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">Custody Calendar Template</h3>
 							<p class="mt-2 text-sm leading-6 text-secondary">Start from a printable calendar format.</p>
 						</a>
-						<a href="/60-40-custody-schedule" class="soft-card rounded-[1.5rem] p-5">
+						<a href="/60-40-custody-schedule/" class="soft-card rounded-[1.5rem] p-5">
 							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">60/40 Custody Schedule</h3>
 							<p class="mt-2 text-sm leading-6 text-secondary">Compare a common majority-time parenting schedule.</p>
 						</a>
-						<a href="/70-30-custody-schedule" class="soft-card rounded-[1.5rem] p-5">
+						<a href="/70-30-custody-schedule/" class="soft-card rounded-[1.5rem] p-5">
 							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">70/30 Custody Schedule</h3>
 							<p class="mt-2 text-sm leading-6 text-secondary">Estimate parenting time for a larger majority schedule.</p>
 						</a>
-						<a href="/parenting-plan-template" class="soft-card rounded-[1.5rem] p-5">
+						<a href="/parenting-plan-template/" class="soft-card rounded-[1.5rem] p-5">
 							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">Parenting Plan Template</h3>
 							<p class="mt-2 text-sm leading-6 text-secondary">Document schedules, exchanges, holidays, and decision-making rules.</p>
 						</a>

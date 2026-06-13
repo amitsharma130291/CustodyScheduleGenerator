@@ -61,13 +61,13 @@ Use this structure for tool pages:
 Every schedule page should link to:
 
 - `/`
-- `/2-2-3-custody-schedule`
-- `/2-2-5-5-custody-schedule`
-- `/5-2-2-5-custody-schedule`
-- `/3-4-4-3-custody-schedule`
-- `/50-50-custody-schedule`
-- `/custody-schedule-template`
-- `/custody-percentage-calculator`
+- `/2-2-3-custody-schedule/`
+- `/2-2-5-5-custody-schedule/`
+- `/5-2-2-5-custody-schedule/`
+- `/3-4-4-3-custody-schedule/`
+- `/50-50-custody-schedule/`
+- `/custody-schedule-template/`
+- `/custody-percentage-calculator/`
 
 ## Legal Disclaimer
 

@@ -29,7 +29,7 @@ interface Props {
 const { schedule } = Astro.props;
 const canonical = `/${schedule.slug}`;
 const canonicalUrl = getCanonicalUrl(canonical);
-const robots = Astro.url.pathname.startsWith('/schedules') ? 'noindex, follow' : 'index, follow';
+const robots = Astro.url.pathname.startsWith('/schedules/') ? 'noindex, follow' : 'index, follow';
 const startDate = getDefaultStartDate();
 const generatedSchedule = generateSchedule({
 	scheduleId: schedule.id,
@@ -198,7 +198,7 @@ const comparisonLabels = {
 };
 const breadcrumbs = [
 	{ name: 'Home', url: getCanonicalUrl('/') },
-	{ name: 'Schedules', url: getCanonicalUrl('/custody-schedule-generator') },
+	{ name: 'Schedules', url: getCanonicalUrl('/custody-schedule-generator/') },
 	{ name: schedule.title, url: canonicalUrl },
 ];
 const schema = [
@@ -624,7 +624,7 @@ const schema = [
 						<div>
 							<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">{schedule.decisionGuide.betterThanFifty.title}</h2>
 							<p class="mt-3 text-base leading-8 text-secondary">
-								Compare 60/40 with a <a href="/50-50-custody-schedule" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 custody schedule</a> by asking which calendar solves the real week better.
+								Compare 60/40 with a <a href="/50-50-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 custody schedule</a> by asking which calendar solves the real week better.
 							</p>
 						</div>
 						<div class="grid gap-4 md:grid-cols-2">
@@ -639,7 +639,7 @@ const schema = [
 								<ul class="mt-4 grid gap-3 text-sm leading-6 text-secondary">
 									{schedule.decisionGuide.betterThanFifty.fiftyFifty.map((item) => <li>• {item}</li>)}
 								</ul>
-								<CtaButton href="/50-50-custody-schedule" variant="secondary" size="small" class="mt-5">{schedule.decisionGuide.betterThanFifty.ctaText}</CtaButton>
+								<CtaButton href="/50-50-custody-schedule/" variant="secondary" size="small" class="mt-5">{schedule.decisionGuide.betterThanFifty.ctaText}</CtaButton>
 							</article>
 						</div>
 					</section>
@@ -958,7 +958,7 @@ const schema = [
 							</table>
 						</div>
 						<p class="text-sm leading-6 text-secondary">
-							Plan these separately with a <a href="/holiday-custody-schedule" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">holiday custody schedule</a> or <a href="/holiday-visitation-schedule" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">holiday visitation schedule</a>.
+							Plan these separately with a <a href="/holiday-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">holiday custody schedule</a> or <a href="/holiday-visitation-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">holiday visitation schedule</a>.
 						</p>
 					</section>
 				)}
@@ -1049,7 +1049,7 @@ const schema = [
 								</thead>
 								<tbody class="divide-y divide-line-subtle text-secondary">
 									{schedule.comparison.rows.map((row) => (
-										<tr class:list={[row.href === '/60-40-custody-schedule' && 'bg-accent/5']}>
+										<tr class:list={[row.href === '/60-40-custody-schedule/' && 'bg-accent/5']}>
 											<td class="px-5 py-4 font-semibold text-primary">
 												<a href={row.href} class="hover:text-accent">{row.schedule}</a>
 												{row.badge && <span class="mt-2 block w-fit rounded-full bg-accent/10 px-3 py-1 text-[11px] font-semibold text-accent">{row.badge}</span>}
@@ -1213,9 +1213,9 @@ const schema = [
 								))}
 							</div>
 							<div class="cta-group mt-5">
-								<CtaButton href="/custody-schedule-generator" variant="primary" size="small">Test this schedule on a calendar</CtaButton>
-								<CtaButton href="/custody-percentage-calculator" variant="secondary" size="small">Calculate parenting time</CtaButton>
-								<CtaButton href="/parenting-time-calculator" variant="secondary" size="small">Compare parenting time</CtaButton>
+								<CtaButton href="/custody-schedule-generator/" variant="primary" size="small">Test this schedule on a calendar</CtaButton>
+								<CtaButton href="/custody-percentage-calculator/" variant="secondary" size="small">Calculate parenting time</CtaButton>
+								<CtaButton href="/parenting-time-calculator/" variant="secondary" size="small">Compare parenting time</CtaButton>
 							</div>
 						</div>
 					</section>
@@ -1252,9 +1252,9 @@ const schema = [
 							))}
 						</div>
 						<div class="flex flex-wrap gap-3 text-sm font-semibold text-accent">
-							<a href="/holiday-custody-schedule" class="underline decoration-line underline-offset-4 hover:text-primary">Plan holidays</a>
-							<a href="/custody-calendar-template" class="underline decoration-line underline-offset-4 hover:text-primary">Use a calendar template</a>
-							<a href="/parenting-plan-template" class="underline decoration-line underline-offset-4 hover:text-primary">Write the plan down</a>
+							<a href="/holiday-custody-schedule/" class="underline decoration-line underline-offset-4 hover:text-primary">Plan holidays</a>
+							<a href="/custody-calendar-template/" class="underline decoration-line underline-offset-4 hover:text-primary">Use a calendar template</a>
+							<a href="/parenting-plan-template/" class="underline decoration-line underline-offset-4 hover:text-primary">Write the plan down</a>
 						</div>
 					</section>
 				)}
@@ -1290,7 +1290,7 @@ const schema = [
 							<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary">Compare the schedule with support.</h3>
 							<p class="mt-2 text-sm leading-6 text-secondary">Parenting time may influence discussions, but the calculator helps keep the support estimate focused on Texas net resources and guideline percentages.</p>
 						</div>
-						<CtaButton href="/texas-child-support-calculator" variant="primary" size="small">{schedule.decisionGuide?.childSupport?.ctaText ?? 'Estimate Texas Child Support'}</CtaButton>
+						<CtaButton href="/texas-child-support-calculator/" variant="primary" size="small">{schedule.decisionGuide?.childSupport?.ctaText ?? 'Estimate Texas Child Support'}</CtaButton>
 					</div>
 				</section>
 
@@ -1328,7 +1328,7 @@ const schema = [
 									<div class="rounded-2xl bg-surface/70 p-3 text-sm font-semibold text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">{point}</div>
 								))}
 							</div>
-							<CtaButton href="/parenting-plan-template" variant="secondary" size="small" class="mt-5">{schedule.decisionGuide.shiftLater.ctaText}</CtaButton>
+							<CtaButton href="/parenting-plan-template/" variant="secondary" size="small" class="mt-5">{schedule.decisionGuide.shiftLater.ctaText}</CtaButton>
 						</div>
 					</section>
 				)}

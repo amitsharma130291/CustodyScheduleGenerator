@@ -16,7 +16,7 @@ import { calculateCustodyPercentage, formatCustodyPercentage } from '../lib/calc
 const title = 'Visitation Calculator | Estimate Parenting Time & Overnights';
 const description =
 	'Calculate visitation time, overnight counts, and parenting time percentages for custody and visitation schedules.';
-const canonical = '/visitation-calculator';
+const canonical = '/visitation-calculator/';
 const canonicalUrl = getCanonicalUrl(canonical);
 const commonExamples = [
 	{ split: '50/50', parentAOvernights: 182, parentBOvernights: 183 },
@@ -64,7 +64,7 @@ const faq = [
 ];
 const breadcrumbs = [
 	{ name: 'Home', url: getCanonicalUrl('/') },
-	{ name: 'Calculators', url: getCanonicalUrl('/calculators') },
+	{ name: 'Calculators', url: getCanonicalUrl('/calculators/') },
 	{ name: 'Visitation Calculator', url: canonicalUrl },
 ];
 const schema = [
@@ -92,7 +92,7 @@ const schema = [
 					<a href="#calculator" class="btn-primary inline-flex h-13 w-full items-center justify-center whitespace-nowrap rounded-full px-8 text-base font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_30px_rgba(94,106,210,0.14)] active:translate-y-0 sm:w-auto">
 						Calculate Visitation
 					</a>
-					<a href="/custody-percentage-calculator" class="btn-secondary inline-flex h-13 w-full items-center justify-center whitespace-nowrap rounded-full px-8 text-base font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_24px_rgba(0,0,0,0.12)] active:translate-y-0 sm:w-auto">
+					<a href="/custody-percentage-calculator/" class="btn-secondary inline-flex h-13 w-full items-center justify-center whitespace-nowrap rounded-full px-8 text-base font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_24px_rgba(0,0,0,0.12)] active:translate-y-0 sm:w-auto">
 						Compare Custody Percentage
 					</a>
 				</div>
@@ -181,27 +181,27 @@ const schema = [
 				<section id="related" class="grid gap-5">
 					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Related tools</h2>
 					<div class="grid gap-4 md:grid-cols-3">
-						<a href="/custody-percentage-calculator" class="soft-card rounded-[1.5rem] p-5">
+						<a href="/custody-percentage-calculator/" class="soft-card rounded-[1.5rem] p-5">
 							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">Custody Percentage Calculator</h3>
 							<p class="mt-2 text-sm leading-6 text-secondary">Calculate custody percentages from overnight counts.</p>
 						</a>
-						<a href="/50-50-custody-schedule" class="soft-card rounded-[1.5rem] p-5">
+						<a href="/50-50-custody-schedule/" class="soft-card rounded-[1.5rem] p-5">
 							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">50/50 Custody Schedule</h3>
 							<p class="mt-2 text-sm leading-6 text-secondary">Compare common equal parenting schedules.</p>
 						</a>
-						<a href="/2-2-3-custody-schedule" class="soft-card rounded-[1.5rem] p-5">
+						<a href="/2-2-3-custody-schedule/" class="soft-card rounded-[1.5rem] p-5">
 							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">2-2-3 Custody Schedule</h3>
 							<p class="mt-2 text-sm leading-6 text-secondary">Preview a frequent-contact 50/50 schedule.</p>
 						</a>
-						<a href="/2-2-5-5-custody-schedule" class="soft-card rounded-[1.5rem] p-5">
+						<a href="/2-2-5-5-custody-schedule/" class="soft-card rounded-[1.5rem] p-5">
 							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">2-2-5-5 Custody Schedule</h3>
 							<p class="mt-2 text-sm leading-6 text-secondary">See a consistent weekday rotation.</p>
 						</a>
-						<a href="/5-2-2-5-custody-schedule" class="soft-card rounded-[1.5rem] p-5">
+						<a href="/5-2-2-5-custody-schedule/" class="soft-card rounded-[1.5rem] p-5">
 							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">5-2-2-5 Custody Schedule</h3>
 							<p class="mt-2 text-sm leading-6 text-secondary">Compare another common 50/50 schedule pattern.</p>
 						</a>
-						<a href="/custody-calendar-template" class="soft-card rounded-[1.5rem] p-5">
+						<a href="/custody-calendar-template/" class="soft-card rounded-[1.5rem] p-5">
 							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">Custody Calendar Template</h3>
 							<p class="mt-2 text-sm leading-6 text-secondary">Start from a printable calendar format.</p>
 						</a>

@@ -26,12 +26,12 @@ CustodyBuilder should continue targeting US parents, caregivers, mediators, and 
 
 ## Recommended Future Pages
 
-- `/california-custody-schedule`
-- `/texas-custody-schedule`
-- `/florida-custody-schedule`
-- `/new-york-custody-schedule`
-- `/california-parenting-plan-template`
-- `/texas-visitation-schedule`
+- `/california-custody-schedule/`
+- `/texas-custody-schedule/`
+- `/florida-custody-schedule/`
+- `/new-york-custody-schedule/`
+- `/california-parenting-plan-template/`
+- `/texas-visitation-schedule/`
 
 Each state page should include:
 
@@ -60,12 +60,12 @@ Each state page should include:
 
 ## Internal Linking Opportunities
 
-- Link every state page back to `/`, `/parenting-plan-template`, `/custody-calendar-template`, and `/custody-percentage-calculator`.
+- Link every state page back to `/`, `/parenting-plan-template/`, `/custody-calendar-template/`, and `/custody-percentage-calculator/`.
 - Link California, Florida, and New York pages to 50/50 schedule guides and parenting plan content.
-- Link Texas visitation pages to `/every-other-weekend-custody-schedule`, `/holiday-visitation-schedule`, and `/visitation-calculator`.
+- Link Texas visitation pages to `/every-other-weekend-custody-schedule/`, `/holiday-visitation-schedule/`, and `/visitation-calculator/`.
 - Add state-specific CTAs in future blog posts that point back to the custody schedule generator.
 - Add a future "Custody Schedules by State" hub once at least four state pages are live.
-- Link holiday-focused state content to `/holiday-custody-schedule` and `/holiday-visitation-schedule`.
+- Link holiday-focused state content to `/holiday-custody-schedule/` and `/holiday-visitation-schedule/`.
 
 ## Content Quality Guidelines
 

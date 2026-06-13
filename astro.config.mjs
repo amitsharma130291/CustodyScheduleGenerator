@@ -2,32 +2,14 @@ import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
-function removeTrailingSlash(url) {
-  if (!url) return url;
-
-  try {
-    const parsed = new URL(url);
-
-    if (parsed.pathname !== '/') {
-      parsed.pathname = parsed.pathname.replace(/\/+$/, '');
-    }
-
-    return parsed.toString();
-  } catch {
-    if (url === '/') return '/';
-    return url.replace(/\/+$/, '');
-  }
-}
-
 export default defineConfig({
   site: 'https://custodybuilder.com',
-  trailingSlash: 'never',
+  trailingSlash: 'always',
   integrations: [
     sitemap({
       filter: (page) => {
         const url = new URL(page);
         const pathname = url.pathname.replace(/\/$/, '') || '/';
-        if (pathname === '/') return false;
 
         const excludedPaths = new Set([
           '/404',
@@ -40,9 +22,13 @@ export default defineConfig({
         return !excludedPaths.has(pathname) && !pathname.startsWith('/schedules/');
       },
       serialize: (item) => {
-        item.url = removeTrailingSlash(item.url);
+        const url = new URL(item.url);
+        if (url.pathname !== '/' && !url.pathname.endsWith('/')) {
+          url.pathname = `${url.pathname}/`;
+        }
+        item.url = url.toString();
 
-        if (item.url === 'https://custodybuilder.com/custody-schedule-generator') {
+        if (item.url === 'https://custodybuilder.com/custody-schedule-generator/') {
           return {
             ...item,
             changefreq: 'weekly',
@@ -50,7 +36,7 @@ export default defineConfig({
           };
         }
 
-        if (item.url === 'https://custodybuilder.com/texas-child-support-calculator') {
+        if (item.url === 'https://custodybuilder.com/texas-child-support-calculator/') {
           return {
             ...item,
             changefreq: 'weekly',

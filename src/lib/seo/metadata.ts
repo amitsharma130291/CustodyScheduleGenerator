@@ -1,14 +1,19 @@
-import { buildCanonicalUrl, removeTrailingSlash } from '../../utils/url';
+const defaultSiteUrl = 'https://custodybuilder.com/';
 
-const defaultSiteUrl = 'https://custodybuilder.com';
-
-export { removeTrailingSlash };
+export function normalizeTrailingSlash(pathname: string) {
+	if (pathname === '/') return pathname;
+	const trimmedPathname = pathname.endsWith('/') ? pathname.slice(0, -1) : pathname;
+	const lastSegment = trimmedPathname.split('/').pop() ?? '';
+	if (lastSegment.includes('.')) return trimmedPathname;
+	return `${trimmedPathname}/`;
+}
 
 export function getCanonicalUrl(pathname: string, siteUrl = defaultSiteUrl) {
 	const url = new URL(pathname, siteUrl);
+	url.pathname = normalizeTrailingSlash(url.pathname);
 	url.search = '';
 	url.hash = '';
-	return buildCanonicalUrl(siteUrl, url.pathname);
+	return url.toString();
 }
 
 export function buildTitle(title: string) {

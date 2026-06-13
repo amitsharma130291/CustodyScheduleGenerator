@@ -8,7 +8,7 @@ import { buildWebPageSchema } from '../lib/seo/schema';
 
 const title = 'Page Not Found | CustodyBuilder';
 const description = 'The page you are looking for may have been moved, renamed, or no longer exists.';
-const canonical = '/404';
+const canonical = '/404/';
 const canonicalUrl = getCanonicalUrl(canonical);
 const schema = buildWebPageSchema({ name: title, description, url: canonicalUrl });
 ---
@@ -30,10 +30,10 @@ const schema = buildWebPageSchema({ name: title, description, url: canonicalUrl 
 					<a href="/" class="btn-primary inline-flex h-13 w-full items-center justify-center rounded-full px-8 text-base font-semibold sm:w-auto">
 						Go Home
 					</a>
-					<a href="/custody-schedule-generator" class="btn-secondary inline-flex h-13 w-full items-center justify-center rounded-full px-8 text-base font-semibold sm:w-auto">
+					<a href="/custody-schedule-generator/" class="btn-secondary inline-flex h-13 w-full items-center justify-center rounded-full px-8 text-base font-semibold sm:w-auto">
 						Open Schedule Generator
 					</a>
-					<a href="/blog" class="btn-secondary inline-flex h-13 w-full items-center justify-center rounded-full px-8 text-base font-semibold sm:w-auto">
+					<a href="/blog/" class="btn-secondary inline-flex h-13 w-full items-center justify-center rounded-full px-8 text-base font-semibold sm:w-auto">
 						View Custody Schedule Guides
 					</a>
 				</div>

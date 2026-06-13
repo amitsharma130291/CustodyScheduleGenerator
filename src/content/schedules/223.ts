@@ -7,7 +7,7 @@ const schedule: ScheduleContent = {
 	description: 'Create a printable 2-2-3 custody schedule with a clear 50/50 parenting calendar.',
 	metaTitle: '2-2-3 Custody Schedule Generator | 50/50 Parenting Calendar',
 	metaDescription: 'Create a printable 2-2-3 custody schedule with our free parenting calendar generator. See examples, pros and cons, FAQs, and compare 50/50 custody schedules.',
-	canonicalUrl: 'https://custodybuilder.com/2-2-3-custody-schedule',
+	canonicalUrl: 'https://custodybuilder.com/2-2-3-custody-schedule/',
 	lastUpdated: '2026-06-13',
 	lede: 'A 2-2-3 custody schedule is a repeating 50/50 parenting plan where children spend two days with one parent, two days with the other parent, then a three-day weekend block before the pattern reverses.',
 	trust: {
@@ -63,7 +63,7 @@ const schedule: ScheduleContent = {
 		ctas: [
 			{ text: 'Generate printable calendar', href: '#schedule-generator', variant: 'primary' },
 			{ text: 'Export PDF from the tool', href: '#schedule-generator', variant: 'secondary' },
-			{ text: 'Use custody calendar template', href: '/custody-calendar-template', variant: 'secondary' },
+			{ text: 'Use custody calendar template', href: '/custody-calendar-template/', variant: 'secondary' },
 		],
 		yearOptions: ['2025 calendar option', '2026 calendar option', 'Monthly PDF', 'Yearly PDF'],
 	},
@@ -74,7 +74,7 @@ const schedule: ScheduleContent = {
 			title: '2-2-3 custody schedule example',
 			paragraphs: [
 				'A common 2-2-3 custody schedule starts on Monday. Parent A has Monday and Tuesday, Parent B has Wednesday and Thursday, and Parent A has Friday, Saturday, and Sunday. The next week flips, which gives Parent B the following weekend.',
-				'This creates a balanced <a href="/50-50-custody-schedule" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 custody schedule</a> over the full two-week cycle. The exact exchange time can be school pickup, daycare pickup, after work, or another predictable time that reduces conflict.',
+				'This creates a balanced <a href="/50-50-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 custody schedule</a> over the full two-week cycle. The exact exchange time can be school pickup, daycare pickup, after work, or another predictable time that reduces conflict.',
 			],
 			items: [
 				{
@@ -108,7 +108,7 @@ const schedule: ScheduleContent = {
 			title: 'When this schedule may not work',
 			paragraphs: [
 				'The 2-2-3 schedule may not work well when parents live far apart, conflict is high at exchanges, or a child has activities that make midweek transitions difficult. In those situations, a longer-block schedule may be easier to follow.',
-				'Families who need fewer exchanges may want to compare a <a href="/2-2-5-5-custody-schedule" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-5-5 custody schedule</a>, a <a href="/3-4-4-3-custody-schedule" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">3-4-4-3 custody schedule</a>, or an <a href="/week-on-week-off-custody-schedule" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">alternating weeks custody schedule</a>.',
+				'Families who need fewer exchanges may want to compare a <a href="/2-2-5-5-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-5-5 custody schedule</a>, a <a href="/3-4-4-3-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">3-4-4-3 custody schedule</a>, or an <a href="/week-on-week-off-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">alternating weeks custody schedule</a>.',
 			],
 			items: [
 				{ title: 'Long drives', description: 'Frequent exchanges can become tiring and may interfere with school or bedtime.' },
@@ -123,7 +123,7 @@ const schedule: ScheduleContent = {
 			title: 'Holidays, school breaks, birthdays, and vacations',
 			paragraphs: [
 				'Holiday and school-break rules usually override the regular 2-2-3 visitation schedule. Parents should define Thanksgiving, winter break, spring break, summer vacation, birthdays, parent birthdays, and important religious or cultural holidays separately.',
-				'After a holiday override ends, many families return to the normal 2-2-3 rotation. Others resume with the parent who would have had the next regular block. Put that rule in writing in the <a href="/parenting-plan-template" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting plan template</a> so the calendar is predictable.',
+				'After a holiday override ends, many families return to the normal 2-2-3 rotation. Others resume with the parent who would have had the next regular block. Put that rule in writing in the <a href="/parenting-plan-template/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting plan template</a> so the calendar is predictable.',
 			],
 			items: [
 				{ title: 'Holiday priority', description: 'State whether holiday time overrides regular parenting time.' },
@@ -168,7 +168,7 @@ const schedule: ScheduleContent = {
 			title: 'Alternatives to 2-2-3',
 			paragraphs: [
 				'The best custody schedule depends on age, distance, school routines, work schedules, conflict level, and the child\'s ability to handle transitions. If 2-2-3 feels too busy, compare nearby options before finalizing a parenting plan schedule.',
-				'Good alternatives include the <a href="/2-2-5-5-custody-schedule" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-5-5 custody schedule</a>, <a href="/3-4-4-3-custody-schedule" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">3-4-4-3 custody schedule</a>, <a href="/week-on-week-off-custody-schedule" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">alternating weeks custody schedule</a>, and <a href="/every-other-weekend-custody-schedule" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">every other weekend schedule</a>.',
+				'Good alternatives include the <a href="/2-2-5-5-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-5-5 custody schedule</a>, <a href="/3-4-4-3-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">3-4-4-3 custody schedule</a>, <a href="/week-on-week-off-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">alternating weeks custody schedule</a>, and <a href="/every-other-weekend-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">every other weekend schedule</a>.',
 			],
 			items: [
 				{ title: '2-2-5-5', description: 'Better when each parent wants the same weekdays every week and fewer exchanges than 2-2-3.' },
@@ -226,7 +226,7 @@ const schedule: ScheduleContent = {
 		rows: [
 			{
 				schedule: '2-2-3',
-				href: '/2-2-3-custody-schedule',
+				href: '/2-2-3-custody-schedule/',
 				bestFor: 'Younger children and families wanting frequent contact with both parents.',
 				exchangeFrequency: '50/50 over two weeks; exchanges several times each week.',
 				notes: 'Frequent contact, alternating weekends, balanced overnights.',
@@ -235,7 +235,7 @@ const schedule: ScheduleContent = {
 			},
 			{
 				schedule: '2-2-5-5',
-				href: '/2-2-5-5-custody-schedule',
+				href: '/2-2-5-5-custody-schedule/',
 				bestFor: 'Families wanting stable weekdays and fewer exchanges than 2-2-3.',
 				exchangeFrequency: '50/50 over two weeks; same weekdays repeat.',
 				notes: 'Predictable school-week rhythm and longer blocks.',
@@ -243,7 +243,7 @@ const schedule: ScheduleContent = {
 			},
 			{
 				schedule: '3-4-4-3',
-				href: '/3-4-4-3-custody-schedule',
+				href: '/3-4-4-3-custody-schedule/',
 				bestFor: 'Families wanting 50/50 time with slightly longer blocks.',
 				exchangeFrequency: '50/50 over two weeks; three- and four-day blocks.',
 				notes: 'Fewer transitions than 2-2-3 while keeping regular contact.',
@@ -251,7 +251,7 @@ const schedule: ScheduleContent = {
 			},
 			{
 				schedule: 'Alternating weeks',
-				href: '/week-on-week-off-custody-schedule',
+				href: '/week-on-week-off-custody-schedule/',
 				bestFor: 'Older children and teens who can handle a full week in each home.',
 				exchangeFrequency: '50/50 over two weeks; one exchange per week.',
 				notes: 'Simple calendar and fewer exchanges.',
@@ -259,7 +259,7 @@ const schedule: ScheduleContent = {
 			},
 			{
 				schedule: 'Every other weekend',
-				href: '/every-other-weekend-custody-schedule',
+				href: '/every-other-weekend-custody-schedule/',
 				bestFor: 'Families where one parent anchors most school-week routines.',
 				exchangeFrequency: 'Often 80/20 to 85/15 by overnights, depending on details.',
 				notes: 'Simple and lower conflict when 50/50 is not practical.',
