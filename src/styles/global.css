@@ -1796,8 +1796,10 @@ button:disabled,
 	[data-generator-panel],
 	[data-export-actions],
 	.hero-tool-section > div:first-child,
-	main > section:not(:has([data-calendar-preview])):not(:has(.printable-timeline)),
+	main > section:not(:has([data-calendar-preview])):not(:has(.printable-timeline)):not(:has(.printable-summary)),
 	main > section:has([data-calendar-preview]) > :not(:has([data-calendar-preview])),
+	main > section:has(.printable-summary) > :not(:has(.printable-summary)),
+	main > section:has(.printable-summary) > :has(.printable-summary) > :not(.printable-summary),
 	main > section:has(.printable-timeline) > :not(:has(.printable-timeline)),
 	main > section:has(.printable-timeline) > :has(.printable-timeline) > :not(.printable-timeline),
 	.atmosphere::before,
@@ -1832,6 +1834,8 @@ button:disabled,
 
 	.soft-card,
 	.premium-card,
+	.printable-summary,
+	.printable-summary *,
 	.printable-timeline,
 	.printable-timeline * {
 		background: #ffffff !important;
@@ -1849,6 +1853,12 @@ button:disabled,
 
 	.printable-timeline {
 		display: block !important;
+		break-inside: avoid !important;
+		page-break-inside: avoid !important;
+	}
+
+	.printable-summary,
+	details {
 		break-inside: avoid !important;
 		page-break-inside: avoid !important;
 	}

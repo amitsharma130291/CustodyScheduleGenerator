@@ -485,10 +485,10 @@ const schema = [
 
 			<div class="grid min-w-0 max-w-[780px] gap-10">
 				{schedule.atAGlance && (
-					<section id="at-a-glance" class="grid gap-5 scroll-mt-24">
+					<section id="at-a-glance" class="printable-summary grid gap-5 scroll-mt-24">
 						<div>
 							<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">At a glance</p>
-							<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">2-2-3 custody schedule summary</h2>
+							<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">{schedule.atAGlanceTitle ?? '2-2-3 custody schedule summary'}</h2>
 						</div>
 						<div class="premium-card overflow-x-auto rounded-[1.5rem]">
 							<table class="w-full min-w-[560px] border-collapse text-left text-sm">

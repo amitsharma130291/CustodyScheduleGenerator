@@ -114,6 +114,7 @@ export interface ScheduleContent {
 		label: string;
 		value: string;
 	}>;
+	atAGlanceTitle?: string;
 	timeline?: {
 		title: string;
 		description: string;
