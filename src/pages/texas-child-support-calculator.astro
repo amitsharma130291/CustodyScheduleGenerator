@@ -16,7 +16,7 @@ import {
 const title = 'Texas Child Support Calculator | Estimate Monthly Support';
 const description =
 	'Estimate Texas child support using income, children, custody time, and guideline-based support factors.';
-const canonical = '/texas-child-support-calculator/';
+const canonical = '/texas-child-support-calculator';
 const canonicalUrl = getCanonicalUrl(canonical);
 const dateModified = '2026-06-08';
 const faq = [
@@ -25,7 +25,7 @@ const faq = [
 		answer:
 			'To calculate child support in Texas, start with gross monthly income, estimate Texas child support net resources, then apply the guideline percentage for the number of children before the court. This child support calculator Texas page provides a planning estimate, not an official court calculation.',
 		answerHtml:
-			'To calculate child support in Texas, start with gross monthly income, estimate Texas child support net resources, then apply the guideline percentage for the number of children before the court. This child support calculator Texas page provides a planning estimate, not an official court calculation. You can also compare parenting time with our <a href="/custody-schedule-generator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Texas custody schedule generator</a>.',
+			'To calculate child support in Texas, start with gross monthly income, estimate Texas child support net resources, then apply the guideline percentage for the number of children before the court. This child support calculator Texas page provides a planning estimate, not an official court calculation. You can also compare parenting time with our <a href="/custody-schedule-generator" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Texas custody schedule generator</a>.',
 	},
 	{
 		question: 'How much is child support in Texas?',
@@ -72,7 +72,7 @@ const faq = [
 		answer:
 			'No. 50/50 custody does not automatically eliminate child support in Texas. Courts may still consider income differences, child needs, medical support, possession schedules, expenses, and whether guideline support should apply in a shared custody child support Texas situation.',
 		answerHtml:
-			'No. 50/50 custody does not automatically eliminate child support in Texas. Courts may still consider income differences, child needs, medical support, possession schedules, expenses, and whether guideline support should apply in a shared custody child support Texas situation. Use the <a href="/custody-schedule-generator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Texas custody schedule generator</a> to compare parenting calendars.',
+			'No. 50/50 custody does not automatically eliminate child support in Texas. Courts may still consider income differences, child needs, medical support, possession schedules, expenses, and whether guideline support should apply in a shared custody child support Texas situation. Use the <a href="/custody-schedule-generator" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Texas custody schedule generator</a> to compare parenting calendars.',
 	},
 	{
 		question: 'When does child support end in Texas?',
@@ -109,7 +109,7 @@ const faq = [
 		answer:
 			'Yes, you can use this calculator as a planning tool in shared custody situations, but 50/50 or shared custody does not automatically eliminate child support in Texas. Courts may still consider net resources, child needs, medical support, expenses, and the possession schedule.',
 		answerHtml:
-			'Yes, you can use this calculator as a planning tool in shared custody situations, but 50/50 or shared custody does not automatically eliminate child support in Texas. Courts may still consider net resources, child needs, medical support, expenses, and the possession schedule. Use the <a href="/custody-schedule-generator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Texas custody schedule generator</a> to compare parenting time before discussing support.',
+			'Yes, you can use this calculator as a planning tool in shared custody situations, but 50/50 or shared custody does not automatically eliminate child support in Texas. Courts may still consider net resources, child needs, medical support, expenses, and the possession schedule. Use the <a href="/custody-schedule-generator" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Texas custody schedule generator</a> to compare parenting time before discussing support.',
 	},
 	{
 		question: 'Can a Texas judge order more or less than guideline support?',
@@ -124,7 +124,7 @@ const faq = [
 ];
 const breadcrumbs = [
 	{ name: 'Home', url: getCanonicalUrl('/') },
-	{ name: 'Calculators', url: getCanonicalUrl('/calculators/') },
+	{ name: 'Calculators', url: getCanonicalUrl('/calculators') },
 	{ name: 'Texas Child Support Calculator', url: canonicalUrl },
 ];
 const schema = [
@@ -185,7 +185,7 @@ const schema = [
 		},
 		mainEntityOfPage: {
 			'@type': 'WebPage',
-			'@id': 'https://custodybuilder.com/texas-child-support-calculator/',
+			'@id': 'https://custodybuilder.com/texas-child-support-calculator',
 		},
 		datePublished: '2026-06-08',
 		dateModified,
@@ -343,24 +343,24 @@ const deductionRows = [
 const planningToolCards = [
 	{
 		title: 'Custody Schedule Generator',
-		href: '/custody-schedule-generator/',
+		href: '/custody-schedule-generator',
 		copy: 'Use the Texas custody schedule generator to build a parenting calendar after estimating support so the money discussion is connected to actual exchange days and overnights.',
 	},
 	{
 		title: 'Parenting Time Calculator',
-		href: '/parenting-time-calculator/',
+		href: '/parenting-time-calculator',
 		copy: 'Compare parenting time totals and overnight percentages when schedules may affect negotiation strategy.',
 	},
 	{
 		title: 'Visitation Calendar',
-		href: '/visitation-calculator/',
+		href: '/visitation-calculator',
 		copy: 'Plan visitation-style schedules and see how alternating weekends or holiday time changes the calendar.',
 	},
 ];
 const calculatorCtas = [
-	{ label: 'Build Custody Schedule', href: '/custody-schedule-generator/', style: 'primary' },
-	{ label: 'Compare Custody Schedules', href: '/custody-schedule-generator/#compare', style: 'secondary' },
-	{ label: 'View Parenting Calendar', href: '/custody-calendar-template/', style: 'secondary' },
+	{ label: 'Build Custody Schedule', href: '/custody-schedule-generator', style: 'primary' },
+	{ label: 'Compare Custody Schedules', href: '/custody-schedule-generator#compare', style: 'secondary' },
+	{ label: 'View Parenting Calendar', href: '/custody-calendar-template', style: 'secondary' },
 ];
 const ctaClass =
 	'inline-flex h-11 min-w-max items-center justify-center whitespace-nowrap rounded-full px-5 text-sm font-semibold';
@@ -634,7 +634,7 @@ const ctaClass =
 						A common question is whether a Texas child support calculator with custody should change when parents share a 50/50 custody schedule. The short answer is that 50/50 custody child support Texas cases do not automatically result in no child support. Shared custody child support Texas decisions may still involve income differences, child needs, medical support, possession schedules, child care, travel, and expenses.
 					</p>
 					<p class="text-base leading-8 text-secondary">
-						Does custody affect child support in Texas? It can affect negotiations and the facts a court reviews, but the guideline calculation often still begins with monthly net resources, child count, and any applicable adjustments. Parents can use the <a href="/custody-schedule-generator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Texas custody schedule generator</a> to compare a 2-2-3, 2-2-5-5, 5-2-2-5, or week-on/week-off calendar, then use this calculator to estimate Texas guideline support from income.
+						Does custody affect child support in Texas? It can affect negotiations and the facts a court reviews, but the guideline calculation often still begins with monthly net resources, child count, and any applicable adjustments. Parents can use the <a href="/custody-schedule-generator" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Texas custody schedule generator</a> to compare a 2-2-3, 2-2-5-5, 5-2-2-5, or week-on/week-off calendar, then use this calculator to estimate Texas guideline support from income.
 					</p>
 					<div class="grid gap-4 md:grid-cols-3">
 						<article class="soft-card rounded-[1.5rem] p-5">
@@ -643,7 +643,7 @@ const ctaClass =
 						</article>
 						<article class="soft-card rounded-[1.5rem] p-5">
 							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">Texas Child Support Calculator With Shared Custody</h3>
-							<p class="mt-3 text-sm leading-6 text-secondary">A Texas child support calculator with shared custody is best used as a planning tool. This child support calculator Texas 50/50 custody estimate still starts with income, deductions, net resources, and child count. Shared custody child support Texas cases may require additional review because parenting time, expense sharing, and income differences can matter. Use the <a href="/custody-schedule-generator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Texas custody schedule generator</a> to compare the schedule before discussing support. A clear calendar can help parents identify overnights, exchanges, transportation needs, and expenses that may be relevant in negotiation or court review.</p>
+							<p class="mt-3 text-sm leading-6 text-secondary">A Texas child support calculator with shared custody is best used as a planning tool. This child support calculator Texas 50/50 custody estimate still starts with income, deductions, net resources, and child count. Shared custody child support Texas cases may require additional review because parenting time, expense sharing, and income differences can matter. Use the <a href="/custody-schedule-generator" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Texas custody schedule generator</a> to compare the schedule before discussing support. A clear calendar can help parents identify overnights, exchanges, transportation needs, and expenses that may be relevant in negotiation or court review.</p>
 						</article>
 						<article class="soft-card rounded-[1.5rem] p-5">
 							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">Does Parenting Time Affect Child Support in Texas?</h3>
@@ -782,7 +782,7 @@ const ctaClass =
 						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">CustodyBuilder planning tools</p>
 						<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">Build a Parenting Schedule After Estimating Support</h2>
 						<p class="mt-3 text-base leading-8 text-secondary">
-							Child support is only one part of co-parenting. Most parents also need a custody schedule, parenting calendar, visitation plan, and <a href="/parenting-plan-template/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting plan template</a> that shows real overnights, weekends, holidays, and exchange days. Once you have a support estimate, use these tools to make the parenting-time side of the plan easier to compare.
+							Child support is only one part of co-parenting. Most parents also need a custody schedule, parenting calendar, visitation plan, and <a href="/parenting-plan-template" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting plan template</a> that shows real overnights, weekends, holidays, and exchange days. Once you have a support estimate, use these tools to make the parenting-time side of the plan easier to compare.
 						</p>
 					</div>
 					<div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -796,7 +796,7 @@ const ctaClass =
 					</div>
 					<div class="soft-card flex flex-col gap-4 rounded-[1.5rem] p-5 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
 						<p class="text-sm leading-6 text-secondary">Ready to turn the estimate into a calendar-based plan?</p>
-						<a href="/custody-schedule-generator/" class={`btn-primary ${ctaClass} w-full sm:w-auto`}>Build Your Custody Schedule</a>
+						<a href="/custody-schedule-generator" class={`btn-primary ${ctaClass} w-full sm:w-auto`}>Build Your Custody Schedule</a>
 					</div>
 				</section>
 

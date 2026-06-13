@@ -37,6 +37,11 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 			Choose a schedule type, start date, and parent names to preview the calendar.
 		</p>
 	)}
+	{compact && (
+		<p class="mt-2 text-xs leading-5 text-secondary">
+			Start with today or choose a future date. The preview updates as you edit and can be printed or exported as a PDF.
+		</p>
+	)}
 
 	<form class={`${compact ? 'mt-3 gap-2.5' : isEightyTwentySchedule ? 'mt-4 gap-3' : 'mt-6 gap-4'} grid`} data-generator-form>
 		<label class="grid min-w-0 gap-1.5">
@@ -73,7 +78,8 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 
 		<label class="grid min-w-0 gap-1.5">
 			<span class="text-sm font-medium text-secondary">Start date</span>
-			<input name="startDate" type="date" value={startDate ?? ''} aria-label="Schedule start date" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" />
+			<input name="startDate" type="date" value={startDate ?? ''} aria-label="Schedule start date" aria-describedby="schedule-start-date-help schedule-form-status" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" />
+			<span id="schedule-start-date-help" class="text-xs leading-5 text-muted">Use the first day you want the parenting pattern to begin.</span>
 		</label>
 
 		<div class="hero-form-fields grid gap-2.5">
@@ -89,6 +95,7 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 		<button type="button" class="btn-primary flex h-12 w-full min-w-0 items-center justify-center whitespace-nowrap rounded-full px-5 text-center text-[15px] font-semibold leading-none shadow-[0_10px_24px_rgba(15,23,42,0.16)] transition-all duration-150 ease-out hover:-translate-y-px hover:shadow-[0_12px_30px_rgba(15,23,42,0.20)] active:translate-y-0 active:scale-[0.99] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-generate-calendar>
 			Generate Calendar
 		</button>
+		<p id="schedule-form-status" class="hidden rounded-2xl bg-warning/15 p-3 text-sm leading-6 text-primary" role="status" aria-live="polite" data-form-status></p>
 		{compact && (
 			<div class="grid gap-1.5 rounded-2xl bg-page/45 p-3 text-[11px] font-semibold leading-4 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]" aria-label="Generator reassurance">
 				<span><span class="text-parent-b" aria-hidden="true">✓</span> Live calendar preview</span>
@@ -113,8 +120,8 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 			<p class="font-semibold text-primary">Next steps</p>
 			<ul class="mt-2 grid gap-1.5 pl-4 [list-style:disc]">
 				<li>Export a monthly or yearly PDF using the buttons above.</li>
-				<li><a href="/custody-schedule-generator/#popular-schedules" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Compare alternatives</a> before finalizing.</li>
-				<li><a href="/custody-percentage-calculator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Calculate parenting percentage</a> from overnight totals.</li>
+				<li><a href="/custody-schedule-generator#popular-schedules" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Compare alternatives</a> before finalizing.</li>
+				<li><a href="/custody-percentage-calculator" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Calculate parenting percentage</a> from overnight totals.</li>
 				<li>Print or share the calendar for mediation or co-parenting discussion.</li>
 			</ul>
 		</div>
@@ -162,6 +169,7 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 	const printParentAName = document.querySelector('[data-print-parent-a-name]');
 	const printParentBName = document.querySelector('[data-print-parent-b-name]');
 	const nextStepsPanel = document.querySelector('[data-next-steps-panel]');
+	const formStatus = document.querySelector('[data-form-status]');
 	const scheduleCache = new Map();
 
 	const parentColors = {
@@ -190,6 +198,12 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 			block: 'center',
 			behavior: prefersReducedMotion() ? 'auto' : 'smooth',
 		});
+	}
+
+	function setFormStatus(message) {
+		if (!(formStatus instanceof HTMLElement)) return;
+		formStatus.textContent = message || '';
+		formStatus.classList.toggle('hidden', !message);
 	}
 
 	function applyQueryParamsToForm() {
@@ -455,7 +469,11 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 		updateRatioPatternField(definition.id, selectedPattern);
 		updateEightyTwentyExampleSection(definition.id, selectedPattern);
 		const startDate = parseISO(String(startDateValue));
-		if (!isValid(startDate)) return;
+		if (!isValid(startDate)) {
+			setFormStatus('Choose a valid start date to generate the custody calendar.');
+			return;
+		}
+		setFormStatus('');
 		const monthStart = startOfMonth(startDate);
 		const gridStart = startOfWeek(monthStart, { weekStartsOn: 1 });
 		const gridDays = Array.from({ length: 42 }, (_, index) => addDays(gridStart, index));
@@ -471,6 +489,7 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 				pattern: selectedPattern,
 			});
 		} catch {
+			setFormStatus('This schedule could not be generated. Check the schedule type and start date, then try again.');
 			return;
 		}
 

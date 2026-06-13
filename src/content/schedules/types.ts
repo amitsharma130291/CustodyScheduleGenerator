@@ -29,6 +29,7 @@ export interface ScheduleComparisonRow {
 	exchangeFrequency: string;
 	weekendPattern?: string;
 	notes: string;
+	cons?: string;
 	badge?: string;
 }
 
@@ -58,13 +59,58 @@ export interface ScheduleContent {
 	metaTitle: string;
 	metaDescription: string;
 	canonicalUrl?: string;
+	lastUpdated?: string;
 	lede: string;
+	trust?: {
+		reviewerLabel: string;
+		reviewerName: string;
+		reviewerCredential: string;
+		authorName: string;
+		authorTitle: string;
+		authorBio: string;
+		disclaimer: string;
+	};
+	hero?: {
+		definition: string;
+		bestFor: string;
+		proChips: string[];
+		conChips: string[];
+		ctas: Array<{
+			text: string;
+			href: string;
+			variant: 'primary' | 'secondary';
+		}>;
+	};
 	overviewTitle?: string;
 	overview: string[];
 	howItWorks?: {
 		title: string;
 		description: string[];
 	};
+	printableDownload?: {
+		title: string;
+		description: string;
+		options: Array<{
+			title: string;
+			description: string;
+		}>;
+		ctas: Array<{
+			text: string;
+			href: string;
+			variant: 'primary' | 'secondary';
+		}>;
+		yearOptions?: string[];
+	};
+	deepDiveSections?: Array<{
+		id: string;
+		title: string;
+		kicker?: string;
+		paragraphs: string[];
+		items?: Array<{
+			title: string;
+			description: string;
+		}>;
+	}>;
 	pros: string[];
 	cons: string[];
 	example: {
@@ -314,4 +360,11 @@ export interface ScheduleContent {
 	relatedTools: RelatedSchedule[];
 	relatedHeading?: string;
 	relatedLinks?: ScheduleInternalLink[];
+	article?: {
+		headline: string;
+		authorName: string;
+		reviewerName: string;
+		datePublished: string;
+		dateModified: string;
+	};
 }

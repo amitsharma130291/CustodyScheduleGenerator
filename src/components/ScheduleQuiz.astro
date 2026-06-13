@@ -260,8 +260,8 @@ const questions = quizType === 'fiftyFifty'
 					<p class="font-semibold text-primary">2-2-5-5 may be a good starting point.</p>
 					<p class="mt-2">Nearby homes, equal-time goals, predictable routines, and manageable transitions make 2-2-5-5 worth comparing first.</p>
 					<div class="cta-group mt-4">
-						<CtaButton href="/2-2-5-5-custody-schedule/" variant="secondary" size="small">View 2-2-5-5 Schedule</CtaButton>
-						<CtaButton href="/custody-schedule-generator/" variant="primary" size="small">Test this schedule on a calendar</CtaButton>
+						<CtaButton href="/2-2-5-5-custody-schedule" variant="secondary" size="small">View 2-2-5-5 Schedule</CtaButton>
+						<CtaButton href="/custody-schedule-generator" variant="primary" size="small">Test this schedule on a calendar</CtaButton>
 					</div>
 				</div>
 			</div>
@@ -280,8 +280,8 @@ const questions = quizType === 'fiftyFifty'
 				body: 'This tends to fit nearby homes, equal-time goals, predictable routines, and children who handle transitions reasonably well.',
 				avoid: 'Avoid starting here if five-day blocks feel too long or school items are hard to track between homes.',
 				actions: [
-					['View 2-2-5-5 Schedule', '/2-2-5-5-custody-schedule/', 'secondary'],
-					['Test this schedule on a calendar', '/custody-schedule-generator/', 'primary'],
+					['View 2-2-5-5 Schedule', '/2-2-5-5-custody-schedule', 'secondary'],
+					['Test this schedule on a calendar', '/custody-schedule-generator', 'primary'],
 				],
 			},
 			twoTwoThree: {
@@ -289,8 +289,8 @@ const questions = quizType === 'fiftyFifty'
 				body: 'This may fit younger children who benefit from frequent contact with both parents and families who can manage more frequent exchanges calmly.',
 				avoid: 'Avoid starting here if exchanges are high-conflict, homes are far apart, or the child struggles strongly with transitions.',
 				actions: [
-					['View 2-2-3 Schedule', '/2-2-3-custody-schedule/', 'secondary'],
-					['Test this schedule on a calendar', '/custody-schedule-generator/', 'primary'],
+					['View 2-2-3 Schedule', '/2-2-3-custody-schedule', 'secondary'],
+					['Test this schedule on a calendar', '/custody-schedule-generator', 'primary'],
 				],
 			},
 			fiveTwoTwoFive: {
@@ -298,8 +298,8 @@ const questions = quizType === 'fiftyFifty'
 				body: 'This can fit families who want equal time but need predictable weekday blocks and fewer confusing transitions.',
 				avoid: 'Avoid starting here if either home cannot manage full school-night routines during longer blocks.',
 				actions: [
-					['View 5-2-2-5 Schedule', '/5-2-2-5-custody-schedule/', 'secondary'],
-					['Calculate Parenting Time', '/custody-percentage-calculator/', 'primary'],
+					['View 5-2-2-5 Schedule', '/5-2-2-5-custody-schedule', 'secondary'],
+					['Calculate Parenting Time', '/custody-percentage-calculator', 'primary'],
 				],
 			},
 			sixtyForty: {
@@ -307,8 +307,8 @@ const questions = quizType === 'fiftyFifty'
 				body: 'This may fit when one parent anchors more school routines, homes are not very close, or equal time would create too much transportation or transition stress.',
 				avoid: 'Compare 50/50 first if both homes are close, both parents can handle school routines, and the child handles transitions well.',
 				actions: [
-					['View 60/40 Schedule', '/60-40-custody-schedule/', 'secondary'],
-					['Calculate Parenting Time', '/parenting-time-calculator/', 'primary'],
+					['View 60/40 Schedule', '/60-40-custody-schedule', 'secondary'],
+					['Calculate Parenting Time', '/parenting-time-calculator', 'primary'],
 				],
 			},
 			fiftyFiftyCompare: {
@@ -316,8 +316,8 @@ const questions = quizType === 'fiftyFifty'
 				body: 'If both homes are close, school routines are realistic from either home, and both parents want equal time, a 50/50 schedule may be practical.',
 				avoid: 'Avoid forcing equal time if commute times, school mornings, work schedules, or frequent exchanges repeatedly create problems.',
 				actions: [
-					['Compare 50/50 Schedules', '/50-50-custody-schedule/', 'secondary'],
-					['Test a Calendar', '/custody-schedule-generator/', 'primary'],
+					['Compare 50/50 Schedules', '/50-50-custody-schedule', 'secondary'],
+					['Test a Calendar', '/custody-schedule-generator', 'primary'],
 				],
 			},
 			seventyThirtyCompare: {
@@ -325,8 +325,8 @@ const questions = quizType === 'fiftyFifty'
 				body: 'This may fit when one parent needs to handle most school-week logistics or distance makes frequent overnights hard, while the other parent still has predictable time.',
 				avoid: 'Avoid moving to 70/30 only because it is simpler if a realistic 60/40 plan would support the child and both parent relationships.',
 				actions: [
-					['Compare 70/30 Schedule', '/70-30-custody-schedule/', 'secondary'],
-					['Calculate Parenting Time', '/custody-percentage-calculator/', 'primary'],
+					['Compare 70/30 Schedule', '/70-30-custody-schedule', 'secondary'],
+					['Calculate Parenting Time', '/custody-percentage-calculator', 'primary'],
 				],
 			},
 			everyOtherWeekend: {
@@ -334,8 +334,8 @@ const questions = quizType === 'fiftyFifty'
 				body: 'This may fit families with long distance, limited parent availability, or situations where fewer exchanges are better.',
 				avoid: 'Avoid using this as the default if both parents live close and can reliably support ordinary weekday routines.',
 				actions: [
-					['View Every Other Weekend Schedule', '/every-other-weekend-custody-schedule/', 'secondary'],
-					['Plan Holidays', '/holiday-custody-schedule/', 'primary'],
+					['View Every Other Weekend Schedule', '/every-other-weekend-custody-schedule', 'secondary'],
+					['Plan Holidays', '/holiday-custody-schedule', 'primary'],
 				],
 			},
 			flexible: {
@@ -343,8 +343,8 @@ const questions = quizType === 'fiftyFifty'
 				body: 'This may fit teenagers with driving, work, sports, or major social commitments, or families whose standard weekly patterns do not fit real life.',
 				avoid: 'Avoid leaving the plan vague; flexible schedules still need written rules for notice, exchanges, and make-up time.',
 				actions: [
-					['Test this schedule on a calendar', '/custody-schedule-generator/', 'primary'],
-					['Create Parenting Plan', '/parenting-plan-template/', 'secondary'],
+					['Test this schedule on a calendar', '/custody-schedule-generator', 'primary'],
+					['Create Parenting Plan', '/parenting-plan-template', 'secondary'],
 				],
 			},
 			weekOnWeekOff: {
@@ -352,8 +352,8 @@ const questions = quizType === 'fiftyFifty'
 				body: 'This may fit older children and teenagers who can handle full-week blocks and benefit from fewer exchanges around school, activities, work, or social plans.',
 				avoid: 'Avoid starting here if the child needs more frequent contact or a full week away from either parent feels too long.',
 				actions: [
-					['View Week-On Week-Off', '/week-on-week-off-custody-schedule/', 'secondary'],
-					['Test this schedule on a calendar', '/custody-schedule-generator/', 'primary'],
+					['View Week-On Week-Off', '/week-on-week-off-custody-schedule', 'secondary'],
+					['Test this schedule on a calendar', '/custody-schedule-generator', 'primary'],
 				],
 			},
 			customSchedule: {
@@ -361,8 +361,8 @@ const questions = quizType === 'fiftyFifty'
 				body: 'This may fit families with highly variable work schedules, long travel times, or commitments that standard 50/50 patterns do not handle well.',
 				avoid: 'Avoid making it informal only; custom schedules work best when the rules are still clear and written down.',
 				actions: [
-					['Test this schedule on a calendar', '/custody-schedule-generator/', 'primary'],
-					['Create Parenting Plan', '/parenting-plan-template/', 'secondary'],
+					['Test this schedule on a calendar', '/custody-schedule-generator', 'primary'],
+					['Create Parenting Plan', '/parenting-plan-template', 'secondary'],
 				],
 			},
 		};

@@ -1,5 +1,10 @@
 ---
-const buildDate = new Date();
+interface Props {
+	date?: string;
+}
+
+const { date } = Astro.props;
+const buildDate = date ? new Date(`${date}T00:00:00`) : new Date();
 const isoDate = buildDate.toISOString().slice(0, 10);
 const displayDate = buildDate.toLocaleDateString('en-US', {
 	month: 'long',

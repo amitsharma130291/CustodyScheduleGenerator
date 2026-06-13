@@ -7,7 +7,7 @@ const schedule: ScheduleContent = {
 	description: 'Create a 60/40 custody schedule and preview 4-3, extended weekend, and exact 60/40 parenting time calendars.',
 	metaTitle: '60/40 Custody Schedule | Examples & Overnight Calculator',
 	metaDescription: 'Learn how a 60/40 custody schedule works, see examples, and estimate overnight counts and parenting time percentages.',
-	canonicalUrl: 'https://custodybuilder.com/60-40-custody-schedule/',
+	canonicalUrl: 'https://custodybuilder.com/60-40-custody-schedule',
 	lede: 'A 60/40 custody schedule gives one parent about 60% of overnights and the other parent about 40%. Use this 60/40 parenting schedule tool to compare a 60/40 visitation schedule, preview a 60/40 custody calendar, and understand how a 60/40 child custody arrangement may look in practice.',
 	overviewTitle: 'What Is a 60/40 Custody Schedule?',
 	overview: [
@@ -57,7 +57,7 @@ const schedule: ScheduleContent = {
 		rows: [
 			{
 				schedule: '60/40 custody schedule',
-				href: '/60-40-custody-schedule/',
+				href: '/60-40-custody-schedule',
 				badge: 'Primary focus of this guide',
 				bestFor: 'Families needing one primary school-week anchor with substantial time for both parents',
 				exchangeFrequency: 'Depends on the chosen 60/40 pattern',
@@ -66,7 +66,7 @@ const schedule: ScheduleContent = {
 			},
 			{
 				schedule: '50/50 custody schedule',
-				href: '/50-50-custody-schedule/',
+				href: '/50-50-custody-schedule',
 				badge: 'Compare if equal time is realistic',
 				bestFor: 'Families who can support a near-even split of overnights',
 				exchangeFrequency: 'Varies by 50/50 pattern',
@@ -75,7 +75,7 @@ const schedule: ScheduleContent = {
 			},
 			{
 				schedule: 'Every other weekend custody schedule',
-				href: '/every-other-weekend-custody-schedule/',
+				href: '/every-other-weekend-custody-schedule',
 				badge: 'Less parenting time than 60/40',
 				bestFor: 'Families where one parent has most overnights',
 				exchangeFrequency: 'Usually every other weekend',
@@ -89,13 +89,13 @@ const schedule: ScheduleContent = {
 			title: 'Quick Answer',
 			description: 'A 60/40 custody schedule is often a practical middle ground when equal time is hard to manage but both parents still need meaningful, predictable time.',
 			items: [
-				{ label: 'Works well when', title: 'One parent handles more school routines', href: '/custody-schedule-generator/' },
-				{ label: 'Often helps when', title: 'Parents live farther apart', href: '/custody-calendar-template/' },
-				{ label: 'Often helps when', title: 'Equal time is difficult to manage', href: '/custody-schedule-generator/' },
-				{ label: 'Often helps when', title: 'A child benefits from one school-week home', href: '/parenting-time-calculator/' },
-				{ label: 'Compare first if equal time is realistic', title: '50/50 custody schedule', href: '/50-50-custody-schedule/' },
-				{ label: 'May not be ideal when', title: 'Parents live close and both want equal time', href: '/50-50-custody-schedule/' },
-				{ label: 'Compare if one home needs to be more primary', title: '70/30 custody schedule', href: '/70-30-custody-schedule/' },
+				{ label: 'Works well when', title: 'One parent handles more school routines', href: '/custody-schedule-generator' },
+				{ label: 'Often helps when', title: 'Parents live farther apart', href: '/custody-calendar-template' },
+				{ label: 'Often helps when', title: 'Equal time is difficult to manage', href: '/custody-schedule-generator' },
+				{ label: 'Often helps when', title: 'A child benefits from one school-week home', href: '/parenting-time-calculator' },
+				{ label: 'Compare first if equal time is realistic', title: '50/50 custody schedule', href: '/50-50-custody-schedule' },
+				{ label: 'May not be ideal when', title: 'Parents live close and both want equal time', href: '/50-50-custody-schedule' },
+				{ label: 'Compare if one home needs to be more primary', title: '70/30 custody schedule', href: '/70-30-custody-schedule' },
 			],
 		},
 		whenWorksBest: {
@@ -160,7 +160,7 @@ const schedule: ScheduleContent = {
 				{
 					age: 'Toddler',
 					recommended: 'Short blocks with one steady routine anchor',
-					guideHref: '/best-custody-schedule-for-toddler/',
+					guideHref: '/best-custody-schedule-for-toddler',
 					reason: 'Toddlers may need predictable bedtime, naps, and transitions. A 60/40 plan can work if the 40% parent has frequent, calm contact rather than long gaps.',
 				},
 				{
@@ -171,19 +171,19 @@ const schedule: ScheduleContent = {
 				{
 					age: '5-7',
 					recommended: 'School-week anchor with regular weekend time',
-					guideHref: '/best-custody-schedule-for-5-year-old/',
+					guideHref: '/best-custody-schedule-for-5-year-old',
 					reason: 'Early school years depend heavily on backpacks, lunch, reading logs, bedtime, and morning transportation.',
 				},
 				{
 					age: '8-12',
 					recommended: '4-3 or custom activity-aware 60/40',
-					guideHref: '/best-custody-schedule-for-7-year-old/',
+					guideHref: '/best-custody-schedule-for-7-year-old',
 					reason: 'School-age children may handle longer blocks, but homework, sports, friends, and school supplies need clear systems.',
 				},
 				{
 					age: 'Teenager',
 					recommended: 'Flexible 60/40 or compare 50/50',
-					guideHref: '/best-custody-schedule-for-teenager/',
+					guideHref: '/best-custody-schedule-for-teenager',
 					reason: 'Teenagers may need fewer exchanges around driving, jobs, sports, friends, and exams. Some teens may prefer a more equal calendar if logistics allow it.',
 				},
 			],
@@ -193,7 +193,7 @@ const schedule: ScheduleContent = {
 			rows: [
 				{
 					schedule: '50/50',
-					href: '/50-50-custody-schedule/',
+					href: '/50-50-custody-schedule',
 					badge: 'Equal-time option',
 					parentA: 'About 50%',
 					parentB: 'About 50%',
@@ -203,7 +203,7 @@ const schedule: ScheduleContent = {
 				},
 				{
 					schedule: '60/40',
-					href: '/60-40-custody-schedule/',
+					href: '/60-40-custody-schedule',
 					badge: 'Middle-ground option',
 					parentA: 'About 60%',
 					parentB: 'About 40%',
@@ -213,7 +213,7 @@ const schedule: ScheduleContent = {
 				},
 				{
 					schedule: '70/30',
-					href: '/70-30-custody-schedule/',
+					href: '/70-30-custody-schedule',
 					badge: 'More stability than 50/50',
 					parentA: 'About 70%',
 					parentB: 'About 30%',
@@ -223,7 +223,7 @@ const schedule: ScheduleContent = {
 				},
 				{
 					schedule: '80/20',
-					href: '/80-20-custody-schedule/',
+					href: '/80-20-custody-schedule',
 					badge: 'Most primary-home structure',
 					parentA: 'About 80%',
 					parentB: 'About 20%',
@@ -373,11 +373,11 @@ const schedule: ScheduleContent = {
 			],
 			primaryCta: {
 				text: 'Test this schedule on a calendar',
-				href: '/custody-schedule-generator/',
+				href: '/custody-schedule-generator',
 			},
 			secondaryCta: {
 				text: 'Calculate parenting time',
-				href: '/parenting-time-calculator/',
+				href: '/parenting-time-calculator',
 			},
 		},
 	},
@@ -431,32 +431,32 @@ const schedule: ScheduleContent = {
 		{
 			question: 'What is a 60/40 custody schedule?',
 			answer: 'A 60/40 custody schedule gives one parent about 60% of overnights and the other parent about 40%. It is often used when one parent anchors more school routines, transportation, or weekday structure while the other parent still has substantial scheduled time. Common versions include 4-3, extended weekend, and exact 10-day patterns. The practical question is not only whether the percentage looks fair. Parents should ask whether the child can get to school, complete homework, attend activities, sleep consistently, and stay connected to both homes. If both homes are close and both parents can handle school routines, a 50/50 custody schedule may be worth comparing. If distance or work schedules are more challenging, 70/30 may also be worth reviewing.',
-			answerHtml: 'A 60/40 custody schedule gives one parent about 60% of overnights and the other parent about 40%. It is often used when one parent anchors more school routines, transportation, or weekday structure while the other parent still has substantial scheduled time. Common versions include 4-3, extended weekend, and exact 10-day patterns. The practical question is not only whether the percentage looks fair. Parents should ask whether the child can get to school, complete homework, attend activities, sleep consistently, and stay connected to both homes. If both homes are close and both parents can handle school routines, a <a href="/50-50-custody-schedule/" class="text-accent hover:underline">50/50 custody schedule</a> may be worth comparing. If distance or work schedules are more challenging, <a href="/70-30-custody-schedule/" class="text-accent hover:underline">70/30</a> may also be worth reviewing.',
+			answerHtml: 'A 60/40 custody schedule gives one parent about 60% of overnights and the other parent about 40%. It is often used when one parent anchors more school routines, transportation, or weekday structure while the other parent still has substantial scheduled time. Common versions include 4-3, extended weekend, and exact 10-day patterns. The practical question is not only whether the percentage looks fair. Parents should ask whether the child can get to school, complete homework, attend activities, sleep consistently, and stay connected to both homes. If both homes are close and both parents can handle school routines, a <a href="/50-50-custody-schedule" class="text-accent hover:underline">50/50 custody schedule</a> may be worth comparing. If distance or work schedules are more challenging, <a href="/70-30-custody-schedule" class="text-accent hover:underline">70/30</a> may also be worth reviewing.',
 		},
 		{
 			question: 'How many overnights is 60/40 custody?',
 			answer: 'A true 60/40 split is about 219 overnights for one parent and 146 overnights for the other parent in a 365-day year. In practice, many schedules called 60/40 are approximate. A 4-3 weekly schedule is closer to 57/43 because one parent has four nights and the other has three each week. An exact 60/40 pattern may use a 10-day cycle where one parent has six nights and the other has four. Holidays, school breaks, summer schedules, and make-up time can also change the annual total. Use a custody percentage calculator or parenting time calculator to check the real overnight count instead of relying only on the schedule label.',
-			answerHtml: 'A true 60/40 split is about 219 overnights for one parent and 146 overnights for the other parent in a 365-day year. In practice, many schedules called 60/40 are approximate. A 4-3 weekly schedule is closer to 57/43 because one parent has four nights and the other has three each week. An exact 60/40 pattern may use a 10-day cycle where one parent has six nights and the other has four. Holidays, school breaks, summer schedules, and make-up time can also change the annual total. Use a <a href="/custody-percentage-calculator/" class="text-accent hover:underline">custody percentage calculator</a> or <a href="/parenting-time-calculator/" class="text-accent hover:underline">parenting time calculator</a> to check the real overnight count instead of relying only on the schedule label.',
+			answerHtml: 'A true 60/40 split is about 219 overnights for one parent and 146 overnights for the other parent in a 365-day year. In practice, many schedules called 60/40 are approximate. A 4-3 weekly schedule is closer to 57/43 because one parent has four nights and the other has three each week. An exact 60/40 pattern may use a 10-day cycle where one parent has six nights and the other has four. Holidays, school breaks, summer schedules, and make-up time can also change the annual total. Use a <a href="/custody-percentage-calculator" class="text-accent hover:underline">custody percentage calculator</a> or <a href="/parenting-time-calculator" class="text-accent hover:underline">parenting time calculator</a> to check the real overnight count instead of relying only on the schedule label.',
 		},
 		{
 			question: 'Is 60/40 better than 50/50?',
 			answer: '60/40 is not automatically better than 50/50. It may be better when equal time creates school problems, long drives, missed activities, unstable homework routines, or too many stressful exchanges. For example, if one parent lives closer to school and the other parent is 30 minutes away, 60/40 may protect school mornings while still giving both parents meaningful time. But if both parents live close, both can handle school routines, and the child does well with transitions, 50/50 may be worth comparing first. The tradeoff is balance versus consistency. The best choice is usually the schedule the family can follow reliably, not simply the one that looks most equal.',
-			answerHtml: '60/40 is not automatically better than <a href="/50-50-custody-schedule/" class="text-accent hover:underline">50/50</a>. It may be better when equal time creates school problems, long drives, missed activities, unstable homework routines, or too many stressful exchanges. For example, if one parent lives closer to school and the other parent is 30 minutes away, 60/40 may protect school mornings while still giving both parents meaningful time. But if both parents live close, both can handle school routines, and the child does well with transitions, 50/50 may be worth comparing first. The tradeoff is balance versus consistency. The best choice is usually the schedule the family can follow reliably, not simply the one that looks most equal.',
+			answerHtml: '60/40 is not automatically better than <a href="/50-50-custody-schedule" class="text-accent hover:underline">50/50</a>. It may be better when equal time creates school problems, long drives, missed activities, unstable homework routines, or too many stressful exchanges. For example, if one parent lives closer to school and the other parent is 30 minutes away, 60/40 may protect school mornings while still giving both parents meaningful time. But if both parents live close, both can handle school routines, and the child does well with transitions, 50/50 may be worth comparing first. The tradeoff is balance versus consistency. The best choice is usually the schedule the family can follow reliably, not simply the one that looks most equal.',
 		},
 		{
 			question: 'What does a 60/40 custody calendar look like?',
 			answer: 'A 60/40 custody calendar may look like a 4-3 weekly schedule, an extended-weekend plan, or a custom repeating pattern. In a 4-3 version, one parent may have Monday through Thursday and the other parent may have Friday through Sunday. In an extended-weekend version, one home anchors the school week while the other parent has a long weekend block. An exact 60/40 version may use a 10-day cycle. The right calendar depends on school, commute time, work schedules, and activities. Before choosing, look at one real school week and one real weekend. A printable custody calendar template can help parents see exchanges, holidays, and activity conflicts before the schedule becomes stressful.',
-			answerHtml: 'A 60/40 custody calendar may look like a 4-3 weekly schedule, an extended-weekend plan, or a custom repeating pattern. In a 4-3 version, one parent may have Monday through Thursday and the other parent may have Friday through Sunday. In an extended-weekend version, one home anchors the school week while the other parent has a long weekend block. An exact 60/40 version may use a 10-day cycle. The right calendar depends on school, commute time, work schedules, and activities. Before choosing, look at one real school week and one real weekend. A printable <a href="/custody-calendar-template/" class="text-accent hover:underline">custody calendar template</a> can help parents see exchanges, holidays, and activity conflicts before the schedule becomes stressful.',
+			answerHtml: 'A 60/40 custody calendar may look like a 4-3 weekly schedule, an extended-weekend plan, or a custom repeating pattern. In a 4-3 version, one parent may have Monday through Thursday and the other parent may have Friday through Sunday. In an extended-weekend version, one home anchors the school week while the other parent has a long weekend block. An exact 60/40 version may use a 10-day cycle. The right calendar depends on school, commute time, work schedules, and activities. Before choosing, look at one real school week and one real weekend. A printable <a href="/custody-calendar-template" class="text-accent hover:underline">custody calendar template</a> can help parents see exchanges, holidays, and activity conflicts before the schedule becomes stressful.',
 		},
 		{
 			question: 'Can a 60/40 schedule affect child support?',
 			answer: 'A 60/40 schedule can be relevant to child support discussions, but custody percentages do not automatically determine support. Child support often depends on income, overnights, local guidelines, health insurance, childcare costs, other supported children, and the specific rules in the state or court involved. A 60/40 schedule may show that both parents have meaningful parenting time, but it is not a legal calculation by itself. For example, two families with the same overnight split may have different support outcomes because their incomes and expenses are different. Use the calendar to understand parenting time, then use a state-specific calculator or local guidance for support questions.',
-			answerHtml: 'A 60/40 schedule can be relevant to child support discussions, but custody percentages do not automatically determine support. Child support often depends on income, overnights, local guidelines, health insurance, childcare costs, other supported children, and the specific rules in the state or court involved. A 60/40 schedule may show that both parents have meaningful parenting time, but it is not a legal calculation by itself. For example, two families with the same overnight split may have different support outcomes because their incomes and expenses are different. Use the calendar to understand parenting time, then use a state-specific calculator such as the <a href="/texas-child-support-calculator/" class="text-accent hover:underline">Texas child support calculator</a> or local guidance for support questions.',
+			answerHtml: 'A 60/40 schedule can be relevant to child support discussions, but custody percentages do not automatically determine support. Child support often depends on income, overnights, local guidelines, health insurance, childcare costs, other supported children, and the specific rules in the state or court involved. A 60/40 schedule may show that both parents have meaningful parenting time, but it is not a legal calculation by itself. For example, two families with the same overnight split may have different support outcomes because their incomes and expenses are different. Use the calendar to understand parenting time, then use a state-specific calculator such as the <a href="/texas-child-support-calculator" class="text-accent hover:underline">Texas child support calculator</a> or local guidance for support questions.',
 		},
 		{
 			question: 'What age is best for a 60/40 custody schedule?',
 			answer: 'There is no single best age for a 60/40 custody schedule. It can work for toddlers, school-age children, and teenagers when the pattern fits the child needs. For toddlers, parents should watch separation length, naps, bedtime, and transition stress. For 5- to 7-year-olds, school routines, backpacks, and consistent mornings matter. For older children, activities, homework, friends, and transportation become more important. Teenagers may need flexibility around driving, jobs, sports, and social plans. A 60/40 schedule often works best when one home needs to anchor school routines but the other parent can still maintain predictable, meaningful time. Compare age-specific guidance before choosing.',
-			answerHtml: 'There is no single best age for a 60/40 custody schedule. It can work for toddlers, school-age children, and teenagers when the pattern fits the child needs. For toddlers, parents should watch separation length, naps, bedtime, and transition stress. For 5- to 7-year-olds, school routines, backpacks, and consistent mornings matter. For older children, activities, homework, friends, and transportation become more important. Teenagers may need flexibility around driving, jobs, sports, and social plans. A 60/40 schedule often works best when one home needs to anchor school routines but the other parent can still maintain predictable, meaningful time. Compare guidance for <a href="/best-custody-schedule-for-toddler/" class="text-accent hover:underline">toddlers</a>, <a href="/best-custody-schedule-for-7-year-old/" class="text-accent hover:underline">school-age children</a>, and <a href="/best-custody-schedule-for-teenager/" class="text-accent hover:underline">teenagers</a> before choosing.',
+			answerHtml: 'There is no single best age for a 60/40 custody schedule. It can work for toddlers, school-age children, and teenagers when the pattern fits the child needs. For toddlers, parents should watch separation length, naps, bedtime, and transition stress. For 5- to 7-year-olds, school routines, backpacks, and consistent mornings matter. For older children, activities, homework, friends, and transportation become more important. Teenagers may need flexibility around driving, jobs, sports, and social plans. A 60/40 schedule often works best when one home needs to anchor school routines but the other parent can still maintain predictable, meaningful time. Compare guidance for <a href="/best-custody-schedule-for-toddler" class="text-accent hover:underline">toddlers</a>, <a href="/best-custody-schedule-for-7-year-old" class="text-accent hover:underline">school-age children</a>, and <a href="/best-custody-schedule-for-teenager" class="text-accent hover:underline">teenagers</a> before choosing.',
 		},
 		{
 			question: 'How often do children switch homes in a 60/40 arrangement?',
@@ -465,7 +465,7 @@ const schedule: ScheduleContent = {
 		{
 			question: 'Is 60/40 custody considered joint custody?',
 			answer: 'A 60/40 custody schedule can be part of a joint custody or shared parenting arrangement, but legal terms vary by location and by court order. The schedule describes parenting time, not necessarily legal decision-making. For example, parents may share major decisions about school and medical care even if one parent has about 60% of overnights. In another case, the parenting-time split and decision-making rules may be handled differently. The practical takeaway is to separate the calendar from legal labels. A 60/40 calendar can show substantial time for both parents, but parents should still write down decision-making, communication, transportation, holidays, and expense rules in a parenting plan.',
-			answerHtml: 'A 60/40 custody schedule can be part of a joint custody or shared parenting arrangement, but legal terms vary by location and by court order. The schedule describes parenting time, not necessarily legal decision-making. For example, parents may share major decisions about school and medical care even if one parent has about 60% of overnights. In another case, the parenting-time split and decision-making rules may be handled differently. The practical takeaway is to separate the calendar from legal labels. A 60/40 calendar can show substantial time for both parents, but parents should still write down decision-making, communication, transportation, holidays, and expense rules in a <a href="/parenting-plan-template/" class="text-accent hover:underline">parenting plan</a>.',
+			answerHtml: 'A 60/40 custody schedule can be part of a joint custody or shared parenting arrangement, but legal terms vary by location and by court order. The schedule describes parenting time, not necessarily legal decision-making. For example, parents may share major decisions about school and medical care even if one parent has about 60% of overnights. In another case, the parenting-time split and decision-making rules may be handled differently. The practical takeaway is to separate the calendar from legal labels. A 60/40 calendar can show substantial time for both parents, but parents should still write down decision-making, communication, transportation, holidays, and expense rules in a <a href="/parenting-plan-template" class="text-accent hover:underline">parenting plan</a>.',
 		},
 		{
 			question: 'What is the easiest 60/40 schedule to follow?',
@@ -474,27 +474,27 @@ const schedule: ScheduleContent = {
 		{
 			question: 'Can 60/40 custody work with alternating weekends?',
 			answer: 'Yes, 60/40 custody can work with alternating weekends, but the weekday structure matters. Some families use a school-week anchor where one parent handles more weekdays and weekends rotate or include longer blocks for the other parent. Others use a 4-3 rhythm that creates regular weekend time but may not alternate weekends evenly in the way parents expect. The benefit of alternating weekends is that both parents can have ordinary weekend time, not just weekday responsibilities. The drawback is that the schedule can become harder to calculate once holidays, school breaks, activities, and make-up time are added. Parents should test the annual calendar and use a custody percentage calculator to confirm overnights.',
-			answerHtml: 'Yes, 60/40 custody can work with alternating weekends, but the weekday structure matters. Some families use a school-week anchor where one parent handles more weekdays and weekends rotate or include longer blocks for the other parent. Others use a 4-3 rhythm that creates regular weekend time but may not alternate weekends evenly in the way parents expect. The benefit of alternating weekends is that both parents can have ordinary weekend time, not just weekday responsibilities. The drawback is that the schedule can become harder to calculate once holidays, school breaks, activities, and make-up time are added. Parents should test the annual calendar and use a <a href="/custody-percentage-calculator/" class="text-accent hover:underline">custody percentage calculator</a> to confirm overnights.',
+			answerHtml: 'Yes, 60/40 custody can work with alternating weekends, but the weekday structure matters. Some families use a school-week anchor where one parent handles more weekdays and weekends rotate or include longer blocks for the other parent. Others use a 4-3 rhythm that creates regular weekend time but may not alternate weekends evenly in the way parents expect. The benefit of alternating weekends is that both parents can have ordinary weekend time, not just weekday responsibilities. The drawback is that the schedule can become harder to calculate once holidays, school breaks, activities, and make-up time are added. Parents should test the annual calendar and use a <a href="/custody-percentage-calculator" class="text-accent hover:underline">custody percentage calculator</a> to confirm overnights.',
 		},
 		{
 			question: 'Is 60/40 better for school-age children?',
 			answer: '60/40 can be a strong fit for school-age children when it protects school routines. For example, if one parent lives close to school and reliably handles morning transportation, homework, lunch, and bedtime, a 60/40 school-week anchor may reduce stress. It can also help when parents live far enough apart that equal school-week exchanges would be tiring. But 60/40 is not automatically better for every school-age child. If both parents live close, both can support school routines, and the child handles transitions well, 50/50 may be practical. The decision should come from the child’s real week: school mornings, homework, activities, sleep, and transportation.',
-			answerHtml: '60/40 can be a strong fit for school-age children when it protects school routines. For example, if one parent lives close to school and reliably handles morning transportation, homework, lunch, and bedtime, a 60/40 school-week anchor may reduce stress. It can also help when parents live far enough apart that equal school-week exchanges would be tiring. But 60/40 is not automatically better for every school-age child. If both parents live close, both can support school routines, and the child handles transitions well, <a href="/50-50-custody-schedule/" class="text-accent hover:underline">50/50</a> may be practical. The decision should come from the child’s real week: school mornings, homework, activities, sleep, and transportation.',
+			answerHtml: '60/40 can be a strong fit for school-age children when it protects school routines. For example, if one parent lives close to school and reliably handles morning transportation, homework, lunch, and bedtime, a 60/40 school-week anchor may reduce stress. It can also help when parents live far enough apart that equal school-week exchanges would be tiring. But 60/40 is not automatically better for every school-age child. If both parents live close, both can support school routines, and the child handles transitions well, <a href="/50-50-custody-schedule" class="text-accent hover:underline">50/50</a> may be practical. The decision should come from the child’s real week: school mornings, homework, activities, sleep, and transportation.',
 		},
 		{
 			question: 'How do holidays work in a 60/40 custody schedule?',
 			answer: 'Holiday parenting time usually overrides the regular 60/40 custody schedule. Parents often alternate major holidays, split winter break, divide spring break, or create special rules for birthdays, Mother’s Day, Father’s Day, and summer. This matters because holidays can change the annual overnight percentage. For example, a parent with 40% during the school year may receive a longer summer block, which changes the yearly total. The practical fix is to write holiday rules separately from the regular weekly pattern and then test the full year on a calendar. A holiday custody schedule can reduce arguments about whether the normal 60/40 rotation controls.',
-			answerHtml: 'Holiday parenting time usually overrides the regular 60/40 custody schedule. Parents often alternate major holidays, split winter break, divide spring break, or create special rules for birthdays, Mother’s Day, Father’s Day, and summer. This matters because holidays can change the annual overnight percentage. For example, a parent with 40% during the school year may receive a longer summer block, which changes the yearly total. The practical fix is to write holiday rules separately from the regular weekly pattern and then test the full year on a calendar. A <a href="/holiday-custody-schedule/" class="text-accent hover:underline">holiday custody schedule</a> can reduce arguments about whether the normal 60/40 rotation controls.',
+			answerHtml: 'Holiday parenting time usually overrides the regular 60/40 custody schedule. Parents often alternate major holidays, split winter break, divide spring break, or create special rules for birthdays, Mother’s Day, Father’s Day, and summer. This matters because holidays can change the annual overnight percentage. For example, a parent with 40% during the school year may receive a longer summer block, which changes the yearly total. The practical fix is to write holiday rules separately from the regular weekly pattern and then test the full year on a calendar. A <a href="/holiday-custody-schedule" class="text-accent hover:underline">holiday custody schedule</a> can reduce arguments about whether the normal 60/40 rotation controls.',
 		},
 		{
 			question: 'Can a 60/40 schedule become a 50/50 schedule later?',
 			answer: 'Yes, a 60/40 schedule can become a 50/50 schedule later if the parents agree, the child needs change, or a court order allows modification. Families sometimes start with 60/40 when a child is younger, when school logistics are difficult, or when work schedules are uneven. Later, if parents move closer, work schedules stabilize, or the child becomes more independent, 50/50 may become more realistic. The important point is to avoid vague promises. If parents expect to review the schedule later, they should write down when the review happens, what factors matter, and how changes will be handled. A parenting plan can include review points tied to school transitions, relocation, or activity changes.',
-			answerHtml: 'Yes, a 60/40 schedule can become a <a href="/50-50-custody-schedule/" class="text-accent hover:underline">50/50 schedule</a> later if the parents agree, the child needs change, or a court order allows modification. Families sometimes start with 60/40 when a child is younger, when school logistics are difficult, or when work schedules are uneven. Later, if parents move closer, work schedules stabilize, or the child becomes more independent, 50/50 may become more realistic. The important point is to avoid vague promises. If parents expect to review the schedule later, they should write down when the review happens, what factors matter, and how changes will be handled. A parenting plan can include review points tied to school transitions, relocation, or activity changes.',
+			answerHtml: 'Yes, a 60/40 schedule can become a <a href="/50-50-custody-schedule" class="text-accent hover:underline">50/50 schedule</a> later if the parents agree, the child needs change, or a court order allows modification. Families sometimes start with 60/40 when a child is younger, when school logistics are difficult, or when work schedules are uneven. Later, if parents move closer, work schedules stabilize, or the child becomes more independent, 50/50 may become more realistic. The important point is to avoid vague promises. If parents expect to review the schedule later, they should write down when the review happens, what factors matter, and how changes will be handled. A parenting plan can include review points tied to school transitions, relocation, or activity changes.',
 		},
 		{
 			question: 'What is the difference between 60/40 and 70/30 custody?',
 			answer: 'The difference between 60/40 and 70/30 custody is the amount of time each parent receives and the level of primary-home structure. A 60/40 schedule gives the lower-time parent substantial recurring time and can feel like a middle ground between equal time and a more primary residence. A 70/30 schedule gives one parent a stronger majority of overnights and may work better when distance, work schedules, transportation, or school routines make 60/40 hard to follow. The tradeoff is contact. 70/30 may create more stability for school logistics, but it usually gives the other parent less ordinary weekday time. Families should compare both calendars with real commute times, school mornings, activities, and holidays.',
-			answerHtml: 'The difference between 60/40 and <a href="/70-30-custody-schedule/" class="text-accent hover:underline">70/30 custody</a> is the amount of time each parent receives and the level of primary-home structure. A 60/40 schedule gives the lower-time parent substantial recurring time and can feel like a middle ground between equal time and a more primary residence. A 70/30 schedule gives one parent a stronger majority of overnights and may work better when distance, work schedules, transportation, or school routines make 60/40 hard to follow. The tradeoff is contact. 70/30 may create more stability for school logistics, but it usually gives the other parent less ordinary weekday time. Families should compare both calendars with real commute times, school mornings, activities, and holidays.',
+			answerHtml: 'The difference between 60/40 and <a href="/70-30-custody-schedule" class="text-accent hover:underline">70/30 custody</a> is the amount of time each parent receives and the level of primary-home structure. A 60/40 schedule gives the lower-time parent substantial recurring time and can feel like a middle ground between equal time and a more primary residence. A 70/30 schedule gives one parent a stronger majority of overnights and may work better when distance, work schedules, transportation, or school routines make 60/40 hard to follow. The tradeoff is contact. 70/30 may create more stability for school logistics, but it usually gives the other parent less ordinary weekday time. Families should compare both calendars with real commute times, school mornings, activities, and holidays.',
 		},
 		{
 			question: 'Can parents customize a 60/40 custody schedule?',

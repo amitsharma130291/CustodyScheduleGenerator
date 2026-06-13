@@ -7,7 +7,7 @@ const schedule: ScheduleContent = {
 	description: 'Generate a 5-2-2-5 custody calendar and compare the benefits and tradeoffs of this 50/50 schedule.',
 	metaTitle: '5-2-2-5 Custody Schedule | Examples & Parenting Time',
 	metaDescription: 'Learn how a 5-2-2-5 custody schedule works, compare examples, and calculate parenting time percentages.',
-	canonicalUrl: 'https://custodybuilder.com/5-2-2-5-custody-schedule/',
+	canonicalUrl: 'https://custodybuilder.com/5-2-2-5-custody-schedule',
 	lede: 'A 5-2-2-5 custody schedule is a two-week parenting rotation where the child spends 5 days with one parent, 2 days with the other parent, 2 days back with the first parent, and then 5 days with the other parent. It gives families longer parenting blocks and usually fewer exchanges than a 2-2-3 custody schedule.',
 	overview: [
 		'The 5-2-2-5 custody schedule is a shared parenting rotation where each parent receives one longer five-day block and one shorter two-day block during a two-week cycle. Over the full cycle, each parent receives seven overnights.',

@@ -10,60 +10,60 @@ import { buildBlogSchema, buildBreadcrumbSchema, buildFAQSchema, buildWebPageSch
 
 const title = 'Custody Schedule Guides and Blog Hub | CustodyBuilder';
 const description = 'Read custody schedule guides, compare parenting time options, explore calculators and templates, and build a clearer plan before review online.';
-const canonical = '/blog/';
+const canonical = '/blog';
 const canonicalUrl = getCanonicalUrl(canonical);
 const breadcrumbs = [
 	{ name: 'Home', url: getCanonicalUrl('/') },
-	{ name: 'Guides', url: getCanonicalUrl('/blog/') },
+	{ name: 'Guides', url: getCanonicalUrl('/blog') },
 	{ name: title, url: canonicalUrl },
 ];
 
 const featuredGuides = [
 	{
 		title: 'Best Custody Schedule for Toddlers',
-		href: '/best-custody-schedule-for-toddler/',
+		href: '/best-custody-schedule-for-toddler',
 		category: 'Age-Based Guides',
 		description: 'Compare frequent-contact schedules, shorter separations, and toddler-friendly routines.',
 	},
 	{
 		title: 'Best Custody Schedule for 5 Year Olds',
-		href: '/best-custody-schedule-for-5-year-old/',
+		href: '/best-custody-schedule-for-5-year-old',
 		category: 'Age-Based Guides',
 		description: 'Plan around school readiness, bedtime consistency, and balanced weekends.',
 	},
 	{
 		title: 'Best Custody Schedule for 7 Year Olds',
-		href: '/best-custody-schedule-for-7-year-old/',
+		href: '/best-custody-schedule-for-7-year-old',
 		category: 'Age-Based Guides',
 		description: 'Review school-age schedules that account for homework, activities, and friends.',
 	},
 	{
 		title: 'Best Custody Schedule for Teenagers',
-		href: '/best-custody-schedule-for-teenager/',
+		href: '/best-custody-schedule-for-teenager',
 		category: 'Age-Based Guides',
 		description: 'Compare teen-friendly rotations that reduce transition stress and support independence.',
 	},
 	{
 		title: '2-2-3 Custody Schedule',
-		href: '/2-2-3-custody-schedule/',
+		href: '/2-2-3-custody-schedule',
 		category: 'Schedule Comparisons',
 		description: 'Understand how the 2-2-3 rotation works and when frequent exchanges make sense.',
 	},
 	{
 		title: '2-2-5-5 Custody Schedule',
-		href: '/2-2-5-5-custody-schedule/',
+		href: '/2-2-5-5-custody-schedule',
 		category: 'Schedule Comparisons',
 		description: 'Compare stable weekdays, alternating weekends, and two-week shared parenting blocks.',
 	},
 	{
 		title: '50/50 Custody Schedule',
-		href: '/50-50-custody-schedule/',
+		href: '/50-50-custody-schedule',
 		category: 'Schedule Comparisons',
 		description: 'See common equal-time custody schedules and how they compare on a calendar.',
 	},
 	{
 		title: 'Parenting Plan Template',
-		href: '/parenting-plan-template/',
+		href: '/parenting-plan-template',
 		category: 'Parenting Plan Resources',
 		description: 'Create a printable plan covering schedules, holidays, exchanges, and decisions.',
 	},
@@ -75,10 +75,10 @@ const categories = [
 		description:
 			'Age-based custody planning helps parents think beyond percentages. Toddlers may need shorter separations and consistent bedtime routines, while school-age children need a schedule that supports homework, transportation, friends, and activities. Teenagers often need fewer transitions, more flexibility, and a voice in practical details. These guides explain how common schedules may feel different at each stage.',
 		links: [
-			{ title: 'Best Custody Schedule for Toddlers', href: '/best-custody-schedule-for-toddler/' },
-			{ title: 'Best Custody Schedule for 5 Year Olds', href: '/best-custody-schedule-for-5-year-old/' },
-			{ title: 'Best Custody Schedule for 7 Year Olds', href: '/best-custody-schedule-for-7-year-old/' },
-			{ title: 'Best Custody Schedule for Teenagers', href: '/best-custody-schedule-for-teenager/' },
+			{ title: 'Best Custody Schedule for Toddlers', href: '/best-custody-schedule-for-toddler' },
+			{ title: 'Best Custody Schedule for 5 Year Olds', href: '/best-custody-schedule-for-5-year-old' },
+			{ title: 'Best Custody Schedule for 7 Year Olds', href: '/best-custody-schedule-for-7-year-old' },
+			{ title: 'Best Custody Schedule for Teenagers', href: '/best-custody-schedule-for-teenager' },
 		],
 	},
 	{
@@ -86,13 +86,13 @@ const categories = [
 		description:
 			'Schedule comparison pages help parents see the tradeoffs between frequent contact, fewer exchanges, stable weekdays, and longer parenting blocks. A 2-2-3 schedule keeps both parents involved throughout each week. A 2-2-5-5 or 5-2-2-5 schedule can make school-week routines more predictable. Alternating weeks can reduce handoffs for older children and teens.',
 		links: [
-			{ title: '2-2-3 Custody Schedule', href: '/2-2-3-custody-schedule/' },
-			{ title: '2-2-5-5 Custody Schedule', href: '/2-2-5-5-custody-schedule/' },
-			{ title: '5-2-2-5 Custody Schedule', href: '/5-2-2-5-custody-schedule/' },
-			{ title: '50/50 Custody Schedule', href: '/50-50-custody-schedule/' },
-			{ title: '60/40 Custody Schedule', href: '/60-40-custody-schedule/' },
-			{ title: '70/30 Custody Schedule', href: '/70-30-custody-schedule/' },
-			{ title: '80/20 Custody Schedule', href: '/80-20-custody-schedule/' },
+			{ title: '2-2-3 Custody Schedule', href: '/2-2-3-custody-schedule' },
+			{ title: '2-2-5-5 Custody Schedule', href: '/2-2-5-5-custody-schedule' },
+			{ title: '5-2-2-5 Custody Schedule', href: '/5-2-2-5-custody-schedule' },
+			{ title: '50/50 Custody Schedule', href: '/50-50-custody-schedule' },
+			{ title: '60/40 Custody Schedule', href: '/60-40-custody-schedule' },
+			{ title: '70/30 Custody Schedule', href: '/70-30-custody-schedule' },
+			{ title: '80/20 Custody Schedule', href: '/80-20-custody-schedule' },
 		],
 	},
 	{
@@ -100,11 +100,11 @@ const categories = [
 		description:
 			'A custody schedule is only one part of a parenting plan. Parents also need to document exchange times, school responsibilities, communication rules, transportation, travel notice, decision-making, expenses, and how changes will be handled. These resources help turn a calendar into a clearer plan that can be printed, discussed, and refined.',
 		links: [
-			{ title: 'Parenting Plan Template', href: '/parenting-plan-template/' },
-			{ title: 'Custody Schedule Template', href: '/custody-schedule-template/' },
-			{ title: 'Custody Calendar Template', href: '/custody-calendar-template/' },
-			{ title: 'Custody Percentage Calculator', href: '/custody-percentage-calculator/' },
-			{ title: 'Visitation Calculator', href: '/visitation-calculator/' },
+			{ title: 'Parenting Plan Template', href: '/parenting-plan-template' },
+			{ title: 'Custody Schedule Template', href: '/custody-schedule-template' },
+			{ title: 'Custody Calendar Template', href: '/custody-calendar-template' },
+			{ title: 'Custody Percentage Calculator', href: '/custody-percentage-calculator' },
+			{ title: 'Visitation Calculator', href: '/visitation-calculator' },
 		],
 	},
 	{
@@ -112,10 +112,10 @@ const categories = [
 		description:
 			'Holiday and school-break planning prevents the regular weekly schedule from becoming confusing when Thanksgiving, winter break, birthdays, summer vacation, or long weekends arrive. A good holiday plan explains which holidays override the regular schedule, when exchanges happen, how travel notice works, and how parents handle years when school calendars change.',
 		links: [
-			{ title: 'Holiday Custody Schedule', href: '/holiday-custody-schedule/' },
-			{ title: 'Holiday Visitation Schedule', href: '/holiday-visitation-schedule/' },
-			{ title: 'Custody Calendar Template', href: '/custody-calendar-template/' },
-			{ title: 'Parenting Plan Template', href: '/parenting-plan-template/' },
+			{ title: 'Holiday Custody Schedule', href: '/holiday-custody-schedule' },
+			{ title: 'Holiday Visitation Schedule', href: '/holiday-visitation-schedule' },
+			{ title: 'Custody Calendar Template', href: '/custody-calendar-template' },
+			{ title: 'Parenting Plan Template', href: '/parenting-plan-template' },
 		],
 	},
 ];
@@ -170,7 +170,7 @@ const schema = [
 					</p>
 				</div>
 				<div class="mt-8 flex flex-col gap-3 sm:flex-row">
-					<a href="/custody-schedule-generator/" class="btn-primary inline-flex h-12 w-full items-center justify-center rounded-full px-7 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_30px_rgba(94,106,210,0.14)] active:translate-y-0 sm:w-auto">
+					<a href="/custody-schedule-generator" class="btn-primary inline-flex h-12 w-full items-center justify-center rounded-full px-7 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_30px_rgba(94,106,210,0.14)] active:translate-y-0 sm:w-auto">
 						Open Custody Schedule Generator
 					</a>
 					<a href="#featured-guides" class="btn-secondary inline-flex h-12 w-full items-center justify-center rounded-full px-7 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-px active:translate-y-0 sm:w-auto">
@@ -306,7 +306,7 @@ const schema = [
 				<p class="mx-auto mt-4 max-w-2xl text-base leading-7 text-secondary">
 					Compare schedules and generate printable custody calendars in minutes.
 				</p>
-				<a href="/custody-schedule-generator/" class="btn-primary mt-6 inline-flex h-12 items-center justify-center rounded-full px-7 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_30px_rgba(94,106,210,0.14)] active:translate-y-0">
+				<a href="/custody-schedule-generator" class="btn-primary mt-6 inline-flex h-12 items-center justify-center rounded-full px-7 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_30px_rgba(94,106,210,0.14)] active:translate-y-0">
 					Open Custody Schedule Generator
 				</a>
 			</div>
