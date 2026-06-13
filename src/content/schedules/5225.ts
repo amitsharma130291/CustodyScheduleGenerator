@@ -8,24 +8,165 @@ const schedule: ScheduleContent = {
 	metaTitle: '5-2-2-5 Custody Schedule | Examples & Parenting Time',
 	metaDescription: 'Learn how a 5-2-2-5 custody schedule works, compare examples, and calculate parenting time percentages.',
 	canonicalUrl: 'https://custodybuilder.com/5-2-2-5-custody-schedule/',
+	lastUpdated: '2026-06-13',
 	lede: 'A 5-2-2-5 custody schedule is a two-week parenting rotation where the child spends 5 days with one parent, 2 days with the other parent, 2 days back with the first parent, and then 5 days with the other parent. It gives families longer parenting blocks and usually fewer exchanges than a 2-2-3 custody schedule.',
+	trust: {
+		reviewerLabel: 'Reviewed for clarity by',
+		reviewerName: 'CustodyBuilder Editorial Team',
+		reviewerCredential: 'Reviewed for clarity, schedule mechanics, and practical usefulness by the CustodyBuilder Editorial Team.',
+		reviewerHref: '/about/',
+		authorName: 'CustodyBuilder Editorial Team',
+		authorTitle: 'Parenting time calendar and custody schedule planning team',
+		authorBio: 'CustodyBuilder creates plain-English custody schedule guides and calendar tools for parents comparing parenting time, printable schedules, and parenting plan language.',
+		authorHref: '/about/',
+		factCheckedDate: '2026-06-13',
+		legalReviewerPlaceholder: 'Not yet reviewed by an attorney. This page is for educational planning only and should not be treated as legal advice.',
+		disclaimer: 'This tool is for educational planning only and is not legal advice. Custody laws vary by state. Consult a qualified family law attorney or mediator for legal guidance.',
+	},
+	hero: {
+		definition: 'A 5-2-2-5 custody schedule gives one parent a five-day block, the other parent a two-day block, then reverses the pattern so both parents receive equal time over two weeks.',
+		bestFor: 'school-age children and parents who want longer blocks, fewer exchanges than 2-2-3, and a shared parenting calendar that still balances time.',
+		proChips: ['Usually 50/50', 'Longer blocks', 'Fewer exchanges', 'Alternating weekends'],
+		conChips: ['Five-day gaps', 'Needs school coordination', 'Can confuse at first', 'Harder with distance'],
+		ctas: [
+			{ text: 'Generate my 5-2-2-5 calendar', href: '#schedule-generator', variant: 'primary' },
+			{ text: 'Download printable schedule', href: '#printable-download', variant: 'secondary' },
+			{ text: 'Compare custody schedules', href: '#comparison', variant: 'secondary' },
+		],
+	},
+	atAGlanceTitle: '5-2-2-5 Custody Schedule Summary',
+	atAGlance: [
+		{ label: 'Parenting time', value: 'Usually 50/50' },
+		{ label: 'Rotation length', value: 'Two-week cycle' },
+		{ label: 'Exchanges', value: 'Usually fewer than 2-2-3' },
+		{ label: 'Best for', value: 'School-age children and parents wanting longer blocks' },
+		{ label: 'Weekend pattern', value: 'Alternating longer weekend blocks' },
+		{ label: 'Common challenge', value: 'Longer stretches away from one parent' },
+		{ label: 'Common use', value: 'Equal parenting plans' },
+	],
 	overview: [
-		'The 5-2-2-5 custody schedule is a shared parenting rotation where each parent receives one longer five-day block and one shorter two-day block during a two-week cycle. Over the full cycle, each parent receives seven overnights.',
-		'Families often choose 5-2-2-5 when they want a 50/50 schedule with longer stretches in each home. Compared with 2-2-3, it can reduce transition fatigue while still keeping both parents involved during school weeks and weekends.',
+		'The 5-2-2-5 custody schedule is a shared parenting rotation where each parent receives one longer five-day block and one shorter two-day block during a two-week cycle. Over the full cycle, each parent receives seven overnights, so it is usually grouped with other <a href="/50-50-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 custody schedules</a>.',
+		'Families often choose 5-2-2-5 when they want a 50/50 schedule with longer stretches in each home. Compared with a <a href="/2-2-3-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-3 custody schedule</a>, it can reduce transition fatigue while still keeping both parents involved during school weeks and weekends.',
+		'Many families use the 5-2-2-5 name interchangeably with a <a href="/2-2-5-5-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-5-5 custody schedule</a> depending on the start day. The underlying block lengths are the same; the label often depends on which part of the rotation is shown first.',
+	],
+	printableDownload: {
+		title: 'Printable 5-2-2-5 Custody Schedule Downloads',
+		description: 'Use the generator above to print or export your 5-2-2-5 schedule. These cards point to existing generator and planning sections; no fake downloads are provided.',
+		options: [
+			{ title: 'Weekly schedule', description: 'Review the two-week 5-2-2-5 pattern with longer weekday and weekend blocks.', status: 'available', href: '#timeline' },
+			{ title: 'Monthly calendar', description: 'Use the generator above to print or export a monthly custody calendar with parent labels.', status: 'available', href: '#schedule-generator' },
+			{ title: 'Yearly calendar', description: 'Use the generator above to export a yearly PDF after setting the start date and parent names.', status: 'available', href: '#schedule-generator' },
+			{ title: 'Parenting plan worksheet', description: 'Use the sample clause below as an educational starting point before professional review.', status: 'available', href: '#parenting-plan-language' },
+			{ title: 'Holiday planning worksheet', description: 'Use the holiday custody planner to organize holidays, school breaks, birthdays, and vacations separately.', status: 'available', href: '/holiday-custody-planner/' },
+		],
+		ctas: [
+			{ text: 'Generate printable calendar', href: '#schedule-generator', variant: 'primary' },
+			{ text: 'Export PDF from the tool', href: '#schedule-generator', variant: 'secondary' },
+			{ text: 'Plan holidays separately', href: '/holiday-custody-planner/', variant: 'secondary' },
+		],
+		yearOptions: ['Weekly schedule', 'Monthly PDF', 'Yearly PDF', 'Holiday worksheet'],
+	},
+	timeline: {
+		title: 'How the 5-2-2-5 Schedule Works',
+		description: 'This printable timeline shows the standard two-week 5-2-2-5 pattern. Some families describe the same rotation as 2-2-5-5 when they start the written schedule at a different point in the cycle.',
+		weeks: [
+			{
+				label: 'Week 1',
+				blocks: [
+					{ parent: 'Parent A', days: 'Mon Tue Wed Thu Fri' },
+					{ parent: 'Parent B', days: 'Sat Sun' },
+				],
+			},
+			{
+				label: 'Week 2',
+				blocks: [
+					{ parent: 'Parent B', days: 'Mon Tue Wed Thu Fri' },
+					{ parent: 'Parent A', days: 'Sat Sun' },
+				],
+			},
+		],
+	},
+	parentingPlanLanguage: {
+		title: 'Sample 5-2-2-5 Parenting Plan Language',
+		description: 'This plain-English sample shows how a 5-2-2-5 rotation can be described before it is adapted for a formal parenting plan.',
+		clause: 'The parents will follow a repeating two-week 5-2-2-5 parenting schedule. During Week 1, Parent A will have parenting time from Monday after school or daycare through Saturday exchange, and Parent B will have parenting time from Saturday exchange through Monday school or daycare drop-off. During Week 2, Parent B will have parenting time from Monday after school or daycare through Saturday exchange, and Parent A will have parenting time from Saturday exchange through Monday school or daycare drop-off. The schedule will then repeat. Holiday, school-break, vacation, birthday, Mother’s Day, Father’s Day, and special-day provisions will override the regular schedule when they apply.',
+		disclaimer: 'This sample is educational only. Have any parenting plan language reviewed by a qualified family law professional before filing or signing.',
+	},
+	deepDiveSections: [
+		{
+			id: 'holidays-breaks-vacations',
+			kicker: 'Special dates',
+			title: 'Holidays, School Breaks, and Vacations',
+			paragraphs: [
+				'Holiday and vacation rules usually override the regular 5-2-2-5 schedule. Parents should define Thanksgiving, Christmas or winter break, spring break, summer vacation, birthdays, Mother’s Day, Father’s Day, and other important family or cultural days separately.',
+				'Common approaches include alternating Thanksgiving each year, splitting winter break into two parts, alternating spring break, giving each parent defined summer vacation time, and making Mother’s Day and Father’s Day override the normal rotation. Use the <a href="/holiday-custody-planner/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">holiday custody planner</a> to organize these exceptions before adding them to a <a href="/parenting-plan-template/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting plan template</a>.',
+			],
+			items: [
+				{ title: 'Thanksgiving', description: 'Often alternates yearly or is assigned as a long weekend override.' },
+				{ title: 'Christmas and winter break', description: 'Often split into two blocks or alternated by year.' },
+				{ title: 'Spring and summer breaks', description: 'Spring break may alternate yearly; summer often uses advance-notice vacation blocks.' },
+				{ title: 'Birthdays, Mother’s Day, and Father’s Day', description: 'These can follow the regular rotation or override it with clear start and end times.' },
+			],
+		},
+		{
+			id: 'exchange-times-locations',
+			kicker: 'Exchanges',
+			title: 'Exchange Times and Locations',
+			paragraphs: [
+				'Exchange rules matter because the 5-2-2-5 schedule includes longer blocks and predictable handoff points. Parents should choose exchange times that protect school, activities, meals, homework, and bedtime.',
+				'School and daycare exchanges can reduce direct parent-to-parent contact. Home exchanges can be simple when co-parenting is calm. Public-location exchanges may help when conflict is higher, while evening exchanges can work around jobs if they do not disrupt the child’s routine.',
+			],
+			items: [
+				{ title: 'School exchanges', description: 'Pros: simple and low-contact. Cons: less useful during holidays, summer, or sick days.' },
+				{ title: 'Daycare exchanges', description: 'Pros: predictable for younger children. Cons: requires clear pickup permissions and backup plans.' },
+				{ title: 'Home exchanges', description: 'Pros: convenient when parents communicate well. Cons: may be stressful if boundaries are unclear.' },
+				{ title: 'Public-location exchanges', description: 'Pros: useful for tense handoffs. Cons: adds travel time and may feel less natural.' },
+				{ title: 'Evening exchanges', description: 'Pros: can fit work schedules. Cons: can interfere with dinner, homework, and bedtime.' },
+			],
+		},
+		{
+			id: 'communication-tips',
+			kicker: 'Co-parenting',
+			title: 'Communication Tips for a 5-2-2-5 Schedule',
+			paragraphs: [
+				'The longer blocks in a 5-2-2-5 schedule make shared information especially important. Parents should coordinate school assignments, activity gear, medication, transportation, appointments, and schedule changes before each exchange.',
+				'A shared calendar and written message thread can help both homes track changes. For planning conversations, use the <a href="/custody-percentage-calculator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">custody percentage calculator</a> to review overnight totals and the <a href="/child-support-calculator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">child support calculator</a> to understand support-planning questions that may come up before professional review.',
+			],
+			items: [
+				{ title: 'Shared calendar', description: 'Track exchanges, school events, appointments, extracurricular activities, and holiday overrides.' },
+				{ title: 'Child activities', description: 'Assign who handles practices, games, lessons, and transportation during each block.' },
+				{ title: 'Homework coordination', description: 'Make sure school materials and assignments move between homes or are available in both homes.' },
+				{ title: 'Schedule changes', description: 'Define notice deadlines, makeup-time rules, and how parents confirm changes.' },
+				{ title: 'Documenting changes', description: 'Keep child-focused written records so both parents can refer back to the same agreement.' },
+			],
+		},
+		{
+			id: 'alternatives',
+			kicker: 'Alternatives',
+			title: 'Alternatives to 5-2-2-5',
+			paragraphs: [
+				'If 5-2-2-5 feels too long, compare a <a href="/2-2-3-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-3 custody schedule</a> for more frequent contact or a <a href="/3-4-4-3-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">3-4-4-3 custody schedule</a> for slightly shorter blocks. The <a href="/2-2-5-5-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-5-5 custody schedule</a> may be the same practical pattern with a different start point.',
+				'Older children may prefer a <a href="/week-on-week-off-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">week-on/week-off custody schedule</a>. If equal time is not realistic, compare <a href="/60-40-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">60/40</a>, <a href="/70-30-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">70/30</a>, <a href="/80-20-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">80/20</a>, or <a href="/every-other-weekend-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">every other weekend</a> schedules.',
+			],
+		},
 	],
 	pros: [
 		'Longer parenting blocks than 2-2-3',
 		'Balanced 50/50 parenting time',
 		'Fewer exchanges than more frequent rotations',
+		'Can work well for school-age children who handle longer blocks',
+		'Makes weekends easier to see on a printable custody calendar',
 	],
 	cons: [
 		'Longer stretches may not fit every child',
 		'Parents need to coordinate school materials and activities across homes',
 		'The pattern can be confusing until viewed on a calendar',
+		'May be difficult when parents live far apart',
+		'Five-day blocks can feel long for toddlers or children who need frequent contact',
 	],
 	example: {
 		title: '5-2-2-5 Schedule Example',
-		description: 'In a 5-2-2-5 schedule, the child may spend five days with Parent A, two days with Parent B, two days back with Parent A, and then five days with Parent B. The pattern repeats every two weeks.',
+		description: 'In a 5-2-2-5 schedule, the child may spend five weekdays with Parent A, a weekend with Parent B, five weekdays with Parent B, and a weekend with Parent A. The pattern repeats every two weeks and is easiest to understand on a calendar.',
 		weeks: [
 			{
 				label: 'Week 1',
@@ -43,47 +184,52 @@ const schedule: ScheduleContent = {
 			},
 		],
 	},
+	comparison: {
+		title: 'Compare 5-2-2-5 with other custody schedules',
+		description: 'Use this table to compare 5-2-2-5 with common alternatives before choosing a custody calendar generator pattern or writing a parenting plan schedule.',
+		columnLabels: {
+			schedule: 'Schedule',
+			bestFor: 'Best age group',
+			exchangeFrequency: 'Exchanges',
+			weekendPattern: 'Stability',
+			notes: 'Pros',
+		},
+		rows: [
+			{ schedule: '5-2-2-5', href: '/5-2-2-5-custody-schedule/', bestFor: 'School-age children and families wanting longer blocks.', parentTimeSplit: 'Usually 50/50', exchangeFrequency: 'Usually fewer than 2-2-3', weekendPattern: 'Longer blocks with alternating weekends', notes: 'Fewer transitions and meaningful school-week time.', cons: 'Five-day stretches can feel long.', guideLabel: 'Current guide', badge: 'Current page' },
+			{ schedule: '2-2-5-5', href: '/2-2-5-5-custody-schedule/', bestFor: 'Families wanting fixed weekdays and alternating weekends.', parentTimeSplit: 'Usually 50/50', exchangeFrequency: '2-3 exchanges per week', weekendPattern: 'High weekday stability', notes: 'Same block lengths with a different start point.', cons: 'Five-day blocks may be long for younger children.', guideLabel: '2-2-5-5 guide' },
+			{ schedule: '2-2-3', href: '/2-2-3-custody-schedule/', bestFor: 'Younger children needing frequent contact.', parentTimeSplit: 'Usually 50/50', exchangeFrequency: '3-4 exchanges per week', weekendPattern: 'Moderate stability', notes: 'Shorter gaps between parents.', cons: 'More handoffs and coordination.', guideLabel: '2-2-3 guide' },
+			{ schedule: '3-4-4-3', href: '/3-4-4-3-custody-schedule/', bestFor: 'Children who can handle three- and four-day blocks.', parentTimeSplit: 'Usually 50/50', exchangeFrequency: '2 exchanges per week', weekendPattern: 'Moderate to high stability', notes: 'Fewer transitions while keeping regular contact.', cons: 'Can be less intuitive at first.', guideLabel: '3-4-4-3 guide' },
+			{ schedule: 'Week-on/week-off', href: '/week-on-week-off-custody-schedule/', bestFor: 'Older children and teens.', parentTimeSplit: 'Usually 50/50', exchangeFrequency: '1 exchange per week', weekendPattern: 'High stability', notes: 'Very simple calendar and fewer exchanges.', cons: 'A full week away may be too long.', guideLabel: 'Week-on/week-off guide' },
+			{ schedule: 'Every other weekend', href: '/every-other-weekend-custody-schedule/', bestFor: 'Families where one home anchors most school-week routines.', parentTimeSplit: 'Often 80/20 to 85/15', exchangeFrequency: 'Usually every other weekend', weekendPattern: 'High primary-home stability', notes: 'Simple and low transition load.', cons: 'Much less weekday time for one parent.', guideLabel: 'Every other weekend guide' },
+		],
+		cta: {
+			title: 'Compare other custody schedules',
+			links: [
+				{ title: '2-2-5-5 custody schedule', slug: '2-2-5-5-custody-schedule', description: 'Compare the same block lengths with a different start point.' },
+				{ title: '2-2-3 custody schedule', slug: '2-2-3-custody-schedule', description: 'Review shorter blocks and more frequent parent contact.' },
+				{ title: '3-4-4-3 custody schedule', slug: '3-4-4-3-custody-schedule', description: 'Compare another 50/50 schedule with three- and four-day blocks.' },
+				{ title: 'Week-on/week-off custody schedule', slug: 'week-on-week-off-custody-schedule', description: 'See whether full weeks fit older children better.' },
+				{ title: 'Every other weekend schedule', slug: 'every-other-weekend-custody-schedule', description: 'Compare a lower-transition schedule when 50/50 is not realistic.' },
+			],
+		},
+	},
 	faq: [
-		{
-			question: 'What is a 5-2-2-5 custody schedule?',
-			answer: 'A 5-2-2-5 custody schedule is a repeating two-week parenting plan with one five-day block and one two-day block for each parent. It is commonly used when parents want equal parenting time with fewer exchanges than shorter rotations.',
-		},
-		{
-			question: 'How does a 5-2-2-5 custody schedule work?',
-			answer: 'A typical 5-2-2-5 custody schedule gives Parent A five days, Parent B two days, Parent A two days, and then Parent B five days. The pattern repeats every 14 days and can be easier to understand when shown on a custody calendar.',
-		},
-		{
-			question: 'Is a 5-2-2-5 schedule a 50/50 custody schedule?',
-			answer: 'Yes. A 5-2-2-5 schedule is usually a 50/50 custody schedule because each parent receives seven overnights in every 14-day cycle. Holidays, vacations, and school breaks may change annual totals slightly.',
-		},
-		{
-			question: 'What does a 5-2-2-5 custody calendar look like?',
-			answer: 'A 5-2-2-5 custody calendar shows longer five-day blocks alternating with shorter two-day blocks. This can make weekends and school-night responsibilities easier to preview, especially when parents need a printable calendar for exchanges and overnights.',
-		},
-		{
-			question: 'What are the pros and cons of a 5-2-2-5 custody schedule?',
-			answer: 'The main advantage is fewer exchanges than a 2-2-3 schedule while still giving both parents equal parenting time. The drawbacks are longer blocks away from each parent and more planning around school materials, activities, and transportation.',
-		},
-		{
-			question: 'Is a 5-2-2-5 custody schedule good for school-age children?',
-			answer: 'A 5-2-2-5 custody schedule can work well for school-age children who can handle longer stretches in each home. It gives each parent meaningful school-week time, but both homes need to manage homework, transportation, activities, and school materials. The fit depends on the child’s routine and the distance between homes.',
-		},
-		{
-			question: 'How many overnights does each parent receive in a 5-2-2-5 schedule?',
-			answer: 'Each parent receives seven overnights in every 14-day 5-2-2-5 schedule cycle. That equal overnight count is why the schedule is usually treated as a 50/50 custody arrangement.',
-		},
-		{
-			question: 'How do holidays work in a 5-2-2-5 custody schedule?',
-			answer: 'Holiday parenting time is usually written separately from the regular 5-2-2-5 custody schedule. Many families let holidays override the normal rotation, then return to the regular five-day, two-day, two-day, five-day pattern afterward.',
-		},
-		{
-			question: 'What is the difference between a 5-2-2-5 and 2-2-5-5 custody schedule?',
-			answer: 'A 5-2-2-5 custody schedule and a 2-2-5-5 custody schedule use the same block lengths but start from a different point in the sequence. Both can provide equal parenting time, so the better fit often depends on preferred weekdays and exchange timing.',
-		},
-		{
-			question: 'Can parents customize a 5-2-2-5 custody schedule?',
-			answer: 'Yes. Parents can customize a 5-2-2-5 custody schedule by adjusting exchange times, pickup locations, holidays, school breaks, vacations, and special events. The core five-day, two-day, two-day, five-day rotation can stay the same while the parenting plan adds practical details for each family’s needs.',
-		},
+		{ question: 'What is a 5-2-2-5 custody schedule?', answer: 'A 5-2-2-5 custody schedule is a repeating two-week parenting plan where each parent receives one five-day block and one two-day block. It is commonly used as a 50/50 schedule because each parent receives seven overnights in a full cycle.' },
+		{ question: 'Is 5-2-2-5 the same as 2-2-5-5?', answer: 'The schedules use the same block lengths, but the name depends on where the written cycle starts. Many families use 5-2-2-5 and 2-2-5-5 interchangeably when the practical calendar pattern is the same.', answerHtml: 'The schedules use the same block lengths, but the name depends on where the written cycle starts. Many families use 5-2-2-5 and <a href="/2-2-5-5-custody-schedule/" class="text-accent hover:underline">2-2-5-5</a> interchangeably when the practical calendar pattern is the same.' },
+		{ question: 'Is 5-2-2-5 always 50/50?', answer: 'A standard 5-2-2-5 schedule is usually 50/50 because each parent receives seven overnights in a two-week cycle. Holidays, vacations, school breaks, and special overrides can change the annual percentage.' },
+		{ question: 'Is 5-2-2-5 better than 2-2-3?', answer: '5-2-2-5 may be better when families want fewer exchanges and longer blocks. 2-2-3 may be better when children need more frequent contact and shorter gaps between parents.', answerHtml: '5-2-2-5 may be better when families want fewer exchanges and longer blocks. A <a href="/2-2-3-custody-schedule/" class="text-accent hover:underline">2-2-3 custody schedule</a> may be better when children need more frequent contact and shorter gaps between parents.' },
+		{ question: 'Is this schedule good for toddlers?', answer: 'It can work for some toddlers, but five-day blocks may feel long if the child needs frequent contact or struggles with transitions. Parents should consider temperament, routines, caregiving history, and exchange stress.' },
+		{ question: 'Is this schedule good for school-age children?', answer: '5-2-2-5 can work well for school-age children who can handle longer blocks and need a predictable school-week rhythm. Both homes must manage homework, transportation, activities, and school materials.' },
+		{ question: 'Is this schedule good for teenagers?', answer: 'It can work for teenagers when both homes support activities, jobs, transportation, schoolwork, and social plans. Some teens may prefer week-on/week-off because it has fewer exchanges.', answerHtml: 'It can work for teenagers when both homes support activities, jobs, transportation, schoolwork, and social plans. Some teens may prefer <a href="/week-on-week-off-custody-schedule/" class="text-accent hover:underline">week-on/week-off custody</a> because it has fewer exchanges.' },
+		{ question: 'How many exchanges does it require?', answer: 'A typical 5-2-2-5 schedule has fewer exchanges than 2-2-3, but the exact number depends on exchange times and how the cycle is written. The longer blocks reduce some transition load.' },
+		{ question: 'How are holidays handled?', answer: 'Holidays usually override the regular rotation. Parents should write separate rules for Thanksgiving, winter break, spring break, birthdays, Mother’s Day, Father’s Day, and other important days.', answerHtml: 'Holidays usually override the regular rotation. Parents should write separate rules for Thanksgiving, winter break, spring break, birthdays, Mother’s Day, Father’s Day, and other important days. The <a href="/holiday-custody-planner/" class="text-accent hover:underline">holiday custody planner</a> can help organize those exceptions.' },
+		{ question: 'How are vacations handled?', answer: 'Vacation rules are usually separate from the regular weekly pattern. Common terms include advance notice, trip details, travel permissions, maximum vacation length, and whether makeup time applies.' },
+		{ question: 'Can this schedule affect child support?', answer: 'Parenting time can affect support discussions in some states, but rules vary. A 5-2-2-5 schedule is usually 50/50 by overnights, but income, expenses, state formulas, and court rules may still matter.', answerHtml: 'Parenting time can affect support discussions in some states, but rules vary. A 5-2-2-5 schedule is usually 50/50 by overnights, but income, expenses, state formulas, and court rules may still matter. Use the <a href="/child-support-calculator/" class="text-accent hover:underline">child support calculator</a> and <a href="/custody-percentage-calculator/" class="text-accent hover:underline">custody percentage calculator</a> as educational planning tools.' },
+		{ question: 'What if parents live far apart?', answer: '5-2-2-5 may be hard when parents live far apart because school transportation, activities, and weekday logistics can become difficult. Longer-block or unequal-time schedules may be more practical.', answerHtml: '5-2-2-5 may be hard when parents live far apart because school transportation, activities, and weekday logistics can become difficult. Compare <a href="/60-40-custody-schedule/" class="text-accent hover:underline">60/40</a>, <a href="/70-30-custody-schedule/" class="text-accent hover:underline">70/30</a>, <a href="/80-20-custody-schedule/" class="text-accent hover:underline">80/20</a>, or <a href="/every-other-weekend-custody-schedule/" class="text-accent hover:underline">every other weekend</a> schedules if equal time is not realistic.' },
+		{ question: 'Can parents customize it?', answer: 'Yes. Parents can customize exchange times, locations, holiday overrides, vacations, school breaks, and missed-time rules if their court order and local rules allow it.' },
+		{ question: 'Can siblings use the same schedule?', answer: 'Siblings often use the same schedule to keep family routines consistent, but age, school needs, activities, and special circumstances may require adjustments.' },
+		{ question: 'Is it court-approved?', answer: 'Courts may approve many different custody schedules when they meet legal requirements and serve the child’s best interests. This page is educational only and does not guarantee court approval.' },
+		{ question: 'Can I use this schedule in a parenting plan?', answer: 'You can use 5-2-2-5 as a starting point, but a complete plan should also address holidays, vacations, exchanges, transportation, schedule changes, decision-making, and dispute resolution.', answerHtml: 'You can use 5-2-2-5 as a starting point, but a complete plan should also address holidays, vacations, exchanges, transportation, schedule changes, decision-making, and dispute resolution. Start with a <a href="/parenting-plan-template/" class="text-accent hover:underline">parenting plan template</a> and review it with a qualified professional.' },
 	],
 	relatedSchedules: [
 		'2-2-3-custody-schedule',
@@ -94,7 +240,29 @@ const schedule: ScheduleContent = {
 		'every-other-weekend-custody-schedule',
 		'50-50-custody-schedule',
 	],
-	relatedTools: [],
+	relatedTools: [
+		{ title: 'Parenting Plan Template', slug: 'parenting-plan-template', description: 'Turn your 5-2-2-5 parenting schedule into written parenting plan terms.' },
+		{ title: 'Custody Percentage Calculator', slug: 'custody-percentage-calculator', description: 'Estimate parenting time percentages from overnight totals.' },
+		{ title: 'Child Support Calculator', slug: 'child-support-calculator', description: 'Review support-planning questions alongside custody schedule decisions.' },
+	],
+	relatedHeading: 'Related 5-2-2-5 custody schedule tools',
+	relatedLinks: [
+		{ title: '2-2-5-5 custody schedule', slug: '2-2-5-5-custody-schedule', description: 'Compare the same block lengths with a different start point.' },
+		{ title: '2-2-3 custody schedule', slug: '2-2-3-custody-schedule', description: 'Review a shorter-block 50/50 schedule with more frequent contact.' },
+		{ title: '3-4-4-3 custody schedule', slug: '3-4-4-3-custody-schedule', description: 'Compare another 50/50 option with three- and four-day blocks.' },
+		{ title: 'Week-on/week-off custody schedule', slug: 'week-on-week-off-custody-schedule', description: 'See whether full-week blocks fit older children better.' },
+		{ title: '50/50 custody schedules', slug: '50-50-custody-schedule', description: 'Compare common equal parenting time options.' },
+		{ title: 'Holiday custody planner', slug: 'holiday-custody-planner', description: 'Plan holidays, school breaks, birthdays, and vacations separately.' },
+		{ title: 'Parenting plan template', slug: 'parenting-plan-template', description: 'Write exchange, holiday, vacation, and schedule-change terms.' },
+		{ title: 'Custody percentage calculator', slug: 'custody-percentage-calculator', description: 'Calculate overnight percentages from the calendar.' },
+	],
+	article: {
+		headline: '5-2-2-5 Custody Schedule',
+		authorName: 'CustodyBuilder Editorial Team',
+		reviewerName: 'CustodyBuilder Editorial Team',
+		datePublished: '2026-06-13',
+		dateModified: '2026-06-13',
+	},
 };
 
 export default schedule;
