@@ -43,7 +43,7 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 		</p>
 	)}
 
-	<form class={`${compact ? 'mt-3 gap-2.5' : isEightyTwentySchedule ? 'mt-4 gap-3' : 'mt-6 gap-4'} grid`} data-generator-form>
+	<form class={`${compact ? 'mt-4 gap-3' : isEightyTwentySchedule ? 'mt-4 gap-3' : 'mt-6 gap-4'} grid`} data-generator-form>
 		<label class="grid min-w-0 gap-1.5">
 			<span class="text-sm font-medium text-secondary">Schedule type</span>
 			<select id="schedule-type" name="scheduleId" aria-label="Schedule type" class="w-full min-w-0 truncate rounded-2xl bg-page px-4 py-2 pr-9 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-schedule-select>
@@ -82,7 +82,7 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 			<span id="schedule-start-date-help" class="text-xs leading-5 text-muted">Use the first day you want the parenting pattern to begin.</span>
 		</label>
 
-		<div class="hero-form-fields grid gap-2.5">
+		<div class="hero-form-fields grid gap-3">
 			<label class="grid min-w-0 gap-1.5">
 				<span class="text-sm font-medium text-secondary">Parent A</span>
 				<input name="parentA" value={parentA} aria-label="Parent A name" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" />

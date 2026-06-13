@@ -425,6 +425,85 @@ textarea {
 	.schedule-generator-card {
 		max-width: none;
 	}
+
+}
+
+.schedule-page-generator-shell {
+	width: 100%;
+	max-width: none;
+	min-width: 0;
+}
+
+.schedule-page-generator-shell .hero-generator-card {
+	width: 100%;
+	max-width: none;
+	min-width: 0;
+}
+
+.schedule-page-generator-shell .generator-shell {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: 24px;
+	align-items: start;
+}
+
+.schedule-page-generator-shell .generator-form-panel {
+	min-width: 0;
+}
+
+.schedule-page-generator-shell .calendar-preview-panel {
+	width: 100%;
+	min-width: 0;
+}
+
+.schedule-page-generator-shell .calendar-preview-panel > * {
+	width: 100%;
+	max-width: none;
+}
+
+@media (min-width: 1280px) {
+	.schedule-hero-section.container-shell {
+		width: min(100%, 1528px);
+		padding-inline: 24px;
+		grid-template-columns: minmax(0, 1fr) minmax(704px, 720px);
+		gap: 32px;
+	}
+
+	.schedule-page-generator-shell {
+		min-width: 704px;
+		max-width: 720px;
+	}
+
+	.schedule-page-generator-shell .generator-shell {
+		grid-template-columns: minmax(380px, 1fr) 260px;
+		gap: 24px;
+	}
+
+	.schedule-page-generator-shell .hero-generator-card {
+		max-width: 720px;
+	}
+
+	.schedule-page-generator-shell .calendar-preview-panel {
+		width: 260px;
+		min-width: 260px;
+	}
+}
+
+@media (min-width: 1608px) {
+	.schedule-hero-section.container-shell {
+		width: min(100%, 1692px);
+		grid-template-columns: minmax(0, 820px) minmax(704px, 720px);
+		gap: 56px;
+	}
+
+	.schedule-page-generator-shell {
+		min-width: 704px;
+		max-width: 720px;
+	}
+
+	.schedule-page-generator-shell .hero-generator-card {
+		max-width: 720px;
+	}
 }
 
 .atmosphere::before,
@@ -605,6 +684,16 @@ textarea {
 	width: 100%;
 }
 
+.hero-cta-row > .btn-primary,
+.hero-cta-row > .btn-secondary,
+.hero-cta-row > .btn-outline {
+	flex: 1 1 100%;
+	min-width: 0;
+	white-space: normal;
+	text-wrap: balance;
+	line-height: 1.2;
+}
+
 @media (min-width: 640px) {
 	.cta-group {
 		flex-direction: row;
@@ -615,6 +704,24 @@ textarea {
 	.cta-group > .btn-secondary,
 	.cta-group > .btn-outline {
 		width: auto;
+	}
+}
+
+@media (min-width: 1100px) {
+	.hero-cta-row > .btn-primary,
+	.hero-cta-row > .btn-secondary,
+	.hero-cta-row > .btn-outline {
+		flex-basis: 280px;
+		min-width: 240px;
+	}
+}
+
+@media (min-width: 1400px) {
+	.hero-cta-row > .btn-primary,
+	.hero-cta-row > .btn-secondary,
+	.hero-cta-row > .btn-outline {
+		flex: 1 1 0;
+		min-width: 0;
 	}
 }
 
@@ -1683,11 +1790,16 @@ button:disabled,
 
 	header,
 	footer,
+	button,
+	.btn-primary,
+	.btn-secondary,
 	[data-generator-panel],
 	[data-export-actions],
 	.hero-tool-section > div:first-child,
-	main > section:not(:has([data-calendar-preview])),
+	main > section:not(:has([data-calendar-preview])):not(:has(.printable-timeline)),
 	main > section:has([data-calendar-preview]) > :not(:has([data-calendar-preview])),
+	main > section:has(.printable-timeline) > :not(:has(.printable-timeline)),
+	main > section:has(.printable-timeline) > :has(.printable-timeline) > :not(.printable-timeline),
 	.atmosphere::before,
 	.atmosphere::after {
 		display: none !important;
@@ -1716,6 +1828,38 @@ button:disabled,
 		filter: none !important;
 		transform: none !important;
 		backdrop-filter: none !important;
+	}
+
+	.soft-card,
+	.premium-card,
+	.printable-timeline,
+	.printable-timeline * {
+		background: #ffffff !important;
+		box-shadow: none !important;
+		filter: none !important;
+		color: #111827 !important;
+	}
+
+	.soft-card,
+	.premium-card {
+		border: 1px solid #e5e7eb !important;
+		break-inside: avoid !important;
+		page-break-inside: avoid !important;
+	}
+
+	.printable-timeline {
+		display: block !important;
+		break-inside: avoid !important;
+		page-break-inside: avoid !important;
+	}
+
+	table {
+		break-inside: auto !important;
+	}
+
+	tr {
+		break-inside: avoid !important;
+		page-break-inside: avoid !important;
 	}
 
 	[data-calendar-preview] {

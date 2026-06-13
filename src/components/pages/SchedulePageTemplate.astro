@@ -16,7 +16,6 @@ import { getCanonicalUrl } from '../../lib/seo/metadata';
 import {
 	buildBreadcrumbSchema,
 	buildFAQSchema,
-	buildSoftwareApplicationSchema,
 	buildWebPageSchema,
 } from '../../lib/seo/schema';
 import { getRelatedSchedules } from '../../content/schedules';
@@ -209,12 +208,22 @@ const schema = [
 		description: schedule.metaDescription,
 		url: canonicalUrl,
 	}),
-	buildSoftwareApplicationSchema({
+	{
+		'@context': 'https://schema.org',
+		'@type': 'WebApplication',
 		name: `${schedule.title} Calendar Generator`,
 		description: schedule.metaDescription,
 		url: canonicalUrl,
+		inLanguage: 'en-US',
+		areaServed: 'US',
 		applicationCategory: 'LegalApplication',
-	}),
+		operatingSystem: 'Web',
+		offers: {
+			'@type': 'Offer',
+			price: '0',
+			priceCurrency: 'USD',
+		},
+	},
 	{
 		'@context': 'https://schema.org',
 		'@type': 'HowTo',
@@ -256,13 +265,15 @@ const schema = [
 		datePublished: schedule.article.datePublished,
 		dateModified: schedule.article.dateModified,
 		author: {
-			'@type': 'Person',
+			'@type': 'Organization',
 			name: schedule.article.authorName,
+			url: schedule.trust?.authorHref ? getCanonicalUrl(schedule.trust.authorHref) : getCanonicalUrl('/about/'),
 		},
-		reviewedBy: {
-			'@type': 'Person',
+		reviewedBy: schedule.article.reviewerName ? {
+			'@type': 'Organization',
 			name: schedule.article.reviewerName,
-		},
+			url: schedule.trust?.reviewerHref ? getCanonicalUrl(schedule.trust.reviewerHref) : getCanonicalUrl('/about/'),
+		} : undefined,
 		publisher: {
 			'@type': 'Organization',
 			name: 'CustodyBuilder',
@@ -276,8 +287,8 @@ const schema = [
 	<JsonLd slot="head" data={schema} />
 	<Navbar />
 	<main>
-		<section class="container-shell schedule-hero-section grid gap-10 py-10 lg:grid-cols-[0.88fr_1.12fr] lg:items-start lg:py-14" id="schedule-generator">
-			<div>
+		<section class="container-shell schedule-hero-section grid gap-12 py-12 xl:grid-cols-[minmax(0,1fr)_minmax(704px,720px)] xl:items-start xl:justify-center xl:gap-8 xl:py-20" id="schedule-generator">
+			<div class="min-w-0 max-w-[820px]">
 				<nav aria-label="Breadcrumb">
 					<ol class="flex flex-wrap items-center gap-2 text-sm text-muted">
 						{breadcrumbs.map((item, index) => (
@@ -293,14 +304,14 @@ const schema = [
 					</ol>
 				</nav>
 				<p class="mt-5 text-xs font-semibold uppercase tracking-[0.18em] text-muted">Custody schedule generator</p>
-				<h1 class="mt-4 max-w-3xl text-5xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary lg:text-6xl">
+				<h1 class="mt-5 max-w-[820px] text-5xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary lg:text-6xl">
 					{schedule.title}
 				</h1>
 				<LastUpdated date={schedule.lastUpdated} />
-				<p class="mt-6 max-w-2xl text-lg leading-8 text-secondary">{schedule.lede}</p>
+				<p class="mt-7 max-w-[760px] text-lg leading-8 text-secondary">{schedule.lede}</p>
 				{schedule.hero && (
-					<div class="mt-6 grid gap-4">
-						<div class="soft-card rounded-[1.5rem] p-5">
+					<div class="mt-7 grid max-w-[760px] gap-5">
+						<div class="soft-card rounded-[1.5rem] p-6">
 							<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Quick answer</p>
 							<p class="mt-2 text-base font-semibold leading-7 text-primary">{schedule.hero.definition}</p>
 							<p class="mt-3 text-sm leading-6 text-secondary">
@@ -332,16 +343,36 @@ const schema = [
 						<div class="grid gap-4 sm:grid-cols-2">
 							<div>
 								<p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted">{schedule.trust.reviewerLabel}</p>
-								<p class="mt-2 text-sm font-semibold text-primary">{schedule.trust.reviewerName}</p>
+								{schedule.trust.reviewerHref ? (
+									<a href={schedule.trust.reviewerHref} class="mt-2 inline-flex text-sm font-semibold text-primary underline decoration-line underline-offset-4 hover:text-accent">{schedule.trust.reviewerName}</a>
+								) : (
+									<p class="mt-2 text-sm font-semibold text-primary">{schedule.trust.reviewerName}</p>
+								)}
 								<p class="mt-1 text-sm leading-6 text-secondary">{schedule.trust.reviewerCredential}</p>
 							</div>
 							<div>
 								<p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted">Author</p>
-								<p class="mt-2 text-sm font-semibold text-primary">{schedule.trust.authorName}</p>
+								{schedule.trust.authorHref ? (
+									<a href={schedule.trust.authorHref} class="mt-2 inline-flex text-sm font-semibold text-primary underline decoration-line underline-offset-4 hover:text-accent">{schedule.trust.authorName}</a>
+								) : (
+									<p class="mt-2 text-sm font-semibold text-primary">{schedule.trust.authorName}</p>
+								)}
 								<p class="mt-1 text-sm leading-6 text-secondary">{schedule.trust.authorTitle}</p>
 							</div>
 						</div>
 						<p class="mt-4 border-t border-line-subtle pt-4 text-sm leading-6 text-secondary">{schedule.trust.authorBio}</p>
+						<div class="mt-4 grid gap-3 text-sm sm:grid-cols-2">
+							{schedule.trust.factCheckedDate && (
+								<p class="rounded-2xl bg-page/55 p-3 leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+									<span class="font-semibold text-primary">Fact-checked:</span> <time datetime={schedule.trust.factCheckedDate}>{new Date(`${schedule.trust.factCheckedDate}T00:00:00`).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</time>
+								</p>
+							)}
+							{schedule.trust.legalReviewerPlaceholder && (
+								<p class="rounded-2xl bg-page/55 p-3 leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+									<span class="font-semibold text-primary">Legal review:</span> {schedule.trust.legalReviewerPlaceholder}
+								</p>
+							)}
+						</div>
 						<p class="mt-4 rounded-2xl bg-page/55 p-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">{schedule.trust.disclaimer}</p>
 					</section>
 				)}
@@ -359,19 +390,19 @@ const schema = [
 						</div>
 					</div>
 				)}
-				<div class="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center" data-hero-cta-row>
+				<div class="hero-cta-row mt-6 flex flex-wrap items-stretch gap-4" data-hero-cta-row>
 					{schedule.hero ? (
 						schedule.hero.ctas.map((cta) => (
-							<CtaButton href={cta.href} variant={cta.variant} size="large" class="w-full whitespace-nowrap sm:w-auto">
+							<CtaButton href={cta.href} variant={cta.variant} size="large">
 								{cta.text}
 							</CtaButton>
 						))
 					) : (
 						<>
-							<CtaButton href="#schedule-generator" variant="primary" size="large" class="w-full whitespace-nowrap sm:w-auto">
+							<CtaButton href="#schedule-generator" variant="primary" size="large">
 								Test this schedule on a calendar
 							</CtaButton>
-							<CtaButton href="#example" variant="secondary" size="large" class="w-full whitespace-nowrap sm:w-auto">
+							<CtaButton href="#example" variant="secondary" size="large">
 								Compare schedule examples
 							</CtaButton>
 						</>
@@ -379,14 +410,16 @@ const schema = [
 				</div>
 			</div>
 
-			<div class="hero-generator-shell schedule-generator-shell relative">
-				<div class="absolute -inset-8 rounded-full bg-[radial-gradient(circle,rgba(94,106,210,0.16),transparent_66%)] blur-3xl" aria-hidden="true"></div>
+			<div class="hero-generator-shell schedule-generator-shell schedule-page-generator-shell relative w-full max-w-none min-w-0 xl:sticky xl:top-24 xl:min-w-[704px] xl:max-w-[720px] xl:justify-self-end">
+				<div class="absolute -inset-5 rounded-full bg-[radial-gradient(circle,rgba(94,106,210,0.12),transparent_66%)] blur-3xl" aria-hidden="true"></div>
 				<div class="premium-card hero-generator-card schedule-generator-card relative overflow-visible rounded-[1.75rem] border-line p-4 sm:rounded-[2.25rem] sm:p-5">
 					<div class="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" aria-hidden="true"></div>
 					<div class="hero-generator-inner rounded-[1.4rem] bg-surface-elevated p-0 shadow-[inset_0_1px_0_rgba(255,255,255,0.07)] sm:rounded-[1.8rem]">
-						<div class="hero-generator-grid">
-							<GeneratorPanel selectedScheduleId={schedule.id} compact />
-							<div class="hero-calendar-column grid gap-3">
+						<div class="hero-generator-grid generator-shell grid grid-cols-1 items-start gap-6 xl:grid-cols-[minmax(380px,1fr)_260px]">
+							<div class="generator-form-panel min-w-0">
+								<GeneratorPanel selectedScheduleId={schedule.id} compact />
+							</div>
+							<div class="hero-calendar-column calendar-preview-panel grid w-full min-w-0 gap-3 xl:w-[260px] xl:min-w-[260px]">
 								<CalendarPreview schedule={generatedSchedule}>
 									<ExportActions slot="actions" />
 								</CalendarPreview>
@@ -397,13 +430,19 @@ const schema = [
 			</div>
 		</section>
 
-		<section class="container-shell grid gap-8 py-12 lg:grid-cols-[0.72fr_1.28fr] lg:py-16">
+		<!-- Ad slot: after intro -->
+
+		<section class="container-shell grid gap-8 py-12 lg:grid-cols-[minmax(0,220px)_minmax(0,780px)] lg:justify-center lg:gap-12 lg:py-16">
 			<aside class="soft-card h-fit rounded-[1.5rem] p-6">
 				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">On this page</p>
 				<ul class="mt-4 space-y-3 text-sm text-secondary">
 					{schedule.trust && <li><a href="#review-disclaimer" class="hover:text-primary">Review and disclaimer</a></li>}
+					{schedule.atAGlance && <li><a href="#at-a-glance" class="hover:text-primary">At a glance</a></li>}
 					<li><a href="#overview" class="hover:text-primary">Overview</a></li>
 					{schedule.printableDownload && <li><a href="#printable-download" class="hover:text-primary">Printable downloads</a></li>}
+					{schedule.timeline && <li><a href="#timeline" class="hover:text-primary">Two-week timeline</a></li>}
+					{schedule.fitGuide && <li><a href="#who-should-use" class="hover:text-primary">Who should use it</a></li>}
+					{schedule.parentingPlanLanguage && <li><a href="#parenting-plan-language" class="hover:text-primary">Plan language</a></li>}
 					{schedule.deepDiveSections?.map((section) => (
 						<li><a href={`#${section.id}`} class="hover:text-primary">{section.title}</a></li>
 					))}
@@ -444,11 +483,32 @@ const schema = [
 				</ul>
 			</aside>
 
-			<div class="grid gap-10">
+			<div class="grid min-w-0 max-w-[780px] gap-10">
+				{schedule.atAGlance && (
+					<section id="at-a-glance" class="grid gap-5 scroll-mt-24">
+						<div>
+							<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">At a glance</p>
+							<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">2-2-3 custody schedule summary</h2>
+						</div>
+						<div class="premium-card overflow-x-auto rounded-[1.5rem]">
+							<table class="w-full min-w-[560px] border-collapse text-left text-sm">
+								<tbody class="divide-y divide-line-subtle">
+									{schedule.atAGlance.map((row) => (
+										<tr>
+											<th class="w-52 px-5 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-muted">{row.label}</th>
+											<td class="px-5 py-4 font-medium leading-6 text-secondary">{row.value}</td>
+										</tr>
+									))}
+								</tbody>
+							</table>
+						</div>
+					</section>
+				)}
+
 				<section id="overview" class="grid gap-4">
 					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">{schedule.overviewTitle ?? `How the ${schedule.title} works`}</h2>
 					{schedule.overview.map((paragraph) => (
-						<p class="text-base leading-8 text-secondary">{paragraph}</p>
+						<p class="text-base leading-8 text-secondary" set:html={paragraph} />
 					))}
 				</section>
 
@@ -462,8 +522,19 @@ const schema = [
 						<div class="grid gap-4 md:grid-cols-3">
 							{schedule.printableDownload.options.map((option) => (
 								<article class="soft-card rounded-[1.5rem] p-5">
-									<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{option.title}</h3>
+									<div class="flex flex-wrap items-start justify-between gap-3">
+										<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{option.title}</h3>
+										<span class:list={[
+											'rounded-full px-3 py-1 text-[11px] font-semibold',
+											option.status === 'coming-soon' ? 'bg-warning/15 text-primary' : 'bg-accent/10 text-accent',
+										]}>
+											{option.status === 'coming-soon' ? 'Coming soon' : 'Available'}
+										</span>
+									</div>
 									<p class="mt-3 text-sm leading-6 text-secondary">{option.description}</p>
+									{option.href && option.status !== 'coming-soon' && (
+										<a href={option.href} class="mt-4 inline-flex text-sm font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Open this option</a>
+									)}
 								</article>
 							))}
 						</div>
@@ -476,11 +547,83 @@ const schema = [
 						)}
 						<div class="cta-group">
 							{schedule.printableDownload.ctas.map((cta) => (
-								<CtaButton href={cta.href} variant={cta.variant} size="small">
-									{cta.text}
-								</CtaButton>
+								cta.disabled ? (
+									<span class="btn-secondary inline-flex h-11 cursor-not-allowed items-center justify-center rounded-full px-5 text-sm font-semibold opacity-60" aria-disabled="true">
+										{cta.text}
+									</span>
+								) : (
+									<CtaButton href={cta.href} variant={cta.variant} size="small">
+										{cta.text}
+									</CtaButton>
+								)
 							))}
 						</div>
+					</section>
+				)}
+
+				{schedule.timeline && (
+					<section id="timeline" class="printable-timeline grid gap-5 scroll-mt-24">
+						<div>
+							<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Visual timeline</p>
+							<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">{schedule.timeline.title}</h2>
+							<p class="mt-3 text-base leading-8 text-secondary">{schedule.timeline.description}</p>
+						</div>
+						<div class="premium-card overflow-hidden rounded-[1.5rem]">
+							<div class="grid divide-y divide-line-subtle md:grid-cols-2 md:divide-x md:divide-y-0">
+								{schedule.timeline.weeks.map((week) => (
+									<div class="p-5">
+										<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{week.label}</h3>
+										<div class="mt-4 grid gap-3">
+											{week.blocks.map((block) => (
+												<div class="grid grid-cols-[0.42fr_0.58fr] items-center gap-4 rounded-2xl bg-surface/70 p-3 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+													<p class="text-sm font-semibold text-primary">{block.days}</p>
+													<p class="rounded-full bg-accent/10 px-3 py-1 text-center text-sm font-semibold text-accent">{block.parent}</p>
+												</div>
+											))}
+										</div>
+									</div>
+								))}
+							</div>
+						</div>
+					</section>
+				)}
+
+				{schedule.fitGuide && (
+					<section id="who-should-use" class="grid gap-5 scroll-mt-24">
+						<div>
+							<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Fit guide</p>
+							<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">{schedule.fitGuide.title}</h2>
+							<p class="mt-3 text-base leading-8 text-secondary">{schedule.fitGuide.description}</p>
+						</div>
+						<div class="grid gap-4 md:grid-cols-2">
+							{schedule.fitGuide.cards.map((card) => (
+								<article class="soft-card rounded-[1.5rem] p-5">
+									<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{card.title}</h3>
+									<p class="mt-3 text-sm leading-6 text-secondary">{card.description}</p>
+									<ul class="mt-4 grid gap-2 text-sm leading-6 text-secondary">
+										{card.items.map((item) => <li>• {item}</li>)}
+									</ul>
+								</article>
+							))}
+						</div>
+					</section>
+				)}
+
+				{schedule.parentingPlanLanguage && (
+					<section id="parenting-plan-language" class="grid gap-5 scroll-mt-24">
+						<div>
+							<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Parenting plan language</p>
+							<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">{schedule.parentingPlanLanguage.title}</h2>
+							<p class="mt-3 text-base leading-8 text-secondary">{schedule.parentingPlanLanguage.description}</p>
+						</div>
+						<figure class="premium-card rounded-[1.5rem] p-5">
+							<blockquote class="text-sm leading-7 text-secondary">
+								{schedule.parentingPlanLanguage.clause}
+							</blockquote>
+							<figcaption class="mt-4 rounded-2xl bg-page/55 p-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+								{schedule.parentingPlanLanguage.disclaimer}
+							</figcaption>
+						</figure>
 					</section>
 				)}
 
@@ -1015,6 +1158,12 @@ const schema = [
 											<dt class="text-xs font-semibold uppercase tracking-[0.14em] text-muted">{comparisonLabels.exchangeFrequency}</dt>
 											<dd class="mt-1 text-secondary">{row.exchangeFrequency}</dd>
 										</div>
+										{row.parentTimeSplit && (
+											<div>
+												<dt class="text-xs font-semibold uppercase tracking-[0.14em] text-muted">Parent time split</dt>
+												<dd class="mt-1 text-secondary">{row.parentTimeSplit}</dd>
+											</div>
+										)}
 										{comparisonHasWeekendPattern && (
 											<div>
 												<dt class="text-xs font-semibold uppercase tracking-[0.14em] text-muted">{comparisonLabels.weekendPattern}</dt>
@@ -1031,20 +1180,26 @@ const schema = [
 												<dd class="mt-1 text-secondary">{row.cons}</dd>
 											</div>
 										)}
+										<div>
+											<dt class="text-xs font-semibold uppercase tracking-[0.14em] text-muted">Guide</dt>
+											<dd class="mt-1"><a href={row.href} class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">{row.guideLabel ?? 'Read guide'}</a></dd>
+										</div>
 									</dl>
 								</article>
 							))}
 						</div>
 						<div class="premium-card hidden overflow-x-auto rounded-[1.5rem] md:block">
-							<table class="w-full min-w-[900px] border-collapse text-left text-sm">
+							<table class="w-full min-w-[1120px] border-collapse text-left text-sm">
 								<thead class="text-xs uppercase tracking-[0.14em] text-muted">
 									<tr class="border-b border-line-subtle">
 										<th class="px-5 py-4 font-semibold">{comparisonLabels.schedule}</th>
 										<th class="px-5 py-4 font-semibold">{comparisonLabels.bestFor}</th>
+										<th class="px-5 py-4 font-semibold">Parent time split</th>
 										<th class="px-5 py-4 font-semibold">{comparisonLabels.exchangeFrequency}</th>
 										{comparisonHasWeekendPattern && <th class="px-5 py-4 font-semibold">{comparisonLabels.weekendPattern}</th>}
 										<th class="px-5 py-4 font-semibold">{comparisonLabels.notes}</th>
-										{comparisonHasCons && <th class="px-5 py-4 font-semibold">Cons</th>}
+										{comparisonHasCons && <th class="px-5 py-4 font-semibold">Watch-outs</th>}
+										<th class="px-5 py-4 font-semibold">Guide</th>
 									</tr>
 								</thead>
 								<tbody class="divide-y divide-line-subtle text-secondary">
@@ -1055,10 +1210,12 @@ const schema = [
 												{row.badge && <span class="mt-2 block w-fit rounded-full bg-accent/10 px-3 py-1 text-[11px] font-semibold text-accent">{row.badge}</span>}
 											</td>
 											<td class="px-5 py-4">{row.bestFor}</td>
+											<td class="px-5 py-4">{row.parentTimeSplit}</td>
 											<td class="px-5 py-4">{row.exchangeFrequency}</td>
 											{comparisonHasWeekendPattern && <td class="px-5 py-4">{row.weekendPattern}</td>}
 											<td class="px-5 py-4">{row.notes}</td>
 											{comparisonHasCons && <td class="px-5 py-4">{row.cons}</td>}
+											<td class="px-5 py-4"><a href={row.href} class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">{row.guideLabel ?? 'Read guide'}</a></td>
 										</tr>
 									))}
 								</tbody>
@@ -1104,6 +1261,8 @@ const schema = [
 					)}
 					<PrintableSchedule schedule={generatedSchedule} />
 				</section>
+
+				<!-- Ad slot: after schedule example -->
 
 				{schedule.decisionGuide?.scheduleCards && (
 					<section id="sixty-forty-examples" class="grid gap-5">
@@ -1414,12 +1573,14 @@ const schema = [
 					</section>
 				)}
 
+				<!-- Ad slot: before FAQ -->
+
 				<section id="faq" class="grid gap-5">
 					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">FAQ</h2>
 					<div class="premium-card divide-y divide-line-subtle overflow-hidden rounded-[1.5rem]">
 						{schedule.faq.map((item, index) => (
 							<details open={index === 0} class="group p-5 transition-colors duration-200 open:bg-surface-elevated/70 hover:bg-surface-hover/60">
-								<summary class="flex cursor-pointer list-none items-center justify-between gap-6 text-left text-base font-semibold tracking-[-0.02em] text-primary">
+								<summary class="flex cursor-pointer list-none items-center justify-between gap-6 text-left text-base font-semibold tracking-[-0.02em] text-primary" aria-expanded={index === 0 ? 'true' : 'false'} aria-label={`Toggle answer: ${item.question}`} data-faq-summary>
 									{item.question}
 									<span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-surface/80 text-muted shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-transform duration-200 group-open:rotate-45">+</span>
 								</summary>
@@ -1444,4 +1605,17 @@ const schema = [
 		</section>
 	</main>
 	<Footer />
+	<script>
+		document.querySelectorAll('[data-faq-summary]').forEach((summary) => {
+			const details = summary.closest('details');
+			if (!(details instanceof HTMLDetailsElement)) return;
+
+			const syncExpandedState = () => {
+				summary.setAttribute('aria-expanded', details.open ? 'true' : 'false');
+			};
+
+			syncExpandedState();
+			details.addEventListener('toggle', syncExpandedState);
+		});
+	</script>
 </BaseLayout>

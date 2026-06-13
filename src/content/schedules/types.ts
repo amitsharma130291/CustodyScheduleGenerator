@@ -30,6 +30,8 @@ export interface ScheduleComparisonRow {
 	weekendPattern?: string;
 	notes: string;
 	cons?: string;
+	parentTimeSplit?: string;
+	guideLabel?: string;
 	badge?: string;
 }
 
@@ -65,9 +67,13 @@ export interface ScheduleContent {
 		reviewerLabel: string;
 		reviewerName: string;
 		reviewerCredential: string;
+		reviewerHref?: string;
 		authorName: string;
 		authorTitle: string;
 		authorBio: string;
+		authorHref?: string;
+		factCheckedDate?: string;
+		legalReviewerPlaceholder?: string;
 		disclaimer: string;
 	};
 	hero?: {
@@ -93,13 +99,40 @@ export interface ScheduleContent {
 		options: Array<{
 			title: string;
 			description: string;
+			status?: 'available' | 'coming-soon';
+			href?: string;
 		}>;
 		ctas: Array<{
 			text: string;
 			href: string;
 			variant: 'primary' | 'secondary';
+			disabled?: boolean;
 		}>;
 		yearOptions?: string[];
+	};
+	atAGlance?: Array<{
+		label: string;
+		value: string;
+	}>;
+	timeline?: {
+		title: string;
+		description: string;
+		weeks: ScheduleExampleWeek[];
+	};
+	fitGuide?: {
+		title: string;
+		description: string;
+		cards: Array<{
+			title: string;
+			description: string;
+			items: string[];
+		}>;
+	};
+	parentingPlanLanguage?: {
+		title: string;
+		description: string;
+		clause: string;
+		disclaimer: string;
 	};
 	deepDiveSections?: Array<{
 		id: string;
