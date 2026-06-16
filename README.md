@@ -13,7 +13,8 @@ Inside of your Astro project, you'll see the following folders and files:
 ```text
 /
 ├── public/
-│   └── favicon.svg
+│   └── logo/
+│       └── custodybuilder-icon-light.svg
 ├── src
 │   ├── assets
 │   │   └── astro.svg

@@ -162,12 +162,15 @@ textarea {
 }
 
 .site-logo-lockup {
-	background: #ffffff;
-	box-shadow: 0 2px 8px rgba(15, 23, 42, 0.04), inset 0 0 0 1px rgba(15, 23, 42, 0.08);
+	line-height: 0;
 }
 
-.site-logo-lockup:hover {
-	box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06), inset 0 0 0 1px rgba(15, 23, 42, 0.1);
+:root[data-theme="dark"] .theme-logo-light {
+	display: none;
+}
+
+:root[data-theme="dark"] .theme-logo-dark {
+	display: block;
 }
 
 .site-nav-pill {
@@ -224,11 +227,6 @@ textarea {
 :root[data-theme="dark"] .site-header {
 	background: rgba(2, 6, 23, 0.82);
 	border-bottom-color: rgba(148, 163, 184, 0.16);
-}
-
-:root[data-theme="dark"] .site-logo-lockup {
-	background: #ffffff;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22), inset 0 0 0 1px rgba(15, 23, 42, 0.08);
 }
 
 :root[data-theme="dark"] .site-nav-pill {
