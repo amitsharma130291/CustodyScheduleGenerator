@@ -60,6 +60,8 @@ export interface ScheduleContent {
 	description: string;
 	metaTitle: string;
 	metaDescription: string;
+	ogTitle?: string;
+	ogDescription?: string;
 	canonicalUrl?: string;
 	lastUpdated?: string;
 	lede: string;
