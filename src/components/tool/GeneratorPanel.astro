@@ -29,36 +29,37 @@ const initialDefaultPattern = isRatioSchedule ? defaultRatioSchedulePatterns[nor
 const initialPatternOption = initialPatternOptions.find((option) => option.id === initialDefaultPattern);
 ---
 
-<section class={`soft-card rounded-[1.5rem] ${compact ? 'p-3' : isEightyTwentySchedule ? 'p-4' : 'p-6'}`} data-generator-panel>
-	<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Generator</p>
-	<h2 class={`${compact ? 'mt-1.5 text-lg' : isEightyTwentySchedule ? 'mt-2 text-xl' : 'mt-3 text-2xl'} font-semibold tracking-[-0.04em] text-primary`}>Build a custody schedule</h2>
+<section class={`soft-card rounded-[1.5rem] ${compact ? 'p-3' : isEightyTwentySchedule ? 'p-4' : 'p-6 sm:p-7'}`} data-generator-panel>
+	<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Schedule builder</p>
+	<h2 class={`${compact ? 'mt-1.5 text-lg' : isEightyTwentySchedule ? 'mt-2 text-xl' : 'mt-3 text-2xl'} font-semibold tracking-[-0.04em] text-primary`}>Create a parenting calendar</h2>
 	{!compact && !isEightyTwentySchedule && (
 		<p class="mt-3 text-sm leading-6 text-secondary">
-			Choose a schedule type, start date, and parent names to preview the calendar.
+			Choose a schedule, start date, and parent labels. CustodyBuilder turns them into a calendar preview for planning.
 		</p>
 	)}
 	{compact && (
 		<p class="mt-2 text-xs leading-5 text-secondary">
-			Start with today or choose a future date. The preview updates as you edit and can be printed or exported as a PDF.
+			Preview dates, check overnight estimates, and save a PDF when the schedule is ready to discuss.
 		</p>
 	)}
 
 	<form class={`${compact ? 'mt-4 gap-3' : isEightyTwentySchedule ? 'mt-4 gap-3' : 'mt-6 gap-4'} grid`} data-generator-form>
-		<label class="grid min-w-0 gap-1.5">
-			<span class="text-sm font-medium text-secondary">Schedule type</span>
-			<select id="schedule-type" name="scheduleId" aria-label="Schedule type" class="w-full min-w-0 truncate rounded-2xl bg-page px-4 py-2 pr-9 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-schedule-select>
+		<label class="grid min-w-0 gap-2">
+			<span class="text-sm font-medium text-secondary">Parenting schedule</span>
+			<select id="schedule-type" name="scheduleId" aria-label="Parenting schedule" aria-describedby="schedule-type-help" class="w-full min-w-0 truncate rounded-2xl bg-page px-4 py-2.5 pr-9 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-all duration-200 ease-out hover:bg-surface focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-schedule-select>
 				{scheduleDefinitionList.map((definition) => (
 					<option value={definition.id} selected={definition.id === normalizedSelectedScheduleId}>
 						{definition.name}
 					</option>
 				))}
 			</select>
+			<span id="schedule-type-help" class="text-xs leading-5 text-muted">Switch anytime to compare another pattern.</span>
 		</label>
 
 		<div class={`${isRatioSchedule ? 'grid' : 'hidden'} min-w-0 gap-1.5`} data-ratio-pattern-field>
-			<label class="grid min-w-0 gap-1.5">
+			<label class="grid min-w-0 gap-2">
 				<span class="text-sm font-medium text-secondary" data-ratio-pattern-label>{initialPatternLabel}</span>
-				<select name="pattern" aria-label={initialPatternAriaLabel} class="w-full min-w-0 truncate rounded-2xl bg-page px-4 py-2 pr-9 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-ratio-pattern-select>
+				<select name="pattern" aria-label={initialPatternAriaLabel} class="w-full min-w-0 truncate rounded-2xl bg-page px-4 py-2.5 pr-9 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-all duration-200 ease-out hover:bg-surface focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-ratio-pattern-select>
 					{initialPatternOptions.map((option) => (
 						<option value={option.id} selected={option.id === initialDefaultPattern}>
 							{option.label}
@@ -70,59 +71,62 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 				{initialPatternOption?.description}
 			</p>
 			<div class={`${isEightyTwentySchedule ? 'flex' : 'hidden'} min-w-0 flex-wrap gap-1.5`} data-pattern-chip-row>
-				<span class="rounded-full bg-page/55 px-2 py-1 text-[10px] font-medium leading-none text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]" data-pattern-chip-split>Split calculated</span>
-				<span class="rounded-full bg-page/55 px-2 py-1 text-[10px] font-medium leading-none text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]" data-pattern-chip-exchanges>Exchanges/mo</span>
+				<span class="rounded-full bg-page/55 px-2 py-1 text-[10px] font-medium leading-none text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]" data-pattern-chip-split>Estimated split</span>
+				<span class="rounded-full bg-page/55 px-2 py-1 text-[10px] font-medium leading-none text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]" data-pattern-chip-exchanges>Monthly exchanges</span>
 				<span class="rounded-full bg-page/55 px-2 py-1 text-[10px] font-medium leading-none text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]" data-pattern-chip-decision>{initialPatternOption?.heroDecisionChip}</span>
 			</div>
 		</div>
 
-		<label class="grid min-w-0 gap-1.5">
+		<label class="grid min-w-0 gap-2">
 			<span class="text-sm font-medium text-secondary">Start date</span>
-			<input name="startDate" type="date" value={startDate ?? ''} aria-label="Schedule start date" aria-describedby="schedule-start-date-help schedule-form-status" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" />
-			<span id="schedule-start-date-help" class="text-xs leading-5 text-muted">Use the first day you want the parenting pattern to begin.</span>
+			<input name="startDate" type="date" value={startDate ?? ''} aria-label="Schedule start date" aria-describedby="schedule-start-date-help schedule-form-status" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-all duration-200 ease-out hover:bg-surface focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" />
+			<span id="schedule-start-date-help" class="text-xs leading-5 text-muted">Use the first day the schedule should begin.</span>
 		</label>
 
 		<div class="hero-form-fields grid gap-3">
-			<label class="grid min-w-0 gap-1.5">
-				<span class="text-sm font-medium text-secondary">Parent A</span>
-				<input name="parentA" value={parentA} aria-label="Parent A name" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" />
+			<label class="grid min-w-0 gap-2">
+				<span class="text-sm font-medium text-secondary">First parent</span>
+				<input name="parentA" value={parentA} aria-label="First parent label" aria-describedby="parent-labels-help" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-all duration-200 ease-out hover:bg-surface focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" />
 			</label>
-			<label class="grid min-w-0 gap-1.5">
-				<span class="text-sm font-medium text-secondary">Parent B</span>
-				<input name="parentB" value={parentB} aria-label="Parent B name" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" />
+			<label class="grid min-w-0 gap-2">
+				<span class="text-sm font-medium text-secondary">Second parent</span>
+				<input name="parentB" value={parentB} aria-label="Second parent label" aria-describedby="parent-labels-help" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-all duration-200 ease-out hover:bg-surface focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" />
 			</label>
+			<p id="parent-labels-help" class="text-xs leading-5 text-muted sm:col-span-2">These names are calendar labels only.</p>
 		</div>
-		<button type="button" class="btn-primary flex h-12 w-full min-w-0 items-center justify-center whitespace-nowrap rounded-full px-5 text-center text-[15px] font-semibold leading-none shadow-[0_10px_24px_rgba(15,23,42,0.16)] transition-all duration-150 ease-out hover:-translate-y-px hover:shadow-[0_12px_30px_rgba(15,23,42,0.20)] active:translate-y-0 active:scale-[0.99] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-generate-calendar>
-			Generate Calendar
+		<button type="button" class="btn-primary flex h-12 w-full min-w-0 items-center justify-center whitespace-nowrap rounded-full px-5 text-center text-[15px] font-semibold leading-none shadow-[0_10px_24px_rgba(15,23,42,0.14)] transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_12px_28px_rgba(15,23,42,0.18)] active:translate-y-0 active:scale-[0.99] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-generate-calendar>
+			Update calendar preview
 		</button>
 		<p id="schedule-form-status" class="hidden rounded-2xl bg-warning/15 p-3 text-sm leading-6 text-primary" role="status" aria-live="polite" data-form-status></p>
 		{compact && (
 			<div class="grid gap-1.5 rounded-2xl bg-page/45 p-3 text-[11px] font-semibold leading-4 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]" aria-label="Generator reassurance">
-				<span><span class="text-parent-b" aria-hidden="true">✓</span> Live calendar preview</span>
-				<span><span class="text-parent-b" aria-hidden="true">✓</span> Custody percentage calculations</span>
-				<span><span class="text-parent-b" aria-hidden="true">✓</span> Common parenting schedules</span>
+				<span><span class="text-parent-b" aria-hidden="true">✓</span> Preview real dates</span>
+				<span><span class="text-parent-b" aria-hidden="true">✓</span> Check overnight estimates</span>
+				<span><span class="text-parent-b" aria-hidden="true">✓</span> Export when ready</span>
 			</div>
 		)}
 		<div class="mt-4 mb-2 grid w-full min-w-0 gap-3" data-pdf-export-actions>
-			<p class="mb-0 text-xs font-semibold uppercase tracking-[0.16em] text-muted">Export calendar</p>
+			<div class="grid gap-1">
+				<p class="mb-0 text-xs font-semibold uppercase tracking-[0.16em] text-muted">Save your calendar</p>
+				<p class="text-xs leading-5 text-muted">PDFs are for planning and discussion.</p>
+			</div>
 			<div class="grid w-full min-w-0 gap-3">
 				<button type="button" class="btn-primary flex h-14 w-full min-w-0 cursor-pointer items-center justify-center gap-2.5 whitespace-nowrap rounded-full px-5 text-center text-[15px] font-semibold leading-none transition-all duration-150 ease-out hover:-translate-y-px hover:shadow-[0_10px_24px_rgba(15,23,42,0.18)] active:translate-y-0 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-download-monthly-pdf>
 					<span class="text-sm leading-none opacity-85" aria-hidden="true">📄</span>
-					<span class="leading-none" data-pdf-button-label>Monthly Calendar PDF</span>
+					<span class="leading-none" data-pdf-button-label>Download monthly PDF</span>
 				</button>
 				<button type="button" class="btn-primary flex h-14 w-full min-w-0 cursor-pointer items-center justify-center gap-2.5 whitespace-nowrap rounded-full px-5 text-center text-[15px] font-semibold leading-none transition-all duration-150 ease-out hover:-translate-y-px hover:shadow-[0_10px_24px_rgba(15,23,42,0.18)] active:translate-y-0 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-download-yearly-pdf>
 					<span class="text-sm leading-none opacity-85" aria-hidden="true">📄</span>
-					<span class="leading-none" data-pdf-button-label>Yearly Calendar PDF</span>
+					<span class="leading-none" data-pdf-button-label>Download yearly PDF</span>
 				</button>
 			</div>
 		</div>
 		<div class="hidden rounded-2xl bg-page/55 p-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]" data-next-steps-panel>
-			<p class="font-semibold text-primary">Next steps</p>
+			<p class="font-semibold text-primary">When the preview looks right</p>
 			<ul class="mt-2 grid gap-1.5 pl-4 [list-style:disc]">
-				<li>Export a monthly or yearly PDF using the buttons above.</li>
-				<li><a href="/custody-schedule-generator/#popular-schedules" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Compare alternatives</a> before finalizing.</li>
-				<li><a href="/custody-percentage-calculator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Calculate parenting percentage</a> from overnight totals.</li>
-				<li>Print or share the calendar for mediation or co-parenting discussion.</li>
+				<li>Review dates and overnight estimates.</li>
+				<li><a href="/custody-schedule-generator/#popular-schedules" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Compare nearby schedules</a> if needed.</li>
+				<li>Download, print, or share the calendar for discussion.</li>
 			</ul>
 		</div>
 	</form>
@@ -173,8 +177,8 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 	const scheduleCache = new Map();
 
 	const parentColors = {
-		A: 'bg-[rgba(94,106,210,0.2)] text-accent shadow-[inset_0_0_0_1px_rgba(94,106,210,0.28)]',
-		B: 'bg-[rgba(34,197,94,0.14)] text-parent-b shadow-[inset_0_0_0_1px_rgba(34,197,94,0.18)]',
+		A: 'bg-[rgba(37,99,235,0.2)] text-accent shadow-[inset_0_0_0_1px_rgba(37,99,235,0.28)]',
+		B: 'bg-[rgba(45,212,191,0.14)] text-parent-b shadow-[inset_0_0_0_1px_rgba(45,212,191,0.18)]',
 		inactive: 'text-muted opacity-30 shadow-[inset_0_0_0_1px_var(--border-subtle)]',
 	};
 
@@ -275,15 +279,16 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 
 		if (ratioPatternDescription) {
 			const option = options.find((item) => item.id === normalizedPattern) || options.find((item) => item.id === getDefaultRatioPattern(scheduleId));
-			ratioPatternDescription.textContent = option ? [option.description, option.note].filter(Boolean).join(' ') : '';
+			const ratioContext = option ? 'Monthly totals can differ from the long-term target.' : '';
+			ratioPatternDescription.textContent = option ? [option.description, option.note, ratioContext].filter(Boolean).join(' ') : '';
 		}
 
 		const option = options.find((item) => item.id === normalizedPattern) || options.find((item) => item.id === getDefaultRatioPattern(scheduleId));
 		patternChipRow?.classList.toggle('hidden', String(scheduleId) !== '80-20');
 		patternChipRow?.classList.toggle('flex', String(scheduleId) === '80-20');
 		if (String(scheduleId) === '80-20' && option) {
-			if (patternChipSplit) patternChipSplit.textContent = 'Split calculated';
-			if (patternChipExchanges) patternChipExchanges.textContent = 'Exchanges/mo';
+			if (patternChipSplit) patternChipSplit.textContent = 'Estimated split';
+			if (patternChipExchanges) patternChipExchanges.textContent = 'Monthly exchanges';
 			if (patternChipDecision) patternChipDecision.textContent = option.heroDecisionChip || option.heroChips?.[1] || option.note || 'Pattern';
 		}
 	}
@@ -319,19 +324,19 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 			return longTermText;
 		}
 
-		return `Visible month: ${visibleParentAPercentage}% / ${visibleParentBPercentage}%. ${longTermText} Visible month percentages may differ depending on the selected start date and calendar month.`;
+		return `Visible month: ${visibleParentAPercentage}% / ${visibleParentBPercentage}%. ${longTermText}`;
 	}
 
 	function getSeventyThirtyRangeNote(patternId) {
 		if (patternId === 'alternating-weekends') {
-			return 'Long-term average: approximately 86% / 14% by overnights.';
+			return 'Estimated long-term split: approximately 86% / 14% by overnights.';
 		}
 
 		if (patternId === 'every-3rd-week' || patternId === 'every-3rd-day') {
-			return 'Long-term average: approximately 67% / 33%.';
+			return 'Estimated long-term split: approximately 67% / 33% by overnights.';
 		}
 
-		return 'Current month percentages may vary. Long-term average: approximately 71% / 29%.';
+		return 'Estimated long-term split: approximately 71% / 29% by overnights.';
 	}
 
 	function getSeventyThirtyLongTermAverage(patternId) {
@@ -416,25 +421,31 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 
 		const range = button.matches('[data-download-yearly-pdf]') ? 'yearly' : 'monthly';
 		const label = button.querySelector('[data-pdf-button-label]');
-		const defaultLabel = label?.textContent?.trim() || (range === 'yearly' ? 'Yearly Calendar PDF' : 'Monthly Calendar PDF');
+		const defaultLabel = label?.textContent?.trim() || (range === 'yearly' ? 'Download yearly PDF' : 'Download monthly PDF');
 		const state = getCurrentPdfState();
 
 		button.disabled = true;
-		if (label) label.textContent = 'Preparing...';
+		button.dataset.state = 'loading';
+		button.setAttribute('aria-busy', 'true');
+		if (label) label.textContent = 'Preparing PDF...';
 
 		try {
 			if (!state) throw new Error('Schedule state is incomplete.');
 			await downloadSchedulePdf(range, state);
 			trackGa4Event(range === 'yearly' ? 'export_yearly_pdf' : 'export_monthly_pdf');
-			if (label) label.textContent = 'Downloaded';
+			button.dataset.state = 'success';
+			if (label) label.textContent = 'PDF downloaded';
 		} catch (error) {
 			console.error('Failed to generate custody schedule PDF:', error);
-			if (label) label.textContent = 'PDF failed';
+			button.dataset.state = 'error';
+			if (label) label.textContent = 'PDF could not be created';
 		}
 
 		window.setTimeout(() => {
 			if (label) label.textContent = defaultLabel;
 			button.disabled = false;
+			button.removeAttribute('data-state');
+			button.removeAttribute('aria-busy');
 		}, 2000);
 	}
 
@@ -445,7 +456,13 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 
 		event.preventDefault();
 		event.stopPropagation();
-		renderSchedule();
+		const didRender = renderSchedule();
+		if (!didRender) return;
+		button.dataset.state = 'success';
+		setFormStatus('Preview updated. Review the month below.');
+		window.setTimeout(() => {
+			button.removeAttribute('data-state');
+		}, 450);
 		if (form instanceof HTMLFormElement) {
 			const scheduleType = new FormData(form).get('scheduleId');
 			trackGa4Event('generate_calendar', {
@@ -457,7 +474,7 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 	}
 
 	function renderSchedule(updateUrl = true) {
-		if (!(form instanceof HTMLFormElement) || !calendarGrid) return;
+		if (!(form instanceof HTMLFormElement) || !calendarGrid) return false;
 
 		const data = new FormData(form);
 		const scheduleId = data.get('scheduleId');
@@ -470,8 +487,8 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 		updateEightyTwentyExampleSection(definition.id, selectedPattern);
 		const startDate = parseISO(String(startDateValue));
 		if (!isValid(startDate)) {
-			setFormStatus('Choose a valid start date to generate the custody calendar.');
-			return;
+			setFormStatus('Enter a valid start date to preview the calendar.');
+			return false;
 		}
 		setFormStatus('');
 		const monthStart = startOfMonth(startDate);
@@ -489,8 +506,8 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 				pattern: selectedPattern,
 			});
 		} catch {
-			setFormStatus('This schedule could not be generated. Check the schedule type and start date, then try again.');
-			return;
+			setFormStatus('We could not create that preview. Check the schedule and date, then try again.');
+			return false;
 		}
 
 		const daysByDate = new Map(schedule.days.map((day) => [day.date, day]));
@@ -526,18 +543,18 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 		if (summaryParentBDays) summaryParentBDays.textContent = `${parentBDays} overnights`;
 		if (annualEstimate) {
 			annualEstimate.textContent = schedule.patternSummary?.annualAverage
-				? `Annual estimate: ${schedule.patternSummary.annualAverage.parentAPercentage}/${schedule.patternSummary.annualAverage.parentBPercentage}`
-				: 'Annual estimate: calculated after generation';
+				? `Estimated annual split: ${schedule.patternSummary.annualAverage.parentAPercentage}% / ${schedule.patternSummary.annualAverage.parentBPercentage}% by overnights`
+				: 'Annual split appears when this pattern supports yearly averages.';
 		}
 		if (definition.id === '80-20' && patternChipSplit && schedule.patternSummary?.annualAverage) {
-			patternChipSplit.textContent = `${schedule.patternSummary.annualAverage.parentAPercentage}/${schedule.patternSummary.annualAverage.parentBPercentage} split`;
+			patternChipSplit.textContent = `${schedule.patternSummary.annualAverage.parentAPercentage}%/${schedule.patternSummary.annualAverage.parentBPercentage}% estimate`;
 		}
 		if (definition.id === '80-20' && patternChipExchanges && schedule.patternSummary?.exchangeFrequencyText) {
-			patternChipExchanges.textContent = schedule.patternSummary.exchangeFrequencyText.replace(' exchanges this month', ' Exchanges/mo').replace(' exchange this month', ' Exchange/mo');
+			patternChipExchanges.textContent = schedule.patternSummary.exchangeFrequencyText.replace(' exchanges this month', ' monthly exchanges').replace(' exchange this month', ' monthly exchange');
 		}
 		const baseNote = definition.id === '80-20'
-			? 'Based on overnight counts only'
-			: 'Percentages are based on overnight counts only. Daytime visits, dinner visits, school hours, and exchange times are not included.';
+			? 'Overnight estimate only.'
+			: 'Overnight estimate only. Daytime visits are not included.';
 		const ratioNote = definition.id === '70-30'
 			? getSeventyThirtyRangeNote(selectedPattern)
 			: definition.id === '60-40'
@@ -547,7 +564,7 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 		sixtyFortyRangeNote?.classList.remove('hidden');
 		sixtyFortyRangeNote?.classList.add('flex');
 		currentViewLabels.forEach((label) => {
-			label.textContent = 'Overnight split';
+			label.textContent = 'Overnight estimate';
 			label.classList.remove('hidden');
 		});
 		if (printTitle) printTitle.textContent = `${definition.shortName} custody calendar`;
@@ -584,6 +601,7 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 			}
 			window.history.replaceState({}, '', `${window.location.pathname}?${params.toString()}`);
 		}
+		return true;
 	}
 
 	form?.addEventListener('input', () => renderSchedule());

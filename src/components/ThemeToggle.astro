@@ -4,17 +4,17 @@ import { Moon, Sun } from 'lucide-astro';
 
 <button
 	type="button"
-	class="icon-button group inline-grid h-11 w-11 place-items-center rounded-full transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_28px_rgba(0,0,0,0.16)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+	class="icon-button theme-toggle group inline-grid h-11 w-11 place-items-center rounded-full focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
 	aria-label="Switch to dark mode"
 	aria-pressed="false"
 	title="Switch to dark mode"
 	data-theme="light"
 	data-theme-toggle
 >
-	<span class="col-start-1 row-start-1 text-accent opacity-0 -rotate-90 scale-90 transition-all duration-300 ease-out group-data-[theme='dark']:rotate-0 group-data-[theme='dark']:scale-100 group-data-[theme='dark']:opacity-100" data-theme-icon="light" aria-hidden="true">
+	<span class="col-start-1 row-start-1 text-accent opacity-0 -rotate-90 scale-90 transition-all duration-[250ms] ease-out group-data-[theme='dark']:rotate-0 group-data-[theme='dark']:scale-100 group-data-[theme='dark']:opacity-100" data-theme-icon="light" aria-hidden="true">
 		<Sun size={16} stroke-width={2} />
 	</span>
-	<span class="col-start-1 row-start-1 text-accent opacity-0 rotate-90 scale-90 transition-all duration-300 ease-out group-data-[theme='light']:rotate-0 group-data-[theme='light']:scale-100 group-data-[theme='light']:opacity-100" data-theme-icon="dark" aria-hidden="true">
+	<span class="col-start-1 row-start-1 text-accent opacity-0 rotate-90 scale-90 transition-all duration-[250ms] ease-out group-data-[theme='light']:rotate-0 group-data-[theme='light']:scale-100 group-data-[theme='light']:opacity-100" data-theme-icon="dark" aria-hidden="true">
 		<Moon size={16} stroke-width={2} />
 	</span>
 </button>

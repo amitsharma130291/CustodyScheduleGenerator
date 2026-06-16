@@ -36,8 +36,8 @@ const accentClass = accent === 'green' ? 'text-parent-b' : 'text-accent';
 			{Array.from({ length: 14 }).map((_, index) => {
 				const isFirstParent = index % 5 < 2;
 				const color = isFirstParent
-					? 'bg-[rgba(94,106,210,0.22)] text-accent'
-					: 'bg-[rgba(34,197,94,0.14)] text-parent-b';
+					? 'bg-[rgba(37,99,235,0.22)] text-accent'
+					: 'bg-[rgba(45,212,191,0.14)] text-parent-b';
 				return <span class={`h-7 rounded-lg text-center text-[10px] font-semibold leading-7 transition-transform duration-200 group-hover:scale-[1.03] ${color}`}>{index + 1}</span>;
 			})}
 		</div>

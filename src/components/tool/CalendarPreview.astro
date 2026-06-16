@@ -11,7 +11,7 @@ const parentAPercentage = Math.round((schedule.parentDayCounts.parentA / totalDa
 const parentBPercentage = 100 - parentAPercentage;
 ---
 
-<section class="box-border min-w-0 overflow-hidden rounded-[1.5rem] bg-page/55 p-3 shadow-[inset_0_0_0_1px_var(--border-subtle)]" data-calendar-preview>
+<section class="box-border min-w-0 overflow-hidden rounded-[1.5rem] bg-page/60 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]" data-calendar-preview>
 	<div class="hidden" data-print-header>
 		<h2>Custody Schedule</h2>
 		<dl>
@@ -43,12 +43,13 @@ const parentBPercentage = 100 - parentAPercentage;
 		<p>Educational planning tool. Not legal advice.</p>
 	</div>
 
-	<div class="flex flex-col gap-2 border-b border-line-subtle pb-3 sm:flex-row sm:items-center sm:justify-between">
+	<div class="flex flex-col gap-2.5 border-b border-line-subtle pb-3.5 sm:flex-row sm:items-center sm:justify-between">
 		<div>
-			<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Calendar preview</p>
+			<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Parenting calendar preview</p>
 			<h2 class="mt-1 text-xl font-semibold tracking-[-0.04em] text-primary" data-calendar-month>
 				{schedule.monthLabel}
 			</h2>
+			<p class="mt-1 text-[11px] leading-4 text-muted">Based on your selected start date.</p>
 		</div>
 		<div class="flex flex-wrap gap-3 text-xs text-secondary">
 			<span class="inline-flex items-center gap-2"><i class="h-2.5 w-2.5 rounded-full bg-accent"></i><span data-parent-a-label>{schedule.parentNames.parentA}</span></span>
@@ -56,17 +57,17 @@ const parentBPercentage = 100 - parentAPercentage;
 		</div>
 	</div>
 
-	<div class="mt-3 grid min-w-0 grid-cols-7 gap-1 text-center text-[10px] font-semibold uppercase tracking-[0.08em] text-muted sm:gap-1.5 sm:text-[11px]" aria-hidden="true">
+	<div class="mt-3.5 grid min-w-0 grid-cols-7 gap-1 text-center text-[10px] font-semibold uppercase tracking-[0.08em] text-muted sm:gap-1.5 sm:text-[11px]" aria-hidden="true">
 		{['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day) => <span>{day}</span>)}
 	</div>
 
-	<div class="mt-2.5 grid min-w-0 grid-cols-7 gap-1 sm:gap-1.5" data-calendar-grid>
+	<div class="mt-3 grid min-w-0 grid-cols-7 gap-1 sm:gap-1.5" data-calendar-grid>
 		{schedule.days.map((day) => {
 			const color = !day.isCurrentMonth
 				? 'text-muted opacity-30 shadow-[inset_0_0_0_1px_var(--border-subtle)]'
 				: day.parent === 'parentA'
-					? 'bg-[rgba(94,106,210,0.2)] text-accent shadow-[inset_0_0_0_1px_rgba(94,106,210,0.28)]'
-					: 'bg-[rgba(34,197,94,0.14)] text-parent-b shadow-[inset_0_0_0_1px_rgba(34,197,94,0.18)]';
+					? 'bg-[rgba(37,99,235,0.2)] text-accent shadow-[inset_0_0_0_1px_rgba(37,99,235,0.28)]'
+					: 'bg-[rgba(45,212,191,0.14)] text-parent-b shadow-[inset_0_0_0_1px_rgba(45,212,191,0.18)]';
 
 			return (
 				<span
@@ -78,31 +79,31 @@ const parentBPercentage = 100 - parentAPercentage;
 		})}
 	</div>
 
-	<div class="mt-2.5 grid grid-cols-2 gap-2" aria-label="Parenting time summary" aria-live="polite">
-		<div class="min-w-0 rounded-2xl bg-surface/70 p-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<div class="mt-3 grid grid-cols-2 gap-2.5" aria-label="Parenting time summary" aria-live="polite">
+		<div class="min-w-0 rounded-2xl bg-surface/75 p-2 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
 			<p class="inline-flex max-w-full items-center gap-1.5 text-xs font-medium leading-none text-secondary">
 				<i class="h-2 w-2 shrink-0 rounded-full bg-accent" aria-hidden="true"></i>
 				<span class="truncate" data-summary-parent-a-label>{schedule.parentNames.parentA}</span>
 			</p>
-			<p class="mt-1 text-[9px] font-semibold uppercase tracking-[0.16em] text-muted" data-current-view-label>Overnight split</p>
+			<p class="mt-1 text-[9px] font-semibold uppercase tracking-[0.16em] text-muted" data-current-view-label>Overnight estimate</p>
 			<p class="mt-1 text-[28px] font-bold leading-none tracking-[-0.05em] text-accent" data-summary-parent-a-percent>
 				{parentAPercentage}%
 			</p>
 			<p class="mt-0.5 text-[11px] leading-none text-muted/90" data-summary-parent-a-days>{schedule.parentDayCounts.parentA} overnights</p>
 		</div>
-		<div class="min-w-0 rounded-2xl bg-surface/70 p-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+		<div class="min-w-0 rounded-2xl bg-surface/75 p-2 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
 			<p class="inline-flex max-w-full items-center gap-1.5 text-xs font-medium leading-none text-secondary">
 				<i class="h-2 w-2 shrink-0 rounded-full bg-parent-b" aria-hidden="true"></i>
 				<span class="truncate" data-summary-parent-b-label>{schedule.parentNames.parentB}</span>
 			</p>
-			<p class="mt-1 text-[9px] font-semibold uppercase tracking-[0.16em] text-muted" data-current-view-label>Overnight split</p>
+			<p class="mt-1 text-[9px] font-semibold uppercase tracking-[0.16em] text-muted" data-current-view-label>Overnight estimate</p>
 			<p class="mt-1 text-[28px] font-bold leading-none tracking-[-0.05em] text-parent-b" data-summary-parent-b-percent>
 				{parentBPercentage}%
 			</p>
 			<p class="mt-0.5 text-[11px] leading-none text-muted/90" data-summary-parent-b-days>{schedule.parentDayCounts.parentB} overnights</p>
 		</div>
 		<p class="col-span-2 -mt-0.5 text-center text-[11px] leading-none text-muted" data-annual-estimate>
-			Annual estimate: calculated after generation
+			Annual estimate shown when available.
 		</p>
 	</div>
 
@@ -112,6 +113,6 @@ const parentBPercentage = 100 - parentAPercentage;
 
 	<p class="mt-1.5 flex items-start gap-1.5 text-[11px] leading-4 text-muted print:hidden" data-sixty-forty-range-note>
 		<span class="mt-0.5 inline-flex h-3.5 w-3.5 shrink-0 items-center justify-center rounded-full bg-surface-elevated text-[9px] font-semibold text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]" aria-hidden="true">i</span>
-		<span data-sixty-forty-range-note-text>Based on overnight counts only</span>
+		<span data-sixty-forty-range-note-text>Overnight estimate only.</span>
 	</p>
 </section>

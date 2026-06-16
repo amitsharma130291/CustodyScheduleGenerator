@@ -80,8 +80,8 @@ const initialAdvancedDeductions =
 						</div>
 					</details>
 
-					<p class="flex items-start gap-2 rounded-xl bg-[rgba(94,106,210,0.07)] px-2.5 py-2 text-xs leading-[1.25] text-[color-mix(in_srgb,var(--accent)_72%,var(--text-secondary))] shadow-[inset_0_0_0_1px_rgba(94,106,210,0.16)] sm:items-center">
-						<span class="mt-px grid h-4 w-4 shrink-0 place-items-center rounded-full bg-[rgba(94,106,210,0.1)] text-[10px] font-semibold leading-none text-accent sm:mt-0" aria-hidden="true">i</span>
+					<p class="flex items-start gap-2 rounded-xl bg-[rgba(37,99,235,0.07)] px-2.5 py-2 text-xs leading-[1.25] text-[color-mix(in_srgb,var(--accent)_72%,var(--text-secondary))] shadow-[inset_0_0_0_1px_rgba(37,99,235,0.16)] sm:items-center">
+						<span class="mt-px grid h-4 w-4 shrink-0 place-items-center rounded-full bg-[rgba(37,99,235,0.1)] text-[10px] font-semibold leading-none text-accent sm:mt-0" aria-hidden="true">i</span>
 						<span>Optional fields for self-employment income, insurance, union dues, and deduction adjustments.</span>
 					</p>
 
@@ -104,7 +104,7 @@ const initialAdvancedDeductions =
 					<div class="mt-3 grid gap-3">
 						<div class="flex items-start justify-between gap-4">
 							<span>Gross monthly income</span>
-							<strong class="text-right text-green-600" data-texas-breakdown-gross>{formatTexasCurrency(initialResult.grossIncome)}</strong>
+							<strong class="text-right text-[#0F766E]" data-texas-breakdown-gross>{formatTexasCurrency(initialResult.grossIncome)}</strong>
 						</div>
 						<div class="grid gap-2 border-t border-line-subtle pt-3">
 							<div class="flex items-start justify-between gap-4">
@@ -150,7 +150,7 @@ const initialAdvancedDeductions =
 						</div>
 						<div class="flex items-start justify-between gap-4 border-t border-line-subtle pt-3">
 							<span>Estimated net resources</span>
-							<strong class="text-right text-lg font-bold tracking-[-0.04em] text-indigo-600" data-texas-support-net>{formatTexasCurrency(initialResult.netResources)}</strong>
+							<strong class="text-right text-lg font-bold tracking-[-0.04em] text-[#2563EB]" data-texas-support-net>{formatTexasCurrency(initialResult.netResources)}</strong>
 						</div>
 						<div class="flex items-start justify-between gap-4 border-t border-line-subtle pt-3">
 							<span>Texas guideline percentage</span>

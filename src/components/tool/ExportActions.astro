@@ -5,28 +5,28 @@
 			<path d="M7 17H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
 			<path d="M7 14h10v6H7z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"></path>
 		</svg>
-		<span>Print Calendar</span>
+		<span>Print calendar</span>
 	</button>
 
 	<div class="grid gap-3 rounded-[1.35rem] border border-line bg-surface/70 p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.55)]" aria-label="Share schedule actions">
 		<div class="grid gap-1">
-			<p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted">Share Schedule</p>
-			<p class="text-xs leading-5 text-muted">Copy or share the current schedule, start date, and parent names.</p>
+			<p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted">Share calendar</p>
+			<p class="text-xs leading-5 text-muted">Shares the schedule, start date, and parent labels.</p>
 		</div>
 		<div class="flex w-full min-w-0 flex-col gap-3" data-share-button-row>
-			<button type="button" class="btn-primary h-11 w-full gap-2" aria-label="Copy schedule link" data-copy-share-url data-default-label="Copy Link" data-success-label="✓ Link Copied">
+			<button type="button" class="btn-primary h-11 w-full gap-2" aria-label="Copy calendar link" data-copy-share-url data-default-label="Copy calendar link" data-success-label="Calendar link copied">
 				<svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" aria-hidden="true">
 					<path d="M10.5 13.5a4 4 0 0 0 5.66 0l2.34-2.34a4 4 0 0 0-5.66-5.66l-1.1 1.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
 					<path d="M13.5 10.5a4 4 0 0 0-5.66 0L5.5 12.84a4 4 0 1 0 5.66 5.66l1.1-1.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
 				</svg>
-				<span class="inline-block min-w-[7.25rem]" data-action-label>Copy Link</span>
+				<span class="inline-block min-w-[7.25rem]" data-action-label>Copy calendar link</span>
 			</button>
-			<button type="button" class="btn-secondary h-11 w-full gap-2" aria-label="Share schedule link" data-native-share data-default-label="Share" data-success-label="✓ Link Copied">
+			<button type="button" class="btn-secondary h-11 w-full gap-2" aria-label="Share calendar link" data-native-share data-default-label="Share calendar" data-success-label="Calendar link copied">
 				<svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" aria-hidden="true">
 					<path d="M7 17 17 7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
 					<path d="M9 7h8v8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
 				</svg>
-				<span class="inline-block min-w-[7.25rem]" data-action-label>Share</span>
+				<span class="inline-block min-w-[7.25rem]" data-action-label>Share calendar</span>
 			</button>
 		</div>
 		<p class="sr-only" aria-live="polite" data-share-status></p>
@@ -68,6 +68,16 @@
 		const labelElement = button.querySelector('[data-action-label]');
 		if (labelElement) labelElement.textContent = label;
 		button.disabled = disabled;
+		button.toggleAttribute('aria-busy', disabled && /ing/i.test(label));
+		if (/ing/i.test(label)) {
+			button.dataset.state = 'loading';
+		} else if (/copied|shared|opened/i.test(label)) {
+			button.dataset.state = 'success';
+		} else if (/failed/i.test(label)) {
+			button.dataset.state = 'error';
+		} else {
+			button.removeAttribute('data-state');
+		}
 
 		const actions = button.closest('[data-export-actions]');
 		const status = actions?.querySelector('[data-share-status]');
@@ -76,7 +86,7 @@
 
 	function resetActionState(button) {
 		window.setTimeout(() => {
-			updateActionState(button, button.dataset.defaultLabel || 'Copy Link', '', false);
+			updateActionState(button, button.dataset.defaultLabel || 'Copy calendar link', '', false);
 		}, 2000);
 	}
 
@@ -98,10 +108,10 @@
 					clipboard: navigator.clipboard,
 					state: getCurrentScheduleState(),
 				});
-				updateActionState(target, target.dataset.successLabel || '✓ Link Copied', 'Schedule link copied.', true);
+				updateActionState(target, target.dataset.successLabel || 'Calendar link copied', 'Calendar link copied.', true);
 				resetActionState(target);
 			} catch {
-				updateActionState(target, 'Copy Failed', 'Schedule link could not be copied.', true);
+				updateActionState(target, 'Copy failed', 'Calendar link could not be copied.', true);
 				resetActionState(target);
 			}
 		}
@@ -118,15 +128,15 @@
 						text: 'Here is the custody schedule calendar.',
 						url: shareUrl,
 					});
-					updateActionState(target, 'Shared', 'Schedule share dialog opened.', true);
+					updateActionState(target, 'Share sheet opened', 'Calendar share dialog opened.', true);
 				} else {
 					updateActionState(target, 'Copying...', '', true);
 					await navigator.clipboard.writeText(shareUrl);
-					updateActionState(target, target.dataset.successLabel || '✓ Link Copied', 'Schedule link copied.', true);
+					updateActionState(target, target.dataset.successLabel || 'Calendar link copied', 'Calendar link copied.', true);
 				}
 				resetActionState(target);
 			} catch {
-				updateActionState(target, target.dataset.defaultLabel || 'Share', '', false);
+				updateActionState(target, target.dataset.defaultLabel || 'Share calendar', '', false);
 			}
 		}
 	});
