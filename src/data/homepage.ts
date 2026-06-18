@@ -355,6 +355,7 @@ export const homepageFaqItems = [
 		question: 'Can I use a custody calendar to manage visitation schedules?',
 		answer:
 			'Yes. A custody calendar can help manage a visitation schedule by showing exchange days, weekends, holidays, school breaks, and overnights in one visual parenting calendar. This makes it easier to compare plans and avoid confusion about upcoming parenting time.',
+		links: [{ label: 'Holiday custody schedule guide', href: '/holiday-custody-schedule/' }],
 	},
 	{
 		question: 'What is the best visitation schedule for shared custody?',
@@ -414,12 +415,19 @@ export const homepageFaqItems = [
 		question: 'What if parents live far apart?',
 		answer:
 			'When homes are far apart, fewer exchanges usually become more important. Week on week off, 5-2-2-5, 70/30, or 80/20 schedules may be easier than high-exchange rotations like 2-2-3. School transportation and activity travel should be considered before choosing.',
+		links: [
+			{ label: 'Every other weekend custody schedule', href: '/every-other-weekend-custody-schedule/' },
+			{ label: 'Texas parenting plan template', href: '/texas-parenting-plan-template/' },
+		],
 	},
 	{
 		question: 'What should I do after generating a schedule?',
 		answer:
 			'Review the exchange days, check the overnight split, compare one or two alternatives, then export or print the calendar for discussion. If the schedule may be used in a formal agreement, confirm the details with a qualified professional.',
-		links: [{ label: 'Parenting plan template', href: '/parenting-plan-template/' }],
+		links: [
+			{ label: 'Parenting plan template', href: '/parenting-plan-template/' },
+			{ label: 'Texas Standard Possession Order guide', href: '/texas-parenting-plan-template/#standard-possession-order' },
+		],
 	},
 	{
 		question: 'Can parents outside the US use CustodyBuilder?',

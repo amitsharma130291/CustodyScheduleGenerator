@@ -29,14 +29,13 @@ import {
 	buildWebPageSchema,
 } from '../lib/seo/schema';
 
-const title = 'Custody Schedule Generator | Free Parenting Calendar Builder';
+const title = 'Custody Schedule Generator | Free 50/50 Parenting Calendar';
 const description =
-	'Create a printable custody schedule, compare parenting arrangements, calculate parenting time percentages, and generate a co-parenting calendar.';
-const ogDescription =
-	'Create printable custody schedules and parenting calendars for 50/50, 60/40, 70/30, 2-2-3, 2-2-5-5, and custom schedules.';
+	'Create a free custody schedule, compare 50/50 parenting plans, calculate parenting time percentages, and print a custody calendar PDF.';
+const ogDescription = description;
 const canonical = '/custody-schedule-generator/';
 const canonicalUrl = getCanonicalUrl(canonical);
-const dateModified = '2026-06-10';
+const dateModified = '2026-06-17';
 const featuredComparisonRows = comparisonRows.slice(0, 4);
 const howToSchema = {
 	'@context': 'https://schema.org',
@@ -93,6 +92,7 @@ const schema = [
 			url: canonicalUrl,
 		}),
 		dateModified,
+		lastReviewed: dateModified,
 		isAccessibleForFree: true,
 		about: [
 			'custody schedule generator',
@@ -142,6 +142,11 @@ const schema = [
 		<BestScheduleQuiz />
 		<PopularSchedules schedules={popularSchedules} />
 		<ScheduleComparison rows={featuredComparisonRows} />
+		<div class="container-shell -mt-4 pb-2">
+			<p class="max-w-3xl text-sm leading-6 text-secondary">
+				For simpler patterns, <a href="/every-other-weekend-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">see an every other weekend custody schedule</a>. Texas parents can also <a href="/texas-parenting-plan-template/#standard-possession-order" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">compare a Texas Standard Possession Order</a> before choosing a 50/50 custody schedule or custom plan.
+			</p>
+		</div>
 
 		<section class="container-shell py-section" aria-labelledby="create-custody-calendar-title">
 			<div class="soft-card rounded-[1.5rem] p-5 sm:p-6">
@@ -149,10 +154,10 @@ const schema = [
 					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Custody calendar planning</p>
 					<h2 id="create-custody-calendar-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary">Create a Custody Calendar</h2>
 					<p class="mt-4 text-sm leading-6 text-secondary">
-						A custody calendar turns a parenting schedule into real dates, exchange days, weekends, and overnights. Seeing the calendar helps parents compare schedule options before using one in a co-parenting discussion.
+						A custody calendar turns a parenting schedule or visitation schedule into real dates, exchange days, weekends, and overnights. Seeing the calendar helps parents compare schedule options before using one in a co-parenting discussion.
 					</p>
 					<p class="mt-3 text-sm leading-6 text-secondary">
-						Use CustodyBuilder to preview a parenting calendar, compare common custody arrangements, and check parenting time percentages based on overnight totals. A clear co-parenting calendar can make planning school weeks, holidays, and transitions easier.
+						Use CustodyBuilder to preview a parenting calendar, compare common custody arrangements, and check parenting time percentages based on overnight totals. A clear co-parenting calendar can make planning school weeks, <a href="/holiday-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">holiday custody schedules</a>, and transitions easier.
 					</p>
 				</div>
 				<div class="mt-5 grid gap-2 text-sm font-semibold leading-6 text-secondary sm:grid-cols-2 lg:grid-cols-3">
@@ -202,13 +207,13 @@ const schema = [
 				<article class="soft-card rounded-[1.5rem] p-5 sm:p-6">
 					<h2 id="parenting-time-generator-title" class="text-3xl font-semibold tracking-[-0.04em] text-primary">Custody Schedule Generator by Parenting Time</h2>
 					<p class="mt-4 text-sm leading-6 text-secondary">
-						Use CustodyBuilder as a 50/50 custody schedule generator when comparing equal parenting time options like 2-2-3, 2-2-5-5, 5-2-2-5, and week on week off. Common custody schedule examples also include 60/40, 70/30, and 80/20 arrangements when one home has more overnights.
+						Use CustodyBuilder as a 50/50 custody schedule generator when comparing equal parenting time options like 2-2-3, 2-2-5-5, 5-2-2-5, and week on week off. Common custody schedule examples also include 60/40, 70/30, and 80/20 arrangements when one home has more overnights, or an <a href="/every-other-weekend-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">every other weekend schedule</a> when fewer exchanges fit better.
 					</p>
 				</article>
 				<article class="soft-card rounded-[1.5rem] p-5 sm:p-6">
 					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Printable Custody Calendar and Parenting Plan Examples</h2>
 					<p class="mt-4 text-sm leading-6 text-secondary">
-						Build a printable custody calendar, export a custody calendar PDF, and compare parenting plan examples before using the parenting time calculator to review overnight percentages. This custody schedule template helps parents visualize exchanges, overnights, and parenting schedule examples before a planning conversation.
+						Build a printable custody calendar, export a custody calendar PDF, and compare parenting plan examples before using the <a href="/parenting-time-calculator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting time calculator</a> to review overnight percentages. You can also <a href="/parenting-plan-template/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">create a printable parenting plan</a> or <a href="/texas-parenting-plan-template/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">build a complete Texas parenting plan</a> when the calendar is ready for discussion.
 					</p>
 				</article>
 			</div>
@@ -292,7 +297,7 @@ const schema = [
 					Plan custody schedules, parenting time, and support together.
 				</h2>
 				<p class="mt-4 text-base leading-7 text-secondary">
-					Use these tools together when a parenting calendar, overnight percentage, visitation plan, and Texas support estimate all need to tell the same story.
+					Use these tools together when a parenting calendar, overnight percentage, visitation plan, and Texas support estimate all need to tell the same story. Texas parents can <a href="/texas-parenting-plan-template/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">build a complete Texas parenting plan</a> alongside the calendar.
 				</p>
 			</div>
 			<div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -321,7 +326,7 @@ const schema = [
 						Older children may prefer fewer exchanges. A <a href="/week-on-week-off-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">week on week off custody schedule</a> is simple and predictable, but a full week away from each parent may not fit younger children. For school-aged children, many parents compare 2-2-5-5, <a href="/5-2-2-5-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">5-2-2-5 custody schedule</a>, and week-on/week-off calendars because each option balances stability, exchange frequency, and weekend fairness differently.
 					</p>
 					<p>
-						CustodyBuilder helps you test these parenting plans as an actual parenting time schedule and co-parenting calendar. Build a schedule, check overnight percentages, preview a printable custody calendar, and compare alternatives before using the result in mediation, co-parenting discussions, or a parenting plan draft.
+						CustodyBuilder helps you test these parenting plans as an actual parenting time schedule and co-parenting calendar. Build a schedule, check overnight percentages, preview a printable custody calendar, and compare alternatives before using the result in mediation, co-parenting discussions, or a <a href="/parenting-plan-template/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting plan template</a> draft.
 					</p>
 				</div>
 				<div class="mt-5 rounded-2xl bg-page/70 p-4 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
@@ -334,7 +339,7 @@ const schema = [
 			<div class="soft-card rounded-[1.5rem] p-5 sm:p-6">
 				<h2 id="important-planning-note-title" class="text-2xl font-semibold tracking-[-0.04em] text-primary">Important Planning Note</h2>
 				<p class="mt-3 text-sm leading-6 text-secondary">
-					CustodyBuilder is a planning tool, not legal advice. Parenting schedules may need to follow local court rules, school calendars, holiday schedules, transportation limits, and child-specific needs. Always confirm formal custody agreements with a qualified professional.
+					CustodyBuilder is a planning tool, not legal advice. Parenting schedules may need to follow local court rules, school calendars, <a href="/holiday-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">holiday custody schedules</a>, transportation limits, and child-specific needs. Always confirm formal custody agreements with a qualified professional.
 				</p>
 			</div>
 		</section>
