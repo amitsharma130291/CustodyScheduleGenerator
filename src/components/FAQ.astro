@@ -27,41 +27,41 @@ const {
 } = Astro.props;
 ---
 
-<section id="faq" class="container-shell scroll-mt-24 py-14 lg:py-20">
+<section id="faq" class="faq-accordion container-shell scroll-mt-24 py-section-loose">
 	<div class="mx-auto max-w-3xl text-center">
 		<p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted">{eyebrow}</p>
-		<h2 class="mt-3 text-4xl font-semibold leading-[1.04] tracking-[-0.05em] text-primary sm:text-5xl">
+		<h2 class="mt-2.5 text-4xl font-semibold leading-[1.04] tracking-[-0.05em] text-primary sm:text-5xl">
 			{title}
 		</h2>
-		<p class="mt-5 text-lg leading-8 text-secondary">
+		<p class="mt-4 text-lg leading-[1.65] text-secondary">
 			{description}
 		</p>
 	</div>
 
-	<div class="premium-card mx-auto mt-10 max-w-4xl overflow-hidden rounded-[2rem] shadow-[0_28px_80px_rgba(15,23,42,0.07),inset_0_1px_0_rgba(255,255,255,0.72)]">
+	<div class="premium-card mx-auto mt-8 max-w-4xl overflow-hidden rounded-[2rem] shadow-[0_28px_80px_rgba(15,23,42,0.07),inset_0_1px_0_rgba(255,255,255,0.72)]">
 		{platformItems.length > 0 && (
-			<div class="border-b border-line-subtle/80 bg-surface/45 px-5 py-4 sm:px-6">
+			<div class="border-b border-line-subtle/80 bg-surface/45 px-5 py-3.5 sm:px-6">
 				<h3 class="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">About CustodyBuilder</h3>
 			</div>
 		)}
 		<div class="divide-y divide-line-subtle/80">
 			{platformItems.map((item) => (
 				<details
-					class="group p-5 transition-colors duration-300 open:bg-surface-elevated/80 hover:bg-surface-hover/70 sm:p-6"
+					class="group p-5 open:bg-surface-elevated/80 hover:bg-surface-hover/70 sm:p-5"
 					data-faq-question={item.question}
 					data-faq-group="about_custodybuilder"
 				>
-					<summary class="flex cursor-pointer list-none items-center justify-between gap-6 text-left text-lg font-semibold tracking-[-0.025em] text-primary">
+					<summary class="flex cursor-pointer list-none items-center justify-between gap-5 text-left text-lg font-semibold leading-snug tracking-[-0.025em] text-primary">
 						{item.question}
-						<span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-surface/80 text-muted shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-all duration-300 group-hover:-translate-y-0.5 group-hover:text-primary group-open:rotate-45 group-open:bg-accent/10 group-open:text-accent">
+						<span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-surface/80 text-muted shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-all duration-180 ease-out group-hover:border-accent/20 group-hover:text-primary group-open:rotate-45 group-open:bg-accent/10 group-open:text-accent" aria-hidden="true">
 							+
 						</span>
 					</summary>
-					<p class="mt-4 max-w-3xl text-sm leading-7 text-secondary">{item.answer}</p>
+					<p class="mt-3.5 max-w-3xl text-sm leading-[1.65] text-secondary">{item.answer}</p>
 					{item.links && item.links.length > 0 && (
 						<div class="mt-3 flex flex-wrap gap-2">
 							{item.links.map((link) => (
-								<a href={link.href} class="inline-flex rounded-full bg-surface px-3 py-1.5 text-xs font-semibold text-accent underline decoration-line underline-offset-4 shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-colors hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+								<a href={link.href} class="inline-flex rounded-full bg-surface px-3 py-1.5 text-xs font-semibold text-accent underline decoration-line underline-offset-4 shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-colors duration-180 hover:text-primary focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-[var(--focus-ring)]">
 									{link.label} →
 								</a>
 							))}
@@ -72,28 +72,28 @@ const {
 		</div>
 
 		{scheduleHeading && (
-			<div class="border-y border-line-subtle/80 bg-surface/45 px-5 py-4 sm:px-6">
+			<div class="border-y border-line-subtle/80 bg-surface/45 px-5 py-3.5 sm:px-6">
 				<h3 class="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted">{scheduleHeading}</h3>
 			</div>
 		)}
 		<div class="divide-y divide-line-subtle/80">
 			{items.map((item) => (
 			<details
-				class="group p-5 transition-colors duration-300 open:bg-surface-elevated/80 hover:bg-surface-hover/70 sm:p-6"
+				class="group p-5 open:bg-surface-elevated/80 hover:bg-surface-hover/70 sm:p-5"
 				data-faq-question={item.question}
 				data-faq-group="custody_schedule_questions"
 			>
-				<summary class="flex cursor-pointer list-none items-center justify-between gap-6 text-left text-lg font-semibold tracking-[-0.025em] text-primary">
+				<summary class="flex cursor-pointer list-none items-center justify-between gap-5 text-left text-lg font-semibold leading-snug tracking-[-0.025em] text-primary">
 					{item.question}
-					<span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-surface/80 text-muted shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-all duration-300 group-hover:-translate-y-0.5 group-hover:text-primary group-open:rotate-45 group-open:bg-accent/10 group-open:text-accent">
+					<span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-surface/80 text-muted shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-all duration-180 ease-out group-hover:border-accent/20 group-hover:text-primary group-open:rotate-45 group-open:bg-accent/10 group-open:text-accent" aria-hidden="true">
 						+
 					</span>
 				</summary>
-				<p class="mt-4 max-w-3xl text-sm leading-7 text-secondary">{item.answer}</p>
+				<p class="mt-3.5 max-w-3xl text-sm leading-[1.65] text-secondary">{item.answer}</p>
 				{item.links && item.links.length > 0 && (
 					<div class="mt-3 flex flex-wrap gap-2">
 						{item.links.map((link) => (
-							<a href={link.href} class="inline-flex rounded-full bg-surface px-3 py-1.5 text-xs font-semibold text-accent underline decoration-line underline-offset-4 shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-colors hover:text-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
+							<a href={link.href} class="inline-flex rounded-full bg-surface px-3 py-1.5 text-xs font-semibold text-accent underline decoration-line underline-offset-4 shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-colors duration-180 hover:text-primary focus-visible:outline-none focus-visible:ring-[3px] focus-visible:ring-[var(--focus-ring)]">
 								{link.label} →
 							</a>
 						))}
