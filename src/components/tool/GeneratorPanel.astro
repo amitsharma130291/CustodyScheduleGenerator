@@ -133,8 +133,9 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 </section>
 
 <script>
-	import { addDays, format, isValid, parseISO, startOfMonth, startOfWeek } from 'date-fns';
+	import { format, isValid, parseISO, startOfMonth } from 'date-fns';
 	import { trackGa4Event } from '../../lib/analytics/ga4';
+	import { buildMonthCalendarDays } from '../../lib/schedules/calendarGrid';
 	import { defaultRatioSchedulePatterns, eightyTwentyPatternOptions, generateVisibleMonthSchedule, getAllSchedules, normalizeEightyTwentyPattern, normalizeScheduleType, normalizeSeventyThirtyPattern, normalizeSixtyFortyPattern, ratioSchedulePatternOptions } from '../../lib/schedules';
 	import { downloadSchedulePdf } from '../../lib/schedules/pdfExport';
 
@@ -492,8 +493,6 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 		}
 		setFormStatus('');
 		const monthStart = startOfMonth(startDate);
-		const gridStart = startOfWeek(monthStart, { weekStartsOn: 1 });
-		const gridDays = Array.from({ length: 42 }, (_, index) => addDays(gridStart, index));
 
 		let schedule;
 
@@ -511,16 +510,28 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 		}
 
 		const daysByDate = new Map(schedule.days.map((day) => [day.date, day]));
+		const eventsByDate = new Map();
+		for (const event of schedule.events ?? []) {
+			eventsByDate.set(event.date, [...(eventsByDate.get(event.date) ?? []), event]);
+		}
+		const { days: gridDays } = buildMonthCalendarDays({
+			monthDate: monthStart,
+			daysByDate,
+			eventsByDate,
+			parentNames: { parentA: String(parentA), parentB: String(parentB) },
+		});
 
 		calendarGrid.innerHTML = gridDays
 			.map((day) => {
-				const date = format(day, 'yyyy-MM-dd');
-				const generatedDay = daysByDate.get(date);
-				const isCurrentMonth = day.getMonth() === monthStart.getMonth();
-				const isActiveCurrentMonth = isCurrentMonth && Boolean(generatedDay);
-				const color = isActiveCurrentMonth && generatedDay ? parentColors[generatedDay.parent] : parentColors.inactive;
+				if (day.isPlaceholder) {
+					return `<span class="calendar-day-cell calendar-day-cell--placeholder flex aspect-square max-h-[34px] min-h-0 items-center justify-center rounded-xl px-0.5 sm:max-h-[34px] sm:rounded-2xl" aria-hidden="true"></span>`;
+				}
 
-				return `<span class="calendar-day-cell flex aspect-square max-h-[34px] min-h-0 items-center justify-center rounded-xl px-0.5 text-xs font-semibold sm:max-h-[34px] sm:rounded-2xl sm:text-sm ${color}"><span class="leading-none">${day.getDate()}</span></span>`;
+				const generatedDay = daysByDate.get(day.date);
+				const isActive = Boolean(generatedDay);
+				const color = isActive && generatedDay ? parentColors[generatedDay.parent] : parentColors.inactive;
+
+				return `<span class="calendar-day-cell flex aspect-square max-h-[34px] min-h-0 items-center justify-center rounded-xl px-0.5 text-xs font-semibold sm:max-h-[34px] sm:rounded-2xl sm:text-sm ${color}"><span class="leading-none">${day.dayOfMonth}</span></span>`;
 			})
 			.join('');
 

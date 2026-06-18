@@ -1,4 +1,4 @@
-import { addDays, addMonths, format, isValid, parseISO, startOfMonth, startOfWeek } from 'date-fns';
+import { addMonths, format, isValid, parseISO, startOfMonth } from 'date-fns';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import {
 	defaultRatioSchedulePatterns,
@@ -10,6 +10,7 @@ import {
 	normalizeSixtyFortyPattern,
 	ratioSchedulePatternOptions,
 } from './index';
+import { buildMonthCalendarLayout } from './calendarGrid';
 import type { ScheduleInputType, ScheduleResult, ScheduleType } from './types';
 
 export type SchedulePdfRange = 'monthly' | 'yearly';
@@ -143,7 +144,7 @@ function drawCalendar(page: ReturnType<PDFDocument['addPage']>, month: MonthExpo
 	const cellWidth = (pageWidth - margin * 2) / 7;
 	const cellHeight = 52;
 	const monthStart = startOfMonth(month.date);
-	const gridStart = startOfWeek(monthStart, { weekStartsOn: 1 });
+	const { year, month: monthIndex, daysInMonth, leadingBlanks, trailingBlanks } = buildMonthCalendarLayout(monthStart);
 	const daysByDate = new Map(month.schedule.days.map((day) => [day.date, day]));
 
 	weekdayLabels.forEach((label, index) => {
@@ -156,15 +157,39 @@ function drawCalendar(page: ReturnType<PDFDocument['addPage']>, month: MonthExpo
 		});
 	});
 
-	for (let index = 0; index < 42; index += 1) {
-		const day = addDays(gridStart, index);
-		const date = format(day, 'yyyy-MM-dd');
-		const generatedDay = daysByDate.get(date);
-		const col = index % 7;
-		const row = Math.floor(index / 7);
+	let cellIndex = 0;
+
+	const drawPlaceholderCell = () => {
+		const col = cellIndex % 7;
+		const row = Math.floor(cellIndex / 7);
 		const x = gridLeft + col * cellWidth;
 		const y = gridTop - row * cellHeight - cellHeight;
-		const isCurrentMonth = day.getMonth() === monthStart.getMonth() && Boolean(generatedDay);
+
+		page.drawRectangle({
+			x,
+			y,
+			width: cellWidth,
+			height: cellHeight,
+			borderColor: rgb(0.72, 0.72, 0.72),
+			borderWidth: 0.6,
+			color: rgb(1, 1, 1),
+		});
+		cellIndex += 1;
+	};
+
+	for (let index = 0; index < leadingBlanks; index += 1) {
+		drawPlaceholderCell();
+	}
+
+	for (let dayOfMonth = 1; dayOfMonth <= daysInMonth; dayOfMonth += 1) {
+		const dayDate = new Date(year, monthIndex, dayOfMonth);
+		const date = format(dayDate, 'yyyy-MM-dd');
+		const generatedDay = daysByDate.get(date);
+		const col = cellIndex % 7;
+		const row = Math.floor(cellIndex / 7);
+		const x = gridLeft + col * cellWidth;
+		const y = gridTop - row * cellHeight - cellHeight;
+		const isActiveDay = Boolean(generatedDay);
 		const isParentB = generatedDay?.parent === 'B';
 
 		page.drawRectangle({
@@ -174,18 +199,18 @@ function drawCalendar(page: ReturnType<PDFDocument['addPage']>, month: MonthExpo
 			height: cellHeight,
 			borderColor: rgb(0.72, 0.72, 0.72),
 			borderWidth: 0.6,
-			color: isCurrentMonth ? (isParentB ? rgb(0.9, 0.9, 0.9) : rgb(0.98, 0.98, 0.98)) : rgb(1, 1, 1),
+			color: isActiveDay ? (isParentB ? rgb(0.9, 0.9, 0.9) : rgb(0.98, 0.98, 0.98)) : rgb(1, 1, 1),
 		});
 
-		page.drawText(format(day, 'd'), {
+		page.drawText(String(dayOfMonth), {
 			x: x + 5,
 			y: y + cellHeight - 13,
 			size: 9,
 			font: fonts.bold,
-			color: isCurrentMonth ? rgb(0.06, 0.06, 0.06) : rgb(0.65, 0.65, 0.65),
+			color: isActiveDay ? rgb(0.06, 0.06, 0.06) : rgb(0.65, 0.65, 0.65),
 		});
 
-		if (isCurrentMonth && generatedDay) {
+		if (isActiveDay && generatedDay) {
 			const parentLabel = isParentB ? 'B' : 'A';
 			const parentName = isParentB ? parentBName : parentAName;
 			page.drawText(parentLabel, {
@@ -203,6 +228,12 @@ function drawCalendar(page: ReturnType<PDFDocument['addPage']>, month: MonthExpo
 				color: rgb(0.22, 0.22, 0.22),
 			});
 		}
+
+		cellIndex += 1;
+	}
+
+	for (let index = 0; index < trailingBlanks; index += 1) {
+		drawPlaceholderCell();
 	}
 }
 

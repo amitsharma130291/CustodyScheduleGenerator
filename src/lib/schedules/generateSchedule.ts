@@ -1,20 +1,10 @@
-import {
-	addDays,
-	endOfMonth,
-	format,
-	isSameMonth,
-	parseISO,
-	startOfMonth,
-	startOfWeek,
-} from 'date-fns';
+import { format, parseISO } from 'date-fns';
+import { buildMonthCalendarDays } from './calendarGrid';
 import { generateVisibleMonthSchedule, getSchedulePattern } from './engine';
 import type {
-	GeneratedDay,
-	GeneratedSchedule,
-	ParentKey,
-	ParentNames,
 	EightyTwentyPatternId,
-	ScheduleDay,
+	GeneratedSchedule,
+	ParentNames,
 	ScheduleInputType,
 	SeventyThirtyPatternId,
 	SixtyFortyPatternId,
@@ -65,10 +55,6 @@ export function generateSchedule({
 	};
 	const parsedStartDate = normalizeDate(startDate);
 	const parsedMonthDate = normalizeDate(monthDate);
-	const monthStart = startOfMonth(parsedMonthDate);
-	const gridStart = startOfWeek(monthStart, { weekStartsOn: 1 });
-	const monthEnd = endOfMonth(parsedMonthDate);
-	const gridEnd = addDays(startOfWeek(addDays(monthEnd, 6), { weekStartsOn: 1 }), 6);
 	const visibleMonthSchedule = generateVisibleMonthSchedule({
 		scheduleType: pattern.id,
 		startDate: parsedStartDate,
@@ -84,33 +70,12 @@ export function generateSchedule({
 	for (const event of visibleMonthSchedule.events ?? []) {
 		eventsByDate.set(event.date, [...(eventsByDate.get(event.date) ?? []), event]);
 	}
-	const days: GeneratedDay[] = [];
-	const parentDayCounts: Record<ParentKey, number> = {
-		parentA: 0,
-		parentB: 0,
-	};
-
-	for (let day = gridStart; day <= gridEnd; day = addDays(day, 1)) {
-		const date = format(day, 'yyyy-MM-dd');
-		const generatedDay = daysByDate.get(date) as ScheduleDay | undefined;
-		const parent: ParentKey = generatedDay?.parent === 'B' ? 'parentB' : 'parentA';
-		const isCurrentMonth = isSameMonth(day, parsedMonthDate);
-		const isActiveCurrentMonth = isCurrentMonth && Boolean(generatedDay);
-
-		if (isActiveCurrentMonth) {
-			parentDayCounts[parent] += 1;
-		}
-
-		days.push({
-			date,
-			dayOfMonth: Number(format(day, 'd')),
-			weekday: format(day, 'EEE'),
-			parent,
-			parentName: generatedDay?.parentName ?? normalizedParents[parent],
-			isCurrentMonth: isActiveCurrentMonth,
-			events: eventsByDate.get(date) ?? [],
-		});
-	}
+	const { days, parentDayCounts } = buildMonthCalendarDays({
+		monthDate: parsedMonthDate,
+		daysByDate,
+		eventsByDate,
+		parentNames: normalizedParents,
+	});
 
 	return {
 		definition,

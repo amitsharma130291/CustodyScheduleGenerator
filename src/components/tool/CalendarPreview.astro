@@ -63,6 +63,15 @@ const parentBPercentage = 100 - parentAPercentage;
 
 	<div class="mt-3 grid min-w-0 grid-cols-7 gap-1 sm:gap-1.5" data-calendar-grid>
 		{schedule.days.map((day) => {
+			if (day.isPlaceholder) {
+				return (
+					<span
+						class="calendar-day-cell calendar-day-cell--placeholder flex aspect-square max-h-[34px] min-h-0 items-center justify-center rounded-xl px-0.5 sm:max-h-[34px] sm:rounded-2xl"
+						aria-hidden="true"
+					></span>
+				);
+			}
+
 			const color = !day.isCurrentMonth
 				? 'text-muted opacity-30 shadow-[inset_0_0_0_1px_var(--border-subtle)]'
 				: day.parent === 'parentA'

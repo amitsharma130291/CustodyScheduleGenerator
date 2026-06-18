@@ -133,6 +133,7 @@ export interface GeneratedDay {
 	parent: ParentKey;
 	parentName: string;
 	isCurrentMonth: boolean;
+	isPlaceholder: boolean;
 	events?: ScheduleEvent[];
 }
 
