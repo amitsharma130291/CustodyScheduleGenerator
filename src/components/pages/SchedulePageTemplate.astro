@@ -19,6 +19,7 @@ import {
 	buildWebPageSchema,
 } from '../../lib/seo/schema';
 import { getRelatedSchedules } from '../../content/schedules';
+import { examplesLibraryPromo, fiftyFiftyPatternSlugs } from '../../data/fiftyFiftyScheduleExamples';
 import type { ScheduleContent } from '../../content/schedules/types';
 
 interface Props {
@@ -1359,6 +1360,26 @@ const schema = [
 								</article>
 							))}
 						</div>
+						{schedule.examples.libraryPromo && (
+							<div class="soft-card flex flex-col gap-4 rounded-[1.5rem] p-5 sm:p-6">
+								<div class="max-w-3xl">
+									{(schedule.examples.libraryPromo.heading ?? examplesLibraryPromo.heading) && (
+										<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary">
+											{schedule.examples.libraryPromo.heading ?? examplesLibraryPromo.heading}
+										</h3>
+									)}
+									<p class="mt-2 text-sm leading-6 text-secondary">{schedule.examples.libraryPromo.description}</p>
+								</div>
+								<CtaButton
+									href={schedule.examples.libraryPromo.href}
+									variant="primary"
+									size="small"
+									class="w-full justify-center sm:w-auto"
+								>
+									{schedule.examples.libraryPromo.buttonText}
+								</CtaButton>
+							</div>
+						)}
 					</section>
 				)}
 
@@ -1593,6 +1614,27 @@ const schema = [
 						))}
 					</div>
 				</section>
+
+				{fiftyFiftyPatternSlugs.includes(schedule.slug) && (
+					<section class="grid gap-5" aria-labelledby="examples-library-promo-title">
+						<div class="soft-card flex flex-col gap-4 rounded-[1.5rem] p-5 sm:p-6">
+							<div class="max-w-3xl">
+								<h2 id="examples-library-promo-title" class="text-2xl font-semibold tracking-[-0.04em] text-primary">
+									{examplesLibraryPromo.heading}
+								</h2>
+								<p class="mt-2 text-sm leading-6 text-secondary">{examplesLibraryPromo.description}</p>
+							</div>
+							<CtaButton
+								href={examplesLibraryPromo.href}
+								variant="primary"
+								size="small"
+								class="w-full justify-center sm:w-auto"
+							>
+								{examplesLibraryPromo.buttonText}
+							</CtaButton>
+						</div>
+					</section>
+				)}
 
 				<section id="related" class="grid gap-5">
 					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">{schedule.relatedHeading ?? 'Related schedules and tools'}</h2>

@@ -1,0 +1,475 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import CtaButton from '../components/CtaButton.astro';
+import FiftyFiftyExampleCard from '../components/examples/FiftyFiftyExampleCard.astro';
+import MonthlyCalendarExampleCard from '../components/examples/MonthlyCalendarExampleCard.astro';
+import HolidayOverrideExampleCard from '../components/examples/HolidayOverrideExampleCard.astro';
+import ScheduleMiniCalendar from '../components/homepage/ScheduleMiniCalendar.astro';
+import CalendarPreview from '../components/tool/CalendarPreview.astro';
+import { generateSchedule } from '../lib/schedules/generateSchedule';
+import { getDefaultStartDate } from '../lib/schedules/format';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import {
+	buildArticleSchema,
+	buildBreadcrumbSchema,
+	buildFAQSchema,
+	buildItemListSchema,
+	buildWebPageSchema,
+} from '../lib/seo/schema';
+import {
+	ageExamples,
+	decisionRows,
+	exampleGalleryItems,
+	exchangeRankRows,
+	faqItems,
+	fastFindCards,
+	getScheduleCustomizeUrl,
+	holidaySummerExamples,
+	limitationsCards,
+	monthlyCalendarExamples,
+	parentScheduleExamples,
+	popularExamples,
+	printableExamples,
+	relatedLinks,
+	scenariosProofCopy,
+	scheduleTypeExamples,
+	selectionCriteria,
+} from '../data/fiftyFiftyScheduleExamples';
+
+const title = '50/50 Custody Schedule Examples: 20+ Real-Life Scenarios';
+const description =
+	'Browse 20+ real-life 50/50 custody schedule scenarios across 5 common calendar patterns, including toddler, school-age, holiday, and printable calendar examples.';
+const canonical = '/50-50-custody-schedule-examples/';
+const canonicalUrl = getCanonicalUrl(canonical);
+const datePublished = '2026-06-18';
+const dateModified = '2026-06-23';
+
+const printablePreviewSchedule = generateSchedule({
+	scheduleId: '2255',
+	startDate: getDefaultStartDate(),
+});
+
+const itemListDescription =
+	'The five core 50/50 custody schedule patterns that can be adapted into more than 20 real-world parenting situations.';
+
+const breadcrumbs = [
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: '50/50 Custody Schedule', url: getCanonicalUrl('/50-50-custody-schedule/') },
+	{ name: '50/50 Schedule Examples', url: canonicalUrl },
+];
+
+const schema = [
+	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+	buildArticleSchema({
+		headline: '50/50 Custody Schedule Examples',
+		description,
+		url: canonicalUrl,
+		datePublished,
+		dateModified,
+		authorName: 'CustodyBuilder Editorial Team',
+	}),
+	buildItemListSchema({
+		name: '50/50 Custody Schedule Examples',
+		description: itemListDescription,
+		url: canonicalUrl,
+		items: exampleGalleryItems.map((item) => ({
+			name: item.name,
+			url: `${canonicalUrl}#${item.anchor}`,
+		})),
+	}),
+	buildFAQSchema(faqItems),
+	buildBreadcrumbSchema(breadcrumbs),
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical}>
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<Breadcrumbs items={breadcrumbs} />
+	<main>
+		<section class="container-shell py-section lg:py-section-loose">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Example library</p>
+				<h1 class="mt-4 text-4xl font-semibold leading-[1.02] tracking-[-0.05em] text-primary sm:text-5xl lg:text-6xl">
+					50/50 Custody Schedule Examples
+				</h1>
+				<p class="mt-3 text-xs font-medium tracking-wide text-muted sm:text-sm">
+					Updated June 2026 <span aria-hidden="true">•</span> 20+ real-life 50/50 custody schedule scenarios across 5 common calendar patterns <span aria-hidden="true">•</span> Free customization tool
+				</p>
+				<p class="mt-2 text-sm leading-6 text-muted">
+					Created by <a href="/about/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">CustodyBuilder Editorial Team</a>
+					<span aria-hidden="true"> • </span>Educational custody planning tools <span aria-hidden="true">•</span> Updated June 2026
+				</p>
+				<p class="mt-5 text-lg leading-8 text-secondary">
+					Browse 50/50 custody schedule examples and 50/50 custody calendar examples built from five core patterns. These scenarios show how real families adapt 2-2-3, 2-2-5-5, 3-4-4-3, 5-2-2-5, and week-on/week-off calendars for different ages and routines. Pick a pattern, preview the rotation, then <a href="/50-50-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">customize dates, parent names, and a printable format</a>.
+				</p>
+				<p class="mt-4 text-sm leading-7 text-secondary">
+					{scenariosProofCopy}
+				</p>
+				<div class="mt-8 flex flex-col gap-3 sm:flex-row">
+					<CtaButton href="/50-50-custody-schedule/?schedule=2255" variant="primary" size="large">
+						Customize an Example
+					</CtaButton>
+					<CtaButton href="#popular-examples" variant="secondary" size="large">
+						Browse Examples
+					</CtaButton>
+				</div>
+				<p class="mt-6 text-sm leading-6 text-secondary">
+					Want the full guide with pros, cons, calendar rules, and a custom generator? Visit the <a href="/50-50-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">complete 50/50 custody schedule guide</a>.
+				</p>
+			</div>
+		</section>
+
+		<section id="popular-examples" class="container-shell scroll-mt-24 pb-section" aria-labelledby="popular-examples-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Start here</p>
+				<h2 id="popular-examples-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					Most Popular 50/50 Schedule Examples
+				</h2>
+				<p class="mt-3 text-sm leading-6 text-secondary">Three patterns parents compare most often before opening the full example library.</p>
+			</div>
+			<div class="mt-6 grid gap-4 md:grid-cols-3">
+				{popularExamples.map((item) => (
+					<article class="soft-card flex h-full flex-col rounded-[1.5rem] p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/30">
+						<span class="inline-flex w-fit rounded-full bg-accent/10 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-accent">
+							{item.badge}
+						</span>
+						<p class="mt-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">{item.label}</p>
+						<h3 class="mt-2 text-lg font-semibold tracking-[-0.03em] text-primary">{item.title}</h3>
+						<p class="mt-2 flex-1 text-sm leading-6 text-secondary">{item.text}</p>
+						<a href={item.href} class="mt-4 text-sm font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">
+							{item.cta} →
+						</a>
+					</article>
+				))}
+			</div>
+		</section>
+
+		<section class="container-shell pb-section" aria-labelledby="how-we-chose-title">
+			<div class="soft-card rounded-[1.5rem] p-5 sm:p-6">
+				<h2 id="how-we-chose-title" class="text-2xl font-semibold tracking-[-0.04em] text-primary">How We Chose These 50/50 Schedule Examples</h2>
+				<p class="mt-3 max-w-3xl text-sm leading-7 text-secondary">
+					We organized these examples by the factors that usually matter most in real parenting schedules: exchange frequency, school consistency, child age, parent work schedules, commute distance, and how easy the pattern is to explain in a parenting plan. We evaluated each example based on practical parenting factors including exchange frequency, school consistency, time away from each parent, and how easy the schedule is to maintain over time. The scenarios below show how five proven patterns adapt to different family situations.
+				</p>
+				<div class="mt-5 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
+					{selectionCriteria.map((item) => (
+						<span class="rounded-full bg-surface/80 px-3 py-2 text-center text-xs font-semibold text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+							{item}
+						</span>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell pb-section" aria-labelledby="find-example-fast-title">
+			<div class="soft-card rounded-[1.5rem] p-5 sm:p-6">
+				<h2 id="find-example-fast-title" class="text-2xl font-semibold tracking-[-0.04em] text-primary">Find an example fast</h2>
+				<p class="mt-2 text-sm leading-6 text-secondary">Jump to a section—popular patterns, age examples, printable calendars, and more.</p>
+				<div class="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+					{fastFindCards.map((card) => (
+						<a
+							href={card.href}
+							class="soft-card rounded-2xl p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-[0_12px_32px_rgba(15,23,42,0.08)]"
+						>
+							<p class="text-sm font-semibold text-primary">{card.label}</p>
+							<p class="mt-1 text-xs leading-5 text-muted">{card.note}</p>
+						</a>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<section id="schedule-type-examples" class="container-shell scroll-mt-24 py-section" aria-labelledby="by-schedule-type-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">By pattern</p>
+				<h2 id="by-schedule-type-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					50/50 Custody Examples by Schedule Type
+				</h2>
+				<p class="mt-3 text-base leading-7 text-secondary">
+					Each card shows a two-week mini calendar, exchange rhythm, and a one-click path to customize that 50/50 parenting schedule example.
+				</p>
+			</div>
+			<div class="mt-6 grid gap-4 lg:grid-cols-2">
+				{scheduleTypeExamples.map((example) => (
+					<FiftyFiftyExampleCard {...example} />
+				))}
+			</div>
+		</section>
+
+		<section id="full-month-examples" class="container-shell scroll-mt-24 py-section" aria-labelledby="full-month-examples-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Full month view</p>
+				<h2 id="full-month-examples-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					See How 50/50 Custody Schedules Look Over a Full Month
+				</h2>
+				<p class="mt-3 text-base leading-7 text-secondary">
+					A two-week rotation only shows part of the picture. Viewing a full month makes it easier to understand exchanges, school nights, weekends, and how a schedule works in real life.
+				</p>
+			</div>
+			<div class="mt-6 grid gap-5 lg:grid-cols-2 xl:grid-cols-3">
+				{monthlyCalendarExamples.map((example) => (
+					<MonthlyCalendarExampleCard {...example} />
+				))}
+			</div>
+		</section>
+
+		<section id="fewest-exchanges" class="container-shell scroll-mt-24 py-section" aria-labelledby="ranked-by-exchanges-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Exchange comparison</p>
+				<h2 id="ranked-by-exchanges-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					50/50 Schedule Examples Ranked by Fewest Exchanges
+				</h2>
+				<p class="mt-3 text-base leading-7 text-secondary">
+					Use this ranking when fewer handoffs matter more than maximum contact frequency. You can <a href="/50-50-custody-schedule/?schedule=2255" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">customize a 50/50 calendar</a> from any row.
+				</p>
+			</div>
+			<div class="mt-6 overflow-x-auto">
+				<table class="w-full min-w-[640px] border-collapse text-left text-sm">
+					<thead>
+						<tr class="border-b border-line-subtle text-xs font-semibold uppercase tracking-[0.14em] text-muted">
+							<th class="px-4 py-3">Rank</th>
+							<th class="px-4 py-3">Example</th>
+							<th class="px-4 py-3">Typical exchanges</th>
+							<th class="px-4 py-3">Best for</th>
+							<th class="px-4 py-3">Customize</th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-line-subtle">
+						{exchangeRankRows.map((row) => (
+							<tr class="bg-surface/40">
+								<td class="px-4 py-4 font-semibold text-primary">{row.rank}</td>
+								<td class="px-4 py-4 font-medium text-primary">{row.example}</td>
+								<td class="px-4 py-4 text-secondary">{row.exchanges}</td>
+								<td class="px-4 py-4 text-secondary">{row.bestFor}</td>
+								<td class="px-4 py-4">
+									<CtaButton href={getScheduleCustomizeUrl(row.scheduleId)} variant="primary" size="small" class="inline-flex whitespace-nowrap">
+										Customize This Schedule →
+									</CtaButton>
+								</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<section id="age-examples" class="container-shell scroll-mt-24 py-section" aria-labelledby="by-child-age-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">By age</p>
+				<h2 id="by-child-age-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					50/50 Custody Schedule Examples by Child Age
+				</h2>
+				<p class="mt-3 text-base leading-7 text-secondary">
+					Children of different ages often benefit from different parenting rhythms. The examples below show how the same 50/50 patterns can be adapted for toddlers, school-age children, and teenagers—with a two-week mini calendar for each based on sleep, school, and transition needs.
+				</p>
+			</div>
+			<div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+				{ageExamples.map((example) => (
+					<FiftyFiftyExampleCard {...example} />
+				))}
+			</div>
+			<div class="soft-card mt-8 flex flex-col gap-4 rounded-[1.5rem] p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
+				<p class="text-sm leading-6 text-secondary">
+					Still deciding between examples? Start with the closest match, then adjust dates, exchanges, and holidays in the generator.
+				</p>
+				<CtaButton href="/50-50-custody-schedule/?schedule=2255" variant="primary" size="small" class="shrink-0 justify-center sm:w-auto">
+					Customize a 50/50 Calendar
+				</CtaButton>
+			</div>
+		</section>
+
+		<section id="parent-schedule-examples" class="container-shell scroll-mt-24 py-section" aria-labelledby="by-parent-schedule-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">By work & distance</p>
+				<h2 id="by-parent-schedule-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					50/50 Custody Examples by Parent Schedule
+				</h2>
+			</div>
+			<div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+				{parentScheduleExamples.map((example) => (
+					<FiftyFiftyExampleCard {...example} compact />
+				))}
+			</div>
+		</section>
+
+		<section id="holiday-examples" class="container-shell scroll-mt-24 py-section" aria-labelledby="holiday-examples-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Holidays & summer</p>
+				<h2 id="holiday-examples-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					Holiday and Summer 50/50 Examples
+				</h2>
+				<p class="mt-3 text-base leading-7 text-secondary">
+					Base patterns stay 50/50, but holidays and summer often need override rules. The Thanksgiving example below shows how a regular rotation can pause for a holiday block, then resume. See the <a href="/holiday-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">holiday custody schedule guide</a> for more templates.
+				</p>
+			</div>
+			<div class="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+				<HolidayOverrideExampleCard />
+				{holidaySummerExamples.map((example) => (
+					<article class="soft-card rounded-[1.5rem] p-5">
+						<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{example.title}</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">{example.description}</p>
+						<div class="mt-4">
+							<ScheduleMiniCalendar pattern={example.pattern} label={example.calendarLabel ?? `${example.title} sample pattern`} />
+						</div>
+						<p class="mt-3 text-xs leading-5 text-muted"><span class="font-semibold text-secondary">Planning tip:</span> {example.tip}</p>
+					</article>
+				))}
+			</div>
+			<p class="mt-6 text-sm leading-6 text-secondary">
+				Holiday rules can override the regular rotation. <a href="/50-50-custody-schedule/?schedule=2255" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Test how holidays affect your 50/50 calendar</a> in the generator.
+			</p>
+		</section>
+
+		<section id="printable-examples" class="container-shell scroll-mt-24 py-section" aria-labelledby="printable-examples-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Printable</p>
+				<h2 id="printable-examples-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					Printable 50/50 Custody Calendar Examples
+				</h2>
+				<p class="mt-3 text-base leading-7 text-secondary">
+					These printable 50/50 custody calendar examples show how your schedule can look when exported for school records, co-parenting communication, or personal planning. Customize any match into a printable 50/50 custody schedule, then print or save a PDF. Pair with a <a href="/custody-calendar-template/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">custody calendar template</a> or create a calendar in the generator.
+				</p>
+			</div>
+			<div class="premium-card mt-6 rounded-[1.75rem] p-3">
+				<div class="rounded-[1.45rem] bg-surface-elevated p-4 sm:p-6">
+					<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">Printable monthly calendar preview</h3>
+					<p class="mt-2 text-sm leading-6 text-secondary">
+						Sample 2-2-5-5 month with Parent A and Parent B days color-coded—ready to customize, print, or save.
+					</p>
+					<div class="mt-4 max-w-xl">
+						<CalendarPreview schedule={printablePreviewSchedule} embedded headerNote="Export this view from the generator using Print / Save PDF." />
+					</div>
+					<div class="mt-4">
+						<CtaButton href="/50-50-custody-schedule/" variant="primary" size="small" class="w-full justify-center sm:w-auto">
+							Create and Print Your Calendar →
+						</CtaButton>
+					</div>
+				</div>
+			</div>
+			<div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+				{printableExamples.map((item) => (
+					<a href={item.href} class="soft-card group rounded-[1.5rem] p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40">
+						<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary group-hover:text-accent">{item.title}</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">{item.description}</p>
+						<span class="mt-3 inline-block text-sm font-semibold text-accent underline decoration-line underline-offset-4">Open example →</span>
+					</a>
+				))}
+			</div>
+		</section>
+
+		<section id="when-not-enough" class="container-shell scroll-mt-24 py-section" aria-labelledby="when-not-enough-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">When to customize further</p>
+				<h2 id="when-not-enough-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					When These Examples May Not Be Enough
+				</h2>
+				<p class="mt-3 text-base leading-7 text-secondary">
+					These examples are helpful starting points, but some families need a more customized plan. If parents live far apart, work irregular shifts, have high conflict, or need detailed holiday and summer rules, start with the closest example and then <a href="/50-50-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">adjust it in the generator</a>.
+				</p>
+			</div>
+			<div class="mt-6 grid gap-4 sm:grid-cols-2">
+				{limitationsCards.map((card) => (
+					<article class="soft-card rounded-[1.5rem] p-5">
+						<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{card.title}</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">{card.note}</p>
+						<a href="/50-50-custody-schedule/" class="mt-3 inline-block text-sm font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">
+							Customize in the generator →
+						</a>
+					</article>
+				))}
+			</div>
+		</section>
+
+		<section id="choose-an-example" class="container-shell scroll-mt-24 py-section" aria-labelledby="which-example-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Decision guide</p>
+				<h2 id="which-example-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					Which Example Should You Copy?
+				</h2>
+			</div>
+			<div class="mt-6 overflow-x-auto">
+				<table class="w-full min-w-[640px] border-collapse text-left text-sm">
+					<thead>
+						<tr class="border-b border-line-subtle text-xs font-semibold uppercase tracking-[0.14em] text-muted">
+							<th class="px-4 py-3">Situation</th>
+							<th class="px-4 py-3">Best example</th>
+							<th class="px-4 py-3">Why it works</th>
+							<th class="px-4 py-3">Customize</th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-line-subtle">
+						{decisionRows.map((row) => (
+							<tr class="bg-surface/40">
+								<td class="px-4 py-4 font-semibold text-primary">{row.situation}</td>
+								<td class="px-4 py-4 text-secondary">{row.example}</td>
+								<td class="px-4 py-4 text-secondary">{row.why}</td>
+								<td class="px-4 py-4">
+									<CtaButton href={getScheduleCustomizeUrl(row.scheduleId)} variant="primary" size="small" class="inline-flex whitespace-nowrap">
+										Customize This Schedule →
+									</CtaButton>
+								</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<section class="container-shell py-section" aria-labelledby="customize-any-title">
+			<div class="premium-card rounded-[2rem] p-3">
+				<div class="rounded-[1.7rem] bg-surface-elevated/80 p-6 sm:p-8 lg:p-10">
+					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Customize</p>
+					<h2 id="customize-any-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+						Customize Any 50/50 Schedule Example
+					</h2>
+					<p class="mt-4 max-w-2xl text-base leading-7 text-secondary">
+						Open any example in the <a href="/50-50-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 calendar customization tool</a> to change the start date, parent names, exchange days, holidays, and printable format—or start from the <a href="/custody-schedule-generator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule generator</a> for any equal-time pattern.
+					</p>
+					<div class="mt-6 flex flex-col gap-3 sm:flex-row">
+						<CtaButton href="/50-50-custody-schedule/?schedule=2255" variant="primary" size="large">
+							Open 50/50 Generator
+						</CtaButton>
+						<CtaButton href="/parenting-plan-template/" variant="secondary" size="large">
+							Parenting Plan Template
+						</CtaButton>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell py-section" aria-labelledby="related-schedule-tools-title">
+			<div class="max-w-3xl">
+				<h2 id="related-schedule-tools-title" class="text-2xl font-semibold tracking-[-0.04em] text-primary">Related schedule tools</h2>
+			</div>
+			<div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+				{relatedLinks.map((link) => (
+					<a href={link.href} class="soft-card rounded-[1.5rem] p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40">
+						<h3 class="text-base font-semibold text-primary">{link.title}</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">{link.description}</p>
+					</a>
+				))}
+			</div>
+		</section>
+
+		<section class="container-shell py-section" aria-label="Educational disclaimer">
+			<div class="soft-card rounded-[1.5rem] p-5 sm:p-6">
+				<p class="text-sm leading-7 text-secondary">
+					Educational custody planning resource only. CustodyBuilder <a href="/disclaimer/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">does not provide legal advice</a>, and custody laws vary by state. Use these examples for planning and discussion, and consider consulting a qualified family law attorney for <a href="/disclaimer/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">legal guidance</a>.
+				</p>
+			</div>
+		</section>
+
+		<FAQ
+			items={faqItems}
+			eyebrow="Example FAQ"
+			title="Questions About 50/50 Schedule Examples"
+			description="Answers focused on copying, printing, and choosing calendar examples—not general 50/50 definitions."
+		/>
+	</main>
+	<Footer />
+</BaseLayout>

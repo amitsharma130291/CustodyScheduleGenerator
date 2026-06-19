@@ -1,0 +1,46 @@
+---
+import CtaButton from '../CtaButton.astro';
+import CalendarPreview from '../tool/CalendarPreview.astro';
+import { buildThanksgivingOverrideSchedule } from '../../lib/schedules/holidayOverrideExample';
+
+const schedule = buildThanksgivingOverrideSchedule();
+---
+
+<article class="premium-card rounded-[1.75rem] p-3 lg:col-span-2 xl:col-span-3">
+	<div class="rounded-[1.45rem] bg-surface-elevated p-4 sm:p-6">
+		<h3 class="text-xl font-semibold tracking-[-0.035em] text-primary">Thanksgiving 50/50 Custody Override Example</h3>
+		<p class="mt-3 max-w-3xl text-sm leading-7 text-secondary">
+			A normal 50/50 schedule may be temporarily adjusted so one parent receives Thanksgiving break in alternating years. After the holiday, the regular schedule resumes. Highlighted days show where the base 2-2-5-5 rotation pauses for the holiday block.
+		</p>
+		<div class="mt-4">
+			<CalendarPreview
+				schedule={schedule}
+				embedded
+				showSummary={false}
+				headerNote="Sample 2-2-5-5 month with Thanksgiving override (Nov 25–29)."
+			/>
+		</div>
+		<div class="mt-3 flex flex-wrap items-center gap-4 text-[11px] text-muted">
+			<span class="inline-flex items-center gap-1.5">
+				<i class="h-2.5 w-2.5 rounded-full bg-accent" aria-hidden="true"></i>
+				Regular rotation — Parent A
+			</span>
+			<span class="inline-flex items-center gap-1.5">
+				<i class="h-2.5 w-2.5 rounded-full bg-parent-b" aria-hidden="true"></i>
+				Regular rotation — Parent B
+			</span>
+			<span class="inline-flex items-center gap-1.5">
+				<i class="h-2.5 w-2.5 rounded-full bg-warning/80 ring-1 ring-warning/50" aria-hidden="true"></i>
+				Thanksgiving override days
+			</span>
+		</div>
+		<p class="mt-4 text-sm leading-6 text-secondary">
+			Many parenting plans override the regular 50/50 schedule for major holidays such as Thanksgiving, Christmas, and school breaks.
+		</p>
+		<div class="mt-4">
+			<CtaButton href="/50-50-custody-schedule/" variant="primary" size="small" class="w-full justify-center sm:w-auto">
+				Customize Holiday Rules →
+			</CtaButton>
+		</div>
+	</div>
+</article>

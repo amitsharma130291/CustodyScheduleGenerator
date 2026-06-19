@@ -263,6 +263,13 @@ const schedule: ScheduleContent = {
 	examples: {
 		title: 'More 50/50 custody schedule examples',
 		description: 'Compare these examples when deciding whether your family needs frequent contact, fixed weekdays, or fewer exchanges.',
+		libraryPromo: {
+			heading: 'Looking for More 50/50 Custody Examples?',
+			description:
+				'See how these schedules work for toddlers, school-age children, teenagers, holidays, work schedules, and different parenting situations.',
+			buttonText: 'Browse All 50/50 Schedule Examples',
+			href: '/50-50-custody-schedule-examples/',
+		},
 		items: [
 			{ title: '2-2-3 weekly example', href: '/2-2-3-custody-schedule/', description: 'Parent A has Monday-Tuesday, Parent B has Wednesday-Thursday, and Parent A has Friday-Sunday. The next week flips.', approxSplit: 'About 50/50 over two weeks', bestUseCase: 'Younger children who need shorter gaps between homes.' },
 			{ title: '2-2-5-5 two-week example', href: '/2-2-5-5-custody-schedule/', description: 'One parent keeps the same two weekdays, the other keeps the other two weekdays, and weekends alternate through five-day blocks.', approxSplit: 'About 50/50 over two weeks', bestUseCase: 'School-age children who need predictable weekday routines.' },

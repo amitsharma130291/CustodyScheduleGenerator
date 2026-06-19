@@ -134,6 +134,7 @@ export interface GeneratedDay {
 	parentName: string;
 	isCurrentMonth: boolean;
 	isPlaceholder: boolean;
+	isHolidayOverride?: boolean;
 	events?: ScheduleEvent[];
 }
 

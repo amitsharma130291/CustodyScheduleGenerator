@@ -174,6 +174,12 @@ export interface ScheduleContent {
 		title: string;
 		description: string;
 		items: ScheduleExampleSummary[];
+		libraryPromo?: {
+			heading?: string;
+			description: string;
+			buttonText: string;
+			href: string;
+		};
 	};
 	decisionGuide?: {
 		quickAnswer?: {

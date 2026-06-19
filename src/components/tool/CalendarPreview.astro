@@ -3,9 +3,16 @@ import type { GeneratedSchedule } from '../../lib/schedules/types';
 
 interface Props {
 	schedule: GeneratedSchedule;
+	/** Use non-heading month label when embedded inside cards (avoids nested H2). */
+	embedded?: boolean;
+	/** Optional subtitle under the month label. */
+	headerNote?: string;
+	/** Hide overnight summary stats (e.g. holiday demo calendars). */
+	showSummary?: boolean;
 }
 
-const { schedule } = Astro.props;
+const { schedule, embedded = false, headerNote, showSummary = true } = Astro.props;
+const MonthLabelTag = embedded ? 'p' : 'h2';
 const totalDays = schedule.parentDayCounts.parentA + schedule.parentDayCounts.parentB || 1;
 const parentAPercentage = Math.round((schedule.parentDayCounts.parentA / totalDays) * 100);
 const parentBPercentage = 100 - parentAPercentage;
@@ -46,10 +53,10 @@ const parentBPercentage = 100 - parentAPercentage;
 	<div class="flex flex-col gap-2.5 border-b border-line-subtle pb-3.5 sm:flex-row sm:items-center sm:justify-between">
 		<div>
 			<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Parenting calendar preview</p>
-			<h2 class="mt-1 text-xl font-semibold tracking-[-0.04em] text-primary" data-calendar-month>
+			<MonthLabelTag class="mt-1 text-xl font-semibold tracking-[-0.04em] text-primary" data-calendar-month>
 				{schedule.monthLabel}
-			</h2>
-			<p class="mt-1 text-[11px] leading-4 text-muted">Based on your selected start date.</p>
+			</MonthLabelTag>
+			<p class="mt-1 text-[11px] leading-4 text-muted">{headerNote ?? 'Based on your selected start date.'}</p>
 		</div>
 		<div class="flex flex-wrap gap-3 text-xs text-secondary">
 			<span class="inline-flex items-center gap-2"><i class="h-2.5 w-2.5 rounded-full bg-accent"></i><span data-parent-a-label>{schedule.parentNames.parentA}</span></span>
@@ -72,15 +79,19 @@ const parentBPercentage = 100 - parentAPercentage;
 				);
 			}
 
+			const holidayOverride = day.isHolidayOverride && day.isCurrentMonth;
 			const color = !day.isCurrentMonth
 				? 'text-muted opacity-30 shadow-[inset_0_0_0_1px_var(--border-subtle)]'
-				: day.parent === 'parentA'
-					? 'bg-[rgba(37,99,235,0.2)] text-accent shadow-[inset_0_0_0_1px_rgba(37,99,235,0.28)]'
-					: 'bg-[rgba(45,212,191,0.14)] text-parent-b shadow-[inset_0_0_0_1px_rgba(45,212,191,0.18)]';
+				: holidayOverride
+					? 'bg-warning/20 text-primary shadow-[inset_0_0_0_2px_rgba(245,158,11,0.55)] ring-1 ring-warning/40'
+					: day.parent === 'parentA'
+						? 'bg-[rgba(37,99,235,0.2)] text-accent shadow-[inset_0_0_0_1px_rgba(37,99,235,0.28)]'
+						: 'bg-[rgba(45,212,191,0.14)] text-parent-b shadow-[inset_0_0_0_1px_rgba(45,212,191,0.18)]';
 
 			return (
 				<span
 					class={`calendar-day-cell flex aspect-square max-h-[34px] min-h-0 items-center justify-center rounded-xl px-0.5 text-xs font-semibold sm:max-h-[34px] sm:rounded-2xl sm:text-sm ${color}`}
+					title={holidayOverride ? 'Thanksgiving override' : undefined}
 				>
 					<span class="leading-none">{day.dayOfMonth}</span>
 				</span>
@@ -88,6 +99,7 @@ const parentBPercentage = 100 - parentAPercentage;
 		})}
 	</div>
 
+	{showSummary && (
 	<div class="mt-3 grid grid-cols-2 gap-2.5" aria-label="Parenting time summary" aria-live="polite">
 		<div class="min-w-0 rounded-2xl bg-surface/75 p-2 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
 			<p class="inline-flex max-w-full items-center gap-1.5 text-xs font-medium leading-none text-secondary">
@@ -115,6 +127,7 @@ const parentBPercentage = 100 - parentAPercentage;
 			Annual estimate shown when available.
 		</p>
 	</div>
+	)}
 
 	<div class="mt-2 w-full min-w-0">
 		<slot name="actions" />

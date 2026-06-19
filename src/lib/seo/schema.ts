@@ -63,6 +63,70 @@ export function buildWebPageSchema({
 	};
 }
 
+export function buildArticleSchema({
+	headline,
+	description,
+	url,
+	datePublished,
+	dateModified,
+	authorName = 'CustodyBuilder Editorial Team',
+}: {
+	headline: string;
+	description: string;
+	url: string;
+	datePublished: string;
+	dateModified: string;
+	authorName?: string;
+}) {
+	return {
+		'@context': 'https://schema.org',
+		'@type': 'Article',
+		headline,
+		description,
+		url,
+		inLanguage: 'en-US',
+		datePublished,
+		dateModified,
+		author: {
+			'@type': 'Organization',
+			name: authorName,
+			url: 'https://custodybuilder.com/about/',
+		},
+		publisher: {
+			'@type': 'Organization',
+			name: 'CustodyBuilder',
+			url: 'https://custodybuilder.com/',
+		},
+	};
+}
+
+export function buildItemListSchema({
+	name,
+	description,
+	url,
+	items,
+}: {
+	name: string;
+	description?: string;
+	url: string;
+	items: Array<{ name: string; url: string }>;
+}) {
+	return {
+		'@context': 'https://schema.org',
+		'@type': 'ItemList',
+		name,
+		...(description ? { description } : {}),
+		url,
+		inLanguage: 'en-US',
+		itemListElement: items.map((item, index) => ({
+			'@type': 'ListItem',
+			position: index + 1,
+			name: item.name,
+			url: item.url,
+		})),
+	};
+}
+
 export function buildAboutPageSchema({
 	name,
 	description,
