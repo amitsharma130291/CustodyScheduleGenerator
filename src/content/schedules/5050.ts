@@ -310,6 +310,8 @@ const schedule: ScheduleContent = {
 	],
 	relatedHeading: 'Related custody schedules',
 	relatedLinks: [
+		{ title: 'Best 50/50 Custody Schedule', slug: 'best-50-50-custody-schedule', description: 'Decision guide: compare patterns and choose the best 50/50 schedule for your family.' },
+		{ title: '50/50 Schedule Examples', slug: '50-50-custody-schedule-examples', description: 'Browse real calendar scenarios by age, holidays, and parent work schedules.' },
 		{ title: '2-2-3 Custody Schedule', slug: '2-2-3-custody-schedule', description: 'Frequent-contact 50/50 schedule with alternating long weekends.' },
 		{ title: '2-2-5-5 Custody Schedule', slug: '2-2-5-5-custody-schedule', description: '50/50 schedule with fixed weekdays and alternating five-day blocks.' },
 		{ title: '5-2-2-5 Custody Schedule', slug: '5-2-2-5-custody-schedule', description: 'Equal-time schedule with longer blocks and predictable two-week rhythm.' },
