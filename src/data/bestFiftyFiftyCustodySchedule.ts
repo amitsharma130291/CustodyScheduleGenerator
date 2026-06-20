@@ -187,6 +187,7 @@ export const ageDecisionCards = [
 			'Choose 5-2-2-5 when the teen prefers seeing each parent more often than a single weekly exchange allows.',
 		watchOut: 'Teen preference matters more at this age—build room to adjust around school events and work schedules.',
 		learnLinks: [
+			{ label: '50/50 custody schedule for teenagers →', href: '/50-50-custody-schedule-for-teenagers/' },
 			{ label: 'Learn about week-on/week-off →', href: '/week-on-week-off-custody-schedule/' },
 			{ label: 'Learn about the 5-2-2-5 schedule →', href: '/5-2-2-5-custody-schedule/' },
 		],

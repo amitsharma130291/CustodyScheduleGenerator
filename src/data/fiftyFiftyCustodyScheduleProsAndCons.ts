@@ -122,8 +122,8 @@ export const ageComparisonRows = [
 	{
 		ageGroup: 'Teenagers',
 		focus: 'Independence, social plans, jobs, and flexibility often matter more than rigid blocks. Teens may need room to attend events that do not align with the calendar without treating every invite as a custody dispute.',
-		href: '/best-custody-schedule-for-teenager/',
-		linkLabel: 'Best Custody Schedule for a Teenager',
+		href: '/50-50-custody-schedule-for-teenagers/',
+		linkLabel: '50/50 Custody Schedule for Teenagers',
 	},
 ];
 

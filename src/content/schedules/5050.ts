@@ -208,6 +208,9 @@ const schedule: ScheduleContent = {
 				{ age: 'Middle school', recommended: '5-2-2-5 or week-on/week-off', href: '/5-2-2-5-custody-schedule/', guideHref: '/best-custody-schedule-for-teenager/', reason: 'Older children often need fewer handoffs around activities, devices, and school responsibilities.' },
 				{ age: 'Teenagers', recommended: 'Week-on/week-off', href: '/week-on-week-off-custody-schedule/', guideHref: '/best-custody-schedule-for-teenager/', reason: 'Teens often do better with a simpler calendar if both homes can support a full week.' },
 			],
+			ageGuideNotes: [
+				'Teenagers often need more flexibility around driving, jobs, sports, friendships, and social commitments. See our guide on <a href="/50-50-custody-schedule-for-teenagers/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 custody schedules for teenagers</a>.',
+			],
 		},
 		logistics: {
 			title: 'What to define before using a 50/50 parenting schedule',

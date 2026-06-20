@@ -1,0 +1,272 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import CtaButton from '../components/CtaButton.astro';
+import ArticleTOC from '../components/ArticleTOC.astro';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import {
+	buildArticleSchema,
+	buildBreadcrumbSchema,
+	buildFAQSchema,
+	buildWebPageSchema,
+} from '../lib/seo/schema';
+import {
+	articleTocItems,
+	builderFeatures,
+	builderTransition,
+	busySchedulesSection,
+	commonMistakes,
+	drivingSection,
+	faqItems,
+	flexibilitySection,
+	heroIntro,
+	relatedLinks,
+	relationshipsSection,
+	socialLifeSection,
+	teenageYearsSection,
+} from '../data/fiftyFiftyCustodyScheduleForTeenagers';
+
+const title = '50/50 Custody Schedule for Teenagers: Independence, Friends & Flexibility';
+const description =
+	'Learn how a 50/50 custody schedule works for teenagers, including driving, friends, sports, jobs, social plans, and balancing independence between two homes.';
+const canonical = '/50-50-custody-schedule-for-teenagers/';
+const canonicalUrl = getCanonicalUrl(canonical);
+const datePublished = '2026-07-09';
+const dateModified = '2026-07-12';
+
+const breadcrumbs = [
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: '50/50 Custody Schedule', url: getCanonicalUrl('/50-50-custody-schedule/') },
+	{ name: '50/50 Schedule for Teenagers', url: canonicalUrl },
+];
+
+const schema = [
+	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+	buildArticleSchema({
+		headline: '50/50 Custody Schedule for Teenagers',
+		description,
+		url: canonicalUrl,
+		datePublished,
+		dateModified,
+		authorName: 'CustodyBuilder Editorial Team',
+	}),
+	buildFAQSchema(faqItems),
+	buildBreadcrumbSchema(breadcrumbs),
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical}>
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<Breadcrumbs items={breadcrumbs} />
+	<main>
+		<section class="container-shell py-section lg:py-section-loose">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Teen parenting plans</p>
+				<h1 class="mt-4 text-4xl font-semibold leading-[1.02] tracking-[-0.05em] text-primary sm:text-5xl lg:text-6xl">
+					50/50 Custody Schedule for Teenagers
+				</h1>
+				<p class="mt-5 text-lg leading-8 text-secondary">{heroIntro.opening}</p>
+				<p class="mt-4 text-base leading-7 text-secondary">{heroIntro.followUp}</p>
+				<p class="mt-4 text-sm leading-6 text-muted">
+					Created by <a href="/about/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">CustodyBuilder Editorial Team</a>
+					<span aria-hidden="true"> • </span>Last reviewed: July 2026
+					<span aria-hidden="true"> • </span>Educational planning resource
+					<span aria-hidden="true"> • </span><a href="/disclaimer/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Not legal advice</a>
+				</p>
+				<div class="mt-8">
+					<CtaButton href="/50-50-custody-schedule/" variant="primary" size="large">
+						Create a Teen-Friendly 50/50 Schedule
+					</CtaButton>
+				</div>
+			</div>
+		</section>
+
+		<ArticleTOC items={articleTocItems} />
+
+		<section id="teenage-years" class="container-shell scroll-mt-24 pb-section" aria-labelledby="teenage-years-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Core shift</p>
+				<h2 id="teenage-years-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					How 50/50 Custody Changes During the Teenage Years
+				</h2>
+				{teenageYearsSection.paragraphs.map((paragraph) => (
+					<p class="mt-3 text-base leading-7 text-secondary">{paragraph}</p>
+				))}
+				<p class="mt-4 text-sm leading-6 text-secondary" set:html={teenageYearsSection.transitionNote} />
+				<p class="mt-3 text-sm leading-6 text-secondary" set:html={teenageYearsSection.patternNote} />
+			</div>
+		</section>
+
+		<section id="social-life" class="container-shell scroll-mt-24 py-section" aria-labelledby="social-life-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Social world</p>
+				<h2 id="social-life-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					Friends, Dating, and Social Life
+				</h2>
+				<p class="mt-3 text-base leading-7 text-secondary">{socialLifeSection.intro}</p>
+			</div>
+			<div class="mt-6 space-y-8">
+				{socialLifeSection.scenarios.map((scenario) => (
+					<article class="max-w-3xl">
+						<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary">{scenario.heading}</h3>
+						<p class="mt-3 text-base leading-7 text-secondary">{scenario.body}</p>
+					</article>
+				))}
+			</div>
+			<div class="soft-card mt-8 max-w-3xl rounded-[1.5rem] p-5 sm:p-6">
+				<p class="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">Teen-specific systems</p>
+				<ul class="mt-4 list-disc space-y-2 pl-5 text-sm leading-6 text-secondary">
+					{socialLifeSection.solutions.map((item) => <li>{item}</li>)}
+				</ul>
+			</div>
+		</section>
+
+		<section id="busy-schedules" class="container-shell scroll-mt-24 py-section" aria-labelledby="busy-schedules-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Work and activities</p>
+				<h2 id="busy-schedules-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					Sports, Jobs, and Busy Schedules
+				</h2>
+				<p class="mt-3 text-base leading-7 text-secondary">{busySchedulesSection.intro}</p>
+				{busySchedulesSection.paragraphs.map((paragraph) => (
+					<p class="mt-4 text-base leading-7 text-secondary">{paragraph}</p>
+				))}
+				<p class="mt-5 text-base font-semibold text-primary">Who handles what:</p>
+				<ul class="mt-3 list-disc space-y-2 pl-5 text-sm leading-6 text-secondary">
+					{busySchedulesSection.responsibilities.map((item) => <li>{item}</li>)}
+				</ul>
+			</div>
+		</section>
+
+		<section id="driving" class="container-shell scroll-mt-24 py-section" aria-labelledby="driving-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Transportation</p>
+				<h2 id="driving-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					Driving and Transportation Between Homes
+				</h2>
+				<p class="mt-3 text-base leading-7 text-secondary">{drivingSection.intro}</p>
+				{drivingSection.paragraphs.map((paragraph) => (
+					<p class="mt-4 text-base leading-7 text-secondary">{paragraph}</p>
+				))}
+			</div>
+			<div class="soft-card mt-6 max-w-3xl rounded-[1.5rem] border-l-4 border-accent/40 p-5 sm:p-6">
+				<p class="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">Common setups</p>
+				<ul class="mt-4 list-disc space-y-2 pl-5 text-base leading-7 text-secondary">
+					{drivingSection.examples.map((item) => <li>{item}</li>)}
+				</ul>
+			</div>
+		</section>
+
+		<section id="flexibility" class="container-shell scroll-mt-24 py-section" aria-labelledby="flexibility-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Schedule requests</p>
+				<h2 id="flexibility-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					When Teenagers Want More Flexibility
+				</h2>
+				<p class="mt-3 text-base leading-7 text-secondary">{flexibilitySection.intro}</p>
+				{flexibilitySection.paragraphs.map((paragraph) => (
+					<p class="mt-4 text-base leading-7 text-secondary">{paragraph}</p>
+				))}
+			</div>
+			<div class="soft-card mt-8 max-w-3xl rounded-[1.5rem] border-l-4 border-accent/40 p-5 sm:p-6">
+				<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{flexibilitySection.teenPerspective.heading}</h3>
+				<ul class="mt-4 space-y-4 text-sm leading-6 text-secondary">
+					{flexibilitySection.teenPerspective.items.map((item) => (
+						<li>
+							<p class="font-semibold text-primary">“{item.quote}”</p>
+							<p class="mt-1">May mean: {item.meaning}</p>
+						</li>
+					))}
+				</ul>
+			</div>
+		</section>
+
+		<section id="relationships" class="container-shell scroll-mt-24 py-section" aria-labelledby="relationships-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Both parents matter</p>
+				<h2 id="relationships-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					Maintaining Strong Relationships with Both Parents
+				</h2>
+				<p class="mt-3 text-base leading-7 text-secondary">{relationshipsSection.intro}</p>
+				{relationshipsSection.paragraphs.map((paragraph) => (
+					<p class="mt-4 text-base leading-7 text-secondary">{paragraph}</p>
+				))}
+			</div>
+		</section>
+
+		<section id="common-mistakes" class="container-shell scroll-mt-24 py-section" aria-labelledby="common-mistakes-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Supportive guidance</p>
+				<h2 id="common-mistakes-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					Common Mistakes Parents Make With Teen 50/50 Custody
+				</h2>
+			</div>
+			<div class="mt-6 grid gap-4 md:grid-cols-2">
+				{commonMistakes.map((item) => (
+					<article class="soft-card rounded-[1.5rem] p-5">
+						<h3 class="text-base font-semibold text-primary">{item.mistake}</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">{item.detail}</p>
+					</article>
+				))}
+			</div>
+		</section>
+
+		<section id="custodybuilder-help" class="container-shell scroll-mt-24 py-section" aria-labelledby="custodybuilder-help-title">
+			<div class="premium-card rounded-[2rem] p-3">
+				<div class="rounded-[1.7rem] bg-surface-elevated/80 p-6 sm:p-8 lg:p-10">
+					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Plan your calendar</p>
+					<h2 id="custodybuilder-help-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+						How CustodyBuilder Helps Families Plan Teen 50/50 Schedules
+					</h2>
+					<p class="mt-4 max-w-2xl text-base leading-7 text-secondary" set:html={builderTransition} />
+					<ul class="mt-4 max-w-2xl list-disc space-y-2 pl-5 text-sm leading-7 text-secondary">
+						{builderFeatures.map((feature) => <li>{feature}</li>)}
+					</ul>
+					<div class="mt-6">
+						<CtaButton href="/50-50-custody-schedule/" variant="primary" size="large">
+							Build Your 50/50 Custody Calendar
+						</CtaButton>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell py-section" aria-labelledby="related-tools-title">
+			<div class="max-w-3xl">
+				<h2 id="related-tools-title" class="text-2xl font-semibold tracking-[-0.04em] text-primary">Related planning tools</h2>
+			</div>
+			<div class="mt-5 grid gap-4 sm:grid-cols-2">
+				{relatedLinks.map((link) => (
+					<a href={link.href} class="soft-card rounded-[1.5rem] p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40">
+						<h3 class="text-base font-semibold text-primary">{link.title}</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">{link.description}</p>
+					</a>
+				))}
+			</div>
+		</section>
+
+		<section id="ymyl-disclaimer" class="container-shell scroll-mt-24 py-section" aria-labelledby="ymyl-disclaimer-title">
+			<div class="soft-card max-w-3xl rounded-[1.5rem] p-5 sm:p-6">
+				<h2 id="ymyl-disclaimer-title" class="text-xl font-semibold tracking-[-0.03em] text-primary sm:text-2xl">
+					Educational Planning Information, Not Legal Advice
+				</h2>
+				<p class="mt-3 text-sm leading-7 text-secondary">
+					This article provides general educational information about planning 50/50 custody schedules. It does not replace <a href="/disclaimer/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">legal advice</a>, court orders, or professional guidance.
+				</p>
+			</div>
+		</section>
+
+		<FAQ
+			items={faqItems}
+			eyebrow="Teen 50/50 FAQ"
+			title="Questions About Teen 50/50 Custody"
+			description="Answers focused on independence, jobs, sports, driving, social plans, and adjusting equal parenting time for teenagers."
+		/>
+	</main>
+	<Footer />
+</BaseLayout>

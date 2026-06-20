@@ -224,6 +224,7 @@ export interface ScheduleContent {
 				guideHref: string;
 				reason: string;
 			}>;
+			ageGuideNotes?: string[];
 		};
 		ageApproach?: {
 			title: string;

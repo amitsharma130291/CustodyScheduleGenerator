@@ -995,6 +995,9 @@ const schema = [
 								</tbody>
 							</table>
 						</div>
+						{schedule.decisionGuide.byAge.ageGuideNotes?.map((note) => (
+							<p class="text-base leading-8 text-secondary" set:html={note} />
+						))}
 					</section>
 				)}
 
