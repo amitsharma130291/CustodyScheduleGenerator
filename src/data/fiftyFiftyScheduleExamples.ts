@@ -565,6 +565,7 @@ export const faqItems = [
 ];
 
 export const relatedLinks = [
+	{ title: '50/50 Custody Schedule for Toddlers', href: '/50-50-custody-schedule-for-toddlers/', description: 'Routines, transitions, and toddler-friendly equal-time patterns.' },
 	{ title: 'Best 50/50 Custody Schedule', href: '/best-50-50-custody-schedule/', description: 'Compare patterns and choose the best 50/50 schedule for your family.' },
 	{ title: '50/50 Custody Schedule Hub', href: '/50-50-custody-schedule/', description: 'Compare patterns, definitions, and the main generator.' },
 	{ title: '2-2-3 Schedule', href: '/2-2-3-custody-schedule/', description: 'Frequent-contact equal parenting example.' },

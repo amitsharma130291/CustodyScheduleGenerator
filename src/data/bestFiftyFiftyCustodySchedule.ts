@@ -125,6 +125,7 @@ export const ageDecisionCards = [
 			'Choose 3-4-4-3 when the child tolerates slightly longer blocks and parents want fewer transitions than 2-2-3 requires.',
 		watchOut: 'No single pattern fits every toddler—watch sleep, appetite, and behavior after exchanges before locking in a rotation.',
 		learnLinks: [
+			{ label: '50/50 custody schedule for toddlers →', href: '/50-50-custody-schedule-for-toddlers/' },
 			{ label: 'Learn about the 2-2-3 schedule →', href: '/2-2-3-custody-schedule/' },
 			{ label: 'Learn about the 3-4-4-3 schedule →', href: '/3-4-4-3-custody-schedule/' },
 		],
