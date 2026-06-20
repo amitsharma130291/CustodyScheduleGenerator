@@ -156,6 +156,7 @@ export const ageDecisionCards = [
 			'Choose 5-2-2-5 when the family routine works better with longer weekday blocks and alternating weekend stretches.',
 		watchOut: 'Sports, tutoring, and carpool plans need to match whichever parent holds the assigned school nights.',
 		learnLinks: [
+			{ label: '50/50 custody schedule for school-age children →', href: '/50-50-custody-schedule-for-school-age-children/' },
 			{ label: 'Learn about the 2-2-5-5 schedule →', href: '/2-2-5-5-custody-schedule/' },
 			{ label: 'Learn about the 5-2-2-5 schedule →', href: '/5-2-2-5-custody-schedule/' },
 		],

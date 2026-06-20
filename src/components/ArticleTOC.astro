@@ -1,0 +1,30 @@
+---
+interface TocItem {
+	label: string;
+	href: string;
+}
+
+interface Props {
+	items: TocItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav class="container-shell pb-section" aria-label="On this page">
+	<div class="soft-card max-w-3xl rounded-[1.5rem] p-4 sm:p-5">
+		<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">On this page</p>
+		<ol class="mt-3 grid gap-2 sm:grid-cols-2">
+			{items.map((item) => (
+				<li>
+					<a
+						href={item.href}
+						class="text-sm font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary"
+					>
+						{item.label}
+					</a>
+				</li>
+			))}
+		</ol>
+	</div>
+</nav>
