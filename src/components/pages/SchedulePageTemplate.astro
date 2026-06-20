@@ -441,6 +441,7 @@ const schema = [
 					{schedule.trust && <li><a href="#review-disclaimer" class="hover:text-primary">Review and disclaimer</a></li>}
 					{schedule.atAGlance && <li><a href="#at-a-glance" class="hover:text-primary">At a glance</a></li>}
 					<li><a href="#overview" class="hover:text-primary">Overview</a></li>
+					{schedule.slug === '50-50-custody-schedule' && <li><a href="#pros-cons-guide" class="hover:text-primary">Is 50/50 right for you?</a></li>}
 					{schedule.printableDownload && <li><a href="#printable-download" class="hover:text-primary">Printable downloads</a></li>}
 					{schedule.timeline && <li><a href="#timeline" class="hover:text-primary">Two-week timeline</a></li>}
 					{schedule.fitGuide && <li><a href="#who-should-use" class="hover:text-primary">Who should use it</a></li>}
@@ -513,6 +514,26 @@ const schema = [
 						<p class="text-base leading-8 text-secondary" set:html={paragraph} />
 					))}
 				</section>
+
+				{schedule.slug === '50-50-custody-schedule' && (
+					<aside id="pros-cons-guide" class="soft-card scroll-mt-24 rounded-[1.5rem] border-l-4 border-accent/40 p-5 sm:p-6" aria-labelledby="pros-cons-guide-title">
+						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Before you choose a pattern</p>
+						<h2 id="pros-cons-guide-title" class="mt-3 text-xl font-semibold tracking-[-0.03em] text-primary sm:text-2xl">
+							Not Sure if 50/50 Custody Is Right for Your Family?
+						</h2>
+						<p class="mt-3 text-base leading-7 text-secondary">
+							A 50/50 custody schedule allows children to maintain meaningful relationships with both parents, but equal parenting time also brings practical challenges such as transitions between homes, school responsibilities, activities, and shared decision-making.
+						</p>
+						<p class="mt-3 text-base leading-7 text-secondary">
+							Before choosing a schedule, it can help to understand the real-life advantages and disadvantages of 50/50 custody.
+						</p>
+						<p class="mt-4">
+							<a href="/50-50-custody-schedule-pros-and-cons/" class="text-sm font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">
+								Read the Pros and Cons of 50/50 Custody →
+							a>
+						</p>
+					</aside>
+				)}
 
 				{schedule.printableDownload && (
 					<section id="printable-download" class="grid gap-5 scroll-mt-24">

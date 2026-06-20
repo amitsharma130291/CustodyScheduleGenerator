@@ -1,0 +1,304 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import CtaButton from '../components/CtaButton.astro';
+import ArticleTOC from '../components/ArticleTOC.astro';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import {
+	buildArticleSchema,
+	buildBreadcrumbSchema,
+	buildFAQSchema,
+	buildWebPageSchema,
+} from '../lib/seo/schema';
+import {
+	ageComparisonRows,
+	articleTocItems,
+	benefitsSections,
+	builderTransition,
+	challengesSections,
+	faqItems,
+	goodOrBadSection,
+	heroIntro,
+	moreDifficultSection,
+	questionsChecklist,
+	relatedLinks,
+	successSystems,
+	tradeoffConclusion,
+	worksBestSection,
+} from '../data/fiftyFiftyCustodyScheduleProsAndCons';
+
+const title = '50/50 Custody Schedule Pros and Cons: What Parents Should Know';
+const description =
+	'Explore the real pros and cons of a 50/50 custody schedule, including benefits, challenges, child adjustment, school routines, and whether equal parenting time fits your family.';
+const canonical = '/50-50-custody-schedule-pros-and-cons/';
+const canonicalUrl = getCanonicalUrl(canonical);
+const datePublished = '2026-07-05';
+const dateModified = '2026-07-08';
+
+const breadcrumbs = [
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: '50/50 Custody Schedule', url: getCanonicalUrl('/50-50-custody-schedule/') },
+	{ name: '50/50 Custody Pros and Cons', url: canonicalUrl },
+];
+
+const schema = [
+	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+	buildArticleSchema({
+		headline: '50/50 Custody Schedule Pros and Cons',
+		description,
+		url: canonicalUrl,
+		datePublished,
+		dateModified,
+		authorName: 'CustodyBuilder Editorial Team',
+	}),
+	buildFAQSchema(faqItems),
+	buildBreadcrumbSchema(breadcrumbs),
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical}>
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<Breadcrumbs items={breadcrumbs} />
+	<main>
+		<section class="container-shell py-section lg:py-section-loose">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Equal parenting decisions</p>
+				<h1 class="mt-4 text-4xl font-semibold leading-[1.02] tracking-[-0.05em] text-primary sm:text-5xl lg:text-6xl">
+					50/50 Custody Schedule Pros and Cons
+				</h1>
+				<p class="mt-5 text-lg leading-8 text-secondary">{heroIntro.opening}</p>
+				<p class="mt-4 text-base leading-7 text-secondary">{heroIntro.followUp}</p>
+				<p class="mt-4 text-sm leading-6 text-muted">
+					Created by <a href="/about/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">CustodyBuilder Editorial Team</a>
+					<span aria-hidden="true"> • </span>Last reviewed: July 2026
+					<span aria-hidden="true"> • </span>Educational planning resource
+					<span aria-hidden="true"> • </span><a href="/disclaimer/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Not legal advice</a>
+				</p>
+				<div class="mt-8">
+					<CtaButton href="/50-50-custody-schedule/" variant="primary" size="large">
+						Build a 50/50 Custody Schedule
+					</CtaButton>
+				</div>
+			</div>
+		</section>
+
+		<ArticleTOC items={articleTocItems} />
+
+		<section id="good-or-bad" class="container-shell scroll-mt-24 pb-section" aria-labelledby="good-or-bad-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Start here</p>
+				<h2 id="good-or-bad-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					Is 50/50 Custody Good or Bad?
+				</h2>
+				<p class="mt-3 text-base leading-7 text-secondary">{goodOrBadSection.intro}</p>
+			</div>
+			<div class="mt-6 grid gap-4 md:grid-cols-2">
+				<article class="soft-card rounded-[1.5rem] p-5 sm:p-6">
+					<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{goodOrBadSection.worksWell.heading}</h3>
+					<ul class="mt-3 list-disc space-y-2 pl-4 text-sm leading-6 text-secondary">
+						{goodOrBadSection.worksWell.points.map((item) => <li>{item}</li>)}
+					</ul>
+				</article>
+				<article class="soft-card rounded-[1.5rem] p-5 sm:p-6">
+					<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{goodOrBadSection.moreDifficult.heading}</h3>
+					<ul class="mt-3 list-disc space-y-2 pl-4 text-sm leading-6 text-secondary">
+						{goodOrBadSection.moreDifficult.points.map((item) => <li>{item}</li>)}
+					</ul>
+				</article>
+			</div>
+			<p class="mt-6 max-w-3xl text-base leading-7 text-secondary">{goodOrBadSection.closing}</p>
+		</section>
+
+		<section id="benefits" class="container-shell scroll-mt-24 py-section" aria-labelledby="benefits-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">What equal time can offer</p>
+				<h2 id="benefits-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					The Biggest Benefits of a 50/50 Custody Schedule
+				</h2>
+			</div>
+			<div class="mt-6 space-y-10">
+				{benefitsSections.map((section) => (
+					<article class="max-w-3xl">
+						<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary">{section.title}</h3>
+						{section.paragraphs.map((paragraph) => (
+							<p class="mt-3 text-base leading-7 text-secondary">{paragraph}</p>
+						))}
+					</article>
+				))}
+			</div>
+		</section>
+
+		<section id="challenges" class="container-shell scroll-mt-24 py-section" aria-labelledby="challenges-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Hidden realities</p>
+				<h2 id="challenges-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					The Challenges Many Families Do Not Expect
+				</h2>
+				<p class="mt-3 text-base leading-7 text-secondary">
+					Pros-and-cons lists often stop at “more transitions” or “two homes.” The friction usually shows up in smaller moments—the Tuesday when the science board is at the wrong house, or the month when one parent quietly handles every school email.
+				</p>
+			</div>
+			<div class="mt-8 space-y-10">
+				{challengesSections.map((section) => (
+					<article class="max-w-3xl">
+						<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary">{section.title}</h3>
+						{section.paragraphs.map((paragraph) => (
+							<p class="mt-3 text-base leading-7 text-secondary" set:html={paragraph} />
+						))}
+					</article>
+				))}
+			</div>
+			<div class="soft-card mt-10 max-w-3xl rounded-[1.5rem] border-l-4 border-accent/40 p-5 sm:p-6">
+				{tradeoffConclusion.map((paragraph) => (
+					<p class="mt-3 text-base leading-7 text-secondary first:mt-0">{paragraph}</p>
+				))}
+			</div>
+		</section>
+
+		<section id="age-changes" class="container-shell scroll-mt-24 py-section" aria-labelledby="age-changes-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Age matters</p>
+				<h2 id="age-changes-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					How Age Changes the Pros and Cons of 50/50 Custody
+				</h2>
+				<p class="mt-3 text-base leading-7 text-secondary">
+					The tradeoffs shift as children grow. Age-specific guides linked below cover what changes at each stage.
+				</p>
+			</div>
+			<div class="mt-6 max-w-3xl overflow-x-auto">
+				<table class="w-full min-w-[32rem] border-collapse text-left text-sm leading-6 text-secondary">
+					<thead>
+						<tr class="border-b border-line">
+							<th scope="col" class="py-3 pr-4 font-semibold text-primary">Age stage</th>
+							<th scope="col" class="py-3 font-semibold text-primary">What usually shapes 50/50 most</th>
+						</tr>
+					</thead>
+					<tbody>
+						{ageComparisonRows.map((row) => (
+							<tr class="border-b border-line/60">
+								<td class="py-4 pr-4 align-top font-semibold text-primary">{row.ageGroup}</td>
+								<td class="py-4 align-top">
+									<p>{row.focus}</p>
+									<p class="mt-2">
+										<a href={row.href} class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">{row.linkLabel} →</a>
+									</p>
+								</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<section id="works-best" class="container-shell scroll-mt-24 py-section" aria-labelledby="works-best-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Green flags</p>
+				<h2 id="works-best-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					When 50/50 Custody Works Best
+				</h2>
+				<p class="mt-3 text-base leading-7 text-secondary">{worksBestSection.intro}</p>
+				{worksBestSection.paragraphs.map((paragraph) => (
+					<p class="mt-4 text-base leading-7 text-secondary">{paragraph}</p>
+				))}
+			</div>
+		</section>
+
+		<section id="more-difficult" class="container-shell scroll-mt-24 py-section" aria-labelledby="more-difficult-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Harder fits</p>
+				<h2 id="more-difficult-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					When 50/50 Custody May Be More Difficult
+				</h2>
+				<p class="mt-3 text-base leading-7 text-secondary">{moreDifficultSection.intro}</p>
+				{moreDifficultSection.paragraphs.map((paragraph) => (
+					<p class="mt-4 text-base leading-7 text-secondary" set:html={paragraph} />
+				))}
+			</div>
+		</section>
+
+		<section id="questions" class="container-shell scroll-mt-24 py-section" aria-labelledby="questions-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Before you decide</p>
+				<h2 id="questions-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					Questions to Ask Before Choosing 50/50 Custody
+				</h2>
+				<p class="mt-3 text-base leading-7 text-secondary">{questionsChecklist.intro}</p>
+			</div>
+			<div class="soft-card mt-6 max-w-3xl rounded-[1.5rem] border-l-4 border-accent/40 p-5 sm:p-6">
+				<p class="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">Practical checklist</p>
+				<ul class="mt-4 list-disc space-y-2 pl-5 text-base leading-7 text-secondary">
+					{questionsChecklist.items.map((item) => <li>{item}</li>)}
+				</ul>
+				<p class="mt-5 text-sm leading-6 text-secondary">{questionsChecklist.closing}</p>
+			</div>
+		</section>
+
+		<section id="success" class="container-shell scroll-mt-24 py-section" aria-labelledby="success-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Systems that help</p>
+				<h2 id="success-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					How to Make 50/50 Custody More Successful
+				</h2>
+				<p class="mt-3 text-base leading-7 text-secondary">
+					Equal time succeeds when both homes run on shared information—not memory and hope. These systems reduce the Tuesday-night fights that make parents question the whole arrangement.
+				</p>
+			</div>
+			<div class="mt-6 grid gap-4 md:grid-cols-2">
+				{successSystems.map((system) => (
+					<article class="soft-card rounded-[1.5rem] p-5">
+						<h3 class="text-base font-semibold text-primary">{system.title}</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">{system.body}</p>
+					</article>
+				))}
+			</div>
+			<div class="premium-card mt-8 max-w-3xl rounded-[2rem] p-3">
+				<div class="rounded-[1.7rem] bg-surface-elevated/80 p-6 sm:p-8">
+					<p class="text-base leading-7 text-secondary" set:html={builderTransition} />
+					<div class="mt-6">
+						<CtaButton href="/50-50-custody-schedule/" variant="primary" size="large">
+							Build Your 50/50 Custody Schedule
+						</CtaButton>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section id="ymyl-disclaimer" class="container-shell scroll-mt-24 py-section" aria-labelledby="ymyl-disclaimer-title">
+			<div class="soft-card max-w-3xl rounded-[1.5rem] p-5 sm:p-6">
+				<h2 id="ymyl-disclaimer-title" class="text-xl font-semibold tracking-[-0.03em] text-primary sm:text-2xl">
+					Educational Planning Information, Not Legal Advice
+				</h2>
+				<p class="mt-3 text-sm leading-7 text-secondary">
+					This guide provides general educational information about planning 50/50 custody schedules. It does not replace <a href="/disclaimer/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">legal advice</a>, court orders, or professional guidance. Custody requirements vary by location and family circumstances.
+				</p>
+			</div>
+		</section>
+
+		<FAQ
+			items={faqItems}
+			eyebrow="50/50 decisions"
+			title="Questions About 50/50 Custody"
+			description="High-intent answers about benefits, disadvantages, stress, age, distance, and how 50/50 compares to other parenting time arrangements."
+		/>
+
+		<section class="container-shell py-section" aria-labelledby="related-tools-title">
+			<div class="max-w-3xl">
+				<h2 id="related-tools-title" class="text-2xl font-semibold tracking-[-0.04em] text-primary">Related planning tools</h2>
+			</div>
+			<div class="mt-5 grid gap-4 sm:grid-cols-2">
+				{relatedLinks.map((link) => (
+					<a href={link.href} class="soft-card rounded-[1.5rem] p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40">
+						<h3 class="text-base font-semibold text-primary">{link.title}</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">{link.description}</p>
+					</a>
+				))}
+			</div>
+		</section>
+	</main>
+	<Footer />
+</BaseLayout>
