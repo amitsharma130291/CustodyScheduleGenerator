@@ -108,6 +108,12 @@ export const tradeoffConclusion = [
 
 export const ageComparisonRows = [
 	{
+		ageGroup: 'Baby / Infant',
+		focus: 'Early bonding with both parents and familiarity with both homes can matter—but feeding routines, sleep and nap timing, and more frequent transitions often need a gradual step-up rather than equal overnights from day one.',
+		href: '/50-50-custody-schedule-for-babies/',
+		linkLabel: '50/50 Custody Schedule for Babies',
+	},
+	{
 		ageGroup: 'Toddlers',
 		focus: 'Sleep, routines, and frequent contact often matter more than which pattern divides days. Short separations and consistent nap and bedtime rhythms usually shape whether equal time feels stable—see the toddler guide for transition and nap timing details.',
 		href: '/50-50-custody-schedule-for-toddlers/',

@@ -1,0 +1,336 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import CtaButton from '../components/CtaButton.astro';
+import ArticleTOC from '../components/ArticleTOC.astro';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import {
+	buildArticleSchema,
+	buildBreadcrumbSchema,
+	buildFAQSchema,
+	buildWebPageSchema,
+} from '../lib/seo/schema';
+import {
+	adjustmentSignsSection,
+	articleTocItems,
+	babyVsOtherAgesSection,
+	builderFeatures,
+	builderTransition,
+	canBabySection,
+	commonMistakes,
+	faqItems,
+	feedingSection,
+	heroIntro,
+	overnightsSection,
+	relatedLinks,
+	sleepSection,
+	stepUpSection,
+} from '../data/fiftyFiftyCustodyScheduleForBabies';
+
+const title = '50/50 Custody Schedule for Babies: Feeding, Sleep & Step-Up Plans';
+const description =
+	'Learn how 50/50 custody can work for babies and infants with feeding schedules, short visits, overnights, sleep routines, and gradual step-up parenting plans.';
+const canonical = '/50-50-custody-schedule-for-babies/';
+const canonicalUrl = getCanonicalUrl(canonical);
+const datePublished = '2026-07-14';
+const dateModified = '2026-07-15';
+
+const breadcrumbs = [
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: '50/50 Custody Schedule', url: getCanonicalUrl('/50-50-custody-schedule/') },
+	{ name: '50/50 Schedule for Babies', url: canonicalUrl },
+];
+
+const schema = [
+	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+	buildArticleSchema({
+		headline: '50/50 Custody Schedule for Babies',
+		description,
+		url: canonicalUrl,
+		datePublished,
+		dateModified,
+		authorName: 'CustodyBuilder Editorial Team',
+	}),
+	buildFAQSchema(faqItems),
+	buildBreadcrumbSchema(breadcrumbs),
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical}>
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<Breadcrumbs items={breadcrumbs} />
+	<main>
+		<section class="container-shell py-section lg:py-section-loose">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Infant parenting plans</p>
+				<h1 class="mt-4 text-4xl font-semibold leading-[1.02] tracking-[-0.05em] text-primary sm:text-5xl lg:text-6xl">
+					50/50 Custody Schedule for Babies
+				</h1>
+				<p class="mt-5 text-lg leading-8 text-secondary">{heroIntro.opening}</p>
+				<p class="mt-4 text-base leading-7 text-secondary">{heroIntro.followUp}</p>
+				<p class="mt-4 text-sm leading-6 text-muted">
+					Created by <a href="/about/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">CustodyBuilder Editorial Team</a>
+					<span aria-hidden="true"> • </span>Last reviewed: July 2026
+					<span aria-hidden="true"> • </span>Educational planning resource
+					<span aria-hidden="true"> • </span><a href="/disclaimer/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Not legal advice</a>
+				</p>
+				<div class="mt-8">
+					<CtaButton href="/50-50-custody-schedule/" variant="primary" size="large">
+						Create a Baby-Friendly Parenting Schedule
+					</CtaButton>
+				</div>
+			</div>
+		</section>
+
+		<ArticleTOC items={articleTocItems} />
+
+		<section id="can-baby-have-5050" class="container-shell scroll-mt-24 pb-section" aria-labelledby="can-baby-have-5050-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Starting point</p>
+				<h2 id="can-baby-have-5050-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					Can a Baby Have a 50/50 Custody Schedule?
+				</h2>
+				{canBabySection.paragraphs.map((paragraph) => (
+					<p class="mt-3 text-base leading-7 text-secondary">{paragraph}</p>
+				))}
+			</div>
+			<div class="soft-card mt-6 max-w-3xl rounded-[1.5rem] p-5 sm:p-6">
+				<p class="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">A baby-friendly 50/50 plan usually asks</p>
+				<ul class="mt-4 list-disc space-y-2 pl-5 text-sm leading-6 text-secondary">
+					{canBabySection.planningQuestions.map((item) => <li>{item}</li>)}
+				</ul>
+			</div>
+		</section>
+
+		<section id="baby-vs-toddler" class="container-shell scroll-mt-24 py-section" aria-labelledby="baby-vs-toddler-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Age separation</p>
+				<h2 id="baby-vs-toddler-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					How Baby Custody Differs From Toddler Custody
+				</h2>
+				<p class="mt-3 text-base leading-7 text-secondary">{babyVsOtherAgesSection.intro}</p>
+				<p class="mt-4 text-base font-semibold text-primary">This page focuses on:</p>
+				<ul class="mt-3 list-disc space-y-2 pl-5 text-sm leading-6 text-secondary">
+					{babyVsOtherAgesSection.babyFocus.map((item) => <li>{item}</li>)}
+				</ul>
+				<p class="mt-4 text-sm leading-6 text-secondary" set:html={babyVsOtherAgesSection.toddlerNote} />
+				<p class="mt-3 text-sm leading-6 text-secondary" set:html={babyVsOtherAgesSection.patternNote} />
+			</div>
+			<div class="premium-card mt-6 max-w-3xl overflow-x-auto rounded-[1.5rem]">
+				<table class="w-full min-w-[520px] border-collapse text-left text-sm">
+					<thead class="text-xs uppercase tracking-[0.14em] text-muted">
+						<tr class="border-b border-line-subtle">
+							<th class="px-5 py-4 font-semibold">Age stage</th>
+							<th class="px-5 py-4 font-semibold">Main challenge</th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-line-subtle text-secondary">
+						{babyVsOtherAgesSection.comparisonRows.map((row) => (
+							<tr>
+								<td class="px-5 py-4 font-semibold text-primary">
+									{row.href ? (
+										<a href={row.href} class="text-accent underline decoration-line underline-offset-4 hover:text-primary">{row.stage}</a>
+									) : (
+										row.stage
+									)}
+								</td>
+								<td class="px-5 py-4">{row.challenge}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<section id="feeding" class="container-shell scroll-mt-24 py-section" aria-labelledby="feeding-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Feeding logistics</p>
+				<h2 id="feeding-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					Feeding, Breastfeeding, and Bottle Planning
+				</h2>
+				<p class="mt-3 text-base leading-7 text-secondary">{feedingSection.intro}</p>
+				{feedingSection.paragraphs.map((paragraph) => (
+					<p class="mt-4 text-base leading-7 text-secondary">{paragraph}</p>
+				))}
+			</div>
+			<div class="mt-6 space-y-6">
+				{feedingSection.examples.map((example) => (
+					<article class="soft-card max-w-3xl rounded-[1.5rem] p-5 sm:p-6">
+						<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{example.heading}</h3>
+						<p class="mt-3 text-base leading-7 text-secondary">{example.body}</p>
+					</article>
+				))}
+			</div>
+			<div class="soft-card mt-6 max-w-3xl rounded-[1.5rem] p-5 sm:p-6">
+				<p class="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">Practical systems</p>
+				<ul class="mt-4 list-disc space-y-2 pl-5 text-sm leading-6 text-secondary">
+					{feedingSection.systems.map((item) => <li>{item}</li>)}
+				</ul>
+			</div>
+			<article class="soft-card mt-6 max-w-3xl rounded-[1.5rem] p-5 sm:p-6">
+				<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{feedingSection.daycareCoordination.heading}</h3>
+				{feedingSection.daycareCoordination.paragraphs.map((paragraph) => (
+					<p class="mt-3 text-base leading-7 text-secondary">{paragraph}</p>
+				))}
+				<p class="mt-4 rounded-2xl bg-surface/70 p-4 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					{feedingSection.daycareCoordination.example}
+				</p>
+			</article>
+		</section>
+
+		<section id="step-up" class="container-shell scroll-mt-24 py-section" aria-labelledby="step-up-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Gradual planning</p>
+				<h2 id="step-up-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					Short Visits and Gradual Step-Up Schedules
+				</h2>
+				<p class="mt-3 text-base leading-7 text-secondary">{stepUpSection.intro}</p>
+				<p class="mt-5 text-base font-semibold text-primary">Possible step-up path (planning only—not a prescribed legal plan):</p>
+				<ol class="mt-3 list-decimal space-y-2 pl-5 text-sm leading-6 text-secondary">
+					{stepUpSection.steps.map((item) => <li>{item}</li>)}
+				</ol>
+				<p class="mt-4 text-base leading-7 text-secondary">{stepUpSection.scenario}</p>
+				<p class="mt-4 text-sm leading-6 text-secondary" set:html={stepUpSection.toddlerLinkNote} />
+			</div>
+			<div class="soft-card mt-6 max-w-3xl rounded-[1.5rem] border-l-4 border-accent/40 p-5 sm:p-6">
+				<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{stepUpSection.transitionDayExample.heading}</h3>
+				<p class="mt-3 text-sm leading-6 text-muted">{stepUpSection.transitionDayExample.disclaimer}</p>
+				<ul class="mt-4 space-y-3 text-sm leading-6 text-secondary">
+					{stepUpSection.transitionDayExample.timeline.map((entry) => (
+						<li class="grid gap-1 sm:grid-cols-[5.5rem_1fr]">
+							<span class="font-semibold text-primary">{entry.time}</span>
+							<span>{entry.detail}</span>
+						</li>
+					))}
+				</ul>
+			</div>
+		</section>
+
+		<section id="overnights" class="container-shell scroll-mt-24 py-section" aria-labelledby="overnights-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Overnight readiness</p>
+				<h2 id="overnights-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					When Overnights May Become Realistic
+				</h2>
+				<p class="mt-3 text-base leading-7 text-secondary">{overnightsSection.intro}</p>
+				<ul class="mt-4 list-disc space-y-2 pl-5 text-sm leading-6 text-secondary">
+					{overnightsSection.readinessSigns.map((item) => <li>{item}</li>)}
+				</ul>
+				<p class="mt-4 text-base leading-7 text-secondary">{overnightsSection.closing}</p>
+			</div>
+		</section>
+
+		<section id="sleep-naps" class="container-shell scroll-mt-24 py-section" aria-labelledby="sleep-naps-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Sleep timing</p>
+				<h2 id="sleep-naps-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					Sleep, Naps, and Wake Windows
+				</h2>
+				<p class="mt-3 text-base leading-7 text-secondary">{sleepSection.intro}</p>
+				{sleepSection.paragraphs.map((paragraph) => (
+					<p class="mt-4 text-base leading-7 text-secondary">{paragraph}</p>
+				))}
+			</div>
+			<div class="soft-card mt-6 max-w-3xl rounded-[1.5rem] border-l-4 border-accent/40 p-5 sm:p-6">
+				<p class="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">Exchange timing examples</p>
+				<ul class="mt-4 list-disc space-y-2 pl-5 text-base leading-7 text-secondary">
+					{sleepSection.examples.map((item) => <li>{item}</li>)}
+				</ul>
+			</div>
+		</section>
+
+		<section id="adjustment-signs" class="container-shell scroll-mt-24 py-section" aria-labelledby="adjustment-signs-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">When to review</p>
+				<h2 id="adjustment-signs-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					Signs a Baby Custody Routine May Need Adjustment
+				</h2>
+				<p class="mt-3 text-base leading-7 text-secondary">{adjustmentSignsSection.intro}</p>
+				<ul class="mt-4 list-disc space-y-2 pl-5 text-sm leading-6 text-secondary">
+					{adjustmentSignsSection.signs.map((item) => <li>{item}</li>)}
+				</ul>
+				<p class="mt-4 text-base leading-7 text-secondary">{adjustmentSignsSection.closing}</p>
+			</div>
+		</section>
+
+		<section id="common-mistakes" class="container-shell scroll-mt-24 py-section" aria-labelledby="common-mistakes-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Supportive guidance</p>
+				<h2 id="common-mistakes-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					Common Mistakes Parents Make With Baby 50/50 Custody
+				</h2>
+			</div>
+			<div class="mt-6 grid gap-4 md:grid-cols-2">
+				{commonMistakes.map((item) => (
+					<article class="soft-card rounded-[1.5rem] p-5">
+						<h3 class="text-base font-semibold text-primary">{item.mistake}</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">{item.detail}</p>
+						{'supplyChecklist' in item && item.supplyChecklist && (
+							<ul class="mt-3 list-disc space-y-1.5 pl-4 text-sm leading-6 text-secondary">
+								{item.supplyChecklist.map((checkItem) => <li>{checkItem}</li>)}
+							</ul>
+						)}
+					</article>
+				))}
+			</div>
+		</section>
+
+		<section id="custodybuilder-help" class="container-shell scroll-mt-24 py-section" aria-labelledby="custodybuilder-help-title">
+			<div class="premium-card rounded-[2rem] p-3">
+				<div class="rounded-[1.7rem] bg-surface-elevated/80 p-6 sm:p-8 lg:p-10">
+					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Plan your calendar</p>
+					<h2 id="custodybuilder-help-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+						How CustodyBuilder Helps Parents Plan Baby-Friendly Schedules
+					</h2>
+					<p class="mt-4 max-w-2xl text-base leading-7 text-secondary" set:html={builderTransition} />
+					<ul class="mt-4 max-w-2xl list-disc space-y-2 pl-5 text-sm leading-7 text-secondary">
+						{builderFeatures.map((feature) => <li>{feature}</li>)}
+					</ul>
+					<div class="mt-6">
+						<CtaButton href="/50-50-custody-schedule/" variant="primary" size="large">
+							Build a Baby-Friendly Custody Schedule
+						</CtaButton>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell py-section" aria-labelledby="related-tools-title">
+			<div class="max-w-3xl">
+				<h2 id="related-tools-title" class="text-2xl font-semibold tracking-[-0.04em] text-primary">Related planning tools</h2>
+			</div>
+			<div class="mt-5 grid gap-4 sm:grid-cols-2">
+				{relatedLinks.map((link) => (
+					<a href={link.href} class="soft-card rounded-[1.5rem] p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40">
+						<h3 class="text-base font-semibold text-primary">{link.title}</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">{link.description}</p>
+					</a>
+				))}
+			</div>
+		</section>
+
+		<section id="ymyl-disclaimer" class="container-shell scroll-mt-24 py-section" aria-labelledby="ymyl-disclaimer-title">
+			<div class="soft-card max-w-3xl rounded-[1.5rem] p-5 sm:p-6">
+				<h2 id="ymyl-disclaimer-title" class="text-xl font-semibold tracking-[-0.03em] text-primary sm:text-2xl">
+					Educational Planning Information, Not Legal Advice
+				</h2>
+				<p class="mt-3 text-sm leading-7 text-secondary">
+					This guide provides educational custody planning information for parents thinking about 50/50 schedules for babies and infants. It does not replace <a href="/disclaimer/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">legal advice</a>, medical advice, a court order, or professional guidance. Baby feeding, sleep, and custody arrangements can depend on individual circumstances.
+				</p>
+			</div>
+		</section>
+
+		<FAQ
+			items={faqItems}
+			eyebrow="Baby 50/50 FAQ"
+			title="Questions About 50/50 Custody for Babies"
+			description="Cautious, practical answers about infant feeding, step-up visits, overnights, and adjusting equal parenting time for babies."
+		/>
+	</main>
+	<Footer />
+</BaseLayout>

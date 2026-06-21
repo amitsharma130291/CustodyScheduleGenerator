@@ -252,6 +252,9 @@ export const relatedLinks = [
 export const broaderToddlerGuideNote =
 	'This guide focuses only on equal 50/50 parenting schedules. If you are comparing 50/50, 60/40, and other toddler custody arrangements, see our complete guide to the <a href="/best-custody-schedule-for-toddler/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">best custody schedule for toddlers</a>.';
 
+export const infantHandoffNote =
+	'Still caring for an infant? Babies have different 50/50 considerations around feeding, bottles, naps, and gradual transitions. See our guide to the <a href="/50-50-custody-schedule-for-babies/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 custody schedules for babies</a>.';
+
 export const faqItems = [
 	{
 		question: 'Can a toddler handle 50/50 custody?',
