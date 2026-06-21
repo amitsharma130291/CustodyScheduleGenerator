@@ -15,6 +15,8 @@ export interface TexasChildSupportResult {
 	deductions: TexasChildSupportDeductionBreakdown;
 	totalDeductions: number;
 	netResourcesBeforeCap: number;
+	/** Net resources used for the guideline percentage (after cap, if applicable). */
+	guidelineResourcesUsed: number;
 	netResources: number;
 	netResourcesCap: number | null;
 	isCapApplied: boolean;
@@ -84,9 +86,9 @@ const SOCIAL_SECURITY_TAX_RATE = 0.062;
 const MEDICARE_TAX_RATE = 0.0145;
 const FEDERAL_STANDARD_DEDUCTION_SINGLE = 15000;
 
-// No current verified Texas OAG net resources cap is configured in this project.
-// Set this only after verifying the official current cap; do not silently use a stale value.
-export const TEXAS_MONTHLY_NET_RESOURCES_CAP: number | null = null;
+// Texas Family Code guideline net resources cap — effective September 1, 2025 ($11,700/month).
+export const TEXAS_MONTHLY_NET_RESOURCES_CAP_AMOUNT = 11700;
+export const TEXAS_MONTHLY_NET_RESOURCES_CAP: number | null = TEXAS_MONTHLY_NET_RESOURCES_CAP_AMOUNT;
 
 const FEDERAL_TAX_BRACKETS_SINGLE = [
 	{ upTo: 11925, rate: 0.1 },
@@ -212,23 +214,36 @@ export function buildTexasChildSupportFormula({
 function buildPlainEnglishFormula({
 	grossIncome,
 	totalDeductions,
-	netResources,
+	netResourcesBeforeCap,
+	guidelineResourcesUsed,
 	guidelinePercentage,
+	isCapApplied,
 	isLowIncome,
 	hasOtherChildrenAdjustment,
 }: {
 	grossIncome: number;
 	totalDeductions: number;
-	netResources: number;
+	netResourcesBeforeCap: number;
+	guidelineResourcesUsed: number;
 	guidelinePercentage: number;
+	isCapApplied: boolean;
 	isLowIncome: boolean;
 	hasOtherChildrenAdjustment: boolean;
 }) {
 	const notes = [
 		`Start with ${formatTexasCurrency(grossIncome)} gross monthly income.`,
 		`Subtract estimated taxes and allowed advanced deductions of ${formatTexasCurrency(totalDeductions)}.`,
-		`Apply ${formatTexasPercentage(guidelinePercentage)} to estimated net resources of ${formatTexasCurrency(netResources)}.`,
 	];
+
+	if (isCapApplied) {
+		notes.push(
+			`Estimated net resources are ${formatTexasCurrency(netResourcesBeforeCap)}, but guideline percentages apply to ${formatTexasCurrency(guidelineResourcesUsed)} because of the monthly net resources cap.`,
+		);
+	} else {
+		notes.push(
+			`Apply ${formatTexasPercentage(guidelinePercentage)} to estimated net resources of ${formatTexasCurrency(guidelineResourcesUsed)}.`,
+		);
+	}
 
 	if (hasOtherChildrenAdjustment) {
 		notes.push('The percentage includes a multiple-family adjustment for other children supported.');
@@ -276,13 +291,14 @@ export function calculateTexasChildSupport({
 	const netResourcesBeforeCap = roundCurrency(Math.max(grossIncome - totalDeductions, 0));
 	const configuredNetResourcesCap = TEXAS_MONTHLY_NET_RESOURCES_CAP;
 	const isCapApplied = configuredNetResourcesCap !== null && netResourcesBeforeCap > configuredNetResourcesCap;
-	const netResources = isCapApplied ? configuredNetResourcesCap : netResourcesBeforeCap;
+	const guidelineResourcesUsed = isCapApplied ? configuredNetResourcesCap : netResourcesBeforeCap;
+	const netResources = guidelineResourcesUsed;
 	const guidelinePercentage = getTexasChildSupportPercentage({
 		childrenBeforeCourt: normalizedChildrenBeforeCourt,
 		otherChildrenSupported: normalizedOtherChildren,
-		netResources,
+		netResources: guidelineResourcesUsed,
 	});
-	const monthlySupport = roundCurrency(netResources * (guidelinePercentage / 100));
+	const monthlySupport = roundCurrency(guidelineResourcesUsed * (guidelinePercentage / 100));
 	const advancedDeductionsUsed = [
 		deductions.monthlyUnionDues > 0 ? `Union dues: ${formatTexasCurrency(deductions.monthlyUnionDues)}` : '',
 		deductions.monthlyHealthDentalInsurance > 0
@@ -306,6 +322,7 @@ export function calculateTexasChildSupport({
 		deductions,
 		totalDeductions,
 		netResourcesBeforeCap,
+		guidelineResourcesUsed,
 		netResources,
 		netResourcesCap: TEXAS_MONTHLY_NET_RESOURCES_CAP,
 		isCapApplied,
@@ -323,8 +340,10 @@ export function calculateTexasChildSupport({
 		plainEnglishFormula: buildPlainEnglishFormula({
 			grossIncome,
 			totalDeductions,
-			netResources,
+			netResourcesBeforeCap,
+			guidelineResourcesUsed,
 			guidelinePercentage,
+			isCapApplied,
 			isLowIncome,
 			hasOtherChildrenAdjustment,
 		}),

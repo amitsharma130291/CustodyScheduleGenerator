@@ -272,6 +272,33 @@ describe('calculateTexasChildSupport', () => {
 		).toBe(29.75);
 	});
 
+	it('applies the monthly net resources cap for high-income estimates', () => {
+		const result = calculateTexasChildSupport({
+			grossIncome: 20000,
+			childrenBeforeCourt: 1,
+			otherChildrenSupported: 0,
+		});
+
+		expect(result.netResourcesBeforeCap).toBeGreaterThan(11700);
+		expect(result.isCapApplied).toBe(true);
+		expect(result.guidelineResourcesUsed).toBe(11700);
+		expect(result.netResources).toBe(11700);
+		expect(result.guidelinePercentage).toBe(20);
+		expect(result.monthlySupport).toBe(2340);
+	});
+
+	it('does not apply the cap when net resources are below the limit', () => {
+		const result = calculateTexasChildSupport({
+			grossIncome: 5000,
+			childrenBeforeCourt: 1,
+			otherChildrenSupported: 0,
+		});
+
+		expect(result.isCapApplied).toBe(false);
+		expect(result.guidelineResourcesUsed).toBe(result.netResourcesBeforeCap);
+		expect(result.netResources).toBe(4187.37);
+	});
+
 	it('formats currency and percentages for display', () => {
 		expect(formatTexasCurrency(1764)).toBe('$1,764.00');
 		expect(formatTexasPercentage(25.2)).toBe('25.2%');

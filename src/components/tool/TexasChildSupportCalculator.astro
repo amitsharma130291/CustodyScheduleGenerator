@@ -3,6 +3,7 @@ import {
 	calculateTexasChildSupport,
 	formatTexasCurrency,
 	formatTexasPercentage,
+	TEXAS_MONTHLY_NET_RESOURCES_CAP_AMOUNT,
 } from '../../lib/calculators/texasChildSupport';
 
 const initialInput = {
@@ -150,8 +151,18 @@ const initialAdvancedDeductions =
 						</div>
 						<div class="flex items-start justify-between gap-4 border-t border-line-subtle pt-3">
 							<span>Estimated net resources</span>
-							<strong class="text-right text-lg font-bold tracking-[-0.04em] text-[#2563EB]" data-texas-support-net>{formatTexasCurrency(initialResult.netResources)}</strong>
+							<strong class="text-right text-lg font-bold tracking-[-0.04em] text-[#2563EB]" data-texas-breakdown-net-before-cap>{formatTexasCurrency(initialResult.netResourcesBeforeCap)}</strong>
 						</div>
+						<div class="flex items-start justify-between gap-4">
+							<span>Guideline resources used</span>
+							<strong class="text-right text-lg font-bold tracking-[-0.04em] text-[#2563EB]" data-texas-support-net>{formatTexasCurrency(initialResult.guidelineResourcesUsed)}</strong>
+						</div>
+						<p class="hidden rounded-xl bg-[rgba(45,212,191,0.12)] p-2.5 text-xs leading-5 text-secondary shadow-[inset_0_0_0_1px_rgba(45,212,191,0.28)]" data-texas-cap-notice>
+							Guideline net resources capped at {formatTexasCurrency(TEXAS_MONTHLY_NET_RESOURCES_CAP_AMOUNT)} for this estimate.
+						</p>
+						<p class="hidden text-xs leading-5 text-muted" data-texas-cap-education>
+							When estimated net resources exceed the cap, courts may consider additional support depending on the child's proven needs and other case facts. This estimate applies the guideline percentage only to capped resources.
+						</p>
 						<div class="flex items-start justify-between gap-4 border-t border-line-subtle pt-3">
 							<span>Texas guideline percentage</span>
 							<strong class="rounded-full bg-page px-2.5 py-1 text-right text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" data-texas-support-percentage>{formatTexasPercentage(initialResult.guidelinePercentage)}</strong>
@@ -179,7 +190,7 @@ const initialAdvancedDeductions =
 					<ul class="grid gap-1.5 pl-4 [list-style:disc]">
 						<li>Start with gross monthly income.</li>
 						<li>Subtract estimated taxes and allowed deductions to estimate net resources.</li>
-						<li>Apply the Texas guideline percentage to estimate monthly support.</li>
+						<li>Apply the Texas guideline percentage to guideline resources used (capped at {formatTexasCurrency(TEXAS_MONTHLY_NET_RESOURCES_CAP_AMOUNT)} when applicable).</li>
 					</ul>
 				</div>
 
@@ -205,6 +216,9 @@ const initialAdvancedDeductions =
 		const monthly = calculator.querySelector('[data-texas-support-monthly]');
 		const summarySupport = calculator.querySelector('[data-texas-support-summary]');
 		const net = calculator.querySelector('[data-texas-support-net]');
+		const netBeforeCap = calculator.querySelector('[data-texas-breakdown-net-before-cap]');
+		const capNotice = calculator.querySelector('[data-texas-cap-notice]');
+		const capEducation = calculator.querySelector('[data-texas-cap-education]');
 		const percentage = calculator.querySelector('[data-texas-support-percentage]');
 		const adjustment = calculator.querySelector('[data-texas-support-adjustment]');
 		const advancedStatus = calculator.querySelector('[data-texas-support-advanced-status]');
@@ -266,7 +280,10 @@ const initialAdvancedDeductions =
 				clearError();
 				if (monthly) monthly.textContent = formatTexasCurrency(result.monthlySupport);
 				if (summarySupport) summarySupport.textContent = formatTexasCurrency(result.monthlySupport);
-				if (net) net.textContent = formatTexasCurrency(result.netResources);
+				if (netBeforeCap) netBeforeCap.textContent = formatTexasCurrency(result.netResourcesBeforeCap);
+				if (net) net.textContent = formatTexasCurrency(result.guidelineResourcesUsed);
+				if (capNotice) capNotice.classList.toggle('hidden', !result.isCapApplied);
+				if (capEducation) capEducation.classList.toggle('hidden', !result.isCapApplied);
 				if (percentage) percentage.textContent = formatTexasPercentage(result.guidelinePercentage);
 				if (adjustment) {
 					adjustment.textContent = result.hasOtherChildrenAdjustment ? 'Applied' : 'Not applied';

@@ -4,158 +4,65 @@ import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import ArticleTOC from '../components/ArticleTOC.astro';
 import TexasChildSupportCalculator from '../components/tool/TexasChildSupportCalculator.astro';
 import { getCanonicalUrl } from '../lib/seo/metadata';
 import {
+	buildArticleSchema,
 	buildBreadcrumbSchema,
 	buildFAQSchema,
 	buildSoftwareApplicationSchema,
 	buildWebPageSchema,
 } from '../lib/seo/schema';
+import {
+	articleTocItems,
+	beforeCourt,
+	editorialReview,
+	estimateDifferences,
+	faqItems,
+	fiftyFifty,
+	hero,
+	howCalculated,
+	howToUse,
+	incomeExamples,
+	meta,
+	officialResources,
+	relatedLinks,
+	whatIncomeCounts,
+} from '../data/texasChildSupportCalculatorPage';
 
-const title = 'Texas Child Support Calculator | Estimate Monthly Support';
-const description =
-	'Estimate Texas child support using income, children, custody time, and guideline-based support factors.';
 const canonical = '/texas-child-support-calculator/';
 const canonicalUrl = getCanonicalUrl(canonical);
-const dateModified = '2026-06-08';
-const faq = [
-	{
-		question: 'How is child support calculated in Texas?',
-		answer:
-			'To calculate child support in Texas, start with gross monthly income, estimate Texas child support net resources, then apply the guideline percentage for the number of children before the court. This child support calculator Texas page provides a planning estimate, not an official court calculation.',
-		answerHtml:
-			'To calculate child support in Texas, start with gross monthly income, estimate Texas child support net resources, then apply the guideline percentage for the number of children before the court. This child support calculator Texas page provides a planning estimate, not an official court calculation. You can also compare parenting time with our <a href="/custody-schedule-generator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Texas custody schedule generator</a>.',
-	},
-	{
-		question: 'How much is child support in Texas?',
-		answer:
-			'How much is child support in Texas depends on monthly net resources, child count, other supported children, medical support, and whether a court follows guideline support. The Texas child support percentage is usually applied to net resources rather than gross income.',
-	},
-	{
-		question: 'What percentage is child support in Texas?',
-		answer:
-			'The standard Texas child support percentage is generally 20% for one child, 25% for two children, 30% for three children, 35% for four children, 40% for five children, and at least 40% for six or more children before the court, before any applicable adjustments.',
-	},
-	{
-		question: 'How much child support for one child in Texas?',
-		answer:
-			'For one child in Texas, guideline child support is generally 20% of monthly net resources when no other supported children or case-specific adjustments apply. This is often described as Texas child support 20 percent, but the actual dollar amount depends on net resources and case-specific facts.',
-	},
-	{
-		question: 'How much child support for two children in Texas?',
-		answer:
-			'For two children in Texas, guideline child support is generally 25% of monthly net resources when no multiple-family adjustment or other court-approved change applies. Health insurance, dental support, and other children can affect the final order.',
-	},
-	{
-		question: 'How much child support for $3,000 income in Texas?',
-		answer:
-			'At $3,000 in monthly gross income, a simplified planning estimate may place net resources near $2,512. That could mean about $502 for one child, $628 for two children, or $754 for three children before case-specific changes.',
-	},
-	{
-		question: 'How much child support for $5,000 income in Texas?',
-		answer:
-			'At $5,000 in monthly gross income, a simplified planning estimate may place net resources near $4,187. That could mean about $837 for one child, $1,047 for two children, or $1,256 for three children before case-specific changes.',
-	},
-	{
-		question: 'How much child support for $8,000 income in Texas?',
-		answer:
-			'At $8,000 in monthly gross income, a simplified Texas child support estimate may place net resources near $6,700. Standard guideline percentages would estimate about $1,340 for one child, $1,675 for two children, or $2,010 for three children.',
-	},
-	{
-		question: 'How much child support for $10,000 income in Texas?',
-		answer:
-			'At $10,000 in monthly gross income, a simplified estimate may place net resources near $8,375. Standard guideline percentages would estimate about $1,675 for one child, $2,094 for two children, or $2,513 for three children, subject to cap and court review.',
-	},
-	{
-		question: 'Does 50/50 custody eliminate child support in Texas?',
-		answer:
-			'No. 50/50 custody does not automatically eliminate child support in Texas. Courts may still consider income differences, child needs, medical support, possession schedules, expenses, and whether guideline support should apply in a shared custody child support Texas situation.',
-		answerHtml:
-			'No. 50/50 custody does not automatically eliminate child support in Texas. Courts may still consider income differences, child needs, medical support, possession schedules, expenses, and whether guideline support should apply in a shared custody child support Texas situation. Use the <a href="/custody-schedule-generator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Texas custody schedule generator</a> to compare parenting calendars.',
-	},
-	{
-		question: 'When does child support end in Texas?',
-		answer:
-			'Texas child support often continues until a child turns 18 or graduates from high school, whichever is later. There can be exceptions, including support for a disabled adult child or other case-specific circumstances.',
-	},
-	{
-		question: 'What is the Texas child support cap in 2025?',
-		answer:
-			'Starting September 1, 2025, the Texas child support cap increases from $9,200 to $11,700 in monthly net resources. The Texas child support calculator 2025 update changes the cap amount used for guideline calculations, while guideline percentages remain unchanged.',
-	},
-	{
-		question: 'Are bonuses, overtime, and commissions included?',
-		answer:
-			'Bonuses, overtime, commissions, and self-employment income may be included in Texas child support calculations. Irregular income may require averaging or more detailed documentation than a simple monthly estimate can capture.',
-	},
-	{
-		question: 'Does overtime count for child support in Texas?',
-		answer:
-			'Overtime may count for child support in Texas when it is part of the income evidence used to estimate net resources. If overtime is inconsistent, a court or professional may review income history rather than one month alone.',
-	},
-	{
-		question: 'Do bonuses count for child support in Texas?',
-		answer:
-			'Bonuses may count for child support in Texas when they are part of a parent’s income. Because bonus income can be irregular, it may need to be averaged or reviewed with supporting documentation.',
-	},
-	{
-		question: 'Do commissions count for child support in Texas?',
-		answer:
-			'Commissions may count for child support in Texas. When commission income varies, the estimate may depend on how income is averaged and what records show reliable monthly or annual earnings.',
-	},
-	{
-		question: 'Can I use this Texas child support calculator with shared custody?',
-		answer:
-			'Yes, you can use this calculator as a planning tool in shared custody situations, but 50/50 or shared custody does not automatically eliminate child support in Texas. Courts may still consider net resources, child needs, medical support, expenses, and the possession schedule.',
-		answerHtml:
-			'Yes, you can use this calculator as a planning tool in shared custody situations, but 50/50 or shared custody does not automatically eliminate child support in Texas. Courts may still consider net resources, child needs, medical support, expenses, and the possession schedule. Use the <a href="/custody-schedule-generator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Texas custody schedule generator</a> to compare parenting time before discussing support.',
-	},
-	{
-		question: 'Can a Texas judge order more or less than guideline support?',
-		answer:
-			'Yes. A Texas judge can order more or less than guideline support when the facts justify it. Courts may consider special medical needs, education expenses, high-income cases, possession schedules, medical support, travel, and the child’s proven needs.',
-	},
-	{
-		question: 'Is this calculator legal advice?',
-		answer:
-			'No. This calculator is for educational and planning purposes only. It is not legal advice, does not create an attorney-client relationship, and is not an official Texas court or Texas Attorney General calculation.',
-	},
-];
+
 const breadcrumbs = [
 	{ name: 'Home', url: getCanonicalUrl('/') },
-	{ name: 'Calculators', url: getCanonicalUrl('/calculators/') },
+	{ name: 'Calculators', url: getCanonicalUrl('/custody-schedule-generator/') },
 	{ name: 'Texas Child Support Calculator', url: canonicalUrl },
 ];
+
 const schema = [
-	buildFAQSchema(faq),
+	buildFAQSchema(faqItems),
 	buildBreadcrumbSchema(breadcrumbs),
-	{
-		...buildWebPageSchema({ name: title, description, url: canonicalUrl }),
-		dateModified,
-		lastReviewed: dateModified,
-		isAccessibleForFree: true,
-		author: {
-			'@type': 'Organization',
-			name: 'CustodyBuilder Editorial Team',
-			url: getCanonicalUrl('/'),
-		},
-		publisher: {
-			'@type': 'Organization',
-			name: 'CustodyBuilder',
-			url: getCanonicalUrl('/'),
-		},
-	},
+	buildWebPageSchema({ name: meta.title, description: meta.description, url: canonicalUrl }),
+	buildArticleSchema({
+		headline: hero.headline,
+		description: meta.description,
+		url: canonicalUrl,
+		datePublished: meta.datePublished,
+		dateModified: meta.dateModified,
+		authorName: editorialReview.reviewer,
+	}),
 	{
 		...buildSoftwareApplicationSchema({
-		name: 'Texas Child Support Calculator',
-		description,
-		url: canonicalUrl,
-		applicationCategory: 'LegalApplication',
-	}),
+			name: 'Texas Child Support Calculator',
+			description: meta.description,
+			url: canonicalUrl,
+			applicationCategory: 'LegalApplication',
+		}),
 		isAccessibleForFree: true,
 		operatingSystem: 'Web',
-		dateModified,
+		dateModified: meta.dateModified,
 		publisher: {
 			'@type': 'Organization',
 			name: 'CustodyBuilder',
@@ -164,817 +71,302 @@ const schema = [
 	},
 	{
 		'@context': 'https://schema.org',
-		'@type': 'Article',
-		headline: 'Texas Child Support Calculator 2026',
-		description: 'Estimate monthly Texas child support using guideline percentages, net resources, income examples, and 2025 cap updates.',
-		keywords: 'Texas child support calculator, Texas child support calculator by income, how much child support for $5,000 income Texas, how much child support for $8,000 income Texas, how much child support for $10,000 income Texas, child support for one child in Texas, child support for two children in Texas, 50/50 custody child support Texas, shared custody child support Texas, Texas child support overtime income, Texas child support bonus income, Texas child support commission income',
-		image: 'https://custodybuilder.com/logo/custodybuilder-icon-light.svg',
-		author: {
-			'@type': 'Organization',
-			name: 'CustodyBuilder Editorial Team',
-			url: 'https://custodybuilder.com/',
-		},
-		publisher: {
-			'@type': 'Organization',
-			name: 'CustodyBuilder',
-			url: 'https://custodybuilder.com/',
-			logo: {
-				'@type': 'ImageObject',
-				url: 'https://custodybuilder.com/logo/custodybuilder-icon-light.svg',
-			},
-		},
-		mainEntityOfPage: {
-			'@type': 'WebPage',
-			'@id': 'https://custodybuilder.com/texas-child-support-calculator/',
-		},
-		datePublished: '2026-06-08',
-		dateModified,
-		about: [
-			'Texas child support calculator',
-			'Texas child support guidelines',
-			'Texas child support net resources',
-			'Texas child support by income',
-			'Shared custody child support Texas',
-		],
-		audience: {
-			'@type': 'Audience',
-			audienceType: 'Parents and caregivers researching Texas child support estimates',
-		},
+		'@type': 'HowTo',
+		name: 'How to estimate Texas child support',
+		description: 'Enter monthly gross income, children before the court, and optional deductions to estimate Texas guideline child support.',
 		inLanguage: 'en-US',
-		isAccessibleForFree: true,
+		totalTime: 'PT3M',
+		step: [
+			{
+				'@type': 'HowToStep',
+				name: 'Enter monthly gross income',
+				text: 'Enter the paying parent\'s monthly gross income in the Texas child support calculator.',
+			},
+			{
+				'@type': 'HowToStep',
+				name: 'Select children and deductions',
+				text: 'Choose the number of children before the court, other supported children if any, and optional health insurance or union dues.',
+			},
+			{
+				'@type': 'HowToStep',
+				name: 'Review the estimate',
+				text: 'Compare estimated net resources, guideline resources used (including the $11,700 cap when applicable), guideline percentage, and monthly support amount.',
+			},
+		],
 	},
 ];
-const guidelineRows = [
-	['1 child', '20%'],
-	['2 children', '25%'],
-	['3 children', '30%'],
-	['4 children', '35%'],
-	['5 children', '40%'],
-	['6+ children', 'Not less than 40%'],
-];
-const examples = [
-	{
-		title: 'Example 1: 1 child',
-		items: ['Estimated net resources: $4,187.37', 'Guideline percentage: 20%', 'Estimated support: $837.47/month'],
-	},
-	{
-		title: 'Example 2: 2 children',
-		items: ['Estimated net resources: $6,326.83', 'Guideline percentage: 25%', 'Estimated support: $1,581.71/month'],
-	},
-	{
-		title: 'Example 3: shared custody / 50-50 scenario',
-		items: ['Estimated net resources: $9,098.08', 'Guideline percentage shown: 20%', 'Estimated support before court review: $1,819.62/month'],
-	},
-];
-const incomeExampleRows = [
-	['$3,000', '~$2,512', '~$502', '~$628', '~$754'],
-	['$4,000', '~$3,350', '~$670', '~$838', '~$1,005'],
-	['$5,000', '~$4,187', '~$837', '~$1,047', '~$1,256'],
-	['$6,000', '~$5,025', '~$1,005', '~$1,256', '~$1,508'],
-	['$7,000', '~$5,862', '~$1,172', '~$1,466', '~$1,759'],
-	['$8,000', '~$6,700', '~$1,340', '~$1,675', '~$2,010'],
-	['$9,000', '~$7,537', '~$1,507', '~$1,884', '~$2,261'],
-	['$10,000', '~$8,375', '~$1,675', '~$2,094', '~$2,513'],
-	['$12,000', '~$10,050', '~$2,010', '~$2,513', '~$3,015'],
-];
-const incomeExampleCards = [
-	{
-		title: 'How Much Child Support for $3,000 Income in Texas?',
-		copy: 'At $3,000 in monthly gross income, a simplified planning estimate may place net resources near $2,512. Using standard guideline percentages, child support may be about $502 for one child, $628 for two children, or $754 for three children. This example is not an official Texas calculation. Actual support may change if income records, deductions, medical support, dental support, other supported children, or court-specific facts affect the final order.',
-	},
-	{
-		title: 'How Much Child Support for $4,000 Income in Texas?',
-		copy: 'If you are asking how much child support for $4,000 income Texas, start with the idea that Texas uses net resources rather than gross income. In this simplified planning example, $4,000 in monthly gross income may become about $3,350 in estimated net resources. A Texas child support calculator by income can then apply guideline percentages to that net amount. For one child, the estimate may be about $670 per month. For two children, it may be about $838, and for three children it may be about $1,005. Actual support may change if deductions, health insurance, dental support, other supported children, or court-specific facts apply.',
-	},
-	{
-		title: 'How Much Child Support for $5,000 Income in Texas?',
-		copy: 'For $5,000 in monthly gross income, a simplified Texas child support estimate may place net resources around $4,187 after estimated taxes and common deductions. If one child is before the court, the 20% guideline may create a planning estimate near $837 per month. For one child and two children, the difference is meaningful: two children generally use a 25% guideline, which would be about $1,047 in this example. Three children would use 30%, or about $1,256. These are not official court amounts. They are simplified estimates to help parents understand how gross income, net resources, and child count may affect support.',
-	},
-	{
-		title: 'How Much Child Support for $6,000 Income in Texas?',
-		copy: 'For parents researching how much child support for $6,000 income Texas, a simplified estimate may place net resources near $5,025. The guideline percentage then depends on the number of children before the court. For one child, 20% of estimated net resources creates a monthly child support estimate of about $1,005. For two children, 25% is about $1,256. For three children, 30% is about $1,508. This example assumes no other supported children and no court-approved reason to vary from guideline support. Real cases may require more detailed income records, especially if income changes month to month.',
-	},
-	{
-		title: 'How Much Child Support for $8,000 Income in Texas?',
-		copy: 'If you are estimating how much child support for $8,000 income Texas, remember that Texas child support guidelines generally apply percentages to estimated net resources. In this planning example, $8,000 in monthly gross income may become about $6,700 in estimated net resources. The estimate would be about $1,340 for one child, $1,675 for two children, or $2,010 for three children before case-specific adjustments. The actual result may differ if the paying parent has other supported children, pays child health insurance, has mandatory deductions, or receives irregular income. This example is best used as a planning estimate before reviewing official records.',
-	},
-	{
-		title: 'How Much Child Support for $9,000 Income in Texas?',
-		copy: 'At $9,000 in monthly gross income, a simplified estimate may place net resources near $7,537. Standard percentages would create a planning estimate of about $1,507 for one child, $1,884 for two children, or $2,261 for three children. This example helps compare a higher income scenario before the cap becomes relevant. Actual Texas child support may still depend on deductions, insurance, other supported children, income records, and court-specific facts.',
-	},
-	{
-		title: 'How Much Child Support for $10,000 Income in Texas?',
-		copy: 'For $10,000 in monthly gross income, a simplified estimate may place net resources near $8,375. If you are asking how much child support for $10,000 income Texas, the planning estimate may be about $1,675 for one child, $2,094 for two children, or $2,513 for three children. This can start to feel like a high-income child support Texas question, but the child support cap may not matter unless monthly net resources exceed the applicable cap. Courts may also review proven needs, medical support, dental support, other supported children, and income patterns. Treat this as an estimate, not an official Texas calculation.',
-	},
-	{
-		title: 'How Much Child Support for $12,000 Income in Texas?',
-		copy: 'At $12,000 in monthly gross income, a simplified planning estimate may place net resources near $10,050. That would estimate about $2,010 for one child, $2,513 for two children, or $3,015 for three children using standard percentages. This is still a simplified example. In higher-income situations, users should also consider the Texas child support cap, proven needs, health insurance, dental support, and whether a court may order more or less than guideline support.',
-	},
-];
-const officialTexasResources = [
-	{
-		title: 'Texas Attorney General Child Support Division',
-		href: 'https://www.texasattorneygeneral.gov/child-support',
-	},
-	{
-		title: 'Texas Attorney General Child Support Calculator',
-		href: 'https://www.texasattorneygeneral.gov/child-support/child-support-calculator',
-	},
-	{
-		title: 'Texas Family Code',
-		href: 'https://statutes.capitol.texas.gov/',
-	},
-];
-const childSupportRows = [
-	{
-		title: 'How Much Child Support for 1 Child in Texas?',
-		id: 'one-child',
-		percentage: '20%',
-		copy: 'For parents asking how much child support for one child in Texas, the standard guideline is generally Texas child support 20 percent of monthly net resources when no other supported children or court-approved adjustments apply. Child support for 1 child in Texas can still vary because the percentage is applied to net resources, not gross income. A parent earning $5,000 gross may have a different estimate than another parent with the same gross income if deductions, insurance, or income records differ. This calculator uses the selected child count to create a planning estimate, not an official order.',
-		example: 'If estimated net resources are $4,187.37, a 20% guideline estimate is about $837.47 per month.',
-	},
-	{
-		title: 'How Much Child Support for 2 Children in Texas?',
-		id: 'two-children',
-		percentage: '25%',
-		copy: 'For parents asking how much child support for two children in Texas, the standard guideline is generally Texas child support 25 percent of monthly net resources when no multiple-family adjustment applies. Child support for 2 children in Texas is not calculated directly from gross income. The estimate starts with income, subtracts allowed deductions to estimate net resources, then applies the two-child percentage. Health insurance, dental support, other supported children, or a court finding can still change the final order.',
-		example: 'If estimated net resources are $6,326.83, a 25% guideline estimate is about $1,581.71 per month.',
-	},
-	{
-		title: 'How Much Child Support for 3 Children in Texas?',
-		id: 'three-children',
-		percentage: '30%',
-		copy: 'For parents asking how much child support for three children in Texas, the standard guideline is generally Texas child support 30 percent of monthly net resources. Child support for 3 children in Texas may be higher than one-child or two-child estimates because the guideline percentage increases with the number of children before the court. The final amount may still change when the paying parent supports other children, pays medical or dental support, has irregular income, or has resources above the cap.',
-		example: 'If estimated net resources are $6,326.83, a 30% guideline estimate would be about $1,898.05 per month before case-specific changes.',
-	},
-	{
-		title: 'Support for 4 children in Texas',
-		id: 'four-children',
-		percentage: '35%',
-		copy: 'For four children before the court, the standard Texas child support percentage is generally 35% of monthly net resources before other-children adjustments or case-specific findings.',
-		example: 'If estimated net resources are $6,326.83, a 35% guideline estimate would be about $2,214.39 per month before adjustments.',
-	},
-	{
-		title: 'Support for 5 children in Texas',
-		id: 'five-children',
-		percentage: '40%',
-		copy: 'For five children before the court, the standard Texas child support percentage is generally 40% of monthly net resources. Six or more children generally use at least 40%.',
-		example: 'If estimated net resources are $6,326.83, a 40% guideline estimate would be about $2,530.73 per month before adjustments.',
-	},
-];
-const incomeSourceRows = [
-	['Wages and salary', 'Usually included'],
-	['Self-employment income', 'Usually included, but may require extra calculations'],
-	['Overtime', 'Often included'],
-	['Bonuses', 'Often included'],
-	['Commissions', 'Often included'],
-	['Rental income', 'May be included after allowable expenses'],
-	['Retirement income', 'May be included'],
-	['Unemployment benefits', 'Usually included'],
-];
-const deductionRows = [
-	['Social Security tax', 'Usually deducted'],
-	['Medicare tax', 'Usually deducted'],
-	['Federal income tax estimate', 'Usually deducted'],
-	['Union dues', 'May be deducted when mandatory'],
-	['Child health insurance', 'May be deducted when paid for the child'],
-	['Mandatory retirement contributions', 'May be deducted in applicable non-Social Security situations'],
-];
-const planningToolCards = [
-	{
-		title: 'Custody Schedule Generator',
-		href: '/custody-schedule-generator/',
-		copy: 'Use the Texas custody schedule generator to build a parenting calendar after estimating support so the money discussion is connected to actual exchange days and overnights.',
-	},
-	{
-		title: 'Parenting Time Calculator',
-		href: '/parenting-time-calculator/',
-		copy: 'Compare parenting time totals and overnight percentages when schedules may affect negotiation strategy.',
-	},
-	{
-		title: 'Visitation Calendar',
-		href: '/visitation-calculator/',
-		copy: 'Plan visitation-style schedules and see how alternating weekends or holiday time changes the calendar.',
-	},
-];
-const calculatorCtas = [
-	{ label: 'Build Custody Schedule', href: '/custody-schedule-generator/', style: 'primary' },
-	{ label: 'Compare Custody Schedules', href: '/custody-schedule-generator/#compare', style: 'secondary' },
-	{ label: 'View Parenting Calendar', href: '/custody-calendar-template/', style: 'secondary' },
-];
-const ctaClass =
-	'inline-flex h-11 min-w-max items-center justify-center whitespace-nowrap rounded-full px-5 text-sm font-semibold';
 ---
 
-<BaseLayout
-	title={title}
-	description={description}
-	canonical={canonical}
-	ogTitle={title}
-	ogDescription={description}
->
+<BaseLayout title={meta.title} description={meta.description} canonical={canonical}>
 	<JsonLd slot="head" data={schema} />
 	<Navbar />
 	<Breadcrumbs items={breadcrumbs} />
 	<main>
-		<section id="calculator" class="container-shell grid gap-5 py-4 sm:py-5 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:items-start lg:gap-7 lg:py-6 xl:w-[min(100%,1360px)]">
+		<section
+			class="container-shell grid gap-5 py-4 sm:py-5 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-start lg:gap-7 lg:py-6 xl:w-[min(100%,1360px)]"
+			id="calculator"
+		>
 			<div class="lg:pt-2">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Texas child support estimate</p>
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Texas guideline estimate</p>
 				<h1 class="mt-2.5 max-w-3xl text-4xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary sm:text-5xl lg:text-[3.35rem]">
-					Texas Child Support Calculator 2026
+					{hero.headline}
 				</h1>
-				<a id="texas-child-support-2025-cap-notice" href="#cap-update" class="mt-4 block rounded-2xl bg-[rgba(45,212,191,0.12)] p-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_rgba(45,212,191,0.28)] transition-colors hover:text-primary">
-					<strong class="text-primary">2025 update:</strong> Starting September 1, 2025, Texas increases the child support cap from $9,200 to $11,700 in monthly net resources. Guideline percentages remain unchanged.
-				</a>
-				<p class="mt-3 text-base leading-7 text-secondary">
-					Estimate monthly Texas child support using Texas guideline percentages, net resources, child count, the 2025 cap update, and custody schedule considerations.
-				</p>
-				<div class="mt-3 rounded-2xl bg-page/70 p-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-					This calculator is for planning only and is not legal advice or an official court calculation.
-				</div>
+				<p class="mt-4 text-base leading-7 text-secondary">{hero.opening}</p>
+				<p class="mt-3 text-base leading-7 text-secondary">{hero.closing}</p>
 			</div>
 
 			<TexasChildSupportCalculator />
 		</section>
 
-		<section class="container-shell pb-8" aria-label="Child support planning actions">
-			<div class="soft-card grid gap-4 rounded-[1.5rem] p-5 sm:p-6 lg:grid-cols-[1fr_auto] lg:items-center">
-				<div>
-					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">After your estimate</p>
-					<h2 class="mt-2 text-2xl font-semibold tracking-[-0.04em] text-primary">Connect support planning to the parenting calendar.</h2>
-					<p class="mt-2 text-sm leading-6 text-secondary">Child support estimates are easier to discuss when you can also show the custody schedule, parenting time, and visitation calendar behind the plan.</p>
+		<section id="editorial-review" class="container-shell pb-6">
+			<div class="max-w-3xl rounded-2xl bg-page/70 p-4 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+				<p>
+					<strong class="text-primary">Last reviewed: {editorialReview.lastReviewed}</strong>
+					<br />
+					Reviewed by:{' '}
+					<a href={editorialReview.reviewerHref} class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">
+						{editorialReview.reviewer}
+					</a>
+				</p>
+				<p class="mt-2">{editorialReview.body}</p>
+			</div>
+		</section>
+
+		<ArticleTOC items={articleTocItems} />
+
+		<section id="how-to-use" class="container-shell scroll-mt-24 pb-section" aria-labelledby="how-to-use-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Calculator fields</p>
+				<h2 id="how-to-use-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					{howToUse.title}
+				</h2>
+				<p class="mt-4 text-base leading-7 text-secondary">{howToUse.intro}</p>
+			</div>
+			<div class="mt-8 max-w-3xl space-y-5">
+				{howToUse.fields.map((field) => (
+					<article class="soft-card rounded-[1.25rem] p-4">
+						<h3 class="text-lg font-semibold text-primary">{field.label}</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">{field.body}</p>
+					</article>
+				))}
+				<p class="mt-5 text-base leading-7 text-secondary">{howToUse.close}</p>
+			</div>
+		</section>
+
+		<section id="how-calculated" class="container-shell scroll-mt-24 py-section" aria-labelledby="how-calculated-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Guideline math</p>
+				<h2 id="how-calculated-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					{howCalculated.title}
+				</h2>
+				<p class="mt-4 text-base leading-7 text-secondary">{howCalculated.intro}</p>
+			</div>
+			<div class="mt-8 max-w-3xl space-y-6">
+				{howCalculated.steps.map((item) => (
+					<article>
+						<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary">{item.step}</h3>
+						<p class="mt-3 text-base leading-7 text-secondary">{item.body}</p>
+					</article>
+				))}
+				<div class="overflow-x-auto rounded-[1.5rem] shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<table class="w-full min-w-[320px] text-left text-sm">
+						<thead class="bg-surface-elevated text-primary">
+							<tr>
+								<th class="px-4 py-3 font-semibold">Children before the court</th>
+								<th class="px-4 py-3 font-semibold">Guideline percentage</th>
+							</tr>
+						</thead>
+						<tbody class="divide-y divide-line-subtle text-secondary">
+							{howCalculated.guidelineRows.map((row) => (
+								<tr>
+									<td class="px-4 py-3">{row[0]}</td>
+									<td class="px-4 py-3">{row[1]}</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
 				</div>
-				<div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap lg:justify-end">
-					{calculatorCtas.map((cta) => (
-						<a href={cta.href} class={`${cta.style === 'primary' ? 'btn-primary' : 'btn-secondary'} ${ctaClass} w-full sm:w-auto`}>
-							{cta.label}
+				<p class="text-base leading-7 text-secondary">{howCalculated.close}</p>
+			</div>
+		</section>
+
+		<section id="income-examples" class="container-shell scroll-mt-24 py-section" aria-labelledby="income-examples-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Income examples</p>
+				<h2 id="income-examples-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					{incomeExamples.title}
+				</h2>
+				<p class="mt-4 text-base leading-7 text-secondary">{incomeExamples.intro}</p>
+				<p class="mt-3 text-sm leading-6 text-secondary">{incomeExamples.tableCaution}</p>
+			</div>
+			<div class="mt-6 max-w-4xl">
+				<div class="overflow-x-auto rounded-[1.5rem] shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<table class="w-full min-w-[640px] text-left text-sm">
+						<thead class="bg-surface-elevated text-primary">
+							<tr>
+								<th class="px-4 py-3 font-semibold">Monthly gross income</th>
+								<th class="px-4 py-3 font-semibold">Est. net resources</th>
+								<th class="px-4 py-3 font-semibold">1 child</th>
+								<th class="px-4 py-3 font-semibold">2 children</th>
+								<th class="px-4 py-3 font-semibold">3 children</th>
+							</tr>
+						</thead>
+						<tbody class="divide-y divide-line-subtle text-secondary">
+							{incomeExamples.rows.map((row) => (
+								<tr>
+									<td class="px-4 py-3">{row[0]}</td>
+									<td class="px-4 py-3">{row[1]}</td>
+									<td class="px-4 py-3">{row[2]}</td>
+									<td class="px-4 py-3">{row[3]}</td>
+									<td class="px-4 py-3">{row[4]}</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				</div>
+				<p class="mt-4 text-sm leading-6 text-secondary">{incomeExamples.note}</p>
+				<p class="mt-3 text-base leading-7 text-secondary">{incomeExamples.exampleNote}</p>
+			</div>
+		</section>
+
+		<section id="fifty-fifty" class="container-shell scroll-mt-24 py-section" aria-labelledby="fifty-fifty-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Shared custody</p>
+				<h2 id="fifty-fifty-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					{fiftyFifty.title}
+				</h2>
+				<p class="mt-4 text-lg font-semibold text-primary">{fiftyFifty.question}</p>
+				<p class="mt-3 text-base leading-7 text-secondary">{fiftyFifty.answer}</p>
+				<p class="mt-3 text-base leading-7 text-secondary">{fiftyFifty.scenario}</p>
+				<ul class="mt-4 space-y-2 text-sm leading-6 text-secondary">
+					{fiftyFifty.points.map((point) => (
+						<li class="flex gap-2">
+							<span class="text-accent" aria-hidden="true">→</span>
+							{point}
+						</li>
+					))}
+				</ul>
+				<p class="mt-4 text-base leading-7 text-secondary">
+					<a href={fiftyFifty.linkHref} class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">
+						{fiftyFifty.linkText}
+					</a>
+					{' '}to preview overnights separately from this support estimate. {fiftyFifty.close}
+				</p>
+			</div>
+		</section>
+
+		<section id="what-income-counts" class="container-shell scroll-mt-24 py-section" aria-labelledby="what-income-counts-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Income sources</p>
+				<h2 id="what-income-counts-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					{whatIncomeCounts.title}
+				</h2>
+				<p class="mt-4 text-base leading-7 text-secondary">{whatIncomeCounts.intro}</p>
+			</div>
+			<div class="mt-8 max-w-3xl space-y-5">
+				{whatIncomeCounts.sources.map((item) => (
+					<article class="soft-card rounded-[1.25rem] p-4">
+						<h3 class="text-lg font-semibold text-primary">{item.source}</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">{item.example}</p>
+					</article>
+				))}
+				<div>
+					<p class="text-base leading-7 text-secondary">{whatIncomeCounts.deductionsIntro}</p>
+					<ul class="mt-3 space-y-2 text-sm leading-6 text-secondary">
+						{whatIncomeCounts.deductions.map((item) => (
+							<li class="flex gap-2">
+								<span class="text-accent" aria-hidden="true">•</span>
+								{item}
+							</li>
+						))}
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<section id="estimate-differences" class="container-shell scroll-mt-24 py-section" aria-labelledby="estimate-differences-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Estimate vs court order</p>
+				<h2 id="estimate-differences-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					{estimateDifferences.title}
+				</h2>
+				<p class="mt-4 text-base leading-7 text-secondary">{estimateDifferences.intro}</p>
+			</div>
+			<div class="mt-8 max-w-3xl space-y-5">
+				{estimateDifferences.factors.map((factor) => (
+					<article>
+						<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary">{factor.heading}</h3>
+						<p class="mt-3 text-base leading-7 text-secondary">{factor.body}</p>
+					</article>
+				))}
+				<p class="text-base leading-7 text-secondary">{estimateDifferences.close}</p>
+			</div>
+		</section>
+
+		<section id="before-court" class="container-shell scroll-mt-24 py-section" aria-labelledby="before-court-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Mediation prep</p>
+				<h2 id="before-court-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					{beforeCourt.title}
+				</h2>
+				<p class="mt-4 text-base leading-7 text-secondary">{beforeCourt.intro}</p>
+				<ul class="mt-4 space-y-2 text-sm leading-6 text-secondary">
+					{beforeCourt.items.map((item) => (
+						<li class="flex gap-2">
+							<span class="text-accent" aria-hidden="true">→</span>
+							{item}
+						</li>
+					))}
+				</ul>
+				<p class="mt-4 text-base leading-7 text-secondary">{beforeCourt.close}</p>
+			</div>
+		</section>
+
+		<section id="official-resources" class="container-shell scroll-mt-24 py-section" aria-labelledby="official-resources-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Official sources</p>
+				<h2 id="official-resources-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					{officialResources.title}
+				</h2>
+				<p class="mt-4 text-base leading-7 text-secondary">{officialResources.intro}</p>
+				<div class="mt-5 grid gap-3">
+					{officialResources.links.map((link) => (
+						<a
+							href={link.href}
+							target="_blank"
+							rel="noopener noreferrer"
+							class="soft-card rounded-[1.25rem] p-4 text-sm font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary"
+						>
+							{link.title}
 						</a>
 					))}
 				</div>
 			</div>
 		</section>
 
-		<section class="container-shell grid gap-6 py-10 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-8 lg:py-14 xl:w-[min(100%,1360px)]">
-			<aside class="soft-card h-fit rounded-[1.25rem] p-4 lg:sticky lg:top-24 lg:max-w-[280px]">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">On this page</p>
-				<ul class="mt-3 grid gap-2 text-[13px] leading-5 text-secondary">
-					<li><a href="#calculator" class="hover:text-primary">Calculator</a></li>
-					<li><a href="#how-calculated" class="hover:text-primary">How calculated</a></li>
-					<li><a href="#how-we-estimate" class="hover:text-primary">Estimate method</a></li>
-					<li><a href="#net-resources" class="hover:text-primary">Net resources</a></li>
-					<li><a href="#percentage-chart" class="hover:text-primary">Percentage chart</a></li>
-					<li><a href="#by-income" class="hover:text-primary">By income</a></li>
-					<li><a href="#by-children" class="hover:text-primary">By children</a></li>
-					<li><a href="#shared-custody" class="hover:text-primary">Shared custody</a></li>
-					<li><a href="#irregular-income" class="hover:text-primary">Overtime & bonuses</a></li>
-					<li><a href="#cap-update" class="hover:text-primary">2025 cap</a></li>
-					<li><a href="#high-income" class="hover:text-primary">High income</a></li>
-					<li><a href="#examples" class="hover:text-primary">Examples</a></li>
-					<li><a href="#limitations" class="hover:text-primary">Limitations</a></li>
-					<li><a href="#about-content" class="hover:text-primary">About</a></li>
-					<li><a href="#official-resources" class="hover:text-primary">Resources</a></li>
-					<li><a href="#faq" class="hover:text-primary">FAQ</a></li>
-				</ul>
-			</aside>
-
-			<div class="grid min-w-0 gap-8">
-				<section id="how-much" class="grid gap-4">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">How Much Is Child Support in Texas?</h2>
-					<p class="text-base leading-8 text-secondary">
-						How much is child support in Texas depends on monthly net resources, the number of children before the court, whether the paying parent supports other children, medical and dental support, and whether a court follows or varies from guideline support. A parent with the same gross income can have a different estimate if taxes, insurance, mandatory deductions, or child count are different.
-					</p>
-					<p class="text-base leading-8 text-secondary">
-						This Texas child support calculator gives a planning estimate. It helps answer how much child support in Texas might be under guideline assumptions, but it is not an official Attorney General calculator or a court order.
-					</p>
-				</section>
-
-				<section id="how-calculated" class="grid gap-4">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">How Is Child Support Calculated in Texas?</h2>
-					<p class="text-base leading-8 text-secondary">
-						If you are asking how is child support calculated in Texas, the simplified sequence is: estimate gross monthly income, subtract allowed deductions to estimate net resources, apply the Texas child support formula percentage for the number of children, then consider adjustments such as other supported children, the Texas child support cap, medical support, and court discretion.
-					</p>
-					<p class="text-base leading-8 text-secondary">
-						To understand how to calculate child support in Texas, focus on net resources rather than gross income. Texas child support guidelines generally apply the guideline percentage to net resources. The calculator above estimates that process with transparent assumptions so parents can prepare for budgeting, mediation, or questions for a qualified professional.
-					</p>
-				</section>
-
-				<section id="how-we-estimate" class="grid gap-4">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">How This Texas Child Support Calculator Estimates Support</h2>
-					<ol class="grid gap-2 pl-5 text-base leading-8 text-secondary [list-style:decimal]">
-						<li>Starts with monthly gross income</li>
-						<li>Estimates monthly net resources using simplified deductions</li>
-						<li>Applies Texas guideline percentages based on the number of children before the court</li>
-						<li>Checks for other supported children when applicable</li>
-						<li>Applies the Texas child support cap where relevant</li>
-						<li>Shows a planning estimate, not an official order</li>
-					</ol>
-					<p class="text-base leading-8 text-secondary">
-						Because real cases may include irregular income, medical support, dental support, self-employment income, overtime, bonuses, commissions, and court-specific facts, users should confirm results with a qualified professional. This section explains how is child support calculated in Texas at a planning level, including Texas child support net resources and the resulting Texas child support estimate.
-					</p>
-				</section>
-
-				<section id="net-resources" class="grid gap-5">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">What Counts as Net Resources in Texas?</h2>
-					<p class="text-base leading-8 text-secondary">
-						A Texas child support calculation usually starts with gross income and then estimates Texas child support net resources. Net resources can include regular wages and salary, self-employment income, overtime, bonuses, commissions, rental income, retirement income, unemployment benefits, and other income used for child support Texas courts or agencies may review. Some income types are simple to enter as monthly income, while self-employment or irregular income may require averaging or additional documentation.
-					</p>
-					<p class="text-base leading-8 text-secondary">
-						Common deductions include Social Security tax, Medicare tax, a federal income tax estimate, mandatory union dues, child health insurance paid by the obligor, and mandatory retirement contributions in applicable non-Social Security situations. This calculator estimates those amounts for planning; a court or agency may use more detailed income records.
-					</p>
-					<div class="grid gap-4 lg:grid-cols-2">
-						<div class="overflow-x-auto rounded-[1.5rem] shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-							<table class="w-full min-w-[360px] text-left text-sm">
-								<thead class="bg-surface-elevated text-primary">
-									<tr>
-										<th class="px-4 py-3 font-semibold">Income Source</th>
-										<th class="px-4 py-3 font-semibold">Usually Included?</th>
-									</tr>
-								</thead>
-								<tbody class="divide-y divide-line-subtle text-secondary">
-									{incomeSourceRows.map((row) => (
-										<tr>
-											<td class="px-4 py-3">{row[0]}</td>
-											<td class="px-4 py-3">{row[1]}</td>
-										</tr>
-									))}
-								</tbody>
-							</table>
-						</div>
-						<div class="overflow-x-auto rounded-[1.5rem] shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-							<table class="w-full min-w-[360px] text-left text-sm">
-								<thead class="bg-surface-elevated text-primary">
-									<tr>
-										<th class="px-4 py-3 font-semibold">Deduction Type</th>
-										<th class="px-4 py-3 font-semibold">Usually Deducted?</th>
-									</tr>
-								</thead>
-								<tbody class="divide-y divide-line-subtle text-secondary">
-									{deductionRows.map((row) => (
-										<tr>
-											<td class="px-4 py-3">{row[0]}</td>
-											<td class="px-4 py-3">{row[1]}</td>
-										</tr>
-									))}
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</section>
-
-				<section id="guidelines" class="grid gap-5">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Texas Child Support Percentages</h2>
-					<p class="text-base leading-8 text-secondary">
-						The Texas child support guidelines use percentages based on the number of children before the court. These Texas child support percentages are applied to net resources, not gross income. That distinction matters because taxes and certain allowed amounts are considered before the percentage is applied.
-					</p>
-					<div class="overflow-x-auto rounded-[1.5rem] shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-						<table class="w-full min-w-[360px] text-left text-sm">
-							<thead class="bg-surface-elevated text-primary">
-								<tr>
-									<th class="px-4 py-3 font-semibold">Children before the court</th>
-									<th class="px-4 py-3 font-semibold">Standard guideline</th>
-								</tr>
-							</thead>
-							<tbody class="divide-y divide-line-subtle text-secondary">
-								{guidelineRows.map((row) => (
-									<tr>
-										<td class="px-4 py-3">{row[0]}</td>
-										<td class="px-4 py-3">{row[1]}</td>
-									</tr>
-								))}
-							</tbody>
-						</table>
-					</div>
-					<p class="text-base leading-8 text-secondary">
-						These standard percentages generally apply when the paying parent does not support other children and the case does not involve a reason to vary from guideline support. Other supported children, the Texas child support cap, health insurance, unusual income, and court discretion can change the final support order.
-					</p>
-				</section>
-
-				<section id="percentage-chart" class="grid gap-5">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Texas Child Support Percentage Chart</h2>
-					<p class="text-base leading-8 text-secondary">
-						A Texas child support chart is most useful when it shows the relationship between children, net resources, and guideline percentages. If you are asking what is the percentage of child support in Texas, the standard Texas child support percentage starts with the number of children before the court. The chart below is not a separate formula from the calculator; it is a quick way to understand how Texas child support guidelines work before you enter your own income and deduction details.
-					</p>
-					<div class="overflow-x-auto rounded-[1.5rem] shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-						<table class="w-full min-w-[680px] text-left text-sm">
-							<thead class="bg-surface-elevated text-primary">
-								<tr>
-									<th class="px-4 py-3 font-semibold">Children before the court</th>
-									<th class="px-4 py-3 font-semibold">Guideline percentage</th>
-									<th class="px-4 py-3 font-semibold">Example on $5,000 net resources</th>
-									<th class="px-4 py-3 font-semibold">Example on $8,000 net resources</th>
-								</tr>
-							</thead>
-							<tbody class="divide-y divide-line-subtle text-secondary">
-								<tr>
-									<td class="px-4 py-3">1 child</td>
-									<td class="px-4 py-3">20%</td>
-									<td class="px-4 py-3">$1,000/month</td>
-									<td class="px-4 py-3">$1,600/month</td>
-								</tr>
-								<tr>
-									<td class="px-4 py-3">2 children</td>
-									<td class="px-4 py-3">25%</td>
-									<td class="px-4 py-3">$1,250/month</td>
-									<td class="px-4 py-3">$2,000/month</td>
-								</tr>
-								<tr>
-									<td class="px-4 py-3">3 children</td>
-									<td class="px-4 py-3">30%</td>
-									<td class="px-4 py-3">$1,500/month</td>
-									<td class="px-4 py-3">$2,400/month</td>
-								</tr>
-								<tr>
-									<td class="px-4 py-3">4 children</td>
-									<td class="px-4 py-3">35%</td>
-									<td class="px-4 py-3">$1,750/month</td>
-									<td class="px-4 py-3">$2,800/month</td>
-								</tr>
-								<tr>
-									<td class="px-4 py-3">5 children</td>
-									<td class="px-4 py-3">40%</td>
-									<td class="px-4 py-3">$2,000/month</td>
-									<td class="px-4 py-3">$3,200/month</td>
-								</tr>
-								<tr>
-									<td class="px-4 py-3">6+ children</td>
-									<td class="px-4 py-3">At least 40%</td>
-									<td class="px-4 py-3">At least $2,000/month</td>
-									<td class="px-4 py-3">At least $3,200/month</td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<p class="text-base leading-8 text-secondary">
-						The chart uses net resources to make the math easy to see. The calculator above estimates net resources from gross income by subtracting estimated Social Security tax, Medicare tax, federal income tax, and optional advanced deductions such as union dues or child health insurance.
-					</p>
-				</section>
-
-				<section id="children-support" class="grid gap-5">
-					<span id="by-children" class="scroll-mt-24"></span>
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Texas Child Support by Number of Children</h2>
-					<p class="text-base leading-8 text-secondary">
-						Texas guideline percentages change based on the number of children before the court. The calculator uses the selected child count to estimate support from monthly net resources.
-					</p>
-					<div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-						{childSupportRows.map((row) => (
-							<article id={row.id} class="soft-card rounded-[1.5rem] p-5">
-								<p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted">{row.percentage} guideline</p>
-								<h3 class="mt-2 text-lg font-semibold tracking-[-0.03em] text-primary">{row.title}</h3>
-								<p class="mt-3 text-sm leading-6 text-secondary">{row.copy}</p>
-								<p class="mt-3 rounded-2xl bg-surface/70 p-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">{row.example}</p>
-							</article>
-						))}
-					</div>
-				</section>
-
-				<section id="fifty-fifty" class="grid gap-4">
-					<span id="shared-custody" class="scroll-mt-24"></span>
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Texas Child Support With 50/50 or Shared Custody</h2>
-					<p class="text-base leading-8 text-secondary">
-						A common question is whether a Texas child support calculator with custody should change when parents share a 50/50 custody schedule. The short answer is that 50/50 custody child support Texas cases do not automatically result in no child support. Shared custody child support Texas decisions may still involve income differences, child needs, medical support, possession schedules, child care, travel, and expenses.
-					</p>
-					<p class="text-base leading-8 text-secondary">
-						Does custody affect child support in Texas? It can affect negotiations and the facts a court reviews, but the guideline calculation often still begins with monthly net resources, child count, and any applicable adjustments. Parents can use the <a href="/custody-schedule-generator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Texas custody schedule generator</a> to compare a 2-2-3, 2-2-5-5, 5-2-2-5, or week-on/week-off calendar, then use this calculator to estimate Texas guideline support from income.
-					</p>
-					<div class="grid gap-4 md:grid-cols-3">
-						<article class="soft-card rounded-[1.5rem] p-5">
-							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">Does 50/50 Custody Eliminate Child Support in Texas?</h3>
-							<p class="mt-3 text-sm leading-6 text-secondary">Does 50/50 custody eliminate child support in Texas? Generally, no. A 50/50 custody child support Texas case may still involve guideline support if one parent has higher net resources, pays different expenses, or if the child’s needs support an order. Courts may also review medical support, dental support, child care, transportation, and the actual possession schedule. A shared parenting calendar can be important context, but it does not automatically replace the income-based guideline analysis. Parents should treat any calculator result as a planning estimate and compare it with the actual possession schedule, documented expenses, and current income records.</p>
-						</article>
-						<article class="soft-card rounded-[1.5rem] p-5">
-							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">Texas Child Support Calculator With Shared Custody</h3>
-							<p class="mt-3 text-sm leading-6 text-secondary">A Texas child support calculator with shared custody is best used as a planning tool. This child support calculator Texas 50/50 custody estimate still starts with income, deductions, net resources, and child count. Shared custody child support Texas cases may require additional review because parenting time, expense sharing, and income differences can matter. Use the <a href="/custody-schedule-generator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Texas custody schedule generator</a> to compare the schedule before discussing support. A clear calendar can help parents identify overnights, exchanges, transportation needs, and expenses that may be relevant in negotiation or court review.</p>
-						</article>
-						<article class="soft-card rounded-[1.5rem] p-5">
-							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">Does Parenting Time Affect Child Support in Texas?</h3>
-							<p class="mt-3 text-sm leading-6 text-secondary">Does parenting time affect child support in Texas? It may affect the facts a court reviews, but Texas guideline support usually begins with net resources and child count. Does custody affect child support in Texas? Sometimes, especially when parenting schedules affect expenses, travel, child care, or negotiations. It is still safest to treat the calculator result as a planning estimate and compare it with a clear parenting calendar. Parenting time can be especially relevant when parents share expenses differently or when the possession schedule creates unusual travel or child care costs.</p>
-						</article>
-					</div>
-					<!-- TODO: Add link to /texas-custody-schedule-generator when that route exists. -->
-					<!-- TODO: Add link to /texas-standard-possession-order with anchor text "Texas Standard Possession Order" when that route exists. -->
-				</section>
-
-				<section id="other-children" class="grid gap-5">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">How Other Children Affect Child Support</h2>
-					<p class="text-base leading-8 text-secondary">
-						In a Texas child support estimate, “other children supported” generally means children outside the current case whom the paying parent has a duty to support. This can include children from another relationship or another court order. The reason the field matters is simple: Texas child support guidelines recognize that a parent may have support obligations to more than one household.
-					</p>
-					<p class="text-base leading-8 text-secondary">
-						When other children are entered, the calculator checks the multiple-family adjustment table used by the estimate logic. That adjustment can reduce the guideline percentage. For example, one child before the court normally uses 20% of Texas net resources, but the percentage may be lower when the paying parent also supports other children. Texas child support with multiple children can depend on whether those children are part of the current case or a separate support obligation.
-					</p>
-					<p class="text-base leading-8 text-secondary">
-						If the calculator shows “Other Children Adjustment: Applied,” the Texas child support percentage was reduced because other supported children were entered and an adjustment was available. A court may still review whether the other children qualify, whether support is actually being paid, and what documentation supports the adjustment. This is one reason a Texas child support calculator should be treated as a planning tool, not a final order.
-					</p>
-					<div class="grid gap-4 md:grid-cols-2">
-						<article class="soft-card rounded-[1.5rem] p-5">
-							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">Example: one child plus another household</h3>
-							<p class="mt-2 text-sm leading-6 text-secondary">If one child is before the court and the paying parent also supports another child, the guideline percentage may be lower than the standard 20%.</p>
-						</article>
-						<article class="soft-card rounded-[1.5rem] p-5">
-							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">Example: multiple support obligations</h3>
-							<p class="mt-2 text-sm leading-6 text-secondary">When there are support duties in more than one household, courts may use different calculations to account for those obligations.</p>
-						</article>
-					</div>
-				</section>
-
-				<section id="cap-update" class="grid gap-5">
-					<div class="rounded-[1.5rem] bg-[rgba(45,212,191,0.12)] p-5 shadow-[inset_0_0_0_1px_rgba(45,212,191,0.28)]">
-						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-parent-b">Texas child support 2025 cap update</p>
-						<h2 class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary">Texas Child Support Cap 2025 and 2026</h2>
-						<p class="mt-3 text-base leading-8 text-secondary">
-							Starting September 1, 2025, the Texas child support cap increases from $9,200 to $11,700 in monthly net resources. Guideline percentages remain unchanged.
-						</p>
-					</div>
-					<p class="text-base leading-8 text-secondary">
-						The Texas child support cap limits the monthly net resources to which guideline percentages are automatically applied. Before the Texas child support calculator 2025 update, the cap was $9,200. Beginning September 1, 2025, the new cap is $11,700. The Texas child support calculator 2026 estimate on this page references that update, but users should verify current law before relying on results.
-					</p>
-					<p class="text-base leading-8 text-secondary">
-						This matters most in higher-income cases and for users researching Texas child support guidelines 2025 changes. If estimated net resources are below the cap, the cap may not affect the estimate. If net resources are above the cap, guideline support is generally calculated against the capped amount unless a court considers additional support based on the child’s proven needs or other facts.
-					</p>
-					<div class="grid gap-4 md:grid-cols-2">
-						<article class="soft-card rounded-[1.5rem] p-5">
-							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">Income below cap</h3>
-							<p class="mt-2 text-sm leading-6 text-secondary">If monthly net resources are below $11,700 after September 1, 2025, the cap usually does not limit the guideline estimate.</p>
-						</article>
-						<article class="soft-card rounded-[1.5rem] p-5">
-							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">Income above cap</h3>
-							<p class="mt-2 text-sm leading-6 text-secondary">If monthly net resources exceed the cap, guideline support is generally calculated against the capped amount, with possible additional review in high-income cases.</p>
-						</article>
-					</div>
-				</section>
-
-				<section id="high-income" class="grid gap-4">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">High-Income Child Support Cases</h2>
-					<p class="text-base leading-8 text-secondary">
-						A Texas child support calculator for high income should clearly explain the cap. The cap limits the monthly net resources automatically used for guideline support. Beginning September 1, 2025, that cap is $11,700 in monthly net resources. If estimated net resources exceed the cap, the standard percentage is generally applied to the capped amount rather than every dollar of income.
-					</p>
-					<p class="text-base leading-8 text-secondary">
-						High-income cases may still require more analysis than a simple calculator can provide. Courts may consider additional support when proven needs, medical issues, education expenses, or other facts justify it. That is why this calculator presents a guideline-style estimate and explains the cap, but does not promise that a court will use the same number.
-					</p>
-				</section>
-
-				<section id="examples" class="grid gap-5">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Example Texas Child Support Calculations</h2>
-					<p class="text-base leading-8 text-secondary">
-						These Texas child support examples show how a Texas child support calculator turns income into a planning estimate. Actual amounts can change when courts review income, insurance, other children, unusual income, or the Texas child support cap.
-					</p>
-					<div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-						{examples.map((example) => (
-							<article class="soft-card rounded-[1.5rem] p-5">
-								<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{example.title}</h3>
-								<ul class="mt-3 grid gap-2 pl-5 text-sm leading-6 text-secondary [list-style:disc]">
-									{example.items.map((item) => <li>{item}</li>)}
-								</ul>
-							</article>
-						))}
-					</div>
-					<p class="text-sm leading-6 text-secondary">
-						These examples are simplified planning scenarios. A court, agency, mediator, or qualified Texas family law professional may use different records, different assumptions, or case-specific findings.
-					</p>
-					<div id="by-income" class="grid scroll-mt-24 gap-5">
-						<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Texas Child Support Calculator by Income</h2>
-						<p class="text-base leading-8 text-secondary">
-							Many parents search by monthly income because Texas guideline support is based on estimated net resources, not gross income. The examples below show simplified planning estimates for common monthly income levels. Actual support may vary based on deductions, other supported children, medical support, dental support, the Texas child support cap, and court-specific facts.
-						</p>
-						<p class="text-base leading-8 text-secondary">
-							Use these Texas child support calculator examples and this Texas child support calculator by income reference for quick comparisons like Texas child support on 4000 income, Texas child support on 5000 income, Texas child support on 6000 income, and Texas child support on 10000 income. For a more specific estimate, start with the <a href="#calculator" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Texas child support calculator</a>, review how <a href="#net-resources" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">net resources are estimated</a>, and compare the result with the <a href="#percentage-chart" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Texas child support percentage chart</a>.
-						</p>
-						<div class="overflow-x-auto rounded-[1.5rem] shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-							<table class="w-full min-w-[720px] text-left text-sm">
-								<thead class="bg-surface-elevated text-primary">
-									<tr>
-										<th class="px-4 py-3 font-semibold">Monthly Gross Income</th>
-										<th class="px-4 py-3 font-semibold">Estimated Net Resources</th>
-										<th class="px-4 py-3 font-semibold">1 Child Estimate</th>
-										<th class="px-4 py-3 font-semibold">2 Children Estimate</th>
-										<th class="px-4 py-3 font-semibold">3 Children Estimate</th>
-									</tr>
-								</thead>
-								<tbody class="divide-y divide-line-subtle text-secondary">
-									{incomeExampleRows.map((row) => (
-										<tr>
-											<td class="px-4 py-3">{row[0]}</td>
-											<td class="px-4 py-3">{row[1]}</td>
-											<td class="px-4 py-3">{row[2]}</td>
-											<td class="px-4 py-3">{row[3]}</td>
-											<td class="px-4 py-3">{row[4]}</td>
-										</tr>
-									))}
-								</tbody>
-							</table>
-						</div>
-						<p class="text-sm leading-6 text-secondary">
-							These are simplified examples and may not match official Texas child support calculations.
-						</p>
-						<div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-							{incomeExampleCards.map((example) => (
-								<article class="soft-card rounded-[1.5rem] p-5">
-									<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{example.title}</h3>
-									<p class="mt-3 text-sm leading-6 text-secondary">{example.copy}</p>
-								</article>
-							))}
-						</div>
-					</div>
-				</section>
-
-				<section id="build-schedule" class="grid gap-5">
-					<div>
-						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">CustodyBuilder planning tools</p>
-						<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">Build a Parenting Schedule After Estimating Support</h2>
-						<p class="mt-3 text-base leading-8 text-secondary">
-							Child support is only one part of co-parenting. Most parents also need a custody schedule, parenting calendar, visitation plan, and <a href="/parenting-plan-template/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting plan template</a> that shows real overnights, weekends, holidays, and exchange days. Once you have a support estimate, use these tools to make the parenting-time side of the plan easier to compare.
-						</p>
-					</div>
-					<div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-						{planningToolCards.map((tool) => (
-							<a href={tool.href} class="soft-card group rounded-[1.5rem] p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40">
-								<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{tool.title}</h3>
-								<p class="mt-2 text-sm leading-6 text-secondary">{tool.copy}</p>
-								<span class="mt-4 inline-flex text-sm font-semibold text-accent underline decoration-line underline-offset-4 group-hover:text-primary">Open tool</span>
-							</a>
-						))}
-					</div>
-					<div class="soft-card flex flex-col gap-4 rounded-[1.5rem] p-5 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
-						<p class="text-sm leading-6 text-secondary">Ready to turn the estimate into a calendar-based plan?</p>
-						<a href="/custody-schedule-generator/" class={`btn-primary ${ctaClass} w-full sm:w-auto`}>Build Your Custody Schedule</a>
-					</div>
-				</section>
-
-				<section class="premium-card rounded-[2rem] p-3" aria-label="Calculator next actions after examples">
-					<div class="rounded-[1.7rem] bg-surface-elevated/80 p-5 sm:p-6">
-						<h2 class="text-2xl font-semibold tracking-[-0.04em] text-primary">Compare the estimate with your calendar.</h2>
-						<p class="mt-3 text-sm leading-6 text-secondary">Use the same income estimate alongside a parenting schedule, custody comparison, and calendar template so discussions stay grounded in both money and time.</p>
-						<div class="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-							{calculatorCtas.map((cta) => (
-								<a href={cta.href} class={`${cta.style === 'primary' ? 'btn-primary' : 'btn-secondary'} ${ctaClass} w-full sm:w-auto`}>
-									{cta.label}
-								</a>
-							))}
-						</div>
-					</div>
-				</section>
-
-				<section id="deviation" class="grid gap-4">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">When Courts Can Deviate from Guidelines</h2>
-					<p class="text-base leading-8 text-secondary">
-						Texas child support guidelines provide a starting point, but courts may deviate from guideline calculations when the facts justify a different result. This can happen when a child has special medical needs, significant educational expenses, extraordinary circumstances, or when the case involves high-income resources above the cap.
-					</p>
-					<p class="text-base leading-8 text-secondary">
-						Courts may also consider parenting time, health insurance, travel costs, child care, income patterns, and the child’s proven needs. This calculator helps explain how child support is calculated in Texas, but it does not predict whether a judge will vary from the guideline amount.
-					</p>
-				</section>
-
-				<section id="health-insurance" class="grid gap-4">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Child Support and Health Insurance</h2>
-					<p class="text-base leading-8 text-secondary">
-						Texas child support orders can include medical support and dental support. A parent may be responsible for providing health insurance, paying dental insurance, reimbursing uninsured medical expenses, or contributing cash medical support depending on the order.
-					</p>
-					<p class="text-base leading-8 text-secondary">
-						When the obligor pays child health or dental insurance, that amount may affect the net resources calculation or the final support discussion. The advanced options in this calculator let users enter child health insurance as a planning input, but actual orders may handle insurance responsibilities in more detail.
-					</p>
-				</section>
-
-				<section id="irregular-income" class="grid scroll-mt-24 gap-5">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Texas Child Support With Overtime, Bonuses, and Commissions</h2>
-					<p class="text-base leading-8 text-secondary">
-						Income is not always the same every month. Texas child support estimates may need to account for overtime, bonuses, commissions, self-employment income, or other variable income when those amounts are part of the income records used to estimate net resources.
-					</p>
-					<div class="grid gap-4 md:grid-cols-3">
-						<article class="soft-card rounded-[1.5rem] p-5">
-							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">Does Overtime Count for Child Support in Texas?</h3>
-							<p class="mt-3 text-sm leading-6 text-secondary">Does overtime count for child support in Texas? It may, especially when overtime is regular enough to be part of the income picture. Texas child support overtime income can be more complicated when extra hours are seasonal, temporary, or unpredictable. A simple monthly calculator may not capture the full pattern. Parents may need to review several pay periods, annual earnings, or employer records before relying on an estimate. If overtime recently changed because of a new job, staffing shortage, or temporary project, that context may matter when discussing a planning estimate.</p>
-						</article>
-						<article class="soft-card rounded-[1.5rem] p-5">
-							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">Do Bonuses Count for Child Support in Texas?</h3>
-							<p class="mt-3 text-sm leading-6 text-secondary">Do bonuses count for child support in Texas? They may be considered when calculating income used for support. Texas child support bonus income can vary widely, so the estimate may depend on whether bonuses are recurring, discretionary, or tied to a predictable compensation plan. A planning estimate should not assume every bonus is treated the same way. Documentation and income history can matter when deciding how to average bonus income. Parents may need to separate guaranteed compensation from one-time bonuses before deciding what monthly number to enter.</p>
-						</article>
-						<article class="soft-card rounded-[1.5rem] p-5">
-							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">Do Commissions Count for Child Support in Texas?</h3>
-							<p class="mt-3 text-sm leading-6 text-secondary">Do commissions count for child support in Texas? Commission income may be included when estimating net resources. Texas child support commission income often requires more than one month of data because sales cycles, chargebacks, draws, and seasonal changes can affect take-home pay. If commissions are irregular, a court or professional may look at longer income history. Use the calculator for planning, then compare the result with reliable income records. Annual totals, recent pay statements, and employer documentation may all be useful when commissions change month to month.</p>
-						</article>
-					</div>
-				</section>
-
-				<section id="duration" class="grid gap-4">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Child Support Duration in Texas</h2>
-					<p class="text-base leading-8 text-secondary">
-						Texas child support often continues until a child turns 18 or graduates from high school, whichever occurs later. A support order may also end earlier or continue differently depending on emancipation, marriage, military service, or other legally relevant events.
-					</p>
-					<p class="text-base leading-8 text-secondary">
-						There can also be exceptions for a disabled adult child when support is legally appropriate. Because duration can depend on the exact order and the child’s circumstances, use this page for planning and confirm case-specific questions with a qualified professional.
-					</p>
-				</section>
-
-				<section id="next-steps" class="premium-card rounded-[2rem] p-3">
-					<div class="rounded-[1.7rem] bg-surface-elevated/80 p-5 sm:p-6">
-						<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Next Steps After Estimating Child Support</h2>
-						<p class="mt-3 text-base leading-8 text-secondary">
-							After reviewing a Texas child support estimate, compare it with the parenting schedule, overnight percentage, and monthly calendar. Gather income documentation such as pay stubs, bonus records, commission history, insurance costs, and existing support orders. Use the calculator result as a planning estimate for budgeting, mediation, or attorney conversations.
-						</p>
-						<div class="mt-5 grid gap-3 md:grid-cols-2">
-							<div class="rounded-2xl bg-page/70 p-4 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-								<strong class="text-primary">Review the parenting schedule.</strong> Parenting time does not automatically decide support, but it can matter in discussions.
-							</div>
-							<div class="rounded-2xl bg-page/70 p-4 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-								<strong class="text-primary">Gather income records.</strong> Better inputs make child support examples and planning estimates more useful.
-							</div>
-						</div>
-						<div class="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-							{calculatorCtas.map((cta) => (
-								<a href={cta.href} class={`${cta.style === 'primary' ? 'btn-primary' : 'btn-secondary'} ${ctaClass} w-full sm:w-auto`}>
-									{cta.label}
-								</a>
-							))}
-						</div>
-					</div>
-				</section>
-
-				<section id="important-legal-note" class="soft-card rounded-[1.5rem] p-5 sm:p-6">
-					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Important legal note</p>
-					<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">Important Legal Note</h2>
-					<p class="mt-3 text-base leading-8 text-secondary">
-						This Texas child support calculator is a planning calculator. It is not legal advice, not an official court calculation, and not a substitute for reviewing the current Texas child support guidelines. Courts can deviate from guideline support when the facts justify a different result.
-					</p>
-					<p class="mt-3 text-base leading-8 text-secondary">
-						Before relying on an estimate for mediation, budgeting, or court filings, confirm current law and consider speaking with a qualified Texas family law professional about your specific income, custody schedule, medical support, and child-related expenses.
-					</p>
-				</section>
-
-				<section id="limitations" class="soft-card rounded-[1.5rem] p-5 sm:p-6">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Limitations of This Calculator</h2>
-					<ul class="mt-4 grid gap-2 pl-5 text-sm leading-6 text-secondary [list-style:disc]">
-						<li>It does not replace legal advice.</li>
-						<li>It does not guarantee a court-ordered amount.</li>
-						<li>It uses simplified tax and deduction assumptions.</li>
-						<li>It may not fully capture self-employment income.</li>
-						<li>It may not fully capture irregular overtime, bonuses, or commissions.</li>
-						<li>It does not decide custody, possession, or parenting time.</li>
-						<li>Courts can order more or less than guideline support.</li>
-					</ul>
-				</section>
-
-				<section id="about-content" class="soft-card rounded-[1.5rem] p-5 sm:p-6">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">About This Content</h2>
-					<div class="mt-4 grid gap-2 text-sm leading-6 text-secondary">
-						<p><strong class="text-primary">Author:</strong> CustodyBuilder Editorial Team</p>
-						<p><strong class="text-primary">Last updated:</strong> June 2026</p>
-					</div>
-					<p class="mt-4 text-sm leading-6 text-secondary">
-						CustodyBuilder Editorial Team creates educational tools and guides related to custody schedules, parenting plans, child support estimates, and family-court planning. This Texas child support calculator is designed to help parents understand common guideline concepts, income examples, net resources, and custody-related considerations before speaking with a qualified attorney or court professional.
-					</p>
-					<p class="mt-3 text-sm leading-6 text-secondary">
-						This page is for educational and planning purposes only. It is not legal advice, does not create an attorney-client relationship, and is not an official Texas court or Texas Attorney General calculation.
-					</p>
-				</section>
-
-				<section id="official-resources" class="grid gap-4">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Official Texas Child Support Resources</h2>
-					<p class="text-base leading-8 text-secondary">
-						The following official resources may help users compare this planning estimate with Texas child support rules and public child support information.
-					</p>
-					<div class="grid gap-3">
-						{officialTexasResources.map((resource) => (
-							<a href={resource.href} target="_blank" rel="noopener noreferrer" class="soft-card rounded-[1.25rem] p-4 text-sm font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">
-								{resource.title}
-							</a>
-						))}
-					</div>
-				</section>
-
-				<section id="faq" class="grid gap-5">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Frequently Asked Questions</h2>
-					<div class="premium-card divide-y divide-line-subtle overflow-hidden rounded-[1.5rem]">
-						{faq.map((item) => (
-							<details class="group p-5 transition-colors duration-200 open:bg-surface-elevated/70 hover:bg-surface-hover/60">
-								<summary class="flex cursor-pointer list-none items-center justify-between gap-6 text-left text-base font-semibold tracking-[-0.02em] text-primary">
-									{item.question}
-									<span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-surface/80 text-muted shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-transform duration-200 group-open:rotate-45">+</span>
-								</summary>
-								<p class="mt-4 text-sm leading-6 text-secondary" set:html={item.answerHtml ?? item.answer} />
-							</details>
-						))}
-					</div>
-				</section>
-
-				<section class="premium-card rounded-[2rem] p-3" aria-label="Final child support planning actions">
-					<div class="rounded-[1.7rem] bg-surface-elevated/80 p-5 sm:p-6">
-						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Keep planning</p>
-						<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">Turn the estimate into a usable co-parenting plan.</h2>
-						<p class="mt-3 text-base leading-8 text-secondary">
-							A Texas child support estimate is more useful when it sits beside a clear custody schedule, parenting-time comparison, and calendar template. Use the next tool that matches the decision you need to make.
-						</p>
-						<div class="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-							{calculatorCtas.map((cta) => (
-								<a href={cta.href} class={`${cta.style === 'primary' ? 'btn-primary' : 'btn-secondary'} ${ctaClass} w-full sm:w-auto`}>
-									{cta.label}
-								</a>
-							))}
-						</div>
-					</div>
-				</section>
-
+		<section class="container-shell py-section" aria-labelledby="related-links-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Related tools</p>
+				<h2 id="related-links-title" class="mt-3 text-2xl font-semibold tracking-[-0.04em] text-primary">
+					{relatedLinks.title}
+				</h2>
+				<div class="mt-5 grid gap-4 sm:grid-cols-2">
+					{relatedLinks.items.map((item) => (
+						<a href={item.href} class="soft-card group rounded-[1.25rem] p-4 transition-all duration-200 hover:-translate-y-0.5">
+							<h3 class="text-lg font-semibold text-primary group-hover:text-accent">{item.title}</h3>
+							<p class="mt-2 text-sm leading-6 text-secondary">{item.description}</p>
+						</a>
+					))}
+				</div>
 			</div>
 		</section>
+
+		<FAQ
+			items={faqItems}
+			eyebrow="Texas child support FAQ"
+			title="Texas Child Support Calculator FAQ"
+			description="Answers to common questions about Texas guideline percentages, income, 50/50 custody, and how to use this estimate."
+		/>
 	</main>
 	<Footer />
 	<script>
