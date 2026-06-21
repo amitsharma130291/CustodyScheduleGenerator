@@ -30,9 +30,9 @@ export const quickRecommendations = [
 		href: getScheduleCustomizeUrl('week-on-week-off'),
 	},
 	{
-		label: 'Start here if predictable school weekdays matter',
+		label: 'Start here when one parent should own the school week',
 		schedule: '5-2-2-5',
-		why: 'Longer weekday blocks work when one parent prefers fixed school-week routines with alternating weekends.',
+		why: 'A five-day block lets one parent handle Mon–Fri homework, Tuesday soccer, and Thursday piano before the calendar flips — fewer handoffs than 2-2-3 without a full alternating week.',
 		cta: 'Customize 5-2-2-5',
 		href: getScheduleCustomizeUrl('5225'),
 	},
@@ -153,12 +153,12 @@ export const ageDecisionCards = [
 		choosePrimary:
 			'Choose 2-2-5-5 when consistent school-week routines are the priority and each parent can cover the same weekdays every week.',
 		chooseAlternative:
-			'Choose 5-2-2-5 when the family routine works better with longer weekday blocks and alternating weekend stretches.',
-		watchOut: 'Sports, tutoring, and carpool plans need to match whichever parent holds the assigned school nights.',
+			'Choose 5-2-2-5 when one parent should own a full school-week block — homework, Tuesday practice, recurring lessons — before the two-week rhythm flips.',
+		watchOut: 'Sports, tutoring, and carpool plans need to match whichever parent holds the five-day block and any fixed weekdays under your start date.',
 		learnLinks: [
 			{ label: '50/50 custody schedule for school-age children →', href: '/50-50-custody-schedule-for-school-age-children/' },
 			{ label: 'Learn about the 2-2-5-5 schedule →', href: '/2-2-5-5-custody-schedule/' },
-			{ label: 'Learn about the 5-2-2-5 schedule →', href: '/5-2-2-5-custody-schedule/' },
+			{ label: '5-2-2-5 school-week block guide →', href: '/5-2-2-5-custody-schedule/' },
 		],
 	},
 	{
@@ -169,11 +169,11 @@ export const ageDecisionCards = [
 		choosePrimary:
 			'Choose week-on/week-off when clubs, homework, and social plans make frequent midweek exchanges harder to manage.',
 		chooseAlternative:
-			'Choose 5-2-2-5 when the child still wants more frequent contact with each parent than a full-week block allows.',
-		watchOut: 'Rigid exchange times can conflict with after-school activities unless the plan builds in flexibility.',
+			'Choose 5-2-2-5 when the child still wants more frequent contact than week-on/week-off but needs one parent to own a full school-week block for activities and homework.',
+		watchOut: 'Rigid exchange times can conflict with after-school activities unless the plan names a default driver for Tuesday practice or Thursday lessons.',
 		learnLinks: [
 			{ label: 'Learn about week-on/week-off →', href: '/week-on-week-off-custody-schedule/' },
-			{ label: 'Learn about the 5-2-2-5 schedule →', href: '/5-2-2-5-custody-schedule/' },
+			{ label: '5-2-2-5 school-week block guide →', href: '/5-2-2-5-custody-schedule/' },
 		],
 	},
 	{
@@ -184,12 +184,12 @@ export const ageDecisionCards = [
 		choosePrimary:
 			'Choose week-on/week-off when a teen has jobs, sports, or driving practice and fewer handoffs reduce weekly disruption.',
 		chooseAlternative:
-			'Choose 5-2-2-5 when the teen prefers seeing each parent more often than a single weekly exchange allows.',
+			'Choose 5-2-2-5 when the teen prefers seeing each parent more often than a single weekly exchange but still needs clear weekday ownership for jobs, driving practice, and school projects.',
 		watchOut: 'Teen preference matters more at this age—build room to adjust around school events and work schedules.',
 		learnLinks: [
 			{ label: '50/50 custody schedule for teenagers →', href: '/50-50-custody-schedule-for-teenagers/' },
 			{ label: 'Learn about week-on/week-off →', href: '/week-on-week-off-custody-schedule/' },
-			{ label: 'Learn about the 5-2-2-5 schedule →', href: '/5-2-2-5-custody-schedule/' },
+			{ label: '5-2-2-5 school-week block guide →', href: '/5-2-2-5-custody-schedule/' },
 		],
 	},
 ];

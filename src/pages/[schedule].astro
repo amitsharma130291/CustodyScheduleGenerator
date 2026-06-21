@@ -3,10 +3,12 @@ import SchedulePageTemplate from '../components/pages/SchedulePageTemplate.astro
 import { schedules } from '../content/schedules';
 
 export function getStaticPaths() {
-	return schedules.map((schedule) => ({
-		params: { schedule: schedule.slug },
-		props: { schedule },
-	}));
+	return schedules
+		.filter((schedule) => schedule.slug !== '5-2-2-5-custody-schedule')
+		.map((schedule) => ({
+			params: { schedule: schedule.slug },
+			props: { schedule },
+		}));
 }
 
 const { schedule } = Astro.props;
