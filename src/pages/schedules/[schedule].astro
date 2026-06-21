@@ -4,7 +4,7 @@ import { schedules } from '../../content/schedules';
 
 export function getStaticPaths() {
 	return schedules
-		.filter((schedule) => !['5-2-2-5-custody-schedule', '2-2-5-5-custody-schedule'].includes(schedule.slug))
+		.filter((schedule) => !['5-2-2-5-custody-schedule', '2-2-5-5-custody-schedule', '80-20-custody-schedule'].includes(schedule.slug))
 		.map((schedule) => ({
 			params: { schedule: schedule.slug },
 			props: {
