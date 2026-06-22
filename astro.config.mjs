@@ -17,6 +17,7 @@ export default defineConfig({
           '/privacy',
           '/disclaimer',
           '/terms',
+          '/blog',
           '/child-support-calculator',
           '/parenting-time-calculator',
           '/holiday-custody-planner',
