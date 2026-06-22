@@ -5,9 +5,10 @@ const schedule: ScheduleContent = {
 	id: '5225',
 	title: '5-2-2-5 Custody Schedule',
 	slug: '5-2-2-5-custody-schedule',
-	description: 'School-week block 50/50 custody schedule guide.',
-	metaTitle: '5-2-2-5 Custody Schedule | School-Week Block Guide',
-	metaDescription: 'How a 5-2-2-5 custody schedule assigns a full school-week block to one parent.',
+	description: 'Same school-week ownership and rotating Mon–Fri blocks in a 50/50 rotation.',
+	metaTitle: '5-2-2-5 Custody Schedule | School Week Ownership in a 50/50 Plan',
+	metaDescription:
+		'How a 5-2-2-5 custody schedule gives each parent full school-week ownership in a 50/50 plan — homework continuity and teacher communication per block.',
 	lede: '5-2-2-5 custody is the 50/50 schedule built around school-week ownership.',
 	overview: ['See the full guide at /5-2-2-5-custody-schedule/.'],
 	pros: [],

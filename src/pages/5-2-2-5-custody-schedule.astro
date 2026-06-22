@@ -21,18 +21,23 @@ import {
 } from '../lib/seo/schema';
 import {
 	articleTocItems,
+	breakdowns,
+	builderHelp,
 	calendarGlance,
+	editorialReview,
 	faqItems,
-	from223,
+	faqSection,
 	hero,
+	heroTrustSignals,
 	meta,
-	parentingPlanSection,
-	problemsSection,
+	move2255,
+	planLanguage,
 	quickFacts,
-	teachersSection,
-	twoWeekExample,
-	vs2255,
-} from '../data/fiftyFiftyCustodySchedule5225';
+	schoolWeekOwnership,
+	vs223,
+	vs2255Callout,
+	whyElementary,
+} from '../data/fiveTwoTwoFiveCustodySchedule';
 
 const canonical = '/5-2-2-5-custody-schedule/';
 const canonicalUrl = getCanonicalUrl(canonical);
@@ -52,15 +57,56 @@ const breadcrumbs = [
 const schema = [
 	buildWebPageSchema({ name: meta.title, description: meta.description, url: canonicalUrl }),
 	buildArticleSchema({
-		headline: hero.headline,
+		headline: meta.title,
 		description: meta.description,
 		url: canonicalUrl,
 		datePublished: meta.datePublished,
 		dateModified: meta.dateModified,
-		authorName: 'CustodyBuilder Editorial Team',
+		authorName: editorialReview.reviewer,
 	}),
 	buildFAQSchema(faqItems),
 	buildBreadcrumbSchema(breadcrumbs),
+	{
+		'@context': 'https://schema.org',
+		'@type': 'WebApplication',
+		name: '5-2-2-5 Custody Schedule Calendar Generator',
+		description: meta.description,
+		url: canonicalUrl,
+		inLanguage: 'en-US',
+		areaServed: 'US',
+		applicationCategory: 'LegalApplication',
+		operatingSystem: 'Web',
+		offers: {
+			'@type': 'Offer',
+			price: '0',
+			priceCurrency: 'USD',
+		},
+	},
+	{
+		'@context': 'https://schema.org',
+		'@type': 'HowTo',
+		name: 'How to create a 5-2-2-5 Custody Schedule',
+		description: 'Use the custody calendar generator to preview, compare, and export a 5-2-2-5 parenting schedule.',
+		inLanguage: 'en-US',
+		totalTime: 'PT5M',
+		step: [
+			{
+				'@type': 'HowToStep',
+				name: 'Choose the 5-2-2-5 schedule type',
+				text: 'Select 5-2-2-5 Custody Schedule in the generator.',
+			},
+			{
+				'@type': 'HowToStep',
+				name: 'Pick a Monday-aligned start date',
+				text: 'Align the first five-day block with a full school week.',
+			},
+			{
+				'@type': 'HowToStep',
+				name: 'Review overnight percentages',
+				text: 'Check school-week blocks and annual totals before exporting or printing.',
+			},
+		],
+	},
 ];
 ---
 
@@ -70,96 +116,76 @@ const schema = [
 	<Breadcrumbs items={breadcrumbs} />
 	<main>
 		<section
-			class="container-shell schedule-hero-section grid gap-10 py-12 xl:grid-cols-[minmax(0,1fr)_minmax(704px,720px)] xl:items-start xl:justify-center xl:gap-8 xl:py-16"
+			class="container-shell grid grid-cols-1 gap-5 py-4 sm:py-5 lg:grid-cols-[minmax(0,0.88fr)_minmax(704px,1.12fr)] lg:items-start lg:gap-7 lg:py-6 xl:w-[min(100%,1360px)]"
 			id="schedule-generator"
 		>
-			<div class="min-w-0 max-w-[820px]">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">School-week ownership</p>
-				<h1 class="mt-4 text-4xl font-semibold leading-[1.02] tracking-[-0.05em] text-primary sm:text-5xl lg:text-6xl">
+			<div class="order-1 min-w-0 lg:col-start-1 lg:row-start-1 lg:pt-1">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">5-2-2-5 calendar generator</p>
+				<h1 class="mt-2.5 max-w-3xl text-4xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary sm:text-5xl">
 					{hero.headline}
 				</h1>
-				<p class="mt-5 text-lg leading-8 text-secondary">{hero.opening}</p>
-				<p class="mt-4 text-base leading-7 text-secondary">{hero.difference}</p>
+				{hero.intro.map((paragraph) => (
+					<p class="mt-3 max-w-2xl text-base leading-7 text-secondary">{paragraph}</p>
+				))}
+				<p class="mt-2 max-w-2xl text-sm leading-6 text-secondary">
+					<a href="#schedule-generator-panel" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Build a 5-2-2-5 calendar</a>.
+				</p>
 
-				<div class="mt-6 soft-card rounded-[1.5rem] p-5">
-					<p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted">{quickFacts.title}</p>
-					<dl class="mt-3 grid gap-3 sm:grid-cols-2">
-						{quickFacts.items.map((fact) => (
-							<div class="rounded-[1rem] bg-surface/70 p-3 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-								<dt class="text-xs font-semibold uppercase tracking-[0.12em] text-muted">{fact.label}</dt>
-								<dd class="mt-1 text-sm font-semibold leading-6 text-primary">{fact.value}</dd>
-							</div>
-						))}
-					</dl>
+				<dl class="mt-4 grid gap-2 sm:grid-cols-2">
+					{quickFacts.items.map((fact) => (
+						<div class="rounded-[1rem] bg-surface/70 px-3 py-2.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+							<dt class="text-[10px] font-semibold uppercase tracking-[0.12em] text-muted">{fact.label}</dt>
+							<dd class="mt-1 text-xs font-semibold leading-5 text-primary">{fact.value}</dd>
+						</div>
+					))}
+				</dl>
+
+				<div class="mt-4 max-w-2xl rounded-2xl bg-page/70 p-3 text-xs leading-5 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)] lg:hidden">
+					<p>
+						<strong class="text-primary">Last reviewed: {editorialReview.lastReviewed}</strong>
+						<br />
+						Reviewed by:{' '}
+						<a href={editorialReview.reviewerHref} class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">
+							{editorialReview.reviewer}
+						</a>
+					</p>
+					<p class="mt-2 text-muted">Educational use only. Not legal advice.</p>
 				</div>
 
-				<div class="mt-6 soft-card rounded-[1.5rem] p-6">
-					<p class="text-sm font-semibold text-primary">{hero.question}</p>
-					<div class="mt-4 grid gap-4 sm:grid-cols-2">
-						<div class="rounded-[1.25rem] bg-surface/70 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-							<p class="text-xs font-semibold uppercase tracking-[0.16em] text-accent">{hero.compare5225.label}</p>
-							<ul class="mt-3 space-y-2 text-sm leading-6 text-secondary">
-								{hero.compare5225.points.map((point) => (
-									<li class="flex gap-2">
-										<span class="text-accent" aria-hidden="true">→</span>
-										{point}
-									</li>
-								))}
-							</ul>
-						</div>
-						<div class="rounded-[1.25rem] bg-surface/70 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-							<p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted">
-								<a href={hero.compare2255.href} class="text-secondary underline decoration-line underline-offset-4 hover:text-accent">{hero.compare2255.label}</a>
-							</p>
-							<ul class="mt-3 space-y-2 text-sm leading-6 text-secondary">
-								{hero.compare2255.points.map((point) => (
-									<li class="flex gap-2">
-										<span class="text-muted" aria-hidden="true">→</span>
-										{point}
-									</li>
-								))}
-							</ul>
-						</div>
-					</div>
-				</div>
-
-				<p class="mt-4 text-sm leading-6 text-muted">
+				<p class="mt-3 text-xs leading-5 text-muted lg:hidden">
 					Not legal advice.
 					<a href="/disclaimer/" class="ml-1 font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Read disclaimer</a>
 				</p>
-
-				<div class="mt-6 xl:hidden">
-					<CtaButton href="#schedule-generator-panel" variant="primary" size="large">
-						Generate my 5-2-2-5 calendar
-					</CtaButton>
-				</div>
 			</div>
 
-			<div class="hero-generator-shell relative w-full min-w-0 xl:sticky xl:top-24 xl:min-w-[704px] xl:max-w-[720px] xl:justify-self-end">
-				<div class="grid gap-5">
-					<section id="calendar-glance" class="soft-card scroll-mt-24 rounded-[1.5rem] p-5" aria-labelledby="calendar-glance-title">
-						<h2 id="calendar-glance-title" class="text-lg font-semibold tracking-[-0.03em] text-primary">
-							{calendarGlance.title}
-						</h2>
-						<div class="mt-4 overflow-x-auto">
+			<div class="order-2 min-w-0 lg:col-start-2 lg:row-start-1 lg:justify-self-end" id="schedule-generator-panel">
+				<div class="premium-card relative overflow-visible rounded-[1.75rem] border-line p-3 sm:rounded-[2rem] sm:p-4">
+					<section id="calendar-glance" class="scroll-mt-24 rounded-[1.1rem] bg-surface/50 p-3 shadow-[inset_0_0_0_1px_var(--border-subtle)]" aria-labelledby="calendar-glance-title">
+						<div class="flex flex-wrap items-baseline justify-between gap-2">
+							<h2 id="calendar-glance-title" class="text-sm font-semibold tracking-[-0.03em] text-primary">
+								{calendarGlance.title}
+							</h2>
+							<p class="text-xs font-semibold text-accent">{calendarGlance.overnightSplit}</p>
+						</div>
+						<div class="mt-2 overflow-x-auto">
 							{calendarGlance.weeks.map((week, weekIndex) => (
-								<div class:list={[weekIndex > 0 && 'mt-4']}>
-									<p class="mb-2 text-xs font-semibold uppercase tracking-[0.14em] text-muted">{calendarGlance.weekLabels[weekIndex]}</p>
-									<table class="w-full min-w-[320px] border-collapse text-center text-sm">
+								<div class:list={[weekIndex > 0 && 'mt-3']}>
+									<p class="mb-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-muted">{calendarGlance.weekLabels[weekIndex]}</p>
+									<table class="w-full min-w-[260px] border-collapse text-center text-sm">
 										<thead>
 											<tr>
 												{calendarGlance.dayLabels.map((day) => (
-													<th class="px-1 py-2 text-xs font-semibold uppercase tracking-[0.1em] text-muted">{day}</th>
+													<th class="px-1 py-1 text-[10px] font-semibold uppercase tracking-[0.1em] text-muted">{day}</th>
 												))}
 											</tr>
 										</thead>
 										<tbody>
 											<tr>
 												{week.map((parent) => (
-													<td class="px-1 py-2">
+													<td class="px-1 py-1">
 														<span
 															class:list={[
-																'inline-flex h-8 w-8 items-center justify-center rounded-lg text-xs font-bold',
+																'inline-flex h-6 w-6 items-center justify-center rounded-md text-[10px] font-bold',
 																parent === 'A'
 																	? 'bg-accent/15 text-accent'
 																	: 'bg-surface/80 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]',
@@ -175,209 +201,230 @@ const schema = [
 								</div>
 							))}
 						</div>
-						<div class="mt-4 space-y-2">
-							{calendarGlance.notes.map((note) => (
-								<p class="text-xs leading-5 text-secondary">{note}</p>
-							))}
+						<div class="mt-2 flex flex-wrap gap-2 text-[10px] font-medium text-muted">
+							<span><span class="font-semibold text-accent">A</span> = Parent A</span>
+							<span><span class="font-semibold text-secondary">B</span> = Parent B</span>
 						</div>
 					</section>
 
-					<div id="schedule-generator-panel" class="premium-card relative overflow-visible rounded-[1.75rem] border-line p-4 sm:rounded-[2.25rem] sm:p-5">
-						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">5-2-2-5 calendar</p>
-						<p class="mt-2 text-sm leading-6 text-secondary">
-							Pick a start date and parent names to see how five-day school blocks land on your month.
-						</p>
-						<div class="hero-generator-inner mt-4 rounded-[1.4rem] bg-surface-elevated p-0 shadow-[inset_0_1px_0_rgba(255,255,255,0.07)] sm:rounded-[1.8rem]">
-							<div class="hero-generator-grid generator-shell grid grid-cols-1 items-start gap-6 xl:grid-cols-[minmax(380px,1fr)_260px]">
-								<div class="generator-form-panel min-w-0">
-									<GeneratorPanel selectedScheduleId="5225" compact />
-								</div>
-								<div class="hero-calendar-column calendar-preview-panel grid w-full min-w-0 gap-3 xl:w-[260px] xl:min-w-[260px]">
-									<CalendarPreview schedule={generatedSchedule}>
-										<ExportActions slot="actions" />
-									</CalendarPreview>
-								</div>
+					<div class="hero-generator-inner mt-3 rounded-[1.25rem] bg-surface-elevated p-0 shadow-[inset_0_1px_0_rgba(255,255,255,0.07)] sm:rounded-[1.5rem]">
+						<div class="hero-generator-grid generator-shell grid grid-cols-1 items-start gap-4 xl:grid-cols-[minmax(360px,1fr)_240px]">
+							<div class="generator-form-panel min-w-0">
+								<GeneratorPanel selectedScheduleId="5225" compact />
+							</div>
+							<div class="hero-calendar-column calendar-preview-panel grid w-full min-w-0 gap-2 xl:w-[240px] xl:min-w-[240px]">
+								<CalendarPreview schedule={generatedSchedule}>
+									<ExportActions slot="actions" />
+								</CalendarPreview>
 							</div>
 						</div>
 					</div>
+					<div class="mt-3 flex flex-wrap gap-2 text-xs font-semibold text-secondary" aria-label="CustodyBuilder trust signals">
+						{heroTrustSignals.map((signal) => (
+							<span class="inline-flex items-center gap-1.5 rounded-full bg-surface/70 px-3 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+								<span class="text-parent-b" aria-hidden="true">✓</span>
+								{signal}
+							</span>
+						))}
+					</div>
 				</div>
+			</div>
+
+			<p class="order-3 hidden text-xs leading-5 text-muted lg:order-none lg:col-start-1 lg:row-start-2 lg:block">
+				Not legal advice.
+				<a href="/disclaimer/" class="ml-1 font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Read disclaimer</a>
+			</p>
+		</section>
+
+		<section id="editorial-review" class="container-shell pb-5">
+			<div class="max-w-3xl rounded-2xl bg-page/70 p-4 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+				<p>
+					<strong class="text-primary">Last reviewed: {editorialReview.lastReviewed}</strong>
+					<br />
+					Reviewed by:{' '}
+					<a href={editorialReview.reviewerHref} class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">
+						{editorialReview.reviewer}
+					</a>
+				</p>
+				<p class="mt-2">{editorialReview.body}</p>
 			</div>
 		</section>
 
 		<ArticleTOC items={articleTocItems} />
 
-		<section id="two-week-example" class="container-shell scroll-mt-24 pb-section" aria-labelledby="two-week-example-title">
+		<section id="why-elementary" class="container-shell scroll-mt-24 pb-section" aria-labelledby="why-elementary-title">
 			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">School-week example</p>
-				<h2 id="two-week-example-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					{twoWeekExample.title}
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">After elementary starts</p>
+				<h2 id="why-elementary-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					{whyElementary.title}
 				</h2>
-				<p class="mt-4 text-base leading-7 text-secondary">{twoWeekExample.intro}</p>
-
-				<h3 class="mt-8 text-xl font-semibold tracking-[-0.03em] text-primary">{twoWeekExample.weekOneLabel}</h3>
-				<div class="mt-4 space-y-4">
-					{twoWeekExample.weekOneDays.map((entry) => (
-						<article class="soft-card rounded-[1.25rem] p-4">
-							<p class="text-sm font-semibold text-accent">{entry.day}</p>
-							<p class="mt-2 text-sm leading-6 text-secondary">{entry.details}</p>
-						</article>
-					))}
-				</div>
-
-				<article class="mt-4 soft-card rounded-[1.25rem] p-4">
-					<p class="text-sm font-semibold text-primary">{twoWeekExample.weekOneWeekend.label}</p>
-					<p class="mt-2 text-sm leading-6 text-secondary">{twoWeekExample.weekOneWeekend.details}</p>
-				</article>
-
-				<h3 class="mt-8 text-xl font-semibold tracking-[-0.03em] text-primary">{twoWeekExample.weekTwoLabel}</h3>
-				<div class="mt-4 space-y-4">
-					{twoWeekExample.weekTwoDays.map((entry) => (
-						<article class="soft-card rounded-[1.25rem] p-4">
-							<p class="text-sm font-semibold text-accent">{entry.day}</p>
-							<p class="mt-2 text-sm leading-6 text-secondary">{entry.details}</p>
-						</article>
-					))}
-				</div>
-
-				<p class="mt-6 text-base leading-7 text-secondary">{twoWeekExample.close}</p>
-			</div>
-		</section>
-
-		<section id="vs-2255" class="container-shell scroll-mt-24 py-section" aria-labelledby="vs-2255-title">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">5-2-2-5 vs 2-2-5-5</p>
-				<h2 id="vs-2255-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					{vs2255.title}
-				</h2>
-				<p class="mt-4 text-base leading-7 text-secondary">{vs2255.intro}</p>
-			</div>
-			<div class="mt-8 grid max-w-5xl gap-6 lg:grid-cols-2">
-				<article class="soft-card rounded-[1.5rem] p-6">
-					<h3 class="text-lg font-semibold text-primary">{vs2255.choose5225.title}</h3>
-					<ul class="mt-4 space-y-3 text-sm leading-6 text-secondary">
-						{vs2255.choose5225.items.map((item) => (
-							<li class="flex gap-2">
-								<span class="text-accent" aria-hidden="true">•</span>
-								{item}
-							</li>
-						))}
-					</ul>
-				</article>
-				<article class="soft-card rounded-[1.5rem] p-6">
-					<h3 class="text-lg font-semibold text-primary">
-						<a href={vs2255.choose2255.href} class="underline decoration-line underline-offset-4 hover:text-accent">{vs2255.choose2255.title}</a>
-					</h3>
-					<ul class="mt-4 space-y-3 text-sm leading-6 text-secondary">
-						{vs2255.choose2255.items.map((item) => (
-							<li class="flex gap-2">
-								<span class="text-muted" aria-hidden="true">•</span>
-								{item}
-							</li>
-						))}
-					</ul>
-				</article>
-			</div>
-			<p class="mt-6 max-w-3xl text-base leading-7 text-secondary">{vs2255.tradeoff}</p>
-		</section>
-
-		<section id="teachers" class="container-shell scroll-mt-24 py-section" aria-labelledby="teachers-title">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">5-2-2-5 at school</p>
-				<h2 id="teachers-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					{teachersSection.title}
-				</h2>
-				<p class="mt-4 text-base leading-7 text-secondary">{teachersSection.intro}</p>
-			</div>
-			<div class="mt-8 max-w-3xl space-y-8">
-				{teachersSection.scenarios.map((scenario) => (
-					<article>
-						<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary">{scenario.heading}</h3>
-						<p class="mt-3 text-base leading-7 text-secondary">{scenario.body}</p>
-					</article>
-				))}
-				<p class="text-base leading-7 text-secondary">{teachersSection.close}</p>
-			</div>
-		</section>
-
-		<section id="from-223" class="container-shell scroll-mt-24 py-section" aria-labelledby="from-223-title">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">From 2-2-3</p>
-				<h2 id="from-223-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					{from223.title}
-				</h2>
-				<p class="mt-4 text-base leading-7 text-secondary">{from223.intro}</p>
+				<p class="mt-4 text-base leading-7 text-secondary">{whyElementary.intro}</p>
 			</div>
 			<div class="mt-8 max-w-3xl space-y-6">
-				{from223.triggers.map((trigger) => (
+				{whyElementary.points.map((item) => (
 					<article>
-						<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary">{trigger.heading}</h3>
-						<p class="mt-3 text-base leading-7 text-secondary">{trigger.body}</p>
+						<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary">{item.heading}</h3>
+						<p class="mt-3 text-base leading-7 text-secondary">{item.body}</p>
 					</article>
 				))}
-			</div>
-			<div class="mt-8 max-w-3xl">
-				<p class="text-sm font-semibold text-primary">Trial steps for a 5-2-2-5 block</p>
-				<ol class="mt-3 list-decimal space-y-2 pl-5 text-sm leading-6 text-secondary">
-					{from223.steps.map((step) => <li>{step}</li>)}
-				</ol>
-				<p class="mt-4 text-base leading-7 text-secondary">
-					{from223.close} See the <a href={from223.href} class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">{from223.linkText}</a> if frequent exchanges still fit your child better.
-				</p>
+				<p class="text-base leading-7 text-secondary" set:html={whyElementary.close} />
 			</div>
 		</section>
 
-		<section id="problems" class="container-shell scroll-mt-24 py-section" aria-labelledby="problems-title">
+		<section id="school-week-ownership" class="container-shell scroll-mt-24 py-section" aria-labelledby="school-week-ownership-title">
 			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">5-2-2-5 troubleshooting</p>
-				<h2 id="problems-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					{problemsSection.title}
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">School-week ownership</p>
+				<h2 id="school-week-ownership-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					{schoolWeekOwnership.title}
 				</h2>
-				<p class="mt-4 text-base leading-7 text-secondary">{problemsSection.intro}</p>
+				<p class="mt-4 text-base leading-7 text-secondary">{schoolWeekOwnership.intro}</p>
 			</div>
 			<div class="mt-8 max-w-3xl space-y-6">
-				{problemsSection.problems.map((item) => (
+				{schoolWeekOwnership.layers.map((item) => (
 					<article class="soft-card rounded-[1.5rem] p-5">
-						<h3 class="text-lg font-semibold text-primary">{item.problem}</h3>
+						<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary">{item.heading}</h3>
+						<p class="mt-3 text-base leading-7 text-secondary">{item.body}</p>
+					</article>
+				))}
+				<p class="text-base leading-7 text-secondary" set:html={schoolWeekOwnership.close} />
+			</div>
+		</section>
+
+		<section id="vs-2255-callout" class="container-shell scroll-mt-24 pb-section" aria-labelledby="vs-2255-callout-title">
+			<div class="max-w-3xl rounded-2xl bg-page/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+				<h2 id="vs-2255-callout-title" class="text-xl font-semibold tracking-[-0.03em] text-primary">
+					{vs2255Callout.title}
+				</h2>
+				<p class="mt-3 text-base leading-7 text-secondary" set:html={vs2255Callout.body} />
+			</div>
+		</section>
+
+		<section id="vs-223" class="container-shell scroll-mt-24 py-section" aria-labelledby="vs-223-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Outgrowing 2-2-3</p>
+				<h2 id="vs-223-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					{vs223.title}
+				</h2>
+				<p class="mt-4 text-base leading-7 text-secondary">{vs223.intro}</p>
+			</div>
+			<div class="mt-8 max-w-3xl space-y-6">
+				{vs223.reasons.map((item) => (
+					<article>
+						<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary">{item.heading}</h3>
+						<p class="mt-3 text-base leading-7 text-secondary" set:html={item.body} />
+					</article>
+				))}
+				<p class="text-base leading-7 text-secondary">{vs223.close}</p>
+			</div>
+		</section>
+
+		<section id="move-2255" class="container-shell scroll-mt-24 py-section" aria-labelledby="move-2255-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Schedule shifts</p>
+				<h2 id="move-2255-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					{move2255.title}
+				</h2>
+				<p class="mt-4 text-base leading-7 text-secondary">{move2255.intro}</p>
+			</div>
+			<div class="mt-8 max-w-3xl space-y-6">
+				{move2255.scenarios.map((item) => (
+					<article class="soft-card rounded-[1.5rem] p-5">
+						<h3 class="text-lg font-semibold text-primary">{item.heading}</h3>
+						<p class="mt-3 text-base leading-7 text-secondary" set:html={item.body} />
+					</article>
+				))}
+				<p class="text-base leading-7 text-secondary">{move2255.close}</p>
+			</div>
+		</section>
+
+		<section id="breakdowns" class="container-shell scroll-mt-24 py-section" aria-labelledby="breakdowns-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">5-2-2-5 failure points</p>
+				<h2 id="breakdowns-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					{breakdowns.title}
+				</h2>
+				<p class="mt-4 text-base leading-7 text-secondary">{breakdowns.intro}</p>
+			</div>
+			<div class="mt-8 max-w-3xl space-y-4">
+				{breakdowns.items.map((item) => (
+					<article class="soft-card rounded-[1.25rem] p-4">
+						<h3 class="text-lg font-semibold text-primary">{item.title}</h3>
 						<p class="mt-3 text-sm leading-6 text-secondary">
-							<span class="font-semibold text-accent">What helps:</span> {item.solution}
+							<span class="font-semibold text-primary">What actually happens:</span> {item.whatHappens}
+						</p>
+						<p class="mt-3 text-sm leading-6 text-secondary">
+							<span class="font-semibold text-accent">What families usually write into the plan:</span> {item.planFix}
 						</p>
 					</article>
 				))}
 			</div>
 		</section>
 
-		<section id="parenting-plan" class="container-shell scroll-mt-24 py-section" aria-labelledby="parenting-plan-title">
+		<section id="plan-language" class="container-shell scroll-mt-24 py-section" aria-labelledby="plan-language-title">
 			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">5-2-2-5 plan clause</p>
-				<h2 id="parenting-plan-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					{parentingPlanSection.title}
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Written plan language</p>
+				<h2 id="plan-language-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					{planLanguage.title}
 				</h2>
-				<p class="mt-4 text-base leading-7 text-secondary">{parentingPlanSection.intro}</p>
+				<p class="mt-4 text-sm leading-6 text-muted">{planLanguage.disclaimer}</p>
+				<p class="mt-2 text-sm leading-6 text-secondary">{planLanguage.adaptationNote}</p>
+				<p class="mt-4 text-base leading-7 text-secondary">{planLanguage.intro}</p>
+				<p class="mt-3 text-base leading-7 text-secondary">{planLanguage.whyItHelps}</p>
+			</div>
+			<div class="mt-6 max-w-3xl">
+				<blockquote class="soft-card rounded-[1.5rem] border-l-4 border-accent p-5 text-sm leading-7 text-secondary">
+					{planLanguage.clause}
+				</blockquote>
 				<ul class="mt-4 space-y-2 text-sm leading-6 text-secondary">
-					{parentingPlanSection.topics.map((topic) => (
+					{planLanguage.notes.map((note) => (
 						<li class="flex gap-2">
-							<span class="text-accent" aria-hidden="true">•</span>
-							{topic}
+							<span class="text-accent" aria-hidden="true">→</span>
+							{note}
 						</li>
 					))}
 				</ul>
-				<figure class="premium-card mt-6 rounded-[1.5rem] p-5">
-					<blockquote class="text-sm leading-7 text-secondary">{parentingPlanSection.clause}</blockquote>
-					<figcaption class="mt-4 rounded-2xl bg-page/55 p-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-						{parentingPlanSection.disclaimer}
-					</figcaption>
-				</figure>
+				<p class="mt-4 text-sm leading-6 text-secondary">
+					Organize exchanges, holidays, and change rules in the{' '}
+					<a href="/parenting-plan-template/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting plan template</a>.
+					Compare real layouts in <a href="/50-50-custody-schedule-examples/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 custody schedule examples</a>.
+				</p>
 			</div>
 		</section>
 
-		<section id="faq" class="container-shell scroll-mt-24 pb-section" aria-labelledby="faq-title">
+		<section id="builder-help" class="container-shell scroll-mt-24 py-section" aria-labelledby="builder-help-title">
 			<div class="max-w-3xl">
-				<h2 id="faq-title" class="text-3xl font-semibold tracking-[-0.04em] text-primary">5-2-2-5 Custody Schedule FAQ</h2>
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Pattern testing</p>
+				<h2 id="builder-help-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					{builderHelp.title}
+				</h2>
+				<p class="mt-4 text-base leading-7 text-secondary" set:html={builderHelp.intro} />
+				<ul class="mt-4 space-y-2 text-sm leading-6 text-secondary">
+					{builderHelp.features.map((feature) => (
+						<li class="flex gap-2">
+							<span class="text-accent" aria-hidden="true">→</span>
+							<span set:html={feature} />
+						</li>
+					))}
+				</ul>
+				<p class="mt-4 text-sm leading-6 text-secondary">
+					Compare patterns by age in the{' '}
+					<a href="/best-50-50-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">best 50/50 custody schedule</a> guide.
+					Verify overnight totals with the{' '}
+					<a href="/custody-percentage-calculator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody percentage calculator</a>.
+				</p>
 				<div class="mt-6">
-					<FAQ items={faqItems} />
+					<CtaButton href="#schedule-generator-panel" variant="primary" size="large">
+						{builderHelp.cta}
+					</CtaButton>
 				</div>
 			</div>
 		</section>
+
+		<FAQ
+			items={faqItems}
+			title={faqSection.title}
+			description={faqSection.description}
+		/>
 	</main>
 	<Footer />
 </BaseLayout>
