@@ -34,7 +34,7 @@ const schema = [
 ];
 ---
 
-<BaseLayout title={title} description={description} canonical={canonical}>
+<BaseLayout title={title} description={description} canonical={canonical} robots="noindex, follow">
 	<JsonLd slot="head" data={schema} />
 	<Navbar />
 	<Breadcrumbs items={breadcrumbs} />
@@ -58,9 +58,8 @@ const schema = [
 		</section>
 
 		<section class="container-shell py-10 lg:py-12">
-			<div class="grid gap-4 md:grid-cols-3">
+			<div class="grid gap-4 md:grid-cols-2">
 				<a href="/custody-percentage-calculator/" class="soft-card rounded-[1.5rem] p-5">Custody Percentage Calculator</a>
-				<a href="/parenting-time-calculator/" class="soft-card rounded-[1.5rem] p-5">Parenting Time Calculator</a>
 				<a href="/visitation-calculator/" class="soft-card rounded-[1.5rem] p-5">Visitation Calculator</a>
 			</div>
 		</section>

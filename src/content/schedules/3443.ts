@@ -59,12 +59,12 @@ const schedule: ScheduleContent = {
 			{ title: 'Monthly custody calendar', description: 'Use the generator above to see how the uneven-looking weeks balance across real calendar dates.', status: 'available', href: '#schedule-generator' },
 			{ title: 'Yearly custody calendar', description: 'Export a yearly PDF to check holidays, school breaks, and long weekends against the 3/4 rhythm.', status: 'available', href: '#schedule-generator' },
 			{ title: 'Parenting plan worksheet', description: 'Use the sample clause below to define the Week 1 and Week 2 blocks with exact exchange times.', status: 'available', href: '#parenting-plan-language' },
-			{ title: 'Holiday planning worksheet', description: 'Use the holiday custody planner to decide how overrides affect the 3-day and 4-day blocks.', status: 'available', href: '/holiday-custody-planner/' },
+			{ title: 'Holiday planning worksheet', description: 'Use the holiday custody planner to decide how overrides affect the 3-day and 4-day blocks.', status: 'available', href: '/holiday-custody-schedule/' },
 		],
 		ctas: [
 			{ text: 'Generate printable calendar', href: '#schedule-generator', variant: 'primary' },
 			{ text: 'Export PDF from the tool', href: '#schedule-generator', variant: 'secondary' },
-			{ text: 'Plan holidays separately', href: '/holiday-custody-planner/', variant: 'secondary' },
+			{ text: 'Plan holidays separately', href: '/holiday-custody-schedule/', variant: 'secondary' },
 		],
 		yearOptions: ['Two-week schedule', 'Monthly PDF', 'Yearly PDF', 'Holiday worksheet'],
 	},
@@ -131,7 +131,7 @@ const schedule: ScheduleContent = {
 			title: 'Holidays, School Breaks, and Vacations',
 			paragraphs: [
 				'Holiday rules in a 3-4-4-3 plan should explain what happens when an override interrupts either the three-day block or the four-day block. A long weekend can shift the balance of the visible week, even though the regular cycle balances over two weeks.',
-				'Parents should decide whether the regular schedule resumes where it left off or restarts after the holiday. Thanksgiving, winter break, spring break, summer vacation, child birthdays, Mother’s Day, and Father’s Day should have clear start and end times. Use the <a href="/holiday-custody-planner/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">holiday custody planner</a> before adding terms to a <a href="/parenting-plan-template/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting plan template</a>.',
+				'Parents should decide whether the regular schedule resumes where it left off or restarts after the holiday. Thanksgiving, winter break, spring break, summer vacation, child birthdays, Mother’s Day, and Father’s Day should have clear start and end times. Use the <a href="/holiday-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">holiday custody planner</a> before adding terms to a <a href="/parenting-plan-template/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting plan template</a>.',
 			],
 			items: [
 				{ title: 'Thanksgiving and long weekends', description: 'Long weekends can swallow most of a three-day block, so the plan should say whether makeup time applies.' },
@@ -254,9 +254,9 @@ const schedule: ScheduleContent = {
 		{ question: 'Is 3-4-4-3 good for school-age children?', answer: 'It can work well for school-age children who can manage three- and four-day blocks while still needing regular contact with both homes. Both parents should be able to support homework, transportation, activities, meals, and bedtime routines.' },
 		{ question: 'Is 3-4-4-3 good for teenagers?', answer: 'It can work for teenagers who want fewer handoffs than 2-2-3 but are not ready for a full week away from either parent. Weekend jobs, sports, social plans, and driving schedules should be checked before using it.' },
 		{ question: 'How many exchanges does 3-4-4-3 require?', answer: 'The exact number depends on the written exchange times, but it generally requires fewer exchanges than 2-2-3 and more exchanges than week-on/week-off. The main handoffs happen between the 3-day and 4-day blocks.' },
-		{ question: 'How are holidays handled?', answer: 'Holiday rules should say whether a holiday replaces a 3-day block, a 4-day block, or only the specific holiday hours. The plan should also say whether the regular cycle resumes where it left off or restarts after the holiday.', answerHtml: 'Holiday rules should say whether a holiday replaces a 3-day block, a 4-day block, or only the specific holiday hours. The <a href="/holiday-custody-planner/" class="text-accent hover:underline">holiday custody planner</a> can help map those exceptions.' },
+		{ question: 'How are holidays handled?', answer: 'Holiday rules should say whether a holiday replaces a 3-day block, a 4-day block, or only the specific holiday hours. The plan should also say whether the regular cycle resumes where it left off or restarts after the holiday.', answerHtml: 'Holiday rules should say whether a holiday replaces a 3-day block, a 4-day block, or only the specific holiday hours. The <a href="/holiday-custody-schedule/" class="text-accent hover:underline">holiday custody planner</a> can help map those exceptions.' },
 		{ question: 'How are vacations handled?', answer: 'Vacation terms should explain whether a vacation pauses the 3-4-4-3 cycle or counts as that parent’s regular block. This matters because a vacation can otherwise make one week look much more uneven than usual.' },
-		{ question: 'Can 3-4-4-3 affect child support?', answer: 'Because 3-4-4-3 usually balances to seven overnights per parent in two weeks, the base calendar often looks equal. Support questions can still depend on state law, income, expenses, and how many holidays or breaks override the regular 3/4 pattern.', answerHtml: 'Because 3-4-4-3 usually balances to seven overnights per parent in two weeks, the base calendar often looks equal. Support questions can still depend on state law, income, expenses, and how many holidays or breaks override the regular 3/4 pattern. Use the <a href="/child-support-calculator/" class="text-accent hover:underline">child support calculator</a> and <a href="/custody-percentage-calculator/" class="text-accent hover:underline">custody percentage calculator</a> as educational planning tools.' },
+		{ question: 'Can 3-4-4-3 affect child support?', answer: 'Because 3-4-4-3 usually balances to seven overnights per parent in two weeks, the base calendar often looks equal. Support questions can still depend on state law, income, expenses, and how many holidays or breaks override the regular 3/4 pattern.', answerHtml: 'Because 3-4-4-3 usually balances to seven overnights per parent in two weeks, the base calendar often looks equal. Support questions can still depend on state law, income, expenses, and how many holidays or breaks override the regular 3/4 pattern. Use the <a href="/texas-child-support-calculator/" class="text-accent hover:underline">child support calculator</a> and <a href="/custody-percentage-calculator/" class="text-accent hover:underline">custody percentage calculator</a> as educational planning tools.' },
 		{ question: 'What if parents live far apart?', answer: '3-4-4-3 can be difficult when parents live far apart because midweek exchanges still happen. If driving time makes school or activities hard, a longer-block schedule or unequal-time schedule may be more practical.', answerHtml: '3-4-4-3 can be difficult when parents live far apart because midweek exchanges still happen. If driving time makes school or activities hard, compare <a href="/60-40-custody-schedule/" class="text-accent hover:underline">60/40</a>, <a href="/70-30-custody-schedule/" class="text-accent hover:underline">70/30</a>, <a href="/80-20-custody-schedule/" class="text-accent hover:underline">80/20</a>, or <a href="/every-other-weekend-custody-schedule/" class="text-accent hover:underline">every other weekend</a> schedules.' },
 		{ question: 'Can parents customize it?', answer: 'Yes. Parents can customize the start day, exchange time, exchange location, holiday overrides, vacation rules, and transportation terms. The written plan should be clear about which week is the 3/4 week and which week is the 4/3 week.' },
 		{ question: 'Is 3-4-4-3 court-approved?', answer: 'A court may approve a 3-4-4-3 schedule when the full parenting plan is lawful and child-focused. The written order should make the Week 1 and Week 2 pattern clear so the uneven-looking weeks do not create enforcement confusion.' },
@@ -274,7 +274,7 @@ const schedule: ScheduleContent = {
 	relatedTools: [
 		{ title: 'Parenting Plan Template', slug: 'parenting-plan-template', description: 'Turn your 3-4-4-3 parenting schedule into written parenting plan terms.' },
 		{ title: 'Custody Percentage Calculator', slug: 'custody-percentage-calculator', description: 'Estimate parenting time percentages from overnight totals.' },
-		{ title: 'Child Support Calculator', slug: 'child-support-calculator', description: 'Review support-planning questions alongside custody schedule decisions.' },
+		{ title: 'Child Support Calculator', slug: 'texas-child-support-calculator', description: 'Review support-planning questions alongside custody schedule decisions.' },
 	],
 	relatedHeading: 'Related 3-4-4-3 custody schedule tools',
 	relatedLinks: [
@@ -283,7 +283,7 @@ const schedule: ScheduleContent = {
 		{ title: '5-2-2-5 custody schedule', slug: '5-2-2-5-custody-schedule', description: 'Compare the school-week/weekend flip pattern.' },
 		{ title: 'Week-on/week-off custody schedule', slug: 'week-on-week-off-custody-schedule', description: 'See whether a full-week rotation fits older children.' },
 		{ title: '50/50 custody schedules', slug: '50-50-custody-schedule', description: 'Compare common equal parenting time options.' },
-		{ title: 'Holiday custody planner', slug: 'holiday-custody-planner', description: 'Plan holidays, school breaks, birthdays, and vacations separately.' },
+		{ title: 'Holiday custody planner', slug: 'holiday-custody-schedule', description: 'Plan holidays, school breaks, birthdays, and vacations separately.' },
 		{ title: 'Parenting plan template', slug: 'parenting-plan-template', description: 'Write exchange, holiday, vacation, and schedule-change terms.' },
 		{ title: 'Custody percentage calculator', slug: 'custody-percentage-calculator', description: 'Calculate overnight percentages from the calendar.' },
 	],

@@ -17,6 +17,11 @@ export default defineConfig({
           '/privacy',
           '/disclaimer',
           '/terms',
+          '/child-support-calculator',
+          '/parenting-time-calculator',
+          '/holiday-custody-planner',
+          '/custody-agreement-builder',
+          '/schedule-comparison-tool',
         ]);
 
         return !excludedPaths.has(pathname) && !pathname.startsWith('/schedules/');

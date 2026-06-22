@@ -1,0 +1,93 @@
+﻿=== PAGE INVENTORY ===
+Total built pages: 52
+[{"url":"/","words":2575,"faq":26,"robots":"index, follow"},{"url":"/2-2-3-custody-schedule","words":4702,"faq":16,"robots":"index, follow"},{"url":"/2-2-5-5-custody-schedule","words":2815,"faq":8,"robots":"index, follow"},{"url":"/3-4-4-3-custody-schedule","words":3983,"faq":16,"robots":"index, follow"},{"url":"/5-2-2-5-custody-schedule","words":2695,"faq":8,"robots":"index, follow"},{"url":"/50-50-custody-schedule","words":4323,"faq":12,"robots":"index, follow"},{"url":"/50-50-custody-schedule-examples","words":4584,"faq":7,"robots":"index, follow"},{"url":"/50-50-custody-schedule-for-babies","words":3088,"faq":7,"robots":"index, follow"},{"url":"/50-50-custody-schedule-for-school-age-children","words":3048,"faq":8,"robots":"index, follow"},{"url":"/50-50-custody-schedule-for-teenagers","words":3008,"faq":7,"robots":"index, follow"},{"url":"/50-50-custody-schedule-for-toddlers","words":3142,"faq":9,"robots":"index, follow"},{"url":"/50-50-custody-schedule-pros-and-cons","words":2944,"faq":7,"robots":"index, follow"},{"url":"/60-40-custody-schedule","words":5609,"faq":15,"robots":"index, follow"},{"url":"/70-30-custody-schedule","words":5612,"faq":18,"robots":"index, follow"},{"url":"/80-20-custody-schedule","words":3360,"faq":8,"robots":"index, follow"},{"url":"/about","words":430,"faq":0,"robots":"index, follow"},{"url":"/best-50-50-custody-schedule","words":2669,"faq":5,"robots":"index, follow"},{"url":"/best-custody-schedule-for-5-year-old","words":4059,"faq":9,"robots":"index, follow"},{"url":"/best-custody-schedule-for-7-year-old","words":5953,"faq":19,"robots":"index, follow"},{"url":"/best-custody-schedule-for-teenager","words":4421,"faq":13,"robots":"index, follow"},{"url":"/best-custody-schedule-for-toddler","words":5412,"faq":12,"robots":"index, follow"},{"url":"/blog","words":1190,"faq":3,"robots":"index, follow"},{"url":"/child-support-calculator","words":191,"faq":0,"robots":"index, follow"},{"url":"/contact","words":258,"faq":0,"robots":"index, follow"},{"url":"/custody-agreement-builder","words":189,"faq":0,"robots":"index, follow"},{"url":"/custody-calendar-template","words":1211,"faq":6,"robots":"index, follow"},{"url":"/custody-percentage-calculator","words":606,"faq":4,"robots":"index, follow"},{"url":"/custody-schedule-by-age","words":1393,"faq":3,"robots":"index, follow"},{"url":"/custody-schedule-generator","words":3785,"faq":20,"robots":"index, follow"},{"url":"/custody-schedule-template","words":1343,"faq":10,"robots":"index, follow"},{"url":"/disclaimer","words":306,"faq":0,"robots":"noindex, follow"},{"url":"/every-other-weekend-custody-schedule","words":2385,"faq":10,"robots":"index, follow"},{"url":"/holiday-custody-planner","words":191,"faq":0,"robots":"index, follow"},{"url":"/holiday-custody-schedule","words":1229,"faq":10,"robots":"index, follow"},{"url":"/holiday-visitation-schedule","words":864,"faq":6,"robots":"index, follow"},{"url":"/how-custodybuilder-works","words":451,"faq":0,"robots":"index, follow"},{"url":"/parenting-plan-template","words":1727,"faq":10,"robots":"index, follow"},{"url":"/parenting-time-calculator","words":237,"faq":1,"robots":"index, follow"},{"url":"/privacy","words":298,"faq":0,"robots":"noindex, follow"},{"url":"/schedule-comparison-tool","words":230,"faq":0,"robots":"index, follow"},{"url":"/schedules/2-2-3-custody-schedule","words":4702,"faq":16,"robots":"noindex, follow"},{"url":"/schedules/3-4-4-3-custody-schedule","words":3983,"faq":16,"robots":"noindex, follow"},{"url":"/schedules/50-50-custody-schedule","words":4323,"faq":12,"robots":"noindex, follow"},{"url":"/schedules/60-40-custody-schedule","words":5609,"faq":15,"robots":"noindex, follow"},{"url":"/schedules/70-30-custody-schedule","words":5612,"faq":18,"robots":"noindex, follow"},{"url":"/schedules/every-other-weekend-custody-schedule","words":2385,"faq":10,"robots":"noindex, follow"},{"url":"/schedules/week-on-week-off-custody-schedule","words":1696,"faq":10,"robots":"noindex, follow"},{"url":"/terms","words":472,"faq":0,"robots":"noindex, follow"},{"url":"/texas-child-support-calculator","words":2466,"faq":8,"robots":"index, follow"},{"url":"/texas-parenting-plan-template","words":5061,"faq":17,"robots":"index, follow"},{"url":"/visitation-calculator","words":666,"faq":6,"robots":"index, follow"},{"url":"/week-on-week-off-custody-schedule","words":1696,"faq":10,"robots":"index, follow"}]
+
+=== SLOP PHRASE SCAN (src) ===
+every family 6 [
+  { file: 'src/components/pages/AgePageTemplate.astro', count: 1 },
+  { file: 'src/data/fiftyFiftyCustodyScheduleForBabies.ts', count: 2 },
+  { file: 'src/data/fiftyFiftyScheduleExamples.ts', count: 1 },
+  {
+    file: 'src/pages/best-custody-schedule-for-7-year-old.astro',
+    count: 2
+  }
+]
+no one-size-fits-all 1 [
+  {
+    file: 'src/pages/best-custody-schedule-for-toddler.astro',
+    count: 1
+  }
+]
+parents should consider 1 [ { file: 'src/components/pages/AgePageTemplate.astro', count: 1 } ]
+works best when 17 [
+  { file: 'src/components/pages/AgePageTemplate.astro', count: 2 },
+  { file: 'src/content/schedules/223.ts', count: 3 },
+  { file: 'src/content/schedules/3443.ts', count: 1 },
+  { file: 'src/content/schedules/5050.ts', count: 1 },
+  { file: 'src/content/schedules/6040.ts', count: 3 },
+  { file: 'src/content/schedules/week-on-week-off.ts', count: 1 },
+  { file: 'src/data/homepage.ts', count: 1 },
+  {
+    file: 'src/pages/best-custody-schedule-for-7-year-old.astro',
+    count: 1
+  }
+]
+smooth transitions 1 [
+  { file: 'src/data/fiftyFiftyCustodyScheduleForBabies.ts', count: 1 }
+]
+often works best 3 [
+  { file: 'src/content/schedules/6040.ts', count: 2 },
+  { file: 'src/data/fiftyFiftyScheduleExamples.ts', count: 1 }
+]
+it depends 1 [
+  { file: 'src/components/pages/SchedulePageTemplate.astro', count: 1 }
+]
+there is no single best 4 [
+  { file: 'src/content/schedules/6040.ts', count: 2 },
+  { file: 'src/pages/best-50-50-custody-schedule.astro', count: 1 },
+  {
+    file: 'src/pages/best-custody-schedule-for-7-year-old.astro',
+    count: 1
+  }
+]
+not legal advice 64 [
+  { file: 'src/components/homepage/ExportPreview.astro', count: 1 },
+  { file: 'src/components/pages/AgePageTemplate.astro', count: 1 },
+  { file: 'src/components/tool/CalendarPreview.astro', count: 1 },
+  { file: 'src/components/tool/PrintableSchedule.astro', count: 1 },
+  { file: 'src/content/schedules/223.ts', count: 1 },
+  { file: 'src/content/schedules/3443.ts', count: 1 },
+  { file: 'src/content/schedules/5050.ts', count: 3 },
+  { file: 'src/content/schedules/7030.ts', count: 1 }
+]
+
+=== FAQ EXTRACTION ===
+Duplicate FAQ questions (2+ files): 19
+- "What if parents live far apart?" (4): 3443.ts, 5050.ts, 7030.ts, homepage.ts
+- "What is a 2-2-3 custody schedule?" (3): 223.ts, homepage.ts, custody-schedule-template.astro
+- "Can siblings have different custody schedules?" (3): best-custody-schedule-for-7-year-old.astro, best-custody-schedule-for-teenager.astro, best-custody-schedule-for-toddler.astro
+- "Does this replace legal advice?" (3): custody-calendar-template.astro, custody-schedule-template.astro, holiday-visitation-schedule.astro
+- "What is the best custody schedule for a toddler?" (2): AgePageTemplate.astro, best-custody-schedule-for-toddler.astro
+- "Child age" (2): ScheduleQuiz.astro, ScheduleQuiz.astro
+- "Distance between homes" (2): ScheduleQuiz.astro, ScheduleQuiz.astro
+- "Child transition tolerance" (2): ScheduleQuiz.astro, ScheduleQuiz.astro
+- "How are holidays handled?" (2): 223.ts, 3443.ts
+- "How are vacations handled?" (2): 223.ts, 3443.ts
+- "Is 2-2-3 better than 2-2-5-5?" (2): 223.ts, homepage.ts
+- "Can I use this schedule in a parenting plan?" (2): 223.ts, 3443.ts
+- "What is a 50/50 custody schedule?" (2): 5050.ts, homepage.ts
+- "What is the best 50/50 custody schedule for school-age children?" (2): 5050.ts, fiftyFiftyCustodyScheduleForSchoolAgeChildren.ts
+- "How many overnights is 50/50 custody?" (2): 5050.ts, custody-percentage-calculator.astro
+- "Can I print a 50/50 custody calendar?" (2): 5050.ts, fiftyFiftyScheduleExamples.ts
+- "What is a 60/40 custody schedule?" (2): 6040.ts, homepage.ts
+- "What is a 70/30 custody schedule?" (2): 7030.ts, homepage.ts
+- "What is a 2-2-5-5 custody schedule?" (2): homepage.ts, custody-schedule-template.astro
+
+=== DUPLICATE ROUTE CHECK ===
+DUPLICATE: /schedules/2-2-3-custody-schedule vs /2-2-3-custody-schedule | words 4702 vs 4702
+DUPLICATE: /schedules/3-4-4-3-custody-schedule vs /3-4-4-3-custody-schedule | words 3983 vs 3983
+DUPLICATE: /schedules/50-50-custody-schedule vs /50-50-custody-schedule | words 4323 vs 4323
+DUPLICATE: /schedules/60-40-custody-schedule vs /60-40-custody-schedule | words 5609 vs 5609
+DUPLICATE: /schedules/70-30-custody-schedule vs /70-30-custody-schedule | words 5612 vs 5612
+DUPLICATE: /schedules/every-other-weekend-custody-schedule vs /every-other-weekend-custody-schedule | words 2385 vs 2385
+DUPLICATE: /schedules/week-on-week-off-custody-schedule vs /week-on-week-off-custody-schedule | words 1696 vs 1696

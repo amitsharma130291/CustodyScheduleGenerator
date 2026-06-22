@@ -92,7 +92,7 @@ const schedule: ScheduleContent = {
 				{ label: 'Works well when', title: 'One parent handles more school routines', href: '/custody-schedule-generator/' },
 				{ label: 'Often helps when', title: 'Parents live farther apart', href: '/custody-calendar-template/' },
 				{ label: 'Often helps when', title: 'Equal time is difficult to manage', href: '/custody-schedule-generator/' },
-				{ label: 'Often helps when', title: 'A child benefits from one school-week home', href: '/parenting-time-calculator/' },
+				{ label: 'Often helps when', title: 'A child benefits from one school-week home', href: '/custody-percentage-calculator/' },
 				{ label: 'Compare first if equal time is realistic', title: '50/50 custody schedule', href: '/50-50-custody-schedule/' },
 				{ label: 'May not be ideal when', title: 'Parents live close and both want equal time', href: '/50-50-custody-schedule/' },
 				{ label: 'Compare if one home needs to be more primary', title: '70/30 custody schedule', href: '/70-30-custody-schedule/' },
@@ -377,7 +377,7 @@ const schedule: ScheduleContent = {
 			},
 			secondaryCta: {
 				text: 'Calculate parenting time',
-				href: '/parenting-time-calculator/',
+				href: '/custody-percentage-calculator/',
 			},
 		},
 	},
@@ -436,7 +436,7 @@ const schedule: ScheduleContent = {
 		{
 			question: 'How many overnights is 60/40 custody?',
 			answer: 'A true 60/40 split is about 219 overnights for one parent and 146 overnights for the other parent in a 365-day year. In practice, many schedules called 60/40 are approximate. A 4-3 weekly schedule is closer to 57/43 because one parent has four nights and the other has three each week. An exact 60/40 pattern may use a 10-day cycle where one parent has six nights and the other has four. Holidays, school breaks, summer schedules, and make-up time can also change the annual total. Use a custody percentage calculator or parenting time calculator to check the real overnight count instead of relying only on the schedule label.',
-			answerHtml: 'A true 60/40 split is about 219 overnights for one parent and 146 overnights for the other parent in a 365-day year. In practice, many schedules called 60/40 are approximate. A 4-3 weekly schedule is closer to 57/43 because one parent has four nights and the other has three each week. An exact 60/40 pattern may use a 10-day cycle where one parent has six nights and the other has four. Holidays, school breaks, summer schedules, and make-up time can also change the annual total. Use a <a href="/custody-percentage-calculator/" class="text-accent hover:underline">custody percentage calculator</a> or <a href="/parenting-time-calculator/" class="text-accent hover:underline">parenting time calculator</a> to check the real overnight count instead of relying only on the schedule label.',
+			answerHtml: 'A true 60/40 split is about 219 overnights for one parent and 146 overnights for the other parent in a 365-day year. In practice, many schedules called 60/40 are approximate. A 4-3 weekly schedule is closer to 57/43 because one parent has four nights and the other has three each week. An exact 60/40 pattern may use a 10-day cycle where one parent has six nights and the other has four. Holidays, school breaks, summer schedules, and make-up time can also change the annual total. Use a <a href="/custody-percentage-calculator/" class="text-accent hover:underline">custody percentage calculator</a> or <a href="/custody-percentage-calculator/" class="text-accent hover:underline">parenting time calculator</a> to check the real overnight count instead of relying only on the schedule label.',
 		},
 		{
 			question: 'Is 60/40 better than 50/50?',

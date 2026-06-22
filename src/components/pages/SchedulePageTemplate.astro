@@ -57,14 +57,13 @@ const scheduleLinkLibrary = [
 	{ title: 'Custody Schedule Template', slug: 'custody-schedule-template', description: 'Document a parenting time rotation in a printable schedule template.' },
 	{ title: 'Parenting Plan Template', slug: 'parenting-plan-template', description: 'Organize schedules, exchanges, holidays, decisions, and communication rules.' },
 	{ title: 'Custody Percentage Calculator', slug: 'custody-percentage-calculator', description: 'Estimate parenting time percentages from overnight totals.' },
-	{ title: 'Parenting Time Calculator', slug: 'parenting-time-calculator', description: 'Compare parenting time totals and overnight counts.' },
 	{ title: 'Visitation Calculator', slug: 'visitation-calculator', description: 'Estimate visitation time and compare calendar-based arrangements.' },
 	{ title: 'Texas Child Support Calculator', slug: 'texas-child-support-calculator', description: 'Estimate Texas guideline child support after comparing parenting schedules.' },
 ];
 const contextualRelatedSlugs = {
 	'223': ['2-2-5-5-custody-schedule', '5-2-2-5-custody-schedule', '50-50-custody-schedule', 'custody-schedule-by-age', 'custody-calendar-template', 'parenting-plan-template'],
 	'2255': ['2-2-3-custody-schedule', '5-2-2-5-custody-schedule', '3-4-4-3-custody-schedule', '50-50-custody-schedule', 'custody-calendar-template', 'custody-percentage-calculator'],
-	'5225': ['2-2-5-5-custody-schedule', '2-2-3-custody-schedule', '3-4-4-3-custody-schedule', '50-50-custody-schedule', 'parenting-time-calculator', 'parenting-plan-template'],
+	'5225': ['2-2-5-5-custody-schedule', '2-2-3-custody-schedule', '3-4-4-3-custody-schedule', '50-50-custody-schedule', 'custody-percentage-calculator', 'parenting-plan-template'],
 	'3443': ['5-2-2-5-custody-schedule', '2-2-5-5-custody-schedule', 'week-on-week-off-custody-schedule', '50-50-custody-schedule', 'custody-calendar-template', 'custody-percentage-calculator'],
 	'week-on-week-off': ['50-50-custody-schedule', '5-2-2-5-custody-schedule', '3-4-4-3-custody-schedule', 'best-custody-schedule-for-teenager', 'custody-calendar-template', 'parenting-plan-template'],
 	'50-50': ['2-2-3-custody-schedule', '2-2-5-5-custody-schedule', '5-2-2-5-custody-schedule', '3-4-4-3-custody-schedule', 'week-on-week-off-custody-schedule', 'custody-percentage-calculator'],
@@ -1420,7 +1419,6 @@ const schema = [
 							<div class="cta-group mt-5">
 								<CtaButton href="/custody-schedule-generator/" variant="primary" size="small">Test this schedule on a calendar</CtaButton>
 								<CtaButton href="/custody-percentage-calculator/" variant="secondary" size="small">Calculate parenting time</CtaButton>
-								<CtaButton href="/parenting-time-calculator/" variant="secondary" size="small">Compare parenting time</CtaButton>
 							</div>
 						</div>
 					</section>
@@ -1496,8 +1494,8 @@ const schema = [
 							<p class="mt-2 text-sm leading-6 text-secondary">Parenting time may influence support discussions, but support can still depend on income, expenses, healthcare, childcare, and state-specific formulas.</p>
 						</div>
 						<div class="cta-group md:justify-end">
-							<CtaButton href="/child-support-calculator/" variant="primary" size="small">{schedule.decisionGuide?.childSupport?.ctaText ?? 'Estimate child support'}</CtaButton>
-							<CtaButton href="/texas-child-support-calculator/" variant="secondary" size="small">Texas calculator</CtaButton>
+							<CtaButton href="/texas-child-support-calculator/" variant="primary" size="small">{schedule.decisionGuide?.childSupport?.ctaText ?? 'Estimate Texas child support'}</CtaButton>
+							<CtaButton href="/custody-percentage-calculator/" variant="secondary" size="small">Calculate parenting time</CtaButton>
 						</div>
 					</div>
 				</section>

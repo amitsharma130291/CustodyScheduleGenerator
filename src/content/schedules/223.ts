@@ -87,7 +87,7 @@ const schedule: ScheduleContent = {
 				title: 'Holiday schedule worksheet',
 				description: 'Use the holiday custody planner to organize holidays, school breaks, birthdays, and vacations separately from the regular weekly rotation.',
 				status: 'available',
-				href: '/holiday-custody-planner/',
+				href: '/holiday-custody-schedule/',
 			},
 			{
 				title: 'ICS calendar export',
@@ -248,7 +248,7 @@ const schedule: ScheduleContent = {
 			paragraphs: [
 				'A 2-2-3 schedule works best when parents use a shared parenting calendar, confirm exchange details in writing, and keep messages focused on the child. The more frequent the exchanges, the more important it is to have simple routines.',
 				'For changes, define how requests are made, how much notice is expected, whether makeup time is offered, and what happens if one parent misses their time. The goal is not to punish mistakes, but to protect predictability for the child.',
-				'After testing the calendar, parents can use the <a href="/custody-percentage-calculator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">custody percentage calculator</a> to review overnight totals and the <a href="/child-support-calculator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">child support calculator</a> to understand support-planning questions that may come up before professional review.',
+				'After testing the calendar, parents can use the <a href="/custody-percentage-calculator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">custody percentage calculator</a> to review overnight totals and the <a href="/texas-child-support-calculator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">child support calculator</a> to understand support-planning questions that may come up before professional review.',
 			],
 			items: [
 				{ title: 'Use one shared calendar', description: 'Keep exchanges, school events, medical appointments, and activities in one shared parenting calendar.' },
@@ -460,7 +460,7 @@ const schedule: ScheduleContent = {
 		{
 			question: 'Can a 2-2-3 schedule affect child support?',
 			answer: 'Parenting time can affect child support discussions in some states, but child support rules vary. A 2-2-3 schedule is usually 50/50 by overnights, but income, expenses, state formulas, and court rules may still matter.',
-			answerHtml: 'Parenting time can affect child support discussions in some states, but child support rules vary. A 2-2-3 schedule is usually 50/50 by overnights, but income, expenses, state formulas, and court rules may still matter. Use the <a href="/child-support-calculator/" class="text-accent hover:underline">child support calculator</a> and <a href="/custody-percentage-calculator/" class="text-accent hover:underline">custody percentage calculator</a> as educational planning tools.',
+			answerHtml: 'Parenting time can affect child support discussions in some states, but child support rules vary. A 2-2-3 schedule is usually 50/50 by overnights, but income, expenses, state formulas, and court rules may still matter. Use the <a href="/texas-child-support-calculator/" class="text-accent hover:underline">child support calculator</a> and <a href="/custody-percentage-calculator/" class="text-accent hover:underline">custody percentage calculator</a> as educational planning tools.',
 		},
 		{
 			question: 'Can I use this schedule in a parenting plan?',
@@ -484,7 +484,7 @@ const schedule: ScheduleContent = {
 		{
 			question: 'How should holidays work with a 2-2-3 schedule?',
 			answer: 'Holiday rules usually override the normal 2-2-3 rotation. Parents should write a separate holiday schedule for major holidays, school breaks, birthdays, vacations, and travel notice.',
-			answerHtml: 'Holiday rules usually override the normal 2-2-3 rotation. Parents should write a separate holiday schedule for major holidays, school breaks, birthdays, vacations, and travel notice. The <a href="/holiday-custody-planner/" class="text-accent hover:underline">holiday custody planner</a> can help organize those exceptions.',
+			answerHtml: 'Holiday rules usually override the normal 2-2-3 rotation. Parents should write a separate holiday schedule for major holidays, school breaks, birthdays, vacations, and travel notice. The <a href="/holiday-custody-schedule/" class="text-accent hover:underline">holiday custody planner</a> can help organize those exceptions.',
 		},
 	],
 	relatedSchedules: [
@@ -498,7 +498,7 @@ const schedule: ScheduleContent = {
 	],
 	relatedTools: [
 		{ title: 'Parenting Plan Template', slug: 'parenting-plan-template', description: 'Turn your 2-2-3 parenting schedule into a written parenting plan.' },
-		{ title: 'Child Support Calculator', slug: 'child-support-calculator', description: 'Compare parenting time with child support planning considerations.' },
+		{ title: 'Child Support Calculator', slug: 'texas-child-support-calculator', description: 'Compare parenting time with child support planning considerations.' },
 		{ title: 'Custody Calendar Generator', slug: 'custody-schedule-generator', description: 'Build and compare custody calendars with printable PDF options.' },
 	],
 	relatedHeading: 'Related 2-2-3 custody schedule tools',
@@ -509,7 +509,7 @@ const schedule: ScheduleContent = {
 		{ title: 'Every other weekend schedule', slug: 'every-other-weekend-custody-schedule', description: 'Compare a simpler non-50/50 visitation schedule.' },
 		{ title: '50/50 custody schedules', slug: '50-50-custody-schedule', description: 'Compare common equal parenting time schedules side by side.' },
 		{ title: 'Parenting plan template', slug: 'parenting-plan-template', description: 'Write schedule terms, holidays, exchanges, and changes into a plan.' },
-		{ title: 'Child support calculator', slug: 'child-support-calculator', description: 'Review support planning alongside parenting time and overnights.' },
+		{ title: 'Child support calculator', slug: 'texas-child-support-calculator', description: 'Review support planning alongside parenting time and overnights.' },
 		{ title: 'Custody calendar generator', slug: 'custody-schedule-generator', description: 'Generate and print a shared parenting calendar.' },
 	],
 	article: {

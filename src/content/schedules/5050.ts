@@ -78,7 +78,7 @@ const schedule: ScheduleContent = {
 			],
 			items: [
 				{ title: 'Calculate custody percentage', description: 'Use the <a href="/custody-percentage-calculator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">custody percentage calculator</a> to convert overnights into annual parenting time.' },
-				{ title: 'Compare parenting time', description: 'Use the <a href="/parenting-time-calculator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting time calculator</a> to compare 50/50 schedules with 60/40, 70/30, or custom plans.' },
+				{ title: 'Compare parenting time', description: 'Use the <a href="/custody-percentage-calculator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting time calculator</a> to compare 50/50 schedules with 60/40, 70/30, or custom plans.' },
 			],
 		},
 		{
@@ -258,7 +258,7 @@ const schedule: ScheduleContent = {
 			items: [
 				{ title: 'Custody Schedule Generator', slug: 'custody-schedule-generator', description: 'Start from the main custody schedule generator and compare other parenting schedules.' },
 				{ title: 'Custody Percentage Calculator', slug: 'custody-percentage-calculator', description: 'Calculate annual parenting time from overnight totals.' },
-				{ title: 'Parenting Time Calculator', slug: 'parenting-time-calculator', description: 'Compare 50/50 with unequal parenting time schedules.' },
+				{ title: 'Parenting Time Calculator', slug: 'custody-percentage-calculator', description: 'Compare 50/50 with unequal parenting time schedules.' },
 				{ title: 'Parenting Plan Template', slug: 'parenting-plan-template', description: 'Write exchange, transportation, holiday, and review terms.' },
 				{ title: 'Custody Calendar Template', slug: 'custody-calendar-template', description: 'Use a printable template for school calendars, holidays, and activity planning.' },
 			],
@@ -309,7 +309,7 @@ const schedule: ScheduleContent = {
 	relatedTools: [
 		{ title: 'Custody schedule generator', slug: 'custody-schedule-generator', description: 'Generate a printable custody calendar with real dates.' },
 		{ title: 'Custody percentage calculator', slug: 'custody-percentage-calculator', description: 'Calculate parenting time from annual overnights.' },
-		{ title: 'Parenting time calculator', slug: 'parenting-time-calculator', description: 'Compare custody time percentages across schedules.' },
+		{ title: 'Parenting time calculator', slug: 'custody-percentage-calculator', description: 'Compare custody time percentages across schedules.' },
 		{ title: 'Parenting plan template', slug: 'parenting-plan-template', description: 'Write schedule, exchange, holiday, and transportation terms.' },
 		{ title: 'Custody calendar template', slug: 'custody-calendar-template', description: 'Organize parenting days in a printable calendar format.' },
 	],
@@ -328,7 +328,7 @@ const schedule: ScheduleContent = {
 		{ title: 'Every Other Weekend Custody Schedule', slug: 'every-other-weekend-custody-schedule', description: 'Compare a common visitation schedule against shared custody options.' },
 		{ title: 'Custody Schedule Generator', slug: 'custody-schedule-generator', description: 'Generate and print a custody calendar from real dates.' },
 		{ title: 'Custody Percentage Calculator', slug: 'custody-percentage-calculator', description: 'Calculate annual parenting time percentages.' },
-		{ title: 'Parenting Time Calculator', slug: 'parenting-time-calculator', description: 'Compare overnights and parenting time across schedules.' },
+		{ title: 'Parenting Time Calculator', slug: 'custody-percentage-calculator', description: 'Compare overnights and parenting time across schedules.' },
 		{ title: 'Parenting Plan Template', slug: 'parenting-plan-template', description: 'Turn a 50/50 calendar into written plan terms.' },
 		{ title: 'Custody Calendar Template', slug: 'custody-calendar-template', description: 'Use a printable calendar format for custody planning.' },
 	],

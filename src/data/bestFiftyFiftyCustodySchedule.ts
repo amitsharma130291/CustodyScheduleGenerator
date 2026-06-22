@@ -341,7 +341,7 @@ export const faqItems = [
 export const relatedLinks = [
 	{ title: '50/50 Custody Schedule Hub', href: '/50-50-custody-schedule/', description: 'Compare patterns and customize a 50/50 parenting schedule for your family.' },
 	{ title: '50/50 Schedule Examples', href: '/50-50-custody-schedule-examples/', description: 'See how common patterns work for different ages, holidays, and routines.' },
-	{ title: 'Compare Schedules Side-by-Side', href: '/schedule-comparison-tool/', description: 'Review exchange frequency, predictability, and fit before choosing.' },
+	{ title: '50/50 Schedule Examples', href: '/50-50-custody-schedule-examples/', description: 'Review exchange frequency, predictability, and fit before choosing.' },
 	{ title: 'Custody Schedule Generator', href: '/custody-schedule-generator/', description: 'Customize dates, parent names, and parenting time details.' },
 	{ title: 'Parenting Plan Template', href: '/parenting-plan-template/', description: 'Document exchanges, holidays, and schedule change rules.' },
 ];
