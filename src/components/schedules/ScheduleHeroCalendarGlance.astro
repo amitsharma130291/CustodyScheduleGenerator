@@ -1,0 +1,78 @@
+---
+interface CalendarGlance {
+	title: string;
+	weekLabels: string[];
+	dayLabels: string[];
+	weeks: string[][];
+	overnightSplit?: string;
+	notes?: string[];
+}
+
+interface Props {
+	calendarGlance: CalendarGlance;
+	legendA?: string;
+	legendB?: string;
+	extraNote?: string;
+	variant?: 'compact' | 'soft';
+}
+
+const { calendarGlance, legendA = 'Parent A', legendB = 'Parent B', extraNote, variant = 'compact' } = Astro.props;
+
+const sectionClass =
+	variant === 'soft'
+		? 'soft-card scroll-mt-24 rounded-[1.25rem] p-4'
+		: 'scroll-mt-24 rounded-[1.1rem] bg-surface/50 p-3 shadow-[inset_0_0_0_1px_var(--border-subtle)]';
+const cellSize = variant === 'soft' ? 'h-7 w-7 text-[11px]' : 'h-6 w-6 text-[10px]';
+const cellPad = variant === 'soft' ? 'py-1.5' : 'py-1';
+---
+
+<section id="calendar-glance" class={sectionClass} aria-labelledby="calendar-glance-title">
+	<div class="flex flex-wrap items-baseline justify-between gap-2">
+		<h2 id="calendar-glance-title" class="text-sm font-semibold tracking-[-0.03em] text-primary">
+			{calendarGlance.title}
+		</h2>
+		{calendarGlance.overnightSplit && <p class="text-xs font-semibold text-accent">{calendarGlance.overnightSplit}</p>}
+	</div>
+	<div class="mt-2 overflow-x-auto">
+		{calendarGlance.weeks.map((week, weekIndex) => (
+			<div class:list={[weekIndex > 0 && 'mt-3']}>
+				<p class="mb-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-muted">{calendarGlance.weekLabels[weekIndex]}</p>
+				<table class="w-full min-w-[260px] border-collapse text-center text-sm">
+					<thead>
+						<tr>
+							{calendarGlance.dayLabels.map((day) => (
+								<th class={`px-1 ${cellPad} text-[10px] font-semibold uppercase tracking-[0.1em] text-muted`}>{day}</th>
+							))}
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							{week.map((parent) => (
+								<td class={`px-1 ${cellPad}`}>
+									<span
+										class:list={[
+											`inline-flex ${cellSize} items-center justify-center rounded-md font-bold`,
+											parent === 'A'
+												? 'bg-accent/15 text-accent'
+												: 'bg-surface/80 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]',
+										]}
+									>
+										{parent}
+									</span>
+								</td>
+							))}
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		))}
+	</div>
+	{calendarGlance.notes?.map((note) => (
+		<p class="mt-3 text-xs leading-5 text-secondary" set:html={note} />
+	))}
+	{extraNote && <p class="mt-2 text-[10px] leading-4 text-muted">{extraNote}</p>}
+	<div class="mt-2 flex flex-wrap gap-2 text-[10px] font-medium text-muted">
+		<span><span class="font-semibold text-accent">A</span> = {legendA}</span>
+		<span><span class="font-semibold text-secondary">B</span> = {legendB}</span>
+	</div>
+</section>

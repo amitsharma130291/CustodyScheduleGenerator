@@ -1,0 +1,42 @@
+---
+/** Thanksgiving override on a week-on/week-off rotation — resume vs swap */
+const weeks = [
+	{ label: 'Nov 11–17', parent: 'A', note: 'Regular week', variant: 'regular' as const },
+	{ label: 'Nov 18–24', parent: 'A', note: 'Regular week', variant: 'regular' as const },
+	{ label: 'Nov 25–30', parent: 'B', note: 'Thanksgiving override', variant: 'holiday' as const },
+	{ label: 'Dec 2–8', parent: 'B', note: 'Rotation resumes', variant: 'resume' as const },
+];
+---
+
+<figure class="wow-holiday-timeline rounded-[1.25rem] border border-line bg-surface/50 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary">Holiday override timeline (example)</figcaption>
+	<p class="mt-1 text-xs text-muted">Thanksgiving block assigned to Parent B · written plan defines whether Dec 2 continues B or flips back to A</p>
+	<div class="mt-4 flex flex-col gap-2 sm:flex-row sm:items-stretch sm:gap-1">
+		{weeks.map((week, index) => (
+			<div class="relative flex min-w-0 flex-1 flex-col">
+				{index > 0 && (
+					<span class="absolute -left-1 top-1/2 hidden h-px w-2 -translate-y-1/2 bg-line sm:block" aria-hidden="true" />
+				)}
+				<div
+					class:list={[
+						'flex flex-1 flex-col rounded-xl px-2 py-2.5 text-center sm:px-1.5',
+						week.variant === 'holiday' && 'bg-accent/20 ring-2 ring-accent/50',
+						week.variant === 'resume' && 'bg-surface-elevated ring-1 ring-accent/30',
+						week.variant === 'regular' && 'bg-surface/80 shadow-[inset_0_0_0_1px_var(--border-subtle)]',
+					]}
+				>
+					<span class="text-[10px] font-semibold uppercase tracking-[0.1em] text-muted">{week.label}</span>
+					<span
+						class:list={[
+							'mx-auto mt-1.5 inline-flex h-8 w-8 items-center justify-center rounded-lg text-xs font-bold',
+							week.parent === 'A' ? 'bg-accent/15 text-accent' : 'bg-surface text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]',
+						]}
+					>
+						{week.parent}
+					</span>
+					<span class="mt-1.5 text-[10px] leading-3.5 font-medium text-secondary">{week.note}</span>
+				</div>
+			</div>
+		))}
+	</div>
+</figure>

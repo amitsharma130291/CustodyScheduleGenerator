@@ -157,29 +157,9 @@ const schedule: ScheduleContent = {
 			answerHtml: 'An every other weekend custody calendar usually shows Parent B on alternating Friday/Saturday overnight blocks, then Parent A on all other dates. The calendar should make the weekend blocks easy to see, along with longer gaps and holiday overrides.',
 		},
 		{
-			question: 'What age is best for an every other weekend custody schedule?',
-			answer: 'Every other weekend custody can be harder for younger children who need frequent contact with both parents. School-age children may handle it better when one home anchors the school week, and teenagers may prefer fewer exchanges if weekends still support activities and friendships. Suitability depends on distance, attachment, school needs, parent involvement, and whether midweek visits are added.',
-			answerHtml: 'Every other weekend custody can be harder for younger children who need frequent contact with both parents. School-age children may handle it better when one home anchors the school week, and teenagers may prefer fewer exchanges if weekends still support activities and friendships. Suitability depends on distance, attachment, school needs, parent involvement, and whether midweek visits are added.',
-		},
-		{
-			question: 'Can weekday visits be added to every other weekend custody?',
-			answer: 'Yes. Many parents add a weekday dinner, overnight, video call, or after-school visit to an every other weekend custody schedule. Optional midweek visits reduce the long gap between alternating weekends and can give the weekend parent more involvement in homework, activities, and school-week routines.',
-			answerHtml: 'Yes. Many parents add a weekday dinner, overnight, video call, or after-school visit to an every other weekend custody schedule. Optional midweek visits reduce the long gap between alternating weekends and can give the weekend parent more involvement in homework, activities, and school-week routines. Parents who need more frequent exchanges may compare this with a <a href="/2-2-3-custody-schedule/" class="text-accent hover:underline">2-2-3 custody schedule</a>.',
-		},
-		{
-			question: 'What are the pros and cons of every other weekend custody?',
-			answer: 'The main benefits are a stable school routine, fewer exchanges, and a simple Friday/Saturday overnight pattern. The drawbacks are less parenting time for the weekend parent, longer gaps between visits, and fewer chances to participate in weekday school routines unless midweek visits are added.',
-			answerHtml: 'The main benefits are a stable school routine, fewer exchanges, and a simple Friday/Saturday overnight pattern. The drawbacks are less parenting time for the weekend parent, longer gaps between visits, and fewer chances to participate in weekday school routines unless midweek visits are added. Families wanting fewer exchanges but more time may compare it with a <a href="/week-on-week-off-custody-schedule/" class="text-accent hover:underline">week-on week-off custody schedule</a>.',
-		},
-		{
 			question: 'How do holidays work in an every other weekend custody schedule?',
 			answer: 'Holiday parenting time usually overrides the regular every other weekend custody schedule. Parents often alternate major holidays, split school breaks, or give the weekend parent additional holiday overnights before returning to the regular alternating Friday/Saturday weekend pattern.',
 			answerHtml: 'Holiday parenting time usually overrides the regular every other weekend custody schedule. Parents often alternate major holidays, split school breaks, or give the weekend parent additional holiday overnights before returning to the regular alternating Friday/Saturday weekend pattern.',
-		},
-		{
-			question: 'Is every other weekend custody good for school-age children?',
-			answer: 'Every other weekend custody can work for school-age children when one home provides a consistent weekday routine and the weekend parent remains involved through alternating weekends, school events, calls, or midweek visits. It may be harder if the child needs more frequent in-person contact or both parents want regular school-week participation.',
-			answerHtml: 'Every other weekend custody can work for school-age children when one home provides a consistent weekday routine and the weekend parent remains involved through alternating weekends, school events, calls, or midweek visits. If both parents need predictable school-week involvement, compare options like a <a href="/2-2-5-5-custody-schedule/" class="text-accent hover:underline">2-2-5-5 custody schedule</a>, <a href="/5-2-2-5-custody-schedule/" class="text-accent hover:underline">5-2-2-5 custody schedule</a>, or <a href="/3-4-4-3-custody-schedule/" class="text-accent hover:underline">3-4-4-3 custody schedule</a>.',
 		},
 		{
 			question: 'Can parents customize an every other weekend custody schedule?',

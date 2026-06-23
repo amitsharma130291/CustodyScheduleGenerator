@@ -1,0 +1,33 @@
+---
+const weeks = [
+	{ num: 1, parent: 'A' },
+	{ num: 2, parent: 'B' },
+	{ num: 3, parent: 'A' },
+	{ num: 4, parent: 'B' },
+];
+---
+
+<figure class="wow-month-strip w-full rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		What One Month Actually Feels Like
+	</figcaption>
+	<div class="mt-3 flex gap-1.5 sm:gap-2" role="img" aria-label="Four alternating weeks: Parent A, Parent B, Parent A, Parent B">
+		{weeks.map((week) => (
+			<div class="flex min-w-0 flex-1 flex-col items-center rounded-lg bg-surface/80 px-1 py-2.5 shadow-[inset_0_0_0_1px_var(--border-subtle)] sm:px-2">
+				<span class="text-[10px] font-semibold uppercase tracking-[0.1em] text-muted">Week {week.num}</span>
+				<span
+					class:list={[
+						'mt-1.5 inline-flex h-9 w-9 items-center justify-center rounded-lg text-xs font-bold',
+						week.parent === 'A' ? 'bg-accent text-white' : 'bg-accent/15 text-accent',
+					]}
+				>
+					{week.parent}
+				</span>
+				<span class="mt-1 text-[10px] font-medium text-secondary">Parent {week.parent}</span>
+			</div>
+		))}
+	</div>
+	<p class="mt-3 text-sm leading-6 text-secondary">
+		No midweek transfers. No alternating weekdays. One exchange decision per week.
+	</p>
+</figure>

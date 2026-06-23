@@ -1,0 +1,63 @@
+---
+/** Annual custody exchange counts — week-on/week-off vs block and frequent-exchange 50/50 */
+const rows = [
+	{ label: 'Week-on/week-off', sublabel: '1 handoff / week', count: 52, highlight: true },
+	{ label: '2-2-5-5 or 5-2-2-5', sublabel: '2 handoffs / week', count: 104, highlight: false },
+	{ label: '2-2-3', sublabel: '3–4 handoffs / week', count: 180, highlight: false },
+];
+const maxCount = 185;
+const labelWidth = 148;
+const barStart = 156;
+const barMaxWidth = 300;
+---
+
+<figure class="wow-exchange-chart w-full rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)] lg:min-w-[min(100%,420px)]">
+	<figcaption class="text-base font-semibold tracking-[-0.02em] text-primary sm:text-lg">
+		Why week-on/week-off creates fewer handoffs
+	</figcaption>
+	<p class="mt-2 text-sm leading-6 text-secondary">
+		One custody transfer per week adds up to about half the annual handoffs of a 2-2-5-5 or 5-2-2-5 rotation — and roughly one-third of a 2-2-3 year.
+	</p>
+	<svg
+		class="mt-4 w-full min-h-[148px]"
+		viewBox="0 0 480 156"
+		role="img"
+		aria-labelledby="wow-exchange-chart-title wow-exchange-chart-desc"
+		preserveAspectRatio="xMinYMin meet"
+	>
+		<title id="wow-exchange-chart-title">Week-on week-off about 52 exchanges per year versus about 104 on 2-2-5-5 or 5-2-2-5 and 180 or more on 2-2-3</title>
+		<desc id="wow-exchange-chart-desc">Horizontal bar chart comparing typical annual custody exchange counts across three 50/50 schedule patterns.</desc>
+		{rows.map((row, i) => {
+			const y = 8 + i * 48;
+			const barW = Math.round((row.count / maxCount) * barMaxWidth);
+			return (
+				<g>
+					<text x="0" y={y + 12} fill="var(--color-primary, #0f172a)" font-size="12" font-weight="600">
+						{row.label}
+					</text>
+					<text x="0" y={y + 26} fill="var(--color-muted, #64748b)" font-size="10" font-weight="500">
+						{row.sublabel}
+					</text>
+					<rect
+						x={barStart}
+						y={y + 2}
+						width={barW}
+						height="26"
+						rx="6"
+						fill={row.highlight ? 'var(--color-accent, #2563eb)' : 'rgba(37, 99, 235, 0.32)'}
+					/>
+					<text
+						x={barStart + barW + 10}
+						y={y + 20}
+						fill="var(--color-primary, #0f172a)"
+						font-size="12"
+						font-weight="700"
+					>
+						~{row.count}{row.count >= 180 ? '+' : ''}/yr
+					</text>
+				</g>
+			);
+		})}
+	</svg>
+	<p class="mt-2 text-[11px] leading-4 text-muted">Typical counts · one handoff = one custody transfer · 52-week year</p>
+</figure>

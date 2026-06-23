@@ -1,0 +1,47 @@
+---
+/** Printable month sample — week-on/week-off blocks */
+const weeks = [
+	{ label: 'Week 1', days: ['A', 'A', 'A', 'A', 'A', 'A', 'A'] },
+	{ label: 'Week 2', days: ['B', 'B', 'B', 'B', 'B', 'B', 'B'] },
+	{ label: 'Week 3', days: ['A', 'A', 'A', 'A', 'A', 'A', 'A'] },
+	{ label: 'Week 4', days: ['B', 'B', 'B', 'B', 'B', 'B', 'B'] },
+];
+const dayLabels = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+---
+
+<figure
+	id="calendar-glance"
+	class="wow-printable-sample scroll-mt-24 overflow-hidden rounded-[1.1rem] bg-[#fafaf9] p-3 shadow-[0_1px_0_rgba(15,23,42,0.06),inset_0_0_0_1px_rgba(15,23,42,0.08)]"
+	aria-labelledby="wow-printable-title"
+>
+	<figcaption id="wow-printable-title" class="flex items-baseline justify-between gap-2 border-b border-[#e7e5e4] pb-2">
+		<span class="text-sm font-semibold tracking-[-0.03em] text-[#1c1917]">Printable week-on/week-off sample</span>
+		<span class="text-[10px] font-medium text-[#78716c]">Parent A · Parent B</span>
+	</figcaption>
+	<svg class="mt-2 w-full" viewBox="0 0 360 200" role="img" aria-label="Four-week printable custody calendar alternating seven-day Parent A and Parent B blocks">
+		<text x="0" y="14" fill="#78716c" font-size="9" font-weight="600">MARCH 2026 — FRIDAY EXCHANGE</text>
+		{weeks.map((week, wi) => {
+			const y = 28 + wi * 42;
+			return (
+				<g>
+					<text x="0" y={y + 10} fill="#57534e" font-size="8" font-weight="600">{week.label}</text>
+					{dayLabels.map((day, di) => (
+						<text x={52 + di * 44} y={y + 10} fill="#a8a29e" font-size="8" text-anchor="middle">{day}</text>
+					))}
+					{week.days.map((parent, di) => {
+						const cx = 52 + di * 44;
+						const fill = parent === 'A' ? '#dbeafe' : '#f5f5f4';
+						const textFill = parent === 'A' ? '#1d4ed8' : '#57534e';
+						return (
+							<g>
+								<rect x={cx - 14} y={y + 16} width="28" height="22" rx="4" fill={fill} stroke="#e7e5e4" stroke-width="1" />
+								<text x={cx} y={y + 31} fill={textFill} font-size="10" font-weight="700" text-anchor="middle">{parent}</text>
+							</g>
+						);
+					})}
+				</g>
+			);
+		})}
+		<text x="0" y="196" fill="#a8a29e" font-size="8">Export your dates from the generator above · not a court order</text>
+	</svg>
+</figure>

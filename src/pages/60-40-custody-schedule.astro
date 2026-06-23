@@ -7,9 +7,8 @@ import JsonLd from '../components/seo/JsonLd.astro';
 import FAQ from '../components/FAQ.astro';
 import CtaButton from '../components/CtaButton.astro';
 import ArticleTOC from '../components/ArticleTOC.astro';
-import GeneratorPanel from '../components/tool/GeneratorPanel.astro';
-import CalendarPreview from '../components/tool/CalendarPreview.astro';
-import ExportActions from '../components/tool/ExportActions.astro';
+import ScheduleHeroCalendarGlance from '../components/schedules/ScheduleHeroCalendarGlance.astro';
+import ScheduleHeroGeneratorPanel from '../components/schedules/ScheduleHeroGeneratorPanel.astro';
 import { generateSchedule } from '../lib/schedules/generateSchedule';
 import { getDefaultStartDate } from '../lib/schedules/format';
 import { getCanonicalUrl } from '../lib/seo/metadata';
@@ -139,88 +138,25 @@ const schema = [
 					))}
 				</dl>
 
-				<p class="mt-3 text-xs leading-5 text-muted lg:hidden">
+			</div>
+
+			<ScheduleHeroGeneratorPanel
+				selectedScheduleId="60-40"
+				generatedSchedule={generatedSchedule}
+				heroTrustSignals={heroTrustSignals}
+			/>
+
+			<div class="order-3 min-w-0 lg:col-start-1 lg:row-start-2">
+				<ScheduleHeroCalendarGlance
+					calendarGlance={calendarGlance}
+					legendA="60% home"
+					legendB="40% block"
+				/>
+				<p class="mt-3 text-xs leading-5 text-muted">
 					Not legal advice.
 					<a href="/disclaimer/" class="ml-1 font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Read disclaimer</a>
 				</p>
 			</div>
-
-			<div class="order-2 min-w-0 lg:col-start-2 lg:row-start-1 lg:justify-self-end" id="schedule-generator-panel">
-				<div class="premium-card relative overflow-visible rounded-[1.75rem] border-line p-3 sm:rounded-[2rem] sm:p-4">
-					<section id="calendar-glance" class="scroll-mt-24 rounded-[1.1rem] bg-surface/50 p-3 shadow-[inset_0_0_0_1px_var(--border-subtle)]" aria-labelledby="calendar-glance-title">
-						<div class="flex flex-wrap items-baseline justify-between gap-2">
-							<h2 id="calendar-glance-title" class="text-sm font-semibold tracking-[-0.03em] text-primary">
-								{calendarGlance.title}
-							</h2>
-							<p class="text-xs font-semibold text-accent">{calendarGlance.overnightSplit}</p>
-						</div>
-						<div class="mt-2 overflow-x-auto">
-							{calendarGlance.weeks.map((week, weekIndex) => (
-								<div>
-									<p class="mb-1.5 text-[10px] font-semibold uppercase tracking-[0.12em] text-muted">{calendarGlance.weekLabels[weekIndex]}</p>
-									<table class="w-full min-w-[260px] border-collapse text-center text-sm">
-										<thead>
-											<tr>
-												{calendarGlance.dayLabels.map((day) => (
-													<th class="px-1 py-1 text-[10px] font-semibold uppercase tracking-[0.1em] text-muted">{day}</th>
-												))}
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												{week.map((parent) => (
-													<td class="px-1 py-1">
-														<span
-															class:list={[
-																'inline-flex h-6 w-6 items-center justify-center rounded-md text-[10px] font-bold',
-																parent === 'A'
-																	? 'bg-accent/15 text-accent'
-																	: 'bg-surface/80 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]',
-															]}
-														>
-															{parent}
-														</span>
-													</td>
-												))}
-											</tr>
-										</tbody>
-									</table>
-								</div>
-							))}
-						</div>
-						<div class="mt-2 flex flex-wrap gap-2 text-[10px] font-medium text-muted">
-							<span><span class="font-semibold text-accent">A</span> = 60% home</span>
-							<span><span class="font-semibold text-secondary">B</span> = 40% block</span>
-						</div>
-					</section>
-
-					<div class="hero-generator-inner mt-3 rounded-[1.25rem] bg-surface-elevated p-0 shadow-[inset_0_1px_0_rgba(255,255,255,0.07)] sm:rounded-[1.5rem]">
-						<div class="hero-generator-grid generator-shell grid grid-cols-1 items-start gap-4 xl:grid-cols-[minmax(360px,1fr)_240px]">
-							<div class="generator-form-panel min-w-0">
-								<GeneratorPanel selectedScheduleId="60-40" compact />
-							</div>
-							<div class="hero-calendar-column calendar-preview-panel grid w-full min-w-0 gap-2 xl:w-[240px] xl:min-w-[240px]">
-								<CalendarPreview schedule={generatedSchedule}>
-									<ExportActions slot="actions" />
-								</CalendarPreview>
-							</div>
-						</div>
-					</div>
-					<div class="mt-3 flex flex-wrap gap-2 text-xs font-semibold text-secondary" aria-label="CustodyBuilder trust signals">
-						{heroTrustSignals.map((signal) => (
-							<span class="inline-flex items-center gap-1.5 rounded-full bg-surface/70 px-3 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-								<span class="text-parent-b" aria-hidden="true">✓</span>
-								{signal}
-							</span>
-						))}
-					</div>
-				</div>
-			</div>
-
-			<p class="order-3 hidden text-xs leading-5 text-muted lg:order-none lg:col-start-1 lg:row-start-2 lg:block">
-				Not legal advice.
-				<a href="/disclaimer/" class="ml-1 font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Read disclaimer</a>
-			</p>
 		</section>
 
 		<section id="editorial-review" class="container-shell pb-5">

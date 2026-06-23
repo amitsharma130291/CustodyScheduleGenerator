@@ -14,6 +14,12 @@ export const hero = {
 		'The harder question is not the math — it is how the lower-time parent stays connected when the child\'s school mornings, homework, and weekday routines live mainly in one home. An 80/20 plan works when recurring overnights, holidays, school breaks, and ordinary contact between visits are written clearly enough that neither parent becomes a visitor or a default babysitter.',
 };
 
+export const heroTrustSignals = [
+	'Free to use',
+	'No signup required',
+	'Print or export your schedule',
+];
+
 export const quickFacts = {
 	title: '80/20 Custody at a Glance',
 	items: [
