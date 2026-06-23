@@ -1,0 +1,73 @@
+---
+const stages = [
+	{
+		label: 'Infants',
+		range: '0–12 mo',
+		shifts: ['Feeds', 'Naps', 'Overnights'],
+		color: 'bg-sky-500/15 ring-sky-500/30',
+		dot: 'bg-sky-500',
+	},
+	{
+		label: 'Toddlers',
+		range: '1–3 yr',
+		shifts: ['Transitions', 'Bedtime', 'Daycare'],
+		color: 'bg-violet-500/15 ring-violet-500/30',
+		dot: 'bg-violet-500',
+	},
+	{
+		label: 'School age',
+		range: '5–12 yr',
+		shifts: ['Homework', 'Activities', 'Friends'],
+		color: 'bg-emerald-500/15 ring-emerald-500/30',
+		dot: 'bg-emerald-500',
+	},
+	{
+		label: 'Teenagers',
+		range: '13–18 yr',
+		shifts: ['Jobs', 'Driving', 'Social'],
+		color: 'bg-amber-500/15 ring-amber-500/30',
+		dot: 'bg-amber-500',
+	},
+];
+---
+
+<figure class="age-dev-timeline w-full rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		What changes at each stage — not which rotation to pick
+	</figcaption>
+	<p class="mt-2 text-sm leading-6 text-secondary">
+		Planning pressure moves from feeding logistics to school routines to independence. The calendar should follow that shift.
+	</p>
+
+	<ol class="relative mt-6 space-y-0">
+		{stages.map((stage, index) => (
+			<li class="relative flex gap-4 pb-6 last:pb-0">
+				{index < stages.length - 1 && (
+					<span class="absolute left-[0.6875rem] top-8 h-[calc(100%-1.5rem)] w-px bg-line" aria-hidden="true"></span>
+				)}
+				<span
+					class:list={['relative z-10 mt-1 h-3.5 w-3.5 shrink-0 rounded-full ring-2 ring-offset-2 ring-offset-surface', stage.dot, 'ring-transparent']}
+					aria-hidden="true"
+				></span>
+				<div class="min-w-0 flex-1">
+					<div class="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+						<span class="text-sm font-semibold text-primary">{stage.label}</span>
+						<span class="text-xs text-muted">{stage.range}</span>
+					</div>
+					<div class="mt-2 flex flex-wrap gap-1.5">
+						{stage.shifts.map((shift) => (
+							<span
+								class:list={[
+									'inline-flex rounded-md px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.06em] text-primary ring-1',
+									stage.color,
+								]}
+							>
+								{shift}
+							</span>
+						))}
+					</div>
+				</div>
+			</li>
+		))}
+	</ol>
+</figure>

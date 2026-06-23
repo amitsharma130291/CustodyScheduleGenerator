@@ -1,10 +1,351 @@
 ---
-import AgePageTemplate from '../components/pages/AgePageTemplate.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import CtaButton from '../components/CtaButton.astro';
+import ScheduleHeroGeneratorPanel from '../components/schedules/ScheduleHeroGeneratorPanel.astro';
+import AgeDevelopmentTimelineGraphic from '../components/schedules/custody-schedule-by-age/AgeDevelopmentTimelineGraphic.astro';
+import AgeTransitionPointsGraphic from '../components/schedules/custody-schedule-by-age/AgeTransitionPointsGraphic.astro';
+import { generateSchedule } from '../lib/schedules/generateSchedule';
+import { getDefaultStartDate } from '../lib/schedules/format';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import {
+	buildArticleSchema,
+	buildBreadcrumbSchema,
+	buildFAQSchema,
+	buildWebPageSchema,
+} from '../lib/seo/schema';
+import {
+	ageDecides,
+	articleTocItems,
+	editorialReview,
+	faqItems,
+	faqSection,
+	fourStages,
+	hero,
+	heroKeyStats,
+	heroTrustSignals,
+	meta,
+	postContentCta,
+	questionsByAge,
+	sameScheduleMistake,
+	revisitTriggers,
+	rewriteMoments,
+	scheduleChangeInsight,
+	whyAgeMatters,
+} from '../data/custodyScheduleByAge';
+
+const canonical = '/custody-schedule-by-age/';
+const canonicalUrl = getCanonicalUrl(canonical);
+const startDate = getDefaultStartDate();
+const generatedSchedule = generateSchedule({
+	scheduleId: '2-2-5-5',
+	startDate,
+	parentNames: { parentA: 'Parent A', parentB: 'Parent B' },
+});
+
+const breadcrumbs = [
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: 'Guides', url: getCanonicalUrl('/custody-schedule-generator/') },
+	{ name: 'Custody Schedule By Age', url: canonicalUrl },
+];
+
+const schema = [
+	buildWebPageSchema({ name: meta.title, description: meta.description, url: canonicalUrl }),
+	buildArticleSchema({
+		headline: hero.headline,
+		description: meta.description,
+		url: canonicalUrl,
+		datePublished: meta.datePublished,
+		dateModified: meta.dateModified,
+		authorName: editorialReview.reviewer,
+	}),
+	buildFAQSchema(faqItems),
+	buildBreadcrumbSchema(breadcrumbs),
+	{
+		'@context': 'https://schema.org',
+		'@type': 'WebApplication',
+		name: 'Custody Schedule By Age Calendar Generator',
+		description: meta.description,
+		url: canonicalUrl,
+		inLanguage: 'en-US',
+		areaServed: 'US',
+		applicationCategory: 'LegalApplication',
+		operatingSystem: 'Web',
+		offers: {
+			'@type': 'Offer',
+			price: '0',
+			priceCurrency: 'USD',
+		},
+	},
+];
 ---
 
-<AgePageTemplate
-	title="Custody Schedule by Age Guide and Calendar"
-	description="Compare custody schedules by age, from toddlers to teens, and find printable calendar options for each stage before building a plan online now."
-	slug="custody-schedule-by-age"
-	lede="Custody schedules often need to account for a child’s age, development, school routine, and ability to handle transitions between homes."
-/>
+<BaseLayout title={meta.title} description={meta.description} canonical={canonical}>
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<Breadcrumbs items={breadcrumbs} />
+	<main class="age-hub-page">
+		<section
+			class="container-shell grid grid-cols-1 gap-5 py-4 sm:py-5 lg:grid-cols-[minmax(0,0.88fr)_minmax(704px,1.12fr)] lg:items-start lg:gap-7 lg:py-6 xl:w-[min(100%,1360px)]"
+			id="schedule-generator"
+		>
+			<div class="order-1 min-w-0 lg:col-start-1 lg:row-start-1 lg:pt-1">
+				<h1 class="max-w-3xl text-4xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary sm:text-5xl">
+					{hero.headline}
+				</h1>
+
+				<dl class="mt-4 grid grid-cols-3 gap-2">
+					{heroKeyStats.map((stat) => (
+						<div class="rounded-[1rem] bg-accent/10 px-2 py-2.5 text-center shadow-[inset_0_0_0_1px_rgba(37,99,235,0.15)] sm:px-3">
+							<dd class="text-lg font-bold tabular-nums tracking-tight text-accent sm:text-xl">{stat.value}</dd>
+							<dt class="mt-0.5 text-[10px] font-semibold uppercase leading-4 tracking-[0.08em] text-secondary">{stat.label}</dt>
+						</div>
+					))}
+				</dl>
+
+				<p class="mt-3 max-w-2xl text-base leading-7 text-secondary">{hero.intro}</p>
+				<p class="mt-3 max-w-2xl text-sm leading-6 text-secondary" set:html={hero.boundary} />
+
+				<div class="mt-3 max-w-2xl text-xs leading-5 text-muted">
+					<p class="font-semibold text-secondary">Reviewed for:</p>
+					<ul class="mt-1 list-inside list-disc space-y-0.5">
+						{editorialReview.reviewedFor.map((item) => (
+							<li>{item}</li>
+						))}
+					</ul>
+					<p class="mt-2">
+						Reviewed by{' '}
+						<a href={editorialReview.reviewerHref} class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">
+							{editorialReview.reviewer}
+						</a>
+						{' · '}
+						Methodology:{' '}
+						<a href={editorialReview.methodologyHref} class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">
+							{editorialReview.methodologyLabel}
+						</a>
+						{' · '}{editorialReview.disclaimer}
+					</p>
+				</div>
+			</div>
+
+			<ScheduleHeroGeneratorPanel
+				selectedScheduleId="2-2-5-5"
+				generatedSchedule={generatedSchedule}
+				heroTrustSignals={heroTrustSignals}
+			/>
+		</section>
+
+		<nav class="container-shell border-y border-line-subtle py-3" aria-label="On this page">
+			<ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">
+				{articleTocItems.map((item) => (
+					<li><a href={`#${item.id}`} class="hover:text-accent">{item.label}</a></li>
+				))}
+			</ul>
+		</nav>
+
+		<section id="why-age-matters" class="container-shell scroll-mt-24 py-10 lg:py-12" aria-labelledby="why-age-matters-title">
+			<h2 id="why-age-matters-title" class="max-w-3xl text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-3xl">
+				{whyAgeMatters.title}
+			</h2>
+			<p class="mt-3 max-w-3xl text-base leading-7 text-secondary">{whyAgeMatters.intro}</p>
+			<div class="mt-6 space-y-5 max-w-3xl">
+				{whyAgeMatters.points.map((item) => (
+					<article>
+						<h3 class="text-lg font-semibold text-primary">{item.heading}</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary" set:html={item.body} />
+					</article>
+				))}
+			</div>
+		</section>
+
+		<section id="four-stages" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="four-stages-title">
+			<div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(280px,360px)] lg:items-start">
+				<div class="min-w-0">
+					<h2 id="four-stages-title" class="text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-3xl">
+						{fourStages.title}
+					</h2>
+					<p class="mt-3 text-base leading-7 text-secondary">{fourStages.intro}</p>
+					<div class="mt-8 space-y-8">
+						{fourStages.stages.map((stage) => (
+							<article id={stage.id} class="scroll-mt-24">
+								<div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+									<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary">{stage.label}</h3>
+									<span class="text-sm text-muted">{stage.ageRange}</span>
+								</div>
+								<ul class="mt-3 space-y-2 text-sm leading-6 text-secondary">
+									{stage.whatChanges.map((change) => (
+										<li class="flex gap-2">
+											<span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent/60" aria-hidden="true"></span>
+											<span>{change}</span>
+										</li>
+									))}
+								</ul>
+								<p class="mt-4 text-sm leading-6 text-secondary">
+									{stage.link.context}{' '}
+									<a href={stage.link.href} class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">
+										{stage.link.label}
+									</a>
+									{'.'}
+								</p>
+							</article>
+						))}
+					</div>
+				</div>
+				<AgeDevelopmentTimelineGraphic />
+			</div>
+		</section>
+
+		<section id="revisit-triggers" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="revisit-triggers-title">
+			<div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(300px,420px)] lg:items-start">
+				<div class="min-w-0">
+					<h2 id="revisit-triggers-title" class="text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-3xl">
+						{revisitTriggers.title}
+					</h2>
+					<p class="mt-3 text-base leading-7 text-secondary">{revisitTriggers.intro}</p>
+					<ol class="mt-6 space-y-0">
+						{revisitTriggers.triggers.map((item, index) => (
+							<li class="relative flex gap-4 pb-6 last:pb-0">
+								{index < revisitTriggers.triggers.length - 1 && (
+									<span class="absolute left-[0.6875rem] top-8 h-[calc(100%-1.5rem)] w-px bg-line" aria-hidden="true"></span>
+								)}
+								<span class="relative z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/15 text-xs font-bold text-accent ring-1 ring-accent/30">
+									{index + 1}
+								</span>
+								<article class="min-w-0 pt-0.5">
+									<h3 class="text-base font-semibold text-primary">{item.heading}</h3>
+									<p class="mt-2 text-sm leading-6 text-secondary" set:html={item.body} />
+								</article>
+							</li>
+						))}
+					</ol>
+					<p class="mt-6 text-sm leading-6 text-secondary" set:html={revisitTriggers.closing} />
+				</div>
+				<AgeTransitionPointsGraphic />
+			</div>
+
+			<aside
+				class="mt-8 rounded-[1.25rem] border border-accent/25 bg-accent/5 p-5 sm:p-6 lg:col-span-2"
+				aria-labelledby="schedule-change-insight-title"
+			>
+				<p class="text-xs font-semibold uppercase tracking-[0.1em] text-accent">Custody planning insight</p>
+				<h3 id="schedule-change-insight-title" class="mt-2 text-lg font-semibold tracking-[-0.03em] text-primary sm:text-xl">
+					{scheduleChangeInsight.title}
+				</h3>
+				<p class="mt-3 max-w-3xl text-sm leading-6 text-secondary sm:text-base sm:leading-7">
+					{scheduleChangeInsight.body}
+				</p>
+			</aside>
+		</section>
+
+		<section id="rewrite-moments" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="rewrite-moments-title">
+			<h2 id="rewrite-moments-title" class="max-w-3xl text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-3xl">
+				{rewriteMoments.title}
+			</h2>
+			<p class="mt-3 max-w-3xl text-base leading-7 text-secondary">{rewriteMoments.intro}</p>
+			<ol class="mt-8 max-w-3xl space-y-6">
+				{rewriteMoments.moments.map((moment, index) => (
+					<li class="border-l-2 border-accent/30 pl-4">
+						<h3 class="text-base font-semibold text-primary">
+							<span class="text-accent" aria-hidden="true">{index + 1}. </span>
+							{moment.heading}
+						</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">
+							<span class="font-semibold text-primary">What changes: </span>
+							{moment.operational}
+						</p>
+						<p class="mt-2 text-sm leading-6 text-secondary">
+							<span class="font-semibold text-primary">Why the old exchange stops fitting: </span>
+							{moment.whyOldFails}
+						</p>
+					</li>
+				))}
+			</ol>
+		</section>
+
+		<section id="questions-by-age" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="questions-by-age-title">
+			<h2 id="questions-by-age-title" class="max-w-3xl text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-3xl">
+				{questionsByAge.title}
+			</h2>
+			<p class="mt-3 max-w-3xl text-base leading-7 text-secondary">{questionsByAge.intro}</p>
+			<div class="mt-8 grid gap-4 sm:grid-cols-2">
+				{questionsByAge.ages.map((age) => (
+					<article class="rounded-xl bg-surface/60 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<div class="flex flex-wrap items-baseline justify-between gap-2">
+							<h3 class="text-lg font-semibold text-primary">{age.stage}</h3>
+							<span class="text-xs font-semibold uppercase tracking-[0.1em] text-accent">{age.focus}</span>
+						</div>
+						<ul class="mt-3 space-y-2 text-sm leading-6 text-secondary">
+							{age.questions.map((q) => (
+								<li class="flex gap-2">
+									<span class="text-muted" aria-hidden="true">?</span>
+									<span>{q}</span>
+								</li>
+							))}
+						</ul>
+						<p class="mt-4 text-sm leading-6 text-secondary">
+							See the{' '}
+							<a href={age.link.href} class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">
+								{age.link.label}
+							</a>
+							{' guide.'}
+						</p>
+					</article>
+				))}
+			</div>
+		</section>
+
+		<section id="same-schedule-mistake" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="same-schedule-mistake-title">
+			<h2 id="same-schedule-mistake-title" class="max-w-3xl text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-3xl">
+				{sameScheduleMistake.title}
+			</h2>
+			<p class="mt-3 max-w-3xl text-base leading-7 text-secondary">{sameScheduleMistake.intro}</p>
+			<ul class="mt-6 max-w-3xl space-y-5">
+				{sameScheduleMistake.signals.map((item) => (
+					<li class="border-l-2 border-accent/30 pl-4">
+						<h3 class="text-base font-semibold text-primary">{item.heading}</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">{item.body}</p>
+					</li>
+				))}
+			</ul>
+			<p class="mt-6 max-w-3xl text-sm leading-6 text-secondary" set:html={sameScheduleMistake.closing} />
+		</section>
+
+		<section id="age-decides" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="age-decides-title">
+			<h2 id="age-decides-title" class="max-w-3xl text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-3xl">
+				{ageDecides.title}
+			</h2>
+			<div class="mt-6 max-w-3xl space-y-4 text-base leading-7 text-secondary">
+				{ageDecides.paragraphs.map((paragraph) => (
+					<p set:html={paragraph} />
+				))}
+			</div>
+		</section>
+
+		<section id="convert-cta" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="convert-cta-title">
+			<div class="max-w-2xl rounded-[1.25rem] border border-line bg-surface/40 p-6 sm:p-7">
+				<h2 id="convert-cta-title" class="text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-[1.65rem]">
+					{postContentCta.heading}
+				</h2>
+				<p class="mt-3 text-sm leading-6 text-secondary sm:text-base sm:leading-7">{postContentCta.body}</p>
+				<div class="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
+					<CtaButton href={postContentCta.primaryHref} variant="primary" size="large">
+						{postContentCta.primaryLabel}
+					</CtaButton>
+					<a
+						href={postContentCta.secondaryHref}
+						class="text-sm font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary"
+					>
+						{postContentCta.secondaryLabel}
+					</a>
+				</div>
+			</div>
+		</section>
+
+		<FAQ items={faqItems} title={faqSection.title} description={faqSection.description} />
+	</main>
+	<Footer />
+</BaseLayout>

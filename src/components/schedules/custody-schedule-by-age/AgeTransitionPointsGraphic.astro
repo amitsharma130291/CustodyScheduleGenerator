@@ -1,0 +1,40 @@
+---
+const triggers = [
+	{ label: 'Preschool', detail: 'Exchange timing', position: '8%' },
+	{ label: 'Kindergarten', detail: 'School mornings', position: '26%' },
+	{ label: 'Activities', detail: 'Midweek transport', position: '44%' },
+	{ label: 'Middle school', detail: 'Homework & friends', position: '62%' },
+	{ label: 'Driving', detail: 'Pickup shifts', position: '80%' },
+	{ label: 'Job / sport', detail: 'Weekend squeeze', position: '94%' },
+];
+---
+
+<figure class="age-transition-graphic w-full rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Six shifts that usually trigger a schedule review
+	</figcaption>
+	<p class="mt-2 text-sm leading-6 text-secondary">
+		Daily life changes — not arguments alone — expose when a calendar no longer fits.
+	</p>
+
+	<div class="relative mt-8 h-2 rounded-full bg-line" aria-hidden="true">
+		<div class="absolute inset-y-0 left-0 w-full rounded-full bg-gradient-to-r from-sky-500/40 via-violet-500/40 via-emerald-500/40 to-amber-500/40"></div>
+	</div>
+
+	<div class="relative mt-2 h-28 sm:h-24">
+		{triggers.map((trigger) => (
+			<div class="absolute top-0 -translate-x-1/2" style={`left: ${trigger.position}`}>
+				<span class="mx-auto block h-3 w-3 rounded-full bg-accent ring-2 ring-accent/30 ring-offset-2 ring-offset-surface" aria-hidden="true"></span>
+				<div class="mt-2 w-[4.25rem] text-center sm:w-20">
+					<p class="text-[9px] font-bold uppercase leading-3 tracking-[0.04em] text-primary sm:text-[10px]">{trigger.label}</p>
+					<p class="mt-0.5 text-[8px] leading-3 text-muted sm:text-[9px]">{trigger.detail}</p>
+				</div>
+			</div>
+		))}
+	</div>
+
+	<div class="mt-4 flex justify-between text-[10px] font-semibold uppercase tracking-[0.08em] text-muted">
+		<span>Infancy</span>
+		<span>Adolescence</span>
+	</div>
+</figure>
