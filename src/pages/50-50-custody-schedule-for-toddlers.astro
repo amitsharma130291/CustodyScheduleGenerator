@@ -14,29 +14,29 @@ import {
 	buildWebPageSchema,
 } from '../lib/seo/schema';
 import {
+	blockLengthByAge,
 	broaderToddlerGuideNote,
-	infantHandoffNote,
 	builderFeatures,
-	commonMistakes,
-	cryingAtExchangeSection,
+	exchangeCountComparison,
 	faqItems,
+	faqSection,
 	firstWeeksExperience,
-	hardTransitionExample,
+	infantHandoffNote,
+	patternMistakes,
+	patternMismatchSigns,
 	relatedLinks,
-	reconsiderSigns,
 	scheduleComparisonCards,
-	separationAgeGroups,
-	transitionTips,
+	transitionToleranceRedirect,
 	twoYearOldSection,
 } from '../data/fiftyFiftyCustodyScheduleForToddlers';
 
-const title = '50/50 Custody Schedule for Toddlers: Routines, Transitions & Tips';
+const title = '50/50 Custody Schedule for Toddlers | Block Length & Pattern Comparison';
 const description =
-	'Learn how toddlers adjust to a 50/50 custody schedule—separation lengths, 2-2-3 routines, bedtime consistency, transitions, and signs a schedule may need adjustment.';
+	'Compare 50/50 toddler rotations: 2-2-3 vs 2-2-5-5 vs week-on/week-off block length, exchanges per fortnight, and overnight spacing. Handoff stress belongs on the transition-tolerance guide first.';
 const canonical = '/50-50-custody-schedule-for-toddlers/';
 const canonicalUrl = getCanonicalUrl(canonical);
 const datePublished = '2026-06-28';
-const dateModified = '2026-06-30';
+const dateModified = '2026-06-20';
 
 const breadcrumbs = [
 	{ name: 'Home', url: getCanonicalUrl('/') },
@@ -66,7 +66,7 @@ const schema = [
 	<main>
 		<section class="container-shell py-section lg:py-section-loose">
 			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Toddler parenting plans</p>
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Equal-time toddler rotations</p>
 				<h1 class="mt-4 text-4xl font-semibold leading-[1.02] tracking-[-0.05em] text-primary sm:text-5xl lg:text-6xl">
 					50/50 Custody Schedule for Toddlers
 				</h1>
@@ -76,49 +76,46 @@ const schema = [
 					<span aria-hidden="true"> • </span><a href="/disclaimer/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Not legal advice</a>
 				</p>
 				<p class="mt-5 text-lg leading-8 text-secondary">
-					Choosing a 50/50 custody schedule for a toddler is not only about dividing days equally. Whether sleep, appetite, and mood return to normal within a day or two after each exchange matters more than the pattern name on paper.
+					Equal time for toddlers is a calendar geometry problem: how many nights stack before the rotation flips, and how many exchanges that produces in a fortnight. This page compares 2-2-3, 3-4-4-3, 2-2-5-5, and week-on/week-off — not whether your toddler cries at pickup.
 				</p>
-				<p class="mt-4 text-base leading-7 text-secondary">
-					This guide focuses on how toddlers experience equal parenting time: separation length, naps, bedtime, handoffs, and signs the rhythm is or is not working.
-				</p>
+				<p class="mt-4 text-base leading-7 text-secondary" set:html={transitionToleranceRedirect.body} />
 				<p class="mt-3 text-sm leading-6 text-secondary" set:html={infantHandoffNote} />
-				<p class="mt-3 text-sm leading-6 text-secondary" set:html={broaderToddlerGuideNote} />
 				<div class="mt-8 flex flex-col gap-3 sm:flex-row">
-					<CtaButton href="/50-50-custody-schedule/" variant="primary" size="large">
-						Create a 50/50 Toddler Schedule
+					<CtaButton href="/custody-schedule-generator/" variant="primary" size="large">
+						Print a toddler 50/50 calendar
 					</CtaButton>
 					<CtaButton href="/best-50-50-custody-schedule/" variant="secondary" size="large">
-						Compare All 50/50 Schedule Types
+						Compare all 50/50 patterns
 					</CtaButton>
 				</div>
 			</div>
 		</section>
 
-		<section id="quick-answer" class="container-shell scroll-mt-24 pb-section" aria-labelledby="quick-answer-title">
+		<section id="pattern-comparison" class="container-shell scroll-mt-24 pb-section" aria-labelledby="pattern-comparison-title">
 			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Quick answer</p>
-				<h2 id="quick-answer-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					What Is a Good 50/50 Custody Schedule for a Toddler?
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Pattern comparison</p>
+				<h2 id="pattern-comparison-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					Four Equal-Time Rotations for Toddler 50/50
 				</h2>
 				<p class="mt-3 text-base leading-7 text-secondary">
-					Most families compare rotations by how many days a toddler spends away from each parent and how many handoffs the week requires. Below are four equal-time patterns with toddler-specific trade-offs.
+					Same overnight split (~182 each). Different maximum block length and exchanges per fortnight.
 				</p>
 			</div>
 			<div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
 				{scheduleComparisonCards.map((card) => (
 					<article class="soft-card flex h-full flex-col rounded-[1.5rem] p-5">
 						<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">
-							<a href={card.href} class="text-accent underline decoration-line underline-offset-4 hover:text-primary">{card.schedule} schedule</a>
+							<a href={card.href} class="text-accent underline decoration-line underline-offset-4 hover:text-primary">{card.schedule}</a>
 						</h3>
 						<div class="mt-3 flex-1 space-y-4 text-sm leading-6 text-secondary">
 							<div>
-								<p class="font-semibold text-primary">What toddlers often need</p>
+								<p class="font-semibold text-primary">Block mechanics</p>
 								<ul class="mt-2 list-disc space-y-1 pl-4">
 									{card.whyChoose.map((item) => <li>{item}</li>)}
 								</ul>
 							</div>
 							<div>
-								<p class="font-semibold text-primary">Toddler trade-offs</p>
+								<p class="font-semibold text-primary">Calendar trade-offs</p>
 								<ul class="mt-2 list-disc space-y-1 pl-4">
 									{card.challenges.map((item) => <li>{item}</li>)}
 								</ul>
@@ -128,158 +125,117 @@ const schema = [
 				))}
 			</div>
 			<p class="mt-6 text-sm leading-6 text-secondary">
-				<a href="/50-50-custody-schedule-examples/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">See all 50/50 schedule examples →</a>
+				<a href="/50-50-custody-schedule-examples/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">See two-week calendar examples →</a>
 			</p>
 		</section>
 
-		<section id="separation-length" class="container-shell scroll-mt-24 py-section" aria-labelledby="separation-length-title">
+		<section id="exchange-count" class="container-shell scroll-mt-24 py-section" aria-labelledby="exchange-count-title">
 			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Core question</p>
-				<h2 id="separation-length-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					How Long Should a Toddler Be Away From Each Parent?
+				<h2 id="exchange-count-title" class="text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					{exchangeCountComparison.title}
 				</h2>
-				<p class="mt-3 text-base leading-7 text-secondary">
-					A toddler tracks time through breakfast, nap, and bedtime—not through a custody calendar. The workable length away from each parent depends on age, how settled the child is in each home, and whether sleep and appetite stay steady after exchanges.
-				</p>
-				<p class="mt-3 text-base leading-7 text-secondary">
-					The guidance below is practical planning information, not medical or legal advice. Use it alongside what you observe in your own child and any requirements in your parenting plan or court order.
-				</p>
+				<p class="mt-3 text-base leading-7 text-secondary">{exchangeCountComparison.intro}</p>
+			</div>
+			<div class="mt-6 overflow-x-auto rounded-[1.5rem] border border-line bg-surface shadow-[0_18px_44px_rgba(15,23,42,0.06)]">
+				<table class="min-w-[640px] w-full text-left text-sm">
+					<thead class="bg-surface-elevated text-xs uppercase tracking-[0.16em] text-muted">
+						<tr>
+							<th class="px-4 py-3">Pattern</th>
+							<th class="px-4 py-3">Max block</th>
+							<th class="px-4 py-3">Exchanges / fortnight</th>
+							<th class="px-4 py-3">Overnight split</th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-line text-secondary">
+						{exchangeCountComparison.rows.map((row) => (
+							<tr>
+								<td class="px-4 py-4 font-semibold text-primary">{row.pattern}</td>
+								<td class="px-4 py-4">{row.maxBlock}</td>
+								<td class="px-4 py-4">{row.exchangesPerFortnight}</td>
+								<td class="px-4 py-4">{row.overnightSplit}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+			<p class="mt-4 max-w-3xl text-sm leading-6 text-secondary">{exchangeCountComparison.closing}</p>
+		</section>
+
+		<section id="block-length" class="container-shell scroll-mt-24 py-section" aria-labelledby="block-length-title">
+			<div class="max-w-3xl">
+				<h2 id="block-length-title" class="text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					{blockLengthByAge.title}
+				</h2>
+				<p class="mt-3 text-base leading-7 text-secondary">{blockLengthByAge.intro}</p>
 			</div>
 			<div class="mt-6 grid gap-4 md:grid-cols-3">
-				{separationAgeGroups.map((group) => (
+				{blockLengthByAge.groups.map((group) => (
 					<article class="soft-card rounded-[1.5rem] p-5">
 						<p class="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">{group.age}</p>
-						<p class="mt-2 text-sm font-semibold leading-6 text-primary">{group.focus}</p>
-						<p class="mt-3 text-sm leading-6 text-secondary">{group.detail}</p>
-						<p class="mt-3 text-xs font-semibold uppercase tracking-[0.14em] text-muted">Watch for</p>
-						<ul class="mt-2 list-disc space-y-1 pl-4 text-sm leading-6 text-secondary">
-							{group.considerations.map((item) => <li>{item}</li>)}
-						</ul>
+						<p class="mt-2 text-sm font-semibold text-primary">{group.blockRange}</p>
+						<p class="mt-2 text-sm leading-6 text-secondary">{group.patterns}</p>
+						<p class="mt-3 text-sm leading-6 text-secondary">{group.mechanics}</p>
 					</article>
 				))}
 			</div>
-			<p class="mt-6 max-w-3xl text-sm leading-6 text-secondary">
-				For a broader age-by-age comparison across all 50/50 patterns, see the <a href="/best-50-50-custody-schedule/#by-age" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 schedule decision guide</a>. For non-50/50 toddler arrangements, see the <a href="/best-custody-schedule-for-toddler/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">best custody schedule for toddlers</a>.
-			</p>
+			<p class="mt-6 max-w-3xl text-sm leading-6 text-secondary" set:html={blockLengthByAge.closing} />
 		</section>
 
-		<section id="two-year-old" class="container-shell scroll-mt-24 py-section" aria-labelledby="two-year-old-title">
+		<section id="two-year-old-223" class="container-shell scroll-mt-24 py-section" aria-labelledby="two-year-old-223-title">
 			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Age focus</p>
-				<h2 id="two-year-old-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					Is a 50/50 Custody Schedule Good for a 2-Year-Old?
+				<h2 id="two-year-old-223-title" class="text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					{twoYearOldSection.title}
 				</h2>
 				{twoYearOldSection.paragraphs.map((paragraph) => (
 					<p class="mt-3 text-base leading-7 text-secondary">{paragraph}</p>
 				))}
-				<div class="soft-card mt-6 rounded-[1.5rem] p-5">
-					<h3 class="text-base font-semibold text-primary">Is this schedule working right now?</h3>
-					<ul class="mt-3 list-disc space-y-2 pl-4 text-sm leading-6 text-secondary">
-						{twoYearOldSection.workingSigns.map((item) => <li>{item}</li>)}
-					</ul>
-				</div>
-				<p class="mt-4 text-base leading-7 text-secondary">{twoYearOldSection.closing}</p>
-			</div>
-		</section>
-
-		<section id="crying-at-exchange" class="container-shell scroll-mt-24 py-section" aria-labelledby="crying-at-exchange-title">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Exchange distress</p>
-				<h2 id="crying-at-exchange-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					My Toddler Cries at Every Custody Exchange. Is the Schedule Wrong?
-				</h2>
-				<p class="mt-3 text-base leading-7 text-secondary">{cryingAtExchangeSection.intro}</p>
-				<p class="mt-4 text-base font-semibold text-primary">Look at the full pattern, not one goodbye:</p>
-				<ul class="mt-3 list-disc space-y-2 pl-5 text-base leading-7 text-secondary">
-					{cryingAtExchangeSection.patternChecks.map((item) => <li>{item}</li>)}
-				</ul>
-				<p class="mt-4 text-base leading-7 text-secondary">{cryingAtExchangeSection.reconsiderNote}</p>
+				<p class="mt-4 text-sm leading-6 text-secondary" set:html={twoYearOldSection.compareNote} />
 			</div>
 		</section>
 
 		<section id="first-weeks" class="container-shell scroll-mt-24 py-section" aria-labelledby="first-weeks-title">
 			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Adjustment timeline</p>
-				<h2 id="first-weeks-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					What the First Weeks of a Toddler 50/50 Schedule Can Feel Like
+				<h2 id="first-weeks-title" class="text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					{firstWeeksExperience.title}
 				</h2>
 				<p class="mt-3 text-base leading-7 text-secondary">{firstWeeksExperience.intro}</p>
 				{firstWeeksExperience.phases.map((phase) => (
 					<div class="mt-6">
 						<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{phase.heading}</h3>
-						<p class="mt-2 text-base leading-7 text-secondary">{phase.body}</p>
+						<p class="mt-2 text-base leading-7 text-secondary" set:html={phase.body} />
 					</div>
 				))}
-				<p class="mt-6 text-sm leading-6 text-secondary" set:html={firstWeeksExperience.examplesLinkNote} />
 			</div>
 		</section>
 
-		<section id="easier-transitions" class="container-shell scroll-mt-24 py-section" aria-labelledby="easier-transitions-title">
+		<section id="pattern-mismatch" class="container-shell scroll-mt-24 py-section" aria-labelledby="pattern-mismatch-title">
 			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Practical routines</p>
-				<h2 id="easier-transitions-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					Making 50/50 Transitions Easier for Toddlers
+				<h2 id="pattern-mismatch-title" class="text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					{patternMismatchSigns.title}
 				</h2>
-				<p class="mt-3 text-base leading-7 text-secondary">
-					The schedule on paper matters less than what happens at pickup, dinner, and bedtime. Small changes—moving a Wednesday pickup past nap time, sending nap notes before handoff—often matter more than switching rotations.
-				</p>
+				<p class="mt-3 text-base leading-7 text-secondary">{patternMismatchSigns.intro}</p>
 			</div>
 			<div class="mt-6 grid gap-4 md:grid-cols-2">
-				{transitionTips.map((tip) => (
-					<article class="soft-card rounded-[1.5rem] p-5">
-						<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{tip.title}</h3>
-						<p class="mt-2 text-sm leading-6 text-secondary">{tip.detail}</p>
-						<ul class="mt-3 list-disc space-y-1 pl-4 text-sm leading-6 text-secondary">
-							{tip.examples.map((item) => <li>{item}</li>)}
-						</ul>
-					</article>
-				))}
-			</div>
-			<div class="soft-card mt-8 max-w-3xl rounded-[1.5rem] border-l-4 border-accent/40 p-5 sm:p-6">
-				<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{hardTransitionExample.heading}</h3>
-				<p class="mt-3 text-sm leading-6 text-secondary">{hardTransitionExample.scenario}</p>
-				<p class="mt-3 text-sm leading-6 text-secondary">{hardTransitionExample.response}</p>
-				<ul class="mt-3 list-disc space-y-2 pl-4 text-sm leading-6 text-secondary">
-					{hardTransitionExample.adjustments.map((item) => <li>{item}</li>)}
-				</ul>
-			</div>
-		</section>
-
-		<section id="adjustment-signs" class="container-shell scroll-mt-24 py-section" aria-labelledby="adjustment-signs-title">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">When to revisit the plan</p>
-				<h2 id="adjustment-signs-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					Signs a Different Custody Rhythm May Help
-				</h2>
-				<p class="mt-3 text-base leading-7 text-secondary">
-					A rough handoff after a missed nap is different from a pattern that worsens over several weeks. The cues below describe when many parents reconsider block length or exchange timing—not a diagnosis of any child.
-				</p>
-			</div>
-			<div class="mt-6 grid gap-4 md:grid-cols-2">
-				{reconsiderSigns.map((item) => (
+				{patternMismatchSigns.signs.map((item) => (
 					<article class="soft-card rounded-[1.5rem] p-5">
 						<h3 class="text-base font-semibold text-primary">{item.sign}</h3>
 						<p class="mt-2 text-sm leading-6 text-secondary">{item.detail}</p>
 					</article>
 				))}
 			</div>
-			<p class="mt-6 text-sm leading-6 text-secondary">
-				<a href="/best-50-50-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Compare other 50/50 custody schedules →</a>
-			</p>
 		</section>
 
-		<section id="common-mistakes" class="container-shell scroll-mt-24 py-section" aria-labelledby="common-mistakes-title">
+		<section id="pattern-mistakes" class="container-shell scroll-mt-24 py-section" aria-labelledby="pattern-mistakes-title">
 			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Supportive guidance</p>
-				<h2 id="common-mistakes-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					Common Mistakes Parents Make With Toddler 50/50 Schedules
+				<h2 id="pattern-mistakes-title" class="text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					Common 50/50 Pattern Mistakes for Toddlers
 				</h2>
 				<p class="mt-3 text-base leading-7 text-secondary">
-					Most of these come from trying to simplify the calendar for adults before the toddler has stabilized in both homes.
+					Calendar errors — not parenting style — that show up on toddler equal-time plans.
 				</p>
 			</div>
 			<div class="mt-6 grid gap-4 md:grid-cols-2">
-				{commonMistakes.map((item) => (
+				{patternMistakes.map((item) => (
 					<article class="soft-card rounded-[1.5rem] p-5">
 						<h3 class="text-base font-semibold text-primary">{item.mistake}</h3>
 						<p class="mt-2 text-sm leading-6 text-secondary">{item.detail}</p>
@@ -291,22 +247,21 @@ const schema = [
 		<section id="custodybuilder-help" class="container-shell scroll-mt-24 py-section" aria-labelledby="custodybuilder-help-title">
 			<div class="premium-card rounded-[2rem] p-3">
 				<div class="rounded-[1.7rem] bg-surface-elevated/80 p-6 sm:p-8 lg:p-10">
-					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Plan your calendar</p>
-					<h2 id="custodybuilder-help-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-						How CustodyBuilder Helps Parents Plan Toddler Schedules
+					<h2 id="custodybuilder-help-title" class="text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+						Print and Compare Toddler 50/50 Calendars
 					</h2>
 					<p class="mt-4 max-w-2xl text-base leading-7 text-secondary">
-						Once you have a starting block length and exchange days in mind, you can test how they land on holidays and school breaks with real dates instead of guessing.
+						Test block length and exchange count with real start dates before you adopt a pattern in a parenting plan.
 					</p>
 					<ul class="mt-4 max-w-2xl list-disc space-y-2 pl-5 text-sm leading-7 text-secondary">
 						{builderFeatures.map((feature) => <li>{feature}</li>)}
 					</ul>
 					<div class="mt-6 flex flex-col gap-3 sm:flex-row">
-						<CtaButton href="/50-50-custody-schedule/" variant="primary" size="large">
-							Build a Toddler 50/50 Schedule
+						<CtaButton href="/custody-schedule-generator/" variant="primary" size="large">
+							Open schedule generator
 						</CtaButton>
-						<CtaButton href="/custody-calendar-template/" variant="secondary" size="large">
-							Custody Calendar Template
+						<CtaButton href="/50-50-custody-schedule/" variant="secondary" size="large">
+							50/50 custody schedule hub
 						</CtaButton>
 					</div>
 				</div>
@@ -315,9 +270,9 @@ const schema = [
 
 		<section class="container-shell py-section" aria-labelledby="related-tools-title">
 			<div class="max-w-3xl">
-				<h2 id="related-tools-title" class="text-2xl font-semibold tracking-[-0.04em] text-primary">Related planning tools</h2>
+				<h2 id="related-tools-title" class="text-2xl font-semibold tracking-[-0.04em] text-primary">Where to go next</h2>
 			</div>
-			<div class="mt-5 grid gap-4 sm:grid-cols-2">
+			<div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
 				{relatedLinks.map((link) => (
 					<a href={link.href} class="soft-card rounded-[1.5rem] p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40">
 						<h3 class="text-base font-semibold text-primary">{link.title}</h3>
@@ -333,16 +288,15 @@ const schema = [
 					Educational Planning Information, Not Legal Advice
 				</h2>
 				<p class="mt-3 text-sm leading-7 text-secondary">
-					This page offers educational custody planning information to help parents think through toddler routines and 50/50 schedule options. It is not medical advice, therapy, or <a href="/disclaimer/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">legal advice</a>. Court requirements, parenting-plan rules, and safety concerns vary by location and can override any pattern described here.
+					This page compares equal-time rotation mechanics for toddlers. It is not medical advice or <a href="/disclaimer/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">legal advice</a>. Court orders and safety concerns override any pattern described here.
 				</p>
 			</div>
 		</section>
 
 		<FAQ
 			items={faqItems}
-			eyebrow="Toddler FAQ"
-			title="Questions About 50/50 Custody and Toddlers"
-			description="Answers focused on toddler routines, transitions, and equal parenting time—not general custody definitions."
+			title={faqSection.title}
+			description={faqSection.description}
 		/>
 	</main>
 	<Footer />

@@ -1,0 +1,106 @@
+---
+const stages = [
+	{ eyebrow: 'Parent A', title: 'Home A', detail: 'Wake + breakfast', isDaycare: false },
+	{ eyebrow: 'Handoff 1', title: 'Daycare', detail: 'Drop-off', isDaycare: true },
+	{ eyebrow: 'Handoff 2', title: 'Daycare', detail: 'Pickup', isDaycare: true },
+	{ eyebrow: 'Parent B', title: 'Home B', detail: 'Dinner + bed', isDaycare: false },
+];
+
+const cardBase =
+	'flex min-h-[7.5rem] min-w-[8.75rem] flex-col items-center justify-center rounded-xl px-4 py-5 text-center sm:min-h-[7.5rem] sm:px-5';
+---
+
+<figure class="toddler-daycare-rhythm w-full max-w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		One toddler day with daycare — three locations, two goodbyes
+	</figcaption>
+	<p class="mt-2 text-sm leading-6 text-secondary">
+		Exchange-at-daycare removes the driveway goodbye when staff can support a calm handoff.
+	</p>
+
+	<!-- Mobile: vertical timeline -->
+	<ol class="mt-6 flex flex-col gap-0 md:hidden" aria-label="Toddler daycare day flow">
+		{stages.map((stage, index) => (
+			<li class="flex flex-col items-center">
+				{index > 0 && (
+					<div class="flex h-6 w-full items-center justify-center text-muted" aria-hidden="true">
+						<svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+							<path d="M8 3v10M4 11l4 4 4-4" />
+						</svg>
+					</div>
+				)}
+				<div
+					class:list={[
+						cardBase,
+						'w-full',
+						stage.isDaycare
+							? 'bg-sky-500/[0.08] ring-1 ring-sky-500/20'
+							: 'bg-surface shadow-[inset_0_0_0_1px_var(--border-subtle)]',
+					]}
+				>
+					<span class="text-[10px] font-bold uppercase tracking-[0.12em] text-muted">{stage.eyebrow}</span>
+					<span class="mt-2 whitespace-nowrap text-[15px] font-semibold leading-none tracking-[-0.02em] text-primary">
+						{stage.title}
+					</span>
+					<span class="mt-2 text-xs leading-4 text-secondary">{stage.detail}</span>
+				</div>
+			</li>
+		))}
+	</ol>
+
+	<!-- Tablet: 2 × 2 grid -->
+	<ol
+		class="mt-6 hidden grid-cols-2 gap-5 md:grid lg:hidden"
+		aria-label="Toddler daycare day flow"
+	>
+		{stages.map((stage) => (
+			<li
+				class:list={[
+					cardBase,
+					stage.isDaycare
+						? 'bg-sky-500/[0.08] ring-1 ring-sky-500/20'
+						: 'bg-surface shadow-[inset_0_0_0_1px_var(--border-subtle)]',
+				]}
+			>
+				<span class="text-[10px] font-bold uppercase tracking-[0.12em] text-muted">{stage.eyebrow}</span>
+				<span class="mt-2 whitespace-nowrap text-[15px] font-semibold leading-none tracking-[-0.02em] text-primary">
+					{stage.title}
+				</span>
+				<span class="mt-2 text-xs leading-4 text-secondary">{stage.detail}</span>
+			</li>
+		))}
+	</ol>
+
+	<!-- Desktop: horizontal timeline with centered arrows -->
+	<ol
+		class="mt-6 hidden w-full min-w-0 lg:grid lg:grid-cols-[minmax(8.75rem,1fr)_1.5rem_minmax(8.75rem,1fr)_1.5rem_minmax(8.75rem,1fr)_1.5rem_minmax(8.75rem,1fr)] lg:items-stretch lg:gap-x-5"
+		aria-label="Toddler daycare day flow"
+	>
+		{stages.map((stage, index) => (
+			<>
+				{index > 0 && (
+					<li class="flex list-none items-center justify-center self-center" aria-hidden="true">
+						<svg class="h-4 w-4 shrink-0 text-muted/80" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+							<path d="M3 8h10M9 4l4 4-4 4" />
+						</svg>
+					</li>
+				)}
+				<li
+					class:list={[
+						cardBase,
+						'h-full w-full min-w-0',
+						stage.isDaycare
+							? 'bg-sky-500/[0.08] ring-1 ring-sky-500/20'
+							: 'bg-surface shadow-[inset_0_0_0_1px_var(--border-subtle)]',
+					]}
+				>
+					<span class="text-[10px] font-bold uppercase tracking-[0.12em] text-muted">{stage.eyebrow}</span>
+					<span class="mt-2 whitespace-nowrap text-[15px] font-semibold leading-none tracking-[-0.02em] text-primary">
+						{stage.title}
+					</span>
+					<span class="mt-2 text-xs leading-4 text-secondary">{stage.detail}</span>
+				</li>
+			</>
+		))}
+	</ol>
+</figure>

@@ -3,302 +3,280 @@ export const scheduleComparisonCards = [
 		schedule: '2-2-3',
 		href: '/2-2-3-custody-schedule/',
 		whyChoose: [
-			'Shortest separations—usually two or three days before seeing the other parent again.',
-			'Both parents stay in the weekly rhythm when a toddler still needs frequent contact with each caregiver.',
+			'Shortest maximum separation — usually two or three overnights before the rotation flips.',
+			'About three to four exchanges per two-week cycle among common equal-time toddler patterns.',
 		],
 		challenges: [
-			'More handoffs mean more packing, nap timing, and goodbye rituals to manage.',
-			'A pickup that runs into nap time can turn a workable rotation into a hard bedtime.',
+			'Highest exchange count — more calendar coordination than 2-2-5-5 or week-on/week-off.',
+			'Two-week cycle alternates which parent holds which weekday block.',
 		],
 	},
 	{
 		schedule: '3-4-4-3',
 		href: '/3-4-4-3-custody-schedule/',
 		whyChoose: [
-			'Longer stretches in each home let nap and bedtime routines settle before the next exchange.',
-			'Fewer weekly transitions when a toddler already handles three or four nights comfortably.',
+			'Three- and four-night blocks with alternating weekends in a two-week rhythm.',
+			'Fewer exchanges than 2-2-3 when the toddler already tolerates multi-night stretches.',
 		],
 		challenges: [
-			'Four nights away can still feel long for a younger two-year-old who was fine on shorter blocks.',
-			'Parents need to track the two-week cycle so exchanges do not drift off schedule.',
+			'Four-night block is the longest stretch in this comparison set.',
+			'Weekend rotation requires tracking a 14-day pattern, not a repeating weekly grid.',
 		],
 	},
 	{
 		schedule: '2-2-5-5',
 		href: '/2-2-5-5-custody-schedule/',
 		whyChoose: [
-			'Often a preschool transition pattern—same weekday mornings with each parent once daycare routines matter.',
-			'Fewer exchanges when both homes already run stable wake-up and drop-off routines.',
+			'Fixed weekday ownership — same parent every Monday–Tuesday, alternating on weekends.',
+			'About two exchanges per two-week cycle after the toddler outgrows the shortest blocks.',
 		],
 		challenges: [
-			'About five days with one parent may be too long for some younger toddlers still building sleep confidence in both homes.',
-			'Both parents need to cover homework-era logistics even when the child is still in daycare or preschool.',
+			'Five-night block is the longest continuous stretch here.',
+			'Preschool drop-off days attach to fixed weekday blocks — plan which parent owns which morning.',
 		],
 	},
 	{
 		schedule: 'Week-on/week-off',
 		href: '/week-on-week-off-custody-schedule/',
 		whyChoose: [
-			'Rarely a first 50/50 pattern for toddlers—more often considered after a child handles longer blocks well.',
-			'One weekly exchange can work when both homes already feel familiar and preschool routines are stable.',
+			'One exchange per week — lowest handoff count among equal-time toddler options.',
+			'Seven consecutive nights with each parent before the Sunday swap.',
 		],
 		challenges: [
-			'Seven days in one home is a long stretch for many toddlers still learning to trust both caregivers between visits.',
-			'Illness, missed naps, or a rough week cannot be reset with a midweek handoff.',
+			'Seven-night block — longest separation in this comparison set.',
+			'No midweek reset if the week goes poorly; next exchange is six days away.',
 		],
 	},
 ];
 
-export const hardTransitionExample = {
-	heading: 'Example: When a Transition Is Hard',
-	scenario:
-		'A two-year-old melts down during Wednesday exchanges because they missed their afternoon nap at daycare and arrive overtired—clinging, crying, and refusing dinner in the receiving home.',
-	response:
-		'The fix is not always a new custody schedule. When the pattern repeats on nap-skipped days, parents often experiment first with exchange timing, nap consistency, and handoff routines before changing the rotation.',
-	adjustments: [
-		'Move Wednesday pickup later or exchange at daycare so the child can finish nap time first',
-		'Keep nap windows within 30 minutes in both homes on transition days',
-		'Use the same short goodbye ritual—one hug, one phrase about when they will see the other parent',
-		'Text nap length, lunch, and mood before handoff so the receiving parent can plan a quiet dinner and early bedtime',
+export const transitionToleranceRedirect = {
+	title: 'Start here if handoffs — not patterns — are the problem',
+	body:
+		'This page compares equal-time rotation structures: block length, exchanges per fortnight, and overnight spacing. If the open question is how many goodbyes your toddler tolerates, why daycare pickup fails, or whether transition load — not block length — is the stress point, read the <a href="/best-custody-schedule-for-toddler/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule for toddler</a> guide first.',
+};
+
+export const blockLengthByAge = {
+	title: 'How Block Length Maps to Toddler 50/50 Patterns',
+	intro:
+		'Equal time always splits 182–183 overnights per year. The variable is how many nights stack before the calendar flips — and how many exchanges that creates.',
+	groups: [
+		{
+			age: '12–24 months',
+			blockRange: '1–3 nights typical',
+			patterns: 'Often 2-2-3 or gradual step-up before full equal-time blocks.',
+			mechanics:
+				'Rotations with two- or three-night caps limit the longest stretch. Week-on/week-off is rarely the first equal-time structure at this age because the block is seven nights.',
+		},
+		{
+			age: '2–3 years',
+			blockRange: '2–5 nights common',
+			patterns: '2-2-3, 3-4-4-3, or early 2-2-5-5 once both homes hold overnights.',
+			mechanics:
+				'223 keeps the maximum gap near three nights. 2255 introduces five-night stretches with only two exchanges per fortnight.',
+		},
+		{
+			age: '3–4 years',
+			blockRange: '3–7 nights',
+			patterns: '2-2-5-5, 3-4-4-3, or week-on/week-off after shorter blocks work.',
+			mechanics:
+				'Preschool mornings attach to fixed weekday blocks in 2255. WOW trades block length for one Sunday exchange.',
+		},
 	],
+	closing:
+		'Whether the toddler can tolerate the block length you choose is a separate question — answered on the <a href="/best-custody-schedule-for-toddler/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule for toddler</a> page, not here.',
 };
 
 export const twoYearOldSection = {
+	title: 'Is 2-2-3 the Usual Starting 50/50 Pattern at Age Two?',
 	paragraphs: [
-		'At two, many children still need short separations and familiar bedtime faces. A rotation that keeps both parents in the weekly rhythm—without four or five nights away from either home at first—often fits better than copying a schedule that works for a preschooler.',
-		'Equal-time rotations with two- or three-day blocks limit how long either parent goes without seeing the child during the week. Once the toddler has slept comfortably in both homes for several months, some families lengthen blocks—not as a first attempt at equal time.',
+		'At two, equal-time plans often start with the shortest blocks: 2-2-3 limits the longest stretch to about three nights and produces roughly three to four exchanges per fortnight. That is more calendar movement than 2-2-5-5 but shorter maximum separation than either 2255 or week-on/week-off.',
+		'After the toddler has slept in both homes for several months, parents sometimes move to 2-2-5-5 — trading exchange count for five-night blocks. The shift is mechanical: same 50/50 overnight total, different block geometry.',
 	],
-	workingSigns: [
-		'Settles within a normal time after exchanges—not hours of crying most weeks',
-		'Sleeps through the night or wakes normally after the first day in each home',
-		'Eats and plays in a typical way between handoffs',
-	],
-	closing:
-		'If these signs hold steady for several weeks, keep the rotation consistent before simplifying for adult convenience. When sleep, refusal, or distress worsens over time, see the section below on when to reconsider the schedule.',
+	compareNote:
+		'Compare calendar layouts on the <a href="/2-2-3-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-3</a> and <a href="/2-2-5-5-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-5-5</a> pages. Test both in the <a href="/custody-schedule-generator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule generator</a> with your exchange days.',
 };
 
-export const cryingAtExchangeSection = {
+export const exchangeCountComparison = {
+	title: 'Exchanges Per Fortnight: Why Pattern Choice Changes the Calendar',
 	intro:
-		'Tears at handoff are common in the first weeks of a 50/50 rotation. Clinging at the door does not automatically mean the schedule is failing—it often means the toddler is leaving a familiar caregiver, a half-finished activity, or a nap that was cut short.',
-	patternChecks: [
-		'Does the child calm within a reasonable time after arriving—often 15 to 30 minutes once dinner or bath starts?',
-		'Do sleep, appetite, and play return to normal between exchanges, not just on non-transition days?',
-		'Is distress at goodbye decreasing over several weeks, even if tears still appear?',
+		'Two equal-time rotations can split the same overnight count with different exchange frequency. Count Sunday swaps, midweek pickups, and daycare handoffs when you print the calendar — not just the pattern name.',
+	rows: [
+		{
+			pattern: '2-2-3',
+			maxBlock: '~3 nights',
+			exchangesPerFortnight: '3–4',
+			overnightSplit: '50/50',
+		},
+		{
+			pattern: '3-4-4-3',
+			maxBlock: '4 nights',
+			exchangesPerFortnight: '2–3',
+			overnightSplit: '50/50',
+		},
+		{
+			pattern: '2-2-5-5',
+			maxBlock: '5 nights',
+			exchangesPerFortnight: '2',
+			overnightSplit: '50/50',
+		},
+		{
+			pattern: 'Week-on/week-off',
+			maxBlock: '7 nights',
+			exchangesPerFortnight: '1',
+			overnightSplit: '50/50',
+		},
 	],
-	reconsiderNote:
-		'When crying lengthens instead of shortening, night waking persists for weeks, or the child repeatedly refuses to enter a home, see “Signs a Different Custody Rhythm May Help” below. Fixing exchange timing or nap consistency may still come before changing block length.',
+	closing:
+		'Handoff stress at a given exchange count belongs on the transition-tolerance guide — not this comparison table.',
 };
 
 export const firstWeeksExperience = {
+	title: 'What the First Weeks of a New 50/50 Rotation Look Like on the Calendar',
 	intro:
-		'A new equal-time rotation rarely feels smooth on day one. Most toddlers need several weeks of the same exchange times, nap windows, and bedtime routines before the pattern feels predictable to them—not to the parents reading the calendar.',
+		'A new equal-time pattern takes adults longer to track than toddlers. The first two to four weeks are usually about locking exchange times and verifying the printed rotation matches what you intended.',
 	phases: [
 		{
 			heading: 'Week 1',
-			body: 'A toddler may cry during a midweek exchange—especially Wednesday when daycare pickup, nap, and handoff stack close together—then calm once they reach the receiving home and follow a familiar bedtime routine. One hard handoff does not predict how month two will feel. Parents often note whether the child eats dinner, falls asleep within the usual window, and wakes in a typical mood the next morning.',
+			body: 'Parents miscount which parent holds Tuesday overnight in a 2-2-3 cycle, or forget the 2255 weekend flip. The toddler experiences the result — wrong pickup person — even when the pattern is correct on paper. Fix the calendar before changing block length.',
 		},
 		{
 			heading: 'Week 3',
-			body: 'Some toddlers begin to anticipate “Mom’s house nights” or “Dad’s house mornings” through repeated meal and bath rituals, even if they cannot describe the rotation. Daycare pickup days may still be harder: a missed nap before exchange can carry into a fussy evening regardless of how well the prior weekend went. Normal at this stage: brief tears at goodbye, full recovery by bedtime, and no new sleep regression lasting more than a night or two after each handoff.',
+			body: 'Exchange times stabilize. Verify the pattern produces the exchange count you expected: count handoffs in a printed fortnight, including daycare pickup if that is where exchange happens.',
 		},
 		{
 			heading: 'After 1–2 months',
-			body: 'When the rotation stays consistent, many toddlers move between homes with less intensity at the door—they may still want one more hug, but they no longer refuse dinner or fight sleep for hours afterward. They may ask when they will see the other parent, which can be a sign they are tracking the pattern. If distress at handoff is unchanged or worsening after this window, or if daycare reports new nap refusal or drop-off tears tied to custody days, the block length or exchange timing may need review—not necessarily abandonment of 50/50.',
+			body: 'If the calendar runs correctly but the child still struggles at every handoff, block length may not be the variable — read the <a href="/best-custody-schedule-for-toddler/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule for toddler</a> guide on transition load before switching from 223 to 2255 or week-on/week-off.',
 		},
 	],
-	examplesLinkNote:
-		'For calendar layouts of common equal-time patterns, see the <a href="/50-50-custody-schedule-examples/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 schedule examples</a> page—not how adjustment feels week by week.',
 };
 
-export const separationAgeGroups = [
+export const patternMistakes = [
 	{
-		age: '12–24 months',
-		focus: 'Familiar faces, regular contact, and tight sleep and feeding routines.',
+		mistake: 'Choosing week-on/week-off only to minimize exchanges',
 		detail:
-			'A workable 50/50 plan at this age usually keeps separations short, uses familiar caregivers, and repeats the same exchange time and location. Many families use shorter blocks or gradual overnights before committing to a full equal-time rotation.',
-		considerations: [
-			'Whether the child has slept comfortably in both homes',
-			'Wake windows, feeding schedules, and nap timing',
-			'How the child settles after each return',
-		],
+			'WOW creates one exchange per week but a seven-night block — the longest stretch in this comparison set. Minimizing swaps is not the same as minimizing separation length.',
 	},
 	{
-		age: '2–3 years old',
-		focus: 'Predictable transitions, bedtime rituals, and growing—but still limited—sense of time.',
+		mistake: 'Moving to 2-2-5-5 before testing 2-2-3 block geometry',
 		detail:
-			'Shorter separations with frequent contact between parents often fit better before a child handles four nights away. See the detailed 2-year-old section below for whether the current schedule is working right now.',
-		considerations: [
-			'Bedtime and meal routines in both homes',
-			'Comfort items that travel between houses',
-			'Whether tantrums at handoff follow a pattern or happen every time',
-		],
+			'2255 cuts exchanges to about two per fortnight but introduces five-night stretches. Skipping 223 skips the shortest-block baseline on the calendar.',
 	},
 	{
-		age: '3–4 years old',
-		focus: 'Preschool routines, early friendships, activities, and slightly longer blocks when ready.',
+		mistake: 'Running 2-2-3 without tracking the two-week cycle',
 		detail:
-			'A full week away from one parent is a long stretch for most toddlers under four. Some families consider longer rotations later—as the child handles three- to five-day blocks without repeated sleep or mood disruption. Preschool drop-off and pickup logistics often matter more than the pattern name.',
-		considerations: [
-			'Which parent handles which preschool mornings',
-			'Activity gear, lunch packing, and pickup timing',
-			'Whether the child asks when they will see the other parent',
-		],
+			'223 alternates which parent holds which weekday block across fortnights one and two. A static weekly printout will show the wrong parent on the wrong Tuesday.',
+	},
+	{
+		mistake: 'Ignoring holiday overrides on a toddler 50/50 base pattern',
+		detail:
+			'Thanksgiving and spring break can insert extra exchanges or long stretches that the base rotation never showed. Write holiday rules before adopting the pattern in court.',
 	},
 ];
 
-export const transitionTips = [
-	{
-		title: 'Keep routines similar',
-		detail:
-			'Match bedtime windows within 30–45 minutes, serve dinner at roughly the same time, and use similar expectations for bath, books, and lights-out. When wake-up, nap, and bedtime stay within a narrow range, a toddler spends less energy relearning what happens next in each home.',
-		examples: ['Similar bedtime windows', 'Similar meal schedules', 'Consistent rules for screens, snacks, and wind-down'],
-	},
-	{
-		title: 'Use comfort items',
-		detail:
-			'Let the same blanket, stuffed animal, or small photo album travel between homes. Duplicate cheap versions of favorites when possible so a forgotten item does not derail an entire bedtime.',
-		examples: ['Favorite blanket or lovey', 'Stuffed animal that goes in the diaper bag', 'A photo of both parents for the sleep space'],
-	},
-	{
-		title: 'Make exchanges predictable',
-		detail:
-			'Use the same pickup location when you can—school or daycare pickup often works better than driveway handoffs. Keep a short goodbye ritual: one book, one hug, a clear “I will see you after nap” or “after two sleeps.”',
-		examples: ['Same exchange location each time', 'Same goodbye phrase every handoff', 'Avoid surprising schedule changes on transition days'],
-	},
-	{
-		title: 'Share important information',
-		detail:
-			'Text nap length, appetite, mood, and any medication before exchange—not after a hard bedtime. When both parents know what kind of day the toddler had, the receiving home can adjust dinner and bedtime instead of guessing.',
-		examples: ['Nap start and end times', 'What they ate and whether appetite was low', 'Medications, teething, or mood changes'],
-	},
-];
-
-export const reconsiderSigns = [
-	{
-		sign: 'Sleep problems lasting several weeks',
-		detail:
-			'New night waking, early rising, or fighting bedtime that continues well past the first adjustment period—not one or two rough nights after a single exchange.',
-	},
-	{
-		sign: 'Repeated refusal to enter a home',
-		detail:
-			'Clinging at the door, hiding, or physical resistance at most handoffs can mean the separation block, exchange location, or timing needs revision—not that co-parenting cannot work.',
-	},
-	{
-		sign: 'Distress that increases instead of improving',
-		detail:
-			'A toddler who was settling after a few weeks but now melts down longer at each exchange may have outgrown the current block length or need calmer handoffs before a pattern change.',
-	},
-	{
-		sign: 'Daycare or preschool functioning changes',
-		detail:
-			'Teachers report more tears at drop-off, nap refusal, or regression after custody days—especially when those days cluster after the longest stretch with one parent.',
-	},
-];
-
-export const commonMistakes = [
-	{
-		mistake: 'Choosing the schedule with the fewest exchanges instead of the right rhythm',
-		detail:
-			'A calendar that minimizes parent handoffs can maximize toddler separation stress. Shorter blocks with more exchanges often fit young children better than a simple weekly swap.',
-	},
-	{
-		mistake: 'Scheduling exchanges during nap time',
-		detail:
-			'A pickup at 1 p.m. when the toddler usually naps until 2:30 often leads to overtired evenings and harder bedtimes—not a failed custody plan, but a fixable timing problem.',
-	},
-	{
-		mistake: 'Changing bedtime rules drastically between homes',
-		detail:
-			'An 8 p.m. lights-out at one home and a 10 p.m. routine at the other can leave a toddler wired or overtired every transition week regardless of the rotation pattern.',
-	},
-	{
-		mistake: 'Not planning holidays and special events',
-		detail:
-			'Thanksgiving at one home, birthdays, and vacation weeks need written rules so they do not collide with the regular rotation. Toddlers need extra clarity when the usual pattern pauses.',
-	},
-];
+export const patternMismatchSigns = {
+	title: 'When the Equal-Time Pattern — Not the Child — Needs Revision',
+	intro:
+		'These signals point to block length or exchange frequency on the calendar. Emotional handoff patterns, daycare pickup friction, and goodbye overload are covered on the transition-tolerance guide.',
+	signs: [
+		{
+			sign: 'Exchange count keeps changing informally',
+			detail:
+				'Parents skip midweek swaps to simplify the week — the printed 223 no longer matches reality. Pick a pattern with fewer exchanges (2255, WOW) or fix the calendar.',
+		},
+		{
+			sign: 'Five-night blocks were never tested',
+			detail:
+				'A family on 2255 who never ran 223 first may not know whether the issue is block length or transition load. Print both calendars and compare maximum separation.',
+		},
+		{
+			sign: 'Preschool mornings attach to the wrong weekday block',
+			detail:
+				'2255 fixes weekdays but the toddler starts preschool on a day that always belongs to the other parent. Reassign weekday ownership or switch to 223 until preschool logistics settle.',
+		},
+		{
+			sign: 'Holiday weeks break the two-week rhythm',
+			detail:
+				'Summer travel inserts a nine-night stretch the base pattern never modeled. Add a written holiday override instead of improvising each break.',
+		},
+	],
+};
 
 export const builderFeatures = [
-	'Test equal-time rotations with real start dates',
-	'Customize exchange days and parent labels for your family',
-	'Add holiday and school-break overrides without rebuilding the whole calendar',
-	'Print or save a monthly preview to share with your co-parent or caregiver',
+	'Test 2-2-3, 2-2-5-5, and week-on/week-off with real start dates',
+	'Count exchanges per fortnight before committing to a pattern',
+	'Customize exchange days and parent labels',
+	'Add holiday overrides without rebuilding the base rotation',
 ];
 
 export const relatedLinks = [
 	{
 		title: 'Best 50/50 Custody Schedule',
 		href: '/best-50-50-custody-schedule/',
-		description: 'Decision guide for choosing among common 50/50 parenting patterns.',
+		description: 'Side-by-side scoring of all five common equal-time patterns.',
 	},
 	{
 		title: '50/50 Schedule Examples',
 		href: '/50-50-custody-schedule-examples/',
-		description: 'See toddler and preschool scenarios with two-week calendar previews.',
+		description: 'Two-week calendar previews for toddler and preschool rotations.',
 	},
 	{
-		title: '50/50 Custody Schedule Generator',
-		href: '/50-50-custody-schedule/',
-		description: 'Test toddler-friendly rotations with real dates and printable previews.',
-	},
-	{
-		title: 'Best Custody Schedule for Toddler',
+		title: 'Custody Schedule for Toddler',
 		href: '/best-custody-schedule-for-toddler/',
-		description: 'Compare 50/50, 60/40, and other toddler custody arrangements beyond equal time.',
+		description: 'Transition tolerance, goodbye count, and handoff load — before pattern choice.',
 	},
 ];
 
 export const broaderToddlerGuideNote =
-	'This guide focuses only on equal 50/50 parenting schedules. If you are comparing 50/50, 60/40, and other toddler custody arrangements, see our complete guide to the <a href="/best-custody-schedule-for-toddler/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">best custody schedule for toddlers</a>.';
+	'Handoff stress, daycare pickup friction, and how many goodbyes fit in a week belong on the <a href="/best-custody-schedule-for-toddler/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule for toddler</a> guide. This page compares equal-time rotation structures only.';
 
 export const infantHandoffNote =
-	'Still caring for an infant? Babies have different 50/50 considerations around feeding, bottles, naps, and gradual transitions. See our guide to the <a href="/50-50-custody-schedule-for-babies/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 custody schedules for babies</a>.';
+	'Still caring for an infant? Feeding and step-up visit paths for equal time live on the <a href="/50-50-custody-schedule-for-babies/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 custody schedule for babies</a> guide.';
 
 export const faqItems = [
 	{
-		question: 'Can a toddler handle 50/50 custody?',
+		question: 'What 50/50 pattern is the usual starting point for a 2-year-old?',
 		answer:
-			'Watch whether the child sleeps, eats, and settles normally after exchanges for several weeks—not just the first handoff. Equal time works for some toddlers when separations stay short and both homes are familiar; others need a gradual step-up before a full 50/50 rotation.',
+			'2-2-3 is the common equal-time starting pattern: maximum separation of about three nights, roughly three to four exchanges per fortnight. Families sometimes move to 2-2-5-5 after both homes hold overnights — fewer exchanges, five-night blocks. Compare layouts on the 2-2-3 and 2-2-5-5 pages and print both in the generator.',
 	},
 	{
-		question: 'My toddler cries at every custody exchange. Is the schedule wrong?',
+		question: 'Is week-on/week-off too long for toddler 50/50?',
 		answer:
-			'Crying at handoff does not automatically mean the schedule is failing. Look at the full pattern: Does the child calm within a reasonable time after arriving? Do sleep, eating, and play return to normal between exchanges? Is distress decreasing over several weeks? When crying lengthens instead of shortening, sleep disruption lasts weeks, or the child repeatedly refuses to enter a home, see the section on signs a different rhythm may help—after trying calmer handoffs and consistent nap timing.',
+			'Week-on/week-off is one exchange per week with a seven-night block — the longest stretch among common equal-time toddler patterns. It minimizes calendar swaps; it maximizes continuous nights with one parent. Whether seven nights fits your toddler is a transition-tolerance question on the custody schedule for toddler guide.',
 	},
 	{
-		question: 'Is week-on/week-off too long for a toddler?',
+		question: 'How many exchanges per week does 2-2-3 create?',
 		answer:
-			'It is rarely a starting pattern. Some families try it after a toddler already handles three- to five-day blocks in a shorter rotation. See “How Long Should a Toddler Be Away From Each Parent?” above for how separation length changes by age.',
+			'Usually three to four handoffs per two-week cycle, depending on whether exchange happens at school, daycare, or home. That is more than 2-2-5-5 (about two per fortnight) and far more than week-on/week-off (one per week).',
 	},
 	{
-		question: 'What is a good 50/50 schedule for a 2-year-old?',
+		question: '2-2-3 vs 2-2-5-5 for toddler equal time?',
 		answer:
-			'Rotations that limit time away from either parent to about two or three days at a time are a common starting point. See “Is a 50/50 Custody Schedule Good for a 2-Year-Old?” for whether the rotation is working now; see “Signs a Different Custody Rhythm May Help” if problems persist.',
+			'2-2-3: shorter maximum block (~3 nights), more exchanges per fortnight. 2-2-5-5: fixed weekdays, five-night blocks, about two exchanges per fortnight. Same 50/50 overnight split — different block geometry. Print both calendars before choosing.',
 	},
 	{
-		question: 'How often should toddlers switch homes?',
+		question: 'Can toddlers use 50/50 custody mechanically?',
 		answer:
-			'Many toddlers do best with two- or three-day blocks and about two to three exchanges per week. If every handoff triggers missed naps or prolonged distress, adjust exchange timing before lengthening blocks—or compare a pattern with fewer weekly handoffs if transitions feel chaotic.',
+			'Equal time is arithmetically simple: 182–183 overnights each. The mechanical question is which block length and exchange count the calendar produces. Whether the toddler tolerates that load is answered on the custody schedule for toddler page — not by the overnight percentage.',
 	},
 	{
-		question: 'Should toddlers have overnight custody?',
+		question: 'How are overnights spaced in toddler 50/50 schedules?',
 		answer:
-			'Overnights can support attachment when the parent is a familiar caregiver and bedtime routines are consistent in that home. They may be harder when the sleep space is new, travel is long, or the toddler has not napped or eaten well before exchange. Some families use daytime blocks or one overnight at a time before expanding to a full 50/50 rotation.',
+			'2-2-3 alternates two- and three-night stacks. 2-2-5-5 gives each parent the same two weekdays every week plus alternating five-night weekend blocks. Week-on/week-off stacks seven consecutive nights. Spacing follows the pattern name — not a custom ratio.',
 	},
 	{
-		question: 'What if my toddler struggles with transitions?',
+		question: 'When should a toddler 50/50 plan move from 2-2-3 to 2-2-5-5?',
 		answer:
-			'Try a fixed goodbye ritual, the same exchange location, a comfort item that travels, and sharing nap and meal notes before handoff. If problems last several weeks or worsen over time, see the section on when to reconsider the schedule—not only when to change handoff habits.',
+			'When both homes hold overnights reliably and parents want fewer exchanges — accepting five-night blocks in exchange for about two handoffs per fortnight. Preschool fixed weekday mornings often trigger the shift. Confirm transition tolerance on the toddler guide before lengthening blocks.',
 	},
 	{
-		question: 'Can a toddler have different routines in two homes?',
+		question: 'What is the difference between this page and the toddler transition guide?',
 		answer:
-			'Some differences are normal—one parent bathes first, another reads longer—but core sleep and meal windows should stay close. Wildly different bedtimes or rules confuse toddlers who are still learning what happens next. Align on non-negotiables (bedtime range, nap timing, screen limits) even when minor details differ.',
-	},
-	{
-		question: 'When should a toddler move to a different custody schedule?',
-		answer:
-			'Review the plan when starting full-day preschool, when a parent moves farther away, when shift work changes, or when distress increases instead of improving over several weeks. A short-block plan that worked at two may still fit at four—or preschool logistics may push the family toward longer weekday blocks.',
+			'This page owns equal-time mechanics: 2-2-3, 2-2-5-5, 3-4-4-3, week-on/week-off, block length, and exchanges per fortnight. The custody schedule for toddler guide owns goodbye count, handoff stress, daycare exchanges, and attachment disruption — before you pick a pattern.',
 	},
 ];
+
+export const faqSection = {
+	title: 'Questions about 50/50 toddler rotation mechanics',
+	description:
+		'Answers about block length, exchange count, and pattern selection — not handoff psychology or transition tolerance.',
+};

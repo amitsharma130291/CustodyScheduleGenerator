@@ -1,0 +1,58 @@
+---
+const loads = [
+	{ label: '1 goodbye / week', count: 1, burden: 'low', note: 'Single handoff' },
+	{ label: '2 goodbyes / week', count: 2, burden: 'medium', note: 'Midweek + weekend' },
+	{ label: '4+ goodbyes / week', count: 4, burden: 'high', note: 'Short-block load' },
+];
+---
+
+<figure class="toddler-transition-load w-full rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Transition load rises with goodbye count — not overnight totals
+	</figcaption>
+	<p class="mt-2 text-sm leading-6 text-secondary">
+		Same parenting time on paper can mean very different handoff stress for a toddler.
+	</p>
+
+	<div class="mt-6 space-y-5">
+		{loads.map((load) => (
+			<div>
+				<div class="flex items-center justify-between gap-2">
+					<span class="text-xs font-bold uppercase tracking-[0.06em] text-primary">{load.label}</span>
+					<span class="text-[10px] font-semibold text-muted">{load.note}</span>
+				</div>
+				<div class="mt-2 flex gap-1.5">
+					{Array.from({ length: load.count }).map((_, i) => (
+						<div
+							class:list={[
+								'flex h-10 flex-1 flex-col items-center justify-center rounded-lg text-[10px] font-bold uppercase tracking-[0.04em]',
+								load.burden === 'low' && 'bg-emerald-500/15 text-emerald-700 ring-1 ring-emerald-500/25 dark:text-emerald-300',
+								load.burden === 'medium' && 'bg-amber-500/15 text-amber-800 ring-1 ring-amber-500/25 dark:text-amber-300',
+								load.burden === 'high' && 'bg-rose-500/15 text-rose-800 ring-1 ring-rose-500/25 dark:text-rose-300',
+							]}
+						>
+							<span class="text-[9px] font-bold uppercase" aria-hidden="true">bye</span>
+							<span class="mt-0.5">{i + 1}</span>
+						</div>
+					))}
+					{load.count === 4 && (
+						<div class="flex h-10 flex-1 items-center justify-center rounded-lg bg-rose-500/10 text-[10px] font-bold text-rose-700 ring-1 ring-rose-500/20 dark:text-rose-300">
+							+more
+						</div>
+					)}
+				</div>
+			</div>
+		))}
+	</div>
+
+	<div class="mt-5 flex flex-wrap items-center justify-center gap-4 text-[11px] text-secondary">
+		<span class="inline-flex items-center gap-1.5">
+			<span class="h-2.5 w-2.5 rounded-sm bg-emerald-500/30 ring-1 ring-emerald-500/40" aria-hidden="true"></span>
+			Lighter load
+		</span>
+		<span class="inline-flex items-center gap-1.5">
+			<span class="h-2.5 w-2.5 rounded-sm bg-rose-500/30 ring-1 ring-rose-500/40" aria-hidden="true"></span>
+			Heavier load
+		</span>
+	</div>
+</figure>

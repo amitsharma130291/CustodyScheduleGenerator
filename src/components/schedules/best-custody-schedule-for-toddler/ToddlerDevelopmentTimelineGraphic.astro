@@ -1,0 +1,34 @@
+---
+const milestones = [
+	{ age: '18m', shift: 'Strong routine memory', ops: 'Short separations; familiar sleep space' },
+	{ age: '24m', shift: 'Big emotions at goodbye', ops: 'Handoff scripts; comfort objects critical' },
+	{ age: '36m', shift: 'Language accelerates', ops: 'Daycare pickup; nap window shrinks' },
+	{ age: '48m', shift: 'Preschool logistics', ops: 'Morning drop-off; fewer naps' },
+];
+---
+
+<figure class="toddler-dev-timeline w-full rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Operational shifts from 18 to 48 months
+	</figcaption>
+	<p class="mt-2 text-sm leading-6 text-secondary">
+		Transition tolerance changes faster than most custody orders get revised.
+	</p>
+
+	<ol class="relative mt-6 space-y-0">
+		{milestones.map((item, index) => (
+			<li class="relative flex gap-4 pb-6 last:pb-0">
+				{index < milestones.length - 1 && (
+					<span class="absolute left-[1.375rem] top-9 h-[calc(100%-1.5rem)] w-px bg-line" aria-hidden="true"></span>
+				)}
+				<span class="relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-violet-500/15 text-xs font-bold tabular-nums text-violet-700 ring-2 ring-violet-500/25 dark:text-violet-300">
+					{item.age}
+				</span>
+				<div class="min-w-0 pt-1">
+					<p class="text-sm font-semibold text-primary">{item.shift}</p>
+					<p class="mt-1 text-xs leading-5 text-secondary">{item.ops}</p>
+				</div>
+			</li>
+		))}
+	</ol>
+</figure>
