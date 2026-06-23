@@ -1,0 +1,51 @@
+---
+/** Two-week 3-4-4-3 cycle repeated across four calendar weeks (Mon-start) */
+const weeks = [
+	{ label: 'Week 1', segments: [{ parent: 'A', days: 3 }, { parent: 'B', days: 4 }], weekend: 'B holds Fri–Sun (4-day block)' },
+	{ label: 'Week 2', segments: [{ parent: 'A', days: 4 }, { parent: 'B', days: 3 }], weekend: 'Split Fri · B holds Fri–Sun' },
+	{ label: 'Week 3', segments: [{ parent: 'A', days: 3 }, { parent: 'B', days: 4 }], weekend: 'Cycle repeats week 1' },
+	{ label: 'Week 4', segments: [{ parent: 'A', days: 4 }, { parent: 'B', days: 3 }], weekend: 'Cycle repeats week 2' },
+];
+const dayLabels = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+---
+
+<figure class="tfft-month-rhythm w-full rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		What One Month Actually Feels Like
+	</figcaption>
+	<p class="mt-2 text-sm leading-6 text-secondary">
+		No midweek transfers. No permanently assigned weekdays. One repeating two-week cycle — three days, four days, four days, three days.
+	</p>
+	<div class="mt-4 space-y-3">
+		{weeks.map((week) => (
+			<div>
+				<div class="mb-1.5 flex items-baseline justify-between gap-2">
+					<span class="text-xs font-semibold uppercase tracking-[0.08em] text-muted">{week.label}</span>
+					<span class="text-[10px] text-muted">{week.weekend}</span>
+				</div>
+				<div class="flex gap-0.5">
+					{dayLabels.map((_, di) => {
+						const seg = di < week.segments[0].days ? week.segments[0] : week.segments[1];
+						const isWeekend = di >= 5;
+						return (
+							<div
+								class:list={[
+									'flex h-9 flex-1 flex-col items-center justify-center rounded text-[10px] font-bold',
+									seg.parent === 'A' ? 'bg-accent/20 text-accent' : 'bg-surface text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]',
+									isWeekend && 'ring-1 ring-accent/30',
+								]}
+							>
+								{seg.parent}
+							</div>
+						);
+					})}
+				</div>
+			</div>
+		))}
+	</div>
+	<div class="mt-2 flex justify-between px-0.5">
+		{dayLabels.map((d) => (
+			<span class="flex-1 text-center text-[9px] text-muted">{d}</span>
+		))}
+	</div>
+</figure>
