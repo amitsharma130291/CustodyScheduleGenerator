@@ -1,0 +1,54 @@
+---
+const sources = [
+	{ label: 'School', sub: 'Apps & alerts' },
+	{ label: 'Teacher', sub: 'Email & conferences' },
+	{ label: 'Coach', sub: 'Schedule changes' },
+	{ label: 'Doctor', sub: 'Appointments' },
+];
+
+const parents = [
+	{ label: 'Parent A', sub: 'Primary-home routine', variant: 'primary' as const },
+	{ label: 'Parent B', sub: '20% parenting time', variant: 'secondary' as const },
+];
+---
+
+<figure class="e8020-info-flow w-full rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Information flow between homes
+	</figcaption>
+	<p class="mt-2 text-sm leading-6 text-secondary">
+		School, coaches, and clinics send updates all week — not only on Parent B's parenting days.
+	</p>
+
+	<div class="mt-4 grid gap-2 sm:grid-cols-2">
+		{sources.map((source) => (
+			<div class="rounded-lg bg-surface px-3 py-2.5 text-center shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+				<span class="text-xs font-bold uppercase tracking-[0.08em] text-primary">{source.label}</span>
+				<span class="mt-1 block text-[11px] leading-4 text-secondary">{source.sub}</span>
+			</div>
+		))}
+	</div>
+
+	<div class="my-3 flex justify-center" aria-hidden="true">
+		<span class="text-lg text-muted">↓</span>
+	</div>
+
+	<div class="grid gap-2 sm:grid-cols-2">
+		{parents.map((parent) => (
+			<div
+				class:list={[
+					'rounded-xl px-3 py-4 text-center',
+					parent.variant === 'primary' && 'bg-accent/15 ring-1 ring-accent/30',
+					parent.variant === 'secondary' && 'bg-surface shadow-[inset_0_0_0_1px_var(--border-subtle)]',
+				]}
+			>
+				<span class="text-xs font-bold uppercase tracking-[0.08em] text-primary">{parent.label}</span>
+				<span class="mt-1.5 block text-[11px] leading-4 text-secondary">{parent.sub}</span>
+			</div>
+		))}
+	</div>
+
+	<p class="mt-3 text-center text-[11px] leading-4 text-muted">
+		Both parents can receive the same information — possession does not have to.
+	</p>
+</figure>

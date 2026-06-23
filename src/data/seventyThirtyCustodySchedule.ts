@@ -3,7 +3,7 @@ export const meta = {
 	description:
 		'Build a 70/30 custody calendar online. One parent has roughly 255 overnights and the other about 110, with a primary school-week home and regular time for the other parent — use the free generator to preview patterns and export.',
 	datePublished: '2026-06-13',
-	dateModified: '2026-06-19',
+	dateModified: '2026-06-26',
 };
 
 export const editorialReview = {
@@ -274,7 +274,7 @@ export const faqItems = [
 	{
 		question: 'Can the 30% parent still be involved in school?',
 		answer:
-			'Yes — if the plan and school records say so. Both parents should be on portal access, class email lists, and activity rosters. The 30% parent can attend Thursday concerts, help with homework by video on off weeks, and take one parent-teacher conference per semester even without a midweek overnight.',
+			'Yes — and at 70/30 that usually means recurring weekday participation: a standing Wednesday practice pickup, Thursday concert attendance during the primary-home week, or homework help between Fri–Sun blocks. Portal access helps, but the 30% parent should know the teacher because they show up in ordinary school-week routines — not only on possession nights.',
 	},
 	{
 		question: 'How does a 70/30 schedule change as a child gets older?',

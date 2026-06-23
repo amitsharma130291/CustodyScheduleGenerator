@@ -1,18 +1,39 @@
 export const meta = {
-	title: '80/20 Custody Schedule: Examples, Overnights & Calendar',
+	title: '80/20 Custody Schedule | How the 20% Parent Stays Involved',
 	description:
-		'See how an 80/20 custody schedule works, how many overnights it includes, common calendar examples, and ways the 20% parent can stay involved.',
+		'An 80/20 custody schedule gives one parent most school nights. This page explains how the 20% parent stays involved in homework, teachers, practices, and daily life — without becoming a visitor.',
 	datePublished: '2026-06-13',
-	dateModified: '2026-06-19',
+	dateModified: '2026-06-26',
+};
+
+export const editorialReview = {
+	reviewedFor: [
+		'parenting-time accuracy',
+		'information-sharing examples',
+		'school participation scenarios',
+		'calendar-generation accuracy',
+		'parenting-plan wording consistency',
+	],
+	reviewer: 'CustodyBuilder Editorial Team',
+	reviewerHref: '/about/',
+	methodologyLabel: 'How CustodyBuilder Works',
+	methodologyHref: '/how-custodybuilder-works/',
+	disclaimer: 'This page is educational only and is not legal advice.',
 };
 
 export const hero = {
 	headline: '80/20 Custody Schedule',
-	opening:
-		'An 80/20 custody schedule gives one parent most overnights while the other parent has a smaller but recurring block of parenting time. Parent A might hold about 292 overnights in a 365-day year; Parent B might hold about 73.',
-	connection:
-		'The harder question is not the math — it is how the lower-time parent stays connected when the child\'s school mornings, homework, and weekday routines live mainly in one home. An 80/20 plan works when recurring overnights, holidays, school breaks, and ordinary contact between visits are written clearly enough that neither parent becomes a visitor or a default babysitter.',
+	intro:
+		'An 80/20 custody schedule often gives one parent most school nights while the other parent has limited time. The challenge is rarely the percentage itself. The challenge is staying involved when most homework, teacher communication, practices, appointments, and weekday routines happen somewhere else. This page explains how 20% parenting time succeeds, where it breaks down, and what families usually put in writing before conflict starts.',
+	boundary:
+		'At 70/30, the lower-time parent often still has recurring school-night involvement. At 80/20, involvement usually depends on information access rather than possession.',
 };
+
+export const heroKeyStats = [
+	{ value: '20%', label: 'parenting time' },
+	{ value: 'Daily', label: 'school life continues' },
+	{ value: 'Access', label: 'can exceed possession' },
+];
 
 export const heroTrustSignals = [
 	'Free to use',
@@ -20,339 +41,247 @@ export const heroTrustSignals = [
 	'Print or export your schedule',
 ];
 
-export const quickFacts = {
-	title: '80/20 Custody at a Glance',
-	items: [
-		{ label: 'Overnight split', value: 'About 80% / 20% by overnights' },
-		{ label: 'Annual estimate', value: 'About 292 / 73 overnights' },
-		{ label: 'Typical structure', value: 'Primary home + recurring lower-time blocks' },
-		{ label: 'Core challenge', value: 'Keeping the 20% parent involved between overnights' },
-	],
-};
-
-export const calendarGlance = {
-	title: '80/20 Calendar at a Glance',
-	weekLabels: ['Week 1 (Parent B weekend)', 'Week 2 (Parent A only)'],
-	dayLabels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-	weeks: [
-		['A', 'A', 'A', 'A', 'B', 'B', 'A'],
-		['A', 'A', 'A', 'A', 'A', 'A', 'A'],
-	],
-	notes: [
-		'Parent A (primary home) holds most school-night overnights. Parent B has a recurring weekend block — here, Friday and Saturday every other week.',
-		'Real 80/20 plans often add holiday blocks, summer weeks, or a midweek dinner. Those extras change annual totals.',
-		'Use the generator pattern selector to compare first/third/fifth weekends, long-distance blocks, and added weekday overnights.',
-	],
-};
-
 export const articleTocItems = [
-	{ id: 'calendar-glance', label: '80/20 calendar at a glance' },
-	{ id: 'schedule-generator', label: '80/20 calendar generator' },
-	{ id: 'what-it-looks-like', label: 'What 80/20 looks like in family life' },
-	{ id: 'overnight-count', label: 'How many overnights is 80/20' },
-	{ id: 'common-patterns', label: 'Common 80/20 schedule patterns' },
-	{ id: 'twenty-percent-parent', label: 'The challenge of being the 20% parent' },
-	{ id: 'primary-home-workload', label: 'The primary-home parent\'s workload' },
-	{ id: 'vs-other-splits', label: '80/20 vs 70/30, 60/40, and 50/50' },
-	{ id: 'when-it-works', label: 'When 80/20 can work well' },
-	{ id: 'risks-mistakes', label: 'Risks and mistakes' },
-	{ id: 'builder-help', label: 'How CustodyBuilder helps' },
-	{ id: 'faq', label: '80/20 FAQ' },
+	{ id: 'schedule-generator', label: 'Calendar generator' },
+	{ id: 'feels-smaller', label: 'Why 20% feels smaller' },
+	{ id: 'life-between', label: 'Life between visits' },
+	{ id: 'time-vs-access', label: 'Time vs access' },
+	{ id: 'involved-parents', label: 'Involved 20% parents' },
+	{ id: 'starts-breaking', label: 'When it breaks' },
+	{ id: 'when-another-better', label: 'Other schedules' },
+	{ id: 'faq', label: 'FAQ' },
 ];
 
-export const whatItLooksLike = {
-	title: 'What Does an 80/20 Custody Schedule Look Like?',
+export const feelsSmaller = {
+	title: 'Why 20% Parenting Time Feels Smaller Than It Looks',
 	intro:
-		'Mia is in fourth grade and lives primarily with Parent A during school weeks. Parent B has alternating weekends, one Wednesday dinner each month, five nights of winter break in odd years, and two summer weeks. That mix is 80/20 in practice — not because someone counted to 73 on a spreadsheet first, but because Mia\'s weekday life stays anchored in one home.',
-	details: [
-		{
-			heading: 'School mornings',
-			body: 'Parent A handles the 7:15 a.m. alarm, lunch packing, and the car line. Parent B is not guessing whether Mia has gym shoes on a random Tuesday — Parent B sees Mia on scheduled weekends and at Wednesday dinners, and Parent A keeps the weekday backpack stocked.',
-		},
-		{
-			heading: 'Medication and backpacks',
-			body: 'Mia\'s inhaler lives in Parent A\'s mudroom bin. Parent B keeps a duplicate spacer and rescue inhaler in the weekend bag so asthma care does not stop when Mia switches houses. The school nurse has both parents on file, but Parent A signs daily medication logs on school nights.',
-		},
-		{
-			heading: 'Games and school events',
-			body: 'Parent B attends Thursday soccer even on non-overnight weeks — the plan lists Parent B as the activity contact. Parent A still drives most weekday practices, but Parent B is in the bleachers twice a month and at the spring concert because the calendar shows those dates months ahead.',
-		},
-		{
-			heading: 'Why a visible monthly calendar matters',
-			body: 'Mia\'s teacher once scheduled a Friday field trip on Parent B\'s off weekend. A printed month view showed the conflict immediately. Parent B requested a makeup Saturday lunch; Parent A did not have to decode a verbal "every other weekend" rule midweek.',
-		},
-	],
-	close:
-		'80/20 is lived on a calendar, not in a percentage label. When parents can see which weekends, breaks, and midweek contacts belong to the lower-time parent, ordinary school life stays stable and the 20% parent stops feeling like a guest who only appears for birthdays.',
-};
-
-export const overnightCount = {
-	title: 'How Many Overnights Is 80/20 Custody?',
-	intro: 'Overnight counts drive the percentage. Daytime visits, phone calls, and school-event attendance matter for connection — but they do not change the split unless an overnight is added.',
+		'The calendar may show roughly one weekend block and a few holiday stretches for Parent B. On the ground, Parent B can miss most of what shapes the child\'s week — not because the percentage is wrong, but because school life does not wait for parenting days. If a court order cites a target split, verify annual nights on the <a href="/custody-percentage-calculator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody percentage calculator</a>; this page focuses on involvement, not math.',
 	points: [
 		{
-			label: 'Annual estimate',
-			body: 'In a 365-day year, 80/20 is roughly 292 overnights for the primary-home parent and 73 for the lower-time parent. Leap years and custom start dates shift the exact count by a night or two.',
+			heading: 'Teacher emails arrive on Tuesday',
+			body: 'Classroom apps, missing-assignment alerts, and field-trip reminders land midweek at whichever parent holds the school-week home. Parent B may not see them until Friday pickup — or not at all if only one inbox is on the account.',
 		},
 		{
-			label: 'Uneven months',
-			body: 'March with five weekends can give Parent B three weekend blocks under a first/third/fifth rule, while February might give only one. A single month can look like 70/30 or 85/15 even when the annual average lands near 80/20.',
+			heading: 'Practices outnumber games',
+			body: 'Saturday tournaments may fall on Parent B\'s parenting time. Tuesday and Thursday practices usually do not. The 20% parent sees highlight moments while the season\'s routine runs elsewhere.',
 		},
 		{
-			label: 'Daytime visits',
-			body: 'A Wednesday dinner or Saturday-morning breakfast does not count toward the overnight percentage. Those visits still help the 20% parent stay in the loop — they just are not part of the 292/73 math.',
+			heading: 'Doctor visits cluster on school days',
+			body: 'Pediatric appointments, therapy sessions, and dentist cleanings are scheduled when the child is already in the primary-home routine. Parent B hears about them after the fact unless both parents are copied on medical portals.',
 		},
 		{
-			label: 'Holidays and summer',
-			body: 'Winter break, spring break, and summer weeks add overnights for Parent B. If the regular pattern gives Parent B only two weekends in December, a five-night winter block can restore balance without changing the school-week home.',
+			heading: 'The backpack problem is really an information problem',
+			body: 'Forgotten cleats and unsigned permission slips look like logistics. Underneath is who knew about the game, the form, and the deadline. When information stays in one home, 20% time feels like 10% involvement.',
+		},
+		{
+			heading: 'Weekend logistics live on another page',
+			body: 'Alternating weekends, missed visits, and holiday disruption belong on the <a href="/every-other-weekend-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">every other weekend custody schedule</a> guide. This page owns what happens when limited time is not the same as limited role.',
 		},
 	],
-	calculatorNote:
-		'Use the <a href="/custody-percentage-calculator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody percentage calculator</a> or the generator\'s annual average to check a full year before signing.',
 };
 
-export const commonPatterns = {
-	title: 'Common 80/20 Schedule Patterns',
+export const lifeBetweenVisits = {
+	title: 'The Hidden Problem: Life Happens Between Visits',
 	intro:
-		'Most 80/20 parenting schedules combine a strong primary-home base with recurring lower-time blocks. The pattern you pick changes how long the child goes between Parent B overnights.',
-	patterns: [
+		'Parent B\'s parenting days are visible on a printed calendar. What the calendar hides is everything between them: school conferences, coach messages, fever nights, friend drama, and project deadlines that never pause for possession.',
+	layers: [
 		{
-			title: 'Every other weekend',
-			looksLike: 'Parent B has Friday and Saturday overnights every other weekend; Parent A has all other nights.',
-			whenUsed: 'Parents live in the same metro area and want a simple repeating rule.',
-			watchFor: 'By overnights alone, alternating weekends often land closer to 85/15 unless holidays or summer add nights. See the <a href="/every-other-weekend-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">every other weekend guide</a> for weekend-only planning — this page covers the broader 80/20 connection question.',
+			heading: 'School keeps a separate clock',
+			body: 'Report cards, picture day, and spirit-week themes follow the academic calendar — not the parenting schedule. Parent B can be absent from that clock even while holding scheduled time.',
 		},
 		{
-			title: 'First, third, and fifth weekends',
-			looksLike: 'Parent B has Fri–Sat on the 1st, 3rd, and 5th weekends of each month.',
-			whenUsed: 'Court orders or work schedules that track weekends by month rather than a two-week cycle.',
-			watchFor: 'Months without a fifth weekend drop Parent B\'s count. Plan holiday overnights if you need a steadier annual average.',
+			heading: 'Activities run all week',
+			body: 'Rehearsals, scrimmages, and club meetings stack on weekdays. Parent B may only see the recital or championship while missing the months of routine that built it.',
 		},
 		{
-			title: 'Alternating weekends plus one extra overnight',
-			looksLike: 'Parent B has every other weekend plus one Wednesday overnight in the opposite week.',
-			whenUsed: 'Families who want midweek contact without giving up a single primary-home school week.',
-			watchFor: 'One added school-night overnight can move the split noticeably toward 75/25. Count the full year, not one month.',
+			heading: 'Teacher messages do not wait for weekends',
+			body: 'A behavior note on Wednesday or a conference slot on Thursday happens between Parent B\'s blocks. Without off-duty school access, those moments pass unseen.',
 		},
 		{
-			title: 'Long-distance blocks',
-			looksLike: 'Parent B has a longer stretch — often one week every five or six weeks — instead of frequent drives.',
-			whenUsed: 'Parents live hours apart and cannot swap houses every other Friday.',
-			watchFor: 'Long gaps between blocks. Build video calls, school-portal access, and activity attendance on off weeks into the plan.',
+			heading: 'Field trip forms have deadlines',
+			body: 'Permission slips and chaperone sign-ups route to whoever answers the school email first. Parent B learns about the zoo trip at exchange — or from the child, too late to volunteer.',
 		},
 		{
-			title: 'Summer-heavy 80/20',
-			looksLike: 'School year stays primary-home focused; Parent B receives three or four summer weeks plus alternating weekends.',
-			whenUsed: 'One parent travels for work during the school year but has summers off.',
-			watchFor: 'The child may feel the relationship shift sharply between June and September. Keep at least one recurring school-year touchpoint — a standing Thursday call or monthly school lunch.',
+			heading: 'Parent conferences land midweek',
+			body: 'Teacher meetings rarely align with Fri–Sun blocks. Parent B attends only if the plan lists school access and both parents receive conference invitations — not only the primary-home parent.',
 		},
 	],
 };
 
-export const twentyPercentParent = {
-	title: 'The Challenge of Being the 20% Parent',
+export const timeVsAccess = {
+	title: 'The Difference Between Time And Access',
 	intro:
-		'About 73 overnights a year can feel like roughly six nights a month — and none of them on a random Tuesday when spelling homework is due. The lower-time parent often misses the ordinary rhythm of school nights while feeling pressure to make every weekend memorable.',
-	challenges: [
+		'A parent can hold 20% parenting time and still need full visibility into school, activities, and health. Possession is what the calendar assigns. Access is what the plan permits between those days.',
+	observations: [
 		{
-			problem: 'Feeling like a visitor',
-			body: 'Parent B picks up Mia on Friday with a clean apartment and planned outings, but Mia\'s daily habits — where she keeps her retainer, which app she uses for reading logs — live at Parent A\'s house. Without midweek contact, Parent B learns school news on Friday instead of Tuesday.',
+			heading: '20% time, 100% portal access',
+			body: 'Grades, attendance, and nurse notes can reach both parents even when overnights do not split evenly. Many schools allow two contacts on the classroom app — if the parenting plan requires it.',
 		},
 		{
-			problem: 'Missing homework and school routines',
-			body: 'Parent B does not see the slow build of a book report or the permission slip that went home Monday. The fix is not "more fun weekends" — it is Tuesday portal checks, Thursday practice attendance, and a shared activity calendar that shows non-overnight events.',
+			heading: 'Coaches do not read custody percentages',
+			body: 'A coach texts whoever replied last season. Parent B stays in the thread when listed on the roster contact and copied on schedule changes — not only on game days.',
 		},
 		{
-			problem: 'Pressure to make every weekend special',
-			body: 'Parent B plans aquarium tickets and late movies because time feels scarce. Mia sometimes needs boring Sunday laundry and early bedtime to be ready for Parent A\'s Monday car line. Ordinary downtime is parenting too.',
+			heading: 'Medical records can follow both parents',
+			body: 'Therapy updates, prescription changes, and specialist referrals should not live in one parent\'s phone. Portal access and shared calendars keep Parent B in the loop between visits.',
 		},
 		{
-			problem: 'Long gaps between overnights',
-			body: 'Three weeks without a sleepover can feel endless to a seven-year-old. A standing Wednesday video call, school lunch once a month, or showing up at the science fair on Parent A\'s week keeps the relationship continuous.',
+			heading: 'Involvement without possession is allowed',
+			body: 'Thursday concert attendance, Tuesday practice pickup, and Wednesday teacher email replies do not require extra overnights — only written permission for school and activity access. Spell that out in a <a href="/parenting-plan-template/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting plan template</a> before someone argues it is "not their day."',
+		},
+		{
+			heading: '70/30 is the easier version of this problem',
+			body: 'When the minority parent has more recurring time, staying involved is simpler. The <a href="/70-30-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">70/30 custody schedule</a> guide covers keeping the 30% parent in school life. At 80/20, the same habits matter more because the margin is thinner.',
 		},
 	],
-	solutions: [
-		'Attend Thursday soccer on non-overnight weeks — the plan names Parent B as activity contact even when Mia sleeps at Parent A\'s.',
-		'Check the school portal on Tuesday so Parent B sees the same newsletter Parent A saw Monday.',
-		'Keep duplicate chargers, toiletries, and a spare hoodie at Parent B\'s so Friday pickup is not a logistics scramble.',
-		'Schedule a predictable ritual: Saturday pancakes, not a new expensive outing every visit.',
-		'Help with spelling by video on Thursday when the test is Friday and Mia is still at Parent A\'s.',
-	],
-	close:
-		'Connection between overnights is the moat of this page. The 20% parent who only appears for highlight-reel weekends drifts out of school life; the 20% parent who shows up at ordinary Thursday practices stays a parent, not a guest.',
+	sampleClause: {
+		disclaimer: 'Educational sample only — not legal advice.',
+		clause:
+			'Both parents shall be listed on school portals, teacher email distribution lists, and medical provider accounts. Each parent may attend school events, activities, and conferences during the other parent\'s parenting time without changing possession. Both parents shall forward teacher, coach, and medical messages within 24 hours.',
+	},
 };
 
-export const primaryHomeWorkload = {
-	title: 'The Primary-Home Parent\'s Workload',
+export const involvedParents = {
+	title: 'What The Most Involved 20% Parents Usually Do',
 	intro:
-		'Parent A in an 80/20 plan often carries school mornings, doctor appointments, homework tracking, daily discipline, carpool, and the emotional labor of being the default call from the nurse\'s office. That load is real — and an 80/20 plan should not pretend Parent B is unavailable eleven months a year.',
-	tasks: [
+		'No single formula works for every family. Parents who avoid the "visitor" label tend to share a few operational habits — none of which require changing the overnight split.',
+	practices: [
 		{
-			heading: 'School mornings and transportation',
-			body: 'Parent A runs the weekday car line and knows which day is library day. Parent B can still cover sports registration, pay activity fees online, or take the Saturday tournament Parent A cannot attend.',
+			heading: 'Show up at practices on off-duty weeks',
+			body: 'Watching Tuesday drills without taking an overnight keeps Parent B in the child\'s athletic rhythm. The child sees both parents in the bleachers across a season, not only on scheduled weekends.',
 		},
 		{
-			heading: 'Homework and discipline',
-			body: 'Parent A enforces screen limits on school nights. Parent B reinforces the same rules on weekends instead of becoming the "fun house" by default. The plan can assign Parent B to handle summer reading lists or science-fair supply runs.',
+			heading: 'Insist on duplicate school email',
+			body: 'Both parents on the classroom list, the nurse call tree, and the PTA blast. Not as a courtesy — as a default so midweek news does not bottleneck through one inbox.',
 		},
 		{
-			heading: 'Emotional labor',
-			body: 'Parent A fields most teacher emails. Parent B can own replies for assigned subjects — Parent B handles math portal messages; Parent A handles reading — so one inbox does not bury the other parent\'s involvement.',
-		},
-	],
-	sharedDuties: [
-		'Parent B registers Mia for spring soccer and pays the league fee.',
-		'Parent B buys duplicate school supplies for the weekend bag.',
-		'Parent B drives one tournament weekend Parent A cannot cover.',
-		'Parent B plans the first week of summer parenting time and books the flights for a long-distance block.',
-	],
-	close:
-		'An 80/20 schedule fails when Parent A becomes the only functional parent and Parent B becomes the entertainment director. Split named responsibilities — registration, supplies, transportation, break planning — so the primary-home parent is not carrying every weekday task alone.',
-};
-
-export const vsOtherSplits = {
-	title: '80/20 vs 70/30, 60/40, and 50/50',
-	intro: 'Pick the split that matches how much school-week responsibility each home can carry — not the label that sounds fairest on paper.',
-	rows: [
-		{
-			split: '80/20',
-			href: undefined,
-			fits: 'One primary home is needed and the lower-time parent still gets structured recurring time — weekends, breaks, or long-distance blocks.',
+			heading: 'Share one activity calendar',
+			body: 'Game times, rehearsal changes, and tournament brackets in a shared digital calendar both parents check. Parent B plans around the child\'s life instead of waiting for a Friday briefing.',
 		},
 		{
-			split: '70/30',
-			href: '/70-30-custody-schedule/',
-			fits: 'The lower-time parent can handle more regular overnights — extra weekends, a weekday night, or longer break blocks — without splitting the school week evenly.',
+			heading: 'Reply to teachers from off-duty weeks',
+			body: 'A Wednesday email about a missing library book gets a same-day reply from Parent B when the plan assigns shared school communication. The teacher stops treating one parent as the only adult.',
 		},
 		{
-			split: '60/40',
-			href: '/60-40-custody-schedule/',
-			fits: 'Both parents can manage substantial weekday responsibility; one parent is only slightly ahead on overnights.',
+			heading: 'Stock a real second home',
+			body: 'Clothes that fit, homework supplies, and charger cables at Parent B\'s house signal this is a home — not a hotel. The child stops treating visits as packing emergencies.',
 		},
 		{
-			split: '50/50',
-			href: '/50-50-custody-schedule/',
-			fits: 'Both homes can support nearly equal school-week routines, exchanges are practical, and neither parent should anchor all homework and mornings alone.',
-		},
-	],
-	close:
-		'Move toward 70/30 when Parent B is ready for more school-night overnights. Stay at 80/20 when the child needs one stable weekday home and Parent B\'s involvement is better built through breaks, activities, and predictable weekend blocks than through midweek exchanges.',
-};
-
-export const whenItWorks = {
-	title: 'When 80/20 Can Work Well',
-	situations: [
-		{
-			heading: 'Long-distance parents',
-			body: 'Parent B lives three hours away. Monthly long blocks plus summer weeks beat exhausted every-other-Friday drives that leave Mia tired for Monday math.',
-		},
-		{
-			heading: 'Demanding or travel-heavy work',
-			body: 'Parent B flies out Sunday night and returns Thursday. Alternating weekends plus holiday blocks match when Parent B is actually in town without forcing weekday handoffs that never happen.',
-		},
-		{
-			heading: 'School stability after separation',
-			body: 'Mia just changed districts. One home for the first year of attendance — with Parent B at games and on the portal — can matter more than equal overnights during the transition.',
-		},
-		{
-			heading: 'Gradual step-up plans',
-			body: 'Parent B starts with alternating weekends and adds a summer week each year as Mia gets older. The written plan lists trigger dates so the step-up is predictable, not negotiated every month.',
-		},
-		{
-			heading: 'Child needing one consistent weekday home',
-			body: 'Mia has OT on Tuesdays and Thursdays at Parent A\'s nearby clinic. An 80/20 plan keeps those appointments stable while Parent B builds connection through weekends and school-break time.',
+			heading: 'Use the calendar tool before arguing',
+			body: 'Map parenting blocks and mark where school events fall in the <a href="/custody-schedule-generator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule generator</a> so both parents see the same year — then add information-sharing rules the generator cannot write for you.',
 		},
 	],
 };
 
-export const risksMistakes = {
-	title: 'Risks and Mistakes in an 80/20 Custody Schedule',
-	intro: 'These problems show up when the plan names a percentage but not responsibilities, breaks, or contact between overnights.',
-	problems: [
+export const startsBreaking = {
+	title: 'When 80/20 Starts Breaking Down',
+	intro:
+		'Failure rarely starts with the percentage on paper. It starts when Parent B stops receiving information, stops appearing at ordinary moments, or becomes only the driver at exchange.',
+	signals: [
 		{
-			problem: 'Weekend parent becomes only the "fun parent"',
-			solution:
-				'Parent B enforces the same bedtime and homework rules Parent A uses. Parent A sends the spelling list Friday so Parent B is not starting from zero. Ordinary chores on Sunday count as parenting.',
+			heading: 'Information arrives too late',
+			body: 'Parent B learns about the science fair, the orthodontist referral, or the school lockdown drill after the decision window closed. Late news turns Parent B into a spectator.',
 		},
 		{
-			problem: 'Lower-time parent loses school involvement',
-			solution:
-				'Add portal access, name Parent B on the activity roster, and assign one school email category to Parent B. Parent B attends the fall conference even on an off weekend.',
+			heading: 'One parent becomes transportation only',
+			body: 'Parent B picks up and drops off but never attends conferences, never emails teachers, and never knows the homeroom teacher\'s name. The child labels that parent "the ride."',
 		},
 		{
-			problem: 'Primary parent becomes overloaded',
-			solution:
-				'List split duties: Parent B pays sports fees; Parent A handles daily transport. Review the split each school year before assuming Parent A will keep absorbing new activities alone.',
+			heading: 'The child stops sharing daily life',
+			body: 'Monday friend drama and Wednesday test anxiety stay at the primary home. By Friday, Parent B gets one-word answers because the emotional week already happened elsewhere.',
 		},
 		{
-			problem: 'Child goes too long without ordinary contact',
-			solution:
-				'Add a midweek dinner, standing video call, or school-lunch visit. Three weeks without hearing Parent B\'s voice at homework time is long for an eight-year-old.',
+			heading: 'All communication routes through the other parent',
+			body: 'Coaches, teachers, and nurses call Parent A because it is easier. Parent B becomes dependent on forwarded screenshots — which arrive incomplete or with attitude.',
 		},
 		{
-			problem: 'Holidays and summer are vague',
-			solution:
-				'Use the <a href="/holiday-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">holiday custody schedule</a> planner to assign odd/even years, exchange times, and whether winter break adds nights beyond the regular pattern.',
-		},
-		{
-			problem: 'Makeup time is undefined',
-			solution:
-				'Write what happens when Parent B\'s weekend is lost to illness or travel: extend the next block, add a school-break day, or swap a specific Friday by written notice five days ahead.',
+			heading: 'Weekends turn into catch-up performances',
+			body: 'Every visit is an outing, a gift, or an adventure because Parent B is trying to compress a month into two days. The child expects entertainment, not ordinary parenting.',
 		},
 	],
 };
 
-export const builderHelp = {
-	title: 'How CustodyBuilder Helps Plan an 80/20 Schedule',
-	intro: 'Use the generator to test patterns before you argue about percentages in a mediation session.',
-	features: [
-		'Preview monthly calendars for alternating weekends, monthly weekend rules, added weekday overnights, and long-distance blocks.',
-		'Compare overnight percentages side by side when you change patterns — see when every other weekend is closer to 85/15 than 80/20.',
-		'Test start dates so the first Parent B weekend aligns with a real Friday pickup.',
-		'Export or print the calendar for parenting-plan discussions, school offices, or coaches who need dates in writing.',
+export const whenAnotherBetter = {
+	title: 'When Another Schedule Is Usually Better',
+	intro:
+		'80/20 works when Parent B can stay in the child\'s daily life without more possession. When the bottleneck is contact frequency, school-week ownership, or equal involvement, a different pattern usually fits better.',
+	blocks: [
+		{
+			heading: 'Need more frequent contact',
+			body: 'When the child cannot tolerate long stretches between in-person time, see the <a href="/2-2-3-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-3 custody schedule</a> — shorter gaps at the cost of more exchanges.',
+		},
+		{
+			heading: 'Need school-week involvement',
+			body: 'When one parent must own Mon–Fri homework, teacher email, and car line for full school stretches, compare the <a href="/5-2-2-5-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">5-2-2-5 custody schedule</a>.',
+		},
+		{
+			heading: 'Need fixed weekday ownership',
+			body: 'When Tuesday therapy or Thursday scouts must stay with the same parent every calendar week, see the <a href="/2-2-5-5-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-5-5 custody schedule</a>.',
+		},
+		{
+			heading: 'Need stronger relationship maintenance',
+			body: 'When Parent B needs more recurring school-night time without jumping to equal splits, the <a href="/70-30-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">70/30 custody schedule</a> is the next step up from 80/20.',
+		},
+		{
+			heading: 'Need equal involvement',
+			body: 'When both parents can handle school weeks and the goal is equal time, start at the <a href="/50-50-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 custody schedule</a> hub — not a primary-home arrangement.',
+		},
+		{
+			heading: 'Weekend-only logistics',
+			body: 'If the fight is about alternating weekends, missed visits, or holiday overrides — not involvement between visits — read the <a href="/every-other-weekend-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">every other weekend guide</a> instead.',
+		},
 	],
-	cta: 'Build an 80/20 Custody Calendar',
+};
+
+export const postContentCta = {
+	heading: 'Map Parenting Time, Then Plan Access',
+	body: 'Use the generator above or the full <a href="/custody-schedule-generator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule generator</a> to plot Parent B\'s blocks. Add school portals, activity calendars, and off-duty attendance rules in a <a href="/parenting-plan-template/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting plan template</a> before information bottlenecks become conflict.',
+	primaryLabel: 'Generate Calendar',
+	primaryHref: '#schedule-generator',
+	secondaryLabel: 'Custody Percentage Calculator',
+	secondaryHref: '/custody-percentage-calculator/',
 };
 
 export const faqItems = [
 	{
-		question: 'What is an 80/20 custody schedule?',
+		question: 'Why does 20% parenting time sometimes feel smaller than 20%?',
 		answer:
-			'An 80/20 custody schedule is an overnight-based parenting arrangement where one parent has about 80% of overnights and the other has about 20%. In practice it usually means a primary-home school week plus recurring blocks — weekends, holidays, or summer weeks — for the lower-time parent.',
+			'Because most homework, teacher messages, practices, and appointments happen on days Parent B does not have possession. The calendar shows blocks; daily life runs on a different schedule. Without school and activity access, Parent B misses the week while holding the percentage on paper.',
 	},
 	{
-		question: 'How many overnights is 80/20 custody?',
+		question: 'Can a parent stay involved without more overnights?',
 		answer:
-			'About 292 overnights for the primary-home parent and 73 for the lower-time parent in a 365-day year. The exact count shifts with leap years, start dates, and added holiday or summer overnights.',
+			'At 80/20, usually yes — through portal access, coach contact, shared calendars, and off-duty school attendance, not through extra school-night possession. When the fix requires recurring weekday overnights, families often move toward 70/30 instead of forcing access alone to carry the relationship.',
+		links: [{ label: 'Parenting plan template', href: '/parenting-plan-template/' }],
 	},
 	{
-		question: 'Is every other weekend really 80/20?',
+		question: 'Should both parents receive school communication?',
 		answer:
-			'Not always by overnights alone. Alternating Fri–Sat weekends often land closer to 85/15 unless you add holiday time, a weekday overnight, or summer weeks. Count the full year rather than assuming the label matches the math.',
+			'When Parent B holds little possession time, dual school communication is how the 20% parent tracks life between visits — not a courtesy. One inbox strands Parent B between parenting blocks while teachers assume only one adult exists.',
 	},
 	{
-		question: 'What are examples of 80/20 custody schedules?',
+		question: 'What happens when all information flows through one parent?',
 		answer:
-			'Common examples include every other weekend, first/third/fifth weekends, alternating weekends plus one weekday overnight, long-distance block schedules, and school-year primary-home plans with heavier summer time for Parent B.',
+			'Parent B becomes dependent on forwarded texts — often late, incomplete, or filtered. Teachers and coaches learn to call Parent A only. The child stops expecting Parent B at ordinary school moments. That is how 20% time turns into visitor status.',
 	},
 	{
-		question: 'How can the 20% parent stay involved?',
+		question: 'Can a child feel connected to a parent they see less often?',
 		answer:
-			'Attend practices on non-overnight weeks, use the school portal, keep supplies at both homes, schedule predictable midweek calls, and show up at conferences and school events. Connection between overnights matters as much as the overnight count.',
+			'Children often stay connected when the off-duty parent shows up in the information flow — replying to a teacher email, sitting in Tuesday practice bleachers, knowing the class pet\'s name — not only on scheduled possession days. Connection at 80/20 usually follows access across the week.',
 	},
 	{
-		question: 'How do holidays affect 80/20 custody?',
+		question: 'When does 80/20 stop working?',
 		answer:
-			'Holiday and school-break overnights usually override the regular pattern and can change the annual percentage. A five-night winter block can balance a month when Parent B had fewer regular weekends.',
+			'When Parent B cannot get school visibility, the child resists transitions, or every visit becomes a dispute about what was not shared. If the fix requires more recurring school-night time, families often move toward <a href="/70-30-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">70/30</a> or equal-time patterns instead of forcing involvement into two weekends a month.',
 	},
 	{
-		question: 'When should parents consider 70/30 instead of 80/20?',
+		question: 'How do parenting plans usually address information sharing?',
 		answer:
-			'Consider 70/30 when the lower-time parent can reliably handle more school-night overnights — extra weekends, a recurring weekday night, or longer break blocks — without disrupting the child\'s primary-home routine.',
-	},
-	{
-		question: 'Can an 80/20 custody schedule change over time?',
-		answer:
-			'Yes. Step-up plans often start with alternating weekends and add summer weeks or extra overnights as the child ages. Written trigger dates and annual reviews keep changes predictable instead of reactive.',
+			'Strong plans list both parents on school and medical accounts, allow off-duty attendance at events, require same-day forwarding of teacher or coach messages, and name a shared activity calendar. CustodyBuilder covers calendar math; wording belongs in a <a href="/parenting-plan-template/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting plan template</a>. Methodology is described on <a href="/how-custodybuilder-works/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">How CustodyBuilder Works</a>.',
 	},
 ];
+
+export const faqSection = {
+	title: '80/20 Custody Schedule FAQ',
+	description: 'Involvement, school access, information flow, and when to consider another schedule.',
+};
