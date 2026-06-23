@@ -4,7 +4,7 @@ import { schedules } from '../../content/schedules';
 
 export function getStaticPaths() {
 	return schedules
-		.filter((schedule) => !['2-2-3-custody-schedule', '5-2-2-5-custody-schedule', '2-2-5-5-custody-schedule', '80-20-custody-schedule', '70-30-custody-schedule', '60-40-custody-schedule', '50-50-custody-schedule', 'week-on-week-off-custody-schedule', '3-4-4-3-custody-schedule'].includes(schedule.slug))
+		.filter((schedule) => !['2-2-3-custody-schedule', '5-2-2-5-custody-schedule', '2-2-5-5-custody-schedule', '80-20-custody-schedule', '70-30-custody-schedule', '60-40-custody-schedule', '50-50-custody-schedule', 'week-on-week-off-custody-schedule', '3-4-4-3-custody-schedule', 'every-other-weekend-custody-schedule'].includes(schedule.slug))
 		.map((schedule) => ({
 			params: { schedule: schedule.slug },
 			props: {

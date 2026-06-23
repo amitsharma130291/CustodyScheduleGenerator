@@ -1,0 +1,35 @@
+---
+const phases = [
+	{ label: 'Weekend visit', sub: 'Fri–Sun with Parent B', variant: 'visit' as const },
+	{ label: '12-day gap', sub: 'School week × 2 with Parent A', variant: 'gap' as const },
+	{ label: 'Weekend visit', sub: 'Fri–Sun with Parent B', variant: 'visit' as const },
+];
+---
+
+<figure class="eow-gap-timeline w-full rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		What happens during the 12-day gap
+	</figcaption>
+	<p class="mt-2 text-sm leading-6 text-secondary">
+		One Fri–Sun block, then nearly two weeks of school-week life before the next visit.
+	</p>
+	<div class="mt-4 flex flex-col items-center gap-2 sm:flex-row sm:items-stretch sm:justify-center">
+		{phases.map((phase, index) => (
+			<div class="flex flex-col items-center gap-2 sm:flex-row sm:flex-1">
+				{index > 0 && (
+					<span class="text-lg text-muted sm:px-2" aria-hidden="true">↓</span>
+				)}
+				<div
+					class:list={[
+						'flex w-full flex-col items-center rounded-xl px-3 py-4 text-center sm:flex-1',
+						phase.variant === 'visit' && 'bg-accent/15 ring-1 ring-accent/30',
+						phase.variant === 'gap' && 'bg-surface shadow-[inset_0_0_0_1px_var(--border-subtle)]',
+					]}
+				>
+					<span class="text-xs font-bold uppercase tracking-[0.08em] text-primary">{phase.label}</span>
+					<span class="mt-1.5 text-[11px] leading-4 text-secondary">{phase.sub}</span>
+				</div>
+			</div>
+		))}
+	</div>
+</figure>

@@ -1,0 +1,38 @@
+---
+const phases = [
+	{ label: 'Weekend', sub: 'Fri–Sun visit', variant: 'visit' as const },
+	{ label: '12-day gap', sub: 'School weeks', variant: 'gap' as const },
+	{ label: 'Holiday', sub: 'Override · one parent', variant: 'holiday' as const },
+	{ label: '12-day gap', sub: 'Before next visit', variant: 'gap' as const },
+	{ label: 'Weekend', sub: 'Next Fri–Sun', variant: 'visit' as const },
+];
+---
+
+<figure class="eow-holiday-impact w-full rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		How One Holiday Can Remove Half A Month
+	</figcaption>
+	<p class="mt-2 text-sm leading-6 text-secondary">
+		Two weekends per month means one lost holiday block can erase half of Parent B&apos;s Fri–Sun time that month.
+	</p>
+	<div class="mt-4 flex flex-col gap-1.5 sm:flex-row sm:items-stretch sm:gap-1">
+		{phases.map((phase, index) => (
+			<div class="flex items-center gap-1.5 sm:flex-1 sm:flex-col">
+				{index > 0 && (
+					<span class="hidden text-muted sm:block sm:py-1" aria-hidden="true">→</span>
+				)}
+				<div
+					class:list={[
+						'flex w-full flex-col items-center rounded-lg px-2 py-2.5 text-center sm:flex-1',
+						phase.variant === 'visit' && 'bg-accent/15 ring-1 ring-accent/30',
+						phase.variant === 'gap' && 'bg-surface/80 shadow-[inset_0_0_0_1px_var(--border-subtle)]',
+						phase.variant === 'holiday' && 'bg-amber-500/15 ring-2 ring-amber-500/40',
+					]}
+				>
+					<span class="text-[10px] font-bold uppercase tracking-[0.08em] text-primary">{phase.label}</span>
+					<span class="mt-1 text-[10px] leading-3.5 text-secondary">{phase.sub}</span>
+				</div>
+			</div>
+		))}
+	</div>
+</figure>
