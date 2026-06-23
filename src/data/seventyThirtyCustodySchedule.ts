@@ -3,14 +3,14 @@ export const meta = {
 	description:
 		'Build a 70/30 custody calendar online. One parent has roughly 255 overnights and the other about 110, with a primary school-week home and regular time for the other parent — use the free generator to preview patterns and export.',
 	datePublished: '2026-06-13',
-	dateModified: '2026-06-26',
+	dateModified: '2026-06-27',
 };
 
 export const editorialReview = {
 	lastReviewed: 'June 2026',
 	reviewer: 'CustodyBuilder Editorial Team',
 	reviewerHref: '/about/',
-	body: 'This guide explains how 70/30 parenting time works in practice and how the 30% parent stays involved in school-week life. It is educational planning content only — not legal advice and not a substitute for a court order or attorney review.',
+	body: 'This guide explains how 70/30 parenting time works in practice and how the 30% parent stays part of recurring school-week routines. Schedule methodology is described on <a href="/how-custodybuilder-works/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">How CustodyBuilder Works</a>. Educational planning content only — not legal advice.',
 };
 
 export const hero = {
@@ -18,6 +18,7 @@ export const hero = {
 	intro: [
 		'A 70/30 custody schedule gives one parent roughly 255 nights per year and the other about 110 nights.',
 		'It creates one primary school-week home while keeping the other parent actively involved in recurring parenting time.',
+		'70/30 is different from <a href="/80-20-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">80/20</a> because the lower-time parent usually still participates in recurring weekday life — homework nights, practices, and midweek dinners — not only weekend blocks.',
 	],
 };
 
@@ -42,7 +43,7 @@ export const articleTocItems = [
 	{ id: 'calendar-glance', label: '70/30 calendar at a glance' },
 	{ id: 'schedule-generator', label: '70/30 calendar generator' },
 	{ id: 'week-in-family', label: 'A week in a 70/30 family' },
-	{ id: 'thirty-percent-not-visitor', label: 'The 30% parent is not a visitor' },
+	{ id: 'thirty-percent-not-visitor', label: 'Why the school week matters' },
 	{ id: 'primary-home-load', label: 'Primary-home mental load' },
 	{ id: 'transitions', label: 'Moving into or out of 70/30' },
 	{ id: 'mistakes', label: 'Common 70/30 mistakes' },
@@ -75,7 +76,7 @@ export const weekInFamily = {
 		{
 			day: 'Thursday',
 			heading: 'Teacher email and a science fair draft',
-			body: 'Emma\'s teacher emails about a missing library book. Mom replies, but the plan lists Dad on the class newsletter too. He checks the portal Thursday evening and helps Emma paste volcano photos into the slide deck before pickup Friday.',
+			body: 'Emma\'s teacher sends home a library-book notice. Mom signs the slip at pickup; Dad reviews the spelling packet Thursday evening and helps Emma finish volcano photos before Friday — homework continuity across the school week, not a Friday surprise.',
 		},
 		{
 			day: 'Friday–Sunday',
@@ -84,40 +85,40 @@ export const weekInFamily = {
 		},
 	],
 	close:
-		'Emma\'s week only works because Dad is on the class email list, shows up Wednesday without an overnight, and treats Sunday night like school prep — not a victory lap. Parents building a first draft can map the repeating pattern in the <a href="/custody-schedule-generator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule generator</a>, then add school-access rules in a <a href="/parenting-plan-template/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting plan template</a>.',
+		'Emma\'s week works because Dad owns Wednesday practice, Sunday homework prep, and Monday-ready backpacks — recurring school-week duties, not only Fri–Sun blocks. Map the pattern in the <a href="/custody-schedule-generator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule generator</a>, then name weekday routines in a <a href="/parenting-plan-template/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting plan template</a>.',
 };
 
 export const thirtyPercentNotVisitor = {
-	title: 'The Biggest 70/30 Challenge: The 30% Parent Should Not Become a Visitor',
+	title: 'Why The School Week Still Matters At 30%',
 	intro:
-		'About 109 overnights a year is roughly two nights a week — but they cluster on weekends. Without deliberate weekday touchpoints, Parent B learns about the science fair on Friday and meets the teacher once a semester.',
+		'About 109 overnights a year clusters on weekends — but at 30%, Parent B can still own repeating school-week routines: a standing Wednesday practice pickup, Sunday homework block, or Tuesday dinner every primary-home week. That rhythm does not exist at 20%; see <a href="/80-20-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">80/20</a> when involvement depends on access between visits, not recurring weekday duty.',
 	problems: [
 		{
 			problem: 'Only "fun" weekends',
-			body: 'Dad picks Emma up with tickets and takeout every Friday because time feels scarce. Emma still has Monday spelling tests. When every visit is an event, Parent B misses the boring, bonding parts of parenting — packing lunches, fixing loose backpack straps, hearing about a playground argument on Tuesday.',
+			body: 'Dad picks Emma up with tickets and takeout every Friday because time feels scarce. Emma still has Monday spelling tests. When every visit is an event, Parent B misses packing lunches, fixing backpack straps, and hearing about Tuesday playground drama — ordinary school-week parenting.',
 		},
 		{
 			problem: 'Missing ordinary school moments',
-			body: 'Parent B is not in the car line when Emma gets a student-of-the-week sticker. The fix is not a longer weekend — it is Thursday concert attendance on Mom\'s week, portal access, and a standing Wednesday practice pickup written into the plan.',
+			body: 'Parent B is not in the car line when Emma gets a student-of-the-week sticker. The fix is a standing Wednesday practice pickup and Thursday dinner on Mom\'s week — the same weekday slots every school week, written into the plan.',
 		},
 		{
-			problem: 'Not knowing the teacher or classmates',
-			body: 'Parent B should know Ms. Rivera\'s name and which kid Emma sits beside at lunch. Ask to be copied on class emails, attend one parent-teacher conference each semester even on an off week, and keep a printed class calendar on the fridge at Parent B\'s apartment.',
+			problem: 'Homework resets every Friday',
+			body: 'Emma\'s book report is due Monday; Parent B sees the rubric at Friday pickup. Without a recurring Sunday homework block, every weekend becomes catch-up instead of continuation of the school-week routine Mom started Tuesday.',
 		},
 		{
-			problem: 'Homework surprises on Friday',
-			body: 'Emma\'s book report is due Monday; Parent B sees the rubric for the first time at Friday pickup. Mom sends the assignment sheet Thursday. Parent B blocks Sunday afternoon for editing — not a midnight panic because "Dad time is for fun."',
+			problem: 'Morning routines live in one home only',
+			body: 'Parent B never sets the 7:10 alarm or signs the reading log. Emma learns that school mornings belong to Mom only — until Dad owns one recurring morning duty, even a monthly Friday breakfast before pickup.',
 		},
 	],
 	solutions: [
-		'Ask the school to include both parents on email lists and the parent portal — not only the primary-home address.',
-		'Attend Thursday concerts, Tuesday book fairs, and Saturday tournaments even when Emma sleeps at the other home that night.',
-		'Keep a duplicate set of gym shoes, chargers, and inhaler at Parent B\'s so Friday pickup is not a supply crisis.',
-		'Schedule one predictable non-overnight touchpoint: Wednesday practice, Sunday video call during Mom\'s week, or monthly lunch in the cafeteria.',
-		'Copy the class calendar at the start of each semester so Parent B knows field-trip Fridays before they become arguments.',
+		'Assign Parent B one recurring homework night on the primary-home week — same evening every week.',
+		'Name a standing weekday pickup: Wednesday practice or Thursday scouts, every school week.',
+		'Keep gym shoes, chargers, and homework folders at Parent B\'s so Sunday prep does not start empty-handed.',
+		'Mirror the school-night bedtime on Sunday so Monday morning at Mom\'s is not a full reset.',
+		'Split named weekday duties: Mom = morning car line; Dad = Tuesday practice drive and Friday spelling review.',
 	],
 	close:
-		'Parents with less frequent overnights may also compare the challenges of an <a href="/80-20-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">80/20 custody schedule</a>, where the gap between visits is wider. At 70/30, Parent B has enough recurring time to stay in the loop — if the plan assigns school access and weekday presence, not only Saturday outings.',
+		'When weekend blocks alone cannot carry homework and morning routines, families sometimes step down toward <a href="/80-20-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">80/20</a>. At 70/30, the question is which recurring school-week duties Parent B owns — not whether both parents read the same inbox.',
 };
 
 export const primaryHomeLoad = {
@@ -143,13 +144,13 @@ export const primaryHomeLoad = {
 		},
 	],
 	systems: [
-		'Split named duties in writing: Mom = weekday transport; Dad = activity fees and one tournament weekend per season.',
-		'Use a shared calendar for school events, not separate threads that leave one parent guessing.',
+		'Split named weekday duties in writing: Mom = morning car line; Dad = Tuesday practice and Sunday homework prep.',
+		'Use a shared calendar for games and rehearsals, not last-minute Friday texts about who drives.',
 		'Review the split each August — new grade, new activities — before assuming last year\'s division still fits.',
-		'Rotate the "default responder" role for teacher emails by subject: Dad owns math portal messages; Mom owns reading.',
+		'Assign one recurring evening routine Parent B owns every school week, even without a midweek overnight.',
 	],
 	close:
-		'Resentment grows when the 70% parent becomes the household CEO and the 30% parent becomes the guest with a credit card. Split operational tasks so both parents carry visible, recurring work — not only visible fun.',
+		'Resentment grows when the 70% parent carries every school morning and the 30% parent only appears for outings. Split recurring weekday tasks so both parents own ordinary routines.',
 };
 
 export const transitions = {
@@ -179,13 +180,13 @@ export const transitions = {
 		},
 	],
 	close:
-		'Write trigger dates, notice periods, and what happens to activities when the split changes. A child should hear "the calendar updates in August," not "we\'ll figure it out when school starts."',
+		'Write trigger dates, notice periods, and what happens to activities when the split changes. Families moving toward equal time often compare <a href="/2-2-3-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-3</a>, <a href="/2-2-5-5-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-5-5</a>, <a href="/5-2-2-5-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">5-2-2-5</a>, or <a href="/week-on-week-off-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">week-on/week-off</a> from the <a href="/50-50-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 hub</a>. A child should hear "the calendar updates in August," not "we\'ll figure it out when school starts."',
 };
 
 export const mistakes = {
 	title: 'Common 70/30 Mistakes',
 	intro:
-		'These conflicts usually start when the plan names a percentage but not pickup times, school access, or makeup weekends. A <a href="/parenting-plan-template/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting plan template</a> helps turn verbal agreements into something Emma\'s school and coaches can follow.',
+		'These conflicts usually start when the plan names a percentage but not pickup times, recurring weekday duties, or makeup weekends. A <a href="/parenting-plan-template/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting plan template</a> helps turn verbal agreements into something Emma\'s school and coaches can follow.',
 	items: [
 		{
 			title: 'The weekend parent becomes the "fun parent"',
@@ -200,10 +201,10 @@ export const mistakes = {
 			fix: 'Name the exchange clock in writing: "Parent B picks up at school dismissal Friday" or "5:30 p.m. at Parent A\'s driveway." Add a 30-minute grace rule and what happens if someone is late.',
 		},
 		{
-			title: 'One parent never attends school events',
+			title: 'One parent never owns a weekday routine',
 			stakes:
-				'Emma\'s teacher knows only Mom\'s name by December. Dad meets Ms. Rivera for the first time at a tense conference Mom scheduled on his off week. Emma stops mentioning school news on Fridays because "Dad won\'t know who that is anyway."',
-			fix: 'List minimum attendance in the plan: one conference per semester, one performance per year, one practice per month — even on off weeks. Add both parents to the class email list on the first day of school.',
+				'Emma\'s teacher knows only Mom\'s morning routine by December. Dad meets Ms. Rivera for the first time at a tense conference because he never drove car line or signed a reading log. Emma stops mentioning Tuesday news on Fridays because school-week life feels like Mom\'s job alone.',
+			fix: 'List recurring weekday duties in the plan: one standing practice pickup per week, one Sunday homework block, one parent-teacher conference per semester — same slots every school week.',
 		},
 		{
 			title: 'The child carries messages between parents',
@@ -214,7 +215,7 @@ export const mistakes = {
 		{
 			title: 'No clothing or supplies at the 30% home',
 			stakes:
-				'Every Friday, Emma arrives at Dad\'s with a duffel Mom packed in a rush. When Mom travels for work, Emma has no spare inhaler at Dad\'s and misses soccer Saturday while they drive back across town. Dad feels like a visitor in Emma\'s logistics, not a co-parent.',
+				'Every Friday, Emma arrives at Dad\'s with a duffel Mom packed in a rush. When Mom travels for work, Emma has no spare inhaler at Dad\'s and misses soccer Saturday while they drive back across town. Dad handles weekends but never stocked Tuesday practice gear at his house.',
 			fix: 'Dad keeps a labeled bin: gym shoes, inhaler, charger, snow boots, next-size jeans. Friday pickup should not require a suitcase from Mom\'s every week.',
 		},
 		{
@@ -231,14 +232,14 @@ export const planLanguage = {
 	disclaimer:
 		'Educational sample only — not legal advice. Local courts, mediators, or attorneys should review final language.',
 	intro:
-		'Verbal agreements collapse when pickup times, school access, and makeup weekends are undefined. Emma\'s parents used language like the sample below after a semester of Friday porch waits and "I thought you knew" texts.',
+		'Verbal agreements collapse when pickup times, recurring weekday duties, and makeup weekends are undefined. Emma\'s parents used language like the sample below after a semester of Friday porch waits and "I thought you knew" texts.',
 	whyItHelps:
-		'Written exchange times stop parents from renegotiating every weekend. School-portal access and named activity duties keep the 30% parent in ordinary life instead of surprise-only visits. Makeup rules give both parents a script when travel or illness cancels a block — so Emma is not left waiting while adults argue about fairness.',
+		'Written exchange times stop parents from renegotiating every weekend. Named weekday routines — Wednesday dinner, Sunday homework — keep Parent B in school-week life. Makeup rules give both parents a script when travel or illness cancels a block.',
 	clause:
-		'The child\'s primary residence for school-week purposes shall be with Parent A. Parent B shall have parenting time from [Friday pickup time] through [Sunday return time] every weekend, except when holiday or school-break provisions apply. Parent B shall also have Wednesday dinner from [time] to [time] on weeks when the child is not sleeping at Parent B\'s home. Both parents shall have equal access to school records, parent portals, teacher conferences, and medical providers. Each parent shall attend at least one parent-teacher conference per semester. Parent A shall provide weekday transportation to school; Parent B shall register and pay activity fees for [named activities]. Schedule changes require [number] days\' written notice except for emergencies. Missed Parent B weekends shall be made up within [timeframe] by [specific method]. This parenting-time schedule may be reviewed before each school year.',
+		'The child\'s primary residence for school-week purposes shall be with Parent A. Parent B shall have parenting time from [Friday pickup time] through [Sunday return time] every weekend, except when holiday or school-break provisions apply. Parent B shall also have Wednesday dinner from [time] to [time] on weeks when the child is not sleeping at Parent B\'s home, and shall own Sunday homework review from [time] to [time] before return. Parent A shall provide weekday transportation to school; Parent B shall register and pay activity fees for [named activities] and drive [named weekday activity] pickup each week. Schedule changes require [number] days\' written notice except for emergencies. Missed Parent B weekends shall be made up within [timeframe] by [specific method]. This parenting-time schedule may be reviewed before each school year.',
 	notes: [
 		'Name exchange times, not only "weekends."',
-		'Assign school communication and activity costs explicitly.',
+		'Assign recurring weekday routines — homework night, practice pickup, morning duties.',
 		'Define makeup parenting time when a weekend is lost to illness or travel.',
 		'Add a review clause tied to grade changes or moves, not vague "as needed" language.',
 	],
@@ -261,7 +262,7 @@ export const faqItems = [
 	{
 		question: 'Is a 70/30 custody schedule good for children?',
 		answer:
-			'It can be when the child needs one stable school-week home and the lower-time parent stays involved in ordinary routines — school emails, practices, conferences — not only holiday trips. A 70/30 plan fails when the 30% parent becomes a weekend guest and the primary-home parent carries every weekday task alone.',
+			'It can be when the child needs one stable school-week home and the lower-time parent owns recurring weekday routines — homework nights, practice pickups, Sunday prep — not only holiday trips. A 70/30 plan fails when Parent B handles weekends only and the primary-home parent carries every school morning alone.',
 	},
 	{
 		question: 'How many overnights is 70/30 custody?',
@@ -274,7 +275,7 @@ export const faqItems = [
 	{
 		question: 'Can the 30% parent still be involved in school?',
 		answer:
-			'Yes — and at 70/30 that usually means recurring weekday participation: a standing Wednesday practice pickup, Thursday concert attendance during the primary-home week, or homework help between Fri–Sun blocks. Portal access helps, but the 30% parent should know the teacher because they show up in ordinary school-week routines — not only on possession nights.',
+			'Yes — at 70/30 that usually means recurring weekday participation: a standing Wednesday practice pickup, Thursday dinner during the primary-home week, or a fixed Sunday homework block before Monday. The 30% parent should know the teacher because they repeat the same school-week duties — not because they share a portal inbox.',
 	},
 	{
 		question: 'How does a 70/30 schedule change as a child gets older?',
@@ -294,7 +295,7 @@ export const faqItems = [
 	{
 		question: 'When might parents choose 70/30 instead of 60/40 or 80/20?',
 		answer:
-			'Choose 70/30 when one home should anchor school mornings but the other parent can handle more than alternating weekends — regular Friday–Saturday blocks, a midweek dinner, or break weeks. Choose 60/40 when both parents can share more weekday overnights. Choose 80/20 when school-week stability matters most and the lower-time parent builds connection mainly through breaks and weekends.',
+			'Choose 70/30 when one home should anchor school mornings but the other parent can own recurring weekday routines — Friday–Saturday blocks plus a standing midweek dinner or practice pickup. Choose 60/40 when both parents can share more weekday overnights. Choose 80/20 when school-year contact is mostly between visits; see the <a href="/80-20-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">80/20 guide</a> or <a href="/every-other-weekend-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">every other weekend guide</a> when weekends alone define the calendar.',
 		links: [
 			{ label: '60/40 custody schedule', href: '/60-40-custody-schedule/' },
 			{ label: '80/20 custody schedule', href: '/80-20-custody-schedule/' },
