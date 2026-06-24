@@ -17,9 +17,9 @@ function roundToOneDecimal(value: number) {
 function getSplitDescription(parentAPercentage: number, parentBPercentage: number) {
 	const smallerPercentage = Math.min(parentAPercentage, parentBPercentage);
 
-	if (smallerPercentage >= 45) return 'This is generally considered a 50/50 parenting time split.';
-	if (smallerPercentage >= 35) return 'This is closer to a 60/40 parenting time split.';
-	if (smallerPercentage >= 25) return 'This is closer to a 70/30 parenting time split.';
+	if (smallerPercentage >= 45) return 'Split falls in the equal-time band (~182–183 overnights in a 365-day year).';
+	if (smallerPercentage >= 35) return 'Split falls in the 60/40 parenting time band.';
+	if (smallerPercentage >= 25) return 'Split falls in the 70/30 parenting time band.';
 	return 'This is an uneven parenting time split.';
 }
 
@@ -89,7 +89,7 @@ export function buildVisitationPercentageInterpretation({
 	let visitationDescription = 'This arrangement reflects a substantial parenting time imbalance.';
 
 	if (smallerPercentage >= 45) {
-		visitationDescription = 'This is generally considered equal parenting time.';
+		visitationDescription = 'Actual split falls in the equal-time band for this tracking period.';
 	} else if (smallerPercentage >= 35) {
 		visitationDescription =
 			'This arrangement gives one parent a majority of parenting time while maintaining significant contact with both parents.';

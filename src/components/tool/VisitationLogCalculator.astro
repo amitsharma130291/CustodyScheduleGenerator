@@ -1,0 +1,169 @@
+---
+import {
+	calculateVisitationLog,
+	formatVisitationLogCopyText,
+} from '../../lib/calculators/visitationLog';
+
+const initial = calculateVisitationLog({
+	plannedParentAOvernights: 256,
+	plannedParentBOvernights: 109,
+	actualParentAOvernights: 248,
+	actualParentBOvernights: 117,
+	missedVisitsParentA: 1,
+	missedVisitsParentB: 3,
+});
+---
+
+<section
+	id="calculator"
+	class="premium-card scroll-mt-24 rounded-[2rem] p-4 sm:p-5"
+	data-visitation-log-calculator
+>
+	<div class="rounded-[1.5rem] bg-surface-elevated p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.07)] sm:p-5">
+		<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Visitation log</p>
+		<h2 class="mt-2 text-2xl font-semibold tracking-[-0.04em] text-primary">Log actual vs planned parenting time</h2>
+
+		<form class="mt-5 grid gap-4" data-visitation-log-form>
+			<label class="grid gap-1.5">
+				<span class="text-sm font-medium text-secondary">Tracking period label</span>
+				<input name="periodLabel" value="Year to date 2026" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+			</label>
+			<div class="grid gap-4 sm:grid-cols-2">
+				<label class="grid gap-1.5">
+					<span class="text-sm font-medium text-secondary">Parent A name</span>
+					<input name="parentAName" value="Parent A" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+				</label>
+				<label class="grid gap-1.5">
+					<span class="text-sm font-medium text-secondary">Parent B name</span>
+					<input name="parentBName" value="Parent B" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+				</label>
+			</div>
+			<fieldset class="grid gap-3 rounded-xl bg-page/40 p-3 ring-1 ring-line-subtle">
+				<legend class="px-1 text-xs font-semibold uppercase tracking-[0.12em] text-muted">Planned overnights (from order)</legend>
+				<div class="grid gap-3 sm:grid-cols-2">
+					<label class="grid gap-1.5">
+						<span class="text-sm font-medium text-secondary">Parent A planned</span>
+						<input name="plannedParentA" type="number" min="0" value="256" class="w-full rounded-2xl bg-page px-4 py-2 text-sm shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+					</label>
+					<label class="grid gap-1.5">
+						<span class="text-sm font-medium text-secondary">Parent B planned</span>
+						<input name="plannedParentB" type="number" min="0" value="109" class="w-full rounded-2xl bg-page px-4 py-2 text-sm shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+					</label>
+				</div>
+			</fieldset>
+			<fieldset class="grid gap-3 rounded-xl bg-page/40 p-3 ring-1 ring-line-subtle">
+				<legend class="px-1 text-xs font-semibold uppercase tracking-[0.12em] text-muted">Actual overnights (logged)</legend>
+				<div class="grid gap-3 sm:grid-cols-2">
+					<label class="grid gap-1.5">
+						<span class="text-sm font-medium text-secondary">Parent A actual</span>
+						<input name="actualParentA" type="number" min="0" value="248" class="w-full rounded-2xl bg-page px-4 py-2 text-sm shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+					</label>
+					<label class="grid gap-1.5">
+						<span class="text-sm font-medium text-secondary">Parent B actual</span>
+						<input name="actualParentB" type="number" min="0" value="117" class="w-full rounded-2xl bg-page px-4 py-2 text-sm shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+					</label>
+				</div>
+			</fieldset>
+			<fieldset class="grid gap-3 rounded-xl bg-page/40 p-3 ring-1 ring-line-subtle">
+				<legend class="px-1 text-xs font-semibold uppercase tracking-[0.12em] text-muted">Missed visits</legend>
+				<div class="grid gap-3 sm:grid-cols-2">
+					<label class="grid gap-1.5">
+						<span class="text-sm font-medium text-secondary">Parent A missed</span>
+						<input name="missedParentA" type="number" min="0" value="1" class="w-full rounded-2xl bg-page px-4 py-2 text-sm shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+					</label>
+					<label class="grid gap-1.5">
+						<span class="text-sm font-medium text-secondary">Parent B missed</span>
+						<input name="missedParentB" type="number" min="0" value="3" class="w-full rounded-2xl bg-page px-4 py-2 text-sm shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+					</label>
+				</div>
+			</fieldset>
+			<p class="hidden rounded-2xl bg-page/70 p-3 text-sm text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]" data-visitation-log-error></p>
+		</form>
+
+		<div class="mt-5 grid gap-4 sm:grid-cols-2">
+			<div class="rounded-2xl bg-page/55 p-3 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+				<p class="text-[10px] font-bold uppercase tracking-[0.12em] text-muted">Planned split</p>
+				<p class="mt-2 text-sm text-secondary"><span data-planned-a-label>Parent A</span>: <span class="font-semibold text-accent" data-planned-a-pct>{initial.plannedParentAPct}%</span></p>
+				<p class="text-sm text-secondary"><span data-planned-b-label>Parent B</span>: <span class="font-semibold text-parent-b" data-planned-b-pct>{initial.plannedParentBPct}%</span></p>
+			</div>
+			<div class="rounded-2xl bg-accent/[0.06] p-3 ring-1 ring-accent/20">
+				<p class="text-[10px] font-bold uppercase tracking-[0.12em] text-muted">Actual split</p>
+				<p class="mt-2 text-sm text-secondary"><span data-actual-a-label>Parent A</span>: <span class="font-semibold text-accent" data-actual-a-pct>{initial.actualParentAPct}%</span> (<span data-variance-a>{initial.varianceParentA >= 0 ? '+' : ''}{initial.varianceParentA}</span>)</p>
+				<p class="text-sm text-secondary"><span data-actual-b-label>Parent B</span>: <span class="font-semibold text-parent-b" data-actual-b-pct>{initial.actualParentBPct}%</span> (<span data-variance-b>{initial.varianceParentB >= 0 ? '+' : ''}{initial.varianceParentB}</span>)</p>
+			</div>
+		</div>
+		<p class="mt-4 text-sm leading-6 text-secondary" data-visitation-log-interpretation>{initial.interpretation}</p>
+		<p class="mt-2 text-xs text-muted">Missed visits logged: <span data-total-missed>{initial.totalMissed}</span></p>
+		<button type="button" class="btn-secondary mt-4 inline-flex h-9 items-center justify-center rounded-full px-4 text-xs font-semibold" data-copy-visitation-log>Copy log</button>
+	</div>
+</section>
+
+<script>
+	import { calculateVisitationLog, formatVisitationLogCopyText } from '../../lib/calculators/visitationLog';
+
+	document.querySelectorAll('[data-visitation-log-calculator]').forEach((root) => {
+		const form = root.querySelector('[data-visitation-log-form]');
+		const error = root.querySelector('[data-visitation-log-error]');
+		const copyBtn = root.querySelector('[data-copy-visitation-log]');
+		let latestCopy = '';
+
+		function num(name: string) {
+			if (!(form instanceof HTMLFormElement)) return 0;
+			return Math.max(0, Number(new FormData(form).get(name)) || 0);
+		}
+
+		function update() {
+			if (!(form instanceof HTMLFormElement)) return;
+			const data = new FormData(form);
+			const parentAName = String(data.get('parentAName') || 'Parent A');
+			const parentBName = String(data.get('parentBName') || 'Parent B');
+			const periodLabel = String(data.get('periodLabel') || 'Tracking period');
+			const input = {
+				plannedParentAOvernights: num('plannedParentA'),
+				plannedParentBOvernights: num('plannedParentB'),
+				actualParentAOvernights: num('actualParentA'),
+				actualParentBOvernights: num('actualParentB'),
+				missedVisitsParentA: num('missedParentA'),
+				missedVisitsParentB: num('missedParentB'),
+			};
+
+			try {
+				const result = calculateVisitationLog(input);
+				if (error) error.classList.add('hidden');
+				const set = (sel: string, val: string) => { const el = root.querySelector(sel); if (el) el.textContent = val; };
+				set('[data-planned-a-label]', parentAName);
+				set('[data-planned-b-label]', parentBName);
+				set('[data-actual-a-label]', parentAName);
+				set('[data-actual-b-label]', parentBName);
+				set('[data-planned-a-pct]', `${result.plannedParentAPct}%`);
+				set('[data-planned-b-pct]', `${result.plannedParentBPct}%`);
+				set('[data-actual-a-pct]', `${result.actualParentAPct}%`);
+				set('[data-actual-b-pct]', `${result.actualParentBPct}%`);
+				set('[data-variance-a]', `${result.varianceParentA >= 0 ? '+' : ''}${result.varianceParentA}`);
+				set('[data-variance-b]', `${result.varianceParentB >= 0 ? '+' : ''}${result.varianceParentB}`);
+				set('[data-total-missed]', String(result.totalMissed));
+				set('[data-visitation-log-interpretation]', result.interpretation);
+				latestCopy = formatVisitationLogCopyText({ parentAName, parentBName, periodLabel, input, result });
+			} catch (e) {
+				if (error instanceof HTMLElement) {
+					error.textContent = e instanceof Error ? e.message : 'Invalid input';
+					error.classList.remove('hidden');
+				}
+			}
+		}
+
+		copyBtn?.addEventListener('click', async () => {
+			if (!(copyBtn instanceof HTMLButtonElement) || !latestCopy) return;
+			try {
+				await navigator.clipboard.writeText(latestCopy);
+				copyBtn.textContent = 'Copied';
+				setTimeout(() => { copyBtn.textContent = 'Copy log'; }, 2000);
+			} catch {
+				copyBtn.textContent = 'Copy failed';
+			}
+		});
+		form?.addEventListener('input', update);
+		form?.addEventListener('change', update);
+		update();
+	});
+</script>

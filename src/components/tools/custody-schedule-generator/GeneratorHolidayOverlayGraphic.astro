@@ -1,0 +1,63 @@
+---
+const dayLabels = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+const baseDays = ['A', 'A', 'B', 'B', 'A', 'A', 'A'];
+const overrideDays = [false, false, true, true, true, false, false];
+const weekLabels = ['Week 1', 'Week 2'];
+---
+
+<figure class="generator-holiday-overlay w-full max-w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Holiday overlay — base grid with override nights highlighted
+	</figcaption>
+	<p class="mt-2 text-xs leading-5 text-secondary">
+		Regular 2-2-3 rotation underneath; Thanksgiving rule replaces Wed–Fri block.
+	</p>
+
+	<div class="mt-4 rounded-lg bg-surface p-3 ring-1 ring-line-subtle">
+		<p class="text-[10px] font-bold uppercase tracking-[0.1em] text-muted">{weekLabels[0]}</p>
+		<div class="mt-2 grid grid-cols-7 gap-0.5">
+			{dayLabels.map((label, i) => (
+				<div class="min-w-0 text-center">
+					<span class="block text-[9px] text-muted">{label}</span>
+					<div
+						class:list={[
+							'mt-1 flex h-9 w-full items-center justify-center rounded text-[10px] font-bold',
+							overrideDays[i]
+								? 'bg-[repeating-linear-gradient(45deg,var(--accent)_0,var(--accent)_2px,transparent_2px,transparent_6px)] text-primary ring-2 ring-accent/50'
+								: baseDays[i] === 'A'
+									? 'bg-accent/20 text-accent'
+									: 'bg-page/80 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]',
+						]}
+					>
+						{overrideDays[i] ? 'H' : baseDays[i]}
+					</div>
+				</div>
+			))}
+		</div>
+	</div>
+
+	<div class="mt-2 rounded-lg bg-page/60 p-3 opacity-70 ring-1 ring-line-subtle">
+		<p class="text-[10px] font-bold uppercase tracking-[0.1em] text-muted">{weekLabels[1]}</p>
+		<div class="mt-2 grid grid-cols-7 gap-0.5">
+			{dayLabels.map((label, i) => (
+				<div class="min-w-0 text-center">
+					<span class="block text-[9px] text-muted">{label}</span>
+					<span
+						class:list={[
+							'mt-1 block rounded py-2 text-[10px] font-bold',
+							i % 2 === 0
+								? 'bg-surface text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]'
+								: 'bg-accent/15 text-accent',
+						]}
+					>
+						{i % 2 === 0 ? 'B' : 'A'}
+					</span>
+				</div>
+			))}
+		</div>
+	</div>
+
+	<p class="mt-3 text-[10px] leading-4 text-muted">
+		H = holiday override · base pattern resumes after return exchange
+	</p>
+</figure>

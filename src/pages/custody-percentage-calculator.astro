@@ -4,202 +4,166 @@ import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
 import PercentageCalculatorCard from '../components/tool/PercentageCalculatorCard.astro';
+import OvernightPieGraphic from '../components/tools/custody-percentage-calculator/OvernightPieGraphic.astro';
+import AnnualCalculationGraphic from '../components/tools/custody-percentage-calculator/AnnualCalculationGraphic.astro';
+import PercentageLadderGraphic from '../components/tools/custody-percentage-calculator/PercentageLadderGraphic.astro';
 import { getCanonicalUrl } from '../lib/seo/metadata';
 import {
+	buildArticleSchema,
 	buildBreadcrumbSchema,
 	buildFAQSchema,
+	buildSoftwareApplicationSchema,
 	buildWebPageSchema,
 } from '../lib/seo/schema';
-import { calculateCustodyPercentage, formatCustodyPercentage } from '../lib/calculators/custodyPercentage';
+import {
+	annualTotals,
+	articleTocItems,
+	editorialReview,
+	faqItems,
+	faqSection,
+	hero,
+	heroKeyStats,
+	howCalculated,
+	meta,
+	percentageLadder,
+	relatedReading,
+} from '../data/custodyPercentageCalculatorPage';
 
-const title = 'Custody Percentage Calculator | Calculate Parenting Time';
-const description =
-	'Calculate custody percentages and parenting time based on overnights, visitation schedules, and shared custody arrangements.';
 const canonical = '/custody-percentage-calculator/';
 const canonicalUrl = getCanonicalUrl(canonical);
-const commonExamples = [
-	{ split: '50/50', parentAOvernights: 182, parentBOvernights: 183 },
-	{ split: '60/40', parentAOvernights: 219, parentBOvernights: 146 },
-	{ split: '70/30', parentAOvernights: 256, parentBOvernights: 109 },
-	{ split: '80/20', parentAOvernights: 292, parentBOvernights: 73 },
-].map((example) => ({
-	...example,
-	result: calculateCustodyPercentage({
-		parentAOvernights: example.parentAOvernights,
-		parentBOvernights: example.parentBOvernights,
-	}),
-}));
-const faq = [
-	{
-		question: 'How is custody percentage calculated?',
-		answer:
-			'Custody percentage is usually calculated by dividing one parent’s overnights by the total overnights in the period, then multiplying by 100.',
-	},
-	{
-		question: 'Is this the same as a parenting time calculator?',
-		answer:
-			'It is closely related. A parenting time calculator may include hours, days, or holidays, while this simple calculator focuses on overnight counts.',
-	},
-	{
-		question: 'How many overnights is 50/50 custody?',
-		answer:
-			'In a 365-day year, 50/50 custody is usually about 182 or 183 overnights for each parent.',
-	},
-	{
-		question: 'Can custody percentages vary by month?',
-		answer:
-			'Yes. Some schedules are not perfectly equal every month but balance across the full repeating cycle or year.',
-	},
-];
 const breadcrumbs = [
 	{ name: 'Home', url: getCanonicalUrl('/') },
-	{ name: 'Calculators', url: getCanonicalUrl('/calculators/') },
 	{ name: 'Custody Percentage Calculator', url: canonicalUrl },
 ];
 const schema = [
-	buildFAQSchema(faq),
+	buildWebPageSchema({ name: meta.title, description: meta.description, url: canonicalUrl }),
+	buildArticleSchema({
+		headline: hero.headline,
+		description: meta.description,
+		url: canonicalUrl,
+		datePublished: meta.datePublished,
+		dateModified: meta.dateModified,
+		authorName: editorialReview.reviewer,
+	}),
+	buildFAQSchema(faqItems),
 	buildBreadcrumbSchema(breadcrumbs),
-	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+	{
+		...buildSoftwareApplicationSchema({
+			name: 'Custody Percentage Calculator',
+			description: meta.description,
+			url: canonicalUrl,
+			applicationCategory: 'LegalApplication',
+		}),
+		operatingSystem: 'Web',
+		offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+	},
 ];
 ---
 
-<BaseLayout title={title} description={description} canonical={canonical}>
+<BaseLayout title={meta.title} description={meta.description} canonical={canonical}>
 	<JsonLd slot="head" data={schema} />
 	<Navbar />
 	<Breadcrumbs items={breadcrumbs} />
 	<main>
-		<section class="container-shell grid gap-8 py-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:py-16">
-			<div>
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Parenting time calculator</p>
-				<h1 class="mt-4 max-w-3xl text-5xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary lg:text-6xl">
-					Custody Percentage Calculator
-				</h1>
-				<p class="mt-6 max-w-2xl text-lg leading-8 text-secondary">
-					Estimate parenting time percentages from overnight counts. Enter how many overnights each parent has to calculate custody percentages and total overnights.
-				</p>
-				<div class="mt-8 flex flex-col gap-3 sm:flex-row">
-					<a href="#calculator" class="btn-primary inline-flex h-13 w-full items-center justify-center rounded-full px-8 text-base font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_30px_rgba(37,99,235,0.14)] active:translate-y-0 sm:w-auto">
-						Calculate Percentage
-					</a>
-					<a href="/50-50-custody-schedule/" class="btn-secondary inline-flex h-13 w-full items-center justify-center rounded-full px-8 text-base font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_24px_rgba(0,0,0,0.12)] active:translate-y-0 sm:w-auto">
-						Compare 50/50 Schedules
-					</a>
+		<section class="container-shell grid grid-cols-1 gap-5 py-4 sm:py-5 lg:grid-cols-[minmax(0,0.88fr)_minmax(420px,1fr)] lg:items-start lg:gap-7 lg:py-6">
+			<div class="min-w-0 lg:pt-1">
+				<h1 class="max-w-3xl text-4xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary sm:text-5xl">{hero.headline}</h1>
+				<dl class="mt-4 grid grid-cols-3 gap-2">
+					{heroKeyStats.map((s) => (
+						<div class="rounded-[1rem] bg-accent/10 px-2 py-2.5 text-center sm:px-3">
+							<dd class="text-lg font-bold text-accent sm:text-xl">{s.value}</dd>
+							<dt class="mt-0.5 text-[10px] font-semibold uppercase text-secondary">{s.label}</dt>
+						</div>
+					))}
+				</dl>
+				<p class="mt-3 max-w-2xl text-base leading-7 text-secondary">{hero.intro}</p>
+				<p class="mt-3 max-w-2xl text-sm leading-6 text-secondary" set:html={hero.boundary} />
+				<div class="mt-3 max-w-2xl text-xs leading-5 text-muted">
+					<p class="font-semibold text-secondary">Reviewed for:</p>
+					<ul class="mt-1 list-inside list-disc">{editorialReview.reviewedFor.map((i) => <li>{i}</li>)}</ul>
+					<p class="mt-2">
+						Reviewed by <a href={editorialReview.reviewerHref} class="font-semibold text-secondary underline">{editorialReview.reviewer}</a>
+						{' · '}<a href={editorialReview.methodologyHref} class="font-semibold text-secondary underline">{editorialReview.methodologyLabel}</a>
+						{' · '}{editorialReview.disclaimer}
+					</p>
 				</div>
 			</div>
-
-			<PercentageCalculatorCard
-				heading="Calculate custody percentage"
-				ariaLabel="Custody percentage results"
-			/>
+			<PercentageCalculatorCard heading="Calculate custody percentage" ariaLabel="Custody percentage results" />
 		</section>
 
-		<section class="container-shell grid gap-8 py-12 lg:grid-cols-[0.72fr_1.28fr] lg:py-16">
-			<aside class="soft-card h-fit rounded-[1.5rem] p-6">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">On this page</p>
-				<ul class="mt-4 space-y-3 text-sm text-secondary">
-					<li><a href="#calculator" class="hover:text-primary">Calculator</a></li>
-					<li><a href="#examples" class="hover:text-primary">Examples</a></li>
-					<li><a href="#how-it-works" class="hover:text-primary">How it works</a></li>
-					<li><a href="#faq" class="hover:text-primary">FAQ</a></li>
-					<li><a href="#related" class="hover:text-primary">Related links</a></li>
-				</ul>
-			</aside>
-			<div class="grid gap-10">
-				<section id="examples" class="grid gap-5">
-					<div>
-						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Examples</p>
-						<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">Common custody percentage examples</h2>
-					</div>
-					<div class="grid gap-4 sm:grid-cols-2">
-						{commonExamples.map((example) => (
-							<article class="soft-card rounded-[1.5rem] p-5">
-								<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{example.split}</h3>
-								<div class="mt-4 grid grid-cols-2 gap-3">
-									<div class="rounded-2xl bg-page/55 p-3 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-										<p class="text-xs font-medium text-secondary">Parent A</p>
-										<p class="mt-1 text-xl font-semibold tracking-[-0.04em] text-accent">{formatCustodyPercentage(example.result.parentAPercentage)}</p>
-										<p class="mt-1 text-xs text-muted">{example.parentAOvernights} overnights</p>
-									</div>
-									<div class="rounded-2xl bg-page/55 p-3 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-										<p class="text-xs font-medium text-secondary">Parent B</p>
-										<p class="mt-1 text-xl font-semibold tracking-[-0.04em] text-parent-b">{formatCustodyPercentage(example.result.parentBPercentage)}</p>
-										<p class="mt-1 text-xs text-muted">{example.parentBOvernights} overnights</p>
-									</div>
-								</div>
-							</article>
+		<nav class="container-shell border-y border-line-subtle py-3" aria-label="On this page">
+			<ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">
+				{articleTocItems.map((i) => <li><a href={`#${i.id}`} class="hover:text-accent">{i.label}</a></li>)}
+			</ul>
+		</nav>
+
+		<section id="how-calculated" class="container-shell scroll-mt-24 py-10 lg:py-12">
+			<div class="grid gap-8 lg:grid-cols-[1fr_360px]">
+				<div>
+					<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{howCalculated.title}</h2>
+					<p class="mt-3 text-secondary">{howCalculated.intro}</p>
+					<p class="mt-4 rounded-lg bg-surface/50 p-3 font-mono text-sm text-primary ring-1 ring-line-subtle">{howCalculated.formula}</p>
+					<ol class="mt-6 list-decimal space-y-4 pl-5">
+						{howCalculated.steps.map((s) => (
+							<li class="text-secondary"><h3 class="font-semibold text-primary">{s.heading}</h3><p class="mt-2 text-sm">{s.body}</p></li>
 						))}
-					</div>
-				</section>
-
-				<section id="how-it-works" class="grid gap-4">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">How custody percentage is calculated</h2>
-					<p class="text-base leading-8 text-secondary">
-						Custody percentage is commonly estimated from overnights. Divide one parent’s overnights by the total overnights, then multiply by 100. For example, 182 overnights out of 365 is about 50%. After you know the split, you can <a href="/custody-schedule-generator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">build a custody schedule</a> and preview how those percentages look on a parenting calendar.
-					</p>
-					<p class="text-base leading-8 text-secondary">
-						This calculator is a planning tool. Actual parenting time rules can vary by jurisdiction, court order, holidays, and how partial days are counted.
-					</p>
-				</section>
-
-				<section id="faq" class="grid gap-5">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">FAQ</h2>
-					<div class="premium-card divide-y divide-line-subtle overflow-hidden rounded-[1.5rem]">
-						{faq.map((item) => (
-							<details class="group p-5 transition-colors duration-200 open:bg-surface-elevated/70 hover:bg-surface-hover/60">
-								<summary class="flex cursor-pointer list-none items-center justify-between gap-6 text-left text-base font-semibold tracking-[-0.02em] text-primary">
-									{item.question}
-									<span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-surface/80 text-muted shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-transform duration-200 group-open:rotate-45">+</span>
-								</summary>
-								<p class="mt-4 text-sm leading-6 text-secondary">{item.answer}</p>
-							</details>
-						))}
-					</div>
-				</section>
-
-				<section id="related" class="grid gap-5">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Related custody tools</h2>
-					<div class="grid gap-4 md:grid-cols-3">
-						<a href="/50-50-custody-schedule/" class="soft-card rounded-[1.5rem] p-5">
-							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">50/50 Custody Schedule</h3>
-							<p class="mt-2 text-sm leading-6 text-secondary">Compare common shared parenting schedules.</p>
-						</a>
-						<a href="/2-2-3-custody-schedule/" class="soft-card rounded-[1.5rem] p-5">
-							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">2-2-3 Custody Schedule</h3>
-							<p class="mt-2 text-sm leading-6 text-secondary">Preview a frequent-contact 50/50 schedule.</p>
-						</a>
-						<a href="/2-2-5-5-custody-schedule/" class="soft-card rounded-[1.5rem] p-5">
-							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">2-2-5-5 Custody Schedule</h3>
-							<p class="mt-2 text-sm leading-6 text-secondary">Compare a 50/50 pattern where fixed weekdays can still balance annual overnights.</p>
-						</a>
-						<a href="/5-2-2-5-custody-schedule/" class="soft-card rounded-[1.5rem] p-5">
-							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">5-2-2-5 Custody Schedule</h3>
-							<p class="mt-2 text-sm leading-6 text-secondary">See how five-day blocks and short blocks can still calculate as equal parenting time.</p>
-						</a>
-						<a href="/3-4-4-3-custody-schedule/" class="soft-card rounded-[1.5rem] p-5">
-							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">3-4-4-3 Custody Schedule</h3>
-							<p class="mt-2 text-sm leading-6 text-secondary">Review a balanced 50/50 rotation that can look uneven until the full cycle is counted.</p>
-						</a>
-						<a href="/custody-calendar-template/" class="soft-card rounded-[1.5rem] p-5">
-							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">Custody Calendar Template</h3>
-							<p class="mt-2 text-sm leading-6 text-secondary">Start from a printable calendar format.</p>
-						</a>
-						<a href="/60-40-custody-schedule/" class="soft-card rounded-[1.5rem] p-5">
-							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">60/40 Custody Schedule</h3>
-							<p class="mt-2 text-sm leading-6 text-secondary">Compare a common majority-time parenting schedule.</p>
-						</a>
-						<a href="/70-30-custody-schedule/" class="soft-card rounded-[1.5rem] p-5">
-							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">70/30 Custody Schedule</h3>
-							<p class="mt-2 text-sm leading-6 text-secondary">Estimate parenting time for a larger majority schedule.</p>
-						</a>
-						<a href="/parenting-plan-template/" class="soft-card rounded-[1.5rem] p-5">
-							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">Parenting Plan Template</h3>
-							<p class="mt-2 text-sm leading-6 text-secondary">Document schedules, exchanges, holidays, and decision-making rules.</p>
-						</a>
-					</div>
-				</section>
+					</ol>
+					<p class="mt-4 text-sm text-secondary" set:html={howCalculated.closing} />
+				</div>
+				<AnnualCalculationGraphic />
 			</div>
 		</section>
+
+		<section id="annual-totals" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<div class="grid gap-8 lg:grid-cols-[1fr_360px]">
+				<div>
+					<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{annualTotals.title}</h2>
+					<p class="mt-3 text-secondary">{annualTotals.intro}</p>
+					<div class="mt-6 overflow-x-auto rounded-[1.25rem] ring-1 ring-line-subtle">
+						<table class="w-full min-w-[320px] text-left text-sm">
+							<thead class="bg-surface-elevated text-xs uppercase text-muted">
+								<tr><th class="px-4 py-3">Split</th><th class="px-4 py-3">Parent A</th><th class="px-4 py-3">Parent B</th><th class="px-4 py-3">Note</th></tr>
+							</thead>
+							<tbody class="divide-y divide-line-subtle text-secondary">
+								{annualTotals.rows.map((r) => (
+									<tr><td class="px-4 py-3 font-semibold text-primary">{r.split}</td><td class="px-4 py-3">{r.parentA}</td><td class="px-4 py-3">{r.parentB}</td><td class="px-4 py-3 text-xs">{r.note}</td></tr>
+								))}
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<OvernightPieGraphic />
+			</div>
+		</section>
+
+		<section id="percentage-ladder" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<div class="grid gap-8 lg:grid-cols-[1fr_360px]">
+				<div>
+					<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{percentageLadder.title}</h2>
+					<p class="mt-3 text-secondary">{percentageLadder.intro}</p>
+					<ul class="mt-6 space-y-4">
+						{percentageLadder.bands.map((b) => (
+							<li class="border-l-2 border-accent/30 pl-4">
+								<h3 class="font-semibold text-primary">{b.range} — {b.label}</h3>
+								<p class="mt-2 text-sm text-secondary" set:html={b.body} />
+							</li>
+						))}
+					</ul>
+				</div>
+				<PercentageLadderGraphic />
+			</div>
+		</section>
+
+		<section id="related-reading" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{relatedReading.title}</h2>
+			<div class="mt-4 max-w-3xl space-y-3 text-secondary">
+				{relatedReading.paragraphs.map((p) => <p set:html={p} />)}
+			</div>
+		</section>
+
+		<FAQ items={faqItems} title={faqSection.title} description={faqSection.description} />
 	</main>
 	<Footer />
 </BaseLayout>

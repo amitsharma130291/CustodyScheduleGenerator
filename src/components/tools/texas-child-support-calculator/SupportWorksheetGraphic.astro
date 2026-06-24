@@ -1,0 +1,52 @@
+---
+const fields = [
+	{ label: 'Obligor gross monthly income', value: '$6,500.00', highlight: false },
+	{ label: 'Number of children', value: '1', highlight: false },
+	{ label: 'Allowed deductions', value: '− $1,650.00', highlight: false },
+	{ label: 'Net monthly resources', value: '$4,850.00', highlight: true },
+	{ label: 'Guideline percentage (1 child)', value: '20%', highlight: false },
+	{ label: 'Monthly child support', value: '$970.00', highlight: true, result: true },
+];
+---
+
+<figure class="support-worksheet w-full max-w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Support worksheet — field rows to filing exhibit
+	</figcaption>
+	<p class="mt-2 text-xs leading-5 text-secondary">
+		Each row maps to the Texas guideline worksheet — attach to parenting plan packet.
+	</p>
+
+	<div class="mt-4 overflow-x-auto">
+		<table class="w-full min-w-[260px] text-left text-xs">
+			<thead>
+				<tr class="border-b border-line-subtle text-[10px] font-bold uppercase tracking-[0.1em] text-muted">
+					<th class="pb-2 pr-3">Field</th>
+					<th class="pb-2 text-right">Value</th>
+				</tr>
+			</thead>
+			<tbody>
+				{fields.map((row, i) => (
+					<tr
+						class:list={[
+							row.highlight && 'bg-accent/[0.06]',
+							row.result && 'ring-1 ring-inset ring-accent/25',
+							i % 2 === 0 && !row.highlight ? 'bg-surface/80' : '',
+							'text-secondary',
+						]}
+					>
+						<td class="py-2.5 pr-3 font-semibold text-primary">{row.label}</td>
+						<td
+							class:list={[
+								'py-2.5 text-right font-bold tabular-nums',
+								row.result ? 'text-accent' : row.highlight ? 'text-primary' : 'text-secondary',
+							]}
+						>
+							{row.value}
+						</td>
+					</tr>
+				))}
+			</tbody>
+		</table>
+	</div>
+</figure>

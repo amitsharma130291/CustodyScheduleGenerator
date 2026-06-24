@@ -24,7 +24,7 @@ describe('calculateCustodyPercentage', () => {
 		});
 
 		expect(result.interpretation).toBe(
-			'Parent A has 182 overnights (49.9%). Parent B has 183 overnights (50.1%). This is generally considered a 50/50 parenting time split.',
+			'Parent A has 182 overnights (49.9%). Parent B has 183 overnights (50.1%). Split falls in the equal-time band (~182–183 overnights in a 365-day year).',
 		);
 	});
 
@@ -36,7 +36,7 @@ describe('calculateCustodyPercentage', () => {
 
 		expect(result.parentAPercentage).toBe(60);
 		expect(result.parentBPercentage).toBe(40);
-		expect(result.interpretation).toContain('closer to a 60/40 parenting time split');
+		expect(result.interpretation).toContain('60/40 parenting time band');
 	});
 
 	it('returns a 70/30 interpretation', () => {
@@ -47,7 +47,7 @@ describe('calculateCustodyPercentage', () => {
 
 		expect(result.parentAPercentage).toBe(70.1);
 		expect(result.parentBPercentage).toBe(29.9);
-		expect(result.interpretation).toContain('closer to a 70/30 parenting time split');
+		expect(result.interpretation).toContain('70/30 parenting time band');
 	});
 
 	it('builds copy results text with percentages and overnights', () => {
@@ -79,7 +79,7 @@ describe('calculateCustodyPercentage', () => {
 				parentBOvernights: 183,
 				result,
 			}),
-		).toContain('This is generally considered equal parenting time.');
+		).toContain('equal-time band');
 	});
 
 	it('builds majority parenting time visitation interpretation', () => {

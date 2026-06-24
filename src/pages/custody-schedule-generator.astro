@@ -1,351 +1,199 @@
 ---
-import BestScheduleQuiz from '../components/homepage/BestScheduleQuiz.astro';
-import ExportPreview from '../components/homepage/ExportPreview.astro';
-import HomepageScheduleActions from '../components/homepage/HomepageScheduleActions.astro';
-import PopularSchedules from '../components/homepage/PopularSchedules.astro';
-import RealCalendarExamples from '../components/homepage/RealCalendarExamples.astro';
-import RelatedToolsHub from '../components/homepage/RelatedToolsHub.astro';
-import ScheduleComparison from '../components/homepage/ScheduleComparison.astro';
-import FAQ from '../components/FAQ.astro';
-import Footer from '../components/Footer.astro';
-import Hero from '../components/Hero.astro';
-import JsonLd from '../components/seo/JsonLd.astro';
-import Navbar from '../components/Navbar.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import {
-	calendarExamples,
-	comparisonRows,
-	familyLawTools,
-	homepageFaqItems,
-	popularSchedules,
-	relatedTools,
-} from '../data/homepage';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import CalendarPreview from '../components/tool/CalendarPreview.astro';
+import ExportActions from '../components/tool/ExportActions.astro';
+import GeneratorPanel from '../components/tool/GeneratorPanel.astro';
+import CalendarConstructionGraphic from '../components/tools/custody-schedule-generator/CalendarConstructionGraphic.astro';
+import GeneratorRotationBuilderGraphic from '../components/tools/custody-schedule-generator/GeneratorRotationBuilderGraphic.astro';
+import GeneratorHolidayOverlayGraphic from '../components/tools/custody-schedule-generator/GeneratorHolidayOverlayGraphic.astro';
+import { generateSchedule } from '../lib/schedules/generateSchedule';
+import { getDefaultStartDate } from '../lib/schedules/format';
 import { getCanonicalUrl } from '../lib/seo/metadata';
 import {
+	buildArticleSchema,
 	buildBreadcrumbSchema,
 	buildFAQSchema,
 	buildOrganizationSchema,
 	buildSoftwareApplicationSchema,
 	buildWebPageSchema,
 } from '../lib/seo/schema';
+import {
+	articleTocItems,
+	calendarConstruction,
+	editorialReview,
+	faqItems,
+	faqSection,
+	hero,
+	heroKeyStats,
+	heroTrustSignals,
+	holidayOverlay,
+	interpretResults,
+	meta,
+	relatedReading,
+	rotationBuilder,
+} from '../data/custodyScheduleGenerator';
 
-const title = 'Custody Schedule Generator | Free 50/50 Parenting Calendar';
-const description =
-	'Create a free custody schedule, compare 50/50 parenting plans, calculate parenting time percentages, and print a custody calendar PDF.';
-const ogDescription = description;
 const canonical = '/custody-schedule-generator/';
 const canonicalUrl = getCanonicalUrl(canonical);
-const dateModified = '2026-06-17';
-const featuredComparisonRows = comparisonRows.slice(0, 4);
-const howToSchema = {
-	'@context': 'https://schema.org',
-	'@type': 'HowTo',
-	name: 'How to create a custody schedule',
-	description: 'Create a custody schedule by choosing a parenting-time pattern, previewing the calendar, checking overnights, and exporting a printable custody calendar.',
-	inLanguage: 'en-US',
-	totalTime: 'PT5M',
-	step: [
-		{
-			'@type': 'HowToStep',
-			name: 'Choose a parenting schedule',
-			text: 'Start with a common custody schedule such as 2-2-3, 2-2-5-5, 50/50, 60/40, or 70/30.',
-		},
-		{
-			'@type': 'HowToStep',
-			name: 'Preview the custody calendar',
-			text: 'Use the generator to see exchange days, weekend patterns, and school-week rhythm on a real calendar.',
-		},
-		{
-			'@type': 'HowToStep',
-			name: 'Check parenting time percentages',
-			text: 'Review overnight totals and parenting time percentages before comparing the schedule with alternatives.',
-		},
-		{
-			'@type': 'HowToStep',
-			name: 'Export a printable calendar',
-			text: 'Print or download a custody calendar PDF for planning, mediation, or co-parenting discussions.',
-		},
-	],
-};
-const scheduleItemListSchema = {
-	'@context': 'https://schema.org',
-	'@type': 'ItemList',
-	name: 'Common custody schedules and parenting plans',
-	inLanguage: 'en-US',
-	itemListElement: popularSchedules.map((schedule, index) => ({
-		'@type': 'ListItem',
-		position: index + 1,
-		name: schedule.name,
-		url: getCanonicalUrl(schedule.href),
-	})),
-};
+const startDate = getDefaultStartDate();
+const schedule = generateSchedule({ scheduleId: '223', startDate });
+
+const breadcrumbs = [
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: 'Custody Schedule Generator', url: canonicalUrl },
+];
+
 const schema = [
-	buildFAQSchema(homepageFaqItems),
-	buildBreadcrumbSchema([
-		{ name: 'Home', url: getCanonicalUrl('/') },
-		{ name: 'Custody Schedule Generator', url: canonicalUrl },
-	]),
-	{
-		...buildWebPageSchema({
-			name: title,
-			description,
-			url: canonicalUrl,
-		}),
-		dateModified,
-		lastReviewed: dateModified,
-		isAccessibleForFree: true,
-		about: [
-			'custody schedule generator',
-			'custody calendar',
-			'parenting time calculator',
-			'printable custody calendar',
-		],
-	},
-	buildOrganizationSchema({
-		name: 'CustodyBuilder',
-		url: getCanonicalUrl('/'),
+	buildWebPageSchema({ name: meta.title, description: meta.description, url: canonicalUrl }),
+	buildArticleSchema({
+		headline: hero.headline,
+		description: meta.description,
+		url: canonicalUrl,
+		datePublished: meta.datePublished,
+		dateModified: meta.dateModified,
+		authorName: editorialReview.reviewer,
 	}),
+	buildFAQSchema(faqItems),
+	buildBreadcrumbSchema(breadcrumbs),
+	buildOrganizationSchema({ name: 'CustodyBuilder', url: getCanonicalUrl('/') }),
 	{
 		...buildSoftwareApplicationSchema({
 			name: 'Custody Schedule Generator',
-			description:
-				'Free custody schedule generator for creating parenting calendars, visitation schedules, and printable custody plans.',
+			description: meta.description,
 			url: canonicalUrl,
 			applicationCategory: 'LegalApplication',
 		}),
 		operatingSystem: 'Web',
-		isAccessibleForFree: true,
-		provider: {
-			'@type': 'Organization',
-			name: 'CustodyBuilder',
-			url: getCanonicalUrl('/'),
-		},
-		featureList: [
-			'Custody schedule generator',
-			'Parenting time calculator',
-			'Printable custody calendar',
-			'50/50 custody schedule comparison',
-			'60/40 custody schedule comparison',
-			'PDF export',
-		],
+		offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
 	},
-	howToSchema,
-	scheduleItemListSchema,
 ];
 ---
 
-<BaseLayout title={title} description={description} canonical={canonical} ogDescription={ogDescription}>
+<BaseLayout title={meta.title} description={meta.description} canonical={canonical}>
 	<JsonLd slot="head" data={schema} />
 	<Navbar />
-	<main class="relative overflow-x-clip">
-		<Hero />
-		<BestScheduleQuiz />
-		<PopularSchedules schedules={popularSchedules} />
-		<ScheduleComparison rows={featuredComparisonRows} />
-		<div class="container-shell -mt-4 pb-2">
-			<p class="max-w-3xl text-sm leading-6 text-secondary">
-				For simpler patterns, <a href="/every-other-weekend-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">see an every other weekend custody schedule</a>. Texas parents can also <a href="/texas-parenting-plan-template/#standard-possession-order" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">compare a Texas Standard Possession Order</a> before choosing a 50/50 custody schedule or custom plan.
-			</p>
-		</div>
-
-		<section class="container-shell py-section" aria-labelledby="create-custody-calendar-title">
-			<div class="soft-card rounded-[1.5rem] p-5 sm:p-6">
-				<div class="max-w-3xl">
-					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Custody calendar planning</p>
-					<h2 id="create-custody-calendar-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary">Create a Custody Calendar</h2>
-					<p class="mt-4 text-sm leading-6 text-secondary">
-						A custody calendar turns a parenting schedule or visitation schedule into real dates, exchange days, weekends, and overnights. Seeing the calendar helps parents compare schedule options before using one in a co-parenting discussion.
-					</p>
-					<p class="mt-3 text-sm leading-6 text-secondary">
-						Use CustodyBuilder to preview a parenting calendar, compare common custody arrangements, and check parenting time percentages based on overnight totals. A clear co-parenting calendar can make planning school weeks, <a href="/holiday-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">holiday custody schedules</a>, and transitions easier.
+	<Breadcrumbs items={breadcrumbs} />
+	<main>
+		<section class="atmosphere container-shell grid items-start gap-5 py-4 scroll-mt-24 sm:gap-6 sm:py-6 lg:grid-cols-[minmax(0,0.42fr)_minmax(0,1fr)] lg:gap-8">
+			<div class="relative z-10 min-w-0 lg:pt-2">
+				<h1 class="max-w-3xl text-4xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary sm:text-5xl">{hero.headline}</h1>
+				<dl class="mt-4 grid grid-cols-3 gap-2">
+					{heroKeyStats.map((s) => (
+						<div class="rounded-[1rem] bg-accent/10 px-2 py-2.5 text-center sm:px-3">
+							<dd class="text-lg font-bold text-accent sm:text-xl">{s.value}</dd>
+							<dt class="mt-0.5 text-[10px] font-semibold uppercase text-secondary">{s.label}</dt>
+						</div>
+					))}
+				</dl>
+				<p class="mt-3 max-w-xl text-base leading-7 text-secondary">{hero.intro}</p>
+				<p class="mt-3 max-w-xl text-sm leading-6 text-secondary" set:html={hero.boundary} />
+				<div class="mt-3 max-w-xl text-xs leading-5 text-muted">
+					<p class="font-semibold text-secondary">Reviewed for:</p>
+					<ul class="mt-1 list-inside list-disc">{editorialReview.reviewedFor.map((i) => <li>{i}</li>)}</ul>
+					<p class="mt-2">
+						Reviewed by <a href={editorialReview.reviewerHref} class="font-semibold text-secondary underline">{editorialReview.reviewer}</a>
+						{' · '}<a href={editorialReview.methodologyHref} class="font-semibold text-secondary underline">{editorialReview.methodologyLabel}</a>
+						{' · '}{editorialReview.disclaimer}
 					</p>
 				</div>
-				<div class="mt-5 grid gap-2 text-sm font-semibold leading-6 text-secondary sm:grid-cols-2 lg:grid-cols-3">
-					<span><span class="text-parent-b" aria-hidden="true">✓</span> Generate a custody calendar</span>
-					<span><span class="text-parent-b" aria-hidden="true">✓</span> Compare parenting schedules</span>
-					<span><span class="text-parent-b" aria-hidden="true">✓</span> View parenting time percentages</span>
-					<span><span class="text-parent-b" aria-hidden="true">✓</span> Plan holidays and exchanges</span>
-					<span><span class="text-parent-b" aria-hidden="true">✓</span> Build a co-parenting calendar</span>
+				<ul class="mt-3 flex flex-wrap gap-2 text-xs font-semibold text-secondary">
+					{heroTrustSignals.map((s) => (
+						<li class="rounded-full bg-surface/70 px-3 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">{s}</li>
+					))}
+				</ul>
+			</div>
+
+			<div id="generator" class="hero-generator-shell relative min-w-0 scroll-mt-24">
+				<div class="premium-card relative overflow-visible rounded-[1.75rem] border-line p-3 sm:p-4">
+					<div class="rounded-[1.4rem] bg-surface-elevated shadow-[inset_0_1px_0_rgba(255,255,255,0.07)]">
+						<div class="hero-generator-grid">
+							<GeneratorPanel selectedScheduleId="223" compact />
+							<div class="hero-calendar-column grid gap-3 p-3">
+								<CalendarPreview schedule={schedule}>
+									<ExportActions slot="actions" />
+								</CalendarPreview>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</section>
 
-		<section class="container-shell py-6 lg:py-8" aria-label="Start building your custody calendar">
-			<div class="soft-card grid gap-5 rounded-[1.5rem] p-5 sm:p-6 lg:grid-cols-[1fr_auto] lg:items-center">
+		<nav class="container-shell border-y border-line-subtle py-3" aria-label="On this page">
+			<ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">
+				{articleTocItems.map((i) => <li><a href={`#${i.id}`} class="hover:text-accent">{i.label}</a></li>)}
+			</ul>
+		</nav>
+
+		<section id="calendar-construction" class="container-shell scroll-mt-24 py-10 lg:py-12">
+			<div class="grid gap-8 lg:grid-cols-[1fr_360px]">
 				<div>
-					<h2 class="text-2xl font-semibold tracking-[-0.04em] text-primary">Ready to build your calendar?</h2>
-					<p class="mt-2 text-sm leading-6 text-secondary">Choose a schedule, preview parenting time, and export a printable calendar.</p>
+					<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{calendarConstruction.title}</h2>
+					<p class="mt-3 text-secondary">{calendarConstruction.intro}</p>
+					<ol class="mt-6 list-decimal space-y-4 pl-5">
+						{calendarConstruction.steps.map((s) => (
+							<li class="text-secondary"><h3 class="font-semibold text-primary">{s.heading}</h3><p class="mt-2 text-sm">{s.body}</p></li>
+						))}
+					</ol>
 				</div>
-				<div class="flex flex-col gap-3 sm:flex-row">
-					<a href="#generator" class="btn-primary inline-flex h-11 items-center justify-center whitespace-nowrap rounded-full px-5 text-sm font-semibold">
-						Start with the generator
-					</a>
-					<a href="#find-a-schedule" class="btn-secondary inline-flex h-11 items-center justify-center whitespace-nowrap rounded-full px-5 text-sm font-semibold">
-						Find the right schedule
-					</a>
+				<CalendarConstructionGraphic />
+			</div>
+		</section>
+
+		<section id="rotation-builder" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<div class="grid gap-8 lg:grid-cols-[1fr_360px]">
+				<div>
+					<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{rotationBuilder.title}</h2>
+					<p class="mt-3 text-secondary">{rotationBuilder.intro}</p>
+					<ul class="mt-6 space-y-4">
+						{rotationBuilder.points.map((p) => (
+							<li class="border-l-2 border-accent/30 pl-4"><h3 class="font-semibold text-primary">{p.heading}</h3><p class="mt-2 text-sm text-secondary">{p.body}</p></li>
+						))}
+					</ul>
 				</div>
+				<GeneratorRotationBuilderGraphic />
 			</div>
 		</section>
 
-		<RealCalendarExamples examples={calendarExamples} />
-		<ExportPreview />
-
-		<section class="container-shell py-section" aria-labelledby="how-custodybuilder-helps-title">
-			<div class="soft-card rounded-[1.5rem] p-5 sm:p-6">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">How it works</p>
-				<h2 id="how-custodybuilder-helps-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary">How CustodyBuilder Helps You Compare Schedules</h2>
-				<div class="mt-4 grid gap-4 text-sm leading-6 text-secondary md:grid-cols-3">
-					<p>Choose a common custody schedule, preview the calendar, and see how exchange days and overnight totals look in a real month.</p>
-					<p>Compare parenting time percentages across common schedules before deciding which calendar is easiest to discuss or refine.</p>
-					<p>Export or print a custody calendar for planning, mediation, co-parenting discussion, or a parenting plan draft.</p>
+		<section id="holiday-overlay" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<div class="grid gap-8 lg:grid-cols-[1fr_360px]">
+				<div>
+					<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{holidayOverlay.title}</h2>
+					<p class="mt-3 text-secondary">{holidayOverlay.intro}</p>
+					<ul class="mt-6 space-y-4">
+						{holidayOverlay.points.map((p) => (
+							<li class="text-sm text-secondary" set:html={`<strong class="text-primary">${p.heading}</strong> — ${p.body}`} />
+						))}
+					</ul>
 				</div>
+				<GeneratorHolidayOverlayGraphic />
 			</div>
 		</section>
 
-		<section class="container-shell py-section" aria-labelledby="parenting-time-generator-title">
-			<div class="grid gap-4 lg:grid-cols-2">
-				<article class="soft-card rounded-[1.5rem] p-5 sm:p-6">
-					<h2 id="parenting-time-generator-title" class="text-3xl font-semibold tracking-[-0.04em] text-primary">Custody Schedule Generator by Parenting Time</h2>
-					<p class="mt-4 text-sm leading-6 text-secondary">
-						Use CustodyBuilder as a 50/50 custody schedule generator when comparing equal parenting time options like 2-2-3, 2-2-5-5, 5-2-2-5, and week on week off. Common custody schedule examples also include 60/40, 70/30, and 80/20 arrangements when one home has more overnights, or an <a href="/every-other-weekend-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">every other weekend schedule</a> when fewer exchanges fit better.
-					</p>
-				</article>
-				<article class="soft-card rounded-[1.5rem] p-5 sm:p-6">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Printable Custody Calendar and Parenting Plan Examples</h2>
-					<p class="mt-4 text-sm leading-6 text-secondary">
-						Build a printable custody calendar, export a custody calendar PDF, and compare parenting plan examples before using the <a href="/custody-percentage-calculator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">custody percentage calculator</a> to review overnight percentages. You can also <a href="/parenting-plan-template/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">create a printable parenting plan</a> or <a href="/texas-parenting-plan-template/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">build a complete Texas parenting plan</a> when the calendar is ready for discussion.
-					</p>
-				</article>
-			</div>
-		</section>
-
-		<section class="container-shell scroll-mt-24 py-section" aria-labelledby="planning-guidance-title">
-			<div class="premium-card rounded-[2rem] p-3">
-				<div class="rounded-[1.7rem] bg-surface-elevated/80 p-5 sm:p-6 lg:p-7">
-					<div class="max-w-3xl">
-						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Practical planning guidance</p>
-						<h2 id="planning-guidance-title" class="mt-3 text-3xl font-semibold leading-[1.08] tracking-[-0.045em] text-primary sm:text-4xl">
-							Compare the calendar, not just the schedule name.
-						</h2>
-						<p class="mt-4 text-base leading-7 text-secondary">
-							A schedule can sound fair on paper and still feel hard in real life. Before you bring a proposal to a co-parent, mediator, or attorney, look at the actual exchange days, school mornings, long gaps, weekends, and overnight percentages.
-						</p>
-					</div>
-
-					<div class="mt-6 grid gap-4 lg:grid-cols-3">
-						<article class="soft-card rounded-[1.5rem] p-4">
-							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">When frequent exchanges help</h3>
-							<p class="mt-2 text-sm leading-6 text-secondary">
-								Frequent exchanges can help younger children maintain contact with both homes. They work best when parents live close, transitions are calm, and school or daycare handoffs are easy.
-							</p>
-						</article>
-						<article class="soft-card rounded-[1.5rem] p-4">
-							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">When fewer exchanges help</h3>
-							<p class="mt-2 text-sm leading-6 text-secondary">
-								Fewer exchanges can reduce friction for older children, long commutes, sports, homework, and busy school weeks. Longer blocks may be easier to follow but harder for some younger children.
-							</p>
-						</article>
-						<article class="soft-card rounded-[1.5rem] p-4">
-							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">Planning note</h3>
-							<p class="mt-2 text-sm leading-6 text-secondary">
-								CustodyBuilder is for planning and education, not legal advice. Generate the calendar, check the overnight split, and bring clearer options into schedule conversations.
-							</p>
-						</article>
-					</div>
-				</div>
-			</div>
-		</section>
-
-		<section class="container-shell py-6 lg:py-8" aria-labelledby="terminology-title">
-			<div class="soft-card rounded-[1.5rem] p-5 sm:p-6">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Terminology note</p>
-				<h2 id="terminology-title" class="mt-3 text-2xl font-semibold tracking-[-0.04em] text-primary">Custody schedules, parenting schedules, and child arrangements</h2>
-				<p class="mt-3 text-sm leading-6 text-secondary">
-					Families use different terms for similar planning work. In the US, parents often search for a custody schedule, parenting schedule, parenting time schedule, or parenting arrangement. In the UK, similar plans may be called child arrangements or a shared care schedule. CustodyBuilder focuses on the practical calendar: overnights, exchanges, weekends, and printable schedules.
-				</p>
-			</div>
-		</section>
-
-		<RelatedToolsHub tools={relatedTools} />
-
-		<section class="container-shell py-section" aria-labelledby="child-support-schedule-title">
-			<div class="premium-card rounded-[2rem] p-3">
-				<div class="rounded-[1.7rem] bg-surface-elevated/80 p-5 sm:p-6 lg:p-7">
-					<div class="grid gap-5 lg:grid-cols-[1fr_auto] lg:items-center">
-						<div class="max-w-3xl">
-							<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Schedule plus support</p>
-							<h2 id="child-support-schedule-title" class="mt-3 text-3xl font-semibold leading-[1.08] tracking-[-0.045em] text-primary sm:text-4xl">
-								Estimate Child Support Alongside Your Parenting Schedule
-							</h2>
-							<p class="mt-4 text-base leading-7 text-secondary">
-								Parenting schedules and child support often work together. After building a custody calendar, estimate guideline child support using our <a href="/texas-child-support-calculator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Texas child support calculator</a>.
-							</p>
-						</div>
-						<div class="flex flex-col gap-3 sm:flex-row lg:flex-col xl:flex-row">
-							<a href="/texas-child-support-calculator/" class="btn-primary inline-flex h-11 items-center justify-center whitespace-nowrap rounded-full px-5 text-sm font-semibold">Calculate Texas Child Support</a>
-							<a href="#generator" class="btn-secondary inline-flex h-11 items-center justify-center whitespace-nowrap rounded-full px-5 text-sm font-semibold">Build Custody Schedule</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-
-		<section id="family-law-tools" class="container-shell py-section" aria-labelledby="family-law-tools-title">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Family law tools</p>
-				<h2 id="family-law-tools-title" class="mt-3 text-3xl font-semibold leading-[1.08] tracking-[-0.045em] text-primary sm:text-4xl">
-					Plan custody schedules, parenting time, and support together.
-				</h2>
-				<p class="mt-4 text-base leading-7 text-secondary">
-					Use these tools together when a parenting calendar, overnight percentage, visitation plan, and Texas support estimate all need to tell the same story. Texas parents can <a href="/texas-parenting-plan-template/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">build a complete Texas parenting plan</a> alongside the calendar.
-				</p>
-			</div>
-			<div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-				{familyLawTools.map((tool) => (
-					<a href={tool.href} class="soft-card group flex h-full flex-col rounded-[1.5rem] p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-[0_18px_44px_rgba(15,23,42,0.08)]">
-						<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{tool.title}</h3>
-						<p class="mt-2 text-sm leading-6 text-secondary">{tool.when}</p>
-						<span class="mt-auto pt-3 text-sm font-semibold text-accent underline decoration-line underline-offset-4 transition-colors group-hover:text-primary">Open tool</span>
-					</a>
+		<section id="interpret-results" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{interpretResults.title}</h2>
+			<p class="mt-3 max-w-3xl text-secondary">{interpretResults.intro}</p>
+			<ul class="mt-6 max-w-3xl space-y-4">
+				{interpretResults.questions.map((q) => (
+					<li class="border-l-2 border-accent/30 pl-4"><h3 class="font-semibold text-primary">{q.heading}</h3><p class="mt-2 text-sm text-secondary">{q.body}</p></li>
 				))}
+			</ul>
+			<p class="mt-6 max-w-3xl text-sm text-secondary" set:html={interpretResults.closing} />
+		</section>
+
+		<section id="related-reading" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{relatedReading.title}</h2>
+			<div class="mt-4 max-w-3xl space-y-3 text-secondary">
+				{relatedReading.paragraphs.map((p) => <p set:html={p} />)}
 			</div>
 		</section>
 
-		<section class="container-shell py-section" aria-labelledby="schedule-examples-seo-title">
-			<div class="soft-card rounded-[1.5rem] p-5 sm:p-6">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Schedule examples</p>
-				<h2 id="schedule-examples-seo-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary">Custody Schedule Examples and Parenting Plans</h2>
-				<div class="mt-4 grid gap-4 text-sm leading-7 text-secondary lg:grid-cols-2">
-					<p>
-						The best custody schedule is usually the one both homes can follow consistently. A <a href="/50-50-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 custody schedule</a> can work when parents live close enough to share school routines, activities, and transportation. Common 50/50 options include a <a href="/2-2-3-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-3 custody schedule</a>, which gives children frequent contact with both parents, and a <a href="/2-2-5-5-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-5-5 custody schedule</a>, which gives each parent the same weekdays and alternating longer weekend blocks.
-					</p>
-					<p>
-						Some families need a less even parenting plan. A <a href="/60-40-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">60/40 custody schedule</a> can preserve substantial time in both homes while giving one parent more school-week structure. A <a href="/70-30-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">70/30 custody schedule</a> may fit families that need one primary home plus regular overnights. An <a href="/80-20-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">80/20 custody schedule</a> is often closer to a primary-home arrangement, such as alternating weekends with added holiday or school-break time.
-					</p>
-					<p>
-						Older children may prefer fewer exchanges. A <a href="/week-on-week-off-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">week on week off custody schedule</a> is simple and predictable, but a full week away from each parent may not fit younger children. For school-aged children, many parents compare 2-2-5-5, <a href="/5-2-2-5-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">5-2-2-5 custody schedule</a>, and week-on/week-off calendars because each option balances stability, exchange frequency, and weekend fairness differently.
-					</p>
-					<p>
-						CustodyBuilder helps you test these parenting plans as an actual parenting time schedule and co-parenting calendar. Build a schedule, check overnight percentages, preview a printable custody calendar, and compare alternatives before using the result in mediation, co-parenting discussions, or a <a href="/parenting-plan-template/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting plan template</a> draft.
-					</p>
-				</div>
-				<div class="mt-5 rounded-2xl bg-page/70 p-4 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-					<strong class="text-primary">Planning note:</strong> CustodyBuilder provides planning tools and educational information and does not provide legal advice.
-				</div>
-			</div>
-		</section>
-
-		<section class="container-shell py-6 lg:py-8" aria-labelledby="important-planning-note-title">
-			<div class="soft-card rounded-[1.5rem] p-5 sm:p-6">
-				<h2 id="important-planning-note-title" class="text-2xl font-semibold tracking-[-0.04em] text-primary">Important Planning Note</h2>
-				<p class="mt-3 text-sm leading-6 text-secondary">
-					CustodyBuilder is a planning tool, not legal advice. Parenting schedules may need to follow local court rules, school calendars, <a href="/holiday-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">holiday custody schedules</a>, transportation limits, and child-specific needs. Always confirm formal custody agreements with a qualified professional.
-				</p>
-			</div>
-		</section>
-
-		<FAQ items={homepageFaqItems} />
-		<HomepageScheduleActions />
+		<FAQ items={faqItems} title={faqSection.title} description={faqSection.description} />
 	</main>
 	<Footer />
 </BaseLayout>

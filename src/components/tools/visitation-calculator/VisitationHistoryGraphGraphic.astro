@@ -1,0 +1,77 @@
+---
+const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'];
+const cumulative = [8, 18, 28, 38, 48, 58];
+const maxY = 60;
+const chartW = 320;
+const chartH = 120;
+const padX = 28;
+const padY = 12;
+const plotW = chartW - padX * 2;
+const plotH = chartH - padY * 2;
+
+const points = cumulative.map((val, i) => {
+	const x = padX + (i / (months.length - 1)) * plotW;
+	const y = padY + plotH - (val / maxY) * plotH;
+	return { x, y, val };
+});
+const linePath = points.map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`).join(' ');
+---
+
+<figure class="visitation-history-graph w-full max-w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Visitation history — cumulative overnights by month
+	</figcaption>
+	<p class="mt-2 text-xs leading-5 text-secondary">
+		Running total climbs with each logged stay — flat stretches mean gaps.
+	</p>
+
+	<div class="mt-4 overflow-x-auto">
+		<svg
+			class="w-full min-w-[280px]"
+			viewBox={`0 0 ${chartW} ${chartH + 24}`}
+			role="img"
+			aria-label="Cumulative overnight line rising from 8 in January to 58 in June"
+			preserveAspectRatio="xMidYMid meet"
+		>
+			{[0, 20, 40, 60].map((tick) => {
+				const y = padY + plotH - (tick / maxY) * plotH;
+				return (
+					<g>
+						<line
+							x1={padX}
+							y1={y}
+							x2={padX + plotW}
+							y2={y}
+							stroke="var(--border-subtle, #e2e8f0)"
+							stroke-width="1"
+							stroke-dasharray={tick === 0 ? '0' : '3 3'}
+						/>
+						<text x={padX - 6} y={y + 3} text-anchor="end" fill="var(--color-muted, #64748b)" font-size="9">
+							{tick}
+						</text>
+					</g>
+				);
+			})}
+			<path
+				d={linePath}
+				fill="none"
+				stroke="var(--color-accent, #2563eb)"
+				stroke-width="2.5"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			/>
+			{points.map((p, i) => (
+				<g>
+					<circle cx={p.x} cy={p.y} r="4" fill="var(--color-accent, #2563eb)" />
+					<text x={p.x} y={chartH + 16} text-anchor="middle" fill="var(--color-muted, #64748b)" font-size="9">
+						{months[i]}
+					</text>
+				</g>
+			))}
+		</svg>
+	</div>
+
+	<p class="mt-2 text-center text-[11px] tabular-nums text-muted">
+		End of June: <span class="font-semibold text-accent">{cumulative[cumulative.length - 1]}</span> cumulative overnights logged
+	</p>
+</figure>

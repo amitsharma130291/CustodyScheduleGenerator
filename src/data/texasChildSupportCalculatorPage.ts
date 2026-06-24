@@ -1,37 +1,36 @@
 export const meta = {
 	title: 'Texas Child Support Calculator | Estimate Monthly Support',
 	description:
-		'Estimate Texas child support using guideline percentages and net resources. See income examples, 50/50 custody answers, and why your estimate may differ from a court order.',
+		'Estimate Texas child support from monthly gross income, children before the court, and allowable deductions — guideline percentages applied to net resources, not gross pay.',
 	datePublished: '2026-06-08',
-	dateModified: '2026-06-19',
-	lastReviewed: 'June 2026',
+	dateModified: '2026-06-25',
 };
 
 export const hero = {
 	headline: 'Texas Child Support Calculator',
 	opening:
-		'Use this tool to estimate monthly Texas child support from the paying parent\'s income, number of children, and optional deductions. Texas guidelines apply a percentage to monthly net resources — not gross pay — so the same salary can produce different estimates after taxes and allowed deductions.',
+		'Estimate monthly Texas child support from the paying parent\'s gross income, number of children, and optional deductions. Texas guidelines apply a percentage to monthly net resources — custody percentages and calendar generation are separate tools.',
 	closing:
-		'The result is a planning estimate. Courts may order a different amount after reviewing medical support, other children, parenting arrangements, and case-specific facts.',
+		'Planning estimate only. Courts may order a different amount after medical support, other children, parenting arrangements, and case-specific review.',
 };
 
 export const editorialReview = {
-	lastReviewed: 'June 2026',
+	reviewedFor: ['Texas guideline percentage table', 'net resources calculation', 'income cap logic', 'deduction field accuracy', 'educational clarity'],
 	reviewer: 'CustodyBuilder Editorial Team',
 	reviewerHref: '/about/',
-	body: 'This calculator is designed to help parents understand Texas child support guidelines and estimate possible monthly payments. It is not legal advice, not an official Texas court calculation, and does not create an attorney-client relationship.',
+	methodologyLabel: 'How CustodyBuilder Works',
+	methodologyHref: '/how-custodybuilder-works/',
+	disclaimer: 'Financial planning estimate only — not legal or financial advice, not an official Texas court calculation.',
 };
 
 export const articleTocItems = [
 	{ id: 'calculator', label: 'Calculator' },
-	{ id: 'how-to-use', label: 'How to use the calculator' },
-	{ id: 'how-calculated', label: 'How Texas child support is calculated' },
-	{ id: 'income-examples', label: 'Support examples by income' },
-	{ id: 'fifty-fifty', label: '50/50 custody and support' },
-	{ id: 'what-income-counts', label: 'What income counts' },
-	{ id: 'estimate-differences', label: 'Why estimates differ from court orders' },
-	{ id: 'before-court', label: 'What to gather for mediation' },
-	{ id: 'official-resources', label: 'Official Texas resources' },
+	{ id: 'income-flow', label: 'Income flow' },
+	{ id: 'how-calculated', label: 'Guideline math' },
+	{ id: 'worksheet', label: 'Worksheet fields' },
+	{ id: 'income-examples', label: 'Income examples' },
+	{ id: 'estimate-differences', label: 'Estimate vs order' },
+	{ id: 'related-reading', label: 'Next step' },
 	{ id: 'faq', label: 'FAQ' },
 ];
 
@@ -239,21 +238,36 @@ export const beforeCourt = {
 		'Bring the calculator printout as a starting point, not a final offer. Mediators and judges expect records, not a single gross-income guess.',
 };
 
-export const relatedLinks = {
-	title: 'Related Texas planning tools',
-	items: [
-		{
-			title: 'Texas Parenting Plan Template',
-			href: '/texas-parenting-plan-template/',
-			description: 'Draft possession schedules, holiday time, and support-related planning sections.',
-		},
-		{
-			title: 'Custody Percentage Calculator',
-			href: '/custody-percentage-calculator/',
-			description: 'Compare overnight percentages separately from the support estimate.',
-		},
+export const incomeFlow = {
+	title: 'Texas Child Support Income Flow',
+	intro: 'Guideline support follows gross income through deductions to net resources, then applies the child-count percentage.',
+	flow: [
+		{ label: 'Monthly gross income', detail: 'Salary, wages, overtime, commissions, self-employment' },
+		{ label: 'Minus allowable deductions', detail: 'Social Security, Medicare, federal tax, union dues, health insurance' },
+		{ label: 'Net resources', detail: 'Capped at $11,700/month for guideline application when exceeded' },
+		{ label: 'Guideline percentage', detail: '20% one child · 25% two · 30% three · 35% four · 40% five+' },
+		{ label: 'Monthly support estimate', detail: 'Percentage × guideline resources used' },
 	],
 };
+
+export const worksheetFields = {
+	title: 'Texas Support Worksheet Fields',
+	intro: 'Each calculator field maps to a line on a guideline worksheet — enter the paying parent\'s numbers first.',
+	fields: howToUse.fields,
+	close: howToUse.close,
+};
+
+export const relatedReading = {
+	title: 'After The Support Estimate',
+	paragraphs: [
+		'Build the possession calendar separately: <a href="/texas-parenting-plan-template/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Texas parenting plan template</a> and <a href="/custody-schedule-generator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule generator</a>.',
+		'Count overnight percentages separately: <a href="/custody-percentage-calculator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody percentage calculator</a>.',
+		'Draft agreement sections: <a href="/parenting-plan-template/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting plan template</a>.',
+		'Methodology: <a href="/how-custodybuilder-works/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">how CustodyBuilder works</a>.',
+	],
+};
+
+export const faqSection = { title: 'Texas child support FAQ', description: 'Texas guideline and income questions only — not custody calendars or overnight percentages.' };
 
 export const faqItems = [
 	{

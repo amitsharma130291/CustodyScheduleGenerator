@@ -1,0 +1,50 @@
+---
+const visits = [
+	{ date: 'Jan 12', label: 'Fri–Sun weekend', parent: 'B', logged: true },
+	{ date: 'Jan 26', label: 'Make-up Saturday', parent: 'B', logged: true },
+	{ date: 'Feb 9', label: 'Regular weekend', parent: 'B', logged: true },
+	{ date: 'Feb 23', label: 'Holiday extension', parent: 'A', logged: false },
+];
+---
+
+<figure class="logged-visits-timeline w-full max-w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Logged visits timeline — date-stamped entries in order
+	</figcaption>
+	<p class="mt-2 text-xs leading-5 text-secondary">
+		Each log captures actual pickup/return — not what the order promised.
+	</p>
+
+	<ol class="mt-5 space-y-0" aria-label="Logged visitation entries">
+		{visits.map((visit, index) => (
+			<li class="relative flex gap-3 pb-5 last:pb-0">
+				{index < visits.length - 1 && (
+					<span
+						class="absolute left-[0.6875rem] top-7 h-[calc(100%-1.25rem)] w-px bg-line"
+						aria-hidden="true"
+					></span>
+				)}
+				<span
+					class:list={[
+						'relative z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[9px] font-bold ring-1',
+						visit.logged
+							? 'bg-accent/15 text-accent ring-accent/30'
+							: 'bg-surface text-muted ring-line',
+					]}
+				>
+					{index + 1}
+				</span>
+				<div class="min-w-0 flex-1 pt-0.5">
+					<div class="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+						<p class="text-sm font-bold tabular-nums text-accent">{visit.date}</p>
+						<p class="text-xs font-semibold text-primary">{visit.label}</p>
+					</div>
+					<p class="mt-0.5 text-xs text-secondary">
+						Parent {visit.parent}
+						{visit.logged ? ' · logged' : ' · pending log'}
+					</p>
+				</div>
+			</li>
+		))}
+	</ol>
+</figure>

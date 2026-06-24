@@ -1,0 +1,69 @@
+---
+const dayLabels = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+const weekOne = ['A', 'A', 'B', 'B', 'A', 'A', 'A'];
+const weekTwo = ['B', 'B', 'A', 'A', 'B', 'B', 'B'];
+---
+
+<figure class="generator-rotation-builder w-full max-w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		2-2-3 rotation builder — repeating two-week block
+	</figcaption>
+	<p class="mt-2 text-xs leading-5 text-secondary">
+		Parent A holds 2 · 3 · 2 nights; Parent B holds 2 · 3 · 2 on the offset week.
+	</p>
+
+	<div class="mt-4 space-y-3">
+		<div>
+			<p class="text-[10px] font-bold uppercase tracking-[0.12em] text-muted">Week 1</p>
+			<div class="mt-1.5 grid grid-cols-7 gap-0.5">
+				{dayLabels.map((label, i) => (
+					<div class="min-w-0 text-center">
+						<span class="block text-[9px] text-muted">{label}</span>
+						<span
+							class:list={[
+								'mt-1 block rounded py-2 text-[10px] font-bold',
+								weekOne[i] === 'A'
+									? 'bg-accent/25 text-accent'
+									: 'bg-surface text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]',
+							]}
+						>
+							{weekOne[i]}
+						</span>
+					</div>
+				))}
+			</div>
+		</div>
+
+		<div>
+			<p class="text-[10px] font-bold uppercase tracking-[0.12em] text-muted">Week 2</p>
+			<div class="mt-1.5 grid grid-cols-7 gap-0.5">
+				{dayLabels.map((label, i) => (
+					<div class="min-w-0 text-center">
+						<span class="block text-[9px] text-muted">{label}</span>
+						<span
+							class:list={[
+								'mt-1 block rounded py-2 text-[10px] font-bold',
+								weekTwo[i] === 'A'
+									? 'bg-accent/25 text-accent'
+									: 'bg-surface text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]',
+							]}
+						>
+							{weekTwo[i]}
+						</span>
+					</div>
+				))}
+			</div>
+		</div>
+	</div>
+
+	<ul class="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-[10px] text-secondary">
+		<li class="flex items-center gap-1.5">
+			<span class="h-3 w-5 rounded bg-accent/25 ring-1 ring-accent/30" aria-hidden="true"></span>
+			Parent A
+		</li>
+		<li class="flex items-center gap-1.5">
+			<span class="h-3 w-5 rounded bg-surface shadow-[inset_0_0_0_1px_var(--border-subtle)]" aria-hidden="true"></span>
+			Parent B
+		</li>
+	</ul>
+</figure>

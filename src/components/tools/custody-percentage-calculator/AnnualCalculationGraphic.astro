@@ -1,0 +1,43 @@
+---
+const example = {
+	parentAOvernights: 219,
+	totalOvernights: 365,
+	result: 60.0,
+};
+---
+
+<figure class="annual-calculation w-full max-w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Annual percentage formula — overnights ÷ total × 100
+	</figcaption>
+	<p class="mt-2 text-xs leading-5 text-secondary">
+		Count only overnights in the measurement year — not hours, not weekdays without sleep.
+	</p>
+
+	<div class="mt-5 rounded-xl bg-surface px-4 py-5 text-center shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+		<p class="text-[10px] font-bold uppercase tracking-[0.14em] text-muted">Formula</p>
+		<p class="mt-3 text-lg font-semibold tabular-nums tracking-tight text-primary sm:text-xl">
+			<span class="text-accent">overnights</span>
+			<span class="mx-2 text-muted">÷</span>
+			<span>total nights</span>
+			<span class="mx-2 text-muted">×</span>
+			<span>100</span>
+		</p>
+	</div>
+
+	<div class="mt-3 flex items-center justify-center text-muted" aria-hidden="true">↓</div>
+
+	<div class="rounded-xl bg-accent/[0.06] px-4 py-5 text-center ring-1 ring-accent/20">
+		<p class="text-[10px] font-bold uppercase tracking-[0.14em] text-accent">Example — Parent A</p>
+		<p class="mt-3 text-lg font-bold tabular-nums tracking-tight text-primary sm:text-xl">
+			{example.parentAOvernights}
+			<span class="mx-2 font-normal text-muted">÷</span>
+			{example.totalOvernights}
+			<span class="mx-2 font-normal text-muted">×</span>
+			100
+			<span class="mx-2 font-normal text-muted">=</span>
+			<span class="text-accent">{example.result}%</span>
+		</p>
+		<p class="mt-2 text-xs text-secondary">219 of 365 overnights → 60/40 split</p>
+	</div>
+</figure>

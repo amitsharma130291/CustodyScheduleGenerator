@@ -1,0 +1,49 @@
+---
+const guidelines = [
+	{ children: '1 child', percent: '20%', example: '$970 on $4,850 net' },
+	{ children: '2 children', percent: '25%', example: '$1,213 on $4,850 net' },
+	{ children: '3 children', percent: '30%', example: '$1,455 on $4,850 net' },
+	{ children: '4 children', percent: '35%', example: '$1,698 on $4,850 net' },
+	{ children: '5+ children', percent: '40%', example: '$1,940 on $4,850 net' },
+];
+const netBase = 4850;
+---
+
+<figure class="guideline-calculation w-full max-w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Texas guideline percentages — 1 to 5+ children
+	</figcaption>
+	<p class="mt-2 text-xs leading-5 text-secondary">
+		Applied to obligor net monthly resources — examples use {netBase.toLocaleString()} net.
+	</p>
+
+	<div class="mt-4 overflow-x-auto">
+		<table class="w-full min-w-[280px] text-left text-xs">
+			<thead>
+				<tr class="border-b border-line-subtle text-[10px] font-bold uppercase tracking-[0.1em] text-muted">
+					<th class="pb-2 pr-3">Children</th>
+					<th class="pb-2 pr-3">Percentage</th>
+					<th class="pb-2">Example support</th>
+				</tr>
+			</thead>
+			<tbody>
+				{guidelines.map((row, i) => (
+					<tr
+						class:list={[
+							i === 0 ? 'bg-accent/[0.06] ring-1 ring-inset ring-accent/20' : i % 2 === 0 ? 'bg-surface/80' : '',
+							'text-secondary',
+						]}
+					>
+						<td class="py-2.5 pr-3 font-semibold text-primary">{row.children}</td>
+						<td class="py-2.5 pr-3 font-bold tabular-nums text-accent">{row.percent}</td>
+						<td class="py-2.5 tabular-nums">{row.example}</td>
+					</tr>
+				))}
+			</tbody>
+		</table>
+	</div>
+
+	<p class="mt-3 text-[10px] leading-4 text-muted">
+		Multi-family and above-guideline cases use different worksheets
+	</p>
+</figure>

@@ -5,45 +5,42 @@ import Footer from '../components/Footer.astro';
 import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import FAQ from '../components/FAQ.astro';
-import ArticleTOC from '../components/ArticleTOC.astro';
 import TexasChildSupportCalculator from '../components/tool/TexasChildSupportCalculator.astro';
+import TexasIncomeFlowGraphic from '../components/tools/texas-child-support-calculator/TexasIncomeFlowGraphic.astro';
+import SupportWorksheetGraphic from '../components/tools/texas-child-support-calculator/SupportWorksheetGraphic.astro';
+import GuidelineCalculationGraphic from '../components/tools/texas-child-support-calculator/GuidelineCalculationGraphic.astro';
 import { getCanonicalUrl } from '../lib/seo/metadata';
 import {
 	buildArticleSchema,
 	buildBreadcrumbSchema,
 	buildFAQSchema,
+	buildOrganizationSchema,
 	buildSoftwareApplicationSchema,
 	buildWebPageSchema,
 } from '../lib/seo/schema';
 import {
 	articleTocItems,
-	beforeCourt,
 	editorialReview,
 	estimateDifferences,
 	faqItems,
-	fiftyFifty,
+	faqSection,
 	hero,
 	howCalculated,
-	howToUse,
 	incomeExamples,
+	incomeFlow,
 	meta,
 	officialResources,
-	relatedLinks,
-	whatIncomeCounts,
+	relatedReading,
+	worksheetFields,
 } from '../data/texasChildSupportCalculatorPage';
 
 const canonical = '/texas-child-support-calculator/';
 const canonicalUrl = getCanonicalUrl(canonical);
-
 const breadcrumbs = [
 	{ name: 'Home', url: getCanonicalUrl('/') },
-	{ name: 'Calculators', url: getCanonicalUrl('/custody-schedule-generator/') },
 	{ name: 'Texas Child Support Calculator', url: canonicalUrl },
 ];
-
 const schema = [
-	buildFAQSchema(faqItems),
-	buildBreadcrumbSchema(breadcrumbs),
 	buildWebPageSchema({ name: meta.title, description: meta.description, url: canonicalUrl }),
 	buildArticleSchema({
 		headline: hero.headline,
@@ -53,6 +50,9 @@ const schema = [
 		dateModified: meta.dateModified,
 		authorName: editorialReview.reviewer,
 	}),
+	buildFAQSchema(faqItems),
+	buildBreadcrumbSchema(breadcrumbs),
+	buildOrganizationSchema({ name: 'CustodyBuilder', url: getCanonicalUrl('/') }),
 	{
 		...buildSoftwareApplicationSchema({
 			name: 'Texas Child Support Calculator',
@@ -60,39 +60,8 @@ const schema = [
 			url: canonicalUrl,
 			applicationCategory: 'LegalApplication',
 		}),
-		isAccessibleForFree: true,
 		operatingSystem: 'Web',
-		dateModified: meta.dateModified,
-		publisher: {
-			'@type': 'Organization',
-			name: 'CustodyBuilder',
-			url: getCanonicalUrl('/'),
-		},
-	},
-	{
-		'@context': 'https://schema.org',
-		'@type': 'HowTo',
-		name: 'How to estimate Texas child support',
-		description: 'Enter monthly gross income, children before the court, and optional deductions to estimate Texas guideline child support.',
-		inLanguage: 'en-US',
-		totalTime: 'PT3M',
-		step: [
-			{
-				'@type': 'HowToStep',
-				name: 'Enter monthly gross income',
-				text: 'Enter the paying parent\'s monthly gross income in the Texas child support calculator.',
-			},
-			{
-				'@type': 'HowToStep',
-				name: 'Select children and deductions',
-				text: 'Choose the number of children before the court, other supported children if any, and optional health insurance or union dues.',
-			},
-			{
-				'@type': 'HowToStep',
-				name: 'Review the estimate',
-				text: 'Compare estimated net resources, guideline resources used (including the $11,700 cap when applicable), guideline percentage, and monthly support amount.',
-			},
-		],
+		offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
 	},
 ];
 ---
@@ -102,276 +71,133 @@ const schema = [
 	<Navbar />
 	<Breadcrumbs items={breadcrumbs} />
 	<main>
-		<section
-			class="container-shell grid gap-5 py-4 sm:py-5 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-start lg:gap-7 lg:py-6 xl:w-[min(100%,1360px)]"
-			id="calculator"
-		>
+		<section class="container-shell grid gap-5 py-4 sm:py-5 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-start lg:gap-7 lg:py-6 xl:w-[min(100%,1360px)]" id="calculator">
 			<div class="lg:pt-2">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Texas guideline estimate</p>
-				<h1 class="mt-2.5 max-w-3xl text-4xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary sm:text-5xl lg:text-[3.35rem]">
-					{hero.headline}
-				</h1>
+				<h1 class="max-w-3xl text-4xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary sm:text-5xl">{hero.headline}</h1>
 				<p class="mt-4 text-base leading-7 text-secondary">{hero.opening}</p>
-				<p class="mt-3 text-base leading-7 text-secondary">{hero.closing}</p>
+				<p class="mt-3 text-sm leading-6 text-secondary">{hero.closing}</p>
+				<div class="mt-4 text-xs leading-5 text-muted">
+					<p class="font-semibold text-secondary">Reviewed for:</p>
+					<ul class="mt-1 list-inside list-disc">{editorialReview.reviewedFor.map((i) => <li>{i}</li>)}</ul>
+					<p class="mt-2">
+						Reviewed by <a href={editorialReview.reviewerHref} class="font-semibold text-secondary underline">{editorialReview.reviewer}</a>
+						{' · '}<a href={editorialReview.methodologyHref} class="font-semibold text-secondary underline">{editorialReview.methodologyLabel}</a>
+						{' · '}{editorialReview.disclaimer}
+					</p>
+				</div>
 			</div>
-
 			<TexasChildSupportCalculator />
 		</section>
 
-		<section id="editorial-review" class="container-shell pb-6">
-			<div class="max-w-3xl rounded-2xl bg-page/70 p-4 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-				<p>
-					<strong class="text-primary">Last reviewed: {editorialReview.lastReviewed}</strong>
-					<br />
-					Reviewed by:{' '}
-					<a href={editorialReview.reviewerHref} class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">
-						{editorialReview.reviewer}
-					</a>
-				</p>
-				<p class="mt-2">{editorialReview.body}</p>
-			</div>
-		</section>
+		<nav class="container-shell border-y border-line-subtle py-3" aria-label="On this page">
+			<ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">
+				{articleTocItems.map((i) => <li><a href={`#${i.id}`} class="hover:text-accent">{i.label}</a></li>)}
+			</ul>
+		</nav>
 
-		<ArticleTOC items={articleTocItems} />
-
-		<section id="how-to-use" class="container-shell scroll-mt-24 pb-section" aria-labelledby="how-to-use-title">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Calculator fields</p>
-				<h2 id="how-to-use-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					{howToUse.title}
-				</h2>
-				<p class="mt-4 text-base leading-7 text-secondary">{howToUse.intro}</p>
-			</div>
-			<div class="mt-8 max-w-3xl space-y-5">
-				{howToUse.fields.map((field) => (
-					<article class="soft-card rounded-[1.25rem] p-4">
-						<h3 class="text-lg font-semibold text-primary">{field.label}</h3>
-						<p class="mt-2 text-sm leading-6 text-secondary">{field.body}</p>
-					</article>
-				))}
-				<p class="mt-5 text-base leading-7 text-secondary">{howToUse.close}</p>
-			</div>
-		</section>
-
-		<section id="how-calculated" class="container-shell scroll-mt-24 py-section" aria-labelledby="how-calculated-title">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Guideline math</p>
-				<h2 id="how-calculated-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					{howCalculated.title}
-				</h2>
-				<p class="mt-4 text-base leading-7 text-secondary">{howCalculated.intro}</p>
-			</div>
-			<div class="mt-8 max-w-3xl space-y-6">
-				{howCalculated.steps.map((item) => (
-					<article>
-						<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary">{item.step}</h3>
-						<p class="mt-3 text-base leading-7 text-secondary">{item.body}</p>
-					</article>
-				))}
-				<div class="overflow-x-auto rounded-[1.5rem] shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-					<table class="w-full min-w-[320px] text-left text-sm">
-						<thead class="bg-surface-elevated text-primary">
-							<tr>
-								<th class="px-4 py-3 font-semibold">Children before the court</th>
-								<th class="px-4 py-3 font-semibold">Guideline percentage</th>
-							</tr>
-						</thead>
-						<tbody class="divide-y divide-line-subtle text-secondary">
-							{howCalculated.guidelineRows.map((row) => (
-								<tr>
-									<td class="px-4 py-3">{row[0]}</td>
-									<td class="px-4 py-3">{row[1]}</td>
-								</tr>
-							))}
-						</tbody>
-					</table>
-				</div>
-				<p class="text-base leading-7 text-secondary">{howCalculated.close}</p>
-			</div>
-		</section>
-
-		<section id="income-examples" class="container-shell scroll-mt-24 py-section" aria-labelledby="income-examples-title">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Income examples</p>
-				<h2 id="income-examples-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					{incomeExamples.title}
-				</h2>
-				<p class="mt-4 text-base leading-7 text-secondary">{incomeExamples.intro}</p>
-				<p class="mt-3 text-sm leading-6 text-secondary">{incomeExamples.tableCaution}</p>
-			</div>
-			<div class="mt-6 max-w-4xl">
-				<div class="overflow-x-auto rounded-[1.5rem] shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-					<table class="w-full min-w-[640px] text-left text-sm">
-						<thead class="bg-surface-elevated text-primary">
-							<tr>
-								<th class="px-4 py-3 font-semibold">Monthly gross income</th>
-								<th class="px-4 py-3 font-semibold">Est. net resources</th>
-								<th class="px-4 py-3 font-semibold">1 child</th>
-								<th class="px-4 py-3 font-semibold">2 children</th>
-								<th class="px-4 py-3 font-semibold">3 children</th>
-							</tr>
-						</thead>
-						<tbody class="divide-y divide-line-subtle text-secondary">
-							{incomeExamples.rows.map((row) => (
-								<tr>
-									<td class="px-4 py-3">{row[0]}</td>
-									<td class="px-4 py-3">{row[1]}</td>
-									<td class="px-4 py-3">{row[2]}</td>
-									<td class="px-4 py-3">{row[3]}</td>
-									<td class="px-4 py-3">{row[4]}</td>
-								</tr>
-							))}
-						</tbody>
-					</table>
-				</div>
-				<p class="mt-4 text-sm leading-6 text-secondary">{incomeExamples.note}</p>
-				<p class="mt-3 text-base leading-7 text-secondary">{incomeExamples.exampleNote}</p>
-			</div>
-		</section>
-
-		<section id="fifty-fifty" class="container-shell scroll-mt-24 py-section" aria-labelledby="fifty-fifty-title">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Shared custody</p>
-				<h2 id="fifty-fifty-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					{fiftyFifty.title}
-				</h2>
-				<p class="mt-4 text-lg font-semibold text-primary">{fiftyFifty.question}</p>
-				<p class="mt-3 text-base leading-7 text-secondary">{fiftyFifty.answer}</p>
-				<p class="mt-3 text-base leading-7 text-secondary">{fiftyFifty.scenario}</p>
-				<ul class="mt-4 space-y-2 text-sm leading-6 text-secondary">
-					{fiftyFifty.points.map((point) => (
-						<li class="flex gap-2">
-							<span class="text-accent" aria-hidden="true">→</span>
-							{point}
-						</li>
-					))}
-				</ul>
-				<p class="mt-4 text-base leading-7 text-secondary">
-					<a href={fiftyFifty.linkHref} class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">
-						{fiftyFifty.linkText}
-					</a>
-					{' '}to preview overnights separately from this support estimate. {fiftyFifty.close}
-				</p>
-			</div>
-		</section>
-
-		<section id="what-income-counts" class="container-shell scroll-mt-24 py-section" aria-labelledby="what-income-counts-title">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Income sources</p>
-				<h2 id="what-income-counts-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					{whatIncomeCounts.title}
-				</h2>
-				<p class="mt-4 text-base leading-7 text-secondary">{whatIncomeCounts.intro}</p>
-			</div>
-			<div class="mt-8 max-w-3xl space-y-5">
-				{whatIncomeCounts.sources.map((item) => (
-					<article class="soft-card rounded-[1.25rem] p-4">
-						<h3 class="text-lg font-semibold text-primary">{item.source}</h3>
-						<p class="mt-2 text-sm leading-6 text-secondary">{item.example}</p>
-					</article>
-				))}
+		<section id="income-flow" class="container-shell scroll-mt-24 py-10 lg:py-12">
+			<div class="grid gap-8 lg:grid-cols-[1fr_360px]">
 				<div>
-					<p class="text-base leading-7 text-secondary">{whatIncomeCounts.deductionsIntro}</p>
-					<ul class="mt-3 space-y-2 text-sm leading-6 text-secondary">
-						{whatIncomeCounts.deductions.map((item) => (
-							<li class="flex gap-2">
-								<span class="text-accent" aria-hidden="true">•</span>
-								{item}
+					<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{incomeFlow.title}</h2>
+					<p class="mt-3 text-secondary">{incomeFlow.intro}</p>
+					<ol class="mt-6 space-y-3">
+						{incomeFlow.flow.map((step, i) => (
+							<li class="flex gap-3">
+								<span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/15 text-xs font-bold text-accent">{i + 1}</span>
+								<div><p class="font-semibold text-primary">{step.label}</p><p class="mt-1 text-sm text-secondary">{step.detail}</p></div>
 							</li>
 						))}
+					</ol>
+				</div>
+				<TexasIncomeFlowGraphic />
+			</div>
+		</section>
+
+		<section id="how-calculated" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<div class="grid gap-8 lg:grid-cols-[1fr_360px]">
+				<div>
+					<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{howCalculated.title}</h2>
+					<p class="mt-3 text-secondary">{howCalculated.intro}</p>
+					<div class="mt-6 space-y-5">
+						{howCalculated.steps.map((item) => (
+							<article><h3 class="font-semibold text-primary">{item.step}</h3><p class="mt-2 text-sm text-secondary">{item.body}</p></article>
+						))}
+					</div>
+					<p class="mt-4 text-sm text-secondary">{howCalculated.close}</p>
+				</div>
+				<GuidelineCalculationGraphic />
+			</div>
+		</section>
+
+		<section id="worksheet" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<div class="grid gap-8 lg:grid-cols-[1fr_360px]">
+				<div>
+					<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{worksheetFields.title}</h2>
+					<p class="mt-3 text-secondary">{worksheetFields.intro}</p>
+					<ul class="mt-6 space-y-4">
+						{worksheetFields.fields.map((f) => (
+							<li class="border-l-2 border-accent/30 pl-4"><h3 class="font-semibold text-primary">{f.label}</h3><p class="mt-2 text-sm text-secondary">{f.body}</p></li>
+						))}
 					</ul>
+					<p class="mt-4 text-sm text-secondary">{worksheetFields.close}</p>
 				</div>
+				<SupportWorksheetGraphic />
 			</div>
 		</section>
 
-		<section id="estimate-differences" class="container-shell scroll-mt-24 py-section" aria-labelledby="estimate-differences-title">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Estimate vs court order</p>
-				<h2 id="estimate-differences-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					{estimateDifferences.title}
-				</h2>
-				<p class="mt-4 text-base leading-7 text-secondary">{estimateDifferences.intro}</p>
+		<section id="income-examples" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{incomeExamples.title}</h2>
+			<p class="mt-3 max-w-3xl text-secondary">{incomeExamples.intro}</p>
+			<p class="mt-2 text-sm text-muted">{incomeExamples.tableCaution}</p>
+			<div class="mt-6 max-w-4xl overflow-x-auto rounded-[1.5rem] ring-1 ring-line-subtle">
+				<table class="w-full min-w-[640px] text-left text-sm">
+					<thead class="bg-surface-elevated text-primary">
+						<tr>
+							<th class="px-4 py-3 font-semibold">Monthly gross income</th>
+							<th class="px-4 py-3 font-semibold">Est. net resources</th>
+							<th class="px-4 py-3 font-semibold">1 child</th>
+							<th class="px-4 py-3 font-semibold">2 children</th>
+							<th class="px-4 py-3 font-semibold">3 children</th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-line-subtle text-secondary">
+						{incomeExamples.rows.map((row) => (
+							<tr>{row.map((cell) => <td class="px-4 py-3">{cell}</td>)}</tr>
+						))}
+					</tbody>
+				</table>
 			</div>
-			<div class="mt-8 max-w-3xl space-y-5">
-				{estimateDifferences.factors.map((factor) => (
-					<article>
-						<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary">{factor.heading}</h3>
-						<p class="mt-3 text-base leading-7 text-secondary">{factor.body}</p>
-					</article>
+			<p class="mt-4 text-sm text-secondary">{incomeExamples.note}</p>
+		</section>
+
+		<section id="estimate-differences" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{estimateDifferences.title}</h2>
+			<p class="mt-3 max-w-3xl text-secondary">{estimateDifferences.intro}</p>
+			<ul class="mt-6 max-w-3xl space-y-4">
+				{estimateDifferences.factors.map((f) => (
+					<li><h3 class="font-semibold text-primary">{f.heading}</h3><p class="mt-2 text-sm text-secondary">{f.body}</p></li>
 				))}
-				<p class="text-base leading-7 text-secondary">{estimateDifferences.close}</p>
+			</ul>
+			<p class="mt-4 max-w-3xl text-sm text-secondary">{estimateDifferences.close}</p>
+		</section>
+
+		<section id="related-reading" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{relatedReading.title}</h2>
+			<div class="mt-4 max-w-3xl space-y-3 text-secondary">
+				{relatedReading.paragraphs.map((p) => <p set:html={p} />)}
+			</div>
+			<div class="mt-6 max-w-3xl grid gap-2">
+				{officialResources.links.map((link) => (
+					<a href={link.href} target="_blank" rel="noopener noreferrer" class="text-sm font-semibold text-accent underline">{link.title}</a>
+				))}
 			</div>
 		</section>
 
-		<section id="before-court" class="container-shell scroll-mt-24 py-section" aria-labelledby="before-court-title">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Mediation prep</p>
-				<h2 id="before-court-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					{beforeCourt.title}
-				</h2>
-				<p class="mt-4 text-base leading-7 text-secondary">{beforeCourt.intro}</p>
-				<ul class="mt-4 space-y-2 text-sm leading-6 text-secondary">
-					{beforeCourt.items.map((item) => (
-						<li class="flex gap-2">
-							<span class="text-accent" aria-hidden="true">→</span>
-							{item}
-						</li>
-					))}
-				</ul>
-				<p class="mt-4 text-base leading-7 text-secondary">{beforeCourt.close}</p>
-			</div>
-		</section>
-
-		<section id="official-resources" class="container-shell scroll-mt-24 py-section" aria-labelledby="official-resources-title">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Official sources</p>
-				<h2 id="official-resources-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					{officialResources.title}
-				</h2>
-				<p class="mt-4 text-base leading-7 text-secondary">{officialResources.intro}</p>
-				<div class="mt-5 grid gap-3">
-					{officialResources.links.map((link) => (
-						<a
-							href={link.href}
-							target="_blank"
-							rel="noopener noreferrer"
-							class="soft-card rounded-[1.25rem] p-4 text-sm font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary"
-						>
-							{link.title}
-						</a>
-					))}
-				</div>
-			</div>
-		</section>
-
-		<section class="container-shell py-section" aria-labelledby="related-links-title">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Related tools</p>
-				<h2 id="related-links-title" class="mt-3 text-2xl font-semibold tracking-[-0.04em] text-primary">
-					{relatedLinks.title}
-				</h2>
-				<div class="mt-5 grid gap-4 sm:grid-cols-2">
-					{relatedLinks.items.map((item) => (
-						<a href={item.href} class="soft-card group rounded-[1.25rem] p-4 transition-all duration-200 hover:-translate-y-0.5">
-							<h3 class="text-lg font-semibold text-primary group-hover:text-accent">{item.title}</h3>
-							<p class="mt-2 text-sm leading-6 text-secondary">{item.description}</p>
-						</a>
-					))}
-				</div>
-			</div>
-		</section>
-
-		<FAQ
-			items={faqItems}
-			eyebrow="Texas child support FAQ"
-			title="Texas Child Support Calculator FAQ"
-			description="Answers to common questions about Texas guideline percentages, income, 50/50 custody, and how to use this estimate."
-		/>
+		<FAQ items={faqItems} title={faqSection.title} description={faqSection.description} />
 	</main>
 	<Footer />
 	<script>
 		import { trackGa4Event } from '../lib/analytics/ga4';
-
 		trackGa4Event('view_texas_child_support');
 	</script>
 </BaseLayout>
