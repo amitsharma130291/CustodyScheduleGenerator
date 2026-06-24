@@ -1,19 +1,24 @@
 ---
-const items = [
-	{ label: 'Parent carpools', age: '7' },
-	{ label: 'Learner permit', age: '15' },
-	{ label: 'Self-drive from practice', age: '16' },
-	{ label: 'Job shift overrides block', age: '17' },
+const stages = [
+	{ stage: 'No license', detail: 'Parent carpools to practice and exchange' },
+	{ stage: 'Permit', detail: 'Split practice hours; car at one address' },
+	{ stage: 'Independent driving', detail: 'Self-pickup from shift or gym to scheduled house' },
 ];
 ---
 
-<figure class="driving-freedom w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5">
-	<figcaption class="text-sm font-semibold text-primary">Driving freedom timeline — equal-time handoffs decrease</figcaption>
-	<ol class="mt-4 space-y-2">
-		{items.map((item) => (
-			<li class="flex items-center gap-3 rounded-lg bg-surface px-3 py-2 ring-1 ring-line-subtle">
-				<span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent/15 text-[10px] font-bold text-accent">{item.age}</span>
-				<span class="text-xs text-secondary">{item.label}</span>
+<figure class="driving-freedom w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Driving freedom timeline — who manages transport
+	</figcaption>
+	<ol class="mt-4 space-y-0">
+		{stages.map((s, i) => (
+			<li class="relative flex gap-4 pb-5 last:pb-0">
+				{i < stages.length - 1 && <span class="absolute left-3 top-7 h-[calc(100%-0.5rem)] w-px bg-line" aria-hidden="true"></span>}
+				<span class="relative z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/15 text-[10px] font-bold text-accent ring-1 ring-accent/30">{i + 1}</span>
+				<div>
+					<p class="text-sm font-semibold text-primary">{s.stage}</p>
+					<p class="text-xs leading-5 text-secondary">{s.detail}</p>
+				</div>
 			</li>
 		))}
 	</ol>

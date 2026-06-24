@@ -1,0 +1,28 @@
+---
+const items = [
+	{ label: 'Exchange limit', value: '3 per fortnight max', icon: '↔' },
+	{ label: 'School-night rule', value: 'Tuesday = Parent A', icon: '📚' },
+	{ label: 'Max block length', value: '5 nights', icon: '📅' },
+	{ label: 'Activity ownership', value: 'Thu music = Parent B', icon: '🎵' },
+];
+---
+
+<figure class="non-negotiables w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Non-negotiables — write before printing either finalist
+	</figcaption>
+
+	<ul class="mt-4 space-y-2">
+		{items.map((item) => (
+			<li class="flex items-center gap-3 rounded-lg bg-surface px-3 py-2.5 ring-1 ring-line-subtle">
+				<span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent/10 text-sm" aria-hidden="true">
+					{item.icon}
+				</span>
+				<div class="min-w-0">
+					<p class="text-[10px] font-bold uppercase tracking-[0.1em] text-muted">{item.label}</p>
+					<p class="text-sm font-semibold text-primary">{item.value}</p>
+				</div>
+			</li>
+		))}
+	</ul>
+</figure>

@@ -1,220 +1,201 @@
 export const meta = {
-	title: '50/50 Custody Schedule for Teenagers | Equal-Time Patterns & Teen Independence',
+	title: '50/50 Custody Schedule for Teenagers | When the Calendar Stops Controlling Everything',
 	description:
-		'Compare 50/50 teen rotations: which equal-time pattern survives driving, jobs, and late practices — block length, exchange rigidity, and calendar flexibility. Teen independence logistics belong on the teenager guide first.',
+		'Equal-time teen calendars bend when driving, shift work, sports, and social plans override exchange nights. Preview how rigid vs flexible rotations behave once teenagers stop asking permission.',
+	datePublished: '2026-07-09',
+	dateModified: '2026-06-24',
 };
 
-export const transitionRedirect = {
-	body:
-		'This page compares equal-time rotation mechanics for teenagers: block length, exchange frequency, and which patterns bend around jobs and driving. If the open question is learner permits, shift work, or social calendars — not block geometry — read the <a href="/best-custody-schedule-for-teenager/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule for teenager</a> guide first.',
+export const editorialReview = {
+	reviewedFor: [
+		'teen driving and self-pickup on equal time',
+		'work-shift conflicts with custody blocks',
+		'calendar flexibility vs rigid rotation',
+		'calendar-generation accuracy',
+	],
+	reviewer: 'CustodyBuilder Editorial Team',
+	reviewerHref: '/about/',
+	methodologyLabel: 'How CustodyBuilder Works',
+	methodologyHref: '/how-custodybuilder-works/',
+	disclaimer: 'This page explains equal-time calendars under teen independence and is not legal advice.',
 };
 
-export const scheduleComparisonCards = [
-	{
-		schedule: '2-2-5-5',
-		href: '/2-2-5-5-custody-schedule/',
-		whyChoose: [
-			'Fixed weekdays — teen knows which home owns Monday–Tuesday school nights every week.',
-			'About two exchanges per fortnight; fewer midweek disruptions than 2-2-3.',
-		],
-		challenges: [
-			'Friday job shift may land on the other parent’s five-night weekend block.',
-			'Less flexibility for spontaneous Friday plans than week-on/week-off.',
-		],
-	},
-	{
-		schedule: '5-2-2-5',
-		href: '/5-2-2-5-custody-schedule/',
-		whyChoose: [
-			'Full school-week block with one parent — one address for five consecutive school nights.',
-			'About two exchanges per fortnight after the school-week stretch.',
-		],
-		challenges: [
-			'Other parent misses entire school-week contact until the two-day reset.',
-			'Late varsity practice on exchange night still needs a pickup plan.',
-		],
-	},
-	{
-		schedule: 'Week-on/week-off',
-		href: '/week-on-week-off-custody-schedule/',
-		whyChoose: [
-			'One Sunday exchange — teen manages one home for the full school week.',
-			'Car, gear, and work uniform can stay in one place for seven days.',
-		],
-		challenges: [
-			'Seven-night block — longest stretch in this comparison set.',
-			'Friday social plans on the “off” week may need swap clauses.',
-		],
-	},
-	{
-		schedule: '2-2-3',
-		href: '/2-2-3-custody-schedule/',
-		whyChoose: [
-			'Shortest blocks (~3 nights) — most frequent parent contact.',
-			'Roughly three to four exchanges per fortnight.',
-		],
-		challenges: [
-			'Highest exchange count — conflicts with evening jobs and late practices.',
-			'Car keys and work gear move most often in this set.',
-		],
-	},
+export const hero = {
+	headline: '50/50 Custody Schedule for Teenagers',
+	intro:
+		'Equal time still governs overnights. It no longer governs every waking hour once the teen drives, works evenings, and makes Friday plans without asking. Preview where the printed rotation bends — and where it breaks.',
+	boundary:
+		'Learner permits, job negotiation, and social-calendar pressure live on the <a href="/best-custody-schedule-for-teenager/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule for teenager</a> guide. This page shows how equal-time blocks behave under that independence.',
+};
+
+export const heroKeyStats = [
+	{ value: 'Drives', label: 'self-pickup' },
+	{ value: 'Shifts', label: 'ignore blocks' },
+	{ value: 'Friday', label: 'plans win' },
 ];
 
-export const drivingLogistics = {
-	title: 'Driving Changes Equal-Time Logistics',
+export const heroTrustSignals = [
+	'Free to use',
+	'No signup required',
+	'Layer shifts on calendar',
+];
+
+export const articleTocItems = [
+	{ id: 'schedule-generator', label: 'Preview calendar' },
+	{ id: 'permission-ends', label: 'Permission ends' },
+	{ id: 'driving-freedom', label: 'Driving freedom' },
+	{ id: 'schedule-pressure', label: 'Schedule pressure' },
+	{ id: 'calendar-flexibility', label: 'Rigid vs flexible' },
+	{ id: 'independence-mistakes', label: 'Mistakes' },
+	{ id: 'faq', label: 'FAQ' },
+];
+
+export const permissionEnds = {
+	title: 'When Teenagers Stop Asking Permission',
 	intro:
-		'A licensed teen may drive between homes, to work, and from late practice — but the car, insurance, and keys may not follow the overnight rotation.',
-	points: [
+		'The teen texts about Saturday shift before either parent opens the custody app. The calendar still says Parent B’s weekend — the boss schedule says 2–10 p.m.',
+	signals: [
 		{
-			heading: 'Vehicle at one address',
-			body: 'Insurance or garage keeps the car at Mom’s while Dad’s block includes Thursday close shift. Keys and coverage need a written plan — not a midnight text.',
+			heading: 'Work posts before parents agree',
+			body: 'Retail closes at 10 p.m. on a block that ends at 6 p.m. exchange. Overnight still follows the order; pickup does not.',
 		},
 		{
-			heading: 'Self-pickup replaces driveway exchange',
-			body: 'Teen drives home from practice to the scheduled house. Equal-time block still governs overnight; transport is no longer parent-managed.',
+			heading: 'Friends invite on the other parent’s night',
+			body: 'Friday game text lands Thursday. The teen negotiates swap — or goes without asking and adults argue after the fact.',
 		},
 		{
-			heading: 'WOW reduces gear movement',
-			body: 'Week-on/week-off lets work uniform and sports bag stay seven days in one home — one exchange per week for the car if it travels.',
+			heading: 'Self-drive from practice',
+			body: 'Licensed teen drives home to the scheduled house. No driveway handoff — but curfew and keys still need a written rule.',
 		},
 	],
 	closing:
-		'Learner-permit rules, curfew, and job pickup belong on the <a href="/best-custody-schedule-for-teenager/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule for teenager</a> guide.',
+		'Emotional negotiation and flexibility clauses live on the <a href="/best-custody-schedule-for-teenager/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule for teenager</a> guide.',
 };
 
-export const teenModifiesCalendar = {
-	title: 'When Teenagers Start Modifying The Calendar Themselves',
+export const drivingFreedom = {
+	title: 'Driving Replaces Parent-Managed Exchange',
 	intro:
-		'By junior year, the teen may negotiate swaps before parents open the conversation — work posted the schedule, the team made playoffs, friends booked a Saturday trip.',
-	phases: [
+		'Transport used to mean carpools. Now it means keys, insurance, and which address holds the car overnight.',
+	points: [
 		{
-			heading: 'Informal swaps become the real calendar',
-			body: 'Parents agree by text every Friday; the printed 2255 no longer matches reality. Either document swap rules or pick a pattern with fewer conflicts.',
+			heading: 'No license — parent carpools remain',
+			body: 'Practice pickup, job drop-off, and exchange still run on parent schedules.',
 		},
 		{
-			heading: 'Season extensions without end dates',
-			body: 'Playoff month runs on swap after swap. Without a resume date, the exception becomes the permanent plan.',
+			heading: 'Permit — split instruction hours',
+			body: 'Each parent logs drives. Car may stay at one address while blocks alternate.',
 		},
 		{
-			heading: 'Teen drives the negotiation',
-			body: 'The teen texts both parents about Saturday shift — adults confirm or deny. Baseline rotation stays in the order; exceptions need a written process.',
+			heading: 'License — self-pickup from shift or gym',
+			body: 'Teen drives to the scheduled overnight house. Vehicle location and coverage need a plan when the car does not follow the rotation.',
 		},
 	],
 };
 
-export const rigiditySigns = {
-	title: 'Why Some Equal-Time Rotations Become Too Rigid For Teens',
+export const schedulePressure = {
+	title: 'Where School, Work, Sports, Friends, and Custody Collide',
 	intro:
-		'These signals point to block length or exchange frequency on the calendar — not teen attitude.',
-	signs: [
-		{
-			sign: 'Midweek exchange conflicts with every late practice',
-			detail:
-				'223 or midweek 2255 flip forces a handoff at 6 p.m. when practice ends at 8. Move to WOW or document gym pickup exceptions.',
-		},
-		{
-			sign: 'Weekend job on the “wrong” parent’s block every week',
-			detail:
-				'Retail shifts cluster Saturday–Sunday. WOW may need swap clauses or a shift toward the parent closer to work.',
-		},
-		{
-			sign: 'Car keys required at both homes midweek',
-			detail:
-				'Frequent exchanges (223) multiply key transfers. WOW or longer blocks reduce vehicle movement.',
-		},
-		{
-			sign: 'College visit weekends break the two-week rhythm',
-			detail:
-				'Campus travel inserts a nine-night stretch the base pattern never modeled. Add a written override instead of improvising each trip.',
-		},
+		'Five calendars stack on one week. Equal-time is only one of them.',
+	pressures: [
+		{ source: 'School', example: 'AP exam week — stay near campus', conflicts: 'Midweek exchange' },
+		{ source: 'Work', example: 'Saturday close 10 p.m.', conflicts: 'Other parent’s weekend block' },
+		{ source: 'Sports', example: 'Playoff travel Thu–Sun', conflicts: 'Printed fortnight boundary' },
+		{ source: 'Friends', example: 'Homecoming after-party', conflicts: 'Curfew at scheduled house' },
+		{ source: 'Custody', example: 'Sunday 6 p.m. exchange', conflicts: 'All of the above' },
 	],
 };
 
-export const jobActivityAdjustments = {
-	title: 'Equal-Time Adjustments For Jobs And Activities',
-	paragraphs: [
-		'Tournament weekends, closing shifts, and prom nights do not align with fortnight boundaries. Equal-time patterns with fewer exchanges (WOW, 2255) leave more room for one-time swaps than 2-2-3.',
-		'Print the base rotation, then layer job shifts and game nights in the <a href="/custody-schedule-generator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule generator</a>. Count how many Fridays per month conflict with exchange before adopting a rigid midweek pattern.',
+export const calendarFlexibility = {
+	title: 'Rigid Rotation Vs Flexible Rotation Under Teen Independence',
+	intro:
+		'A rigid rotation prints Parent A through Sunday; reality inserts swaps, late pickups, and job overrides. The question is whether the base pattern leaves room.',
+	rigid: [
+		'Midweek exchange every Wednesday at 6 p.m. while practice ends at 8',
+		'Friday job on the parent whose block ended Thursday',
+		'Car keys required at both homes three times per fortnight',
 	],
-	compareNote:
-		'Compare <a href="/week-on-week-off-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">week-on/week-off</a>, <a href="/2-2-5-5-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-5-5</a>, and <a href="/5-2-2-5-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">5-2-2-5</a> with real start dates. Independence logistics live on the teenager age guide.',
+	flexible: [
+		'One Sunday exchange — gear and uniform stay seven days',
+		'Written swap clause for Saturday shifts on the other parent’s week',
+		'Documented season override with resume date after playoffs',
+	],
+	closing:
+		'Print the base rotation, layer shifts and games in the <a href="/custody-schedule-generator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule generator</a>, then compare <a href="/week-on-week-off-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">week-on/week-off</a> vs <a href="/2-2-5-5-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-5-5</a> by Friday conflict count — not by pattern name alone.',
 };
 
-export const patternMistakes = [
+export const independenceMistakes = [
 	{
-		mistake: 'Keeping 2-2-3 through high school',
-		detail:
-			'223 maximizes exchanges when the teen drives and works evenings. Count Friday conflicts before keeping the shortest-block pattern.',
+		mistake: 'Treating every swap request as rejection',
+		detail: 'Saturday shift is logistics — not choosing the other parent. Document time-limited swaps.',
 	},
 	{
-		mistake: 'WOW without swap clauses for senior year',
-		detail:
-			'One exchange per week is simple — until every Saturday has a job shift or game on the other parent’s week.',
+		mistake: 'Rigid midweek exchange through varsity season',
+		detail: 'Handoff at 6 when practice ends at 8 fails every week. Move exchange or adopt fewer swaps.',
 	},
 	{
-		mistake: 'Assuming driving removes the need for a written plan',
-		detail:
-			'The teen transports themselves; overnight blocks still govern legal parenting time. Curfew and vehicle rules belong in the parenting plan.',
+		mistake: 'No curfew match across homes',
+		detail: 'Midnight at one house, 10 p.m. at the other. Teen exploits the gap.',
 	},
 	{
-		mistake: 'Ignoring holiday overrides on a teen 50/50 base',
-		detail:
-			'Spring break travel and Thanksgiving can insert long stretches the base rotation never showed. Write holiday rules before adopting the pattern.',
+		mistake: 'Informal swaps with no resume date',
+		detail: 'Playoff month becomes the permanent calendar. Write when the base rotation restarts.',
 	},
 ];
 
-export const builderFeatures = [
-	'Test 2-2-5-5, 5-2-2-5, and week-on/week-off with real start dates',
-	'Mark job shifts and game nights against exchange days',
-	'Add holiday and tournament overrides',
-	'Print a month both parents and the teen can reference',
-];
+export const postContentCta = {
+	heading: 'Layer Shifts And Games On The Printed Rotation',
+	body: 'Generate a baseline equal-time calendar, then mark job shifts and game nights. Count Friday conflicts before assuming the rotation is the problem.',
+	primaryHref: '/custody-schedule-generator/',
+	primaryLabel: 'Open schedule generator',
+	secondaryHref: '/parenting-plan-template/',
+	secondaryLabel: 'Update parenting plan',
+};
 
 export const faqSection = {
-	title: 'Questions about 50/50 teen rotation mechanics',
+	title: 'Questions about equal time when teens stop asking permission',
 	description:
-		'Answers about block length, exchange rigidity, and pattern selection — not teen emotions or job negotiation.',
+		'Answers about driving, shifts, and calendar flexibility — not pattern rankings.',
 };
 
 export const faqItems = [
 	{
-		question: 'Which equal-time pattern survives teen independence best?',
+		question: 'When does the custody calendar stop controlling a teenager’s week?',
 		answer:
-			'Week-on/week-off minimizes exchanges when the teen drives and works weekends. 2-2-5-5 fixes weekdays but may conflict with Friday jobs. 2-2-3 maximizes handoffs — often the worst fit for evening shifts. Print each calendar against the teen’s real week.',
+			'When driving, part-time jobs, and social plans stack on top of overnights. The order still governs legal parenting time; waking hours often run on the teen’s schedule with written swap rules.',
 	},
 	{
-		question: 'Does driving make 50/50 easier for teenagers?',
+		question: 'How do work shifts interact with equal-time blocks?',
 		answer:
-			'Self-transport can reduce parent handoffs — but vehicle location, insurance, and keys may not follow the overnight rotation. Driving logistics belong on the teenager age guide; pattern choice belongs here.',
+			'Shifts land on evenings and weekends without reading the rotation. Write swap clauses for Saturday jobs on the other parent’s block and who picks up from a late close.',
 	},
 	{
-		question: 'Is week-on/week-off good for teen 50/50?',
+		question: 'Does driving make equal time easier for teens?',
 		answer:
-			'One exchange per week, seven-night block, gear stays in one home. Minimizes midweek disruption; may need swap clauses for weekend jobs and social plans.',
+			'Self-pickup can remove parent handoffs — but keys, insurance, and vehicle location may not follow overnight blocks. Driving rules live on the teenager age guide; calendar rigidity is previewed here.',
 	},
 	{
-		question: '2-2-5-5 vs week-on/week-off for teenagers?',
+		question: 'What is the difference between rigid and flexible equal-time for teens?',
 		answer:
-			'2255: fixed weekdays, ~2 exchanges per fortnight, five-night weekend blocks. WOW: one exchange per week, full school week with one parent. Compare Friday job conflicts on a printed calendar.',
-	},
-	{
-		question: 'When should a teen 50/50 plan change patterns?',
-		answer:
-			'When midweek exchanges repeatedly conflict with work or practice, the teen gets a license, or informal swaps replace the printed rotation for a full season. Adjust block length before assuming equal time cannot work.',
+			'Rigid: frequent midweek exchanges that conflict with practice and jobs. Flexible: fewer exchanges (e.g. week-on/week-off) plus written swap clauses for shifts and tournaments.',
 	},
 	{
 		question: 'How is this page different from the teenager age guide?',
 		answer:
-			'The teenager guide owns independence: driving, jobs, social life, flexibility clauses. This page owns equal-time mechanics — which pattern produces which exchange count and block rigidity for a licensed teen.',
+			'The teenager guide owns independence negotiation: permits, curfew, job pickup, social swaps. This page previews how equal-time block structure bends or breaks under those pressures.',
 	},
 	{
 		question: 'How is this different from the school-age 50/50 guide?',
 		answer:
-			'The school-age guide owns elementary block geometry and homework-night ownership. This page owns how those patterns behave when the teen drives, works evenings, and modifies the calendar through swaps.',
+			'The school-age guide owns who owns Tuesday homework on elementary equal time. This page owns what happens when the teen drives and works on top of the same overnight split.',
 	},
 	{
-		question: 'Can teenagers use 50/50 custody mechanically?',
+		question: 'What signals the equal-time rotation is too rigid?',
 		answer:
-			'Equal time splits 182–183 overnights each. The mechanical question is whether the pattern’s exchange count survives job shifts and late practices. Whether the teen accepts block length is answered on the teenager age guide.',
+			'Midweek exchange conflicts with every late practice, weekend job on the wrong block every week, informal swaps replacing the printed calendar for a full season.',
+	},
+	{
+		question: 'Where do pattern names fit for teen equal time?',
+		answer:
+			'After mapping job and game conflicts on a printed month. Fewer exchanges often survive teen independence — compare on the <a href="/50-50-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 hub</a> once flexibility needs are clear.',
 	},
 ];

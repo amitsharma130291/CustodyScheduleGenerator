@@ -137,7 +137,7 @@ export const decisionGuide = {
 		},
 	],
 	close:
-		'Still torn between two patterns? The <a href="/best-50-50-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">best 50/50 custody schedule</a> guide scores all five side by side. For worked calendars, see <a href="/50-50-custody-schedule-examples/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 custody schedule examples</a>. For age-specific starting points, use the <a href="/custody-schedule-by-age/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule by age</a> hub.',
+		'Still torn between two patterns? The <a href="/best-50-50-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">two-schedule elimination guide</a> helps you print both finalists and drop one by conflict count. When a rotation breaks in real life, see <a href="/50-50-custody-schedule-examples/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 schedule failure scenarios</a>. For age-specific starting points, use the <a href="/custody-schedule-by-age/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule by age</a> hub.',
 };
 
 export const whenNot5050 = {
@@ -213,15 +213,15 @@ export const faqItems = [
 	{
 		question: 'Where can I see worked 50/50 calendar examples?',
 		answer:
-			'The examples page walks through real-family scenarios — school-age, blended activities, and high-conflict logistics — with calendars attached. Use it after you narrow to one or two patterns in the decision guide above.',
+			'The examples page names situations where equal-time calendars broke — activity nights, shift work, holiday overrides — and what parents changed. Use it when something in real life collides with the printed rotation.',
 		links: [{ label: '50/50 schedule examples', href: '/50-50-custody-schedule-examples/' }],
 	},
 	{
 		question: 'What if we still cannot pick between two equal-time patterns?',
 		answer:
-			'Generate both calendars with the same start date and parent labels, then count exchanges and school-night ownership for your child\'s actual activity list. The comparison guide scores all five patterns by age, commute, and handoff tolerance.',
+			'Print both finalists with the same start date, list non-negotiables, and count conflict days on each month. Drop the calendar with more collisions against your list.',
 		links: [
-			{ label: 'Best 50/50 schedule guide', href: '/best-50-50-custody-schedule/' },
+			{ label: 'Two-schedule elimination guide', href: '/best-50-50-custody-schedule/' },
 			{ label: 'Custody schedule generator', href: '/custody-schedule-generator/' },
 		],
 	},

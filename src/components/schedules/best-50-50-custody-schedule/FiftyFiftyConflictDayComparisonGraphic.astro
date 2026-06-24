@@ -1,0 +1,60 @@
+---
+const days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+const scheduleA = ['A', 'B', 'A', 'B', 'A', 'A', 'A'];
+const scheduleB = ['A', 'A', 'A', 'B', 'B', 'B', 'B'];
+const conflictsA = [false, true, false, false, true, false, false];
+const conflictsB = [false, false, false, false, false, false, false];
+---
+
+<figure class="conflict-comparison w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Same month — two finalists, conflict days highlighted
+	</figcaption>
+
+	<p class="mt-3 text-xs font-semibold uppercase tracking-[0.1em] text-muted">2-2-3 finalist</p>
+	<div class="mt-2 grid grid-cols-7 gap-1">
+		{days.map((day) => (
+			<span class="text-center text-[10px] font-bold text-muted">{day}</span>
+		))}
+		{scheduleA.map((parent, i) => (
+			<span
+				class:list={[
+					'rounded-md py-1.5 text-center text-[10px] font-bold',
+					conflictsA[i]
+						? 'bg-rose-500/20 text-rose-700 ring-1 ring-rose-500/40'
+						: parent === 'A'
+							? 'bg-parent-a/20 text-parent-a'
+							: 'bg-parent-b/20 text-parent-b',
+				]}
+			>
+				{conflictsA[i] ? '!' : parent}
+			</span>
+		))}
+	</div>
+
+	<p class="mt-4 text-xs font-semibold uppercase tracking-[0.1em] text-muted">2-2-5-5 finalist</p>
+	<div class="mt-2 grid grid-cols-7 gap-1">
+		{days.map((day) => (
+			<span class="text-center text-[10px] font-bold text-muted">{day}</span>
+		))}
+		{scheduleB.map((parent, i) => (
+			<span
+				class:list={[
+					'rounded-md py-1.5 text-center text-[10px] font-bold',
+					conflictsB[i]
+						? 'bg-rose-500/20 text-rose-700 ring-1 ring-rose-500/40'
+						: parent === 'A'
+							? 'bg-parent-a/20 text-parent-a'
+							: 'bg-parent-b/20 text-parent-b',
+				]}
+			>
+				{conflictsB[i] ? '!' : parent}
+			</span>
+		))}
+	</div>
+
+	<p class="mt-4 text-xs leading-5 text-muted">
+		<span class="inline-block h-2 w-2 rounded-sm bg-rose-500/40 align-middle"></span>
+		{' '}Conflict day — activity, exchange, or block breach
+	</p>
+</figure>

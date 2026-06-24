@@ -1,0 +1,33 @@
+---
+const nights = [
+	{ day: 'Mon', owner: 'Parent A', task: 'Homework + pack' },
+	{ day: 'Tue', owner: 'Parent A', task: 'Spelling + practice', highlight: true },
+	{ day: 'Wed', owner: 'Parent B', task: 'Math + library' },
+	{ day: 'Thu', owner: 'Parent B', task: 'Music + slip', highlight: true },
+	{ day: 'Fri', owner: 'Parent A', task: 'Folder sign', highlight: true },
+];
+---
+
+<figure class="school-night-ownership w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		School-night ownership — who holds each weekday on 2-2-5-5
+	</figcaption>
+	<p class="mt-2 text-sm leading-6 text-secondary">
+		Example week: same parent every Monday–Tuesday; Thursday orchestra always Parent B.
+	</p>
+	<div class="mt-5 grid grid-cols-5 gap-2">
+		{nights.map((n) => (
+			<div
+				class:list={[
+					'flex min-h-[5.5rem] flex-col items-center justify-center rounded-xl px-1.5 py-3 text-center sm:min-h-[6rem] sm:px-2',
+					n.owner === 'Parent A' ? 'bg-parent-a/10 ring-1 ring-parent-a/25' : 'bg-parent-b/10 ring-1 ring-parent-b/25',
+					n.highlight && 'ring-2 ring-amber-500/40',
+				]}
+			>
+				<span class="text-[10px] font-bold uppercase tracking-[0.1em] text-muted">{n.day}</span>
+				<span class="mt-1.5 text-[10px] font-semibold leading-tight text-primary sm:text-xs">{n.owner}</span>
+				<span class="mt-1 text-[9px] leading-3 text-secondary sm:text-[10px]">{n.task}</span>
+			</div>
+		))}
+	</div>
+</figure>

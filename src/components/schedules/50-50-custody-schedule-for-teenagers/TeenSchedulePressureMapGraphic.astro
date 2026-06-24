@@ -1,0 +1,28 @@
+---
+const layers = [
+	{ label: 'School', load: 75, color: 'bg-sky-500/50' },
+	{ label: 'Work', load: 85, color: 'bg-amber-500/50' },
+	{ label: 'Sports', load: 70, color: 'bg-emerald-500/50' },
+	{ label: 'Friends', load: 65, color: 'bg-violet-500/50' },
+	{ label: 'Custody', load: 55, color: 'bg-accent/50' },
+];
+---
+
+<figure class="teen-pressure-map w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Teen schedule pressure map — five calendars on one week
+	</figcaption>
+	<div class="mt-4 space-y-3">
+		{layers.map((l) => (
+			<div>
+				<div class="flex justify-between text-xs">
+					<span class="font-semibold text-primary">{l.label}</span>
+				</div>
+				<div class="mt-1.5 h-2.5 overflow-hidden rounded-full bg-line">
+					<div class:list={['h-full rounded-full', l.color]} style={`width: ${l.load}%`}></div>
+				</div>
+			</div>
+		))}
+	</div>
+	<p class="mt-4 text-center text-[11px] leading-5 text-muted">Custody is one layer — not the only one</p>
+</figure>

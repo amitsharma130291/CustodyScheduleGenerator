@@ -6,426 +6,288 @@ import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import FAQ from '../components/FAQ.astro';
 import CtaButton from '../components/CtaButton.astro';
+import ScheduleHeroGeneratorPanel from '../components/schedules/ScheduleHeroGeneratorPanel.astro';
+import FiftyFiftyEliminationFunnelGraphic from '../components/schedules/best-50-50-custody-schedule/FiftyFiftyEliminationFunnelGraphic.astro';
+import FiftyFiftyConflictDayComparisonGraphic from '../components/schedules/best-50-50-custody-schedule/FiftyFiftyConflictDayComparisonGraphic.astro';
+import FiftyFiftyNonNegotiablesGraphic from '../components/schedules/best-50-50-custody-schedule/FiftyFiftyNonNegotiablesGraphic.astro';
+import { generateSchedule } from '../lib/schedules/generateSchedule';
+import { getDefaultStartDate } from '../lib/schedules/format';
 import { getCanonicalUrl } from '../lib/seo/metadata';
 import {
 	buildArticleSchema,
 	buildBreadcrumbSchema,
 	buildFAQSchema,
-	buildItemListSchema,
 	buildWebPageSchema,
 } from '../lib/seo/schema';
-import { getScheduleCustomizeUrl } from '../data/fiftyFiftyScheduleExamples';
 import {
-	ageDecisionCards,
-	comparison223vs2255,
-	comparedScheduleListItems,
+	articleTocItems,
+	bothFail,
+	breakTie,
+	conflictDays,
+	editorialReview,
 	faqItems,
-	fewestExchangesRank,
-	methodologyParagraphs,
-	mostCommonParagraphs,
-	noSingleBestFactors,
-	parentSituationCards,
-	quickFacts,
-	quickRecommendations,
-	relatedLinks,
-	scorecardRows,
+	faqSection,
+	hero,
+	heroKeyStats,
+	heroTrustSignals,
+	meta,
+	methodology,
+	nonNegotiables,
+	postContentCta,
+	printBoth,
+	twoSurvive,
 } from '../data/bestFiftyFiftyCustodySchedule';
 
-const title = 'Best 50/50 Custody Schedule: Compare 5 Parenting Patterns';
-const description =
-	'Find the best 50/50 custody schedule for your family. Compare 2-2-3, 2-2-5-5, 5-2-2-5, 3-4-4-3, and week-on/week-off by age, school routine, exchanges, and parent lifestyle.';
 const canonical = '/best-50-50-custody-schedule/';
 const canonicalUrl = getCanonicalUrl(canonical);
-const datePublished = '2026-06-24';
-const dateModified = '2026-06-28';
+const startDate = getDefaultStartDate();
+const generatedSchedule = generateSchedule({
+	scheduleId: '2-2-5-5',
+	startDate,
+	parentNames: { parentA: 'Parent A', parentB: 'Parent B' },
+});
 
 const breadcrumbs = [
 	{ name: 'Home', url: getCanonicalUrl('/') },
 	{ name: '50/50 Custody Schedule', url: getCanonicalUrl('/50-50-custody-schedule/') },
-	{ name: 'Best 50/50 Schedule', url: canonicalUrl },
+	{ name: 'Two-Schedule Elimination Guide', url: canonicalUrl },
 ];
 
 const schema = [
-	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+	buildWebPageSchema({ name: meta.title, description: meta.description, url: canonicalUrl }),
 	buildArticleSchema({
-		headline: 'Best 50/50 Custody Schedule',
-		description,
+		headline: hero.headline,
+		description: meta.description,
 		url: canonicalUrl,
-		datePublished,
-		dateModified,
-		authorName: 'CustodyBuilder Editorial Team',
-	}),
-	buildItemListSchema({
-		name: '50/50 Custody Schedules Compared',
-		description: 'Five common 50/50 custody schedule patterns compared for family fit, exchanges, and school routines.',
-		url: canonicalUrl,
-		items: comparedScheduleListItems.map((item) => ({
-			name: item.name,
-			url: getCanonicalUrl(item.url),
-		})),
+		datePublished: meta.datePublished,
+		dateModified: meta.dateModified,
+		authorName: editorialReview.reviewer,
 	}),
 	buildFAQSchema(faqItems),
 	buildBreadcrumbSchema(breadcrumbs),
+	{
+		'@context': 'https://schema.org',
+		'@type': 'WebApplication',
+		name: '50/50 Finalist Calendar Generator',
+		description: meta.description,
+		url: canonicalUrl,
+		inLanguage: 'en-US',
+		areaServed: 'US',
+		applicationCategory: 'LegalApplication',
+		operatingSystem: 'Web',
+		offers: {
+			'@type': 'Offer',
+			price: '0',
+			priceCurrency: 'USD',
+		},
+	},
 ];
 ---
 
-<BaseLayout title={title} description={description} canonical={canonical}>
+<BaseLayout title={meta.title} description={meta.description} canonical={canonical}>
 	<JsonLd slot="head" data={schema} />
 	<Navbar />
 	<Breadcrumbs items={breadcrumbs} />
-	<main>
-		<section class="container-shell py-section lg:py-section-loose">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Decision guide</p>
-				<h1 class="mt-4 text-4xl font-semibold leading-[1.02] tracking-[-0.05em] text-primary sm:text-5xl lg:text-6xl">
-					Best 50/50 Custody Schedule
+	<main class="best-fifty-fifty-page">
+		<section
+			class="container-shell grid grid-cols-1 gap-5 py-4 sm:py-5 lg:grid-cols-[minmax(0,0.88fr)_minmax(704px,1.12fr)] lg:items-start lg:gap-7 lg:py-6 xl:w-[min(100%,1360px)]"
+			id="schedule-generator"
+		>
+			<div class="order-1 min-w-0 lg:col-start-1 lg:row-start-1 lg:pt-1">
+				<h1 class="max-w-3xl text-4xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary sm:text-5xl">
+					{hero.headline}
 				</h1>
-				<p class="mt-2 text-sm leading-6 text-muted">
-					Created by <a href="/about/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">CustodyBuilder Editorial Team</a>
-					<span aria-hidden="true"> • </span>Last reviewed: June 2026
-					<span aria-hidden="true"> • </span>Based on exchange counts, separation blocks, school-night predictability, and weekly maintenance load
-				</p>
-				<p class="mt-5 text-lg leading-8 text-secondary">
-					Compare five common 50/50 parenting patterns by what actually breaks in real life—school mornings, exchange stress, time away from each parent, and how many handoffs you can manage. Use this guide to rule schedules out, then pick a starting point to customize.
-				</p>
-				<div class="mt-8 flex flex-col gap-3 sm:flex-row">
-					<CtaButton href="/50-50-custody-schedule/" variant="primary" size="large">
-						Find My 50/50 Schedule
-					</CtaButton>
-					<CtaButton href="/50-50-custody-schedule-examples/" variant="secondary" size="large">
-						See 50/50 Schedule Examples
-					</CtaButton>
-				</div>
-				<p class="mt-6 text-sm leading-6 text-secondary">
-					Not sure yet? <a href="/50-50-custody-schedule-examples/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Browse scenario-based examples</a> or read the <a href="/50-50-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">full 50/50 schedule guide</a>.
-				</p>
-			</div>
-		</section>
 
-		<section class="container-shell pb-section" aria-labelledby="quick-facts-title">
-			<div class="soft-card max-w-3xl rounded-[1.5rem] p-5 sm:p-6">
-				<h2 id="quick-facts-title" class="text-lg font-semibold tracking-[-0.03em] text-primary">50/50 Schedule Quick Facts</h2>
-				<dl class="mt-4 grid gap-3 sm:grid-cols-2">
-					{quickFacts.map((fact) => (
-						<div class="rounded-xl bg-page/45 px-4 py-3 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-							<dt class="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted">{fact.label}</dt>
-							<dd class="mt-1 text-sm font-semibold text-primary">{fact.value}</dd>
+				<dl class="mt-4 grid grid-cols-3 gap-2">
+					{heroKeyStats.map((stat) => (
+						<div class="rounded-[1rem] bg-accent/10 px-2 py-2.5 text-center shadow-[inset_0_0_0_1px_rgba(37,99,235,0.15)] sm:px-3">
+							<dd class="text-lg font-bold tabular-nums tracking-tight text-accent sm:text-xl">{stat.value}</dd>
+							<dt class="mt-0.5 text-[10px] font-semibold uppercase leading-4 tracking-[0.08em] text-secondary">{stat.label}</dt>
 						</div>
 					))}
 				</dl>
-			</div>
-		</section>
 
-		<section id="quick-answer" class="container-shell scroll-mt-24 pb-section" aria-labelledby="quick-answer-title">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Quick answer</p>
-				<h2 id="quick-answer-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					Quick Answer: Which 50/50 Schedule Is Best?
-				</h2>
-				<p class="mt-3 text-sm leading-7 text-secondary">
-					If a preschooler melts down after four days away, start with 2-2-3. If homework and the same school nights with each parent matter more, start with 2-2-5-5—then open the hub to set your start date.
-				</p>
-				<p class="mt-4 text-sm leading-6 text-secondary">
-					Before comparing specific 50/50 schedule patterns, it may help to consider <a href="/50-50-custody-schedule-pros-and-cons/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">whether equal parenting time fits your family</a>’s routines, communication style, school responsibilities, and day-to-day logistics.
-				</p>
-			</div>
-			<div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-				{quickRecommendations.map((item) => (
-					<article class="soft-card flex h-full flex-col rounded-[1.5rem] p-5">
-						<p class="text-[11px] font-semibold uppercase tracking-[0.16em] text-accent">{item.label}</p>
-						<h3 class="mt-2 text-xl font-semibold tracking-[-0.03em] text-primary">{item.schedule}</h3>
-						<p class="mt-2 flex-1 text-sm leading-6 text-secondary"><span class="font-semibold text-primary">Why:</span> {item.why}</p>
-						<div class="mt-4">
-							<CtaButton href={item.href} variant="primary" size="small" class="w-full justify-center">
-								{item.cta}
-							</CtaButton>
-						</div>
-					</article>
-				))}
-			</div>
-		</section>
+				<p class="mt-3 max-w-2xl text-base leading-7 text-secondary">{hero.intro}</p>
+				<p class="mt-3 max-w-2xl text-sm leading-6 text-secondary" set:html={hero.boundary} />
 
-		<section id="decision-scorecard" class="container-shell scroll-mt-24 py-section" aria-labelledby="scorecard-title">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Eliminate options</p>
-				<h2 id="scorecard-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					Which 50/50 Schedule Should You Choose?
-				</h2>
-				<p class="mt-3 text-base leading-7 text-secondary">
-					Use this table to rule schedules in or out. If a row’s “avoid” column matches your situation, move to the next pattern before customizing.
-				</p>
-			</div>
-			<div class="mt-6 overflow-x-auto">
-				<table class="w-full min-w-[720px] border-collapse text-left text-sm">
-					<thead>
-						<tr class="border-b border-line-subtle text-xs font-semibold uppercase tracking-[0.14em] text-muted">
-							<th class="px-3 py-3">Schedule</th>
-							<th class="px-3 py-3">Choose this if</th>
-							<th class="px-3 py-3">Avoid this if</th>
-							<th class="px-3 py-3">Customize</th>
-						</tr>
-					</thead>
-					<tbody class="divide-y divide-line-subtle">
-						{scorecardRows.map((row) => (
-							<tr class="bg-surface/40 align-top">
-								<td class="px-3 py-4 font-semibold text-primary">
-									<a href={row.guideHref} class="text-accent underline decoration-line underline-offset-4 hover:text-primary">{row.schedule}</a>
-								</td>
-								<td class="px-3 py-4 text-secondary">
-									<ul class="list-disc space-y-1 pl-4">
-										{row.chooseIf.map((item) => <li>{item}</li>)}
-									</ul>
-								</td>
-								<td class="px-3 py-4 text-secondary">
-									<ul class="list-disc space-y-1 pl-4">
-										{row.avoidIf.map((item) => <li>{item}</li>)}
-									</ul>
-								</td>
-								<td class="px-3 py-4">
-									<CtaButton href={getScheduleCustomizeUrl(row.scheduleId)} variant="primary" size="small" class="inline-flex whitespace-nowrap">
-										Customize This Schedule →
-									</CtaButton>
-								</td>
-							</tr>
+				<div class="mt-3 max-w-2xl text-xs leading-5 text-muted">
+					<p class="font-semibold text-secondary">Reviewed for:</p>
+					<ul class="mt-1 list-inside list-disc space-y-0.5">
+						{editorialReview.reviewedFor.map((item) => (
+							<li>{item}</li>
 						))}
-					</tbody>
-				</table>
-			</div>
-			<p class="mt-4 text-sm leading-6 text-secondary">
-				<a href="/50-50-custody-schedule-examples/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Compare 50/50 custody schedule examples</a> if two patterns still fit.
-			</p>
-		</section>
-
-		<section id="most-common" class="container-shell scroll-mt-24 pb-section" aria-labelledby="most-common-title">
-			<div class="soft-card max-w-3xl rounded-[1.5rem] p-5 sm:p-6">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Popular patterns</p>
-				<h2 id="most-common-title" class="mt-3 text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-3xl">
-					What Is the Most Common 50/50 Custody Schedule?
-				</h2>
-				{mostCommonParagraphs.map((paragraph) => (
-					<p class="mt-3 text-base leading-7 text-secondary">{paragraph}</p>
-				))}
-				<p class="mt-3 text-base leading-7 text-secondary">
-					<a href="/50-50-custody-schedule-examples/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Compare real 50/50 examples</a> after you narrow the pattern list above.
-				</p>
-			</div>
-		</section>
-
-		<section id="easiest-schedule" class="container-shell scroll-mt-24 pb-section" aria-labelledby="easiest-schedule-title">
-			<div class="soft-card max-w-3xl rounded-[1.5rem] p-5 sm:p-6">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Simplicity</p>
-				<h2 id="easiest-schedule-title" class="mt-3 text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-3xl">
-					What Is the Easiest 50/50 Custody Schedule?
-				</h2>
-				<p class="mt-3 text-base leading-7 text-secondary">
-					Week-on/week-off is usually the easiest 50/50 schedule to manage because parents exchange only once each week. That simplicity helps parents, but a seven-day block away from one parent can overwhelm a preschooler who still needs shorter separations—making 2-2-3 worth comparing first.
-				</p>
-				<p class="mt-3 text-base leading-7 text-secondary">
-					When you need fewer exchanges but still want fixed school-week routines, compare <a href="/2-2-5-5-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-5-5</a> and <a href="/5-2-2-5-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">5-2-2-5</a> before defaulting to a weekly swap.
-				</p>
-			</div>
-		</section>
-
-		<section id="by-age" class="container-shell scroll-mt-24 py-section" aria-labelledby="by-age-title">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">By child age</p>
-				<h2 id="by-age-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					Best 50/50 Custody Schedule by Child Age
-				</h2>
-				<p class="mt-3 text-base leading-7 text-secondary">
-					Age changes how children handle separations, school routines, and transitions. These recommendations focus on decision logic—not a gallery of calendars. For visual examples, see the <a href="/50-50-custody-schedule-examples/#age-examples" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">age-based example section</a>.
-				</p>
-			</div>
-			<div class="mt-6 grid gap-4 md:grid-cols-2">
-				{ageDecisionCards.map((card) => (
-					<article class="soft-card rounded-[1.5rem] p-5">
-						<p class="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">{card.age} <span class="font-normal normal-case text-muted">({card.ageNote})</span></p>
-						<h3 class="mt-1 text-lg font-semibold tracking-[-0.03em] text-primary">Primary: {card.primary} <span class="font-normal text-secondary">· Alternative: {card.alternative}</span></h3>
-						<dl class="mt-3 space-y-2 text-sm leading-6 text-secondary">
-							<div><dt class="inline font-semibold text-primary">Choose {card.primary} when:</dt> <dd class="inline">{card.choosePrimary}</dd></div>
-							<div><dt class="inline font-semibold text-primary">Choose {card.alternative} when:</dt> <dd class="inline">{card.chooseAlternative}</dd></div>
-							<div><dt class="inline font-semibold text-primary">Watch out:</dt> <dd class="inline">{card.watchOut}</dd></div>
-						</dl>
-						<div class="mt-4 flex flex-col gap-2">
-							{card.learnLinks.map((link) => (
-								<a href={link.href} class="text-sm font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">
-									{link.label}
-								</a>
-							))}
-						</div>
-					</article>
-				))}
-			</div>
-		</section>
-
-		<section id="by-situation" class="container-shell scroll-mt-24 py-section" aria-labelledby="by-situation-title">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">By parent situation</p>
-				<h2 id="by-situation-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					Best 50/50 Schedule by Parent Situation
-				</h2>
-			</div>
-			<div class="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-				{parentSituationCards.map((card) => (
-					<article class="soft-card flex h-full flex-col rounded-[1.5rem] p-5">
-						<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{card.situation}</h3>
-						<p class="mt-2 text-sm leading-6 text-secondary"><span class="font-semibold text-primary">Start with:</span> {card.best}</p>
-						<p class="mt-2 text-sm leading-6 text-secondary"><span class="font-semibold text-primary">Why it works:</span> {card.why}</p>
-						<p class="mt-2 flex-1 text-sm leading-6 text-secondary"><span class="font-semibold text-primary">Watch out:</span> {card.watchOut}</p>
-						<a href={card.actionHref} class="mt-4 text-sm font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">
-							{card.actionLabel}
+					</ul>
+					<p class="mt-2">
+						Reviewed by{' '}
+						<a href={editorialReview.reviewerHref} class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">
+							{editorialReview.reviewer}
 						</a>
-					</article>
-				))}
+						{' · '}
+						Methodology:{' '}
+						<a href={editorialReview.methodologyHref} class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">
+							{editorialReview.methodologyLabel}
+						</a>
+						{' · '}{editorialReview.disclaimer}
+					</p>
+				</div>
 			</div>
+
+			<ScheduleHeroGeneratorPanel
+				selectedScheduleId="2-2-5-5"
+				generatedSchedule={generatedSchedule}
+				heroTrustSignals={heroTrustSignals}
+			/>
 		</section>
 
-		<section id="223-vs-2255" class="container-shell scroll-mt-24 py-section" aria-labelledby="comparison-title">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Head-to-head</p>
-				<h2 id="comparison-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					2-2-3 vs 2-2-5-5: Which Is Better?
-				</h2>
-				{comparison223vs2255.intro.map((paragraph) => (
-					<p class="mt-3 text-base leading-7 text-secondary">{paragraph}</p>
+		<nav class="container-shell border-y border-line-subtle py-3" aria-label="On this page">
+			<ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">
+				{articleTocItems.map((item) => (
+					<li><a href={`#${item.id}`} class="hover:text-accent">{item.label}</a></li>
 				))}
-			</div>
-			<div class="mt-6 overflow-x-auto">
-				<table class="w-full min-w-[640px] border-collapse text-left text-sm">
-					<thead>
-						<tr class="border-b border-line-subtle text-xs font-semibold uppercase tracking-[0.14em] text-muted">
-							<th class="px-4 py-3">Factor</th>
-							<th class="px-4 py-3">2-2-3</th>
-							<th class="px-4 py-3">2-2-5-5</th>
-						</tr>
-					</thead>
-					<tbody class="divide-y divide-line-subtle">
-						{comparison223vs2255.rows.map((row) => (
-							<tr class="bg-surface/40">
-								<td class="px-4 py-4 font-semibold text-primary">{row.factor}</td>
-								<td class="px-4 py-4 text-secondary">{row.twoTwoThree}</td>
-								<td class="px-4 py-4 text-secondary">{row.twoTwoFiveFive}</td>
-							</tr>
+			</ul>
+		</nav>
+
+		<section id="two-survive" class="container-shell scroll-mt-24 py-10 lg:py-12" aria-labelledby="two-survive-title">
+			<div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(280px,360px)] lg:items-start">
+				<div class="min-w-0">
+					<h2 id="two-survive-title" class="text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-3xl">
+						{twoSurvive.title}
+					</h2>
+					<p class="mt-3 text-base leading-7 text-secondary">{twoSurvive.intro}</p>
+					<ul class="mt-6 space-y-5">
+						{twoSurvive.pairs.map((pair) => (
+							<li class="rounded-[1rem] bg-surface/50 p-4 ring-1 ring-line-subtle">
+								<h3 class="text-base font-semibold text-primary">{pair.heading}</h3>
+								<p class="mt-2 text-sm leading-6 text-secondary">{pair.body}</p>
+								<p class="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm font-semibold">
+									{pair.links.map((link) => (
+										<a href={link.href} class="text-accent underline decoration-line underline-offset-4 hover:text-primary">
+											{link.label}
+										</a>
+									))}
+								</p>
+							</li>
 						))}
-					</tbody>
-				</table>
-			</div>
-			<div class="mt-6 flex flex-col gap-3 sm:flex-row">
-				<a href="/2-2-3-custody-schedule/" class="text-sm font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-3 schedule guide →</a>
-				<a href="/2-2-5-5-custody-schedule/" class="text-sm font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-5-5 schedule guide →</a>
+					</ul>
+				</div>
+				<FiftyFiftyEliminationFunnelGraphic />
 			</div>
 		</section>
 
-		<section id="fewest-exchanges" class="container-shell scroll-mt-24 py-section" aria-labelledby="fewest-exchanges-title">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Exchange ranking</p>
-				<h2 id="fewest-exchanges-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					Which 50/50 Schedule Has the Fewest Exchanges?
-				</h2>
-				<p class="mt-3 text-base leading-7 text-secondary">
-					Fewer exchanges can help high-conflict parents or older children, but younger children may need shorter gaps between homes. <a href="/50-50-custody-schedule-examples/#example-week-on-week-off" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">See real week-on/week-off custody examples</a>.
-				</p>
+		<section id="non-negotiables" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="non-negotiables-title">
+			<div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(280px,360px)] lg:items-start">
+				<div class="min-w-0">
+					<h2 id="non-negotiables-title" class="text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-3xl">
+						{nonNegotiables.title}
+					</h2>
+					<p class="mt-3 text-base leading-7 text-secondary">{nonNegotiables.intro}</p>
+					<ul class="mt-6 space-y-4">
+						{nonNegotiables.items.map((item) => (
+							<li class="border-l-2 border-accent/30 pl-4">
+								<h3 class="text-base font-semibold text-primary">{item.heading}</h3>
+								<p class="mt-2 text-sm leading-6 text-secondary">{item.body}</p>
+							</li>
+						))}
+					</ul>
+				</div>
+				<FiftyFiftyNonNegotiablesGraphic />
 			</div>
-			<ol class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-				{fewestExchangesRank.map((item) => (
-					<li class="soft-card rounded-[1.5rem] p-5">
-						<p class="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">Rank {item.rank}</p>
-						<p class="mt-1 text-lg font-semibold text-primary">{item.schedule}</p>
-						<p class="mt-1 text-sm leading-6 text-secondary">{item.note}</p>
-					</li>
+		</section>
+
+		<section id="print-both" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="print-both-title">
+			<h2 id="print-both-title" class="max-w-3xl text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-3xl">
+				{printBoth.title}
+			</h2>
+			<p class="mt-3 max-w-3xl text-base leading-7 text-secondary">{printBoth.intro}</p>
+			<ol class="mt-6 max-w-3xl list-decimal space-y-2 pl-5 text-sm leading-6 text-secondary">
+				{printBoth.steps.map((step) => (
+					<li>{step}</li>
 				))}
 			</ol>
+			<p class="mt-6 max-w-3xl text-sm leading-6 text-secondary" set:html={printBoth.closing} />
 		</section>
 
-		<section id="no-single-best" class="container-shell scroll-mt-24 py-section" aria-labelledby="no-single-best-title">
-			<div class="soft-card max-w-3xl rounded-[1.5rem] p-5 sm:p-6">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Important context</p>
-				<h2 id="no-single-best-title" class="mt-3 text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-3xl">
-					When There Is No Single Best 50/50 Schedule
-				</h2>
-				<p class="mt-3 text-base leading-7 text-secondary">
-					Match the pattern to how your child handles separations, not just what looks equal on paper. Work through these factors together:
-				</p>
-				<p class="mt-3 text-base leading-7 text-secondary">
-					A 2-2-3 plan that worked at age four often breaks at age six when homework needs the same parent on set weeknights—that is when many families shift toward 2-2-5-5 or 5-2-2-5.
-				</p>
-				<ul class="mt-4 list-disc space-y-2 pl-5 text-sm leading-7 text-secondary">
-					{noSingleBestFactors.map((factor) => <li>{factor}</li>)}
-				</ul>
-				<p class="mt-4 text-sm leading-7 text-secondary">
-					This is planning information, not legal advice. Custody orders and court requirements vary. See our <a href="/disclaimer/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">disclaimer</a> and consider qualified guidance when a schedule will be filed or enforced.
-				</p>
+		<section id="conflict-days" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="conflict-days-title">
+			<div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(280px,360px)] lg:items-start">
+				<div class="min-w-0">
+					<h2 id="conflict-days-title" class="text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-3xl">
+						{conflictDays.title}
+					</h2>
+					<p class="mt-3 text-base leading-7 text-secondary">{conflictDays.intro}</p>
+					<ul class="mt-6 space-y-4">
+						{conflictDays.markers.map((marker) => (
+							<li class="border-l-2 border-rose-500/30 pl-4">
+								<h3 class="text-base font-semibold text-primary">{marker.heading}</h3>
+								<p class="mt-2 text-sm leading-6 text-secondary" set:html={marker.body} />
+							</li>
+						))}
+					</ul>
+					<p class="mt-6 text-sm leading-6 text-secondary">{conflictDays.threshold}</p>
+				</div>
+				<FiftyFiftyConflictDayComparisonGraphic />
 			</div>
 		</section>
 
-		<section class="container-shell py-section" aria-labelledby="build-calendar-title">
-			<div class="premium-card rounded-[2rem] p-3">
-				<div class="rounded-[1.7rem] bg-surface-elevated/80 p-6 sm:p-8 lg:p-10">
-					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Next step</p>
-					<h2 id="build-calendar-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-						Choose a 50/50 Schedule and Make It Your Own
-					</h2>
-					<p class="mt-4 max-w-2xl text-base leading-7 text-secondary">
-						Pick one pattern from the scorecard, open the generator with that template, then adjust exchange days and holidays before sharing a draft with your co-parent or mediator.
-					</p>
-					<div class="mt-6 flex flex-col gap-3 sm:flex-row">
-						<CtaButton href="/50-50-custody-schedule/" variant="primary" size="large">
-							Build My 50/50 Schedule
-						</CtaButton>
-						<CtaButton href="/50-50-custody-schedule-examples/" variant="secondary" size="large">
-							See Real 50/50 Examples
-						</CtaButton>
-					</div>
+		<section id="break-tie" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="break-tie-title">
+			<h2 id="break-tie-title" class="max-w-3xl text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-3xl">
+				{breakTie.title}
+			</h2>
+			<p class="mt-3 max-w-3xl text-base leading-7 text-secondary">{breakTie.intro}</p>
+			<div class="mt-6 max-w-3xl space-y-5">
+				{breakTie.steps.map((step) => (
+					<article class="rounded-[1rem] bg-surface/50 p-4 ring-1 ring-line-subtle">
+						<h3 class="text-base font-semibold text-primary">{step.heading}</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary" set:html={step.body} />
+					</article>
+				))}
+			</div>
+		</section>
+
+		<section id="both-fail" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="both-fail-title">
+			<h2 id="both-fail-title" class="max-w-3xl text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-3xl">
+				{bothFail.title}
+			</h2>
+			<p class="mt-3 max-w-3xl text-base leading-7 text-secondary">{bothFail.intro}</p>
+			<ul class="mt-6 max-w-3xl space-y-4">
+				{bothFail.outcomes.map((outcome) => (
+					<li class="border-l-2 border-accent/30 pl-4">
+						<h3 class="text-base font-semibold text-primary">{outcome.heading}</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary" set:html={outcome.body} />
+					</li>
+				))}
+			</ul>
+		</section>
+
+		<section id="methodology" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="methodology-title">
+			<h2 id="methodology-title" class="max-w-3xl text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-3xl">
+				{methodology.title}
+			</h2>
+			{methodology.paragraphs.map((paragraph) => (
+				<p class="mt-3 max-w-3xl text-base leading-7 text-secondary">{paragraph}</p>
+			))}
+		</section>
+
+		<section id="convert-cta" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="convert-cta-title">
+			<div class="max-w-2xl rounded-[1.25rem] border border-line bg-surface/40 p-6 sm:p-7">
+				<h2 id="convert-cta-title" class="text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-[1.65rem]">
+					{postContentCta.heading}
+				</h2>
+				<p class="mt-3 text-sm leading-6 text-secondary sm:text-base sm:leading-7">{postContentCta.body}</p>
+				<div class="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
+					<CtaButton href={postContentCta.primaryHref} variant="primary" size="large">
+						{postContentCta.primaryLabel}
+					</CtaButton>
+					<a
+						href={postContentCta.secondaryHref}
+						class="text-sm font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary"
+					>
+						{postContentCta.secondaryLabel}
+					</a>
 				</div>
 			</div>
 		</section>
 
-		<section class="container-shell py-section" aria-labelledby="related-tools-title">
-			<div class="max-w-3xl">
-				<h2 id="related-tools-title" class="text-2xl font-semibold tracking-[-0.04em] text-primary">Related planning tools</h2>
-			</div>
-			<div class="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-				{relatedLinks.map((link) => (
-					<a href={link.href} class="soft-card rounded-[1.5rem] p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40">
-						<h3 class="text-base font-semibold text-primary">{link.title}</h3>
-						<p class="mt-2 text-sm leading-6 text-secondary">{link.description}</p>
-					</a>
-				))}
-			</div>
-		</section>
-
-		<section id="evaluation-methodology" class="container-shell scroll-mt-24 py-section" aria-labelledby="evaluation-methodology-title">
-			<div class="soft-card rounded-[1.5rem] p-5 sm:p-6">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">How we evaluate</p>
-				<h2 id="evaluation-methodology-title" class="mt-3 text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-3xl">
-					How CustodyBuilder Evaluates 50/50 Schedules
-				</h2>
-				{methodologyParagraphs.map((paragraph) => (
-					<p class="mt-3 max-w-3xl text-base leading-7 text-secondary">{paragraph}</p>
-				))}
-				<p class="mt-4 text-sm leading-7 text-secondary">
-					Use this guide as a <a href="/disclaimer/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">planning tool, not legal advice</a>.
-				</p>
-			</div>
-		</section>
-
-		<section id="ymyl-disclaimer" class="container-shell scroll-mt-24 py-section" aria-labelledby="ymyl-disclaimer-title">
-			<div class="soft-card max-w-3xl rounded-[1.5rem] p-5 sm:p-6">
-				<h2 id="ymyl-disclaimer-title" class="text-xl font-semibold tracking-[-0.03em] text-primary sm:text-2xl">
-					Choosing a Custody Schedule Is a Parenting Decision, Not Legal Advice
-				</h2>
-				<p class="mt-3 text-sm leading-7 text-secondary">
-					Court orders, state rules, and safety concerns can override any pattern on this page. Use these comparisons to plan a practical parenting routine with your co-parent or advisor—not as a substitute for <a href="/disclaimer/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">legal advice</a> or a court-approved custody order.
-				</p>
-			</div>
-		</section>
-
-		<FAQ
-			items={faqItems}
-			eyebrow="Decision FAQ"
-			title="Questions About Choosing a 50/50 Schedule"
-			description="Answers focused on choosing a 50/50 pattern—not general custody definitions or example galleries."
-		/>
+		<FAQ items={faqItems} title={faqSection.title} description={faqSection.description} />
 	</main>
 	<Footer />
 </BaseLayout>

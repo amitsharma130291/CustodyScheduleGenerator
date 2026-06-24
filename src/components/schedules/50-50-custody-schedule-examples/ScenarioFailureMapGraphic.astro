@@ -1,0 +1,27 @@
+---
+const steps = [
+	{ label: 'Situation', detail: 'Tuesday piano 4 p.m.', color: 'bg-surface ring-line-subtle' },
+	{ label: 'Failure', detail: 'Tuesday alternates parents', color: 'bg-rose-500/10 ring-rose-500/30' },
+	{ label: 'Adjustment', detail: 'Fixed Tuesday owner', color: 'bg-accent/10 ring-accent/30' },
+];
+---
+
+<figure class="failure-map w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Scenario map — situation → failure → adjustment
+	</figcaption>
+
+	<div class="mt-5 flex flex-col gap-2 sm:flex-row sm:items-stretch">
+		{steps.map((step, i) => (
+			<>
+				<div class:list={['flex-1 rounded-xl p-4 ring-1', step.color]}>
+					<p class="text-[10px] font-bold uppercase tracking-[0.12em] text-muted">{step.label}</p>
+					<p class="mt-2 text-sm font-semibold leading-5 text-primary">{step.detail}</p>
+				</div>
+				{i < steps.length - 1 && (
+					<span class="hidden shrink-0 self-center text-lg text-muted sm:block" aria-hidden="true">→</span>
+				)}
+			</>
+		))}
+	</div>
+</figure>

@@ -1,0 +1,39 @@
+---
+const nodes = [
+	{ label: 'Parent A home', sub: 'Worksheet half-done', tone: 'a' },
+	{ label: 'Backpack', sub: 'Exchange', tone: 'gear' },
+	{ label: 'School', sub: 'Turn in Thu', tone: 'school' },
+	{ label: 'Parent B home', sub: 'Finish tonight', tone: 'b' },
+];
+---
+
+<figure class="homework-movement w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Homework movement — operational friction on exchange
+	</figcaption>
+	<div class="mt-5 flex flex-col items-stretch gap-2 sm:flex-row sm:flex-wrap sm:items-center sm:justify-center sm:gap-3">
+		{nodes.map((node, index) => (
+			<>
+				{index > 0 && (
+					<div class="flex h-5 items-center justify-center text-muted sm:h-auto sm:w-6" aria-hidden="true">
+						<svg class="h-4 w-4 rotate-90 sm:rotate-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+							<path d="M3 8h10M9 4l4 4-4 4" />
+						</svg>
+					</div>
+				)}
+				<div
+					class:list={[
+						'flex min-h-[4.5rem] w-full flex-col items-center justify-center rounded-xl px-3 py-3 text-center sm:min-w-[5.5rem] sm:w-auto',
+						node.tone === 'a' && 'bg-parent-a/10 ring-1 ring-parent-a/25',
+						node.tone === 'b' && 'bg-parent-b/10 ring-1 ring-parent-b/25',
+						node.tone === 'school' && 'bg-sky-500/[0.1] ring-1 ring-sky-500/25',
+						node.tone === 'gear' && 'bg-amber-500/[0.12] ring-2 ring-amber-500/35',
+					]}
+				>
+					<span class="text-xs font-bold text-primary">{node.label}</span>
+					<span class="mt-1 text-[10px] leading-4 text-secondary">{node.sub}</span>
+				</div>
+			</>
+		))}
+	</div>
+</figure>

@@ -1,0 +1,25 @@
+---
+const activities = [
+	{ day: 'Tue', name: 'Soccer practice', time: '5:30 PM', owner: 'Parent A' },
+	{ day: 'Thu', name: 'Music lesson', time: '4:15 PM', owner: 'Parent B' },
+	{ day: 'Fri', name: 'Robotics club', time: '3:45 PM', owner: 'Parent A' },
+];
+---
+
+<figure class="activity-night w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Recurring activity nights — weekday ownership drives planning
+	</figcaption>
+	<ul class="mt-4 space-y-2">
+		{activities.map((a) => (
+			<li class="flex flex-col gap-1 rounded-lg bg-surface px-3 py-2.5 ring-1 ring-line-subtle sm:flex-row sm:items-center sm:justify-between">
+				<div class="flex items-center gap-2">
+					<span class="rounded-md bg-accent/15 px-2 py-0.5 text-[10px] font-bold uppercase text-accent">{a.day}</span>
+					<span class="text-sm font-semibold text-primary">{a.name}</span>
+					<span class="text-xs text-muted">{a.time}</span>
+				</div>
+				<span class="text-xs font-semibold text-secondary">{a.owner} owns pickup</span>
+			</li>
+		))}
+	</ul>
+</figure>

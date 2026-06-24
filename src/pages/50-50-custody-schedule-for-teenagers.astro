@@ -6,9 +6,12 @@ import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import FAQ from '../components/FAQ.astro';
 import CtaButton from '../components/CtaButton.astro';
+import ScheduleHeroGeneratorPanel from '../components/schedules/ScheduleHeroGeneratorPanel.astro';
 import DrivingFreedomTimelineGraphic from '../components/schedules/50-50-custody-schedule-for-teenagers/DrivingFreedomTimelineGraphic.astro';
-import EqualTimeFlexibilityComparisonGraphic from '../components/schedules/50-50-custody-schedule-for-teenagers/EqualTimeFlexibilityComparisonGraphic.astro';
-import TeenActivityPressureChartGraphic from '../components/schedules/50-50-custody-schedule-for-teenagers/TeenActivityPressureChartGraphic.astro';
+import TeenSchedulePressureMapGraphic from '../components/schedules/50-50-custody-schedule-for-teenagers/TeenSchedulePressureMapGraphic.astro';
+import CalendarFlexibilityGraphic from '../components/schedules/50-50-custody-schedule-for-teenagers/CalendarFlexibilityGraphic.astro';
+import { generateSchedule } from '../lib/schedules/generateSchedule';
+import { getDefaultStartDate } from '../lib/schedules/format';
 import { getCanonicalUrl } from '../lib/seo/metadata';
 import {
 	buildArticleSchema,
@@ -17,25 +20,30 @@ import {
 	buildWebPageSchema,
 } from '../lib/seo/schema';
 import {
-	meta,
-	transitionRedirect,
-	scheduleComparisonCards,
-	drivingLogistics,
-	teenModifiesCalendar,
-	rigiditySigns,
-	jobActivityAdjustments,
-	patternMistakes,
-	builderFeatures,
+	articleTocItems,
+	editorialReview,
 	faqItems,
 	faqSection,
+	hero,
+	heroKeyStats,
+	heroTrustSignals,
+	meta,
+	postContentCta,
+	permissionEnds,
+	drivingFreedom,
+	schedulePressure,
+	calendarFlexibility,
+	independenceMistakes,
 } from '../data/fiftyFiftyCustodyScheduleForTeenagers';
 
-const title = meta.title;
-const description = meta.description;
 const canonical = '/50-50-custody-schedule-for-teenagers/';
 const canonicalUrl = getCanonicalUrl(canonical);
-const datePublished = '2026-07-09';
-const dateModified = '2026-06-24';
+const startDate = getDefaultStartDate();
+const generatedSchedule = generateSchedule({
+	scheduleId: 'week-on-week-off',
+	startDate,
+	parentNames: { parentA: 'Parent A', parentB: 'Parent B' },
+});
 
 const breadcrumbs = [
 	{ name: 'Home', url: getCanonicalUrl('/') },
@@ -44,217 +52,232 @@ const breadcrumbs = [
 ];
 
 const schema = [
-	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+	buildWebPageSchema({ name: meta.title, description: meta.description, url: canonicalUrl }),
 	buildArticleSchema({
-		headline: '50/50 Custody Schedule for Teenagers',
-		description,
+		headline: hero.headline,
+		description: meta.description,
 		url: canonicalUrl,
-		datePublished,
-		dateModified,
-		authorName: 'CustodyBuilder Editorial Team',
+		datePublished: meta.datePublished,
+		dateModified: meta.dateModified,
+		authorName: editorialReview.reviewer,
 	}),
 	buildFAQSchema(faqItems),
 	buildBreadcrumbSchema(breadcrumbs),
+	{
+		'@context': 'https://schema.org',
+		'@type': 'WebApplication',
+		name: 'Teen Independence Calendar Preview Generator',
+		description: meta.description,
+		url: canonicalUrl,
+		inLanguage: 'en-US',
+		areaServed: 'US',
+		applicationCategory: 'LegalApplication',
+		operatingSystem: 'Web',
+		offers: {
+			'@type': 'Offer',
+			price: '0',
+			priceCurrency: 'USD',
+		},
+	},
 ];
 ---
 
-<BaseLayout title={title} description={description} canonical={canonical}>
+<BaseLayout title={meta.title} description={meta.description} canonical={canonical}>
 	<JsonLd slot="head" data={schema} />
 	<Navbar />
 	<Breadcrumbs items={breadcrumbs} />
-	<main>
-		<section class="container-shell py-section lg:py-section-loose">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Equal-time teen rotations</p>
-				<h1 class="mt-4 text-4xl font-semibold leading-[1.02] tracking-[-0.05em] text-primary sm:text-5xl lg:text-6xl">
-					50/50 Custody Schedule for Teenagers
+	<main class="teen-fifty-fifty-page">
+		<section
+			class="container-shell grid grid-cols-1 gap-5 py-4 sm:py-5 lg:grid-cols-[minmax(0,0.88fr)_minmax(704px,1.12fr)] lg:items-start lg:gap-7 lg:py-6 xl:w-[min(100%,1360px)]"
+			id="schedule-generator"
+		>
+			<div class="order-1 min-w-0 lg:col-start-1 lg:row-start-1 lg:pt-1">
+				<h1 class="max-w-3xl text-4xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary sm:text-5xl">
+					{hero.headline}
 				</h1>
-				<p class="mt-2 text-sm leading-6 text-muted">
-					Created by <a href="/about/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">CustodyBuilder Editorial Team</a>
-					<span aria-hidden="true"> • </span>Last reviewed: June 2026
-					<span aria-hidden="true"> • </span><a href="/disclaimer/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Not legal advice</a>
-				</p>
-				<p class="mt-5 text-lg leading-8 text-secondary">
-					Equal time for teenagers is a calendar rigidity problem: block length, exchange frequency, and which patterns bend around jobs, driving, and late practices. This page compares 2-2-5-5, 5-2-2-5, week-on/week-off, and 2-2-3 — not teen emotions or social negotiation.
-				</p>
-				<p class="mt-4 text-base leading-7 text-secondary" set:html={transitionRedirect.body} />
-				<div class="mt-8 flex flex-col gap-3 sm:flex-row">
-					<CtaButton href="/custody-schedule-generator/" variant="primary" size="large">
-						Print a teen 50/50 calendar
-					</CtaButton>
-					<CtaButton href="/best-50-50-custody-schedule/" variant="secondary" size="large">
-						Compare all 50/50 patterns
-					</CtaButton>
+
+				<dl class="mt-4 grid grid-cols-3 gap-2">
+					{heroKeyStats.map((stat) => (
+						<div class="rounded-[1rem] bg-accent/10 px-2 py-2.5 text-center shadow-[inset_0_0_0_1px_rgba(37,99,235,0.15)] sm:px-3">
+							<dd class="text-lg font-bold tabular-nums tracking-tight text-accent sm:text-xl">{stat.value}</dd>
+							<dt class="mt-0.5 text-[10px] font-semibold uppercase leading-4 tracking-[0.08em] text-secondary">{stat.label}</dt>
+						</div>
+					))}
+				</dl>
+
+				<p class="mt-3 max-w-2xl text-base leading-7 text-secondary">{hero.intro}</p>
+				<p class="mt-3 max-w-2xl text-sm leading-6 text-secondary" set:html={hero.boundary} />
+
+				<div class="mt-3 max-w-2xl text-xs leading-5 text-muted">
+					<p class="font-semibold text-secondary">Reviewed for:</p>
+					<ul class="mt-1 list-inside list-disc space-y-0.5">
+						{editorialReview.reviewedFor.map((item) => (
+							<li>{item}</li>
+						))}
+					</ul>
+					<p class="mt-2">
+						Reviewed by{' '}
+						<a href={editorialReview.reviewerHref} class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">
+							{editorialReview.reviewer}
+						</a>
+						{' · '}
+						Methodology:{' '}
+						<a href={editorialReview.methodologyHref} class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">
+							{editorialReview.methodologyLabel}
+						</a>
+						{' · '}{editorialReview.disclaimer}
+					</p>
 				</div>
 			</div>
+
+			<ScheduleHeroGeneratorPanel
+				selectedScheduleId="week-on-week-off"
+				generatedSchedule={generatedSchedule}
+				heroTrustSignals={heroTrustSignals}
+			/>
 		</section>
 
-		<section id="pattern-comparison" class="container-shell scroll-mt-24 pb-section" aria-labelledby="pattern-comparison-title">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Pattern comparison</p>
-				<h2 id="pattern-comparison-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					Four Equal-Time Rotations for Teen 50/50
-				</h2>
-				<p class="mt-3 text-base leading-7 text-secondary">
-					Same overnight split (~182 each). Different exchange count, block rigidity, and fit for driving and evening jobs.
-				</p>
-			</div>
-			<div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-				{scheduleComparisonCards.map((card) => (
-					<article class="soft-card flex h-full flex-col rounded-[1.5rem] p-5">
-						<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">
-							<a href={card.href} class="text-accent underline decoration-line underline-offset-4 hover:text-primary">{card.schedule}</a>
-						</h3>
-						<div class="mt-3 flex-1 space-y-4 text-sm leading-6 text-secondary">
-							<div>
-								<p class="font-semibold text-primary">Block mechanics</p>
-								<ul class="mt-2 list-disc space-y-1 pl-4">
-									{card.whyChoose.map((item) => <li>{item}</li>)}
-								</ul>
-							</div>
-							<div>
-								<p class="font-semibold text-primary">Calendar trade-offs</p>
-								<ul class="mt-2 list-disc space-y-1 pl-4">
-									{card.challenges.map((item) => <li>{item}</li>)}
-								</ul>
-							</div>
-						</div>
+		<nav class="container-shell border-y border-line-subtle py-3" aria-label="On this page">
+			<ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">
+				{articleTocItems.map((item) => (
+					<li><a href={`#${item.id}`} class="hover:text-accent">{item.label}</a></li>
+				))}
+			</ul>
+		</nav>
+
+		<section id="permission-ends" class="container-shell scroll-mt-24 py-10 lg:py-12" aria-labelledby="permission-ends-title">
+			<h2 id="permission-ends-title" class="max-w-3xl text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-3xl">
+				{permissionEnds.title}
+			</h2>
+			<p class="mt-3 max-w-3xl text-base leading-7 text-secondary">{permissionEnds.intro}</p>
+			<div class="mt-6 max-w-3xl space-y-5">
+				{permissionEnds.signals.map((signal) => (
+					<article class="border-l-2 border-accent/30 pl-4">
+						<h3 class="text-base font-semibold text-primary">{signal.heading}</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">{signal.body}</p>
 					</article>
 				))}
 			</div>
-			<p class="mt-6 text-sm leading-6 text-secondary">
-				<a href="/50-50-custody-schedule-examples/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">See two-week calendar examples →</a>
-			</p>
+			<p class="mt-6 max-w-3xl text-sm leading-6 text-secondary" set:html={permissionEnds.closing} />
 		</section>
 
-		<section id="driving-logistics" class="container-shell scroll-mt-24 py-section" aria-labelledby="driving-logistics-title">
-			<div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(280px,360px)] lg:items-start">
+		<section id="driving-freedom" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="driving-freedom-title">
+			<div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(260px,320px)] lg:items-start">
 				<div class="min-w-0">
-					<h2 id="driving-logistics-title" class="text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-						{drivingLogistics.title}
+					<h2 id="driving-freedom-title" class="text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-3xl">
+						{drivingFreedom.title}
 					</h2>
-					<p class="mt-3 text-base leading-7 text-secondary">{drivingLogistics.intro}</p>
-					{drivingLogistics.points.map((point) => (
-						<div class="mt-6">
-							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{point.heading}</h3>
-							<p class="mt-2 text-base leading-7 text-secondary">{point.body}</p>
-						</div>
-					))}
-					<p class="mt-6 text-sm leading-6 text-secondary" set:html={drivingLogistics.closing} />
+					<p class="mt-3 text-base leading-7 text-secondary">{drivingFreedom.intro}</p>
+					<div class="mt-6 space-y-5">
+						{drivingFreedom.points.map((point) => (
+							<article>
+								<h3 class="text-base font-semibold text-primary">{point.heading}</h3>
+								<p class="mt-2 text-sm leading-6 text-secondary">{point.body}</p>
+							</article>
+						))}
+					</div>
 				</div>
 				<DrivingFreedomTimelineGraphic />
 			</div>
 		</section>
 
-		<section id="teen-modifies-calendar" class="container-shell scroll-mt-24 py-section" aria-labelledby="teen-modifies-calendar-title">
-			<div class="max-w-3xl">
-				<h2 id="teen-modifies-calendar-title" class="text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					{teenModifiesCalendar.title}
-				</h2>
-				<p class="mt-3 text-base leading-7 text-secondary">{teenModifiesCalendar.intro}</p>
-				{teenModifiesCalendar.phases.map((phase) => (
-					<div class="mt-6">
-						<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{phase.heading}</h3>
-						<p class="mt-2 text-base leading-7 text-secondary">{phase.body}</p>
-					</div>
-				))}
-			</div>
-		</section>
-
-		<section id="rigidity-signs" class="container-shell scroll-mt-24 py-section" aria-labelledby="rigidity-signs-title">
-			<div class="max-w-3xl">
-				<h2 id="rigidity-signs-title" class="text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					{rigiditySigns.title}
-				</h2>
-				<p class="mt-3 text-base leading-7 text-secondary">{rigiditySigns.intro}</p>
-			</div>
-			<div class="mt-6 grid gap-4 md:grid-cols-2">
-				{rigiditySigns.signs.map((item) => (
-					<article class="soft-card rounded-[1.5rem] p-5">
-						<h3 class="text-base font-semibold text-primary">{item.sign}</h3>
-						<p class="mt-2 text-sm leading-6 text-secondary">{item.detail}</p>
-					</article>
-				))}
-			</div>
-		</section>
-
-		<section id="job-activity-adjustments" class="container-shell scroll-mt-24 py-section" aria-labelledby="job-activity-adjustments-title">
+		<section id="schedule-pressure" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="schedule-pressure-title">
 			<div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(280px,360px)] lg:items-start">
 				<div class="min-w-0">
-					<h2 id="job-activity-adjustments-title" class="text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-						{jobActivityAdjustments.title}
+					<h2 id="schedule-pressure-title" class="text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-3xl">
+						{schedulePressure.title}
 					</h2>
-					{jobActivityAdjustments.paragraphs.map((paragraph) => (
-						<p class="mt-3 text-base leading-7 text-secondary" set:html={paragraph} />
-					))}
-					<p class="mt-4 text-sm leading-6 text-secondary" set:html={jobActivityAdjustments.compareNote} />
-				</div>
-				<div class="space-y-4 lg:sticky lg:top-24">
-					<EqualTimeFlexibilityComparisonGraphic />
-					<TeenActivityPressureChartGraphic />
-				</div>
-			</div>
-		</section>
-
-		<section id="pattern-mistakes" class="container-shell scroll-mt-24 py-section" aria-labelledby="pattern-mistakes-title">
-			<div class="max-w-3xl">
-				<h2 id="pattern-mistakes-title" class="text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					Common 50/50 Pattern Mistakes for Teenagers
-				</h2>
-				<p class="mt-3 text-base leading-7 text-secondary">
-					Calendar errors — not parenting style — that show up on teen equal-time plans.
-				</p>
-			</div>
-			<div class="mt-6 grid gap-4 md:grid-cols-2">
-				{patternMistakes.map((item) => (
-					<article class="soft-card rounded-[1.5rem] p-5">
-						<h3 class="text-base font-semibold text-primary">{item.mistake}</h3>
-						<p class="mt-2 text-sm leading-6 text-secondary">{item.detail}</p>
-					</article>
-				))}
-			</div>
-		</section>
-
-		<section id="custodybuilder-help" class="container-shell scroll-mt-24 py-section" aria-labelledby="custodybuilder-help-title">
-			<div class="premium-card rounded-[2rem] p-3">
-				<div class="rounded-[1.7rem] bg-surface-elevated/80 p-6 sm:p-8 lg:p-10">
-					<h2 id="custodybuilder-help-title" class="text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-						Print and Compare Teen 50/50 Calendars
-					</h2>
-					<p class="mt-4 max-w-2xl text-base leading-7 text-secondary">
-						Test block length and exchange days against job shifts, game nights, and holiday overrides before you adopt a pattern in a parenting plan.
-					</p>
-					<ul class="mt-4 max-w-2xl list-disc space-y-2 pl-5 text-sm leading-7 text-secondary">
-						{builderFeatures.map((feature) => <li>{feature}</li>)}
-					</ul>
-					<div class="mt-6 flex flex-col gap-3 sm:flex-row">
-						<CtaButton href="/custody-schedule-generator/" variant="primary" size="large">
-							Open schedule generator
-						</CtaButton>
-						<CtaButton href="/50-50-custody-schedule/" variant="secondary" size="large">
-							50/50 custody schedule hub
-						</CtaButton>
+					<p class="mt-3 text-base leading-7 text-secondary">{schedulePressure.intro}</p>
+					<div class="mt-6 overflow-x-auto rounded-[1.25rem] border border-line bg-surface shadow-[0_18px_44px_rgba(15,23,42,0.06)]">
+						<table class="min-w-[520px] w-full text-left text-sm">
+							<thead class="bg-surface-elevated text-xs uppercase tracking-[0.16em] text-muted">
+								<tr>
+									<th class="px-4 py-3">Calendar</th>
+									<th class="px-4 py-3">Example</th>
+									<th class="px-4 py-3">Conflicts with</th>
+								</tr>
+							</thead>
+							<tbody class="divide-y divide-line text-secondary">
+								{schedulePressure.pressures.map((row) => (
+									<tr>
+										<td class="px-4 py-4 font-semibold text-primary">{row.source}</td>
+										<td class="px-4 py-4">{row.example}</td>
+										<td class="px-4 py-4">{row.conflicts}</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
 					</div>
 				</div>
+				<TeenSchedulePressureMapGraphic />
 			</div>
 		</section>
 
-		<section id="ymyl-disclaimer" class="container-shell scroll-mt-24 py-section" aria-labelledby="ymyl-disclaimer-title">
-			<div class="soft-card max-w-3xl rounded-[1.5rem] p-5 sm:p-6">
-				<h2 id="ymyl-disclaimer-title" class="text-xl font-semibold tracking-[-0.03em] text-primary sm:text-2xl">
-					Educational Planning Information, Not Legal Advice
+		<section id="calendar-flexibility" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="calendar-flexibility-title">
+			<div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(280px,360px)] lg:items-start">
+				<div class="min-w-0">
+					<h2 id="calendar-flexibility-title" class="text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-3xl">
+						{calendarFlexibility.title}
+					</h2>
+					<p class="mt-3 text-base leading-7 text-secondary">{calendarFlexibility.intro}</p>
+					<div class="mt-6 grid gap-4 sm:grid-cols-2">
+						<div class="rounded-[1rem] bg-rose-500/8 p-4 ring-1 ring-rose-500/25">
+							<h3 class="text-sm font-semibold text-primary">Rigid rotation friction</h3>
+							<ul class="mt-3 list-disc space-y-2 pl-4 text-sm leading-6 text-secondary">
+								{calendarFlexibility.rigid.map((item) => <li>{item}</li>)}
+							</ul>
+						</div>
+						<div class="rounded-[1rem] bg-emerald-500/8 p-4 ring-1 ring-emerald-500/25">
+							<h3 class="text-sm font-semibold text-primary">Flexible rotation relief</h3>
+							<ul class="mt-3 list-disc space-y-2 pl-4 text-sm leading-6 text-secondary">
+								{calendarFlexibility.flexible.map((item) => <li>{item}</li>)}
+							</ul>
+						</div>
+					</div>
+					<p class="mt-6 text-sm leading-6 text-secondary" set:html={calendarFlexibility.closing} />
+				</div>
+				<CalendarFlexibilityGraphic />
+			</div>
+		</section>
+
+		<section id="independence-mistakes" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="independence-mistakes-title">
+			<h2 id="independence-mistakes-title" class="max-w-3xl text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-3xl">
+				Independence Mistakes On Equal-Time Teen Calendars
+			</h2>
+			<p class="mt-3 max-w-3xl text-base leading-7 text-secondary">
+				Calendar rigidity errors — not parenting style — that show up when teens drive and work on top of equal time.
+			</p>
+			<ul class="mt-6 max-w-3xl space-y-4">
+				{independenceMistakes.map((item) => (
+					<li class="border-l-2 border-rose-500/30 pl-4">
+						<h3 class="text-base font-semibold text-primary">{item.mistake}</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">{item.detail}</p>
+					</li>
+				))}
+			</ul>
+		</section>
+
+		<section id="convert-cta" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="convert-cta-title">
+			<div class="max-w-2xl rounded-[1.25rem] border border-line bg-surface/40 p-6 sm:p-7">
+				<h2 id="convert-cta-title" class="text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-[1.65rem]">
+					{postContentCta.heading}
 				</h2>
-				<p class="mt-3 text-sm leading-7 text-secondary">
-					This page compares equal-time rotation mechanics for teenagers. It is not medical advice or <a href="/disclaimer/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">legal advice</a>. Court orders and safety concerns override any pattern described here.
-				</p>
+				<p class="mt-3 text-sm leading-6 text-secondary sm:text-base sm:leading-7">{postContentCta.body}</p>
+				<div class="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
+					<CtaButton href={postContentCta.primaryHref} variant="primary" size="large">
+						{postContentCta.primaryLabel}
+					</CtaButton>
+					<a
+						href={postContentCta.secondaryHref}
+						class="text-sm font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary"
+					>
+						{postContentCta.secondaryLabel}
+					</a>
+				</div>
 			</div>
 		</section>
 
-		<FAQ
-			items={faqItems}
-			title={faqSection.title}
-			description={faqSection.description}
-		/>
+		<FAQ items={faqItems} title={faqSection.title} description={faqSection.description} />
 	</main>
 	<Footer />
 </BaseLayout>

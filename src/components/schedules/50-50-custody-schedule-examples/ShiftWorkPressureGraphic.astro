@@ -1,0 +1,45 @@
+---
+const wowWeek = [
+	{ day: 'Sat', parent: 'B', shift: true },
+	{ day: 'Sun', parent: 'B', shift: true },
+	{ day: 'Mon', parent: 'B', shift: false },
+	{ day: 'Tue', parent: 'B', shift: false },
+	{ day: 'Wed', parent: 'B', shift: false },
+	{ day: 'Thu', parent: 'B', shift: false },
+	{ day: 'Fri', parent: 'B', shift: false },
+];
+---
+
+<figure class="shift-pressure w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Week-on/week-off vs rotating nurse shifts
+	</figcaption>
+
+	<p class="mt-3 text-xs leading-5 text-secondary">
+		Parent B's printed week — Saturday–Sunday double shifts posted
+	</p>
+
+	<div class="mt-3 grid grid-cols-7 gap-1">
+		{wowWeek.map((d) => (
+			<div class="text-center">
+				<span class="block text-[10px] font-bold text-muted">{d.day}</span>
+				<span
+					class:list={[
+						'mt-1 block rounded-md py-2 text-[10px] font-bold',
+						d.shift
+							? 'bg-rose-500/25 text-rose-700 ring-1 ring-rose-500/50'
+							: 'bg-parent-b/20 text-parent-b',
+					]}
+				>
+					{d.shift ? '7–7' : 'B'}
+				</span>
+			</div>
+		))}
+	</div>
+
+	<div class="mt-4 rounded-lg bg-surface px-3 py-2.5 ring-1 ring-line-subtle">
+		<p class="text-xs leading-5 text-secondary">
+			<span class="font-semibold text-primary">Pressure:</span> Child on B's block when B cannot cover weekend — swap clause or shorter weekday blocks required
+		</p>
+	</div>
+</figure>

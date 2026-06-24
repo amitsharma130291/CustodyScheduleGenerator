@@ -1,0 +1,40 @@
+---
+const stages = [
+	{ count: '5', label: 'patterns on hub', active: false },
+	{ count: '3', label: 'after round one', active: false },
+	{ count: '2', label: 'finalists', active: true },
+	{ count: '1', label: 'winner', active: false },
+];
+---
+
+<figure class="elimination-funnel w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Equal-time elimination — five patterns down to one calendar
+	</figcaption>
+
+	<div class="mt-5 flex flex-col items-center gap-1">
+		{stages.map((stage, i) => (
+			<>
+				<div
+					class:list={[
+						'flex w-full max-w-[220px] items-center justify-between rounded-lg px-4 py-2.5',
+						stage.active
+							? 'bg-accent/15 ring-2 ring-accent/40'
+							: 'bg-surface ring-1 ring-line-subtle',
+					]}
+					style={`width: ${100 - i * 12}%`}
+				>
+					<span class="text-lg font-bold tabular-nums text-primary">{stage.count}</span>
+					<span class="text-xs font-semibold text-secondary">{stage.label}</span>
+				</div>
+				{i < stages.length - 1 && (
+					<span class="text-muted" aria-hidden="true">↓</span>
+				)}
+			</>
+		))}
+	</div>
+
+	<p class="mt-4 text-center text-xs leading-5 text-muted">
+		You are here: two finalists — mark conflicts, drop one
+	</p>
+</figure>
