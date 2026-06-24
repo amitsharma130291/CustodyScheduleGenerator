@@ -1,0 +1,31 @@
+---
+const steps = [
+	{ label: 'Mon PM', detail: 'Start spelling at Mom\'s', tone: 'a' },
+	{ label: 'Tue AM', detail: 'Exchange — half done', tone: 'exchange' },
+	{ label: 'Tue PM', detail: 'Finish at Dad\'s', tone: 'b' },
+	{ label: 'Wed AM', detail: 'Test day', tone: 'test' },
+];
+---
+
+<figure class="homework-crossing w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5">
+	<figcaption class="text-sm font-semibold text-primary">Homework crossing households — assignment started before exchange</figcaption>
+	<div class="mt-5 flex flex-col gap-2 sm:flex-row sm:items-stretch sm:gap-3">
+		{steps.map((s, i) => (
+			<>
+				{i > 0 && <div class="hidden h-auto w-6 items-center justify-center sm:flex" aria-hidden="true"><span class="text-muted">→</span></div>}
+				<div
+					class:list={[
+						'flex flex-1 flex-col items-center justify-center rounded-lg px-2 py-3 text-center',
+						s.tone === 'a' && 'bg-parent-a/10 ring-1 ring-parent-a/25',
+						s.tone === 'b' && 'bg-parent-b/10 ring-1 ring-parent-b/25',
+						s.tone === 'exchange' && 'bg-amber-500/10 ring-2 ring-amber-500/35',
+						s.tone === 'test' && 'bg-accent/10 ring-1 ring-accent/25',
+					]}
+				>
+					<span class="text-xs font-bold text-primary">{s.label}</span>
+					<span class="mt-1 text-[11px] leading-4 text-secondary">{s.detail}</span>
+				</div>
+			</>
+		))}
+	</div>
+</figure>

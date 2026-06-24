@@ -1,0 +1,87 @@
+---
+const steps = [
+	{ label: 'Wake up', detail: 'Alarm + clothes', weak: false },
+	{ label: 'Breakfast', detail: 'Eat before rush', weak: false },
+	{ label: 'Backpack', detail: 'Folder + lunch', weak: true },
+	{ label: 'School door', detail: 'Bus or car line', weak: false },
+];
+
+const cardBase =
+	'flex min-h-[7rem] min-w-0 flex-col items-center justify-center rounded-xl px-3 py-4 text-center sm:min-h-[7.5rem] sm:px-4';
+---
+
+<figure class="kindergarten-morning-chain w-full max-w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Kindergarten morning chain — one weak link breaks the custody day
+	</figcaption>
+	<p class="mt-2 text-sm leading-6 text-secondary">
+		Missing backpack or folder at 7:10 means a missed bus at 7:30 — no matter whose overnight it was.
+	</p>
+
+	<ol class="mt-6 flex flex-col gap-0 md:hidden" aria-label="Kindergarten morning sequence">
+		{steps.map((step, index) => (
+			<li class="flex flex-col items-center">
+				{index > 0 && (
+					<div class="flex h-5 w-full items-center justify-center text-muted" aria-hidden="true">
+						<svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+							<path d="M8 3v10M4 11l4 4 4-4" />
+						</svg>
+					</div>
+				)}
+				<div
+					class:list={[
+						cardBase,
+						'w-full',
+						step.weak
+							? 'bg-amber-500/[0.1] ring-2 ring-amber-500/35'
+							: 'bg-surface shadow-[inset_0_0_0_1px_var(--border-subtle)]',
+					]}
+				>
+					<span class="text-[10px] font-bold uppercase tracking-[0.1em] text-muted">Step {index + 1}</span>
+					<span class="mt-1.5 text-sm font-semibold tracking-[-0.02em] text-primary">{step.label}</span>
+					<span class="mt-1 text-xs leading-4 text-secondary">{step.detail}</span>
+					{step.weak && (
+						<span class="mt-2 rounded-full bg-amber-500/15 px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.08em] text-amber-800 dark:text-amber-300">
+							Most failures here
+						</span>
+					)}
+				</div>
+			</li>
+		))}
+	</ol>
+
+	<ol
+		class="mt-6 hidden w-full min-w-0 md:grid md:grid-cols-[minmax(0,1fr)_1.25rem_minmax(0,1fr)_1.25rem_minmax(0,1fr)_1.25rem_minmax(0,1fr)] md:items-stretch md:gap-x-3 lg:gap-x-4"
+		aria-label="Kindergarten morning sequence"
+	>
+		{steps.map((step, index) => (
+			<>
+				{index > 0 && (
+					<li class="flex list-none items-center justify-center self-center" aria-hidden="true">
+						<svg class="h-4 w-4 shrink-0 text-muted/80" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+							<path d="M3 8h10M9 4l4 4-4 4" />
+						</svg>
+					</li>
+				)}
+				<li
+					class:list={[
+						cardBase,
+						'h-full w-full',
+						step.weak
+							? 'bg-amber-500/[0.1] ring-2 ring-amber-500/35'
+							: 'bg-surface shadow-[inset_0_0_0_1px_var(--border-subtle)]',
+					]}
+				>
+					<span class="text-[10px] font-bold uppercase tracking-[0.1em] text-muted">Step {index + 1}</span>
+					<span class="mt-1.5 text-sm font-semibold tracking-[-0.02em] text-primary">{step.label}</span>
+					<span class="mt-1 text-xs leading-4 text-secondary">{step.detail}</span>
+					{step.weak && (
+						<span class="mt-2 rounded-full bg-amber-500/15 px-2 py-0.5 text-[9px] font-bold uppercase tracking-[0.08em] text-amber-800 dark:text-amber-300">
+							Most failures
+						</span>
+					)}
+				</li>
+			</>
+		))}
+	</ol>
+</figure>

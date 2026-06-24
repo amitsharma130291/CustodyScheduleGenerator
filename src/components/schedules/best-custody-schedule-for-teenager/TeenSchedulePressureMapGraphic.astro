@@ -1,0 +1,19 @@
+---
+const pressures = [
+	{ label: 'Thu practice', time: '8 PM', conflicts: 'Exchange night' },
+	{ label: 'Sat shift', time: '2–10', conflicts: 'Other parent\'s weekend' },
+	{ label: 'Fri game', time: '7 PM', conflicts: 'Calendar block' },
+];
+---
+
+<figure class="teen-pressure w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5">
+	<figcaption class="text-sm font-semibold text-primary">Teen schedule pressure map — commitments vs. custody blocks</figcaption>
+	<ul class="mt-4 space-y-2">
+		{pressures.map((p) => (
+			<li class="flex items-center justify-between rounded-lg bg-surface px-3 py-2.5 ring-1 ring-line-subtle text-sm">
+				<span class="font-semibold text-primary">{p.label} <span class="font-normal text-muted">{p.time}</span></span>
+				<span class="text-xs text-amber-800 dark:text-amber-300">{p.conflicts}</span>
+			</li>
+		))}
+	</ul>
+</figure>

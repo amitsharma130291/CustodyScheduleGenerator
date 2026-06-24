@@ -1,0 +1,47 @@
+---
+const nodes = [
+	{ id: 'home-a', label: 'Parent A home', sub: 'Homework done here', tone: 'parent-a' },
+	{ id: 'backpack', label: 'Backpack', sub: 'Folder + lunchbox', tone: 'gear' },
+	{ id: 'school', label: 'School', sub: 'Drop-off + pickup', tone: 'school' },
+	{ id: 'home-b', label: 'Parent B home', sub: 'Exchange night', tone: 'parent-b' },
+];
+---
+
+<figure class="backpack-logistics-map w-full max-w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Backpack logistics map — school supplies are custody logistics
+	</figcaption>
+	<p class="mt-2 text-sm leading-6 text-secondary">
+		The red folder must arrive at school signed — regardless of which parent held overnight.
+	</p>
+
+	<div class="mt-6 flex flex-col items-center gap-3 sm:flex-row sm:flex-wrap sm:justify-center sm:gap-4">
+		{nodes.map((node, index) => (
+			<>
+				{index > 0 && (
+					<div class="flex h-6 items-center justify-center text-muted sm:h-auto sm:w-8" aria-hidden="true">
+						<svg class="h-4 w-4 rotate-90 sm:rotate-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+							<path d="M3 8h10M9 4l4 4-4 4" />
+						</svg>
+					</div>
+				)}
+				<div
+					class:list={[
+						'flex min-h-[5.5rem] w-full min-w-[7.5rem] max-w-[10rem] flex-col items-center justify-center rounded-xl px-3 py-4 text-center sm:w-auto',
+						node.tone === 'parent-a' && 'bg-parent-a/10 ring-1 ring-parent-a/25',
+						node.tone === 'parent-b' && 'bg-parent-b/10 ring-1 ring-parent-b/25',
+						node.tone === 'school' && 'bg-sky-500/[0.1] ring-1 ring-sky-500/25',
+						node.tone === 'gear' && 'bg-amber-500/[0.12] ring-2 ring-amber-500/35',
+					]}
+				>
+					<span class="text-xs font-bold uppercase tracking-[0.08em] text-primary">{node.label}</span>
+					<span class="mt-1.5 text-[11px] leading-4 text-secondary">{node.sub}</span>
+				</div>
+			</>
+		))}
+	</div>
+
+	<div class="mt-5 rounded-lg bg-surface px-3 py-2.5 text-center text-xs leading-5 text-secondary ring-1 ring-line-subtle">
+		<span class="font-semibold text-primary">Failure mode:</span> homework at Parent A, backpack at Parent B, bus at 7:30
+	</div>
+</figure>

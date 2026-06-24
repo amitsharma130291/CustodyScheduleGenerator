@@ -6,7 +6,9 @@ import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import FAQ from '../components/FAQ.astro';
 import CtaButton from '../components/CtaButton.astro';
-import ArticleTOC from '../components/ArticleTOC.astro';
+import ExchangeCountComparisonGraphic from '../components/schedules/50-50-custody-schedule-for-school-age-children/ExchangeCountComparisonGraphic.astro';
+import HomeworkMovementChartGraphic from '../components/schedules/50-50-custody-schedule-for-school-age-children/HomeworkMovementChartGraphic.astro';
+import SchoolNightOwnershipMatrixGraphic from '../components/schedules/50-50-custody-schedule-for-school-age-children/SchoolNightOwnershipMatrixGraphic.astro';
 import { getCanonicalUrl } from '../lib/seo/metadata';
 import {
 	buildArticleSchema,
@@ -15,32 +17,24 @@ import {
 	buildWebPageSchema,
 } from '../lib/seo/schema';
 import {
-	activitiesSection,
-	articleTocItems,
-	builderFeatures,
-	commonMistakes,
-	faqItems,
-	homeworkSections,
-	otherSchedulesNote,
-	patternsSectionIntro,
-	reconsiderClosing,
-	reconsiderSigns,
-	relatedLinks,
+	meta,
+	transitionRedirect,
 	scheduleComparisonCards,
-	schoolDifferentIntro,
-	schoolExchangeChecklist,
-	schoolNightChecklist,
-	schoolNightsSection,
-	weekInSchoolRoutine,
+	exchangeCountComparison,
+	homeworkMovement,
+	moveFrom223,
+	patternMistakes,
+	builderFeatures,
+	faqItems,
+	faqSection,
 } from '../data/fiftyFiftyCustodyScheduleForSchoolAgeChildren';
 
-const title = '50/50 Custody Schedule for School-Age Children: School, Homework & Activities';
-const description =
-	'Learn how to create a 50/50 custody schedule for school-age children with predictable school nights, homework routines, activities, transportation, and smoother weekly transitions.';
+const title = meta.title;
+const description = meta.description;
 const canonical = '/50-50-custody-schedule-for-school-age-children/';
 const canonicalUrl = getCanonicalUrl(canonical);
 const datePublished = '2026-07-01';
-const dateModified = '2026-07-03';
+const dateModified = '2026-06-24';
 
 const breadcrumbs = [
 	{ name: 'Home', url: getCanonicalUrl('/') },
@@ -70,243 +64,148 @@ const schema = [
 	<main>
 		<section class="container-shell py-section lg:py-section-loose">
 			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">School-year parenting plans</p>
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Equal-time school-year rotations</p>
 				<h1 class="mt-4 text-4xl font-semibold leading-[1.02] tracking-[-0.05em] text-primary sm:text-5xl lg:text-6xl">
 					50/50 Custody Schedule for School-Age Children
 				</h1>
 				<p class="mt-2 text-sm leading-6 text-muted">
 					Created by <a href="/about/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">CustodyBuilder Editorial Team</a>
-					<span aria-hidden="true"> • </span>Educational custody planning tool
+					<span aria-hidden="true"> • </span>Last reviewed: June 2026
 					<span aria-hidden="true"> • </span><a href="/disclaimer/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Not legal advice</a>
 				</p>
 				<p class="mt-5 text-lg leading-8 text-secondary">
-					Once a child starts school, a 50/50 custody schedule has to do more than divide days evenly. It needs to protect school mornings, homework routines, activities, backpacks, transportation, and sleep.
+					Equal time for school-age children is a calendar geometry problem: block length, exchanges per fortnight, and which parent owns which school night. This page compares 2-2-3, 2-2-5-5, 5-2-2-5, and week-on/week-off — not kindergarten entry logistics.
 				</p>
-				<p class="mt-4 text-base leading-7 text-secondary">
-					This guide focuses on how equal parenting time works when school becomes the center of the week—not toddler naps or general custody definitions.
-				</p>
-				<div class="mt-8">
-					<CtaButton href="/50-50-custody-schedule/?schedule=2255" variant="primary" size="large">
-						Create a School-Friendly 50/50 Schedule
+				<p class="mt-4 text-base leading-7 text-secondary" set:html={transitionRedirect.body} />
+				<div class="mt-8 flex flex-col gap-3 sm:flex-row">
+					<CtaButton href="/custody-schedule-generator/" variant="primary" size="large">
+						Print a school-age 50/50 calendar
+					</CtaButton>
+					<CtaButton href="/best-50-50-custody-schedule/" variant="secondary" size="large">
+						Compare all 50/50 patterns
 					</CtaButton>
 				</div>
 			</div>
 		</section>
 
-		<ArticleTOC items={articleTocItems} />
-
-		<section id="school-different" class="container-shell scroll-mt-24 pb-section" aria-labelledby="school-different-title">
+		<section id="pattern-comparison" class="container-shell scroll-mt-24 pb-section" aria-labelledby="pattern-comparison-title">
 			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">School-year shift</p>
-				<h2 id="school-different-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					What Makes 50/50 Different Once a Child Starts School?
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Pattern comparison</p>
+				<h2 id="pattern-comparison-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					Four Equal-Time Rotations for School-Age 50/50
 				</h2>
-				{schoolDifferentIntro.paragraphs.map((paragraph) => (
-					<p class="mt-3 text-base leading-7 text-secondary">{paragraph}</p>
-				))}
-				<div class="mt-6 grid gap-4 md:grid-cols-2">
-					<article class="soft-card rounded-[1.5rem] p-5">
-						<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{schoolDifferentIntro.toddlerYears.heading}</h3>
-						<ul class="mt-3 list-disc space-y-2 pl-4 text-sm leading-6 text-secondary">
-							{schoolDifferentIntro.toddlerYears.points.map((item) => <li>{item}</li>)}
-						</ul>
-					</article>
-					<article class="soft-card rounded-[1.5rem] p-5">
-						<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{schoolDifferentIntro.schoolAgeYears.heading}</h3>
-						<p class="mt-2 text-sm leading-6 text-secondary">{schoolDifferentIntro.schoolAgeYears.lead}</p>
-						<p class="mt-3 text-sm font-semibold text-primary">The bigger challenges become:</p>
-						<ul class="mt-2 list-disc space-y-2 pl-4 text-sm leading-6 text-secondary">
-							{schoolDifferentIntro.schoolAgeYears.points.map((item) => <li>{item}</li>)}
-						</ul>
-					</article>
-				</div>
-				<p class="mt-4 text-sm leading-6 text-secondary" set:html={schoolDifferentIntro.toddlerGuideNote} />
+				<p class="mt-3 text-base leading-7 text-secondary">
+					Same overnight split (~182 each). Different maximum block length, school-night handoffs, and homework ownership.
+				</p>
 			</div>
-		</section>
-
-		<section id="school-nights" class="container-shell scroll-mt-24 py-section" aria-labelledby="school-nights-title">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Core question</p>
-				<h2 id="school-nights-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					Why School Nights Matter in a 50/50 Custody Schedule
-				</h2>
-				{schoolNightsSection.paragraphs.map((paragraph) => (
-					<p class="mt-3 text-base leading-7 text-secondary">{paragraph}</p>
-				))}
-				<p class="mt-4 text-base leading-7 text-secondary">School weeks usually run smoother when both homes handle:</p>
-				<ul class="mt-3 list-disc space-y-2 pl-5 text-base leading-7 text-secondary">
-					{schoolNightsSection.routineAreas.map((item) => <li>{item}</li>)}
-				</ul>
-			</div>
-			<div class="soft-card mt-8 max-w-3xl rounded-[1.5rem] p-5 sm:p-6">
-				<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">School-night checklist</h3>
-				<p class="mt-2 text-sm leading-6 text-secondary">Before choosing a rotation, ask:</p>
-				<ul class="mt-3 list-disc space-y-2 pl-4 text-sm leading-6 text-secondary">
-					{schoolNightChecklist.map((item) => <li>{item}</li>)}
-				</ul>
-			</div>
-		</section>
-
-		<section id="homework-backpacks" class="container-shell scroll-mt-24 py-section" aria-labelledby="homework-backpacks-title">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Daily logistics</p>
-				<h2 id="homework-backpacks-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					Homework, Backpacks, and School Communication
-				</h2>
-			</div>
-			<div class="mt-6 space-y-8">
-				{homeworkSections.map((section) => (
-					<article class="max-w-3xl">
-						<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary">{section.title}</h3>
-						{section.paragraphs.map((paragraph) => (
-							<p class="mt-3 text-base leading-7 text-secondary">{paragraph}</p>
-						))}
-						<ul class="mt-3 list-disc space-y-2 pl-5 text-sm leading-6 text-secondary">
-							{section.solutions.map((item) => <li>{item}</li>)}
-						</ul>
-					</article>
-				))}
-			</div>
-		</section>
-
-		<section id="school-exchange-checklist" class="container-shell scroll-mt-24 py-section" aria-labelledby="school-exchange-checklist-title">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Exchange day</p>
-				<h2 id="school-exchange-checklist-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					School Exchange Checklist
-				</h2>
-				<p class="mt-3 text-base leading-7 text-secondary">{schoolExchangeChecklist.intro}</p>
-			</div>
-			<div class="soft-card mt-6 max-w-3xl rounded-[1.5rem] border-l-4 border-accent/40 p-5 sm:p-6">
-				<p class="text-[11px] font-semibold uppercase tracking-[0.16em] text-muted">Before a school-night exchange</p>
-				<ul class="mt-4 list-disc space-y-2 pl-5 text-base leading-7 text-secondary">
-					{schoolExchangeChecklist.items.map((item) => <li>{item}</li>)}
-				</ul>
-				<p class="mt-5 text-sm leading-6 text-secondary">{schoolExchangeChecklist.closing}</p>
-			</div>
-		</section>
-
-		<section id="activities" class="container-shell scroll-mt-24 py-section" aria-labelledby="activities-title">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Beyond the school day</p>
-				<h2 id="activities-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					Activities, Sports, Friends, and Birthday Parties
-				</h2>
-				{activitiesSection.paragraphs.map((paragraph) => (
-					<p class="mt-3 text-base leading-7 text-secondary">{paragraph}</p>
-				))}
-				<ul class="mt-4 list-disc space-y-2 pl-5 text-base leading-7 text-secondary">
-					{activitiesSection.guidance.map((item) => <li>{item}</li>)}
-				</ul>
-			</div>
-			<div class="soft-card mt-8 max-w-3xl rounded-[1.5rem] border-l-4 border-accent/40 p-5 sm:p-6">
-				<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{activitiesSection.example.heading}</h3>
-				<p class="mt-3 text-sm leading-6 text-secondary">{activitiesSection.example.body}</p>
-			</div>
-			<article class="mt-8 max-w-3xl">
-				<h3 class="text-xl font-semibold tracking-[-0.03em] text-primary">{activitiesSection.friendships.title}</h3>
-				{activitiesSection.friendships.paragraphs.map((paragraph) => (
-					<p class="mt-3 text-base leading-7 text-secondary">{paragraph}</p>
-				))}
-				<ul class="mt-4 list-disc space-y-2 pl-5 text-base leading-7 text-secondary">
-					{activitiesSection.friendships.scenarios.map((item) => <li>{item}</li>)}
-				</ul>
-				<p class="mt-4 text-base font-semibold text-primary">Practical systems:</p>
-				<ul class="mt-3 list-disc space-y-2 pl-5 text-sm leading-6 text-secondary">
-					{activitiesSection.friendships.solutions.map((item) => <li>{item}</li>)}
-				</ul>
-			</article>
-		</section>
-
-		<section id="week-in-routine" class="container-shell scroll-mt-24 py-section" aria-labelledby="week-in-routine-title">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Real school week</p>
-				<h2 id="week-in-routine-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					A Week in a School-Age 50/50 Routine
-				</h2>
-				<p class="mt-3 text-base leading-7 text-secondary">{weekInSchoolRoutine.intro}</p>
-				{weekInSchoolRoutine.days.map((day) => (
-					<div class="mt-6">
-						<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{day.heading}</h3>
-						<p class="mt-2 text-base leading-7 text-secondary">{day.body}</p>
-					</div>
-				))}
-			</div>
-		</section>
-
-		<section id="school-patterns" class="container-shell scroll-mt-24 py-section" aria-labelledby="school-patterns-title">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Pattern fit</p>
-				<h2 id="school-patterns-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					Which 50/50 Patterns Support School Routines
-				</h2>
-				<p class="mt-3 text-base leading-7 text-secondary">{patternsSectionIntro}</p>
-			</div>
-			<div class="mt-6 grid gap-4 md:grid-cols-2">
+			<div class="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
 				{scheduleComparisonCards.map((card) => (
 					<article class="soft-card flex h-full flex-col rounded-[1.5rem] p-5">
 						<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">
-							<a href={card.href} class="text-accent underline decoration-line underline-offset-4 hover:text-primary">{card.schedule} schedule</a>
+							<a href={card.href} class="text-accent underline decoration-line underline-offset-4 hover:text-primary">{card.schedule}</a>
 						</h3>
-						<p class="mt-2 text-sm leading-6 text-secondary">{card.position}</p>
 						<div class="mt-3 flex-1 space-y-4 text-sm leading-6 text-secondary">
 							<div>
-								<p class="font-semibold text-primary">Why it helps school weeks</p>
+								<p class="font-semibold text-primary">Block mechanics</p>
 								<ul class="mt-2 list-disc space-y-1 pl-4">
 									{card.whyChoose.map((item) => <li>{item}</li>)}
 								</ul>
 							</div>
 							<div>
-								<p class="font-semibold text-primary">Watch out</p>
+								<p class="font-semibold text-primary">Calendar trade-offs</p>
 								<ul class="mt-2 list-disc space-y-1 pl-4">
-									{card.watchOut.map((item) => <li>{item}</li>)}
+									{card.challenges.map((item) => <li>{item}</li>)}
 								</ul>
 							</div>
 						</div>
-						<p class="mt-4 text-sm">
-							<a href={card.href} class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">{card.linkLabel} →</a>
-						</p>
 					</article>
 				))}
 			</div>
-			<div class="mt-6 max-w-3xl space-y-3 text-sm leading-6 text-secondary">
-				<p>{otherSchedulesNote}</p>
-				<p>
-					<a href="/best-50-50-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Compare all 50/50 schedule types →</a>
-				</p>
+			<p class="mt-6 text-sm leading-6 text-secondary">
+				<a href="/50-50-custody-schedule-examples/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">See two-week calendar examples →</a>
+			</p>
+		</section>
+
+		<section id="exchange-count" class="container-shell scroll-mt-24 py-section" aria-labelledby="exchange-count-title">
+			<div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(280px,360px)] lg:items-start">
+				<div class="min-w-0">
+					<h2 id="exchange-count-title" class="text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+						{exchangeCountComparison.title}
+					</h2>
+					<p class="mt-3 text-base leading-7 text-secondary">{exchangeCountComparison.intro}</p>
+					<div class="mt-6 overflow-x-auto rounded-[1.5rem] border border-line bg-surface shadow-[0_18px_44px_rgba(15,23,42,0.06)]">
+						<table class="min-w-[640px] w-full text-left text-sm">
+							<thead class="bg-surface-elevated text-xs uppercase tracking-[0.16em] text-muted">
+								<tr>
+									<th class="px-4 py-3">Pattern</th>
+									<th class="px-4 py-3">Max block</th>
+									<th class="px-4 py-3">Exchanges / fortnight</th>
+									<th class="px-4 py-3">School-night handoffs</th>
+								</tr>
+							</thead>
+							<tbody class="divide-y divide-line text-secondary">
+								{exchangeCountComparison.rows.map((row) => (
+									<tr>
+										<td class="px-4 py-4 font-semibold text-primary">{row.pattern}</td>
+										<td class="px-4 py-4">{row.maxBlock}</td>
+										<td class="px-4 py-4">{row.exchangesPerFortnight}</td>
+										<td class="px-4 py-4">{row.schoolNightHandoffs}</td>
+									</tr>
+								))}
+							</tbody>
+						</table>
+					</div>
+					<p class="mt-4 text-sm leading-6 text-secondary">{exchangeCountComparison.closing}</p>
+				</div>
+				<div class="space-y-4 lg:sticky lg:top-24">
+					<ExchangeCountComparisonGraphic />
+					<SchoolNightOwnershipMatrixGraphic />
+				</div>
 			</div>
 		</section>
 
-		<section id="different-rhythm" class="container-shell scroll-mt-24 py-section" aria-labelledby="different-rhythm-title">
+		<section id="homework-movement" class="container-shell scroll-mt-24 py-section" aria-labelledby="homework-movement-title">
+			<div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(280px,360px)] lg:items-start">
+				<div class="min-w-0">
+					<h2 id="homework-movement-title" class="text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+						{homeworkMovement.title}
+					</h2>
+					<p class="mt-3 text-base leading-7 text-secondary">{homeworkMovement.intro}</p>
+					{homeworkMovement.points.map((point) => (
+						<div class="mt-6">
+							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{point.heading}</h3>
+							<p class="mt-2 text-base leading-7 text-secondary">{point.body}</p>
+						</div>
+					))}
+					<p class="mt-6 text-sm leading-6 text-secondary" set:html={homeworkMovement.closing} />
+				</div>
+				<HomeworkMovementChartGraphic />
+			</div>
+		</section>
+
+		<section id="move-from-223" class="container-shell scroll-mt-24 py-section" aria-labelledby="move-from-223-title">
 			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">When to revisit the plan</p>
-				<h2 id="different-rhythm-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					When a School-Age Child May Need a Different 50/50 Rhythm
+				<h2 id="move-from-223-title" class="text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					{moveFrom223.title}
+				</h2>
+				{moveFrom223.paragraphs.map((paragraph) => (
+					<p class="mt-3 text-base leading-7 text-secondary" set:html={paragraph} />
+				))}
+				<p class="mt-4 text-sm leading-6 text-secondary" set:html={moveFrom223.compareNote} />
+			</div>
+		</section>
+
+		<section id="pattern-mistakes" class="container-shell scroll-mt-24 py-section" aria-labelledby="pattern-mistakes-title">
+			<div class="max-w-3xl">
+				<h2 id="pattern-mistakes-title" class="text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+					Common 50/50 Pattern Mistakes for School-Age Children
 				</h2>
 				<p class="mt-3 text-base leading-7 text-secondary">
-					Missed homework after one exchange is different from a pattern that repeats all semester. The signs below describe when many parents adjust block length, exchange timing, or weekday assignments—not a judgment about co-parenting.
+					Calendar errors — not parenting style — that show up on school-age equal-time plans.
 				</p>
 			</div>
 			<div class="mt-6 grid gap-4 md:grid-cols-2">
-				{reconsiderSigns.map((item) => (
-					<article class="soft-card rounded-[1.5rem] p-5">
-						<h3 class="text-base font-semibold text-primary">{item.sign}</h3>
-						<p class="mt-2 text-sm leading-6 text-secondary">{item.detail}</p>
-					</article>
-				))}
-			</div>
-			<p class="mt-6 max-w-3xl text-base leading-7 text-secondary">{reconsiderClosing}</p>
-		</section>
-
-		<section id="common-mistakes" class="container-shell scroll-mt-24 py-section" aria-labelledby="common-mistakes-title">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Supportive guidance</p>
-				<h2 id="common-mistakes-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-					Common Mistakes Parents Make With School-Age 50/50 Schedules
-				</h2>
-			</div>
-			<div class="mt-6 grid gap-4 md:grid-cols-2">
-				{commonMistakes.map((item) => (
+				{patternMistakes.map((item) => (
 					<article class="soft-card rounded-[1.5rem] p-5">
 						<h3 class="text-base font-semibold text-primary">{item.mistake}</h3>
 						<p class="mt-2 text-sm leading-6 text-secondary">{item.detail}</p>
@@ -318,39 +217,24 @@ const schema = [
 		<section id="custodybuilder-help" class="container-shell scroll-mt-24 py-section" aria-labelledby="custodybuilder-help-title">
 			<div class="premium-card rounded-[2rem] p-3">
 				<div class="rounded-[1.7rem] bg-surface-elevated/80 p-6 sm:p-8 lg:p-10">
-					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Plan your calendar</p>
-					<h2 id="custodybuilder-help-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
-						How CustodyBuilder Helps Parents Plan School-Friendly 50/50 Schedules
+					<h2 id="custodybuilder-help-title" class="text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">
+						Print and Compare School-Age 50/50 Calendars
 					</h2>
 					<p class="mt-4 max-w-2xl text-base leading-7 text-secondary">
-						After you know which school nights each parent should cover, you can test exchange days against real school breaks, holidays, and activity weekends instead of guessing from a pattern name alone.
+						Test block length, school-week exchanges, and homework-night ownership with real start dates before you adopt a pattern in a parenting plan.
 					</p>
 					<ul class="mt-4 max-w-2xl list-disc space-y-2 pl-5 text-sm leading-7 text-secondary">
 						{builderFeatures.map((feature) => <li>{feature}</li>)}
 					</ul>
 					<div class="mt-6 flex flex-col gap-3 sm:flex-row">
-						<CtaButton href="/50-50-custody-schedule/?schedule=2255" variant="primary" size="large">
-							Build a School-Friendly 50/50 Schedule
+						<CtaButton href="/custody-schedule-generator/" variant="primary" size="large">
+							Open schedule generator
 						</CtaButton>
-						<CtaButton href="/50-50-custody-schedule-examples/" variant="secondary" size="large">
-							See Real 50/50 Calendar Examples
+						<CtaButton href="/50-50-custody-schedule/" variant="secondary" size="large">
+							50/50 custody schedule hub
 						</CtaButton>
 					</div>
 				</div>
-			</div>
-		</section>
-
-		<section class="container-shell py-section" aria-labelledby="related-tools-title">
-			<div class="max-w-3xl">
-				<h2 id="related-tools-title" class="text-2xl font-semibold tracking-[-0.04em] text-primary">Related planning tools</h2>
-			</div>
-			<div class="mt-5 grid gap-4 sm:grid-cols-2">
-				{relatedLinks.map((link) => (
-					<a href={link.href} class="soft-card rounded-[1.5rem] p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40">
-						<h3 class="text-base font-semibold text-primary">{link.title}</h3>
-						<p class="mt-2 text-sm leading-6 text-secondary">{link.description}</p>
-					</a>
-				))}
 			</div>
 		</section>
 
@@ -360,16 +244,15 @@ const schema = [
 					Educational Planning Information, Not Legal Advice
 				</h2>
 				<p class="mt-3 text-sm leading-7 text-secondary">
-					This guide is educational custody planning information. It can help parents compare common 50/50 schedules and organize school routines, but it does not replace <a href="/disclaimer/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">legal advice</a> or a court-approved parenting plan. Custody requirements vary by location.
+					This page compares equal-time rotation mechanics for school-age children. It is not medical advice or <a href="/disclaimer/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">legal advice</a>. Court orders and safety concerns override any pattern described here.
 				</p>
 			</div>
 		</section>
 
 		<FAQ
 			items={faqItems}
-			eyebrow="School-age FAQ"
-			title="Questions About 50/50 Custody and School-Age Children"
-			description="Answers focused on school nights, homework, activities, and equal parenting time—not general custody definitions."
+			title={faqSection.title}
+			description={faqSection.description}
 		/>
 	</main>
 	<Footer />

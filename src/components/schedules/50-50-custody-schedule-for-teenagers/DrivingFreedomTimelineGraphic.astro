@@ -1,0 +1,20 @@
+---
+const items = [
+	{ label: 'Parent carpools', age: '7' },
+	{ label: 'Learner permit', age: '15' },
+	{ label: 'Self-drive from practice', age: '16' },
+	{ label: 'Job shift overrides block', age: '17' },
+];
+---
+
+<figure class="driving-freedom w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5">
+	<figcaption class="text-sm font-semibold text-primary">Driving freedom timeline — equal-time handoffs decrease</figcaption>
+	<ol class="mt-4 space-y-2">
+		{items.map((item) => (
+			<li class="flex items-center gap-3 rounded-lg bg-surface px-3 py-2 ring-1 ring-line-subtle">
+				<span class="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-accent/15 text-[10px] font-bold text-accent">{item.age}</span>
+				<span class="text-xs text-secondary">{item.label}</span>
+			</li>
+		))}
+	</ol>
+</figure>

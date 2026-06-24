@@ -1,0 +1,21 @@
+---
+const patterns = [
+	{ name: '2-2-3', flex: 'Low', exchanges: '3–4 / fortnight' },
+	{ name: '2-2-5-5', flex: 'Medium', exchanges: '2 / fortnight' },
+	{ name: 'WOW', flex: 'High', exchanges: '1 / week' },
+];
+---
+
+<figure class="flex-compare w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5">
+	<figcaption class="text-sm font-semibold text-primary">Equal-time flexibility — teen job conflicts</figcaption>
+	<div class="mt-4 grid gap-2 sm:grid-cols-3">
+		{patterns.map((p) => (
+			<div class="rounded-lg p-3 text-center ring-1 ring-line-subtle">
+				<p class="text-sm font-semibold text-primary">{p.name}</p>
+				<p class="mt-1 text-[10px] uppercase text-muted">Swap room</p>
+				<p class="mt-1 text-xs font-semibold text-accent">{p.flex}</p>
+				<p class="mt-2 text-[10px] text-secondary">{p.exchanges}</p>
+			</div>
+		))}
+	</div>
+</figure>
