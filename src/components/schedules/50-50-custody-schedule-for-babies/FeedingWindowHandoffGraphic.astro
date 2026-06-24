@@ -1,0 +1,55 @@
+---
+const handoffFields = [
+	{ side: 'Parent A', items: ['Last feed: 12:15 p.m.', '4 oz breast milk', 'Nap: 12:30–1:10'] },
+	{ side: 'Exchange', items: ['Written log', 'Labeled bottles', 'Cooler if needed'] },
+	{ side: 'Parent B', items: ['Next feed ~2:00 p.m.', 'Same nipple flow', 'Portable crib ready'] },
+];
+---
+
+<figure class="feeding-handoff-graphic w-full max-w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Feeding window handoff — what travels at every exchange
+	</figcaption>
+	<p class="mt-2 text-xs leading-5 text-secondary sm:text-sm sm:leading-6">
+		Missing bottle notes at handoff produces a fussy baby — not custody rejection.
+	</p>
+
+	<div class="mt-6 grid gap-3 sm:grid-cols-3">
+		{handoffFields.map((col, colIndex) => (
+			<div
+				class:list={[
+					'min-w-0 rounded-xl p-3 sm:p-4',
+					colIndex === 1
+						? 'bg-accent/[0.08] ring-1 ring-accent/25'
+						: 'bg-surface shadow-[inset_0_0_0_1px_var(--border-subtle)]',
+				]}
+			>
+				<p class="text-[10px] font-bold uppercase tracking-[0.12em] text-muted">{col.side}</p>
+				<ul class="mt-2.5 space-y-1.5">
+					{col.items.map((item) => (
+						<li class="flex items-start gap-1.5 text-xs leading-5 text-secondary">
+							<span
+								class:list={[
+									'mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full',
+									colIndex === 1 ? 'bg-accent' : 'bg-muted',
+								]}
+								aria-hidden="true"
+							></span>
+							{item}
+						</li>
+					))}
+				</ul>
+			</div>
+		))}
+	</div>
+
+	<div class="mt-4 hidden items-center justify-center gap-2 text-muted sm:flex" aria-hidden="true">
+		<svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+			<path d="M3 8h10M9 4l4 4-4 4" />
+		</svg>
+		<span class="text-[10px] font-semibold uppercase tracking-[0.1em]">Log travels both directions</span>
+		<svg class="h-4 w-4 rotate-180" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+			<path d="M3 8h10M9 4l4 4-4 4" />
+		</svg>
+	</div>
+</figure>

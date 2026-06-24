@@ -1,0 +1,42 @@
+---
+const phases = [
+	{ label: 'Nap rhythm', detail: 'Two naps / day', width: '25%', color: 'bg-muted/40' },
+	{ label: 'Bedtime', detail: '7:30 p.m. bottle', width: '35%', color: 'bg-accent/20' },
+	{ label: 'One overnight', detail: 'First full night', width: '55%', color: 'bg-accent/35' },
+	{ label: 'Longer block', detail: 'Multi-night test', width: '80%', color: 'bg-accent/50' },
+];
+---
+
+<figure class="sleep-cycle-expansion w-full max-w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Sleep cycle expansion — nap success before overnight jumps
+	</figcaption>
+	<p class="mt-2 text-xs leading-5 text-secondary sm:text-sm sm:leading-6">
+		Each bar shows how much of the sleep routine must work at the other home before the next expansion.
+	</p>
+
+	<div class="mt-6 space-y-4">
+		{phases.map((phase, index) => (
+			<div class="min-w-0">
+				<div class="flex items-baseline justify-between gap-2">
+					<span class="text-xs font-semibold text-primary sm:text-sm">{phase.label}</span>
+					<span class="shrink-0 text-[10px] text-muted">{phase.detail}</span>
+				</div>
+				<div class="mt-1.5 h-3 overflow-hidden rounded-full bg-page/80 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<span
+						class:list={['block h-full rounded-full transition-all', phase.color]}
+						style={`width: ${phase.width}`}
+						aria-hidden="true"
+					></span>
+				</div>
+				{index < phases.length - 1 && (
+					<p class="mt-1 text-[10px] text-muted">Must hold stable before →</p>
+				)}
+			</div>
+		))}
+	</div>
+
+	<p class="mt-5 text-center text-[11px] leading-5 text-muted">
+		Exchange after morning nap — not during the wake window before it
+	</p>
+</figure>
