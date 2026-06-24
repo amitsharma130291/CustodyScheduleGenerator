@@ -1,0 +1,37 @@
+---
+const phases = [
+	{ label: 'School lets out', time: 'Fri 2:30 PM', variant: 'neutral' as const },
+	{ label: 'Parent A block', time: 'Dec 20–26', variant: 'a' as const },
+	{ label: 'Exchange', time: 'Dec 26 noon', variant: 'exchange' as const },
+	{ label: 'Parent B block', time: 'Dec 26–Jan 5', variant: 'b' as const },
+	{ label: 'School resumes', time: 'Mon 8:00 AM', variant: 'neutral' as const },
+];
+---
+
+<figure class="winter-break-timeline w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Winter break split — school release through school resume
+	</figcaption>
+
+	<div class="mt-4 flex flex-col gap-2 sm:flex-row sm:items-stretch">
+		{phases.map((phase, i) => (
+			<>
+				<div
+					class:list={[
+						'flex flex-1 flex-col rounded-lg px-2 py-2.5 text-center',
+						phase.variant === 'a' && 'bg-parent-a/20 ring-1 ring-parent-a/30',
+						phase.variant === 'b' && 'bg-parent-b/20 ring-1 ring-parent-b/30',
+						phase.variant === 'exchange' && 'bg-accent/15 ring-2 ring-accent/40',
+						phase.variant === 'neutral' && 'bg-surface ring-1 ring-line-subtle',
+					]}
+				>
+					<span class="text-[10px] font-bold uppercase tracking-[0.08em] text-primary">{phase.label}</span>
+					<span class="mt-1 text-xs text-secondary">{phase.time}</span>
+				</div>
+				{i < phases.length - 1 && (
+					<span class="hidden shrink-0 self-center text-muted sm:block" aria-hidden="true">→</span>
+				)}
+			</>
+		))}
+	</div>
+</figure>

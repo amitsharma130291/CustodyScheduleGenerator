@@ -4,217 +4,265 @@ import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import CtaButton from '../components/CtaButton.astro';
+import ScheduleHeroGeneratorPanel from '../components/schedules/ScheduleHeroGeneratorPanel.astro';
+import HolidayOverrideStackGraphic from '../components/schedules/holiday-custody-schedule/HolidayOverrideStackGraphic.astro';
+import WinterBreakSplitTimelineGraphic from '../components/schedules/holiday-custody-schedule/WinterBreakSplitTimelineGraphic.astro';
+import HolidayConflictResolverGraphic from '../components/schedules/holiday-custody-schedule/HolidayConflictResolverGraphic.astro';
+import { generateSchedule } from '../lib/schedules/generateSchedule';
+import { getDefaultStartDate } from '../lib/schedules/format';
 import { getCanonicalUrl } from '../lib/seo/metadata';
 import {
+	buildArticleSchema,
 	buildBreadcrumbSchema,
 	buildFAQSchema,
 	buildWebPageSchema,
 } from '../lib/seo/schema';
+import {
+	articleTocItems,
+	buildCalendar,
+	clauses,
+	editorialReview,
+	faqItems,
+	faqSection,
+	hero,
+	heroKeyStats,
+	heroTrustSignals,
+	holidaysToName,
+	meta,
+	orderOfOperations,
+	postContentCta,
+	visitationRouting,
+	whatBreaks,
+	whyOverride,
+} from '../data/holidayCustodySchedule';
 
-const title = 'Holiday Custody Schedule | Examples for Co-Parents';
-const description =
-	'Plan holiday custody schedules for Thanksgiving, Christmas, school breaks, birthdays, and other special days.';
 const canonical = '/holiday-custody-schedule/';
 const canonicalUrl = getCanonicalUrl(canonical);
 const currentYear = new Date().getFullYear();
+const startDate = getDefaultStartDate();
+const generatedSchedule = generateSchedule({
+	scheduleId: '2-2-5-5',
+	startDate,
+	parentNames: { parentA: 'Parent A', parentB: 'Parent B' },
+});
+
 const supportedCountries = [
 	{ label: 'United States', value: 'US' },
 	{ label: 'Canada', value: 'CA' },
 	{ label: 'United Kingdom', value: 'GB' },
 	{ label: 'Australia', value: 'AU' },
 ] as const;
-const faq = [
-	{
-		question: 'What is a holiday custody schedule?',
-		answer:
-			'A holiday custody schedule is a written parenting schedule for holidays, school breaks, long weekends, birthdays, and special days. It explains which parent has the child and when holiday parenting time begins and ends.',
-	},
-	{
-		question: 'Does a holiday schedule override the regular custody schedule?',
-		answer:
-			'Holiday schedules often take priority over regular parenting schedules. If a holiday is assigned to one parent, that holiday arrangement may override the normal weekly custody schedule until the holiday period ends.',
-	},
-	{
-		question: 'How do parents split Thanksgiving custody?',
-		answer:
-			'Parents often alternate Thanksgiving by odd- and even-numbered years, split the holiday weekend, or assign Thanksgiving Day to one parent and the rest of the school break to the other. A clear schedule should list exchange times, locations, and travel expectations.',
-	},
-	{
-		question: 'How do parents split Christmas custody?',
-		answer:
-			'Christmas parenting time can be split by Christmas Eve and Christmas Day, by first half and second half of winter break, or by alternating years. The clearest schedules state when each block starts, when it ends, and how the regular parenting schedule resumes.',
-	},
-	{
-		question: 'Who gets the child on Mother’s Day and Father’s Day?',
-		answer:
-			'Many holiday custody schedules assign Mother’s Day and Father’s Day to the corresponding parent, regardless of the regular parenting schedule. Families can customize these holidays based on parent labels, family structure, and written agreements.',
-	},
-	{
-		question: 'How are school breaks handled in a custody schedule?',
-		answer:
-			'School breaks are often alternated, split into halves, or assigned separately from single-day holidays. Spring break may alternate by year, while winter break is often divided into first-half and second-half parenting time blocks.',
-	},
-	{
-		question: 'Can parents customize a holiday custody schedule?',
-		answer:
-			'Yes. Parents can customize holiday names, exchange times, travel rules, school break divisions, birthday schedules, make-up parenting time, and whether each holiday overrides the regular parenting schedule.',
-	},
-	{
-		question: 'Should exchange times be included in a holiday schedule?',
-		answer:
-			'Yes. Exchange times help prevent confusion, especially for split holidays, long weekends, winter break, and travel-heavy holidays. A useful schedule should include start time, end time, and pickup or drop-off location.',
-	},
-	{
-		question: 'What happens if a holiday falls on the other parent’s regular day?',
-		answer:
-			'Many written schedules say holiday parenting time controls when a holiday falls on the other parent’s regular day. Some families add make-up parenting time or simply return to the regular parenting schedule after the holiday ends.',
-	},
-	{
-		question: 'Is this holiday custody schedule legal advice?',
-		answer:
-			'No. Educational planning tool. Not legal advice. This tool does not replace a court order or advice from a qualified professional. Custody laws and court practices vary by location.',
-	},
-];
+
 const breadcrumbs = [
 	{ name: 'Home', url: getCanonicalUrl('/') },
 	{ name: 'Holiday Custody Schedule', url: canonicalUrl },
 ];
+
 const schema = [
-	buildFAQSchema(faq),
+	buildWebPageSchema({ name: meta.title, description: meta.description, url: canonicalUrl }),
+	buildArticleSchema({
+		headline: hero.headline,
+		description: meta.description,
+		url: canonicalUrl,
+		datePublished: meta.datePublished,
+		dateModified: meta.dateModified,
+		authorName: editorialReview.reviewer,
+	}),
+	buildFAQSchema(faqItems),
 	buildBreadcrumbSchema(breadcrumbs),
-	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
-];
-const holidayExamples = [
 	{
-		title: 'Alternating holidays',
-		description: 'Parents alternate major holidays each year so both parents receive important holiday parenting time.',
-	},
-	{
-		title: 'Split Christmas / winter break',
-		description: 'Christmas Eve, Christmas Day, or winter break may be divided into two parenting periods.',
-	},
-	{
-		title: 'Thanksgiving rotation',
-		description: 'Parents alternate Thanksgiving by year or pair it with the surrounding holiday weekend.',
-	},
-	{
-		title: 'Mother’s Day and Father’s Day',
-		description: 'These holidays are often assigned to the matching parent regardless of the normal schedule.',
-	},
-	{
-		title: 'Child birthday schedule',
-		description: 'Parents may alternate birthdays, split the day, or provide a short visit for the other parent.',
-	},
-	{
-		title: 'School break custody schedule',
-		description: 'School breaks are often alternated or divided into separate parenting periods.',
-	},
-];
-const checklistItems = [
-	'Holiday name',
-	'Start date and end date',
-	'Exchange time',
-	'Pickup/drop-off location',
-	'Which parent has the child',
-	'Whether the holiday overrides the normal schedule',
-	'Travel rules',
-	'Make-up parenting time',
-	'School break rules',
-];
-const exampleRows = [
-	{
-		holiday: 'Thanksgiving',
-		odd: 'Parent A',
-		even: 'Parent B',
-		notes: 'Exchange after school Wednesday or Thanksgiving morning.',
-	},
-	{
-		holiday: 'Christmas Eve',
-		odd: 'Parent B',
-		even: 'Parent A',
-		notes: 'Often paired with Christmas morning exchange.',
-	},
-	{
-		holiday: 'Christmas Day',
-		odd: 'Parent A',
-		even: 'Parent B',
-		notes: 'Can override the regular custody schedule.',
-	},
-	{
-		holiday: 'Spring break',
-		odd: 'Parent A',
-		even: 'Parent B',
-		notes: 'Use school calendar dates and clear travel rules.',
-	},
-];
-const relatedTools = [
-	{
-		title: 'CustodyBuilder Schedule Generator',
-		href: '/custody-schedule-generator/',
-		description: 'Create a regular parenting schedule and compare holiday exceptions.',
-	},
-	{
-		title: '50/50 Custody Schedule',
-		href: '/50-50-custody-schedule/',
-		description: 'Compare equal parenting time schedules and holiday overrides.',
-	},
-	{
-		title: '60/40 Custody Schedule',
-		href: '/60-40-custody-schedule/',
-		description: 'Preview 60/40 schedules and plan holiday parenting time around them.',
-	},
-	{
-		title: '70/30 Custody Schedule',
-		href: '/70-30-custody-schedule/',
-		description: 'Explore majority-time schedules and compare holiday arrangements.',
-	},
-	{
-		title: '80/20 Custody Schedule',
-		href: '/80-20-custody-schedule/',
-		description: 'Explore schedules where one parent has most parenting time and compare holiday arrangements.',
-	},
-	{
-		title: 'Custody Calendar Template',
-		href: '/custody-calendar-template/',
-		description: 'Map parenting time, holidays, and school breaks on a printable calendar.',
-	},
-	{
-		title: 'Custody Schedule Template',
-		href: '/custody-schedule-template/',
-		description: 'Document regular parenting time, holiday exceptions, and exchange details.',
+		'@context': 'https://schema.org',
+		'@type': 'WebApplication',
+		name: 'Holiday Override Calendar Generator',
+		description: meta.description,
+		url: canonicalUrl,
+		inLanguage: 'en-US',
+		areaServed: 'US',
+		applicationCategory: 'LegalApplication',
+		operatingSystem: 'Web',
+		offers: {
+			'@type': 'Offer',
+			price: '0',
+			priceCurrency: 'USD',
+		},
 	},
 ];
 ---
 
-<BaseLayout title={title} description={description} canonical={canonical}>
+<BaseLayout title={meta.title} description={meta.description} canonical={canonical}>
 	<JsonLd slot="head" data={schema} />
 	<Navbar />
 	<Breadcrumbs items={breadcrumbs} />
-	<main>
-		<section class="container-shell grid gap-8 py-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:py-16">
-			<div>
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Holiday custody schedule tool</p>
-				<h1 class="mt-4 max-w-3xl text-5xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary lg:text-6xl">
-					Holiday Custody Schedule
+	<main class="holiday-custody-page">
+		<section
+			class="container-shell grid grid-cols-1 gap-5 py-4 sm:py-5 lg:grid-cols-[minmax(0,0.88fr)_minmax(704px,1.12fr)] lg:items-start lg:gap-7 lg:py-6 xl:w-[min(100%,1360px)]"
+			id="schedule-generator"
+		>
+			<div class="order-1 min-w-0 lg:col-start-1 lg:row-start-1 lg:pt-1">
+				<h1 class="max-w-3xl text-4xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary sm:text-5xl">
+					{hero.headline}
 				</h1>
-				<p class="mt-6 max-w-2xl text-lg leading-8 text-secondary">
-					A holiday custody schedule helps parents plan where children spend major holidays, school breaks, long weekends, and special days. Use this holiday custody schedule tool to preview common holiday parenting time arrangements, print a simple custody holiday calendar, and plan around your regular custody schedule.
-				</p>
-				<div class="mt-8 flex flex-col gap-3 sm:flex-row">
-					<a href="#holiday-planner" class="btn-primary inline-flex h-13 w-full items-center justify-center whitespace-nowrap rounded-full px-8 text-base font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_30px_rgba(37,99,235,0.14)] active:translate-y-0 sm:w-auto">
-						Build Holiday Schedule
-					</a>
-					<a href="#faq" class="btn-secondary inline-flex h-13 w-full items-center justify-center whitespace-nowrap rounded-full px-8 text-base font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_24px_rgba(0,0,0,0.12)] active:translate-y-0 sm:w-auto">
-						Read FAQ
-					</a>
+
+				<dl class="mt-4 grid grid-cols-3 gap-2">
+					{heroKeyStats.map((stat) => (
+						<div class="rounded-[1rem] bg-accent/10 px-2 py-2.5 text-center shadow-[inset_0_0_0_1px_rgba(37,99,235,0.15)] sm:px-3">
+							<dd class="text-lg font-bold tabular-nums tracking-tight text-accent sm:text-xl">{stat.value}</dd>
+							<dt class="mt-0.5 text-[10px] font-semibold uppercase leading-4 tracking-[0.08em] text-secondary">{stat.label}</dt>
+						</div>
+					))}
+				</dl>
+
+				<p class="mt-3 max-w-2xl text-base leading-7 text-secondary">{hero.intro}</p>
+				<p class="mt-3 max-w-2xl text-sm leading-6 text-secondary" set:html={hero.boundary} />
+
+				<div class="mt-3 max-w-2xl text-xs leading-5 text-muted">
+					<p class="font-semibold text-secondary">Reviewed for:</p>
+					<ul class="mt-1 list-inside list-disc space-y-0.5">
+						{editorialReview.reviewedFor.map((item) => (
+							<li>{item}</li>
+						))}
+					</ul>
+					<p class="mt-2">
+						Reviewed by{' '}
+						<a href={editorialReview.reviewerHref} class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">
+							{editorialReview.reviewer}
+						</a>
+						{' · '}
+						Methodology:{' '}
+						<a href={editorialReview.methodologyHref} class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">
+							{editorialReview.methodologyLabel}
+						</a>
+						{' · '}{editorialReview.disclaimer}
+					</p>
 				</div>
 			</div>
 
-			<section id="holiday-planner" class="premium-card rounded-[2rem] p-4 sm:p-5" data-holiday-planner>
+			<ScheduleHeroGeneratorPanel
+				selectedScheduleId="2-2-5-5"
+				generatedSchedule={generatedSchedule}
+				heroTrustSignals={heroTrustSignals}
+			/>
+		</section>
+
+		<nav class="container-shell border-y border-line-subtle py-3" aria-label="On this page">
+			<ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">
+				{articleTocItems.map((item) => (
+					<li><a href={`#${item.id}`} class="hover:text-accent">{item.label}</a></li>
+				))}
+			</ul>
+		</nav>
+
+		<section id="why-override" class="container-shell scroll-mt-24 py-10 lg:py-12" aria-labelledby="why-override-title">
+			<h2 id="why-override-title" class="max-w-3xl text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-3xl">
+				{whyOverride.title}
+			</h2>
+			<p class="mt-3 max-w-3xl text-base leading-7 text-secondary">{whyOverride.intro}</p>
+			<p class="mt-3 max-w-3xl text-base leading-7 text-secondary">{whyOverride.body}</p>
+		</section>
+
+		<section id="order-of-operations" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="order-of-operations-title">
+			<div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(280px,360px)] lg:items-start">
+				<div class="min-w-0">
+					<h2 id="order-of-operations-title" class="text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-3xl">
+						{orderOfOperations.title}
+					</h2>
+					<p class="mt-3 text-base leading-7 text-secondary">{orderOfOperations.intro}</p>
+					<ol class="mt-6 space-y-5">
+						{orderOfOperations.steps.map((step) => (
+							<li class="border-l-2 border-accent/30 pl-4">
+								<h3 class="text-base font-semibold text-primary">{step.heading}</h3>
+								<p class="mt-2 text-sm leading-6 text-secondary">{step.body}</p>
+							</li>
+						))}
+					</ol>
+				</div>
+				<HolidayOverrideStackGraphic />
+			</div>
+		</section>
+
+		<section id="what-breaks" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="what-breaks-title">
+			<div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(280px,360px)] lg:items-start">
+				<div class="min-w-0">
+					<h2 id="what-breaks-title" class="text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-3xl">
+						{whatBreaks.title}
+					</h2>
+					<p class="mt-3 text-base leading-7 text-secondary">{whatBreaks.intro}</p>
+					<ul class="mt-6 space-y-4">
+						{whatBreaks.breakdowns.map((item) => (
+							<li class="rounded-[1rem] bg-surface/50 p-4 ring-1 ring-line-subtle">
+								<h3 class="text-base font-semibold text-primary">{item.heading}</h3>
+								<p class="mt-2 text-sm leading-6 text-secondary">{item.body}</p>
+							</li>
+						))}
+					</ul>
+				</div>
+				<HolidayConflictResolverGraphic />
+			</div>
+		</section>
+
+		<section id="holidays-to-name" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="holidays-to-name-title">
+			<div class="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(280px,360px)] lg:items-start">
+				<div class="min-w-0">
+					<h2 id="holidays-to-name-title" class="text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-3xl">
+						{holidaysToName.title}
+					</h2>
+					<p class="mt-3 text-base leading-7 text-secondary">{holidaysToName.intro}</p>
+					<ul class="mt-6 space-y-3">
+						{holidaysToName.holidays.map((holiday) => (
+							<li class="border-l-2 border-accent/30 pl-4">
+								<h3 class="text-base font-semibold text-primary">{holiday.name}</h3>
+								<p class="mt-1 text-sm leading-6 text-secondary">{holiday.detail}</p>
+							</li>
+						))}
+					</ul>
+				</div>
+				<WinterBreakSplitTimelineGraphic />
+			</div>
+		</section>
+
+		<section id="clauses" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="clauses-title">
+			<h2 id="clauses-title" class="max-w-3xl text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-3xl">
+				{clauses.title}
+			</h2>
+			<p class="mt-3 max-w-3xl text-base leading-7 text-secondary">{clauses.intro}</p>
+			<ul class="mt-6 max-w-3xl space-y-4">
+				{clauses.fields.map((field) => (
+					<li class="border-l-2 border-accent/30 pl-4">
+						<h3 class="text-base font-semibold text-primary">{field.heading}</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">{field.body}</p>
+					</li>
+				))}
+			</ul>
+			<p class="mt-6 max-w-3xl text-sm leading-6 text-secondary" set:html={clauses.closing} />
+		</section>
+
+		<section id="visitation-routing" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="visitation-routing-title">
+			<h2 id="visitation-routing-title" class="max-w-3xl text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-3xl">
+				{visitationRouting.title}
+			</h2>
+			<p class="mt-3 max-w-3xl text-base leading-7 text-secondary">{visitationRouting.intro}</p>
+			<ul class="mt-6 max-w-3xl space-y-4">
+				{visitationRouting.routes.map((route) => (
+					<li class="rounded-[1rem] bg-surface/50 p-4 ring-1 ring-line-subtle">
+						<h3 class="text-base font-semibold text-primary">{route.heading}</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary" set:html={route.body} />
+					</li>
+				))}
+			</ul>
+		</section>
+
+		<section id="build-calendar" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="build-calendar-title">
+			<h2 id="build-calendar-title" class="max-w-3xl text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-3xl">
+				{buildCalendar.title}
+			</h2>
+			<p class="mt-3 max-w-3xl text-base leading-7 text-secondary">{buildCalendar.body}</p>
+
+			<div class="mt-8 premium-card rounded-[2rem] p-4 sm:p-5" data-holiday-planner>
 				<div class="rounded-[1.5rem] bg-surface-elevated p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.07)] sm:p-5">
-					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Generator</p>
-					<h2 class="mt-2 text-2xl font-semibold tracking-[-0.04em] text-primary">Build a holiday custody schedule</h2>
-					<p class="mt-2 text-sm leading-6 text-secondary">Choose a holiday parenting schedule type, year, parent names, and region to preview a simple yearly holiday calendar.</p>
+					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Holiday override planner</p>
+					<p class="mt-2 text-sm leading-6 text-secondary">Choose override type, year, and parent labels to preview a yearly holiday table on top of your base rotation.</p>
 
 					<form class="mt-5 grid gap-4" data-holiday-custody-form>
 						<div class="grid gap-4 sm:grid-cols-2">
@@ -249,22 +297,18 @@ const relatedTools = [
 									<option value={country.value}>{country.label}</option>
 								))}
 							</select>
-							<span class="text-xs leading-5 text-muted">Select a supported country for the holiday preview.</span>
 						</label>
 					</form>
 
 					<div class="mt-4 rounded-2xl bg-page/55 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]" data-holiday-print>
 						<div class="flex flex-col gap-3 border-b border-line-subtle pb-3 sm:flex-row sm:items-center sm:justify-between">
 							<div>
-								<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Yearly holiday preview</p>
-								<h2 class="mt-1 text-xl font-semibold tracking-[-0.04em] text-primary" data-holiday-preview-title>
-									{currentYear} holiday custody schedule
-								</h2>
+								<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Yearly override preview</p>
+								<h3 class="mt-1 text-xl font-semibold tracking-[-0.04em] text-primary" data-holiday-preview-title>
+									{currentYear} holiday override table
+								</h3>
 								<p class="mt-1 text-xs text-muted" data-holiday-preview-subtitle>United States · Alternating holidays</p>
 							</div>
-							<p class="rounded-full bg-surface/70 px-3 py-1.5 text-xs font-medium text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-								Educational planning tool. Not legal advice.
-							</p>
 						</div>
 						<div class="mt-4 overflow-x-auto">
 							<table class="w-full min-w-[500px] border-collapse text-left text-sm">
@@ -282,132 +326,38 @@ const relatedTools = [
 					</div>
 
 					<div class="mt-4 grid w-full min-w-0 grid-cols-1 gap-3 sm:grid-cols-2">
-						<button type="button" class="btn-primary flex h-12 w-full min-w-0 items-center justify-center whitespace-nowrap rounded-full px-4 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_30px_rgba(37,99,235,0.14)] active:translate-y-0 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-print-holiday-schedule>
-							Print schedule
+						<button type="button" class="btn-primary flex h-12 w-full min-w-0 items-center justify-center whitespace-nowrap rounded-full px-4 text-sm font-semibold" data-print-holiday-schedule>
+							Print override table
 						</button>
-						<button type="button" class="btn-secondary flex h-12 w-full min-w-0 items-center justify-center whitespace-nowrap rounded-full px-4 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[inset_0_0_0_1px_color-mix(in_srgb,var(--accent)_28%,var(--border-subtle)),0_10px_24px_rgba(0,0,0,0.12)] active:translate-y-0 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-copy-holiday-schedule>
-							Copy schedule
+						<button type="button" class="btn-secondary flex h-12 w-full min-w-0 items-center justify-center whitespace-nowrap rounded-full px-4 text-sm font-semibold" data-copy-holiday-schedule>
+							Copy override table
 						</button>
 					</div>
-					<p class="mt-4 text-xs leading-5 text-muted">Educational planning tool. Not legal advice.</p>
 				</div>
-			</section>
-		</section>
-
-		<section class="container-shell grid gap-8 py-12 lg:grid-cols-[0.72fr_1.28fr] lg:py-16">
-			<aside class="soft-card h-fit rounded-[1.5rem] p-6">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">On this page</p>
-				<ul class="mt-4 space-y-3 text-sm text-secondary">
-					<li><a href="#holiday-planner" class="hover:text-primary">Holiday schedule tool</a></li>
-					<li><a href="#how-it-works" class="hover:text-primary">How it works</a></li>
-					<li><a href="#examples" class="hover:text-primary">Examples</a></li>
-					<li><a href="#include" class="hover:text-primary">What to include</a></li>
-					<li><a href="#sample" class="hover:text-primary">Sample table</a></li>
-					<li><a href="#regular-vs-holiday" class="hover:text-primary">Holiday vs regular schedule</a></li>
-					<li><a href="#faq" class="hover:text-primary">FAQ</a></li>
-					<li><a href="#related" class="hover:text-primary">Related tools</a></li>
-				</ul>
-			</aside>
-
-			<div class="grid gap-10">
-				<section id="how-it-works" class="grid gap-4">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">How holiday custody schedules work</h2>
-					<p class="text-base leading-8 text-secondary">
-						Holiday schedules often take priority over regular parenting schedules. If a holiday is assigned to one parent, that holiday arrangement may override the normal weekly custody schedule for the holiday period.
-					</p>
-					<p class="text-base leading-8 text-secondary">
-						This holiday custody schedule tool demonstrates common holiday parenting arrangements, including alternating holidays, split holidays, fixed-parent holidays, and school break schedules. Educational planning tool. Not legal advice. It does not replace court orders, professional guidance, or requirements in your location.
-					</p>
-				</section>
-
-				<section id="examples" class="grid gap-5">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Common holiday custody schedule examples</h2>
-					<div class="grid gap-4 md:grid-cols-3">
-						{holidayExamples.map((item) => (
-							<article class="soft-card rounded-[1.5rem] p-5">
-								<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{item.title}</h3>
-								<p class="mt-2 text-sm leading-6 text-secondary">{item.description}</p>
-							</article>
-						))}
-					</div>
-				</section>
-
-				<section id="include" class="grid gap-5">
-					<div>
-						<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">What to include in a holiday custody schedule</h2>
-						<p class="mt-3 text-base leading-8 text-secondary">A clear custody holiday calendar should describe the holiday, the exact time period, and whether the holiday overrides the normal parenting schedule.</p>
-					</div>
-					<div class="grid gap-3 sm:grid-cols-2">
-						{checklistItems.map((item) => (
-							<div class="soft-card rounded-2xl p-4 text-sm font-medium text-secondary">{item}</div>
-						))}
-					</div>
-				</section>
-
-				<section id="sample" class="grid gap-5">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Example holiday custody schedule</h2>
-					<div class="premium-card overflow-x-auto rounded-[1.5rem]">
-						<table class="w-full min-w-[760px] border-collapse text-left text-sm">
-							<thead class="text-xs uppercase tracking-[0.14em] text-muted">
-								<tr class="border-b border-line-subtle">
-									<th class="px-5 py-4 font-semibold">Holiday</th>
-									<th class="px-5 py-4 font-semibold">Odd-numbered years</th>
-									<th class="px-5 py-4 font-semibold">Even-numbered years</th>
-									<th class="px-5 py-4 font-semibold">Exchange notes</th>
-								</tr>
-							</thead>
-							<tbody class="divide-y divide-line-subtle text-secondary">
-								{exampleRows.map((row) => (
-									<tr>
-										<td class="px-5 py-4 font-semibold text-primary">{row.holiday}</td>
-										<td class="px-5 py-4">{row.odd}</td>
-										<td class="px-5 py-4">{row.even}</td>
-										<td class="px-5 py-4">{row.notes}</td>
-									</tr>
-								))}
-							</tbody>
-						</table>
-					</div>
-				</section>
-
-				<section id="regular-vs-holiday" class="grid gap-4">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Holiday custody schedule vs regular custody schedule</h2>
-					<p class="text-base leading-8 text-secondary">
-						A regular custody schedule explains the weekly or monthly parenting time rotation. A holiday custody schedule explains exceptions for Thanksgiving custody schedules, Christmas custody schedules, school breaks, birthdays, and other special days.
-					</p>
-					<p class="text-base leading-8 text-secondary">
-						Use a <a href="/custody-schedule-template/" class="font-medium text-primary hover:text-accent">custody schedule template</a> for the regular rotation, then use a holiday custody schedule to list overrides and special exchange details.
-					</p>
-				</section>
-
-				<section id="faq" class="grid gap-5">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">FAQ</h2>
-					<div class="premium-card divide-y divide-line-subtle overflow-hidden rounded-[1.5rem]">
-						{faq.map((item, index) => (
-							<details open={index === 0} class="group p-5 transition-colors duration-200 open:bg-surface-elevated/70 hover:bg-surface-hover/60">
-								<summary class="flex cursor-pointer list-none items-center justify-between gap-6 text-left text-base font-semibold tracking-[-0.02em] text-primary">
-									{item.question}
-									<span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-surface/80 text-muted shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-transform duration-200 group-open:rotate-45">+</span>
-								</summary>
-								<p class="mt-4 text-sm leading-6 text-secondary">{item.answer}</p>
-							</details>
-						))}
-					</div>
-				</section>
-
-				<section id="related" class="grid gap-5">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Related tools and schedules</h2>
-					<div class="grid gap-4 md:grid-cols-2">
-						{relatedTools.map((item) => (
-							<a href={item.href} class="soft-card rounded-[1.5rem] p-5">
-								<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{item.title}</h3>
-								<p class="mt-2 text-sm leading-6 text-secondary">{item.description}</p>
-							</a>
-						))}
-					</div>
-				</section>
 			</div>
 		</section>
+
+		<section id="convert-cta" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="convert-cta-title">
+			<div class="max-w-2xl rounded-[1.25rem] border border-line bg-surface/40 p-6 sm:p-7">
+				<h2 id="convert-cta-title" class="text-2xl font-semibold tracking-[-0.04em] text-primary sm:text-[1.65rem]">
+					{postContentCta.heading}
+				</h2>
+				<p class="mt-3 text-sm leading-6 text-secondary sm:text-base sm:leading-7">{postContentCta.body}</p>
+				<div class="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-5">
+					<CtaButton href={postContentCta.primaryHref} variant="primary" size="large">
+						{postContentCta.primaryLabel}
+					</CtaButton>
+					<a
+						href={postContentCta.secondaryHref}
+						class="text-sm font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary"
+					>
+						{postContentCta.secondaryLabel}
+					</a>
+				</div>
+			</div>
+		</section>
+
+		<FAQ items={faqItems} title={faqSection.title} description={faqSection.description} />
 	</main>
 	<Footer />
 </BaseLayout>
@@ -429,12 +379,11 @@ const relatedTools = [
 	const defaultCountry = 'US';
 
 	function normalizeCountry(country) {
-		return supportedCountries.some((supportedCountry) => supportedCountry.value === country) ? country : defaultCountry;
+		return supportedCountries.some((c) => c.value === country) ? country : defaultCountry;
 	}
 
 	function getCountryLabel(country) {
-		const selectedCountry = normalizeCountry(country);
-		return supportedCountries.find((supportedCountry) => supportedCountry.value === selectedCountry)?.label || 'United States';
+		return supportedCountries.find((c) => c.value === normalizeCountry(country))?.label || 'United States';
 	}
 
 	function formatDate(date) {
@@ -456,87 +405,39 @@ const relatedTools = [
 
 	function getLastWeekday(year, monthIndex, weekday) {
 		const date = new Date(year, monthIndex + 1, 0);
-		while (date.getDay() !== weekday) {
-			date.setDate(date.getDate() - 1);
-		}
+		while (date.getDay() !== weekday) date.setDate(date.getDate() - 1);
 		return date;
 	}
 
 	function getCountryHolidayLabels(country) {
 		const labels = {
-			US: {
-				newYear: "New Year's Day",
-				winterMondayOne: 'Martin Luther King Jr. Day',
-				winterMondayTwo: 'Presidents’ Day',
-				mayHoliday: 'Memorial Day',
-				midYearHoliday: 'Independence Day',
-				fallHoliday: 'Labor Day',
-				thanksgiving: 'Thanksgiving',
-				christmasEve: 'Christmas Eve',
-				christmasDay: 'Christmas Day',
-				newYearsEve: 'New Year’s Eve',
-			},
-			CA: {
-				newYear: "New Year's Day",
-				winterMondayOne: 'Family Day',
-				winterMondayTwo: 'Victoria Day',
-				mayHoliday: 'Civic holiday',
-				midYearHoliday: 'Canada Day',
-				fallHoliday: 'Labor Day',
-				thanksgiving: 'Thanksgiving',
-				christmasEve: 'Christmas Eve',
-				christmasDay: 'Christmas Day',
-				newYearsEve: 'New Year’s Eve',
-			},
-			GB: {
-				newYear: "New Year's Day",
-				winterMondayOne: 'Spring bank holiday',
-				winterMondayTwo: 'Summer bank holiday',
-				mayHoliday: 'Early May bank holiday',
-				midYearHoliday: 'School summer break',
-				fallHoliday: 'Autumn half-term',
-				thanksgiving: 'Autumn school break',
-				christmasEve: 'Christmas Eve',
-				christmasDay: 'Christmas Day',
-				newYearsEve: 'New Year’s Eve',
-			},
-			AU: {
-				newYear: "New Year's Day",
-				winterMondayOne: 'Australia Day',
-				winterMondayTwo: 'Labor Day',
-				mayHoliday: 'King’s Birthday',
-				midYearHoliday: 'Winter school break',
-				fallHoliday: 'Spring school break',
-				thanksgiving: 'Term break',
-				christmasEve: 'Christmas Eve',
-				christmasDay: 'Christmas Day',
-				newYearsEve: 'New Year’s Eve',
-			},
+			US: { newYear: "New Year's Day", winterMondayOne: 'Martin Luther King Jr. Day', winterMondayTwo: 'Presidents’ Day', mayHoliday: 'Memorial Day', midYearHoliday: 'Independence Day', fallHoliday: 'Labor Day', thanksgiving: 'Thanksgiving', christmasEve: 'Christmas Eve', christmasDay: 'Christmas Day', newYearsEve: 'New Year’s Eve' },
+			CA: { newYear: "New Year's Day", winterMondayOne: 'Family Day', winterMondayTwo: 'Victoria Day', mayHoliday: 'Civic holiday', midYearHoliday: 'Canada Day', fallHoliday: 'Labor Day', thanksgiving: 'Thanksgiving', christmasEve: 'Christmas Eve', christmasDay: 'Christmas Day', newYearsEve: 'New Year’s Eve' },
+			GB: { newYear: "New Year's Day", winterMondayOne: 'Spring bank holiday', winterMondayTwo: 'Summer bank holiday', mayHoliday: 'Early May bank holiday', midYearHoliday: 'School summer break', fallHoliday: 'Autumn half-term', thanksgiving: 'Autumn school break', christmasEve: 'Christmas Eve', christmasDay: 'Christmas Day', newYearsEve: 'New Year’s Eve' },
+			AU: { newYear: "New Year's Day", winterMondayOne: 'Australia Day', winterMondayTwo: 'Labor Day', mayHoliday: 'King’s Birthday', midYearHoliday: 'Winter school break', fallHoliday: 'Spring school break', thanksgiving: 'Term break', christmasEve: 'Christmas Eve', christmasDay: 'Christmas Day', newYearsEve: 'New Year’s Eve' },
 		};
-
 		return labels[normalizeCountry(country)] || labels.US;
 	}
 
 	function getHolidayRows(year, country) {
 		const selectedCountry = normalizeCountry(country);
 		const labels = getCountryHolidayLabels(selectedCountry);
-		const isUnitedStates = selectedCountry === 'US';
+		const isUS = selectedCountry === 'US';
 		const variableDate = 'Date varies by location';
-
 		return [
 			{ name: labels.newYear, date: new Date(year, 0, 1), category: 'standard' },
-			{ name: labels.winterMondayOne, date: isUnitedStates ? getNthWeekday(year, 0, 1, 3) : variableDate, category: 'standard' },
-			{ name: labels.winterMondayTwo, date: isUnitedStates ? getNthWeekday(year, 1, 1, 3) : variableDate, category: 'standard' },
+			{ name: labels.winterMondayOne, date: isUS ? getNthWeekday(year, 0, 1, 3) : variableDate, category: 'standard' },
+			{ name: labels.winterMondayTwo, date: isUS ? getNthWeekday(year, 1, 1, 3) : variableDate, category: 'standard' },
 			{ name: 'Spring break', date: 'School calendar dates vary', category: 'spring-break' },
 			{ name: 'Mother’s Day', date: getNthWeekday(year, 4, 0, 2), category: 'mother' },
-			{ name: labels.mayHoliday, date: isUnitedStates ? getLastWeekday(year, 4, 1) : variableDate, category: 'standard' },
+			{ name: labels.mayHoliday, date: isUS ? getLastWeekday(year, 4, 1) : variableDate, category: 'standard' },
 			{ name: 'Father’s Day', date: getNthWeekday(year, 5, 0, 3), category: 'father' },
-			{ name: labels.midYearHoliday, date: isUnitedStates ? new Date(year, 6, 4) : variableDate, category: 'standard' },
+			{ name: labels.midYearHoliday, date: isUS ? new Date(year, 6, 4) : variableDate, category: 'standard' },
 			{ name: 'Child’s birthday', date: "Child’s actual birthday", category: 'child-birthday' },
 			{ name: 'Parent A birthday', date: 'Parent A birthday', category: 'parent-a-birthday' },
 			{ name: 'Parent B birthday', date: 'Parent B birthday', category: 'parent-b-birthday' },
-			{ name: labels.fallHoliday, date: isUnitedStates ? getNthWeekday(year, 8, 1, 1) : variableDate, category: 'standard' },
-			{ name: labels.thanksgiving, date: isUnitedStates ? getNthWeekday(year, 10, 4, 4) : variableDate, category: 'thanksgiving' },
+			{ name: labels.fallHoliday, date: isUS ? getNthWeekday(year, 8, 1, 1) : variableDate, category: 'standard' },
+			{ name: labels.thanksgiving, date: isUS ? getNthWeekday(year, 10, 4, 4) : variableDate, category: 'thanksgiving' },
 			{ name: labels.christmasEve, date: new Date(year, 11, 24), category: 'christmas-eve' },
 			{ name: labels.christmasDay, date: new Date(year, 11, 25), category: 'christmas-day' },
 			{ name: 'Winter break', date: 'School calendar dates vary', category: 'winter-break' },
@@ -550,14 +451,11 @@ const relatedTools = [
 
 	function assignHoliday(row, index, { scheduleType, year, parentA, parentB }) {
 		const isEvenYear = year % 2 === 0;
-
 		if (scheduleType === 'split') {
-			if (row.category === 'winter-break') return { parent: 'Split schedule', notes: `${parentA}: first half. ${parentB}: second half.` };
-			if (row.category === 'spring-break') return { parent: 'Split schedule', notes: `${parentA}: first half. ${parentB}: second half.` };
+			if (row.category === 'winter-break' || row.category === 'spring-break') return { parent: 'Split schedule', notes: `${parentA}: first half. ${parentB}: second half.` };
 			if (row.category === 'christmas-eve' || row.category === 'christmas-day') return { parent: 'Split holiday', notes: 'Morning / afternoon or first half / second half.' };
 			return { parent: 'Split holiday', notes: 'Morning / afternoon split. Add exchange time.' };
 		}
-
 		if (scheduleType === 'fixed') {
 			if (row.category === 'mother') return { parent: parentA, notes: `${parentA} by default.` };
 			if (row.category === 'father') return { parent: parentB, notes: `${parentB} by default.` };
@@ -566,13 +464,11 @@ const relatedTools = [
 			if (row.category === 'child-birthday') return { parent: getAlternatingParent(index, year, parentA, parentB), notes: 'Alternate or split birthday time.' };
 			return { parent: getAlternatingParent(index, year, parentA, parentB), notes: 'Other holidays alternate yearly between parents.' };
 		}
-
 		if (scheduleType === 'school-break') {
 			if (row.category === 'spring-break') return { parent: isEvenYear ? parentB : parentA, notes: 'Spring break alternates by year.' };
 			if (row.category === 'winter-break') return { parent: 'Split schedule', notes: `${parentA}: first half. ${parentB}: second half.` };
 			return { parent: getAlternatingParent(index, year, parentA, parentB), notes: 'Summer break should be planned separately.' };
 		}
-
 		if (row.category === 'thanksgiving') return { parent: isEvenYear ? parentB : parentA, notes: `${parentA} in odd-numbered years, ${parentB} in even-numbered years.` };
 		if (row.category === 'christmas-day') return { parent: isEvenYear ? parentA : parentB, notes: `${parentB} in odd-numbered years, ${parentA} in even-numbered years.` };
 		return { parent: getAlternatingParent(index, year, parentA, parentB), notes: 'Alternates yearly between parents.' };
@@ -580,7 +476,6 @@ const relatedTools = [
 
 	function renderPlanner() {
 		if (!(form instanceof HTMLFormElement) || !tableBody) return;
-
 		const data = new FormData(form);
 		const year = Number(data.get('year')) || new Date().getFullYear();
 		const scheduleType = String(data.get('scheduleType') || 'alternating');
@@ -597,33 +492,18 @@ const relatedTools = [
 		tableBody.textContent = '';
 		rows.forEach((row) => {
 			const tr = document.createElement('tr');
-			const holidayCell = document.createElement('td');
-			const dateCell = document.createElement('td');
-			const parentCell = document.createElement('td');
-			const notesCell = document.createElement('td');
-
-			holidayCell.className = 'py-3 pr-4 font-semibold text-primary';
-			dateCell.className = 'px-4 py-3';
-			parentCell.className = 'px-4 py-3 font-medium text-primary';
-			notesCell.className = 'hidden py-3 pl-4 text-muted md:table-cell';
-
-			holidayCell.textContent = row.name;
-			dateCell.textContent = row.date instanceof Date ? formatDate(row.date) : row.date;
-			parentCell.textContent = row.parent;
-			notesCell.textContent = row.notes;
-
-			tr.append(holidayCell, dateCell, parentCell, notesCell);
+			[row.name, row.date instanceof Date ? formatDate(row.date) : row.date, row.parent, row.notes].forEach((text, i) => {
+				const td = document.createElement('td');
+				td.className = i === 0 ? 'py-3 pr-4 font-semibold text-primary' : i === 3 ? 'hidden py-3 pl-4 text-muted md:table-cell' : 'px-4 py-3';
+				if (i === 2) td.className += ' font-medium text-primary';
+				td.textContent = text;
+				tr.appendChild(td);
+			});
 			tableBody.appendChild(tr);
 		});
 
-		const scheduleLabel = {
-			'alternating': 'Alternating holidays',
-			'split': 'Split holidays',
-			'fixed': 'Fixed parent holidays',
-			'school-break': 'School break schedule',
-		}[scheduleType] || 'Alternating holidays';
-
-		if (previewTitle) previewTitle.textContent = `${year} holiday custody schedule`;
+		const scheduleLabel = { alternating: 'Alternating holidays', split: 'Split holidays', fixed: 'Fixed parent holidays', 'school-break': 'School break schedule' }[scheduleType] || 'Alternating holidays';
+		if (previewTitle) previewTitle.textContent = `${year} holiday override table`;
 		if (previewSubtitle) previewSubtitle.textContent = `${region} · ${scheduleLabel}`;
 	}
 
@@ -631,7 +511,7 @@ const relatedTools = [
 		const rows = Array.from(document.querySelectorAll('[data-holiday-custody-table] tr')).map((row) =>
 			Array.from(row.querySelectorAll('td')).map((cell) => cell.textContent?.trim() || '').join(' | ')
 		);
-		return ['Holiday Custody Schedule', ...rows, '', 'Educational planning tool. Not legal advice.'].join('\n');
+		return ['Holiday Override Table', ...rows, '', 'Educational planning tool. Not legal advice.'].join('\n');
 	}
 
 	form?.addEventListener('input', renderPlanner);
@@ -644,18 +524,14 @@ const relatedTools = [
 	printButton?.addEventListener('click', () => window.print());
 	copyButton?.addEventListener('click', async () => {
 		if (!(copyButton instanceof HTMLButtonElement)) return;
-		const defaultLabel = copyButton.textContent || 'Copy schedule';
+		const defaultLabel = copyButton.textContent || 'Copy override table';
 		try {
 			await navigator.clipboard.writeText(buildCopyText());
 			copyButton.textContent = 'Copied';
-			window.setTimeout(() => {
-				copyButton.textContent = defaultLabel;
-			}, 1800);
+			window.setTimeout(() => { copyButton.textContent = defaultLabel; }, 1800);
 		} catch {
 			copyButton.textContent = 'Copy failed';
-			window.setTimeout(() => {
-				copyButton.textContent = defaultLabel;
-			}, 1800);
+			window.setTimeout(() => { copyButton.textContent = defaultLabel; }, 1800);
 		}
 	});
 	renderPlanner();

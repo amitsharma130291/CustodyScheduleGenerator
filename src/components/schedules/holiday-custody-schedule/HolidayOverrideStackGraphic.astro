@@ -1,0 +1,30 @@
+---
+const layers = [
+	{ label: 'Regular schedule', sub: 'Base rotation', active: false },
+	{ label: 'Holiday rule', sub: 'Override block', active: true },
+	{ label: 'School break rule', sub: 'Release → resume', active: false },
+	{ label: 'Return to regular', sub: 'Next exchange', active: false },
+];
+---
+
+<figure class="holiday-override-stack w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Holiday override stack — what sits above the base calendar
+	</figcaption>
+
+	<div class="mt-5 flex flex-col gap-2">
+		{layers.map((layer) => (
+			<div
+				class:list={[
+					'rounded-lg px-4 py-3',
+					layer.active
+						? 'bg-accent/15 ring-2 ring-accent/40'
+						: 'bg-surface ring-1 ring-line-subtle',
+				]}
+			>
+				<p class="text-sm font-semibold text-primary">{layer.label}</p>
+				<p class="mt-0.5 text-xs text-secondary">{layer.sub}</p>
+			</div>
+		))}
+	</div>
+</figure>

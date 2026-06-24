@@ -1,0 +1,22 @@
+---
+const conflicts = [
+	{ issue: 'Birthday inside Christmas', fix: 'Birthday clause pierces break or waits until resume' },
+	{ issue: 'Thanksgiving on regular weekend', fix: 'Holiday row overrides Fri–Sun base nights' },
+	{ issue: 'Long weekend after exchange', fix: 'Name return date — resume Mon or next Fri' },
+];
+---
+
+<figure class="holiday-conflict-resolver w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Holiday conflict resolver — overlap fixes
+	</figcaption>
+
+	<ul class="mt-4 space-y-2">
+		{conflicts.map((c) => (
+			<li class="rounded-lg bg-surface px-3 py-2.5 ring-1 ring-line-subtle">
+				<p class="text-xs font-bold uppercase tracking-[0.1em] text-rose-600">{c.issue}</p>
+				<p class="mt-1 text-sm text-secondary">{c.fix}</p>
+			</li>
+		))}
+	</ul>
+</figure>

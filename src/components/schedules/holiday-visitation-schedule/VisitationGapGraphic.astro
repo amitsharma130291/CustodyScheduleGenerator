@@ -1,0 +1,30 @@
+---
+const phases = [
+	{ label: 'EOW weekend', sub: 'Fri 6 PM – Sun 6 PM', variant: 'visit' as const },
+	{ label: '12-day gap', sub: 'School weeks', variant: 'gap' as const },
+	{ label: 'Holiday block', sub: 'Other parent', variant: 'holiday' as const },
+	{ label: '18-day gap', sub: 'Until next visit', variant: 'gap' as const },
+];
+---
+
+<figure class="visitation-gap w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Visitation gap — holiday stretches time between Fri–Sun visits
+	</figcaption>
+
+	<div class="mt-4 flex flex-col gap-2">
+		{phases.map((phase) => (
+			<div
+				class:list={[
+					'rounded-lg px-4 py-3 text-center',
+					phase.variant === 'visit' && 'bg-accent/15 ring-1 ring-accent/30',
+					phase.variant === 'gap' && 'bg-surface ring-1 ring-line-subtle',
+					phase.variant === 'holiday' && 'bg-rose-500/10 ring-1 ring-rose-500/30',
+				]}
+			>
+				<p class="text-sm font-semibold text-primary">{phase.label}</p>
+				<p class="mt-0.5 text-xs text-secondary">{phase.sub}</p>
+			</div>
+		))}
+	</div>
+</figure>

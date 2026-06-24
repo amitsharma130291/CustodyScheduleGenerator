@@ -1,0 +1,35 @@
+---
+const phases = [
+	{ label: 'Fri pickup', time: '6:00 PM', variant: 'visit' as const },
+	{ label: 'Thanksgiving', time: 'Thu all day', variant: 'holiday' as const },
+	{ label: 'Sun return', time: '6:00 PM', variant: 'visit' as const },
+	{ label: 'Make-up weekend', time: 'Following Fri–Sun', variant: 'makeup' as const },
+];
+---
+
+<figure class="holiday-access-timeline w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Holiday access timeline — Thanksgiving with make-up weekend
+	</figcaption>
+
+	<div class="mt-4 flex flex-col gap-2 sm:flex-row sm:items-stretch">
+		{phases.map((phase, i) => (
+			<>
+				<div
+					class:list={[
+						'flex flex-1 flex-col rounded-lg px-2 py-2.5 text-center',
+						phase.variant === 'visit' && 'bg-accent/15 ring-1 ring-accent/30',
+						phase.variant === 'holiday' && 'bg-amber-500/15 ring-1 ring-amber-500/30',
+						phase.variant === 'makeup' && 'bg-parent-b/20 ring-1 ring-parent-b/30',
+					]}
+				>
+					<span class="text-[10px] font-bold uppercase tracking-[0.08em] text-primary">{phase.label}</span>
+					<span class="mt-1 text-xs text-secondary">{phase.time}</span>
+				</div>
+				{i < phases.length - 1 && (
+					<span class="hidden shrink-0 self-center text-muted sm:block" aria-hidden="true">→</span>
+				)}
+			</>
+		))}
+	</div>
+</figure>
