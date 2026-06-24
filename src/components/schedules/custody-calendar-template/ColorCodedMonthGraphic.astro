@@ -1,0 +1,39 @@
+---
+const legend = [
+	{ label: 'Parent A nights', swatch: 'bg-accent/25 ring-1 ring-accent/30', code: 'A' },
+	{ label: 'Parent B nights', swatch: 'bg-surface shadow-[inset_0_0_0_1px_var(--border-subtle)]', code: 'B' },
+	{ label: 'Exchange stripe', swatch: 'bg-gradient-to-r from-accent/40 via-surface to-accent/40 ring-1 ring-accent/40', code: '↔' },
+];
+const sampleWeek = ['A', 'A', 'A', '↔', 'B', 'B', 'B'];
+---
+
+<figure class="color-coded-month w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Color-coded month — parent blocks and exchange stripe
+	</figcaption>
+
+	<div class="mt-4 flex gap-0.5">
+		{sampleWeek.map((code) => (
+			<div
+				class:list={[
+					'flex h-9 flex-1 items-center justify-center rounded text-[10px] font-bold',
+					code === 'A' && 'bg-accent/25 text-accent',
+					code === 'B' && 'bg-surface text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]',
+					code === '↔' && 'bg-gradient-to-b from-accent/30 to-accent/10 text-accent ring-1 ring-accent/40',
+				]}
+			>
+				{code}
+			</div>
+		))}
+	</div>
+
+	<ul class="mt-4 space-y-2">
+		{legend.map((item) => (
+			<li class="flex items-center gap-3 text-xs text-secondary">
+				<span class:list={['h-4 w-8 shrink-0 rounded', item.swatch]} aria-hidden="true" />
+				<span class="font-semibold text-primary">{item.code}</span>
+				<span>{item.label}</span>
+			</li>
+		))}
+	</ul>
+</figure>

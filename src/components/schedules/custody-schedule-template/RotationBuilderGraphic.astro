@@ -1,0 +1,34 @@
+---
+const steps = [
+	{ label: 'Pick pattern', sub: '2-2-3 · week-on/week-off · every-other-weekend', active: true },
+	{ label: 'Set start date', sub: 'Anchor week one to a Monday or first exchange', active: false },
+	{ label: 'Mark school nights', sub: 'Flag Tue/Thu for homework + bedtime owner', active: false },
+];
+---
+
+<figure class="rotation-builder w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Rotation builder — pattern to school-night map
+	</figcaption>
+
+	<div class="mt-5 flex flex-col items-center gap-1">
+		{steps.map((step, i) => (
+			<>
+				<div
+					class:list={[
+						'w-full rounded-lg px-4 py-3',
+						step.active
+							? 'bg-accent/15 ring-2 ring-accent/40'
+							: 'bg-surface ring-1 ring-line-subtle',
+					]}
+				>
+					<p class="text-sm font-semibold text-primary">{step.label}</p>
+					<p class="mt-0.5 text-xs text-secondary">{step.sub}</p>
+				</div>
+				{i < steps.length - 1 && (
+					<span class="text-muted" aria-hidden="true">→</span>
+				)}
+			</>
+		))}
+	</div>
+</figure>

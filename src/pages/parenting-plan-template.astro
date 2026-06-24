@@ -4,608 +4,109 @@ import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import CtaButton from '../components/CtaButton.astro';
+import ScheduleHeroGeneratorPanel from '../components/schedules/ScheduleHeroGeneratorPanel.astro';
+import ClauseHierarchyGraphic from '../components/schedules/parenting-plan-template/ClauseHierarchyGraphic.astro';
+import DecisionTreeGraphic from '../components/schedules/parenting-plan-template/DecisionTreeGraphic.astro';
+import SectionFlowGraphic from '../components/schedules/parenting-plan-template/SectionFlowGraphic.astro';
+import { generateSchedule } from '../lib/schedules/generateSchedule';
+import { getDefaultStartDate } from '../lib/schedules/format';
 import { getCanonicalUrl } from '../lib/seo/metadata';
+import { buildArticleSchema, buildBreadcrumbSchema, buildFAQSchema, buildWebPageSchema } from '../lib/seo/schema';
 import {
-	buildBreadcrumbSchema,
-	buildFAQSchema,
-	buildWebPageSchema,
-} from '../lib/seo/schema';
+	articleTocItems, clauseHierarchy, decisionTree, disputes, editorialReview, faqItems, faqSection,
+	holidayReference, hero, heroKeyStats, heroTrustSignals, meta, scheduleReference, sectionFlow,
+} from '../data/parentingPlanTemplate';
 
-const title = 'Parenting Plan Template | Custody & Visitation Agreement';
-const description =
-	'Use a parenting plan template to outline custody schedules, visitation, holidays, exchanges, school decisions, and co-parenting rules.';
 const canonical = '/parenting-plan-template/';
 const canonicalUrl = getCanonicalUrl(canonical);
-const breadcrumbs = [
-	{ name: 'Home', url: getCanonicalUrl('/') },
-	{ name: 'Templates', url: getCanonicalUrl('/custody-schedule-template/') },
-	{ name: 'Parenting Plan Template', url: canonicalUrl },
-];
-
-const previewSections = [
-	'Regular custody schedule',
-	'Holiday schedule',
-	'School breaks',
-	'Exchange times and location',
-	'Communication rules',
-	'Travel rules',
-	'Medical and school decisions',
-	'Expenses',
-	'Dispute resolution',
-	'Review/update plan',
-];
-
-const includeCards = [
-	'Weekly custody schedule',
-	'Holiday custody schedule',
-	'School breaks and summer',
-	'Pickup and drop-off details',
-	'Transportation responsibilities',
-	'Communication rules',
-	'Decision-making authority',
-	'Medical care',
-	'School and activities',
-	'Travel and relocation rules',
-	'Expenses and reimbursements',
-	'Conflict resolution',
-	'Plan review schedule',
-];
-
-const checklistGroups = [
-	{ title: 'A. Parenting time', items: ['Regular custody schedule', 'Weekday and weekend overnights', 'Start and end times', 'Make-up parenting time'] },
-	{ title: 'B. Holidays and special days', items: ['Major holidays', 'Birthdays', 'Mother’s Day and Father’s Day', 'School breaks and summer'] },
-	{ title: 'C. Exchanges', items: ['Exchange location', 'Pickup and drop-off parent', 'Late arrival rules', 'Transportation responsibilities'] },
-	{ title: 'D. Communication', items: ['Parent-to-parent communication', 'Child phone or video calls', 'Emergency contact rules', 'Shared calendar expectations'] },
-	{ title: 'E. Decisions', items: ['Medical decisions', 'School decisions', 'Activities', 'Religious or cultural decisions'] },
-	{ title: 'F. Expenses', items: ['Medical costs', 'School costs', 'Activities', 'Reimbursements and due dates'] },
-	{ title: 'G. Travel', items: ['Travel notice', 'Itinerary sharing', 'Out-of-state travel', 'Passport or document rules'] },
-	{ title: 'H. Changes and disputes', items: ['Temporary changes', 'Written consent', 'Mediation steps', 'Review/update date'] },
-];
-
-const outlineRows = [
-	{ section: 'Regular schedule', write: 'Weekly custody pattern, overnights, and exchange days.', example: 'Parent A has Monday-Tuesday. Parent B has Wednesday-Thursday. Weekends alternate.' },
-	{ section: 'Holiday schedule', write: 'How major holidays, birthdays, and school breaks are assigned.', example: 'Thanksgiving alternates each year. Winter break is split into first and second halves.' },
-	{ section: 'Exchange location', write: 'Pickup/drop-off place, time, and transportation responsibility.', example: 'Exchanges occur at school when school is in session and at the library at 6 PM otherwise.' },
-	{ section: 'Communication', write: 'How parents communicate and how the child contacts each parent.', example: 'Parents use email for schedule changes and allow one evening video call during longer blocks.' },
-	{ section: 'School decisions', write: 'Who makes school enrollment, tutoring, and activity decisions.', example: 'Major school decisions are shared. Each parent may attend school events.' },
-	{ section: 'Medical decisions', write: 'Routine care, emergency care, insurance, and notice rules.', example: 'Both parents receive medical updates. Emergency care may be authorized by either parent.' },
-	{ section: 'Travel notice', write: 'Notice period, itinerary details, and document rules.', example: 'Parents give 14 days notice for overnight travel outside the state.' },
-	{ section: 'Expenses', write: 'How costs are shared and reimbursed.', example: 'Unreimbursed medical expenses are split 50/50 and repaid within 14 days of receipt.' },
-	{ section: 'Dispute resolution', write: 'Steps for resolving schedule or parenting plan disagreements.', example: 'Parents discuss in writing first, then use mediation before filing court requests when possible.' },
-];
-
-const printableSections = [
-	'Parents',
-	'Children',
-	'Regular parenting time',
-	'Holiday parenting time',
-	'School breaks',
-	'Exchange details',
-	'Communication rules',
-	'Decision-making',
-	'Travel',
-	'Expenses',
-	'Dispute resolution',
-	'Review date',
-];
-
-const faq = [
-	{
-		question: 'What is a parenting plan template?',
-		answer:
-			'A parenting plan template is a structured planning document that helps co-parents organize custody schedules, holidays, exchanges, communication rules, decision-making, travel, and expenses.',
-	},
-	{
-		question: 'What should be included in a parenting plan?',
-		answer:
-			'A parenting plan should usually include the weekly custody schedule, holiday parenting time, school breaks, exchange details, communication rules, medical and school decisions, expenses, travel rules, and a process for resolving disagreements.',
-	},
-	{
-		question: 'Is a parenting plan the same as a custody schedule?',
-		answer:
-			'No. A custody schedule mainly explains when the child is with each parent. A parenting plan is broader and can also cover holidays, decision-making, communication, travel, expenses, and dispute rules.',
-	},
-	{
-		question: 'Can I use a parenting plan template for court?',
-		answer:
-			'You can use a parenting plan template to organize your ideas before mediation, legal review, or court discussions. This tool does not create a legal document and is not legal advice.',
-	},
-	{
-		question: 'Does a parenting plan include holidays?',
-		answer:
-			'Yes. Many parenting plans include holiday schedules, school breaks, birthdays, long weekends, and rules for when holiday parenting time overrides the regular custody schedule.',
-	},
-	{
-		question: 'Should exchange times be included in a parenting plan?',
-		answer:
-			'Yes. Clear exchange times, pickup locations, transportation responsibilities, and late-arrival rules can prevent confusion and make the parenting schedule easier to follow.',
-	},
-	{
-		question: 'What is a co-parenting plan?',
-		answer:
-			'A co-parenting plan is another term for a parenting plan that outlines how parents will share parenting time, communicate, make decisions, handle expenses, and resolve common scheduling issues.',
-	},
-	{
-		question: 'Can parents customize a parenting plan?',
-		answer:
-			'Yes. Parents can customize a parenting plan around the child’s age, school schedule, distance between homes, work schedules, holidays, travel, and communication needs.',
-	},
-	{
-		question: 'How often should a parenting plan be updated?',
-		answer:
-			'Parents often review a parenting plan once a year or when major changes happen, such as a new school schedule, relocation, work change, or a child’s changing developmental needs.',
-	},
-	{
-		question: 'Is this parenting plan template legal advice?',
-		answer:
-			'No. This parenting plan template is for planning and educational purposes only. It is not legal advice and does not replace guidance from a qualified professional.',
-	},
-];
-
-const relatedTools = [
-	{ title: 'CustodyBuilder Schedule Generator', href: '/custody-schedule-generator/', description: 'Build a regular custody schedule before adding broader parenting plan details.' },
-	{ title: '50/50 Custody Schedule', href: '/50-50-custody-schedule/', description: 'Compare equal parenting time schedules for a parenting plan example.' },
-	{ title: '5-2-2-5 Custody Schedule', href: '/5-2-2-5-custody-schedule/', description: 'Write five-day block, short-block, exchange timing, and holiday restart terms clearly.' },
-	{ title: '60/40 Custody Schedule', href: '/60-40-custody-schedule/', description: 'Preview a majority-time custody schedule with regular overnights.' },
-	{ title: '70/30 Custody Schedule', href: '/70-30-custody-schedule/', description: 'Explore common 70/30 parenting time schedules and plan details.' },
-	{ title: '80/20 Custody Schedule', href: '/80-20-custody-schedule/', description: 'Review primary-home schedules for a child custody parenting plan.' },
-	{ title: 'Holiday Custody Schedule', href: '/holiday-custody-schedule/', description: 'Plan holidays, birthdays, school breaks, and special parenting time.' },
-	{ title: 'Summer Custody Schedule', href: '/holiday-custody-schedule/', description: 'Use the holiday planner for summer break and school-break parenting time.' },
-	{ title: 'Custody Percentage Calculator', href: '/custody-percentage-calculator/', description: 'Estimate parenting time percentages from overnight totals.' },
-	{ title: 'Custody Calendar Template', href: '/custody-calendar-template/', description: 'Turn the schedule into a printable monthly calendar.' },
-];
-
+const generatedSchedule = generateSchedule({ scheduleId: '2-2-5-5', startDate: getDefaultStartDate(), parentNames: { parentA: 'Parent A', parentB: 'Parent B' } });
+const breadcrumbs = [{ name: 'Home', url: getCanonicalUrl('/') }, { name: 'Parenting Plan Template', url: canonicalUrl }];
 const schema = [
-	buildFAQSchema(faq),
-	buildBreadcrumbSchema(breadcrumbs),
-	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+	buildWebPageSchema({ name: meta.title, description: meta.description, url: canonicalUrl }),
+	buildArticleSchema({ headline: hero.headline, description: meta.description, url: canonicalUrl, datePublished: meta.datePublished, dateModified: meta.dateModified, authorName: editorialReview.reviewer }),
+	buildFAQSchema(faqItems), buildBreadcrumbSchema(breadcrumbs),
+	{ '@context': 'https://schema.org', '@type': 'WebApplication', name: 'Parenting Plan Outline Builder', description: meta.description, url: canonicalUrl, inLanguage: 'en-US', areaServed: 'US', applicationCategory: 'LegalApplication', operatingSystem: 'Web', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } },
 ];
 ---
 
-<BaseLayout title={title} description={description} canonical={canonical}>
+<BaseLayout title={meta.title} description={meta.description} canonical={canonical}>
 	<JsonLd slot="head" data={schema} />
-	<Navbar />
-	<Breadcrumbs items={breadcrumbs} />
-	<main class="overflow-x-clip">
-		<section class="container-shell grid min-w-0 gap-6 py-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:gap-8 lg:py-10">
-			<div class="min-w-0">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">CUSTODY PLANNING TEMPLATE</p>
-				<h1 class="mt-3 max-w-3xl text-4xl font-semibold leading-none tracking-[-0.055em] text-primary sm:text-5xl lg:text-6xl">
-					Parenting Plan Template
-				</h1>
-				<p class="mt-4 max-w-2xl text-base leading-7 text-secondary lg:text-lg">
-					A parenting plan template helps co-parents organize custody schedules, holiday parenting time, exchanges, communication rules, travel details, expenses, and decision-making responsibilities. Use this printable parenting plan template to outline the key terms before discussing details, mediation, or legal review.
-				</p>
-				<div class="mt-6 flex flex-col gap-2 sm:flex-row">
-					<a href="#plan-builder" class="btn-primary inline-flex h-11 w-full items-center justify-center whitespace-nowrap rounded-full px-6 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_30px_rgba(37,99,235,0.14)] active:translate-y-0 sm:w-auto">
-						Build Your Parenting Plan
-					</a>
-					<a href="#sections" class="btn-secondary inline-flex h-11 w-full items-center justify-center whitespace-nowrap rounded-full px-6 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_24px_rgba(0,0,0,0.12)] active:translate-y-0 sm:w-auto">
-						View Template Sections
-					</a>
+	<Navbar /><Breadcrumbs items={breadcrumbs} />
+	<main>
+		<section class="container-shell grid grid-cols-1 gap-5 py-4 sm:py-5 lg:grid-cols-[minmax(0,0.88fr)_minmax(704px,1.12fr)] lg:items-start lg:gap-7 lg:py-6 xl:w-[min(100%,1360px)]" id="schedule-generator">
+			<div class="order-1 min-w-0 lg:col-start-1 lg:row-start-1 lg:pt-1">
+				<h1 class="max-w-3xl text-4xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary sm:text-5xl">{hero.headline}</h1>
+				<dl class="mt-4 grid grid-cols-3 gap-2">{heroKeyStats.map((s) => (<div class="rounded-[1rem] bg-accent/10 px-2 py-2.5 text-center sm:px-3"><dd class="text-lg font-bold text-accent sm:text-xl">{s.value}</dd><dt class="mt-0.5 text-[10px] font-semibold uppercase text-secondary">{s.label}</dt></div>))}</dl>
+				<p class="mt-3 max-w-2xl text-base leading-7 text-secondary">{hero.intro}</p>
+				<p class="mt-3 max-w-2xl text-sm leading-6 text-secondary" set:html={hero.boundary} />
+				<div class="mt-3 max-w-2xl text-xs leading-5 text-muted">
+					<p class="font-semibold text-secondary">Reviewed for:</p><ul class="mt-1 list-inside list-disc">{editorialReview.reviewedFor.map((i) => <li>{i}</li>)}</ul>
+					<p class="mt-2">Reviewed by <a href={editorialReview.reviewerHref} class="font-semibold text-secondary underline">{editorialReview.reviewer}</a> · <a href={editorialReview.methodologyHref} class="font-semibold text-secondary underline">{editorialReview.methodologyLabel}</a> · {editorialReview.disclaimer}</p>
 				</div>
 			</div>
-
-			<section id="plan-builder" class="premium-card min-w-0 rounded-[1.5rem] p-2.5 sm:p-3" data-parenting-plan-builder>
-				<div class="min-w-0 rounded-[1.25rem] bg-surface-elevated p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.07)]">
-					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Generator</p>
-					<h2 class="mt-1.5 text-xl font-semibold tracking-[-0.04em] text-primary">Build a parenting plan outline</h2>
-
-					<form class="mt-2.5 grid gap-2" data-parenting-plan-form>
-						<div class="grid gap-2 sm:grid-cols-2">
-							<label class="grid gap-1.5">
-								<span class="text-xs font-medium text-secondary">Parenting schedule type</span>
-								<select name="scheduleType" class="w-full min-w-0 rounded-xl bg-page px-3 py-1.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
-									<option>50/50 custody schedule</option>
-									<option>60/40 custody schedule</option>
-									<option>70/30 custody schedule</option>
-									<option>80/20 custody schedule</option>
-									<option>Custom schedule</option>
-								</select>
-							</label>
-							<label class="grid gap-1.5">
-								<span class="text-xs font-medium text-secondary">Holiday plan</span>
-								<select name="holidayPlan" class="w-full min-w-0 rounded-xl bg-page px-3 py-1.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
-									<option>Alternating holidays</option>
-									<option>Split major holidays</option>
-									<option>Fixed parent holidays</option>
-									<option>Custom holiday plan</option>
-								</select>
-							</label>
-						</div>
-						<label class="grid gap-1.5">
-							<span class="text-xs font-medium text-secondary">Exchange location</span>
-							<input name="exchangeLocation" placeholder="School, home, neutral location" class="w-full min-w-0 rounded-xl bg-page px-3 py-1.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] placeholder:text-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" />
-						</label>
-						<div class="grid gap-2 sm:grid-cols-2">
-							<label class="grid gap-1.5">
-								<span class="text-xs font-medium text-secondary">Parent A name</span>
-								<input name="parentA" value="Parent A" class="w-full min-w-0 rounded-xl bg-page px-3 py-1.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" />
-							</label>
-							<label class="grid gap-1.5">
-								<span class="text-xs font-medium text-secondary">Parent B name</span>
-								<input name="parentB" value="Parent B" class="w-full min-w-0 rounded-xl bg-page px-3 py-1.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" />
-							</label>
-						</div>
-					</form>
-
-					<div class="mt-2.5 rounded-2xl bg-page/55 p-2.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Parenting plan preview</p>
-						<p class="mt-1 text-xs leading-4 text-secondary" data-plan-preview-summary>
-							Parent A and Parent B will use a 50/50 custody schedule with alternating holidays.
-						</p>
-						<div class="mt-2 grid gap-2 sm:grid-cols-2">
-							<button type="button" class="btn-primary inline-flex h-11 items-center justify-center rounded-full px-5 py-3 text-sm font-semibold" data-print-parenting-plan>Print template</button>
-							<button type="button" class="btn-secondary inline-flex h-11 items-center justify-center rounded-full px-5 py-3 text-sm font-semibold" data-copy-parenting-plan>Copy outline</button>
-						</div>
-					</div>
-				</div>
-			</section>
+			<ScheduleHeroGeneratorPanel selectedScheduleId="2-2-5-5" generatedSchedule={generatedSchedule} heroTrustSignals={heroTrustSignals} />
 		</section>
+		<nav class="container-shell border-y border-line-subtle py-3" aria-label="On this page"><ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">{articleTocItems.map((i) => <li><a href={`#${i.id}`} class="hover:text-accent">{i.label}</a></li>)}</ul></nav>
 
-		<section class="container-shell grid min-w-0 gap-8 py-12 lg:grid-cols-[0.72fr_1.28fr] lg:py-16">
-			<aside class="h-fit">
-				<details class="group soft-card rounded-[1.5rem] p-5 md:hidden">
-					<summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-semibold text-primary">
-						Jump to section
-						<span class="text-muted transition-transform duration-200 group-open:rotate-180" aria-hidden="true">▼</span>
-					</summary>
-					<ul class="mt-4 space-y-3 text-sm text-secondary">
-						<li><a href="#what-is" class="hover:text-primary">What it is</a></li>
-						<li><a href="#sections" class="hover:text-primary">What to include</a></li>
-						<li><a href="#checklist" class="hover:text-primary">Checklist</a></li>
-						<li><a href="#outline" class="hover:text-primary">Example outline</a></li>
-						<li><a href="#printable" class="hover:text-primary">Printable template</a></li>
-						<li><a href="#faq" class="hover:text-primary">FAQ</a></li>
-					</ul>
-				</details>
-				<div class="soft-card hidden rounded-[1.5rem] p-6 md:block">
-					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">On this page</p>
-					<ul class="mt-4 space-y-3 text-sm text-secondary">
-						<li><a href="#what-is" class="hover:text-primary">What it is</a></li>
-						<li><a href="#sections" class="hover:text-primary">What to include</a></li>
-						<li><a href="#checklist" class="hover:text-primary">Checklist</a></li>
-						<li><a href="#outline" class="hover:text-primary">Example outline</a></li>
-						<li><a href="#printable" class="hover:text-primary">Printable template</a></li>
-						<li><a href="#faq" class="hover:text-primary">FAQ</a></li>
-					</ul>
-				</div>
-			</aside>
-
-			<div class="grid min-w-0 gap-10">
-				<section class="grid gap-5">
-					<div>
-						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Preview sections</p>
-						<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">Parenting plan preview</h2>
-						<p class="mt-3 text-base leading-8 text-secondary">
-							A printable parenting plan template should make each major topic easy to review before parents add details.
-						</p>
-					</div>
+		<section id="plan-builder" class="container-shell scroll-mt-24 py-10 lg:py-12">
+			<div class="max-w-2xl premium-card rounded-[1.5rem] p-5" data-parenting-plan-builder>
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Plan outline builder</p>
+				<h2 class="mt-2 text-xl font-semibold text-primary">Draft section headers before attaching exhibits</h2>
+				<form class="mt-4 grid gap-3" data-parenting-plan-form>
 					<div class="grid gap-3 sm:grid-cols-2">
-						{previewSections.map((item) => (
-							<div class="flex items-center gap-2 rounded-2xl bg-surface/70 px-4 py-3 text-sm text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-								<span class="h-1.5 w-1.5 shrink-0 rounded-full bg-accent"></span>
-								<span>{item}</span>
-							</div>
-						))}
+						<label class="grid gap-1"><span class="text-xs font-medium text-secondary">Schedule exhibit type</span>
+							<select name="scheduleType" class="rounded-xl bg-page px-3 py-2 text-sm shadow-[inset_0_0_0_1px_var(--border-subtle)]"><option>50/50 custody schedule</option><option>60/40 custody schedule</option><option>Every-other-weekend</option><option>Custom schedule</option></select></label>
+						<label class="grid gap-1"><span class="text-xs font-medium text-secondary">Holiday exhibit type</span>
+							<select name="holidayPlan" class="rounded-xl bg-page px-3 py-2 text-sm shadow-[inset_0_0_0_1px_var(--border-subtle)]"><option>Alternating holidays</option><option>Split major holidays</option><option>Visitation holiday access</option></select></label>
 					</div>
-				</section>
-
-				<section id="what-is" class="grid gap-4">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">What is a parenting plan template?</h2>
-					<p class="text-base leading-8 text-secondary">
-						A <strong class="font-semibold text-primary">parenting plan template</strong> is a structured guide for organizing a child custody parenting plan. It helps parents write down parenting time, holiday schedules, exchanges, communication expectations, decision-making responsibilities, travel rules, and expense details in one place.
-					</p>
-					<p class="text-base leading-8 text-secondary">
-						This printable parenting plan template is an educational planning tool. It can help you prepare for co-parent discussions, mediation, or legal review, but it does not create a legal document.
-					</p>
-				</section>
-
-				<section id="sections" class="grid gap-5">
-					<div>
-						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Template sections</p>
-						<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">What to include in a parenting plan</h2>
-						<p class="mt-3 text-base leading-8 text-secondary">
-							A strong custody parenting plan template covers the regular schedule and the practical rules parents need to follow day to day.
-						</p>
+					<label class="grid gap-1"><span class="text-xs font-medium text-secondary">Default exchange location</span>
+						<input name="exchangeLocation" placeholder="School curb, neutral site" class="rounded-xl bg-page px-3 py-2 text-sm shadow-[inset_0_0_0_1px_var(--border-subtle)]" /></label>
+					<div class="grid gap-3 sm:grid-cols-2">
+						<label class="grid gap-1"><span class="text-xs font-medium text-secondary">Parent A</span><input name="parentA" value="Parent A" class="rounded-xl bg-page px-3 py-2 text-sm shadow-[inset_0_0_0_1px_var(--border-subtle)]" /></label>
+						<label class="grid gap-1"><span class="text-xs font-medium text-secondary">Parent B</span><input name="parentB" value="Parent B" class="rounded-xl bg-page px-3 py-2 text-sm shadow-[inset_0_0_0_1px_var(--border-subtle)]" /></label>
 					</div>
-					<div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-						{includeCards.map((item) => (
-							<div class="soft-card rounded-[1.5rem] p-5">
-								<h3 class="text-base font-semibold tracking-[-0.03em] text-primary">{item}</h3>
-							</div>
-						))}
-					</div>
-				</section>
-
-				<section id="checklist" class="grid gap-5">
-					<div>
-						<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Parenting plan template checklist</h2>
-						<p class="mt-3 text-base leading-8 text-secondary">
-							Use this parenting plan checklist to review what belongs in a co-parenting plan template or parenting agreement template.
-						</p>
-					</div>
-					<div class="grid gap-4 md:grid-cols-2">
-						{checklistGroups.map((group) => (
-							<div class="soft-card rounded-[1.5rem] p-5">
-								<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{group.title}</h3>
-								<ul class="mt-4 grid gap-2 text-sm text-secondary">
-									{group.items.map((item) => (
-										<li class="flex gap-2"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent"></span><span>{item}</span></li>
-									))}
-								</ul>
-							</div>
-						))}
-					</div>
-				</section>
-
-				<section id="outline" class="grid gap-5">
-					<div>
-						<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Example parenting plan outline</h2>
-						<p class="mt-3 text-base leading-8 text-secondary">
-							This parenting plan example shows the type of language parents often organize before reviewing the details with a qualified professional.
-						</p>
-					</div>
-					<div class="grid gap-3 md:hidden">
-						{outlineRows.map((row) => (
-							<article class="premium-card min-w-0 rounded-[1.5rem] p-4">
-								<h3 class="break-words text-base font-semibold tracking-[-0.03em] text-primary">{row.section}</h3>
-								<div class="mt-3 grid gap-3 text-sm leading-6 text-secondary">
-									<div>
-										<p class="text-xs font-semibold uppercase tracking-[0.14em] text-muted">What to write</p>
-										<p class="mt-1 break-words whitespace-normal">{row.write}</p>
-									</div>
-									<div>
-										<p class="text-xs font-semibold uppercase tracking-[0.14em] text-muted">Example</p>
-										<p class="mt-1 break-words whitespace-normal">{row.example}</p>
-									</div>
-								</div>
-							</article>
-						))}
-					</div>
-					<div class="premium-card hidden max-w-full overflow-hidden rounded-[1.5rem] md:block">
-						<table class="w-full table-fixed border-collapse text-left text-sm">
-							<thead class="text-xs uppercase tracking-[0.14em] text-muted">
-								<tr class="border-b border-line-subtle">
-									<th class="w-[24%] px-5 py-4 font-semibold">Section</th>
-									<th class="w-[34%] px-5 py-4 font-semibold">What to write</th>
-									<th class="w-[42%] px-5 py-4 font-semibold">Example</th>
-								</tr>
-							</thead>
-							<tbody class="divide-y divide-line-subtle text-secondary">
-								{outlineRows.map((row) => (
-									<tr>
-										<td class="break-words px-5 py-4 align-top font-semibold text-primary">{row.section}</td>
-										<td class="break-words px-5 py-4 align-top whitespace-normal">{row.write}</td>
-										<td class="break-words px-5 py-4 align-top whitespace-normal">{row.example}</td>
-									</tr>
-								))}
-							</tbody>
-						</table>
-					</div>
-				</section>
-
-				<section class="grid gap-4">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Parenting plan vs custody schedule</h2>
-					<p class="text-base leading-8 text-secondary">
-						A custody schedule mainly defines when the child is with each parent. A parenting plan is broader and can include the schedule, holidays, school breaks, decision-making, communication rules, travel expectations, expenses, and conflict resolution steps.
-					</p>
-				</section>
-
-				<section id="printable" class="grid gap-5">
-					<div>
-						<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Printable parenting plan template</h2>
-						<p class="mt-3 text-base leading-8 text-secondary">
-							Print this summary card as a simple parenting plan template pdf starting point. Add your own details before sharing it for discussion or review.
-						</p>
-					</div>
-					<div id="printable-parenting-plan-template" class="premium-card rounded-[1.5rem] p-5" data-parenting-plan-print>
-						<div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-							<div>
-								<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Printable summary</p>
-								<h3 class="mt-2 text-2xl font-semibold tracking-[-0.04em] text-primary">Parenting Plan Template</h3>
-							</div>
-							<button type="button" class="btn-primary inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-semibold print:hidden" data-print-parenting-plan>Print template</button>
-						</div>
-						<div class="mt-5 grid gap-3 sm:grid-cols-2">
-							{printableSections.map((item) => (
-								<div class="rounded-2xl bg-surface/70 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-									<p class="text-sm font-semibold text-primary">{item}</p>
-									<p class="mt-2 min-h-8 border-b border-dashed border-line text-sm text-muted">Add details here</p>
-								</div>
-							))}
-						</div>
-						<p class="mt-5 text-xs leading-5 text-muted">This tool is for planning and educational purposes only. It is not legal advice.</p>
-					</div>
-				</section>
-
-				<section id="faq" class="grid gap-5">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">FAQ</h2>
-					<div class="premium-card divide-y divide-line-subtle overflow-hidden rounded-[1.5rem]">
-						{faq.map((item, index) => (
-							<details class="group p-5 transition-colors duration-200 open:bg-surface-elevated/70 hover:bg-surface-hover/60" open={index === 0}>
-								<summary class="flex cursor-pointer list-none items-center justify-between gap-6 text-left text-base font-semibold tracking-[-0.02em] text-primary">
-									{item.question}
-									<span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-surface/80 text-muted shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-transform duration-200 group-open:rotate-45">+</span>
-								</summary>
-								<p class="mt-4 text-sm leading-6 text-secondary">{item.answer}</p>
-							</details>
-						))}
-					</div>
-				</section>
-
-				<section id="related" class="grid gap-5">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Related tools and schedules</h2>
-					<div class="grid gap-4 md:grid-cols-3">
-						{relatedTools.map((item) => (
-							<a href={item.href} class="soft-card rounded-[1.5rem] p-5">
-								<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{item.title}</h3>
-								<p class="mt-2 text-sm leading-6 text-secondary">{item.description}</p>
-							</a>
-						))}
-					</div>
-				</section>
+				</form>
+				<p class="mt-3 text-sm text-secondary" data-plan-preview-summary>Parent A and Parent B: 50/50 custody schedule, alternating holidays.</p>
+				<div class="mt-4 flex gap-3"><button type="button" class="btn-primary rounded-full px-5 py-2 text-sm font-semibold" data-print-parenting-plan>Print outline</button><button type="button" class="btn-secondary rounded-full px-5 py-2 text-sm font-semibold" data-copy-parenting-plan>Copy outline</button></div>
 			</div>
 		</section>
+
+		<section id="clause-hierarchy" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12"><div class="grid gap-8 lg:grid-cols-[1fr_360px]"><div><h2 class="text-2xl font-semibold text-primary sm:text-3xl">{clauseHierarchy.title}</h2><p class="mt-3 text-secondary">{clauseHierarchy.intro}</p><ul class="mt-6 space-y-4">{clauseHierarchy.layers.map((l) => <li class="border-l-2 border-accent/30 pl-4"><h3 class="font-semibold text-primary">{l.heading}</h3><p class="mt-2 text-sm text-secondary">{l.body}</p></li>)}</ul></div><ClauseHierarchyGraphic /></div></section>
+		<section id="decision-tree" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12"><div class="grid gap-8 lg:grid-cols-[1fr_360px]"><div><h2 class="text-2xl font-semibold text-primary sm:text-3xl">{decisionTree.title}</h2><p class="mt-3 text-secondary">{decisionTree.intro}</p><ul class="mt-6 space-y-4">{decisionTree.branches.map((b) => <li class="border-l-2 border-accent/30 pl-4"><h3 class="font-semibold text-primary">{b.heading}</h3><p class="mt-2 text-sm text-secondary">{b.body}</p></li>)}</ul></div><DecisionTreeGraphic /></div></section>
+		<section id="section-flow" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12"><div class="grid gap-8 lg:grid-cols-[1fr_360px]"><div><h2 class="text-2xl font-semibold text-primary sm:text-3xl">{sectionFlow.title}</h2><p class="mt-3 text-secondary">{sectionFlow.intro}</p><ul class="mt-6 space-y-3">{sectionFlow.sections.map((s) => <li class="rounded-lg bg-surface/50 p-3 ring-1 ring-line-subtle"><h3 class="font-semibold text-primary">{s.name}</h3><p class="mt-1 text-sm text-secondary">{s.detail}</p></li>)}</ul></div><SectionFlowGraphic /></div></section>
+		<section id="schedule-reference" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12"><div class="max-w-2xl rounded-[1.25rem] border border-line bg-surface/40 p-6"><h2 class="text-2xl font-semibold text-primary">{scheduleReference.title}</h2><p class="mt-3 text-secondary">{scheduleReference.body}</p><div class="mt-5 flex flex-col gap-3 sm:flex-row"><CtaButton href={scheduleReference.primaryHref} variant="primary" size="large">{scheduleReference.primaryLabel}</CtaButton><a href={scheduleReference.secondaryHref} class="text-sm font-semibold text-accent underline">{scheduleReference.secondaryLabel}</a></div></div></section>
+		<section id="holiday-reference" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12"><h2 class="text-2xl font-semibold text-primary sm:text-3xl">{holidayReference.title}</h2><p class="mt-3 max-w-3xl text-secondary">{holidayReference.body}</p><p class="mt-4"><a href={holidayReference.linkHref} class="font-semibold text-accent underline">{holidayReference.linkLabel}</a></p></section>
+		<section id="disputes" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12"><h2 class="text-2xl font-semibold text-primary sm:text-3xl">{disputes.title}</h2><p class="mt-3 max-w-3xl text-secondary">{disputes.intro}</p><ul class="mt-6 max-w-3xl space-y-4">{disputes.steps.map((s) => <li class="border-l-2 border-accent/30 pl-4"><h3 class="font-semibold text-primary">{s.heading}</h3><p class="mt-2 text-sm text-secondary" set:html={s.body} /></li>)}</ul></section>
+		<FAQ items={faqItems} title={faqSection.title} description={faqSection.description} />
 	</main>
 	<Footer />
-
 	<script>
 		const form = document.querySelector('[data-parenting-plan-form]');
 		const summary = document.querySelector('[data-plan-preview-summary]');
-		const copyButtons = document.querySelectorAll('[data-copy-parenting-plan]');
-		const printButtons = document.querySelectorAll('[data-print-parenting-plan]');
-
 		function getPlanState() {
-			if (!(form instanceof HTMLFormElement)) {
-				return {
-					scheduleType: '50/50 custody schedule',
-					holidayPlan: 'Alternating holidays',
-					exchangeLocation: 'School, home, neutral location',
-					parentA: 'Parent A',
-					parentB: 'Parent B',
-				};
-			}
-
+			if (!(form instanceof HTMLFormElement)) return { scheduleType: '50/50 custody schedule', holidayPlan: 'Alternating holidays', exchangeLocation: 'School curb', parentA: 'Parent A', parentB: 'Parent B' };
 			const data = new FormData(form);
-			return {
-				scheduleType: String(data.get('scheduleType') || '50/50 custody schedule'),
-				holidayPlan: String(data.get('holidayPlan') || 'Alternating holidays'),
-				exchangeLocation: String(data.get('exchangeLocation') || 'School, home, neutral location'),
-				parentA: String(data.get('parentA') || 'Parent A'),
-				parentB: String(data.get('parentB') || 'Parent B'),
-			};
+			return { scheduleType: String(data.get('scheduleType') || ''), holidayPlan: String(data.get('holidayPlan') || ''), exchangeLocation: String(data.get('exchangeLocation') || ''), parentA: String(data.get('parentA') || 'Parent A'), parentB: String(data.get('parentB') || 'Parent B') };
 		}
-
 		function buildOutline() {
-			const state = getPlanState();
-			return [
-				'Parenting Plan Template',
-				'',
-				`Parents: ${state.parentA} and ${state.parentB}`,
-				'Children:',
-				'____________________________________________',
-				'',
-				`Regular custody schedule: ${state.scheduleType}`,
-				'Notes:',
-				'____________________________________________',
-				'',
-				`Holiday schedule: ${state.holidayPlan}`,
-				'School breaks:',
-				'____________________________________________',
-				'',
-				`Exchanges: ${state.exchangeLocation}`,
-				'Communication:',
-				'____________________________________________',
-				'',
-				'Decision-making:',
-				'____________________________________________',
-				'',
-				'Travel:',
-				'____________________________________________',
-				'',
-				'Expenses:',
-				'____________________________________________',
-				'',
-				'Dispute resolution:',
-				'____________________________________________',
-				'',
-				'Review/update date:',
-				'____________________________________________',
-				'',
-				'Educational planning tool. Not legal advice.',
-			].join('\n');
+			const s = getPlanState();
+			return ['Parenting Plan Outline', '', `Parents: ${s.parentA} / ${s.parentB}`, '', `Exhibit A — Regular schedule: ${s.scheduleType}`, `Exhibit B — Holidays: ${s.holidayPlan}`, `Exchanges: ${s.exchangeLocation}`, '', 'Communication:', 'Medical decisions:', 'School decisions:', 'Travel notice:', 'Expenses:', 'Dispute resolution:', 'Review date:', '', 'Educational planning tool. Not legal advice.'].join('\n');
 		}
-
 		function updatePreview() {
-			const state = getPlanState();
-			if (summary) {
-				summary.textContent = `${state.parentA} and ${state.parentB}: ${state.scheduleType}, ${state.holidayPlan.toLowerCase()}, exchanges at ${state.exchangeLocation}.`;
-			}
+			const s = getPlanState();
+			if (summary) summary.textContent = `${s.parentA} and ${s.parentB}: ${s.scheduleType}, ${s.holidayPlan.toLowerCase()}, exchanges at ${s.exchangeLocation || 'TBD'}.`;
 		}
-
 		form?.addEventListener('input', updatePreview);
 		form?.addEventListener('change', updatePreview);
+		document.querySelector('[data-print-parenting-plan]')?.addEventListener('click', () => window.print());
+		document.querySelector('[data-copy-parenting-plan]')?.addEventListener('click', async (e) => {
+			const btn = e.currentTarget;
+			if (!(btn instanceof HTMLButtonElement)) return;
+			try { await navigator.clipboard.writeText(buildOutline()); btn.textContent = 'Copied'; } catch { btn.textContent = 'Copy failed'; }
+			setTimeout(() => { btn.textContent = 'Copy outline'; }, 1800);
+		});
 		updatePreview();
-
-		printButtons.forEach((button) => {
-			button.addEventListener('click', () => window.print());
-		});
-
-		copyButtons.forEach((button) => {
-			button.addEventListener('click', async () => {
-				if (!(button instanceof HTMLButtonElement)) return;
-				const defaultLabel = button.textContent || 'Copy outline';
-				try {
-					await navigator.clipboard.writeText(buildOutline());
-					button.textContent = 'Copied';
-				} catch {
-					button.textContent = 'Copy failed';
-				}
-				window.setTimeout(() => {
-					button.textContent = defaultLabel;
-				}, 1800);
-			});
-		});
 	</script>
-
-	<style>
-		@media print {
-			html,
-			body {
-				overflow: visible !important;
-				background: #ffffff !important;
-				color: #111827 !important;
-			}
-
-			body:has(#printable-parenting-plan-template) header,
-			body:has(#printable-parenting-plan-template) footer,
-			body:has(#printable-parenting-plan-template) nav,
-			body:has(#printable-parenting-plan-template) [data-parenting-plan-builder],
-			body:has(#printable-parenting-plan-template) main > section:not(:has(#printable-parenting-plan-template)),
-			body:has(#printable-parenting-plan-template) main > section:has(#printable-parenting-plan-template) > aside,
-			body:has(#printable-parenting-plan-template) main > section:has(#printable-parenting-plan-template) > div > section:not(:has(#printable-parenting-plan-template)),
-			body:has(#printable-parenting-plan-template) main > section:has(#printable-parenting-plan-template) > div > section:has(#printable-parenting-plan-template) > :not(#printable-parenting-plan-template),
-			body:has(#printable-parenting-plan-template) #printable-parenting-plan-template button {
-				display: none !important;
-			}
-
-			body:has(#printable-parenting-plan-template) main,
-			body:has(#printable-parenting-plan-template) main > section:has(#printable-parenting-plan-template),
-			body:has(#printable-parenting-plan-template) main > section:has(#printable-parenting-plan-template) > div,
-			body:has(#printable-parenting-plan-template) main > section:has(#printable-parenting-plan-template) > div > section:has(#printable-parenting-plan-template),
-			body:has(#printable-parenting-plan-template) #printable-parenting-plan-template {
-				display: block !important;
-				width: 100% !important;
-				max-width: none !important;
-				margin: 0 !important;
-				padding: 0 !important;
-				color: #111827 !important;
-				background: #ffffff !important;
-				box-shadow: none !important;
-				border: 0 !important;
-				overflow: visible !important;
-			}
-
-			body:has(#printable-parenting-plan-template) #printable-parenting-plan-template * {
-				color: #111827 !important;
-				break-inside: avoid !important;
-				page-break-inside: avoid !important;
-			}
-
-			body:has(#printable-parenting-plan-template) #printable-parenting-plan-template > div:first-child {
-				border-bottom: 1px solid #e5e7eb !important;
-				margin-bottom: 14px !important;
-				padding-bottom: 10px !important;
-			}
-
-			body:has(#printable-parenting-plan-template) #printable-parenting-plan-template .rounded-2xl {
-				border: 1px solid #e5e7eb !important;
-				border-radius: 10px !important;
-				background: #ffffff !important;
-				box-shadow: none !important;
-				padding: 10px !important;
-			}
-		}
-	</style>
 </BaseLayout>

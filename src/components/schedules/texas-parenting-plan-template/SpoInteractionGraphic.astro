@@ -1,0 +1,41 @@
+---
+const modes = [
+	{
+		label: 'Regular weekend',
+		start: 'Fri 6 PM pickup',
+		end: 'Sun 6 PM return',
+		active: false,
+	},
+	{
+		label: 'Expanded weekend',
+		start: 'Thu 6 PM pickup',
+		end: 'Mon 6 PM return',
+		active: true,
+	},
+];
+---
+
+<figure class="spo-interaction w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		SPO interaction — regular vs expanded weekend
+	</figcaption>
+
+	<div class="mt-5 grid gap-3 sm:grid-cols-2">
+		{modes.map((mode) => (
+			<div
+				class:list={[
+					'rounded-xl p-4',
+					mode.active
+						? 'bg-accent/[0.06] ring-2 ring-accent/40'
+						: 'bg-surface ring-1 ring-line-subtle',
+				]}
+			>
+				<p class="text-xs font-bold uppercase tracking-[0.1em] text-muted">{mode.label}</p>
+				<div class="mt-3 space-y-2 text-xs">
+					<p><span class="font-semibold text-primary">Start:</span> <span class="text-secondary">{mode.start}</span></p>
+					<p><span class="font-semibold text-primary">End:</span> <span class="text-secondary">{mode.end}</span></p>
+				</div>
+			</div>
+		))}
+	</div>
+</figure>

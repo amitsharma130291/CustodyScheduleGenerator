@@ -1,0 +1,35 @@
+---
+const steps = [
+	{ label: 'SPO select', sub: 'Standard Possession Order template', active: true },
+	{ label: 'Preview', sub: 'First/third Fri · Thu overnight · summer', active: false },
+	{ label: 'Summer / holiday', sub: '30-day notice · holiday table', active: false },
+	{ label: 'Export', sub: 'PDF exhibit + filing checklist', active: false },
+];
+---
+
+<figure class="texas-parenting-flow w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Texas parenting flow — SPO to export
+	</figcaption>
+
+	<div class="mt-5 flex flex-col items-center gap-1 sm:flex-row sm:flex-wrap sm:justify-center">
+		{steps.map((step, i) => (
+			<>
+				<div
+					class:list={[
+						'w-full rounded-lg px-3 py-2.5 sm:w-auto sm:min-w-[120px]',
+						step.active
+							? 'bg-accent/15 ring-2 ring-accent/40'
+							: 'bg-surface ring-1 ring-line-subtle',
+					]}
+				>
+					<p class="text-xs font-semibold text-primary">{step.label}</p>
+					<p class="mt-0.5 text-[10px] leading-4 text-secondary">{step.sub}</p>
+				</div>
+				{i < steps.length - 1 && (
+					<span class="text-muted sm:px-1" aria-hidden="true">→</span>
+				)}
+			</>
+		))}
+	</div>
+</figure>

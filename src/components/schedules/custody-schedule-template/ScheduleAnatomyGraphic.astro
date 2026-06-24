@@ -1,0 +1,30 @@
+---
+const rows = [
+	{ label: 'Pattern name', value: '2-2-3 rotation', active: true },
+	{ label: 'Weekday ownership', value: 'Mon–Wed Parent A · Thu–Sun Parent B', active: false },
+	{ label: 'Exchange clock', value: 'Friday 6:00 PM at school', active: false },
+	{ label: 'Placeholder rows', value: 'Summer · holidays · travel buffer', active: false },
+];
+---
+
+<figure class="schedule-anatomy w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Schedule anatomy — four rows every template needs
+	</figcaption>
+
+	<div class="mt-5 flex flex-col gap-2">
+		{rows.map((row) => (
+			<div
+				class:list={[
+					'flex flex-col gap-0.5 rounded-lg px-4 py-3 sm:flex-row sm:items-center sm:justify-between',
+					row.active
+						? 'bg-accent/15 ring-2 ring-accent/40'
+						: 'bg-surface ring-1 ring-line-subtle',
+				]}
+			>
+				<p class="text-xs font-bold uppercase tracking-[0.1em] text-muted">{row.label}</p>
+				<p class="text-sm font-semibold text-primary sm:text-right">{row.value}</p>
+			</div>
+		))}
+	</div>
+</figure>

@@ -1,0 +1,34 @@
+---
+const branches = [
+	{ topic: 'Routine medical', owner: 'Either parent · notify within 24h', active: false },
+	{ topic: 'Major medical', owner: 'Joint decision · ER exception', active: true },
+	{ topic: 'School', owner: 'Primary address parent · both access records', active: false },
+	{ topic: 'Activities', owner: 'Enrolling parent pays · schedule in app', active: false },
+];
+---
+
+<figure class="decision-tree w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Decision tree — who decides what
+	</figcaption>
+
+	<div class="mt-4 rounded-lg bg-surface px-3 py-2 text-center text-xs font-semibold text-primary ring-1 ring-line-subtle">
+		Parenting decisions
+	</div>
+
+	<div class="mt-2 grid gap-2 sm:grid-cols-2">
+		{branches.map((branch) => (
+			<div
+				class:list={[
+					'rounded-lg px-3 py-2.5',
+					branch.active
+						? 'bg-accent/15 ring-2 ring-accent/40'
+						: 'bg-surface ring-1 ring-line-subtle',
+				]}
+			>
+				<p class="text-xs font-bold uppercase tracking-[0.08em] text-muted">{branch.topic}</p>
+				<p class="mt-1 text-xs leading-5 text-secondary">{branch.owner}</p>
+			</div>
+		))}
+	</div>
+</figure>

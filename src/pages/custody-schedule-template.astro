@@ -4,424 +4,57 @@ import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
-import GeneratorPanel from '../components/tool/GeneratorPanel.astro';
-import CalendarPreview from '../components/tool/CalendarPreview.astro';
-import ExportActions from '../components/tool/ExportActions.astro';
-import PrintableSchedule from '../components/tool/PrintableSchedule.astro';
+import FAQ from '../components/FAQ.astro';
+import CtaButton from '../components/CtaButton.astro';
+import ScheduleHeroGeneratorPanel from '../components/schedules/ScheduleHeroGeneratorPanel.astro';
+import ScheduleAnatomyGraphic from '../components/schedules/custody-schedule-template/ScheduleAnatomyGraphic.astro';
+import RotationBuilderGraphic from '../components/schedules/custody-schedule-template/RotationBuilderGraphic.astro';
+import ExchangeMapGraphic from '../components/schedules/custody-schedule-template/ExchangeMapGraphic.astro';
 import { generateSchedule } from '../lib/schedules/generateSchedule';
 import { getDefaultStartDate } from '../lib/schedules/format';
 import { getCanonicalUrl } from '../lib/seo/metadata';
+import { buildArticleSchema, buildBreadcrumbSchema, buildFAQSchema, buildWebPageSchema } from '../lib/seo/schema';
 import {
-	buildBreadcrumbSchema,
-	buildFAQSchema,
-	buildWebPageSchema,
-} from '../lib/seo/schema';
+	anatomy, articleTocItems, editorialReview, exchangeMap, exportSection, faqItems, faqSection,
+	hero, heroKeyStats, heroTrustSignals, meta, rotationBuilder, summerHoliday,
+} from '../data/custodyScheduleTemplate';
 
-const title = 'Custody Schedule Template | Printable Parenting Calendar';
-const description =
-	'Create a custody schedule template with parenting time, exchanges, overnights, holidays, and school break details.';
 const canonical = '/custody-schedule-template/';
 const canonicalUrl = getCanonicalUrl(canonical);
-const generatedSchedule = generateSchedule({
-	scheduleId: '223',
-	startDate: getDefaultStartDate(),
-	parentNames: {
-		parentA: 'Parent A',
-		parentB: 'Parent B',
-	},
-});
-const includeItems = [
-	'Weekly rotation',
-	'Exchange days',
-	'Pickup/drop-off times',
-	'Holidays',
-	'School breaks',
-	'Summer schedule',
-	'Parent names',
-	'Notes or special arrangements',
-];
-const exampleWeeks = [
-	{
-		label: 'Week 1',
-		blocks: [
-			{ day: 'Monday', parent: 'Parent A' },
-			{ day: 'Tuesday', parent: 'Parent A' },
-			{ day: 'Wednesday', parent: 'Parent B' },
-			{ day: 'Thursday', parent: 'Parent B' },
-			{ day: 'Friday-Sunday', parent: 'Parent A' },
-		],
-	},
-	{
-		label: 'Week 2',
-		blocks: [
-			{ day: 'Monday', parent: 'Parent B' },
-			{ day: 'Tuesday', parent: 'Parent B' },
-			{ day: 'Wednesday', parent: 'Parent A' },
-			{ day: 'Thursday', parent: 'Parent A' },
-			{ day: 'Friday-Sunday', parent: 'Parent B' },
-		],
-	},
-];
-const comparisonRows = [
-	{
-		tool: 'Custody schedule template',
-		bestFor: 'A written parenting schedule structure for rotations, exchanges, and special rules.',
-		href: '/custody-schedule-template/',
-	},
-	{
-		tool: 'Custody calendar template',
-		bestFor: 'A visual month-by-month calendar for parenting time and overnights.',
-		href: '/custody-calendar-template/',
-	},
-	{
-		tool: 'Custody percentage calculator',
-		bestFor: 'Calculating parenting time percentages from overnight totals.',
-		href: '/custody-percentage-calculator/',
-	},
-	{
-		tool: 'Visitation calculator',
-		bestFor: 'Estimating visitation percentages and parenting time totals.',
-		href: '/visitation-calculator/',
-	},
-];
-const scheduleTemplates = [
-	{
-		title: '2-2-3 Custody Schedule',
-		href: '/2-2-3-custody-schedule/',
-		description: 'A frequent-contact 50/50 schedule with alternating weekends.',
-	},
-	{
-		title: '2-2-5-5 Custody Schedule',
-		href: '/2-2-5-5-custody-schedule/',
-		description: 'A stable weekday pattern that repeats every two weeks.',
-	},
-	{
-		title: '5-2-2-5 Custody Schedule',
-		href: '/5-2-2-5-custody-schedule/',
-		description: 'A two-week template for five-day parenting blocks, short blocks, exchange timing, and school logistics.',
-	},
-	{
-		title: '3-4-4-3 Custody Schedule',
-		href: '/3-4-4-3-custody-schedule/',
-		description: 'A predictable two-week rotation with fewer exchanges.',
-	},
-	{
-		title: 'Week On Week Off Custody Schedule',
-		href: '/week-on-week-off-custody-schedule/',
-		description: 'Alternating full weeks for families who prefer fewer transitions.',
-	},
-	{
-		title: '50/50 Custody Schedule',
-		href: '/50-50-custody-schedule/',
-		description: 'Compare common equal parenting time schedule templates.',
-	},
-];
-const faq = [
-	{
-		question: 'What is a custody schedule template?',
-		answer:
-			'A custody schedule template is a structured parenting time plan that outlines weekly rotations, exchange days, overnights, holidays, and special arrangements.',
-	},
-	{
-		question: 'Can I print this custody schedule template?',
-		answer:
-			'Yes. Use the Print button in the generator to create a clean printable custody schedule template with the current calendar and parenting time summary.',
-	},
-	{
-		question: 'What should a custody schedule include?',
-		answer:
-			'A useful custody schedule should include parent names, weekly rotation, exchange days, pickup and drop-off times, holidays, school breaks, summer plans, and notes for special arrangements.',
-	},
-	{
-		question: 'Is this the same as a custody calendar template?',
-		answer:
-			'Not exactly. A custody schedule template describes the recurring arrangement, while a custody calendar template shows the schedule visually month by month.',
-	},
-	{
-		question: 'Can this be used for visitation schedules?',
-		answer:
-			'Yes. The same template can help organize visitation schedules, parenting time, overnights, and exchange details.',
-	},
-	{
-		question: 'Does this replace legal advice?',
-		answer:
-			'No. This custody schedule template is for planning and education only. Custody rules vary by jurisdiction, so speak with a qualified professional for legal advice.',
-	},
-	{
-		question: 'What is a 2-2-3 custody schedule?',
-		answer:
-			'A 2-2-3 custody schedule is a two-week parenting rotation where one parent has two days, the other parent has two days, and the first parent has a three-day weekend. The pattern flips the next week so weekends alternate.',
-	},
-	{
-		question: 'What is a 2-2-5-5 custody schedule?',
-		answer:
-			'A 2-2-5-5 custody schedule is a repeating two-week rotation where each parent keeps the same two weekdays and alternates five-day blocks, usually including alternating weekends.',
-	},
-	{
-		question: 'What is the best custody schedule for 50/50 parenting?',
-		answer:
-			'Common 50/50 custody schedules include 2-2-3, 2-2-5-5, 5-2-2-5, 3-4-4-3, and week-on/week-off. The best option depends on the child’s age, school routine, distance between homes, and how often parents can handle exchanges.',
-	},
-	{
-		question: 'How do I create a custody schedule template?',
-		answer:
-			'Start with a repeating custody pattern, add parent names, exchange days, pickup/drop-off times, holidays, school breaks, summer plans, and special notes. Then preview the schedule on a calendar and print or share it.',
-	},
-];
-const relatedLinks = [
-	{
-		title: 'Custody Calendar Template',
-		href: '/custody-calendar-template/',
-		description: 'Turn a custody schedule into a printable monthly calendar.',
-	},
-	{
-		title: 'Custody Percentage Calculator',
-		href: '/custody-percentage-calculator/',
-		description: 'Calculate parenting time percentages from overnights.',
-	},
-	{
-		title: 'Visitation Calculator',
-		href: '/visitation-calculator/',
-		description: 'Estimate visitation percentages and parenting time totals.',
-	},
-	{
-		title: '50/50 Custody Schedule',
-		href: '/50-50-custody-schedule/',
-		description: 'Compare common equal parenting time schedules.',
-	},
-	{
-		title: '2-2-3 Custody Schedule',
-		href: '/2-2-3-custody-schedule/',
-		description: 'Preview a common alternating weekend custody schedule.',
-	},
-	{
-		title: 'Parenting Plan Template',
-		href: '/parenting-plan-template/',
-		description: 'Turn the schedule into a broader printable parenting plan.',
-	},
-	{
-		title: 'Holiday Custody Schedule',
-		href: '/holiday-custody-schedule/',
-		description: 'Plan holiday overrides, school breaks, and special parenting time.',
-	},
-];
-const breadcrumbs = [
-	{ name: 'Home', url: getCanonicalUrl('/') },
-	{ name: 'Templates', url: getCanonicalUrl('/custody-schedule-template/') },
-	{ name: 'Custody Schedule Template', url: canonicalUrl },
-];
+const generatedSchedule = generateSchedule({ scheduleId: '2-2-5-5', startDate: getDefaultStartDate(), parentNames: { parentA: 'Parent A', parentB: 'Parent B' } });
+const breadcrumbs = [{ name: 'Home', url: getCanonicalUrl('/') }, { name: 'Custody Schedule Template', url: canonicalUrl }];
 const schema = [
-	buildFAQSchema(faq),
-	buildBreadcrumbSchema(breadcrumbs),
-	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+	buildWebPageSchema({ name: meta.title, description: meta.description, url: canonicalUrl }),
+	buildArticleSchema({ headline: hero.headline, description: meta.description, url: canonicalUrl, datePublished: meta.datePublished, dateModified: meta.dateModified, authorName: editorialReview.reviewer }),
+	buildFAQSchema(faqItems), buildBreadcrumbSchema(breadcrumbs),
+	{ '@context': 'https://schema.org', '@type': 'WebApplication', name: 'Custody Schedule Template Builder', description: meta.description, url: canonicalUrl, inLanguage: 'en-US', areaServed: 'US', applicationCategory: 'LegalApplication', operatingSystem: 'Web', offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } },
 ];
 ---
 
-<BaseLayout title={title} description={description} canonical={canonical}>
+<BaseLayout title={meta.title} description={meta.description} canonical={canonical}>
 	<JsonLd slot="head" data={schema} />
-	<Navbar />
-	<Breadcrumbs items={breadcrumbs} />
+	<Navbar /><Breadcrumbs items={breadcrumbs} />
 	<main>
-		<section id="template" class="container-shell grid gap-8 py-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:py-16">
-			<div>
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Parenting Time Template</p>
-				<h1 class="mt-4 max-w-3xl text-5xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary lg:text-6xl">
-					Custody Schedule Template
-				</h1>
-				<p class="mt-6 max-w-2xl text-lg leading-8 text-secondary">
-					Create a clear custody schedule template for parenting time, exchanges, overnights, holidays, and weekly rotations. Use the generator to preview a schedule and print or share it.
-				</p>
-				<div class="mt-8 flex flex-col gap-3 sm:flex-row">
-					<a href="#template" class="btn-primary inline-flex h-13 w-full items-center justify-center rounded-full px-8 text-base font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_30px_rgba(37,99,235,0.14)] active:translate-y-0 sm:w-auto">
-						Create Schedule
-					</a>
-					<a href="#templates" class="btn-secondary inline-flex h-13 w-full items-center justify-center rounded-full px-8 text-base font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_24px_rgba(0,0,0,0.12)] active:translate-y-0 sm:w-auto">
-						View Schedule Examples
-					</a>
+		<section class="container-shell grid grid-cols-1 gap-5 py-4 sm:py-5 lg:grid-cols-[minmax(0,0.88fr)_minmax(704px,1.12fr)] lg:items-start lg:gap-7 lg:py-6 xl:w-[min(100%,1360px)]" id="schedule-generator">
+			<div class="order-1 min-w-0 lg:col-start-1 lg:row-start-1 lg:pt-1">
+				<h1 class="max-w-3xl text-4xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary sm:text-5xl">{hero.headline}</h1>
+				<dl class="mt-4 grid grid-cols-3 gap-2">{heroKeyStats.map((s) => (<div class="rounded-[1rem] bg-accent/10 px-2 py-2.5 text-center sm:px-3"><dd class="text-lg font-bold text-accent sm:text-xl">{s.value}</dd><dt class="mt-0.5 text-[10px] font-semibold uppercase text-secondary">{s.label}</dt></div>))}</dl>
+				<p class="mt-3 max-w-2xl text-base leading-7 text-secondary">{hero.intro}</p>
+				<p class="mt-3 max-w-2xl text-sm leading-6 text-secondary" set:html={hero.boundary} />
+				<div class="mt-3 max-w-2xl text-xs leading-5 text-muted">
+					<p class="font-semibold text-secondary">Reviewed for:</p><ul class="mt-1 list-inside list-disc">{editorialReview.reviewedFor.map((i) => <li>{i}</li>)}</ul>
+					<p class="mt-2">Reviewed by <a href={editorialReview.reviewerHref} class="font-semibold text-secondary underline">{editorialReview.reviewer}</a> · <a href={editorialReview.methodologyHref} class="font-semibold text-secondary underline">{editorialReview.methodologyLabel}</a> · {editorialReview.disclaimer}</p>
 				</div>
 			</div>
-
-			<div class="hero-generator-shell schedule-generator-shell relative">
-				<div class="absolute -inset-8 rounded-full bg-[radial-gradient(circle,rgba(37,99,235,0.16),transparent_66%)] blur-3xl" aria-hidden="true"></div>
-				<div class="premium-card hero-generator-card schedule-generator-card relative overflow-visible rounded-[1.75rem] border-line p-4 sm:rounded-[2.25rem] sm:p-5">
-					<div class="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-white/30 to-transparent" aria-hidden="true"></div>
-					<div class="hero-generator-inner rounded-[1.4rem] bg-surface-elevated p-0 shadow-[inset_0_1px_0_rgba(255,255,255,0.07)] sm:rounded-[1.8rem]">
-						<div class="hero-generator-grid">
-							<GeneratorPanel selectedScheduleId="223" compact />
-							<div class="hero-calendar-column grid gap-3">
-								<CalendarPreview schedule={generatedSchedule}>
-									<ExportActions slot="actions" />
-								</CalendarPreview>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+			<ScheduleHeroGeneratorPanel selectedScheduleId="2-2-5-5" generatedSchedule={generatedSchedule} heroTrustSignals={heroTrustSignals} />
 		</section>
-
-		<section class="container-shell grid gap-8 py-12 lg:grid-cols-[0.72fr_1.28fr] lg:py-16">
-			<aside class="h-fit">
-				<details class="group soft-card rounded-[1.5rem] p-5 md:hidden">
-					<summary class="flex cursor-pointer list-none items-center justify-between gap-4 text-sm font-semibold text-primary">
-						Jump to section
-						<span class="text-muted transition-transform duration-200 group-open:rotate-180" aria-hidden="true">▼</span>
-					</summary>
-					<ul class="mt-4 space-y-3 text-sm text-secondary">
-						<li><a href="#template" class="hover:text-primary">Template</a></li>
-						<li><a href="#how-to-use" class="hover:text-primary">How to use</a></li>
-						<li><a href="#include" class="hover:text-primary">What to include</a></li>
-						<li><a href="#example" class="hover:text-primary">Example</a></li>
-						<li><a href="#templates" class="hover:text-primary">Common templates</a></li>
-						<li><a href="#faq" class="hover:text-primary">FAQ</a></li>
-						<li><a href="#related" class="hover:text-primary">Related tools</a></li>
-					</ul>
-				</details>
-				<div class="soft-card hidden rounded-[1.5rem] p-6 md:block">
-					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">On this page</p>
-					<ul class="mt-4 space-y-3 text-sm text-secondary">
-						<li><a href="#template" class="hover:text-primary">Template</a></li>
-						<li><a href="#how-to-use" class="hover:text-primary">How to use</a></li>
-						<li><a href="#include" class="hover:text-primary">What to include</a></li>
-						<li><a href="#example" class="hover:text-primary">Example</a></li>
-						<li><a href="#templates" class="hover:text-primary">Common templates</a></li>
-						<li><a href="#faq" class="hover:text-primary">FAQ</a></li>
-						<li><a href="#related" class="hover:text-primary">Related tools</a></li>
-					</ul>
-				</div>
-			</aside>
-
-			<div class="grid gap-10">
-				<section id="how-to-use" class="grid gap-4">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">How to use this custody schedule template</h2>
-					<p class="text-base leading-8 text-secondary">
-						Choose a schedule pattern, enter a start date, and name Parent A and Parent B. The generator uses the shared schedule engine to preview the calendar, parenting time percentages, and monthly overnights. Use the <a href="/custody-percentage-calculator/" class="font-medium text-primary hover:text-accent">custody percentage calculator</a> if you want to check annual parenting-time percentages separately.
-					</p>
-					<p class="text-base leading-8 text-secondary">
-						After reviewing the schedule, print the template or copy a shareable link. If you prefer a month-by-month visual format, compare it with the <a href="/custody-calendar-template/" class="font-medium text-primary hover:text-accent">custody calendar template</a>.
-					</p>
-				</section>
-
-				<section id="include" class="grid gap-5">
-					<div>
-						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Template details</p>
-						<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">What to include in a custody schedule</h2>
-						<p class="mt-3 text-base leading-8 text-secondary">
-							A strong parenting schedule template should make the regular rotation clear while leaving room for holidays, school breaks, visitation details, and special arrangements. For visitation-only planning, compare the same overnight totals in the <a href="/visitation-calculator/" class="font-medium text-primary hover:text-accent">visitation calculator</a>.
-						</p>
-					</div>
-					<div class="grid gap-4 sm:grid-cols-2">
-						{includeItems.map((item) => (
-							<div class="soft-card rounded-[1.5rem] p-5">
-								<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{item}</h3>
-							</div>
-						))}
-					</div>
-				</section>
-
-				<section id="example" class="grid gap-5">
-					<div>
-						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Example</p>
-						<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">Printable custody schedule example</h2>
-						<p class="mt-3 text-base leading-8 text-secondary">
-							This 2-week example shows how a <a href="/2-2-3-custody-schedule/" class="font-medium text-primary hover:text-accent">2-2-3 custody schedule</a> can be written as a simple custody schedule template before it is turned into a printable calendar.
-						</p>
-					</div>
-					<div class="premium-card overflow-hidden rounded-[1.5rem]">
-						<div class="grid divide-y divide-line-subtle md:grid-cols-2 md:divide-x md:divide-y-0">
-							{exampleWeeks.map((week) => (
-								<div class="p-5">
-									<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{week.label}</h3>
-									<div class="mt-4 grid gap-3">
-										{week.blocks.map((block) => (
-											<div class="grid grid-cols-[0.45fr_0.55fr] items-center gap-4 rounded-2xl bg-surface/70 p-3 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-												<p class="text-sm font-semibold text-primary">{block.parent}</p>
-												<p class="text-sm text-secondary">{block.day}</p>
-											</div>
-										))}
-									</div>
-								</div>
-							))}
-						</div>
-					</div>
-					<p class="text-base leading-8 text-secondary">
-						This example shows a standard 2-2-3 custody schedule template. Real parenting plans may also include holidays, school breaks, summer schedules, exchange locations, pickup and drop-off times, and special custody arrangements.
-					</p>
-					<PrintableSchedule schedule={generatedSchedule} />
-				</section>
-
-				<section class="grid gap-5">
-					<div>
-						<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Custody schedule template vs custody calendar template</h2>
-						<p class="mt-3 text-base leading-8 text-secondary">
-							These tools support different parts of the same parenting-time planning workflow.
-						</p>
-					</div>
-					<div class="premium-card overflow-x-auto rounded-[1.5rem]">
-						<table class="w-full min-w-[760px] border-collapse text-left text-sm">
-							<thead class="text-xs uppercase tracking-[0.14em] text-muted">
-								<tr class="border-b border-line-subtle">
-									<th class="px-5 py-4 font-semibold">Tool</th>
-									<th class="px-5 py-4 font-semibold">Best for</th>
-								</tr>
-							</thead>
-							<tbody class="divide-y divide-line-subtle text-secondary">
-								{comparisonRows.map((row) => (
-									<tr>
-										<td class="px-5 py-4 font-semibold text-primary"><a href={row.href} class="hover:text-accent">{row.tool}</a></td>
-										<td class="px-5 py-4">{row.bestFor}</td>
-									</tr>
-								))}
-							</tbody>
-						</table>
-					</div>
-				</section>
-
-				<section id="templates" class="grid gap-5">
-					<div>
-						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Schedule examples</p>
-						<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">Common custody schedule templates</h2>
-						<p class="mt-3 text-base leading-8 text-secondary">
-							Compare common rotations, including equal parenting time options in the <a href="/50-50-custody-schedule/" class="font-medium text-primary hover:text-accent">50/50 custody schedule</a> guide.
-						</p>
-					</div>
-					<div class="grid gap-4 md:grid-cols-2">
-						{scheduleTemplates.map((item) => (
-							<a href={item.href} class="soft-card rounded-[1.5rem] p-5">
-								<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{item.title}</h3>
-								<p class="mt-2 text-sm leading-6 text-secondary">{item.description}</p>
-							</a>
-						))}
-					</div>
-				</section>
-
-				<section id="faq" class="grid gap-5">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">FAQ</h2>
-					<div class="premium-card divide-y divide-line-subtle overflow-hidden rounded-[1.5rem]">
-						{faq.map((item) => (
-							<details class="group p-5 transition-colors duration-200 open:bg-surface-elevated/70 hover:bg-surface-hover/60">
-								<summary class="flex cursor-pointer list-none items-center justify-between gap-6 text-left text-base font-semibold tracking-[-0.02em] text-primary">
-									{item.question}
-									<span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-surface/80 text-muted shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-transform duration-200 group-open:rotate-45">+</span>
-								</summary>
-								<p class="mt-4 text-sm leading-6 text-secondary">{item.answer}</p>
-							</details>
-						))}
-					</div>
-				</section>
-
-				<section id="related" class="grid gap-5">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Related tools</h2>
-					<div class="grid gap-4 md:grid-cols-3">
-						{relatedLinks.map((item) => (
-							<a href={item.href} class="soft-card rounded-[1.5rem] p-5">
-								<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{item.title}</h3>
-								<p class="mt-2 text-sm leading-6 text-secondary">{item.description}</p>
-							</a>
-						))}
-					</div>
-				</section>
-			</div>
-		</section>
+		<nav class="container-shell border-y border-line-subtle py-3" aria-label="On this page"><ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">{articleTocItems.map((i) => <li><a href={`#${i.id}`} class="hover:text-accent">{i.label}</a></li>)}</ul></nav>
+		<section id="anatomy" class="container-shell scroll-mt-24 py-10 lg:py-12"><div class="grid gap-8 lg:grid-cols-[1fr_360px]"><div><h2 class="text-2xl font-semibold text-primary sm:text-3xl">{anatomy.title}</h2><p class="mt-3 text-secondary">{anatomy.intro}</p><ul class="mt-6 space-y-4">{anatomy.rows.map((r) => <li class="border-l-2 border-accent/30 pl-4"><h3 class="font-semibold text-primary">{r.heading}</h3><p class="mt-2 text-sm text-secondary">{r.body}</p></li>)}</ul></div><ScheduleAnatomyGraphic /></div></section>
+		<section id="rotation-builder" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12"><div class="grid gap-8 lg:grid-cols-[1fr_360px]"><div><h2 class="text-2xl font-semibold text-primary sm:text-3xl">{rotationBuilder.title}</h2><p class="mt-3 text-secondary">{rotationBuilder.intro}</p><ol class="mt-6 list-decimal space-y-2 pl-5 text-sm text-secondary">{rotationBuilder.steps.map((s) => <li set:html={s} />)}</ol></div><RotationBuilderGraphic /></div></section>
+		<section id="exchange-map" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12"><div class="grid gap-8 lg:grid-cols-[1fr_360px]"><div><h2 class="text-2xl font-semibold text-primary sm:text-3xl">{exchangeMap.title}</h2><p class="mt-3 text-secondary">{exchangeMap.intro}</p><ul class="mt-6 space-y-4">{exchangeMap.fields.map((f) => <li class="border-l-2 border-accent/30 pl-4"><h3 class="font-semibold text-primary">{f.heading}</h3><p class="mt-2 text-sm text-secondary">{f.body}</p></li>)}</ul></div><ExchangeMapGraphic /></div></section>
+		<section id="summer-holiday" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12"><h2 class="text-2xl font-semibold text-primary sm:text-3xl">{summerHoliday.title}</h2><p class="mt-3 max-w-3xl text-secondary">{summerHoliday.intro}</p><ul class="mt-6 max-w-3xl space-y-4">{summerHoliday.items.map((i) => <li class="rounded-[1rem] bg-surface/50 p-4 ring-1 ring-line-subtle"><h3 class="font-semibold text-primary">{i.heading}</h3><p class="mt-2 text-sm text-secondary" set:html={i.body} /></li>)}</ul></section>
+		<section id="export" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12"><div class="max-w-2xl rounded-[1.25rem] border border-line bg-surface/40 p-6"><h2 class="text-2xl font-semibold text-primary">{exportSection.title}</h2><p class="mt-3 text-secondary">{exportSection.body}</p><div class="mt-5 flex flex-col gap-3 sm:flex-row"><CtaButton href={exportSection.primaryHref} variant="primary" size="large">{exportSection.primaryLabel}</CtaButton><a href={exportSection.secondaryHref} class="text-sm font-semibold text-accent underline">{exportSection.secondaryLabel}</a></div></div></section>
+		<FAQ items={faqItems} title={faqSection.title} description={faqSection.description} />
 	</main>
 	<Footer />
 </BaseLayout>

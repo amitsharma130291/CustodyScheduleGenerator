@@ -1,25 +1,45 @@
----
+﻿---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
 import CtaButton from '../components/CtaButton.astro';
+import TexasParentingFlowGraphic from '../components/schedules/texas-parenting-plan-template/TexasParentingFlowGraphic.astro';
+import SpoInteractionGraphic from '../components/schedules/texas-parenting-plan-template/SpoInteractionGraphic.astro';
+import TexasFilingSequenceGraphic from '../components/schedules/texas-parenting-plan-template/TexasFilingSequenceGraphic.astro';
 import { getCanonicalUrl } from '../lib/seo/metadata';
 import {
+	buildArticleSchema,
 	buildBreadcrumbSchema,
 	buildFAQSchema,
 	buildSoftwareApplicationSchema,
 	buildWebPageSchema,
 } from '../lib/seo/schema';
+import {
+	articleTocItems,
+	distanceRules,
+	editorialReview,
+	faqItems,
+	faqSection,
+	filingSequence,
+	genericRouting,
+	hero,
+	heroKeyStats,
+	meta,
+	officialResources,
+	spoInteraction,
+	summerNotice,
+	texasFlow,
+} from '../data/texasParentingPlanTemplate';
 
-const title = 'Texas Parenting Plan Template & Standard Possession Order Calendar';
-const description =
-	'Create a free Texas parenting plan template online. Generate a Standard Possession Order calendar, customize visitation schedules, calculate parenting time, and export a printable PDF.';
+const title = meta.title;
+const description = meta.description;
 const canonical = '/texas-parenting-plan-template/';
 const canonicalUrl = getCanonicalUrl(canonical);
-const datePublished = '2026-06-17';
-const dateModified = '2026-06-17';
+const datePublished = meta.datePublished;
+const dateModified = meta.dateModified;
 
 const breadcrumbs = [
 	{ name: 'Home', url: getCanonicalUrl('/') },
@@ -27,262 +47,46 @@ const breadcrumbs = [
 	{ name: 'Texas Parenting Plan Template', url: canonicalUrl },
 ];
 
-const toc = [
-	{ href: '#plan-builder', label: 'Builder' },
-	{ href: '#schedule-comparison', label: 'Compare' },
-	{ href: '#standard-possession-order', label: 'SPO' },
-	{ href: '#texas-spo-calendar', label: 'Calendar' },
-	{ href: '#summer-visitation', label: 'Summer' },
-	{ href: '#parenting-plan-pdf', label: 'PDF' },
-	{ href: '#faq', label: 'FAQ' },
-];
-
-const popularScheduleLinks = [
-	{ href: '#standard-possession-order', label: 'Standard SPO' },
-	{ href: '#expanded-spo', label: 'Expanded SPO' },
-	{ href: '#schedule-comparison', label: '50/50 Schedule' },
-	{ href: '#schedule-comparison', label: 'Every Other Weekend' },
-	{ href: '#summer-visitation', label: 'Summer Visitation' },
-	{ href: '#plan-builder', label: 'Parenting Plan Builder' },
-	{ href: '#faq', label: 'FAQ' },
-];
-
-const statsCards = [
-	{ label: 'Most common default schedule', value: 'Standard Possession Order', note: 'The usual starting point for many Texas possession schedules and custody orders.' },
-	{ label: 'Typical SPO parenting time', value: 'About 25-35%', note: 'Regular SPO often gives the non-primary parent structured weekends, some weekday time, holidays, and summer possession.' },
-	{ label: 'Expanded SPO estimate', value: 'About 40-45%', note: 'Expanded possession can add school-night and school-exchange time when homes are close enough.' },
-	{ label: 'Most balanced schedule', value: '50/50 parenting time', note: 'Equal parenting time usually requires stronger logistics, nearby homes, and reliable school routines.' },
-];
-
-const custodyComparisonBars = [
-	{ key: 'spo', title: 'Standard Possession Order', shortTitle: 'Standard SPO', percent: '30%', value: 30, bestFor: ['Structured weekends', 'Texas default-style schedule', 'Holiday and summer planning'], href: '#plan-builder', cta: 'Generate Texas Parenting Plan' },
-	{ key: 'expanded', title: 'Expanded Standard Possession Order', shortTitle: 'Expanded SPO', percent: '42%', value: 42, bestFor: ['More weekday time', 'Nearby homes', 'Fewer Sunday exchanges'], href: '#expanded-spo', cta: 'Compare schedules' },
-	{ key: 'fifty', title: '50/50 Schedule', shortTitle: '50/50 Schedule', percent: '50%', value: 50, bestFor: ['Equal parenting time', 'Reliable school routines', 'High cooperation'], href: '/50-50-custody-schedule/', cta: 'Compare schedules' },
-	{ key: 'weekend', title: 'Every Other Weekend', shortTitle: 'Every Other Weekend', percent: '25%', value: 25, bestFor: ['Fewer exchanges', 'Simpler weekends', 'Long-distance friendly'], href: '/every-other-weekend-custody-schedule/', cta: 'Compare schedules' },
-];
-
-const practicalExamples = [
-	{
-		title: 'Parents living near the same school',
-		copy: 'If both parents live close to the child’s school, a 50/50 or 2-2-5-5 style schedule may be easier to manage because transportation and school-night routines stay predictable.',
-	},
-	{
-		title: 'Parents living more than 100 miles apart',
-		copy: 'If parents live far apart, fewer exchanges and longer possession blocks may be more realistic than frequent midweek exchanges. The plan should account for travel time, school calendars, and summer possession.',
-	},
-	{
-		title: 'Younger child with frequent transitions',
-		copy: 'For younger children, some parents prefer shorter gaps between visits so the child sees both parents regularly. The calendar preview can help compare whether Standard SPO, Expanded SPO, or a custom schedule feels manageable.',
-	},
-];
-
-const officialResources = [
-	{ title: 'Texas Attorney General parenting time and child support resources', href: 'https://www.texasattorneygeneral.gov/child-support' },
-	{ title: 'Texas Law Help custody and visitation resources', href: 'https://texaslawhelp.org/family-divorce-children' },
-	{ title: 'Texas Family Code Chapter 153', href: 'https://statutes.capitol.texas.gov/Docs/FA/htm/FA.153.htm' },
-	{ title: 'Texas courts forms and rules', href: 'https://www.txcourts.gov/rules-forms/forms/' },
-];
-
-const relatedTexasTools = [
-	{
-		title: 'Texas Child Support Calculator',
-		href: '/texas-child-support-calculator/',
-		description: 'Estimate child support using Texas guideline-style inputs.',
-	},
-	{
-		title: 'Texas Custody Schedule Calculator',
-		href: '/custody-schedule-generator/',
-		description: 'Compare parenting schedules, overnights, and calendar patterns.',
-	},
-	{
-		title: 'Texas Parenting Plan Calendar',
-		href: '/texas-parenting-plan-template/#plan-builder',
-		description: 'Create a printable Texas possession calendar for SPO, expanded SPO, holidays, and summer visitation.',
-	},
-	{
-		title: 'Custody Percentage Calculator',
-		href: '/custody-percentage-calculator/',
-		description: 'Calculate parenting time percentages and estimated annual overnights.',
-	},
-];
-
-const decisionPrompts = [
-	'Parents live under 100 miles apart',
-	'Parents live more than 100 miles apart',
-	'Need predictable school weeks',
-	'Want equal parenting time',
-	'Need fewer exchanges',
-];
-
-const decisionResults = [
-	{ title: 'Standard SPO', note: 'Best starting point when parents want a familiar Texas standard possession order calendar.', href: '#standard-possession-order' },
-	{ title: 'Expanded SPO', note: 'Often fits nearby homes that can handle school exchanges and more weekday contact.', href: '#expanded-spo' },
-	{ title: '50/50 Schedule', note: 'Worth comparing when both homes can support school, activities, and transportation.', href: '/50-50-custody-schedule/' },
-	{ title: 'Custom Schedule', note: 'Useful when distance, work schedules, or child needs make standard patterns unrealistic.', href: '#plan-builder' },
-];
-
-const exampleScenarios = [
-	{ situation: 'Parents live 20 miles apart', recommended: 'Expanded Standard Possession Order', why: 'Frequent school-week contact may work without the complexity of exact equal parenting time.', href: '#plan-builder' },
-	{ situation: 'Parents live 120 miles apart', recommended: 'Long-distance possession schedule', why: 'Fewer exchanges and longer blocks may work better than frequent school-week handoffs.', href: '#summer-visitation' },
-	{ situation: 'Parents live near the same school', recommended: '50/50 or 2-2-5-5 schedule', why: 'School transportation is easier and both homes can support weekday routines.', href: '/50-50-custody-schedule/' },
-];
-
-const spoComparisonRows = [
-	{ feature: 'Weekends', regular: 'Usually first, third, and fifth weekends beginning Friday evening and ending Sunday evening.', expanded: 'Usually first, third, and fifth weekends beginning after school Friday and ending when school resumes Monday.' },
-	{ feature: 'Weekday visits', regular: 'Commonly one weekday evening during the school term.', expanded: 'Often includes an overnight weekday period during the school term when the order allows expanded time.' },
-	{ feature: 'Holiday schedule', regular: 'Major holidays alternate or are assigned separately from the regular Texas visitation schedule.', expanded: 'Holiday rules usually stay separate, but expanded weekends can change how transitions feel around school days.' },
-	{ feature: 'Summer possession', regular: 'Summer possession is handled separately and can create longer blocks than the school-year weekend schedule.', expanded: 'Summer rules may be similar, but families often use expanded possession to make the regular year feel less weekend-only.' },
-	{ feature: 'Exchange times', regular: 'Often evening pickup and Sunday return unless the order says otherwise.', expanded: 'Often tied to school dismissal and school return, which can reduce parent-to-parent exchanges.' },
-];
-
-const summerRows = [
-	{ distance: '100 miles or less', typical: 'The non-primary parent often receives an extended summer possession period, with notice and election rules depending on the order.', planning: 'Plan the selected summer dates, transportation, notice deadline, and whether the regular weekend schedule pauses or resumes.' },
-	{ distance: 'More than 100 miles', typical: 'Long-distance schedules may allow a longer summer block and different spring break or holiday possession rules.', planning: 'Use a Texas custody calendar to map travel time, school dates, notice deadlines, and make-up time before finalizing the plan.' },
-	{ distance: 'Holiday conflicts', typical: 'Holidays can override summer possession or require special exchange rules.', planning: 'Write whether holiday time replaces summer time, interrupts it, or is added before/after the summer block.' },
-];
-
-const expandedCards = [
-	{ title: 'More school-routine time', description: 'Expanded Standard Possession Order Texas schedules can give the non-primary parent more ordinary school mornings, homework nights, and weekday routines than regular SPO.', href: '#plan-builder' },
-	{ title: 'Fewer Sunday-night handoffs', description: 'When exchanges happen through school, parents may avoid late Sunday returns and reduce direct handoff friction.', href: '#texas-spo-calendar' },
-	{ title: 'Closer to shared parenting', description: 'Expanded possession is not automatically 50/50, but it can feel less like a weekend-only Texas visitation schedule.', href: '/50-50-custody-schedule/' },
-	{ title: 'Better for nearby homes', description: 'Expanded possession usually works best when both homes can support school transportation, supplies, activities, and bedtime.', href: '#standard-possession-order' },
-];
-
-const scheduleCards = [
-	{ title: 'Standard Possession Order', href: '#plan-builder', bestFor: 'Families using a familiar Texas possession schedule with structured weekends, holidays, and summer rules.', cta: 'Generate Texas Parenting Plan' },
-	{ title: 'Expanded Standard Possession', href: '#schedule-comparison', bestFor: 'Parents who want more school-routine time and fewer Sunday exchanges when homes are nearby.', cta: 'Compare schedules' },
-	{ title: '50/50 Schedule', href: '/50-50-custody-schedule/', bestFor: 'Families comparing equal parenting time schedules such as 2-2-3, 2-2-5-5, and week-on/week-off.', cta: 'Compare schedules' },
-	{ title: 'Every Other Weekend Schedule', href: '/every-other-weekend-custody-schedule/', bestFor: 'Parents comparing a simpler alternating weekend visitation pattern against Texas SPO terms.', cta: 'Compare schedules' },
-];
-
-const agreementOutline = [
-	{ section: 'Parent information', detail: 'Full legal names, contact details, preferred communication method, and emergency contact expectations.' },
-	{ section: 'Child information', detail: 'Child names, birthdates, school, medical needs, activity commitments, and any special routines that affect possession.' },
-	{ section: 'Weekly schedule', detail: 'Regular Texas custody schedule, start date, pickup time, return time, school-year rules, and how the calendar repeats.' },
-	{ section: 'Holidays', detail: 'Thanksgiving, winter break, spring break, birthdays, Mother\'s Day, Father\'s Day, religious holidays, and long weekends.' },
-	{ section: 'Summer possession', detail: 'Summer dates, notice deadlines, travel rules, conflicts with holidays, and whether regular weekends continue.' },
-	{ section: 'Transportation', detail: 'Pickup parent, drop-off parent, exchange location, late-arrival rules, school exchanges, and travel costs.' },
-	{ section: 'Communication rules', detail: 'Parent-to-parent messages, child calls, emergency updates, shared calendar expectations, and response times.' },
-	{ section: 'Decision making', detail: 'Medical decisions, school decisions, extracurricular activities, religious decisions, records access, and notice requirements.' },
-];
-
-const faq = [
-	{ question: 'What is the Standard Possession Order in Texas?', answer: 'The Standard Possession Order, often called SPO, is a common Texas possession schedule that describes regular weekend possession, weekday visits, holidays, and summer possession for the non-primary parent. The exact terms depend on the order and facts of the case.' },
-	{ question: 'Is the Standard Possession Order 50/50?', answer: 'No. A regular Texas Standard Possession Order is not usually a 50/50 custody schedule. It normally gives one parent primary weekday time and gives the other parent scheduled weekends, some weekday time, holidays, and summer possession.' },
-	{ question: 'What is expanded Standard Possession?', answer: 'Expanded Standard Possession generally gives the non-primary parent more time than regular SPO, often by extending weekend possession around school dismissal and school return and sometimes adding overnight weekday time.' },
-	{ question: 'How many days does a parent get in Texas custody?', answer: 'Many parents ask this because they want to know how much time they will actually have with their child. The answer depends on the schedule, holidays, summer possession, distance between homes, and whether the plan uses regular SPO, expanded SPO, 50/50, or a custom schedule. Use the calendar above to estimate annual overnights.' },
-	{ question: 'How does summer visitation work in Texas?', answer: 'Texas summer visitation can include an extended summer possession period, notice deadlines, and different rules when parents live more than 100 miles apart. Holidays and travel can affect the exact dates.' },
-	{ question: 'Can parents create their own parenting plan?', answer: 'Yes. Parents can often agree to a custom parenting plan if it serves the child and is approved as required. A template can help organize the schedule, holidays, transportation, and decision-making terms before legal review.' },
-	{ question: 'Do Texas parenting plans have to follow SPO?', answer: 'Not always. SPO is a common starting point, but parents may use expanded possession, 50/50, every other weekend, or custom arrangements when appropriate and allowed. Local legal guidance is important before relying on any plan.' },
-	{ question: 'What happens if parents live more than 100 miles apart?', answer: 'Texas possession schedules can change when parents live more than 100 miles apart. Long-distance plans may use different weekend, spring break, holiday, and summer possession rules to account for travel.' },
-	{ question: 'Can I modify a Texas custody agreement?', answer: 'A Texas custody agreement may be modified through the proper legal process when requirements are met. This page can help plan calendar changes, but it is not legal advice or a substitute for court-approved modification guidance.' },
-	{ question: 'How do I create a Texas parenting plan?', answer: 'Start by choosing the regular possession schedule, adding holidays and summer possession, defining exchange logistics, listing decision-making rules, and generating a printable calendar. Then review the plan with a qualified professional if it will be used legally.' },
-	{ question: 'What should be included in a Texas parenting plan template?', answer: 'A useful Texas parenting plan template should cover the weekly schedule, holidays, summer possession, exchange locations, transportation, communication rules, school and medical decisions, and how parents handle changes. The goal is to make the calendar and written plan specific enough that both parents understand the same routine.' },
-	{ question: 'What is a Texas custody calendar?', answer: 'A Texas custody calendar turns plan language into actual dates. Instead of only reading phrases like Standard Possession Order or alternating holidays, parents can see weekends, school breaks, summer possession, and estimated overnights on a visual calendar.' },
-	{ question: 'Can I download a Texas parenting plan PDF?', answer: 'Yes. After you choose a schedule and add details, you can print or save the Texas parenting plan preview as a PDF from your browser. It is designed for planning, discussion, mediation prep, or professional review, not as a guaranteed court form.' },
-	{ question: 'What is the difference between a Texas parenting plan and a custody agreement?', answer: 'A parenting plan usually describes schedules, decision-making, exchanges, holidays, communication, and parenting responsibilities. A custody agreement may include those terms as part of a broader legal arrangement or court order.' },
-	{ question: 'Does a Texas parenting plan include child support?', answer: 'A parenting plan may reference support responsibilities, but child support is usually calculated separately under Texas rules. Use the Texas child support calculator for planning estimates and get qualified guidance for legal questions.' },
-	{ question: 'Does parenting time affect child support in Texas?', answer: 'Parenting time may be part of the overall custody and support discussion, but Texas child support also depends on income, number of children, medical support, and other details. Use our Texas child support calculator for an estimate.' },
-	{ question: 'Can this replace a lawyer or court form?', answer: 'No. This tool helps you organize a schedule, calendar, and printable planning outline. It does not provide legal advice, replace an attorney, create a court order, or guarantee that a court will accept a plan.' },
-];
-
 const schema = [
-	buildFAQSchema(faq),
-	buildBreadcrumbSchema(breadcrumbs),
-	{
-		...buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+	buildArticleSchema({
+		headline: hero.headline,
+		description,
+		url: canonicalUrl,
+		datePublished,
 		dateModified,
-		lastReviewed: dateModified,
-		isAccessibleForFree: true,
-	},
+		authorName: editorialReview.reviewer,
+	}),
+	buildFAQSchema(faqItems),
+	buildBreadcrumbSchema(breadcrumbs),
 	{
 		...buildSoftwareApplicationSchema({
 			name: 'Texas Parenting Plan Generator',
-			description: 'Create a Texas parenting plan, Standard Possession Order calendar, visitation schedule, parenting time estimate, and printable planning document.',
+			description,
 			url: canonicalUrl,
 			applicationCategory: 'LegalApplication',
 		}),
 		operatingSystem: 'Web',
-		offers: {
-			'@type': 'Offer',
-			price: '0',
-			priceCurrency: 'USD',
-		},
-		isAccessibleForFree: true,
-		dateModified,
-	},
-	{
-		'@context': 'https://schema.org',
-		'@type': 'HowTo',
-		name: 'How to create a Texas parenting plan online',
-		description: 'Use CustodyBuilder to choose a Texas custody schedule, preview a calendar, add family details, review parenting time, and print or save a parenting plan.',
-		totalTime: 'PT5M',
-		step: [
-			{ '@type': 'HowToStep', name: 'Choose a Texas custody schedule.', text: 'Select Standard SPO, Expanded SPO, 50/50 Schedule, or Every Other Weekend.' },
-			{ '@type': 'HowToStep', name: 'Preview the calendar.', text: 'Review the generated Texas custody calendar and schedule pattern.' },
-			{ '@type': 'HowToStep', name: 'Add parent and child details.', text: 'Enter parent names, child age, distance, start date, summer possession, holidays, and notes.' },
-			{ '@type': 'HowToStep', name: 'Review parenting time.', text: 'Check estimated parenting time percentages and annual overnight estimates.' },
-			{ '@type': 'HowToStep', name: 'Print or save the parenting plan.', text: 'Use Print / Save PDF to open the print dialog and print or save as PDF.' },
-		],
-	},
-	{
-		'@context': 'https://schema.org',
-		'@type': 'Article',
-		headline: 'Texas Parenting Plan Template, Calendar & Free Generator',
-		description,
-		url: canonicalUrl,
-		mainEntityOfPage: canonicalUrl,
-		inLanguage: 'en-US',
-		datePublished,
-		dateModified,
-		author: {
-			'@type': 'Organization',
-			name: 'CustodyBuilder Editorial Team',
-			url: getCanonicalUrl('/about/'),
-		},
-		publisher: {
-			'@type': 'Organization',
-			name: 'CustodyBuilder',
-			url: getCanonicalUrl('/'),
-			logo: {
-				'@type': 'ImageObject',
-				url: 'https://custodybuilder.com/logo/custodybuilder-icon-light.svg',
-			},
-		},
-		about: [
-			'Texas parenting plan template',
-			'Standard Possession Order Texas',
-			'Texas custody calendar',
-			'Texas visitation schedule',
-			'Texas summer visitation schedule',
-		],
-		isAccessibleForFree: true,
+		offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
 	},
 ];
 ---
 
-<BaseLayout title={title} description={description} canonical={canonical} ogTitle="Texas Parenting Plan Template Generator" ogDescription="Create a Texas parenting plan, Standard Possession Order calendar, summer visitation schedule, and printable PDF.">
+<BaseLayout title={meta.title} description={meta.description} canonical={canonical}>
 	<JsonLd slot="head" data={schema} />
 	<Navbar />
 	<Breadcrumbs items={breadcrumbs} />
 	<main class="overflow-x-clip">
 		<section class="container-shell grid gap-3 py-4 sm:gap-4 sm:py-5 lg:grid-cols-[minmax(0,0.68fr)_minmax(0,1fr)] lg:items-start lg:gap-8 lg:py-10" id="plan-builder">
 			<div class="min-w-0 lg:pt-4">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Texas custody planning tool</p>
-				<h1 class="mt-2 max-w-4xl text-[1.65rem] font-semibold leading-[1.03] tracking-[-0.055em] text-primary sm:mt-3 sm:text-5xl lg:text-6xl">
-					<span class="sm:hidden">Texas Parenting Plan Template & Calendar</span>
-					<span class="hidden sm:inline">Texas Parenting Plan Template, Calendar & Free Generator</span>
-				</h1>
-				<p class="mt-3 max-w-xl text-sm leading-6 text-secondary sm:mt-4 sm:text-base sm:leading-7">
-					<span class="sm:hidden">Free generator for Texas SPO, 50/50 schedules, parenting time, and printable PDF.</span>
-					<span class="hidden sm:inline">Create a Texas parenting plan in minutes. Choose a schedule, preview the calendar, and estimate parenting time before adding details.</span>
-				</p>
-				<p class="mt-2 text-xs leading-5 text-muted sm:mt-3">Educational planning tool. Not legal advice.</p>
-				<div class="mt-3 inline-flex max-w-xl flex-col gap-1 rounded-2xl bg-surface/80 px-4 py-3 text-xs leading-5 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-					<p><span class="font-semibold text-primary">Reviewed by CustodyBuilder Editorial Team</span></p>
-					<p>Last updated: June 17, 2026</p>
-					<p>Updated for Texas parenting plan, Standard Possession Order, and custody calendar planning.</p>
-					<p>Updated when Texas schedule guidance, tool logic, or page examples change.</p>
+				<h1 class="max-w-4xl text-[1.65rem] font-semibold leading-[1.03] tracking-[-0.055em] text-primary sm:text-5xl lg:text-6xl">{hero.headline}</h1>
+				<dl class="mt-4 grid max-w-xl grid-cols-3 gap-2">{heroKeyStats.map((s) => (<div class="rounded-[1rem] bg-accent/10 px-2 py-2.5 text-center sm:px-3"><dd class="text-lg font-bold text-accent sm:text-xl">{s.value}</dd><dt class="mt-0.5 text-[10px] font-semibold uppercase text-secondary">{s.label}</dt></div>))}</dl>
+				<p class="mt-3 max-w-xl text-sm leading-6 text-secondary sm:text-base sm:leading-7">{hero.intro}</p>
+				<p class="mt-3 max-w-xl text-sm leading-6 text-secondary" set:html={hero.boundary} />
+				<div class="mt-3 max-w-xl text-xs leading-5 text-muted">
+					<p class="font-semibold text-secondary">Reviewed for:</p>
+					<ul class="mt-1 list-inside list-disc">{editorialReview.reviewedFor.map((i) => <li>{i}</li>)}</ul>
+					<p class="mt-2">Reviewed by <a href={editorialReview.reviewerHref} class="font-semibold text-secondary underline">{editorialReview.reviewer}</a> · <a href={editorialReview.methodologyHref} class="font-semibold text-secondary underline">{editorialReview.methodologyLabel}</a> · Updated {meta.dateModified} · {editorialReview.disclaimer}</p>
 				</div>
 			</div>
 
@@ -325,9 +129,9 @@ const schema = [
 										</p>
 									</div>
 									<div class="texas-month-nav mt-3 flex items-center justify-between gap-2">
-										<button type="button" class="texas-month-nav-btn" data-calendar-prev aria-label="Previous month">‹</button>
+										<button type="button" class="texas-month-nav-btn" data-calendar-prev aria-label="Previous month">â€¹</button>
 										<p class="min-w-0 truncate text-center text-xs font-semibold tracking-[-0.02em] text-primary" data-calendar-month-label>June 2026</p>
-										<button type="button" class="texas-month-nav-btn" data-calendar-next aria-label="Next month">›</button>
+										<button type="button" class="texas-month-nav-btn" data-calendar-next aria-label="Next month">â€º</button>
 									</div>
 									<div class="texas-calendar-legend mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-secondary">
 										<span class="inline-flex items-center gap-1.5"><i class="h-2 w-2 shrink-0 rounded-full bg-accent" aria-hidden="true"></i><span data-calendar-legend-parent-a>Parent A</span></span>
@@ -377,7 +181,7 @@ const schema = [
 									</div>
 									<div class="grid min-w-0 gap-2">
 										<button type="button" class="btn-primary h-11 w-full max-w-full whitespace-nowrap px-4 text-sm font-semibold" data-customize-plan>Customize Plan</button>
-										<p class="mt-2 text-center text-xs font-medium leading-5 text-muted">Free • Printable calendar • No account required</p>
+										<p class="mt-2 text-center text-xs font-medium leading-5 text-muted">Free â€¢ Printable calendar â€¢ No account required</p>
 									</div>
 								</div>
 							</div>
@@ -387,42 +191,13 @@ const schema = [
 			</section>
 		</section>
 
-		<section class="container-shell py-3 lg:max-w-5xl" aria-label="Texas parenting plan guide review">
-			<div class="texas-trust-card rounded-[1.5rem] border border-[#DBEAFE] bg-[#F8FBFF] p-4 shadow-[inset_0_1px_0_rgba(37,99,235,0.08)]">
-				<div class="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-					<div class="max-w-2xl">
-						<p class="texas-trust-kicker text-xs font-semibold uppercase tracking-[0.18em] text-muted">Texas Parenting Plan Guide</p>
-						<p class="texas-trust-heading mt-2 text-sm font-semibold text-primary">Updated June 2026</p>
-						<p class="texas-trust-body mt-2 text-sm leading-6 text-secondary">Reviewed against common Texas parenting schedule structures, including Standard Possession Order, Expanded Standard Possession Order, 50/50 schedules, and Texas summer and holiday visitation.</p>
-					</div>
-					<div class="grid gap-2 text-xs font-semibold text-secondary sm:grid-cols-2 md:min-w-[320px] md:grid-cols-1">
-						{['Standard Possession Order', 'Expanded Standard Possession Order', '50/50 schedules', 'Texas summer and holiday visitation'].map((item) => (
-							<span class="texas-trust-pill rounded-full bg-white px-3 py-2 shadow-[inset_0_0_0_1px_#DBEAFE]"><span class="mr-1.5 text-accent" aria-hidden="true">✓</span>{item}</span>
-						))}
-					</div>
-				</div>
-				<p class="texas-trust-disclaimer mt-3 text-xs leading-5 text-muted">Educational planning tool. Not legal advice or a court order.</p>
-			</div>
-		</section>
-
-		<nav class="container-shell py-2 lg:max-w-5xl" aria-label="Popular Texas schedules">
-			<div class="soft-card rounded-[1.5rem] p-4">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Popular Texas schedules</p>
-				<div class="mt-3 flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible sm:pb-0">
-					{popularScheduleLinks.map((item) => (
-						<a href={item.href} class="shrink-0 rounded-full bg-surface px-3 py-2 text-xs font-semibold text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-all duration-200 hover:-translate-y-0.5 hover:text-primary hover:shadow-[inset_0_0_0_1px_var(--border-strong)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">{item.label}</a>
-					))}
-				</div>
-			</div>
-		</nav>
-
 		<section id="customize-plan" class="container-shell py-4 scroll-mt-24 sm:py-6 lg:max-w-5xl" data-customize-section>
 			<div class="premium-card grid gap-4 rounded-[1.75rem] p-5">
 				<div>
 					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Next step</p>
 					<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">Customize your Texas parenting plan</h2>
 					<p class="mt-3 text-sm leading-6 text-secondary">Add family details, summer and holiday options, and notes before generating a printable planning document.</p>
-					<p class="mt-2 text-xs font-semibold text-secondary"><span class="text-parent-b" aria-hidden="true">✓</span> Changes save automatically in this browser.</p>
+					<p class="mt-2 text-xs font-semibold text-secondary"><span class="text-parent-b" aria-hidden="true">âœ“</span> Changes save automatically in this browser.</p>
 				</div>
 				<div class="grid gap-5 lg:grid-cols-[minmax(0,1.45fr)_minmax(300px,0.9fr)] lg:items-start">
 					<div class="grid min-w-0 gap-4">
@@ -484,7 +259,7 @@ const schema = [
 						</p>
 						<div class="grid gap-2 sm:flex sm:flex-wrap sm:items-center" data-plan-actions>
 							<button type="button" class="btn-primary h-11 w-full px-5 text-sm font-semibold sm:w-auto" data-print-plan>Print / Save PDF</button>
-							<CtaButton href="#schedule-comparison" variant="secondary" size="small" class="h-11 w-full justify-center sm:w-auto">View schedules</CtaButton>
+							<CtaButton href="#filing-sequence" variant="secondary" size="small" class="h-11 w-full justify-center sm:w-auto">Filing sequence</CtaButton>
 						</div>
 					</div>
 					<aside class="soft-card grid gap-4 rounded-[1.5rem] p-4 lg:sticky lg:top-24" data-custom-preview>
@@ -493,7 +268,7 @@ const schema = [
 								<p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted">Live preview</p>
 								<h3 class="mt-1 text-xl font-semibold tracking-[-0.04em] text-primary" data-custom-preview-title>Standard Possession Order</h3>
 							</div>
-							<span class="shrink-0 rounded-full bg-surface px-3 py-1 text-[11px] font-semibold text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]"><span class="text-parent-b" aria-hidden="true">✓</span> Auto-updated</span>
+							<span class="shrink-0 rounded-full bg-surface px-3 py-1 text-[11px] font-semibold text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]"><span class="text-parent-b" aria-hidden="true">âœ“</span> Auto-updated</span>
 						</div>
 						<div>
 							<p class="text-xs font-semibold text-muted">Start date</p>
@@ -501,9 +276,9 @@ const schema = [
 						</div>
 						<div class="min-w-0" data-texas-calendar-preview>
 							<div class="texas-month-nav flex items-center justify-between gap-2">
-								<button type="button" class="texas-month-nav-btn" data-calendar-prev aria-label="Previous month">‹</button>
+								<button type="button" class="texas-month-nav-btn" data-calendar-prev aria-label="Previous month">â€¹</button>
 								<p class="min-w-0 truncate text-center text-xs font-semibold tracking-[-0.02em] text-primary" data-calendar-month-label>June 2026</p>
-								<button type="button" class="texas-month-nav-btn" data-calendar-next aria-label="Next month">›</button>
+								<button type="button" class="texas-month-nav-btn" data-calendar-next aria-label="Next month">â€º</button>
 							</div>
 							<div class="texas-calendar-legend mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px] text-secondary">
 								<span class="inline-flex items-center gap-1.5"><i class="h-2 w-2 shrink-0 rounded-full bg-accent" aria-hidden="true"></i><span data-calendar-legend-parent-a>Parent A</span></span>
@@ -545,538 +320,23 @@ const schema = [
 			</div>
 		</section>
 
-		<nav class="container-shell py-3 sm:py-4 lg:max-w-5xl" aria-label="On this page">
-			<div class="soft-card rounded-[1.5rem] p-4">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">On this page</p>
-				<div class="mt-3 flex gap-2 overflow-x-auto pb-1 sm:flex-wrap sm:overflow-visible sm:pb-0">
-					{toc.map((item) => (
-						<a href={item.href} class="shrink-0 rounded-full bg-surface px-3 py-2 text-xs font-semibold text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-all duration-200 hover:-translate-y-0.5 hover:text-primary hover:shadow-[inset_0_0_0_1px_var(--border-strong)]">{item.label}</a>
-					))}
-				</div>
-			</div>
-		</nav>
+		<nav class="container-shell border-y border-line-subtle py-3 lg:max-w-5xl" aria-label="On this page"><ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">{articleTocItems.map((i) => <li><a href={`#${i.id}`} class="hover:text-accent">{i.label}</a></li>)}</ul></nav>
 
-		<section id="schedule-comparison" class="container-shell grid gap-4 py-6 scroll-mt-24 sm:gap-5 lg:max-w-5xl lg:py-12">
-			<div class="max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Schedule comparison</p>
-				<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">Compare Texas custody schedules</h2>
-				<p class="mt-3 text-base leading-8 text-secondary">Texas parenting plans often start with the Standard Possession Order, but families may also compare expanded possession, 50/50 schedules, and custom calendars. After choosing a schedule, estimate potential support using the <a href="/texas-child-support-calculator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Texas child support calculator</a>.</p>
-			</div>
-			<div class="premium-card overflow-hidden rounded-[1.5rem]">
-				<div class="hidden grid-cols-[1fr_0.75fr_1fr_auto] gap-4 border-b border-line-subtle px-5 py-4 text-xs font-semibold uppercase tracking-[0.14em] text-muted md:grid">
-					<span>Schedule</span>
-					<span>Estimated parenting time</span>
-					<span>Best for</span>
-					<span>Try it</span>
-				</div>
-				<div class="divide-y divide-line-subtle">
-					{custodyComparisonBars.map((row) => (
-						<article class="grid gap-3 p-4 sm:p-5 md:grid-cols-[1fr_0.75fr_1fr_auto] md:items-center md:gap-4">
-							<div>
-								<p class="text-xs font-semibold uppercase tracking-[0.14em] text-muted md:hidden">Schedule</p>
-								<h3 class="mt-1 text-lg font-semibold tracking-[-0.03em] text-primary md:mt-0">{row.title}</h3>
-							</div>
-							<div>
-								<p class="text-xs font-semibold uppercase tracking-[0.14em] text-muted md:hidden">Estimated parenting time</p>
-								<p class="mt-1 text-sm font-semibold text-primary md:mt-0">{row.percent}</p>
-								<div class="mt-2 h-2 overflow-hidden rounded-full bg-surface shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-									<span class="block h-full rounded-full bg-parent-b" style={`width: ${row.value}%`}></span>
-								</div>
-							</div>
-							<div>
-								<p class="text-xs font-semibold uppercase tracking-[0.14em] text-muted md:hidden">Best for</p>
-								<ul class="mt-1 grid gap-1 text-sm leading-6 text-secondary md:mt-0">
-									{row.bestFor.map((item) => (
-										<li class="flex gap-2"><span class="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" aria-hidden="true"></span><span>{item}</span></li>
-									))}
-								</ul>
-							</div>
-							<button type="button" class="btn-secondary h-11 w-full justify-center rounded-full px-5 text-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[inset_0_0_0_1px_var(--border-strong)] md:w-auto md:justify-self-end" data-select-schedule={row.key}>Use this schedule</button>
-						</article>
-					))}
-				</div>
-			</div>
-		</section>
+		<section id="texas-flow" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12"><div class="grid gap-8 lg:grid-cols-[1fr_360px]"><div><h2 class="text-2xl font-semibold text-primary sm:text-3xl">{texasFlow.title}</h2><p class="mt-3 text-secondary">{texasFlow.intro}</p><ol class="mt-6 list-decimal space-y-4 pl-5">{texasFlow.steps.map((s) => <li class="text-secondary"><h3 class="font-semibold text-primary">{s.heading}</h3><p class="mt-2 text-sm">{s.body}</p></li>)}</ol></div><TexasParentingFlowGraphic /></div></section>
 
-		<section class="container-shell py-4 scroll-mt-24 lg:max-w-5xl lg:py-8" aria-labelledby="schedule-fit-heading" data-schedule-fit-widget>
-			<div class="premium-card grid gap-5 rounded-[1.75rem] p-5 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:items-start">
-				<div>
-					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Schedule helper</p>
-					<h2 id="schedule-fit-heading" class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">Which Texas custody schedule fits your family?</h2>
-					<p class="mt-3 text-sm leading-6 text-secondary">Answer three planning questions to get a simple starting point. This does not replace legal advice or a court order.</p>
-				</div>
-				<div class="grid gap-4">
-					<div class="grid gap-3 sm:grid-cols-3">
-						<label class="grid gap-2">
-							<span class="text-sm font-medium text-secondary">Distance between parents</span>
-							<select name="fitDistance" class="w-full rounded-2xl bg-surface px-4 py-2.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-fit-distance>
-								<option value="near">100 miles or less</option>
-								<option value="far">More than 100 miles</option>
-							</select>
-						</label>
-						<label class="grid gap-2">
-							<span class="text-sm font-medium text-secondary">Child age</span>
-							<select name="fitAge" class="w-full rounded-2xl bg-surface px-4 py-2.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-fit-age>
-								<option value="under5">Under 5</option>
-								<option value="school">5-12</option>
-								<option value="teen">Teen</option>
-							</select>
-						</label>
-						<label class="grid gap-2">
-							<span class="text-sm font-medium text-secondary">Co-parenting situation</span>
-							<select name="fitConflict" class="w-full rounded-2xl bg-surface px-4 py-2.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-fit-conflict>
-								<option value="cooperative">Cooperative</option>
-								<option value="moderate">Moderate conflict</option>
-								<option value="high">High conflict</option>
-							</select>
-						</label>
-					</div>
-					<div class="rounded-[1.5rem] bg-surface/75 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]" aria-live="polite">
-						<p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted">Recommended schedules</p>
-						<h3 class="mt-2 text-xl font-semibold tracking-[-0.04em] text-primary" data-fit-primary>Expanded Standard Possession Order</h3>
-						<p class="mt-1 text-sm font-semibold text-accent" data-fit-secondary>Secondary option: 50/50 Schedule</p>
-						<p class="mt-3 text-sm leading-6 text-secondary" data-fit-why>Nearby cooperative co-parents may be able to support more weekday time while still keeping the schedule structured.</p>
-						<div class="mt-4 flex flex-col gap-2 sm:flex-row sm:items-center">
-							<button type="button" class="btn-primary h-11 w-full justify-center px-5 text-sm sm:w-auto" data-fit-use-schedule data-fit-schedule="expanded">Use this schedule</button>
-							<p class="text-xs leading-5 text-muted">This recommendation is for planning only and is not legal advice.</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
+		<section id="spo-interaction" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12"><div class="grid gap-8 lg:grid-cols-[1fr_360px]"><div><h2 class="text-2xl font-semibold text-primary sm:text-3xl">{spoInteraction.title}</h2><p class="mt-3 text-secondary">{spoInteraction.intro}</p><ul class="mt-6 space-y-4">{spoInteraction.comparisons.map((c) => <li class="border-l-2 border-accent/30 pl-4"><h3 class="font-semibold text-primary">{c.heading}</h3><p class="mt-2 text-sm text-secondary">{c.body}</p></li>)}</ul></div><SpoInteractionGraphic /></div></section>
 
-		<section class="container-shell grid gap-6 py-6 lg:grid-cols-[minmax(0,220px)_minmax(0,780px)] lg:justify-center lg:gap-12 lg:py-16">
-			<aside class="soft-card h-fit rounded-[1.5rem] p-6 lg:sticky lg:top-24">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">On this page</p>
-				<ul class="mt-4 space-y-3 text-sm text-secondary">
-					{toc.map((item) => <li><a href={item.href} class="hover:text-primary">{item.label}</a></li>)}
-				</ul>
-			</aside>
+		<section id="filing-sequence" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12"><div class="grid gap-8 lg:grid-cols-[1fr_360px]"><div><h2 class="text-2xl font-semibold text-primary sm:text-3xl">{filingSequence.title}</h2><p class="mt-3 text-secondary">{filingSequence.intro}</p><ol class="mt-6 list-decimal space-y-3 pl-5 text-sm text-secondary">{filingSequence.sequence.map((s) => <li set:html={s} />)}</ol><p class="mt-5"><CtaButton href="/custody-schedule-generator/" variant="secondary" size="small">Open custody schedule generator</CtaButton></p></div><TexasFilingSequenceGraphic /></div></section>
 
-			<div class="grid min-w-0 max-w-[780px] gap-8 sm:gap-10">
-				<section id="quick-answer" class="soft-card rounded-[1.5rem] p-5 scroll-mt-24">
-					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Quick answer</p>
-					<h2 class="mt-2 text-2xl font-semibold tracking-[-0.04em] text-primary">What parents need to know first</h2>
-					<p class="mt-3 text-sm leading-6 text-secondary">
-						A Texas parenting plan describes how parents share time, responsibilities, holidays, and major decisions after separation or divorce.
-					</p>
-					<p class="mt-3 text-sm leading-6 text-secondary">
-						Most Texas custody schedules follow the Standard Possession Order (SPO), which establishes regular weekend visits, holidays, and summer possession. Parents may also choose expanded possession or a custom schedule.
-					</p>
-				</section>
+		<section id="distance-rules" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12"><h2 class="text-2xl font-semibold text-primary sm:text-3xl">{distanceRules.title}</h2><p class="mt-3 max-w-3xl text-secondary">{distanceRules.intro}</p><ul class="mt-6 max-w-3xl space-y-4">{distanceRules.rules.map((r) => <li class="border-l-2 border-accent/30 pl-4"><h3 class="font-semibold text-primary">{r.heading}</h3><p class="mt-2 text-sm text-secondary">{r.body}</p></li>)}</ul></section>
 
-				<section class="soft-card rounded-[1.5rem] p-5" aria-label="Editorial review and legal disclaimer">
-					<div class="grid gap-4 sm:grid-cols-2">
-						<div>
-							<p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted">Editorial review</p>
-							<a href="/about/" class="mt-2 inline-flex text-sm font-semibold text-primary underline decoration-line underline-offset-4 hover:text-accent">CustodyBuilder Editorial Team</a>
-							<p class="mt-1 text-sm leading-6 text-secondary">Reviewed for clarity, Texas custody planning coverage, schedule comparison usefulness, and plain-English organization.</p>
-						</div>
-						<div>
-							<p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted">Legal note</p>
-							<p class="mt-2 text-sm font-semibold text-primary">Educational planning only</p>
-							<p class="mt-1 text-sm leading-6 text-secondary">Not attorney-reviewed. This page is not legal advice, a court form, or a substitute for qualified Texas legal guidance.</p>
-						</div>
-					</div>
-				</section>
+		<section id="summer-notice" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12"><h2 class="text-2xl font-semibold text-primary sm:text-3xl">{summerNotice.title}</h2><p class="mt-3 max-w-3xl text-secondary">{summerNotice.intro}</p><ul class="mt-6 max-w-3xl space-y-4">{summerNotice.points.map((p) => <li class="rounded-lg bg-surface/50 p-4 ring-1 ring-line-subtle"><h3 class="font-semibold text-primary">{p.heading}</h3><p class="mt-2 text-sm text-secondary">{p.body}</p></li>)}</ul><p class="mt-6 max-w-3xl text-sm text-secondary"><a href="/texas-child-support-calculator/" class="font-semibold text-accent underline">Texas child support calculator</a> · <a href="/parenting-plan-template/" class="font-semibold text-accent underline">Generic parenting plan template</a></p></section>
 
-				<section id="texas-stats" class="grid gap-5 scroll-mt-24">
-					<div>
-						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Texas custody planning at a glance</p>
-						<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">Texas custody planning at a glance</h2>
-						<p class="mt-3 text-base leading-8 text-secondary">A Texas parenting plan template is easier to use when the big choices are visible first: regular SPO, expanded SPO, 50/50 parenting time, or a custom Texas custody schedule. These estimates are planning ranges, not legal conclusions.</p>
-					</div>
-					<div class="grid gap-4 md:grid-cols-2">
-						{statsCards.map((stat) => (
-							<article class="soft-card rounded-[1.5rem] p-5">
-								<p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted">{stat.label}</p>
-								<p class="mt-2 text-2xl font-semibold tracking-[-0.045em] text-primary">{stat.value}</p>
-								<p class="mt-3 text-sm leading-6 text-secondary">{stat.note}</p>
-							</article>
-						))}
-					</div>
-				</section>
+		<section id="generic-routing" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12"><div class="max-w-2xl rounded-[1.25rem] border border-line bg-surface/40 p-6"><h2 class="text-2xl font-semibold text-primary">{genericRouting.title}</h2><p class="mt-3 text-secondary">{genericRouting.body}</p><ul class="mt-5 flex flex-wrap gap-4">{genericRouting.links.map((l) => <li><a href={l.href} class="text-sm font-semibold text-accent underline">{l.label}</a></li>)}</ul></div></section>
 
-				<section id="what-is-texas-parenting-plan" class="grid gap-4 scroll-mt-24">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">What is a Texas parenting plan?</h2>
-					<p class="text-base leading-8 text-secondary">A Texas parenting plan is a practical roadmap for how parents will share time, responsibilities, and information after separation or divorce. It is broader than a calendar. A calendar answers where the child sleeps on each date. A parenting plan explains how the schedule works, how parents make decisions, how holidays override the regular Texas custody schedule, and how the family handles common problems.</p>
-					<p class="text-base leading-8 text-secondary">In Texas, many parenting plans are built around possession and access terms. Parents often start with the <a href="#standard-possession-order" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Standard Possession Order Texas schedule</a>, then decide whether regular SPO, expanded SPO, a 50/50 custody arrangement, or a custom Texas visitation schedule fits the child better.</p>
-					<p class="text-base leading-8 text-secondary">A strong plan should identify the regular parenting time schedule, exchange times, holiday possession, school breaks, summer possession, medical and school decision-making, transportation, communication rules, and how changes are approved. If parents only download a static Texas custody form, they still have to translate the words into a real calendar. CustodyBuilder starts with the calendar so parents can see what the plan actually does.</p>
-					<p class="text-base leading-8 text-secondary">The most useful Texas custody forms and templates are the ones that help parents avoid vague language. Instead of writing only "standard visitation" or "reasonable possession," a stronger plan identifies exact weekends, start times, school pickup rules, summer notice rules, holiday overrides, and what happens when a school calendar changes. That level of detail helps parents discuss the same plan, not two different interpretations of the same phrase.</p>
-					<p class="text-base leading-8 text-secondary">This page is built for planning and education. It helps parents organize a Texas child custody agreement before mediation, attorney review, or court discussions. It does not decide what a court should order, but it can make the practical questions easier: Which schedule repeats? Which parent has each weekend? What happens during summer? How many overnights does each parent receive? What needs to be written before a printable <a href="/parenting-plan-template/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting plan template</a> is useful?</p>
-					<div class="grid gap-4 md:grid-cols-2">
-						{['Parenting time and exchanges', 'Decision making and records', 'Holidays and school breaks', 'Medical, school, and activity rules'].map((item) => (
-							<div class="soft-card rounded-[1.5rem] p-5 text-sm font-semibold text-secondary">{item}</div>
-						))}
-					</div>
-				</section>
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12"><h2 class="text-xl font-semibold text-primary">Texas filing resources</h2><ul class="mt-4 grid gap-2">{officialResources.map((r) => <li><a href={r.href} target="_blank" rel="noopener noreferrer" class="text-sm font-semibold text-accent underline">{r.title}</a></li>)}</ul></section>
 
-				<section class="grid gap-5 scroll-mt-24">
-					<div>
-						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Practical examples</p>
-						<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">Real-life Texas parenting plan examples</h2>
-						<p class="mt-3 text-base leading-8 text-secondary">These examples are educational planning scenarios only. They are meant to help parents compare logistics before choosing a schedule to review.</p>
-					</div>
-					<div class="grid gap-4 md:grid-cols-3">
-						{practicalExamples.map((example) => (
-							<article class="soft-card rounded-[1.5rem] p-5">
-								<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{example.title}</h3>
-								<p class="mt-3 text-sm leading-6 text-secondary">{example.copy}</p>
-							</article>
-						))}
-					</div>
-					<div>
-						<CtaButton href="#schedule-comparison" variant="secondary" size="small">Compare Texas custody schedules</CtaButton>
-					</div>
-				</section>
-
-				<section id="standard-possession-order" class="grid gap-5 scroll-mt-24">
-					<div>
-						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Texas visitation schedule</p>
-						<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">Texas Standard Possession Order (SPO) Schedule Explained</h2>
-						<p class="mt-3 text-base leading-8 text-secondary">The Standard Possession Order is one of the most common starting points for a Texas child custody agreement. It describes regular weekend possession, weekday contact during the school term, holiday possession, and summer possession. It is familiar because many Texas custody forms and orders use similar language, but parents still need a calendar to understand how those rules land on actual dates.</p>
-						<p class="mt-3 text-base leading-8 text-secondary">Expanded Standard Possession Order terms can give the non-primary parent more practical parenting time, especially when homes are close enough for school exchanges. The difference matters because a regular SPO calendar can feel very different from an expanded SPO calendar even when the words look similar.</p>
-						<p class="mt-3 text-base leading-8 text-secondary">Parents often search for a Texas standard visitation schedule because they want a simple answer. The better approach is to compare regular SPO and expanded SPO on a calendar. A Friday evening to Sunday evening weekend may be easy to understand, but an expanded weekend that begins at school dismissal and ends when school resumes can change transportation, homework, bedtime, and the child's sense of routine.</p>
-					</div>
-					<div class="grid gap-4 md:hidden">
-						{spoComparisonRows.map((row) => (
-							<article class="soft-card rounded-[1.5rem] p-5">
-								<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{row.feature}</h3>
-								<p class="mt-3 text-sm leading-6 text-secondary"><span class="font-semibold text-primary">Regular SPO:</span> {row.regular}</p>
-								<p class="mt-3 text-sm leading-6 text-secondary"><span class="font-semibold text-primary">Expanded SPO:</span> {row.expanded}</p>
-							</article>
-						))}
-					</div>
-					<div class="premium-card hidden overflow-x-auto rounded-[1.5rem] md:block">
-						<table class="w-full min-w-[760px] border-collapse text-left text-sm">
-							<thead class="text-xs uppercase tracking-[0.14em] text-muted">
-								<tr class="border-b border-line-subtle"><th class="px-5 py-4 font-semibold">Feature</th><th class="px-5 py-4 font-semibold">Regular SPO</th><th class="px-5 py-4 font-semibold">Expanded SPO</th></tr>
-							</thead>
-							<tbody class="divide-y divide-line-subtle text-secondary">
-								{spoComparisonRows.map((row) => (
-									<tr><td class="px-5 py-4 font-semibold text-primary">{row.feature}</td><td class="px-5 py-4">{row.regular}</td><td class="px-5 py-4">{row.expanded}</td></tr>
-								))}
-							</tbody>
-						</table>
-					</div>
-					<div class="cta-group">
-						<CtaButton href="#plan-builder" variant="primary" size="small">Generate Texas Parenting Plan</CtaButton>
-						<CtaButton href="/every-other-weekend-custody-schedule/" variant="secondary" size="small">Compare schedules</CtaButton>
-					</div>
-				</section>
-
-				<section id="texas-spo-calendar" class="grid gap-5 scroll-mt-24">
-					<div>
-						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Texas custody calendar</p>
-						<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">Texas Standard Possession Order Calendar</h2>
-						<p class="mt-3 text-base leading-8 text-secondary">A Texas standard possession order calendar turns legal-style possession language into visible days. Instead of reading a PDF and trying to count weekends manually, parents can preview a month, see which weekends belong to each parent, and estimate annual parenting time. This is especially useful when planning a Texas custody calendar 2026 or reviewing school-year possession around holidays.</p>
-						<p class="mt-3 text-base leading-8 text-secondary">Calendar-first planning also exposes conflicts earlier. A holiday may land on a regular weekend. A summer block may interrupt the normal Texas possession schedule. A school holiday may change whether pickup happens at school or another location. Seeing those conflicts in a Texas standard possession order calendar makes the parenting plan easier to discuss before parents rely on it.</p>
-					</div>
-					<div class="premium-card rounded-[1.5rem] p-5">
-						<div class="flex flex-wrap items-center justify-between gap-3">
-							<div>
-								<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Sample SPO month</p>
-								<h3 class="mt-1 text-xl font-semibold tracking-[-0.04em] text-primary">Weekend possession preview</h3>
-							</div>
-							<div class="flex flex-wrap gap-3 text-xs text-secondary">
-								<span class="inline-flex items-center gap-2"><i class="h-2.5 w-2.5 rounded-full bg-accent"></i>Parent A</span>
-								<span class="inline-flex items-center gap-2"><i class="h-2.5 w-2.5 rounded-full bg-parent-b"></i>Parent B</span>
-							</div>
-						</div>
-						<div class="mt-4 grid grid-cols-7 gap-1 text-center text-[10px] font-semibold uppercase tracking-[0.08em] text-muted" aria-hidden="true">
-							<span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span>
-						</div>
-						<div class="mt-2 grid grid-cols-7 gap-1.5">
-							{Array.from({ length: 35 }, (_, index) => {
-								const day = index + 1;
-								const weekend = [5, 6, 7, 19, 20, 21].includes(day);
-								return (
-									<span class:list={[
-										'grid aspect-square place-items-center rounded-xl text-xs font-semibold shadow-[inset_0_0_0_1px_var(--border-subtle)]',
-										weekend ? 'bg-[rgba(45,212,191,0.14)] text-parent-b' : 'bg-[rgba(37,99,235,0.12)] text-accent',
-									]}>
-										{day <= 31 ? day : ''}
-									</span>
-								);
-							})}
-						</div>
-						<p class="mt-4 text-sm leading-6 text-secondary">This sample month is illustrative. Generate your own Texas custody calendar with a real start date, selected possession schedule, distance setting, and parent labels, then compare totals with the <a href="/custody-percentage-calculator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">custody percentage calculator</a>.</p>
-					</div>
-					<CtaButton href="#plan-builder" variant="primary" size="small">Generate Texas Parenting Plan</CtaButton>
-				</section>
-
-				<section id="summer-visitation" class="grid gap-5 scroll-mt-24">
-					<div>
-						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Summer possession</p>
-						<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">Texas Summer Visitation Schedule</h2>
-						<p class="mt-3 text-base leading-8 text-secondary">A Texas summer visitation schedule can change the entire feel of a parenting plan. The regular school-year possession schedule may be weekend-focused, but summer possession can create longer blocks, travel planning, and different notice requirements. Parents should map summer possession on the same calendar as the school-year schedule so annual parenting time is clear.</p>
-						<p class="mt-3 text-base leading-8 text-secondary">Distance matters. Parents living 100 miles or less apart may use different planning assumptions than parents living more than 100 miles apart. A long-distance Texas possession schedule should account for travel time, school start and end dates, holidays that interrupt summer, and whether regular weekend possession continues during the selected summer period.</p>
-						<p class="mt-3 text-base leading-8 text-secondary">Summer terms should be written carefully because they often override the regular rhythm families use during the school year. Parents should identify the selected dates, how notice is given, where exchanges happen, who handles transportation, whether the child can attend camps or activities, and whether parent holidays interrupt the extended summer possession period.</p>
-					</div>
-					<div class="grid gap-4 md:hidden">
-						{summerRows.map((row) => (
-							<article class="soft-card rounded-[1.5rem] p-5">
-								<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{row.distance}</h3>
-								<p class="mt-3 text-sm leading-6 text-secondary">{row.typical}</p>
-								<p class="mt-3 rounded-2xl bg-surface/70 p-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">{row.planning}</p>
-							</article>
-						))}
-					</div>
-					<div class="premium-card hidden overflow-x-auto rounded-[1.5rem] md:block">
-						<table class="w-full min-w-[760px] border-collapse text-left text-sm">
-							<thead class="text-xs uppercase tracking-[0.14em] text-muted">
-								<tr class="border-b border-line-subtle"><th class="px-5 py-4 font-semibold">Situation</th><th class="px-5 py-4 font-semibold">Typical issue</th><th class="px-5 py-4 font-semibold">Planning note</th></tr>
-							</thead>
-							<tbody class="divide-y divide-line-subtle text-secondary">
-								{summerRows.map((row) => (
-									<tr><td class="px-5 py-4 font-semibold text-primary">{row.distance}</td><td class="px-5 py-4">{row.typical}</td><td class="px-5 py-4">{row.planning}</td></tr>
-								))}
-							</tbody>
-						</table>
-					</div>
-					<CtaButton href="#plan-builder" variant="primary" size="small">Generate Texas Parenting Plan</CtaButton>
-				</section>
-
-				<section id="expanded-spo" class="grid gap-5 scroll-mt-24">
-					<div>
-						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Expanded possession</p>
-						<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">Expanded Standard Possession Order Texas</h2>
-						<p class="mt-3 text-base leading-8 text-secondary">Expanded Standard Possession is often chosen when parents want a Texas visitation schedule that gives the non-primary parent more ordinary parenting time than regular SPO. It can move exchanges closer to school pickup and school return, which may reduce direct parent conflict and help the child experience more normal routines in both homes.</p>
-						<p class="mt-3 text-base leading-8 text-secondary">Expanded possession is not automatically equal parenting time. Parents comparing it with a <a href="/50-50-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 custody schedule</a> should calculate overnights, commute time, school responsibilities, and how the child handles transitions. The best schedule is the one the family can follow consistently.</p>
-					</div>
-					<div class="grid gap-4 md:grid-cols-2">
-						{expandedCards.map((card) => (
-							<a href={card.href} class="soft-card group rounded-[1.5rem] p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40">
-								<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary group-hover:text-accent">{card.title}</h3>
-								<p class="mt-3 text-sm leading-6 text-secondary">{card.description}</p>
-							</a>
-						))}
-					</div>
-				</section>
-
-				<section id="decision-helper" class="grid gap-5 scroll-mt-24">
-					<div>
-						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Decision helper</p>
-						<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">Texas custody schedule decision prompts</h2>
-						<p class="mt-3 text-base leading-8 text-secondary">This static helper is designed like the product workflow: choose the facts that matter, then compare the Texas custody schedule options that usually deserve a closer look.</p>
-					</div>
-					<div class="premium-card grid gap-5 rounded-[1.75rem] p-5">
-						<div class="grid gap-3 sm:grid-cols-2">
-							{decisionPrompts.map((prompt) => (
-								<div class="rounded-2xl bg-surface/75 p-4 text-sm font-semibold leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-									<span class="mr-1.5 text-parent-b" aria-hidden="true">✓</span>{prompt}
-								</div>
-							))}
-						</div>
-						<div class="grid gap-4 md:grid-cols-2">
-							{decisionResults.map((result) => (
-								<a href={result.href} class="soft-card group rounded-[1.5rem] p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40">
-									<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary group-hover:text-accent">{result.title}</h3>
-									<p class="mt-3 text-sm leading-6 text-secondary">{result.note}</p>
-								</a>
-							))}
-						</div>
-						<CtaButton href="#plan-builder" variant="primary" size="small">Generate Texas Parenting Plan</CtaButton>
-					</div>
-				</section>
-
-				<section class="premium-card relative overflow-hidden rounded-[1.75rem] p-6">
-					<div class="absolute -right-16 -top-16 h-36 w-36 rounded-full bg-accent/10 blur-2xl" aria-hidden="true"></div>
-					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Plan before you write</p>
-					<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">Ready to create a Texas custody schedule?</h2>
-					<p class="mt-3 max-w-2xl text-base leading-8 text-secondary">Generate a Texas custody calendar, compare standard possession and expanded possession, estimate parenting time, and turn the result into a printable parenting plan PDF. For broader schedule comparisons, use the <a href="/custody-schedule-generator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule generator</a>.</p>
-					<div class="cta-group mt-5">
-						<CtaButton href="#plan-builder" variant="primary" size="small">Generate Texas Parenting Plan</CtaButton>
-						<CtaButton href="/custody-schedule-generator/" variant="secondary" size="small">Compare schedules</CtaButton>
-					</div>
-				</section>
-
-				<section id="parenting-plan-pdf" class="grid gap-5 scroll-mt-24">
-					<div>
-						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Printable PDF</p>
-						<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">Texas Parenting Plan Template PDF</h2>
-						<p class="mt-3 text-base leading-8 text-secondary">A downloadable Texas parenting plan PDF is useful because it gives parents a structured starting point. The problem is that a static PDF does not show whether the schedule actually works on real dates. It cannot automatically generate calendars, calculate parenting time, update holidays, or show how summer possession changes the annual split.</p>
-						<p class="mt-3 text-base leading-8 text-secondary">An editable online Texas parenting plan template is easier because parents can create the Texas custody calendar first, then export the plan. CustodyBuilder helps parents move from schedule choice to calendar preview to printable plan outline, which is faster than reading a government PDF and manually counting weekends.</p>
-						<p class="mt-3 text-base leading-8 text-secondary">A Texas parenting plan PDF is most useful when it reflects the same schedule parents have already previewed. If the calendar and the written plan disagree, confusion follows. That is why this page connects the interactive tool, the Texas custody schedule explanation, and the printable plan outline in one workflow instead of separating them into unrelated documents.</p>
-					</div>
-					<div class="grid gap-4 md:grid-cols-2">
-						{['Generate calendars from schedule choices', 'Calculate parenting time percentages', 'Update holidays and summer possession', 'Export a printable parenting plan PDF'].map((item) => (
-							<div class="soft-card rounded-[1.5rem] p-5 text-sm font-semibold leading-6 text-secondary"><span class="mr-1.5 text-parent-b" aria-hidden="true">✓</span>{item}</div>
-						))}
-					</div>
-					<CtaButton href="#plan-builder" variant="primary" size="small">Generate Texas Parenting Plan</CtaButton>
-				</section>
-
-				<section class="grid gap-5 scroll-mt-24">
-					<div>
-						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">PDF example</p>
-						<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">Texas Parenting Plan PDF Example</h2>
-						<p class="mt-3 text-base leading-8 text-secondary">A generated Texas parenting plan PDF, Texas custody agreement PDF, or Texas visitation schedule PDF should be useful before parents print it. The preview from this tool is designed to include the practical schedule details parents need to review together.</p>
-					</div>
-					<div class="soft-card rounded-[1.5rem] p-5">
-						<div class="grid gap-3 sm:grid-cols-2">
-							{['Selected custody schedule', 'Parent names', 'Start date', 'Parenting time estimate', 'Calendar preview', 'Summer possession notes', 'Holiday notes', 'Custom exchange notes', 'Educational disclaimer'].map((item) => (
-								<div class="rounded-2xl bg-surface/75 p-3 text-sm font-semibold leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]"><span class="mr-1.5 text-accent" aria-hidden="true">✓</span>{item}</div>
-							))}
-						</div>
-						<div class="mt-5">
-							<CtaButton href="#plan-builder" variant="primary" size="small">Generate Your Texas Parenting Plan PDF</CtaButton>
-						</div>
-					</div>
-				</section>
-
-				<section class="grid gap-5 scroll-mt-24">
-					<div>
-						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Related tools</p>
-						<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">Related Texas family law tools</h2>
-						<p class="mt-3 text-base leading-8 text-secondary">Use these tools when a Texas parenting plan also needs support estimates, parenting-time percentages, or broader calendar comparisons.</p>
-					</div>
-					<div class="grid gap-4 md:grid-cols-2">
-						{relatedTexasTools.map((tool) => (
-							<a href={tool.href} class="soft-card group rounded-[1.5rem] p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
-								<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary group-hover:text-accent">{tool.title}</h3>
-								<p class="mt-3 text-sm leading-6 text-secondary">{tool.description}</p>
-								<span class="mt-4 inline-flex text-sm font-semibold text-accent underline decoration-line underline-offset-4 group-hover:text-primary">Open tool</span>
-							</a>
-						))}
-					</div>
-				</section>
-
-				<section id="custody-agreement-example" class="grid gap-5 scroll-mt-24">
-					<div>
-						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Agreement example</p>
-						<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">Texas Custody Agreement Example</h2>
-						<p class="mt-3 text-base leading-8 text-secondary">A Texas custody agreement template should be specific enough that parents can follow it without guessing. The outline below is not a legal form, but it shows the practical sections parents usually need before turning a calendar into plan language.</p>
-						<p class="mt-3 text-base leading-8 text-secondary">The example outline is intentionally practical. Parents can use it to compare what they have already discussed against what still needs detail. For example, many parents agree on the regular weekly schedule but forget transportation, summer notice, school records, medical updates, phone calls during long blocks, or what happens when a child has a tournament, recital, or school trip during the other parent's time.</p>
-					</div>
-					<div class="grid gap-4 md:grid-cols-2">
-						{agreementOutline.map((item) => (
-							<article class="soft-card rounded-[1.5rem] p-5">
-								<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{item.section}</h3>
-								<p class="mt-3 text-sm leading-6 text-secondary">{item.detail}</p>
-							</article>
-						))}
-					</div>
-				</section>
-
-				<section id="real-examples" class="grid gap-5 scroll-mt-24">
-					<div>
-						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Real-world examples</p>
-						<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">Texas parenting plan examples</h2>
-						<p class="mt-3 text-base leading-8 text-secondary">These scenarios are not legal recommendations. They show how Texas custody planning changes when distance, school location, and exchange frequency are the main problem to solve.</p>
-					</div>
-					<div class="grid gap-4 md:grid-cols-3">
-						{exampleScenarios.map((example) => (
-							<article class="soft-card rounded-[1.5rem] p-5">
-								<p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted">Situation</p>
-								<h3 class="mt-2 text-lg font-semibold tracking-[-0.03em] text-primary">{example.situation}</h3>
-								<p class="mt-4 text-xs font-semibold uppercase tracking-[0.16em] text-muted">Suggested schedule</p>
-								<p class="mt-1 text-sm font-semibold text-primary">{example.recommended}</p>
-								<p class="mt-4 text-xs font-semibold uppercase tracking-[0.16em] text-muted">Why it works</p>
-								<p class="mt-1 text-sm leading-6 text-secondary">{example.why}</p>
-								<a href={example.href} class="mt-5 inline-flex text-sm font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Generate Texas Parenting Plan</a>
-							</article>
-						))}
-					</div>
-				</section>
-
-				<section id="schedules" class="grid gap-5 scroll-mt-24">
-					<div>
-						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Schedule options</p>
-						<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">Common Texas Custody Schedules</h2>
-						<p class="mt-3 text-base leading-8 text-secondary">Texas families do not all use the same parenting time schedule. Some start with regular SPO, some use expanded standard possession, some compare <a href="/50-50-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 custody schedules</a>, and others use a simpler <a href="/every-other-weekend-custody-schedule/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">every other weekend schedule</a>. The right plan depends on distance, school routines, child age, work schedules, and conflict level. After choosing a parenting schedule, you may also want to estimate support using our <a href="/texas-child-support-calculator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Texas child support calculator</a>.</p>
-					</div>
-					<div class="grid gap-4 md:grid-cols-2">
-						{scheduleCards.map((card) => (
-							<a href={card.href} class="soft-card group rounded-[1.5rem] p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40">
-								<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary group-hover:text-accent">{card.title}</h3>
-								<p class="mt-3 text-sm leading-6 text-secondary">{card.bestFor}</p>
-								<span class="mt-4 inline-flex text-sm font-semibold text-accent underline decoration-line underline-offset-4 group-hover:text-primary">{card.cta}</span>
-							</a>
-						))}
-					</div>
-					<div class="flex flex-wrap gap-3 text-sm font-semibold text-accent">
-						<a href="/2-2-3-custody-schedule/" class="underline decoration-line underline-offset-4 hover:text-primary">2-2-3 custody schedule</a>
-						<a href="/2-2-5-5-custody-schedule/" class="underline decoration-line underline-offset-4 hover:text-primary">2-2-5-5 custody schedule</a>
-						<a href="/5-2-2-5-custody-schedule/" class="underline decoration-line underline-offset-4 hover:text-primary">5-2-2-5 custody schedule</a>
-						<a href="/3-4-4-3-custody-schedule/" class="underline decoration-line underline-offset-4 hover:text-primary">3-4-4-3 custody schedule</a>
-						<a href="/week-on-week-off-custody-schedule/" class="underline decoration-line underline-offset-4 hover:text-primary">week-on/week-off custody schedule</a>
-					</div>
-				</section>
-
-				<section class="grid gap-5">
-					<div class="premium-card relative overflow-hidden rounded-[1.75rem] p-6">
-						<div class="absolute -left-12 -bottom-12 h-32 w-32 rounded-full bg-[rgba(45,212,191,0.12)] blur-2xl" aria-hidden="true"></div>
-						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Next step</p>
-						<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">Build Your Texas Parenting Plan</h2>
-						<p class="mt-3 max-w-2xl text-base leading-8 text-secondary">Use the planner above to build the calendar first, then export a printable Texas parenting plan PDF for discussion, mediation prep, or professional review.</p>
-						<div class="cta-group mt-5">
-							<CtaButton href="#customize-plan" variant="primary" size="small">Customize your plan</CtaButton>
-							<CtaButton href="#schedule-comparison" variant="secondary" size="small">Compare schedules</CtaButton>
-						</div>
-					</div>
-				</section>
-
-				<section class="soft-card rounded-[1.5rem] p-5" aria-label="Sources and Texas references">
-					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">References</p>
-					<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">Sources & Texas references</h2>
-					<p class="mt-3 text-sm leading-6 text-secondary">This page is based on common Texas parenting schedule concepts and public family-law resources. It is educational information only and does not replace legal advice.</p>
-					<div class="mt-4 grid gap-2">
-						{officialResources.map((resource) => (
-							<a href={resource.href} target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-between gap-3 rounded-2xl bg-surface/75 px-4 py-3 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-all duration-200 hover:-translate-y-0.5 hover:text-primary hover:shadow-[inset_0_0_0_1px_var(--border-strong)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent">
-								<span>{resource.title}</span>
-								<span aria-hidden="true">↗</span>
-							</a>
-						))}
-					</div>
-				</section>
-
-				<section class="soft-card rounded-[1.5rem] p-5" aria-label="Editorial review">
-					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Trust and sources</p>
-					<h2 class="mt-2 text-3xl font-semibold tracking-[-0.04em] text-primary">Editorial review and sources</h2>
-					<div class="mt-4 grid gap-4 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
-						<div class="grid gap-3 text-sm leading-6 text-secondary">
-							<p><span class="font-semibold text-primary">Reviewed by:</span> CustodyBuilder Editorial Team</p>
-							<p><span class="font-semibold text-primary">Last updated:</span> June 2026</p>
-							<div>
-								<p class="font-semibold text-primary">Reviewed for:</p>
-								<ul class="mt-2 grid gap-2">
-									{['Texas custody schedule clarity', 'Standard Possession Order explanations', 'Calendar usability', 'Parenting time estimate logic', 'Plain-English readability'].map((item) => (
-										<li class="flex gap-2"><span class="text-accent" aria-hidden="true">✓</span><span>{item}</span></li>
-									))}
-								</ul>
-							</div>
-						</div>
-						<div>
-							<p class="text-sm font-semibold text-primary">Editorial process</p>
-							<p class="mt-3 rounded-2xl bg-surface/75 p-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">We review this page for plain-English usefulness, working internal links, readable calendar examples, and consistency between the visible tool, printed preview, FAQ answers, and structured data.</p>
-						</div>
-					</div>
-					<p class="mt-4 rounded-2xl bg-surface/75 p-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">CustodyBuilder is an educational planning tool. It does not provide legal advice, replace an attorney, or create a court order.</p>
-				</section>
-
-				<section id="faq" class="grid gap-5 scroll-mt-24">
-					<h2 class="text-3xl font-semibold tracking-[-0.04em] text-primary">Frequently Asked Questions</h2>
-					<div class="premium-card divide-y divide-line-subtle overflow-hidden rounded-[1.5rem]">
-						{faq.map((item, index) => (
-							<details open={index === 0} class="group p-5 transition-colors duration-200 open:bg-surface-elevated/70 hover:bg-surface-hover/60">
-								<summary class="flex cursor-pointer list-none items-center justify-between gap-6 text-left text-base font-semibold tracking-[-0.02em] text-primary" aria-expanded={index === 0 ? 'true' : 'false'} aria-label={`Toggle answer: ${item.question}`} data-faq-summary>
-									{item.question}
-									<span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-surface/80 text-muted shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-transform duration-200 group-open:rotate-45">+</span>
-								</summary>
-								{item.question === 'Does parenting time affect child support in Texas?' ? (
-									<p class="mt-4 text-sm leading-6 text-secondary">
-										Parenting time may be part of the overall custody and support discussion, but Texas child support also depends on income, number of children, medical support, and other details. Use our <a href="/texas-child-support-calculator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Texas child support calculator</a> for an estimate.
-									</p>
-								) : (
-									<p class="mt-4 text-sm leading-6 text-secondary">{item.answer}</p>
-								)}
-							</details>
-						))}
-					</div>
-				</section>
-			</div>
-		</section>
+		<FAQ items={faqItems} title={faqSection.title} description={faqSection.description} />
 	</main>
 	<section class="print-plan-section">
 		<p class="print-brand">CustodyBuilder</p>
@@ -1103,12 +363,12 @@ const schema = [
 	</section>
 	<div class="fixed right-4 top-24 z-[80] hidden max-w-sm rounded-[1.25rem] border border-[#DBEAFE] bg-white p-4 text-slate-900 shadow-[0_18px_40px_rgba(15,23,42,0.16)] sm:right-6 sm:min-w-[320px]" data-plan-toast role="status" aria-live="polite">
 		<div class="flex items-start gap-3">
-			<span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-[#DBEAFE] text-xs font-bold text-[#2563EB]" aria-hidden="true">✓</span>
+			<span class="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full bg-[#DBEAFE] text-xs font-bold text-[#2563EB]" aria-hidden="true">âœ“</span>
 			<div class="min-w-0 flex-1">
 				<p class="text-sm font-semibold" data-toast-title>Your Texas parenting plan preview is ready.</p>
 				<p class="mt-1 text-xs leading-5 text-slate-600" data-toast-message>You can now print or download your plan.</p>
 			</div>
-			<button type="button" class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-white text-sm text-slate-500 shadow-[inset_0_0_0_1px_#DBEAFE] hover:text-slate-900" aria-label="Close notification" data-toast-close>×</button>
+			<button type="button" class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-white text-sm text-slate-500 shadow-[inset_0_0_0_1px_#DBEAFE] hover:text-slate-900" aria-label="Close notification" data-toast-close>Ã—</button>
 		</div>
 	</div>
 	<Footer />
@@ -1516,7 +776,7 @@ const schema = [
 		}
 
 		/**
-		 * Custody calendar engine — educational planning estimates only, not legal advice.
+		 * Custody calendar engine â€” educational planning estimates only, not legal advice.
 		 * Texas possession orders vary by court, distance, parent elections, holidays,
 		 * summer terms, school calendars, and agreements. Percentages are simplified
 		 * overnight models for comparison, not court-ready calculations.
@@ -1549,7 +809,7 @@ const schema = [
 		}
 
 		function getSummerBlockLabel(isFar) {
-			return isFar ? 'June 15–July 27' : 'July 1–30';
+			return isFar ? 'June 15â€“July 27' : 'July 1â€“30';
 		}
 
 		function shouldApplySeasonalToAnnual(snapshot) {
@@ -1641,7 +901,7 @@ const schema = [
 		function getBaseOvernightOwner(date, snapshot) {
 			// Base schedule layer: counts overnights only (not same-day visits).
 			// Standard SPO nearby: Fri/Sat possession weekends + Thu before 1st/3rd/5th weekends.
-			// Expanded SPO nearby: Fri–Sun possession weekends + school-year Thu + Mon school return.
+			// Expanded SPO nearby: Friâ€“Sun possession weekends + school-year Thu + Mon school return.
 			// Long-distance: weekend Fri/Sat blocks only (no midweek Thu).
 			const scheduleType = snapshot.scheduleType;
 			const isFar = snapshot.distance === 'far';

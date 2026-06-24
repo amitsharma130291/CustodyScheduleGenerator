@@ -1,0 +1,36 @@
+---
+const exchanges = [
+	{ day: 'Friday', parent: 'Parent B pickup', location: 'School front loop', time: '6:00 PM' },
+	{ day: 'Sunday', parent: 'Parent A pickup', location: 'Neutral parking lot', time: '7:00 PM' },
+	{ day: 'Wednesday', parent: 'Parent B pickup', location: 'Daycare side door', time: '5:30 PM' },
+];
+---
+
+<figure class="exchange-map w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Exchange map — day, parent, place, and clock
+	</figcaption>
+
+	<div class="mt-4 overflow-x-auto">
+		<table class="w-full min-w-[280px] text-left text-xs">
+			<thead>
+				<tr class="border-b border-line-subtle text-[10px] font-bold uppercase tracking-[0.1em] text-muted">
+					<th class="pb-2 pr-3">Exchange day</th>
+					<th class="pb-2 pr-3">Pickup parent</th>
+					<th class="pb-2 pr-3">Location</th>
+					<th class="pb-2">Clock time</th>
+				</tr>
+			</thead>
+			<tbody>
+				{exchanges.map((row, i) => (
+					<tr class:list={[i % 2 === 0 ? 'bg-surface/80' : '', 'text-secondary']}>
+						<td class="py-2 pr-3 font-semibold text-primary">{row.day}</td>
+						<td class="py-2 pr-3">{row.parent}</td>
+						<td class="py-2 pr-3">{row.location}</td>
+						<td class="py-2 font-semibold tabular-nums text-accent">{row.time}</td>
+					</tr>
+				))}
+			</tbody>
+		</table>
+	</div>
+</figure>

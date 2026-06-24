@@ -1,0 +1,37 @@
+---
+const months = [
+	'Sep', 'Oct', 'Nov', 'Dec', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
+];
+---
+
+<figure class="twelve-month-preview w-full overflow-hidden rounded-[1.25rem] border border-line bg-surface/50 p-4 sm:p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+	<figcaption class="text-sm font-semibold tracking-[-0.02em] text-primary sm:text-base">
+		Twelve-month preview — school year Sep through Aug
+	</figcaption>
+
+	<div class="mt-5 grid grid-cols-3 gap-2 sm:grid-cols-4">
+		{months.map((month, i) => (
+			<div
+				class:list={[
+					'rounded-lg px-2 py-3 text-center',
+					i === 0
+						? 'bg-accent/15 ring-2 ring-accent/40'
+						: 'bg-surface ring-1 ring-line-subtle',
+				]}
+			>
+				<p class="text-xs font-bold uppercase tracking-[0.08em] text-muted">{month}</p>
+				<div class="mt-2 grid grid-cols-7 gap-px">
+					{Array.from({ length: 14 }).map((_, di) => (
+						<span
+							class:list={[
+								'h-1.5 w-full rounded-sm',
+								di % 3 === 0 ? 'bg-accent/30' : 'bg-line-subtle',
+							]}
+							aria-hidden="true"
+						/>
+					))}
+				</div>
+			</div>
+		))}
+	</div>
+</figure>
