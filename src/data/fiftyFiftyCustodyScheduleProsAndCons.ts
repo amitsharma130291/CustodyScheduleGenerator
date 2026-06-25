@@ -1,31 +1,32 @@
 export const heroIntro = {
 	opening:
-		'50/50 custody can allow children to maintain strong relationships with both parents, but equal time also means managing two homes, two routines, school responsibilities, activities, and regular transitions.',
+		'Equal-time parenting forces the same operational decisions every fortnight: who owns Tuesday practice pickup, how homework crosses two kitchens, how many handoffs a toddler can survive before bedtime, and whether a teenager\'s shift schedule can coexist with a printed exchange night. Mapping those trade-offs first is what turns 50/50 from a percentage into a calendar you can run.',
 	followUp:
-		'Parents often ask whether equal parenting time is “good” or “bad” before they have pictured what Tuesday night homework looks like in two kitchens—or what it feels like to miss an ordinary Thursday because the calendar says it is not your day.',
+		'This page weighs the logistics equal overnights create — not which rotation to pick. Pattern comparisons belong on the 50/50 custody schedule hub; age-specific handoff load belongs on the toddler, school-age, and teenager 50/50 guides. The question here is whether two homes, recurring exchanges, and split school-night duty are workable at your distance and work schedules.',
 };
 
 export const goodOrBadSection = {
 	intro:
-		'There is no universal verdict. A 50/50 custody schedule can support close bonds with both parents and still create real friction when logistics, distance, or household differences are not planned for. The question is whether your family can handle the daily mechanics—not whether equal time sounds fair on paper.',
+		'The trade-off sheet is concrete: two stocked bedrooms, exchange nights on the calendar, homework folders that must travel, extracurricular gear that lives in the wrong closet on game day, and school forms that land in one inbox unless both parents are copied. Equal overnights distribute those tasks across two addresses on a repeating cycle — they do not eliminate them.',
 	worksWell: {
-		heading: 'When 50/50 often works well',
+		heading: 'When the logistics stay runnable',
 		points: [
-			'Parents live close enough to support school and activities',
-			'Both parents participate in daily responsibilities',
-			'The child adjusts reasonably well to transitions',
-			'Homes have predictable routines',
-			'A clear parenting schedule exists',
+			'Both homes are close enough for school drop-off, practice, and sick-day pickup without doubling commute time',
+			'Exchange count per fortnight fits work shifts — handoffs are not stacked on the same three evenings',
+			'Both parents can own ordinary school nights: spelling homework, permission slips, morning alarms',
+			'Gear duplicates exist at both addresses — cleats, chargers, and folder systems do not ride one backpack',
+			'A written rotation names exchange times so pickup is not renegotiated by text every Sunday',
 		],
 	},
 	moreDifficult: {
-		heading: 'When 50/50 may be more difficult',
+		heading: 'When equal time strains the calendar',
 		points: [
-			'Long travel times between homes',
-			'Frequent conflict during exchanges',
-			'Work schedules that make equal time unreliable',
-			'School or activity responsibilities repeatedly fall on one parent',
-			'A child continues struggling even after routines are adjusted',
+			'Drive time between homes consumes school mornings or forces one parent to miss midweek activities',
+			'Exchange nights collide with work travel, nurse shifts, or mandatory overtime',
+			'Homework, projects, or instruments finish at one house while supplies sit at the other',
+			'A toddler or preschooler hits bedtime meltdown before the third handoff in one fortnight',
+			'Teen driving, evening jobs, or Friday plans override printed exchange blocks',
+			'Long-distance parenting turns every exchange into a half-day travel event',
 		],
 	},
 	closing:

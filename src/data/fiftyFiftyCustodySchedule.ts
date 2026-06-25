@@ -1,7 +1,7 @@
 export const meta = {
 	title: '50/50 Custody Schedule | Choose the Right Equal-Time Pattern',
 	description:
-		'Pick the best 50/50 custody schedule for your family. Compare 2-2-3, 2-2-5-5, 5-2-2-5, 3-4-4-3, and week-on/week-off — then build a printable equal-time calendar.',
+		'Compare equal-time custody rotations — how 2-2-3, 2-2-5-5, 5-2-2-5, 3-4-4-3, and week-on/week-off differ on exchanges, weekday ownership, and weekend blocks — then preview a printable calendar.',
 	datePublished: '2026-06-13',
 	dateModified: '2026-06-18',
 };
