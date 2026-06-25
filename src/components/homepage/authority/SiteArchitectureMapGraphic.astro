@@ -1,0 +1,61 @@
+---
+const hubs = [
+	{ label: 'Tools', href: '/custody-schedule-generator/', detail: 'Generator · calculators', position: 'arch-node-top' },
+	{ label: 'Schedules', href: '/2-2-3-custody-schedule/', detail: 'Rotation guides', position: 'arch-node-right-top' },
+	{ label: 'Age guides', href: '/custody-schedule-by-age/', detail: 'By child stage', position: 'arch-node-right-bottom' },
+	{ label: 'Templates', href: '/parenting-plan-template/', detail: 'Plan & calendar docs', position: 'arch-node-left-bottom' },
+	{ label: 'Holiday planning', href: '/holiday-custody-schedule/', detail: 'Override tables', position: 'arch-node-left-top' },
+];
+---
+
+<figure class="site-arch-map relative mx-auto w-full max-w-[36rem] overflow-hidden rounded-[1.5rem] border border-line bg-page/50 p-4 sm:p-5" aria-label="CustodyBuilder site architecture map">
+	<figcaption class="text-sm font-semibold text-primary">How the site is organized</figcaption>
+
+	<div class="relative mx-auto mt-6 min-h-[20rem] max-w-[32rem]">
+		<svg class="absolute inset-0 h-full w-full" viewBox="0 0 480 320" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+			<line x1="240" y1="160" x2="240" y2="48" stroke="var(--border-subtle)" stroke-width="2" stroke-dasharray="4 4" />
+			<line x1="240" y1="160" x2="392" y2="96" stroke="var(--border-subtle)" stroke-width="2" stroke-dasharray="4 4" />
+			<line x1="240" y1="160" x2="392" y2="224" stroke="var(--border-subtle)" stroke-width="2" stroke-dasharray="4 4" />
+			<line x1="240" y1="160" x2="88" y2="224" stroke="var(--border-subtle)" stroke-width="2" stroke-dasharray="4 4" />
+			<line x1="240" y1="160" x2="88" y2="96" stroke="var(--border-subtle)" stroke-width="2" stroke-dasharray="4 4" />
+		</svg>
+
+		<div class="absolute left-1/2 top-1/2 z-10 grid h-24 w-24 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full bg-primary text-center text-xs font-bold leading-4 text-white shadow-[0_12px_32px_rgba(15,23,42,0.15)]">
+			Custody<br />Builder
+		</div>
+
+		{hubs.map((hub) => (
+			<a
+				href={hub.href}
+				class={`arch-node ${hub.position} absolute z-20 block w-[7.5rem] rounded-xl bg-surface px-2 py-2.5 text-center shadow-[0_4px_16px_rgba(15,23,42,0.06),inset_0_0_0_1px_var(--border-subtle)] transition-colors hover:border-accent/40 hover:shadow-[0_8px_24px_rgba(37,99,235,0.12)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:w-[8.5rem]`}
+			>
+				<span class="text-xs font-bold text-primary sm:text-sm">{hub.label}</span>
+				<span class="mt-0.5 block text-[10px] font-medium leading-3 text-muted">{hub.detail}</span>
+			</a>
+		))}
+	</div>
+</figure>
+
+<style>
+	.arch-node-top {
+		left: 50%;
+		top: 0;
+		transform: translateX(-50%);
+	}
+	.arch-node-right-top {
+		right: 0;
+		top: 12%;
+	}
+	.arch-node-right-bottom {
+		right: 0;
+		bottom: 12%;
+	}
+	.arch-node-left-bottom {
+		left: 0;
+		bottom: 12%;
+	}
+	.arch-node-left-top {
+		left: 0;
+		top: 12%;
+	}
+</style>

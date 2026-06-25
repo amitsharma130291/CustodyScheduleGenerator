@@ -3,816 +3,240 @@ import FAQ from '../components/FAQ.astro';
 import Footer from '../components/Footer.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import Navbar from '../components/Navbar.astro';
+import HeroCalendarPreview from '../components/homepage/authority/HeroCalendarPreview.astro';
+import ProductFlowGraphic from '../components/homepage/authority/ProductFlowGraphic.astro';
+import SiteArchitectureMapGraphic from '../components/homepage/authority/SiteArchitectureMapGraphic.astro';
+import TrustMethodologyGraphic from '../components/homepage/authority/TrustMethodologyGraphic.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import SchedulePatternStrip from '../components/homepage/visuals/SchedulePatternStrip.astro';
-import ToolPreviewCard from '../components/homepage/visuals/ToolPreviewCard.astro';
-import { homepageFaqItems, platformFaqItems } from '../data/homepage';
 import { getCanonicalUrl } from '../lib/seo/metadata';
 import {
 	buildBreadcrumbSchema,
 	buildFAQSchema,
 	buildOrganizationSchema,
-	buildSoftwareApplicationSchema,
 	buildWebPageSchema,
 	buildWebSiteSchema,
 } from '../lib/seo/schema';
+import {
+	chooseBySituation,
+	editorialBlock,
+	exploreByChildStage,
+	faqItems,
+	faqSection,
+	hero,
+	howItWorks,
+	meta,
+	planningDocuments,
+	popularGuides,
+	startWithTool,
+	whyDifferent,
+} from '../data/homepageAuthority';
 
-const title = 'CustodyBuilder | Custody Schedules, Parenting Plans & Calculators';
-const description =
-	'Create custody schedules, compare parenting time, calculate custody percentages, build parenting plans, and manage visitation calendars for co-parents.';
-const ogDescription =
-	'Build custody schedules, parenting calendars, and printable co-parenting plans with free custody planning tools.';
 const canonical = '/';
 const canonicalUrl = getCanonicalUrl(canonical);
-const dateModified = '2026-06-10';
-const platformTools = [
-	{ title: 'Custody Schedule Generator', href: '/custody-schedule-generator/', status: 'Available', isActive: true },
-	{ title: 'Parenting Time Calculator', href: '/parenting-time-calculator/', status: 'Platform module', isActive: false },
-	{ title: 'Child Support Calculator', href: '/child-support-calculator/', status: 'Platform module', isActive: false },
-	{ title: 'Holiday Planner', href: '/holiday-custody-planner/', status: 'Platform module', isActive: false },
-	{ title: 'Custody Agreement Builder', href: '/custody-agreement-builder/', status: 'Platform module', isActive: false },
-	{ title: 'Schedule Comparison Tool', href: '/schedule-comparison-tool/', status: 'Platform module', isActive: false },
-];
-const schedulePills = [
-	{ label: '50/50 Custody', href: '/50-50-custody-schedule/' },
-	{ label: '2-2-3 Schedule', href: '/2-2-3-custody-schedule/' },
-	{ label: '2-2-5-5 Schedule', href: '/2-2-5-5-custody-schedule/' },
-	{ label: '5-2-2-5 Schedule', href: '/5-2-2-5-custody-schedule/' },
-	{ label: '3-4-4-3 custody schedule', href: '/3-4-4-3-custody-schedule/' },
-	{ label: '60/40 Custody', href: '/60-40-custody-schedule/' },
-	{ label: '70/30 Custody', href: '/70-30-custody-schedule/' },
-	{ label: '80/20 Custody', href: '/80-20-custody-schedule/' },
-];
-const hubLinks = [
-	{ label: 'Custody schedule generator', href: '/custody-schedule-generator/' },
-	{ label: 'Custody percentage calculator', href: '/custody-percentage-calculator/' },
-	{ label: 'Parenting time calculator', href: '/parenting-time-calculator/' },
-	{ label: 'Custody calendar template', href: '/custody-calendar-template/' },
-	{ label: 'Parenting plan template', href: '/parenting-plan-template/' },
-	{ label: '50/50 custody schedules', href: '/50-50-custody-schedule/' },
-	{ label: 'Holiday custody schedule', href: '/holiday-custody-schedule/' },
-	{ label: 'Custody schedules by age', href: '/custody-schedule-by-age/' },
-];
-const platformFeatures = [
-	{
-		title: 'Scheduling',
-		outcome: 'Turn parenting arrangements into structured custody schedules that can become real calendars.',
-		status: 'Entry point',
-		statusKey: 'available',
-		preview: 'calendar',
-		href: '/custody-schedule-generator/',
-	},
-	{
-		title: 'Parenting Time',
-		outcome: 'Understand overnights and parenting time percentages before comparing arrangements.',
-		status: 'Planning layer',
-		statusKey: 'planned',
-		preview: 'parenting-time',
-		href: '/parenting-time-calculator/',
-	},
-	{
-		title: 'Child Support',
-		outcome: 'Connect schedule assumptions with support estimate planning and income scenarios.',
-		status: 'Estimate layer',
-		statusKey: 'planned',
-		preview: 'support',
-		href: '/child-support-calculator/',
-	},
-	{
-		title: 'Holiday Planning',
-		outcome: 'Layer school breaks, birthdays, holidays, and special days on top of the base schedule.',
-		status: 'Calendar layer',
-		statusKey: 'planned',
-		preview: 'holidays',
-		href: '/holiday-custody-planner/',
-	},
-	{
-		title: 'Agreements',
-		outcome: 'Organize exchanges, responsibilities, expenses, and terms into a clearer plan.',
-		status: 'Document layer',
-		statusKey: 'planned',
-		preview: 'agreement',
-		href: '/custody-agreement-builder/',
-	},
-	{
-		title: 'Reporting',
-		outcome: 'Package calendars, summaries, and planning outputs for review and discussion.',
-		status: 'Export layer',
-		statusKey: 'planned',
-		preview: 'reports',
-		href: '/schedule-comparison-tool/',
-	},
-];
-const workflowSteps = [
-	{
-		title: 'Choose a schedule',
-		description: 'Start with common custody patterns like 2-2-3, 2-2-5-5, 50/50, 60/40, or 70/30.',
-		visual: 'selector',
-	},
-	{
-		title: 'Generate a calendar',
-		description: 'Turn your arrangement into a clear monthly parenting calendar.',
-		visual: 'calendar',
-	},
-	{
-		title: 'Calculate parenting time',
-		description: 'Estimate overnights and parenting percentages across the year.',
-		visual: 'parenting-time',
-	},
-	{
-		title: 'Plan holidays',
-		description: 'Organize school breaks, holidays, birthdays, and special days.',
-		visual: 'holidays',
-	},
-	{
-		title: 'Prepare agreements',
-		description: 'Structure parenting plan terms, exchanges, expenses, and responsibilities.',
-		visual: 'agreement',
-	},
-	{
-		title: 'Export and share',
-		description: 'Print, save, or share custody calendars and planning details.',
-		visual: 'export',
-	},
-];
-const scheduleCards = [
-	{ title: '2-2-3 Schedule', split: '50/50', href: '/2-2-3-custody-schedule/', description: 'Frequent exchanges with alternating weekends for a balanced 50/50 pattern.', pattern: ['A', 'A', 'B', 'B', 'A', 'A', 'A', 'B', 'B', 'A', 'A', 'B', 'B', 'B'] },
-	{ title: '2-2-5-5 Schedule', split: '50/50', href: '/2-2-5-5-custody-schedule/', description: 'Stable weekdays with each parent keeping the same two weekdays.', pattern: ['A', 'A', 'B', 'B', 'A', 'A', 'A', 'A', 'A', 'B', 'B', 'A', 'A', 'B'] },
-	{ title: '5-2-2-5 Schedule', split: '50/50', href: '/5-2-2-5-custody-schedule/', description: 'Predictable blocks with consistent weekday parenting time.', pattern: ['A', 'A', 'A', 'A', 'A', 'B', 'B', 'A', 'A', 'B', 'B', 'B', 'B', 'B'] },
-	{ title: '3-4-4-3 custody schedule', split: '50/50', href: '/3-4-4-3-custody-schedule/', description: 'A balanced 50/50 rotation with longer blocks and fewer exchanges than 2-2-3.', pattern: ['A', 'A', 'A', 'B', 'B', 'B', 'B', 'A', 'A', 'A', 'A', 'B', 'B', 'B'] },
-	{ title: '50/50 Custody', split: 'Equal time', href: '/50-50-custody-schedule/', description: 'Equal parenting time options for families comparing shared custody plans.', pattern: ['A', 'A', 'A', 'A', 'A', 'A', 'A', 'B', 'B', 'B', 'B', 'B', 'B', 'B'] },
-	{ title: '60/40 Custody', split: '60/40', href: '/60-40-custody-schedule/', description: 'A substantial parenting time split with one slightly larger school-week home.', pattern: ['A', 'A', 'A', 'A', 'B', 'B', 'B', 'A', 'A', 'A', 'A', 'B', 'B', 'A'] },
-	{ title: '70/30 Custody', split: '70/30', href: '/70-30-custody-schedule/', description: 'A primary-home routine with regular overnight time in the other home.', pattern: ['A', 'A', 'A', 'A', 'A', 'B', 'B', 'A', 'A', 'A', 'A', 'A', 'B', 'A'] },
-	{ title: '80/20 Custody', split: '80/20', href: '/80-20-custody-schedule/', description: 'A primary residence schedule with recurring weekends or set parenting blocks.', pattern: ['A', 'A', 'A', 'A', 'A', 'B', 'B', 'A', 'A', 'A', 'A', 'A', 'A', 'A'] },
-];
-const resourceCards = [
-	{ title: 'Parenting Plans', href: '/resources/parenting-plans/', description: 'Learn what to include when turning a custody calendar into a parenting plan.' },
-	{ title: 'Child Support', href: '/resources/child-support/', description: 'Understand how support estimates and parenting schedules may fit together.' },
-	{ title: 'Joint Custody', href: '/resources/joint-custody/', description: 'Compare shared custody arrangements, responsibilities, and planning tradeoffs.' },
-	{ title: 'Sole Custody', href: '/resources/sole-custody/', description: 'Review planning considerations for primary-home and limited-time schedules.' },
-	{ title: 'Holiday Schedules', href: '/resources/holiday-schedules/', description: 'Plan holidays, school breaks, birthdays, and special days around the base schedule.' },
-	{ title: 'Long Distance Parenting', href: '/resources/long-distance-parenting/', description: 'Explore custody planning when travel time and school breaks matter most.' },
-	{ title: 'School Year Schedules', href: '/resources/school-year-schedules/', description: 'Organize school nights, activities, transportation, and predictable routines.' },
-	{ title: 'Summer Custody', href: '/resources/summer-custody/', description: 'Plan summer parenting time, travel blocks, camps, and vacation schedules.' },
-];
-const ecosystemGroups = [
-	{
-		title: 'Plan',
-		description: 'Create the foundation for the parenting arrangement and calendar.',
-		items: ['Create custody plan', 'Choose schedule pattern', 'Compare arrangements'],
-	},
-	{
-		title: 'Calculate',
-		description: 'Turn the plan into numbers parents can understand and discuss.',
-		items: ['Parenting time totals', 'Overnight percentages', 'Support estimate inputs'],
-	},
-	{
-		title: 'Organize',
-		description: 'Keep holidays, school breaks, and special days connected to the plan.',
-		items: ['Holiday planning', 'School breaks', 'Summer blocks'],
-	},
-	{
-		title: 'Prepare',
-		description: 'Translate decisions into clearer agreement terms and checklists.',
-		items: ['Exchange details', 'Decision making', 'Expense responsibilities'],
-	},
-	{
-		title: 'Share',
-		description: 'Package calendars, summaries, and records for practical use.',
-		items: ['Printable exports', 'Annual summaries', 'Parenting time reports'],
-	},
-];
-const roadmapItems = [
-	'Parenting Time Calculator',
-	'Child Support Calculator',
-	'Holiday Planner',
-	'Agreement Builder',
-	'Reports',
-];
+
 const schema = [
-	buildFAQSchema([...platformFaqItems, ...homepageFaqItems]),
+	buildWebPageSchema({ name: meta.title, description: meta.description, url: canonicalUrl }),
+	buildFAQSchema(faqItems),
 	buildBreadcrumbSchema([{ name: 'Home', url: canonicalUrl }]),
-	{
-		...buildWebPageSchema({
-			name: title,
-			description,
-			url: canonicalUrl,
-		}),
-		dateModified,
-		isAccessibleForFree: true,
-		about: [
-			'custody tools',
-			'custody planner',
-			'custody planning software',
-			'parenting time calculator',
-			'parenting schedule tools',
-			'co parenting tools',
-			'co-parenting planning',
-		],
-	},
-	buildWebSiteSchema({
-		name: 'CustodyBuilder',
-		description,
-		url: canonicalUrl,
-	}),
-	{
-		...buildOrganizationSchema({
-			name: 'CustodyBuilder',
-			url: canonicalUrl,
-		}),
-		logo: getCanonicalUrl('/logo/custodybuilder-icon-light.svg'),
-	},
-	{
-		...buildSoftwareApplicationSchema({
-			name: 'CustodyBuilder',
-			description:
-				'CustodyBuilder helps parents create custody schedules, parenting calendars, parenting time estimates, and printable custody planning documents.',
-			url: canonicalUrl,
-			applicationCategory: 'LegalApplication',
-		}),
-		operatingSystem: 'Web',
-		isAccessibleForFree: true,
-		featureList: [
-			'Custody schedule generator',
-			'Parenting time calculator',
-			'Child support calculator',
-			'Holiday planner',
-			'Custody agreement builder',
-			'Custody arrangement comparison',
-			'Co-parenting planning tools',
-		],
-	},
-	{
-		'@context': 'https://schema.org',
-		'@type': 'ItemList',
-		name: 'CustodyBuilder custody planning tools',
-		inLanguage: 'en-US',
-		itemListElement: platformTools.map((tool, index) => ({
-			'@type': 'ListItem',
-			position: index + 1,
-			name: tool.title,
-			url: getCanonicalUrl(tool.href),
-		})),
-	},
+	buildWebSiteSchema({ name: 'CustodyBuilder', description: meta.description, url: canonicalUrl }),
+	buildOrganizationSchema({ name: 'CustodyBuilder', url: canonicalUrl }),
 ];
+
+const toolAccentStyles: Record<string, string> = {
+	calendar: 'border-l-parent-a bg-parent-a/5',
+	percent: 'border-l-accent bg-accent/5',
+	log: 'border-l-parent-b bg-parent-b/5',
+	texas: 'border-l-amber-600/80 bg-amber-500/5',
+};
 ---
 
-<BaseLayout title={title} description={description} canonical={canonical} ogTitle={title} ogDescription={ogDescription} ogType="website">
+<BaseLayout title={meta.title} description={meta.description} canonical={canonical} ogType="website">
 	<JsonLd slot="head" data={schema} />
 	<Navbar />
-	<main class="relative overflow-x-clip">
-		<section class="platform-hero atmosphere container-shell relative grid items-center gap-7 py-8 sm:py-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-10 lg:py-14 xl:py-16">
-			<div class="platform-blob platform-blob-a" aria-hidden="true"></div>
-			<div class="platform-blob platform-blob-b" aria-hidden="true"></div>
-			<div class="relative z-10 motion-load motion-load-primary">
-				<p class="inline-flex rounded-full border border-line-subtle bg-surface/50 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-muted shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] backdrop-blur-xl">
-					Custody Planning Platform
-				</p>
-				<h1 class="mt-4 max-w-[760px] text-[clamp(48px,12vw,64px)] font-semibold leading-[0.94] tracking-[-0.065em] text-primary lg:text-[clamp(62px,5.35vw,82px)] lg:leading-[0.9]">
-					Build Your Complete Custody Plan
-				</h1>
-				<p class="mt-6 max-w-[660px] text-lg leading-[1.65] text-secondary lg:text-xl">
-					Plan parenting schedules, holidays, parenting time, support estimates, and custody documents in one connected workspace.
-				</p>
-				<div class="mt-6 flex flex-col gap-3 sm:flex-row">
-					<a
-						href="/custody-schedule-generator/"
-						class="btn-primary inline-flex h-13 w-full items-center justify-center whitespace-nowrap rounded-full px-8 text-base font-semibold transition-all duration-200 ease-out hover:-translate-y-px active:translate-y-0 sm:w-auto"
-						aria-label="Open Schedule Generator"
-						data-track-event="cta_click"
-						data-cta-name="launch_schedule_generator"
-						data-cta-location="homepage_hero"
-						data-destination="/custody-schedule-generator/"
-					>
-						Launch Schedule Generator
-					</a>
-					<a
-						href="#tools"
-						class="btn-secondary inline-flex h-13 w-full items-center justify-center whitespace-nowrap rounded-full px-8 text-base font-semibold transition-all duration-200 ease-out hover:-translate-y-px active:translate-y-0 sm:w-auto"
-						aria-label="Explore CustodyBuilder tools"
-						data-track-event="cta_click"
-						data-cta-name="explore_platform"
-						data-cta-location="homepage_hero"
-						data-destination="#tools"
-					>
-						Explore Platform
-					</a>
+	<main>
+		<!-- Hero -->
+		<section class="container-shell py-10 lg:py-16">
+			<div class="grid items-center gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12">
+				<div class="max-w-2xl">
+					<p class="text-xs font-bold uppercase tracking-[0.18em] text-accent">{hero.eyebrow}</p>
+					<h1 class="mt-4 text-4xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary sm:text-5xl lg:text-[3.25rem]">{hero.headline}</h1>
+					<p class="mt-5 text-lg leading-8 text-secondary">{hero.intro}</p>
+					<div class="mt-7 flex flex-col gap-3 sm:flex-row">
+						<a href={hero.primaryCta.href} class="btn-primary inline-flex h-12 items-center justify-center rounded-full px-6 text-sm font-semibold">{hero.primaryCta.label}</a>
+						<a href={hero.secondaryCta.href} class="btn-secondary inline-flex h-12 items-center justify-center rounded-full px-6 text-sm font-semibold">{hero.secondaryCta.label}</a>
+					</div>
+					<p class="mt-5 text-xs leading-5 text-muted">
+						Reviewed by CustodyBuilder Editorial Team · Updated {meta.dateModified} ·{' '}
+						<a href="/disclaimer/" class="font-semibold text-secondary underline">Educational disclaimer</a>
+					</p>
 				</div>
-				<div class="mt-5 max-w-2xl rounded-2xl bg-surface/70 px-4 py-3 text-xs font-semibold leading-5 text-secondary shadow-[0_14px_34px_rgba(15,23,42,0.035),inset_0_0_0_1px_var(--border-subtle)] backdrop-blur-xl" aria-label="Available CustodyBuilder features">
-					<span class="text-parent-b" aria-hidden="true">✓</span> Available now: custody schedule generator, parenting time percentages, printable exports
-				</div>
+				<HeroCalendarPreview />
 			</div>
-
-			<article class="platform-cluster motion-load motion-load-secondary premium-card relative min-h-[560px] overflow-visible rounded-[2rem] p-4 sm:min-h-[620px]" aria-label="CustodyBuilder product ecosystem preview">
-				<div class="platform-cluster-glow" aria-hidden="true"></div>
-				<svg class="cluster-connectors absolute inset-0 h-full w-full" viewBox="0 0 600 620" preserveAspectRatio="none" aria-hidden="true">
-					<line class="cluster-line-live" x1="300" y1="310" x2="132" y2="135"></line>
-					<line class="cluster-line" x1="300" y1="310" x2="474" y2="90"></line>
-					<line class="cluster-line" x1="300" y1="310" x2="500" y2="295"></line>
-					<line class="cluster-line" x1="300" y1="310" x2="410" y2="520"></line>
-					<line class="cluster-line" x1="300" y1="310" x2="145" y2="512"></line>
-					<line class="cluster-line" x1="300" y1="310" x2="95" y2="330"></line>
-				</svg>
-
-				<div class="cluster-center-node" aria-hidden="true"></div>
-
-				<a
-					href="/custody-schedule-generator/"
-					class="cluster-module cluster-module-live group"
-					data-track-event="cta_click"
-					data-cta-name="launch_schedule_generator"
-					data-cta-location="hero_active_module"
-					data-destination="/custody-schedule-generator/"
-				>
-					<span class="cluster-live-ring" aria-hidden="true"></span>
-					<div class="flex items-center justify-between gap-3">
-						<div class="flex items-center gap-2">
-							<span class="cluster-live-dot" aria-hidden="true"></span>
-							<p class="text-xs font-semibold uppercase tracking-[0.16em] text-parent-b">Active Module</p>
-						</div>
-					</div>
-					<h3 class="mt-3 text-2xl font-semibold tracking-[-0.045em] text-primary">Custody Schedule Builder</h3>
-					<p class="mt-2 text-sm leading-6 text-secondary">Generate 50/50, 60/40, 70/30, 80/20, 2-2-3, 2-2-5-5, and custom schedules.</p>
-					<div class="mt-4 rounded-2xl bg-page/70 p-2.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-						<div class="flex items-center justify-between text-[10px] font-bold uppercase tracking-[0.12em] text-muted">
-							<span>Plan setup</span>
-							<span>Step 1</span>
-						</div>
-						<div class="mt-2.5 grid grid-cols-5 gap-1.5" aria-hidden="true">
-							{['A', 'A', 'B', 'B', 'A'].map((day) => (
-								<span class={day === 'A' ? 'h-7 rounded-xl bg-parent-a/20' : 'h-7 rounded-xl bg-parent-b/20'}></span>
-							))}
-						</div>
-						<div class="mt-2.5 h-1.5 overflow-hidden rounded-full bg-surface">
-							<div class="h-full w-[72%] rounded-full bg-gradient-to-r from-parent-a to-parent-b"></div>
-						</div>
-					</div>
-					<span class="cluster-live-cta mt-4 inline-flex items-center justify-center rounded-full px-4 py-2.5 text-sm font-semibold transition-all duration-200 group-hover:-translate-y-0.5 group-focus-visible:outline group-focus-visible:outline-2 group-focus-visible:outline-offset-2 group-focus-visible:outline-accent">
-						Launch Schedule Generator
-					</span>
-				</a>
-
-				{[
-					{ title: 'Calculate Time', meta: 'Overnights and parenting percentages', className: 'cluster-module-parenting' },
-					{ title: 'Plan Holidays', meta: 'Breaks, birthdays, and special days', className: 'cluster-module-holidays' },
-					{ title: 'Prepare Documents', meta: 'Terms, exchanges, and responsibilities', className: 'cluster-module-agreement' },
-					{ title: 'Estimate Support', meta: 'Income and custody context', className: 'cluster-module-support' },
-					{ title: 'Export Records', meta: 'Calendars, summaries, and plan history', className: 'cluster-module-reports' },
-				].map((module) => (
-					<div class={`cluster-module ${module.className}`}>
-						<div class="mb-3 flex gap-1.5" aria-hidden="true">
-							<span class="h-1.5 w-6 rounded-full bg-accent/25"></span>
-							<span class="h-1.5 w-3 rounded-full bg-parent-b/20"></span>
-						</div>
-						<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{module.title}</h3>
-						<p class="mt-2 text-xs leading-5 text-secondary">{module.meta}</p>
-					</div>
-				))}
-			</article>
 		</section>
 
-		<section class="container-shell pb-8 lg:pb-10" aria-label="Popular custody planning tools">
-			<div class="soft-card flex flex-col gap-3 rounded-[1.5rem] p-4 sm:flex-row sm:flex-wrap sm:items-center">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-secondary">Used to plan the most common custody arrangements.</p>
-				<div class="flex flex-wrap gap-2">
-					{schedulePills.map((pill) => (
+		<!-- Start With The Right Tool -->
+		<section id="tools" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-14">
+			<div class="max-w-2xl">
+				<h2 class="text-2xl font-semibold tracking-[-0.03em] text-primary sm:text-3xl">{startWithTool.title}</h2>
+				<p class="mt-3 text-secondary">{startWithTool.intro}</p>
+			</div>
+			<ul class="mt-8 grid gap-4 sm:grid-cols-2">
+				{startWithTool.tools.map((tool) => (
+					<li>
 						<a
-							href={pill.href}
-							class="rounded-full bg-surface px-3 py-1.5 text-xs font-semibold text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-surface-hover hover:text-primary hover:shadow-[0_10px_24px_rgba(15,23,42,0.05),inset_0_0_0_1px_var(--border-subtle)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-							data-track-event="seo_pill_click"
-							data-pill-name={pill.label}
-							data-location="homepage_trust_bar"
+							href={tool.href}
+							class={`soft-card block rounded-[1.35rem] border-l-4 p-5 transition-colors hover:border-accent/40 ${toolAccentStyles[tool.accent] ?? 'border-l-line'}`}
 						>
-							{pill.label}
+							<p class="text-[11px] font-bold uppercase tracking-[0.1em] text-muted">Answers</p>
+							<p class="mt-1 text-sm font-medium italic text-secondary">"{tool.question}"</p>
+							<h3 class="mt-3 text-lg font-semibold text-primary">{tool.label}</h3>
+							<p class="mt-2 text-sm text-secondary">{tool.detail}</p>
 						</a>
-					))}
-				</div>
-			</div>
+					</li>
+				))}
+			</ul>
 		</section>
 
-		<section class="container-shell pb-8 lg:pb-10" aria-label="CustodyBuilder planning hubs">
-			<div class="premium-card rounded-[1.75rem] p-5 lg:p-6">
-				<div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-					<div>
-						<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Planning hubs</p>
-						<h2 class="mt-2 text-2xl font-semibold tracking-[-0.04em] text-primary">Custody tools for schedules, calendars, plans, and holidays</h2>
-					</div>
-					<a href="/custody-schedule-by-age/" class="btn-secondary inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-semibold">Compare by child age</a>
-				</div>
-				<div class="mt-5 flex flex-wrap gap-2">
-					{hubLinks.map((link) => (
-						<a href={link.href} class="rounded-full bg-surface px-3 py-2 text-xs font-semibold text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-all duration-200 hover:-translate-y-0.5 hover:bg-surface-hover hover:text-primary">
-							{link.label}
-						</a>
-					))}
-				</div>
-			</div>
-		</section>
-
-		<section id="connected-system" class="container-shell scroll-mt-24 py-12 lg:py-20" aria-labelledby="connected-system-title">
-			<div class="mx-auto max-w-3xl text-center">
-				<p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted">Connected system</p>
-				<h2 id="connected-system-title" class="mt-2 text-4xl font-semibold leading-[1.03] tracking-[-0.055em] text-primary sm:text-5xl">
-					Everything stays connected
-				</h2>
-				<p class="mt-5 text-base leading-8 text-secondary">
-					Start with a custody schedule, then use the same plan to understand parenting time, holidays, support estimates, agreements, and exports.
-				</p>
-			</div>
-
-			<div class="connected-system-grid relative mt-8 grid gap-4 lg:grid-cols-[1fr_auto_1fr] lg:items-stretch">
-				<article class="reveal-card connected-card soft-card rounded-[1.8rem] p-5 lg:p-6">
-					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Without CustodyBuilder</p>
-					<h3 class="mt-3 text-2xl font-semibold tracking-[-0.045em] text-primary">Fragmented planning</h3>
-					<div class="mt-5 grid gap-3 text-sm font-semibold text-secondary">
-						{['Separate calendars', 'Manual overnight counts', 'Spreadsheet support estimates', 'Scattered documents', 'Hard-to-share plans'].map((item) => (
-							<div class="flex items-center gap-3 rounded-2xl bg-page/70 px-4 py-3 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-								<span class="h-2 w-2 rounded-full bg-muted/45" aria-hidden="true"></span>
-								<span>{item}</span>
-							</div>
-						))}
-					</div>
-				</article>
-
-				<div class="connected-arrow reveal-card hidden place-items-center lg:grid" aria-hidden="true">
-					<span class="grid h-12 w-12 place-items-center rounded-full bg-surface-elevated text-accent shadow-[0_18px_44px_rgba(15,23,42,0.08),inset_0_0_0_1px_var(--border-subtle)]">→</span>
-				</div>
-
-				<article class="reveal-card connected-card connected-card-active rounded-[1.8rem] p-5 lg:p-6">
-					<p class="text-xs font-semibold uppercase tracking-[0.18em] text-accent">With CustodyBuilder</p>
-					<h3 class="mt-3 text-2xl font-semibold tracking-[-0.045em] text-primary">One connected custody plan</h3>
-					<div class="mt-5 grid gap-3 text-sm font-semibold text-secondary">
-						{['One connected custody plan', 'Schedule-based parenting time', 'Holiday planning', 'Agreement checklist', 'Printable exports'].map((item) => (
-							<div class="flex items-center justify-between gap-3 rounded-2xl bg-page/70 px-4 py-3 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-								<span>{item}</span>
-								<span class="text-parent-b" aria-hidden="true">✓</span>
-							</div>
-						))}
-					</div>
-				</article>
-			</div>
-		</section>
-
-		<section id="system-flow" class="system-flow-section container-shell scroll-mt-24 py-12 lg:py-20" aria-labelledby="system-flow-title">
-			<div class="mx-auto max-w-4xl text-center">
-				<p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted">System intelligence</p>
-				<h2 id="system-flow-title" class="mt-2 text-4xl font-semibold leading-[1.02] tracking-[-0.06em] text-primary sm:text-5xl lg:text-6xl">
-					One change updates everything
-				</h2>
-				<p class="mx-auto mt-5 max-w-2xl text-base leading-8 text-secondary">
-					A custody plan isn't a collection of separate documents. Every decision affects schedules, parenting time, holidays, support estimates, agreements, and reports.
-				</p>
-			</div>
-
-			<div class="system-flow-card reveal-card relative mx-auto mt-9 max-w-5xl overflow-hidden rounded-[2rem] p-4 sm:p-5">
-				<div class="system-flow-orb system-flow-orb-a" aria-hidden="true"></div>
-				<div class="system-flow-orb system-flow-orb-b" aria-hidden="true"></div>
-				<div class="relative grid gap-3">
-					{[
-						['Schedule Change', '2-2-5-5 plan adjusted'],
-						['Parenting Time Updates', 'Overnights recalculated'],
-						['Support Updates', 'Estimate assumptions refreshed'],
-						['Agreement Updates', 'Checklist terms aligned'],
-						['Reports Update', 'Exports and summaries rebuilt'],
-					].map(([title, detail], index) => (
-						<div class="system-flow-node grid items-center gap-3 rounded-2xl bg-surface-elevated/75 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)] sm:grid-cols-[auto_1fr_auto]">
-							<span class="system-flow-node-dot" aria-hidden="true"></span>
-							<div>
-								<h3 class="text-base font-semibold tracking-[-0.03em] text-primary">{title}</h3>
-								<p class="mt-1 text-sm leading-6 text-secondary">{detail}</p>
-							</div>
-							<span class="rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-accent">0{index + 1}</span>
-						</div>
-					))}
-				</div>
-			</div>
-		</section>
-
-		<section id="workspace" class="workspace-showcase scroll-mt-24 py-14 lg:py-24" aria-labelledby="workspace-title">
-			<div class="container-shell">
-				<div class="grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:items-center">
-					<div class="reveal-card">
-						<p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-slate-400">Product workspace</p>
-						<h2 id="workspace-title" class="mt-3 text-4xl font-semibold leading-[1.02] tracking-[-0.06em] text-white sm:text-5xl lg:text-6xl">
-							The custody planning workspace
-						</h2>
-						<p class="mt-5 max-w-xl text-base leading-8 text-slate-300">
-							Everything stays organized in one place.
-						</p>
-					</div>
-
-					<article class="workspace-dashboard reveal-card relative overflow-hidden rounded-[2rem] p-3" aria-label="CustodyBuilder workspace dashboard preview">
-						<div class="rounded-[1.7rem] border border-white/10 bg-slate-950/74 p-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)] sm:p-5">
-							<div class="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4">
+		<!-- How CustodyBuilder Works -->
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-14">
+			<div class="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+				<div>
+					<h2 class="text-2xl font-semibold tracking-[-0.03em] text-primary sm:text-3xl">{howItWorks.title}</h2>
+					<p class="mt-3 text-secondary">{howItWorks.intro}</p>
+					<ol class="mt-8 space-y-5">
+						{howItWorks.steps.map((step) => (
+							<li class="flex gap-4">
+								<span class="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-primary text-sm font-bold text-white">{step.step}</span>
 								<div>
-									<p class="text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">CustodyBuilder</p>
-									<h3 class="mt-1 text-2xl font-semibold tracking-[-0.045em] text-white">Parenting Plan HQ</h3>
+									<h3 class="font-semibold text-primary">{step.heading}</h3>
+									<p class="mt-2 text-sm leading-6 text-secondary">{step.body}</p>
 								</div>
-								<span class="rounded-full bg-[rgba(45,212,191,0.12)] px-3 py-1 text-xs font-semibold text-[#2DD4BF]">Live plan</span>
-							</div>
-							<div class="mt-4 grid gap-3 lg:grid-cols-[1.08fr_0.92fr]">
-								<section class="rounded-2xl border border-white/10 bg-white/[0.045] p-4">
-									<div class="flex items-center justify-between">
-										<h4 class="text-sm font-semibold text-white">Schedule</h4>
-										<span class="text-xs font-semibold text-slate-400">2-2-5-5</span>
-									</div>
-									<div class="mt-4 grid grid-cols-7 gap-1.5">
-										{['A', 'A', 'B', 'B', 'A', 'A', 'A', 'A', 'A', 'B', 'B', 'B', 'B', 'B'].map((parent) => (
-											<span class={parent === 'A' ? 'grid h-8 place-items-center rounded-lg bg-[rgba(96,165,250,0.22)] text-[10px] font-bold text-[#DBEAFE]' : 'grid h-8 place-items-center rounded-lg bg-[rgba(45,212,191,0.18)] text-[10px] font-bold text-[#CCFBF1]'}>{parent}</span>
-										))}
-									</div>
-								</section>
-								<section class="rounded-2xl border border-white/10 bg-white/[0.045] p-4">
-									<h4 class="text-sm font-semibold text-white">Parenting Time</h4>
-									<div class="mt-4 grid gap-3 text-xs font-semibold text-slate-300">
-										<div><div class="flex justify-between"><span>Parent A</span><span>182 nights</span></div><div class="mt-2 h-2 overflow-hidden rounded-full bg-white/10"><span class="block h-full w-[50%] rounded-full bg-[#60A5FA]"></span></div></div>
-										<div><div class="flex justify-between"><span>Parent B</span><span>183 nights</span></div><div class="mt-2 h-2 overflow-hidden rounded-full bg-white/10"><span class="block h-full w-[50%] rounded-full bg-[#2DD4BF]"></span></div></div>
-									</div>
-								</section>
-								<section class="rounded-2xl border border-white/10 bg-white/[0.045] p-4">
-									<h4 class="text-sm font-semibold text-white">Support</h4>
-									<p class="mt-3 text-3xl font-semibold tracking-[-0.05em] text-white">$1,240</p>
-									<p class="mt-1 text-xs font-semibold text-slate-400">Estimated monthly support</p>
-								</section>
-								<section class="rounded-2xl border border-white/10 bg-white/[0.045] p-4">
-									<h4 class="text-sm font-semibold text-white">Agreements</h4>
-									<div class="mt-3 grid gap-2 text-xs font-semibold text-slate-300">
-										<span>✓ Exchange location</span>
-										<span>✓ Holiday schedule</span>
-										<span>✓ Decision making</span>
-									</div>
-								</section>
-							</div>
-						</div>
-					</article>
-				</div>
-			</div>
-		</section>
-
-		<section id="platform" class="container-shell scroll-mt-24 py-12 lg:py-20" aria-labelledby="platform-title">
-			<div class="max-w-3xl">
-				<p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted">Platform overview</p>
-				<h2 id="platform-title" class="mt-2 text-4xl font-semibold leading-[1.03] tracking-[-0.055em] text-primary sm:text-5xl lg:text-6xl">
-					One platform<br class="hidden sm:block" /> for every custody<br class="hidden sm:block" /> planning task
-				</h2>
-				<p class="mt-5 text-base leading-8 text-secondary">
-					CustodyBuilder organizes the messy parts of custody planning into connected modules: schedules, calculations, holidays, agreements, and exports.
-				</p>
-			</div>
-
-			<div class="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-				{platformFeatures.map((feature) => (
-					<a
-						href={feature.href}
-						class="reveal-card premium-feature-card soft-card flex h-full flex-col rounded-[1.75rem] p-5"
-						data-track-event="tool_card_click"
-						data-tool-name={feature.title}
-						data-tool-status={feature.statusKey}
-						data-location="tools_section"
-					>
-						<ToolPreviewCard type={feature.preview} muted={feature.status !== 'Entry point'} />
-						<div class="mt-auto flex items-start justify-between gap-4">
-							<div>
-								<h3 class="text-2xl font-semibold tracking-[-0.045em] text-primary">{feature.title}</h3>
-								<p class="mt-2 text-sm leading-6 text-secondary">{feature.outcome}</p>
-							</div>
-							<span class={feature.status === 'Entry point' ? 'rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-accent' : 'rounded-full bg-surface px-3 py-1 text-xs font-semibold text-muted shadow-[inset_0_0_0_1px_var(--border-subtle)]'}>{feature.status}</span>
-						</div>
-					</a>
-				))}
-			</div>
-		</section>
-
-		<section id="workflow" class="container-shell scroll-mt-24 py-12 lg:py-20" aria-labelledby="workflow-title">
-			<div class="max-w-3xl">
-				<p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted">How it works</p>
-				<h2 id="workflow-title" class="mt-2 text-3xl font-semibold leading-[1.08] tracking-[-0.045em] text-primary sm:text-4xl">
-					A guided workflow from first schedule to shareable plan
-				</h2>
-				<p class="mt-5 text-base leading-8 text-secondary">
-					Move through custody planning in a logical sequence instead of juggling spreadsheets, notes, and disconnected calculators.
-				</p>
-			</div>
-
-			<div class="workflow-timeline relative mt-8 grid gap-4 lg:grid-cols-6">
-				{workflowSteps.map((step, index) => (
-					<article class="reveal-card workflow-step-card soft-card group rounded-[1.5rem] p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent/40 hover:shadow-[0_18px_44px_rgba(15,23,42,0.08)]">
-						<div class="relative z-10">
-							<span class="grid h-10 w-10 place-items-center rounded-full bg-accent text-sm font-bold text-white">{index + 1}</span>
-							<h3 class="mt-4 text-base font-semibold tracking-[-0.03em] text-primary">{step.title}</h3>
-							<p class="mt-2 text-sm leading-6 text-secondary">{step.description}</p>
-						</div>
-					</article>
-				))}
-			</div>
-		</section>
-
-		<section id="tools" class="container-shell relative scroll-mt-24 py-12 lg:py-20" aria-labelledby="tools-title">
-			<span id="calculators" class="absolute -top-24 block h-px w-px" aria-hidden="true"></span>
-			<div class="max-w-3xl">
-				<p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted">Tools ecosystem</p>
-				<h2 id="tools-title" class="mt-2 text-3xl font-semibold leading-[1.08] tracking-[-0.045em] text-primary sm:text-4xl">
-					The CustodyBuilder Ecosystem
-				</h2>
-				<p class="mt-5 text-base leading-8 text-secondary">
-					A product suite organized around how custody plans are actually built: planning, calculations, and resources.
-				</p>
-			</div>
-
-			<div class="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
-				{ecosystemGroups.map((group) => (
-					<article class="reveal-card premium-card rounded-[1.75rem] p-3">
-						<div class="rounded-[1.45rem] bg-surface-elevated/80 p-5">
-							<h3 class="text-2xl font-semibold tracking-[-0.045em] text-primary">{group.title}</h3>
-							<p class="mt-2 text-sm leading-6 text-secondary">{group.description}</p>
-							<div class="mt-5 grid gap-2">
-								{group.items.map((item) => (
-									<div class="flex items-center gap-3 rounded-2xl bg-page/70 px-4 py-3 text-sm font-semibold text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-										<span class="h-1.5 w-1.5 rounded-full bg-accent/45" aria-hidden="true"></span>
-										<span>{item}</span>
-									</div>
-								))}
-							</div>
-						</div>
-					</article>
-				))}
-			</div>
-		</section>
-
-		<section id="schedules" class="container-shell scroll-mt-24 py-10 lg:py-16" aria-labelledby="popular-schedules-title">
-			<div class="max-w-3xl">
-				<p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted">Schedule library</p>
-				<h2 id="popular-schedules-title" class="mt-2 text-4xl font-semibold leading-[1.03] tracking-[-0.055em] text-primary sm:text-5xl">
-					Popular Custody Schedules
-				</h2>
-				<p class="mt-5 text-base leading-8 text-secondary">
-					Compare common parenting schedules before choosing one inside the custody schedule generator.
-				</p>
-			</div>
-			<div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-				{scheduleCards.map((schedule) => (
-					<a
-						href={schedule.href}
-						class="reveal-card schedule-plan-card soft-card group flex h-full flex-col rounded-[1.75rem] p-4 transition-all duration-200 hover:-translate-y-1 hover:border-accent/40 hover:shadow-[0_22px_56px_rgba(15,23,42,0.1)]"
-						data-track-event="schedule_card_click"
-						data-schedule-name={schedule.title}
-						data-location="popular_schedules"
-					>
-						<SchedulePatternStrip pattern={schedule.pattern} label={`${schedule.title} preview`} />
-						<div class="flex items-start justify-between gap-3">
-							<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{schedule.title}</h3>
-							<span class="shrink-0 rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-accent">{schedule.split}</span>
-						</div>
-						<p class="mt-3 text-sm leading-6 text-secondary">{schedule.description}</p>
-						<span class="mt-auto pt-4 text-sm font-semibold text-accent underline decoration-line underline-offset-4 transition-colors group-hover:text-primary">Read schedule guide</span>
-					</a>
-				))}
-			</div>
-		</section>
-
-		<section id="resources" class="container-shell scroll-mt-24 py-10 lg:py-16" aria-labelledby="resources-title">
-			<div class="max-w-3xl">
-				<p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted">Resource hub</p>
-				<h2 id="resources-title" class="mt-2 text-4xl font-semibold leading-[1.03] tracking-[-0.055em] text-primary sm:text-5xl">
-					Custody Planning Resources
-				</h2>
-				<p class="mt-5 text-base leading-8 text-secondary">
-					A premium content hub for parents comparing custody arrangements, parenting plans, support concepts, and state-specific planning topics.
-				</p>
-			</div>
-			<div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-				{resourceCards.map((resource, index) => (
-					<article class={index === 0 ? 'reveal-card magazine-card soft-card flex h-full flex-col rounded-[1.75rem] p-5 sm:col-span-2 lg:col-span-2' : 'reveal-card magazine-card soft-card flex h-full flex-col rounded-[1.75rem] p-5'} aria-disabled="true">
-						<p class="text-[10px] font-bold uppercase tracking-[0.16em] text-muted">Guide category</p>
-						<h3 class="text-lg font-semibold tracking-[-0.03em] text-primary">{resource.title}</h3>
-						<p class="mt-2 text-sm leading-6 text-secondary">{resource.description}</p>
-						<span class="mt-auto pt-4 text-xs font-semibold uppercase tracking-[0.16em] text-muted">Resource topic</span>
-					</article>
-				))}
-			</div>
-		</section>
-
-		<section id="vision" class="container-shell scroll-mt-24 py-10 lg:py-16" aria-labelledby="vision-title">
-			<div class="premium-card relative overflow-hidden rounded-[2rem] p-3">
-				<div class="absolute -right-20 -top-20 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(37,99,235,0.22),transparent_68%)] blur-2xl" aria-hidden="true"></div>
-				<div class="relative grid gap-8 rounded-[1.7rem] bg-surface-elevated/82 p-6 lg:grid-cols-[0.9fr_1.1fr] lg:p-8">
-					<div>
-						<p class="text-[11px] font-semibold uppercase tracking-[0.22em] text-muted">Platform expansion</p>
-						<h2 id="vision-title" class="mt-2 text-4xl font-semibold leading-[1.03] tracking-[-0.055em] text-primary sm:text-5xl">
-							Expanding the custody planning workspace
-						</h2>
-						<p class="mt-5 text-base leading-8 text-secondary">
-							CustodyBuilder is growing into a connected workspace for schedules, calculations, holidays, agreements, and reports.
-						</p>
-					</div>
-					<div class="grid gap-3">
-						{roadmapItems.map((item, index) => (
-							<div class="reveal-card flex items-center justify-between rounded-2xl bg-page/70 px-4 py-3 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-								<div class="flex items-center gap-3">
-									<span class="grid h-8 w-8 place-items-center rounded-full bg-surface text-xs font-bold text-muted shadow-[inset_0_0_0_1px_var(--border-subtle)]">{index + 1}</span>
-									<span class="text-sm font-semibold text-secondary">{item}</span>
-								</div>
-								<span class="rounded-full bg-surface px-3 py-1 text-[10px] font-bold uppercase tracking-[0.12em] text-muted shadow-[inset_0_0_0_1px_var(--border-subtle)]">Workspace</span>
-							</div>
+							</li>
 						))}
+					</ol>
+					<p class="mt-6">
+						<a href={howItWorks.link.href} class="text-sm font-semibold text-accent underline">{howItWorks.link.label} →</a>
+					</p>
+				</div>
+				<ProductFlowGraphic />
+			</div>
+		</section>
+
+		<!-- Choose By Situation + Site Architecture -->
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-14">
+			<div class="grid gap-12 lg:grid-cols-2 lg:items-start">
+				<div>
+					<h2 class="text-2xl font-semibold tracking-[-0.03em] text-primary sm:text-3xl">{chooseBySituation.title}</h2>
+					<p class="mt-3 text-secondary">{chooseBySituation.intro}</p>
+					<ul class="mt-6 space-y-3">
+						{chooseBySituation.routes.map((route) => (
+							<li>
+								<a href={route.href} class="soft-card block rounded-[1.15rem] p-4 transition-colors hover:border-accent/30">
+									<h3 class="font-semibold text-primary">{route.label}</h3>
+									<p class="mt-1 text-sm text-secondary">{route.detail}</p>
+								</a>
+							</li>
+						))}
+					</ul>
+				</div>
+				<SiteArchitectureMapGraphic />
+			</div>
+		</section>
+
+		<!-- Explore By Child Stage -->
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<h2 class="text-2xl font-semibold tracking-[-0.03em] text-primary sm:text-3xl">{exploreByChildStage.title}</h2>
+			<p class="mt-3 max-w-2xl text-secondary">{exploreByChildStage.intro}</p>
+			<ul class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+				{exploreByChildStage.stages.map((stage) => (
+					<li>
+						<a href={stage.href} class="soft-card block rounded-[1.15rem] p-4 text-center transition-colors hover:border-accent/30">
+							<h3 class="font-semibold text-primary">{stage.label}</h3>
+							<p class="mt-2 text-xs leading-5 text-secondary">{stage.phrase}</p>
+						</a>
+					</li>
+				))}
+			</ul>
+		</section>
+
+		<!-- Popular Schedule Guides -->
+		<section id="schedules" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<h2 class="text-2xl font-semibold tracking-[-0.03em] text-primary sm:text-3xl">{popularGuides.title}</h2>
+			<p class="mt-3 max-w-2xl text-secondary">{popularGuides.intro}</p>
+			<ul class="mt-6 grid gap-3 grid-cols-2 sm:grid-cols-3 lg:grid-cols-6">
+				{popularGuides.guides.map((guide) => (
+					<li>
+						<a href={guide.href} class="soft-card block rounded-[1.1rem] p-3 text-center transition-colors hover:border-accent/30">
+							<h3 class="text-sm font-semibold text-primary">{guide.label}</h3>
+							<p class="mt-1 text-[10px] font-medium leading-4 text-muted">{guide.tag}</p>
+						</a>
+					</li>
+				))}
+			</ul>
+		</section>
+
+		<!-- Planning Documents -->
+		<section id="templates" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<h2 class="text-2xl font-semibold tracking-[-0.03em] text-primary sm:text-3xl">{planningDocuments.title}</h2>
+			<p class="mt-3 max-w-2xl text-secondary">{planningDocuments.intro}</p>
+			<ul class="mt-6 grid gap-3 sm:grid-cols-2">
+				{planningDocuments.documents.map((doc) => (
+					<li>
+						<a href={doc.href} class="block border-l-2 border-accent/30 py-1 pl-4 hover:border-accent">
+							<h3 class="font-semibold text-primary">{doc.label}</h3>
+							<p class="mt-1 text-sm text-secondary">{doc.detail}</p>
+						</a>
+					</li>
+				))}
+			</ul>
+		</section>
+
+		<!-- Why Different -->
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-14">
+			<h2 class="text-2xl font-semibold tracking-[-0.03em] text-primary sm:text-3xl">{whyDifferent.title}</h2>
+			<ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+				{whyDifferent.points.map((p) => (
+					<li class="soft-card rounded-[1.25rem] p-5">
+						<h3 class="font-semibold text-primary">{p.heading}</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">{p.body}</p>
+					</li>
+				))}
+			</ul>
+		</section>
+
+		<!-- Editorial Review -->
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-14">
+			<div class="premium-card rounded-[2rem] p-3">
+				<div class="rounded-[1.7rem] bg-surface-elevated/80 p-5 sm:p-8">
+					<div class="grid gap-10 lg:grid-cols-[1fr_1.1fr] lg:items-start">
+						<div>
+							<h2 class="text-2xl font-semibold tracking-[-0.03em] text-primary sm:text-3xl">{editorialBlock.title}</h2>
+							<p class="mt-4 text-secondary">{editorialBlock.intro}</p>
+							<ul class="mt-6 space-y-2">
+								{editorialBlock.reviewItems.map((item) => (
+									<li class="flex gap-2 text-sm text-secondary">
+										<span class="font-bold text-accent" aria-hidden="true">✓</span>
+										{item}
+									</li>
+								))}
+							</ul>
+							<p class="mt-6 rounded-xl bg-page/60 p-4 text-sm leading-6 text-muted shadow-[inset_0_0_0_1px_var(--border-subtle)]">{editorialBlock.boundary}</p>
+							<ul class="mt-6 space-y-3">
+								{editorialBlock.links.map((link) => (
+									<li>
+										<a href={link.href} class="font-semibold text-accent underline">{link.label}</a>
+										<span class="text-sm text-secondary"> — {link.detail}</span>
+									</li>
+								))}
+							</ul>
+						</div>
+						<TrustMethodologyGraphic />
 					</div>
 				</div>
 			</div>
 		</section>
 
-		<FAQ
-			items={homepageFaqItems}
-			platformItems={platformFaqItems}
-			eyebrow="Platform FAQ"
-			title="Questions about CustodyBuilder"
-			description="Learn how the platform fits together, what is available now, and how parents can use CustodyBuilder for custody planning and comparison."
-			scheduleHeading="Custody Schedule Questions"
-		/>
+		<FAQ items={faqItems} title={faqSection.title} description={faqSection.description} />
 	</main>
 	<Footer />
-	<script is:inline>
-		function trackEvent(eventName, params = {}) {
-			if (typeof window === 'undefined') return;
-			if (typeof window.gtag !== 'function') return;
-			try {
-				window.gtag('event', eventName, params);
-			} catch {
-				// Analytics should never block navigation or page interaction.
-			}
-		}
-
-		document.addEventListener('click', (event) => {
-			const target = event.target;
-			if (!(target instanceof Element)) return;
-			const trackedElement = target.closest('[data-track-event]');
-			if (!(trackedElement instanceof HTMLElement)) return;
-
-			const eventName = trackedElement.dataset.trackEvent;
-			if (!eventName) return;
-
-			if (eventName === 'cta_click') {
-				trackEvent(eventName, {
-					cta_name: trackedElement.dataset.ctaName,
-					cta_location: trackedElement.dataset.ctaLocation,
-					destination: trackedElement.dataset.destination,
-				});
-				return;
-			}
-
-			if (eventName === 'seo_pill_click') {
-				trackEvent(eventName, {
-					pill_name: trackedElement.dataset.pillName,
-					location: trackedElement.dataset.location,
-				});
-				return;
-			}
-
-			if (eventName === 'tool_card_click') {
-				trackEvent(eventName, {
-					tool_name: trackedElement.dataset.toolName,
-					tool_status: trackedElement.dataset.toolStatus,
-					location: trackedElement.dataset.location,
-				});
-				return;
-			}
-
-			if (eventName === 'schedule_card_click') {
-				trackEvent(eventName, {
-					schedule_name: trackedElement.dataset.scheduleName,
-					location: trackedElement.dataset.location,
-				});
-			}
-		});
-
-		document.querySelectorAll('[data-faq-question][data-faq-group]').forEach((item) => {
-			item.addEventListener('toggle', () => {
-				if (!(item instanceof HTMLDetailsElement) || !item.open) return;
-				trackEvent('faq_open', {
-					question: item.dataset.faqQuestion,
-					faq_group: item.dataset.faqGroup,
-				});
-			});
-		});
-
-		const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-		const revealCards = Array.from(document.querySelectorAll('.reveal-card'));
-
-		if (!prefersReducedMotion && 'IntersectionObserver' in window) {
-			document.documentElement.classList.add('motion-ready');
-			const observer = new IntersectionObserver(
-				(entries) => {
-					entries.forEach((entry) => {
-						if (!entry.isIntersecting) return;
-						entry.target.classList.add('is-visible');
-						observer.unobserve(entry.target);
-					});
-				},
-				{ rootMargin: '0px 0px -10% 0px', threshold: 0.08 },
-			);
-
-			revealCards.forEach((card) => observer.observe(card));
-		} else {
-			revealCards.forEach((card) => card.classList.add('is-visible'));
-		}
-	</script>
 </BaseLayout>

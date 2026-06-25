@@ -5,92 +5,133 @@ import Footer from '../components/Footer.astro';
 import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import { getCanonicalUrl } from '../lib/seo/metadata';
-import { buildBreadcrumbSchema, buildWebPageSchema } from '../lib/seo/schema';
+import { buildArticleSchema, buildBreadcrumbSchema, buildWebPageSchema } from '../lib/seo/schema';
+import {
+	calendarGeneration,
+	corrections,
+	guideReview,
+	hero,
+	meta,
+	percentageCalculation,
+	reviewStandards,
+	templateStructure,
+	texasLimits,
+	whatWeDoNot,
+} from '../data/howCustodybuilderWorksPage';
 
-const title = 'How CustodyBuilder Works | Custody Schedule Planning Methodology';
-const description =
-	'Learn how CustodyBuilder generates custody calendars, calculates overnight percentages, recommends schedules, and explains planning assumptions.';
 const canonical = '/how-custodybuilder-works/';
 const canonicalUrl = getCanonicalUrl(canonical);
 const breadcrumbs = [
 	{ name: 'Home', url: getCanonicalUrl('/') },
-	{ name: 'Guides', url: getCanonicalUrl('/blog/') },
 	{ name: 'How CustodyBuilder Works', url: canonicalUrl },
 ];
 const schema = [
+	buildWebPageSchema({ name: meta.title, description: meta.description, url: canonicalUrl }),
+	buildArticleSchema({
+		headline: hero.headline,
+		description: meta.description,
+		url: canonicalUrl,
+		datePublished: meta.datePublished,
+		dateModified: meta.dateModified,
+		authorName: 'CustodyBuilder Editorial Team',
+	}),
 	buildBreadcrumbSchema(breadcrumbs),
-	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
-];
-const methodologySections = [
-	{
-		title: 'How schedules are generated',
-		copy:
-			'CustodyBuilder starts with a common parenting-time pattern, a start date, and parent labels. It repeats the selected pattern across a visible calendar month so parents can see actual overnight dates instead of only reading a schedule name.',
-	},
-	{
-		title: 'How overnight percentages are calculated',
-		copy:
-			'Parenting time percentages are based on overnight counts in the generated calendar view. For example, an equal-time pattern should usually land near 50/50 over a full repeating cycle, while majority-time schedules may show 60/40, 70/30, or 80/20 style estimates.',
-	},
-	{
-		title: 'How recommendation logic works',
-		copy:
-			'The schedule finder uses practical planning inputs: child age, desired parenting split, distance between homes, exchange preference, and school routine importance. It recommends a starting schedule that fits those answers and shows tradeoffs so parents can compare alternatives.',
-	},
-	{
-		title: 'Assumptions and limitations',
-		copy:
-			'The generator focuses on recurring parenting schedules and overnight counts. It does not automatically decide holidays, school breaks, transportation rules, child support, legal custody, exchange locations, or state-specific legal requirements.',
-	},
-	{
-		title: 'Planning information, not legal advice',
-		copy:
-			'CustodyBuilder provides educational planning tools. It can help parents prepare clearer calendars and discussion materials, but it does not create a court order, legal agreement, or legal advice. Local laws and terminology vary.',
-	},
 ];
 ---
 
-<BaseLayout title={title} description={description} canonical={canonical}>
+<BaseLayout title={meta.title} description={meta.description} canonical={canonical}>
 	<JsonLd slot="head" data={schema} />
 	<Navbar />
 	<Breadcrumbs items={breadcrumbs} />
 	<main>
-		<section class="container-shell py-12 lg:py-16">
-			<div class="mx-auto max-w-3xl">
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Methodology</p>
-				<h1 class="mt-4 text-5xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary lg:text-6xl">
-					How CustodyBuilder works
-				</h1>
-				<p class="mt-6 text-lg leading-8 text-secondary">
-					CustodyBuilder is designed to make parenting-time planning easier to see, compare, and discuss. This page explains how the tool creates calendars, calculates overnight percentages, and recommends a starting schedule.
+		<section class="container-shell py-10 lg:py-14">
+			<div class="max-w-3xl">
+				<h1 class="text-4xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary sm:text-5xl">{hero.headline}</h1>
+				<p class="mt-5 text-lg leading-8 text-secondary">{hero.intro}</p>
+				<p class="mt-4 text-sm text-muted">
+					Reviewed by <a href="/about/" class="font-semibold text-secondary underline">CustodyBuilder Editorial Team</a>
+					{' · '}Updated {meta.dateModified}
 				</p>
 			</div>
 		</section>
 
-		<section class="container-shell pb-12 lg:pb-16">
-			<div class="mx-auto grid max-w-4xl gap-5">
-				{methodologySections.map((section) => (
-					<article class="soft-card rounded-[1.5rem] p-5 sm:p-6">
-						<h2 class="text-2xl font-semibold tracking-[-0.04em] text-primary">{section.title}</h2>
-						<p class="mt-3 text-base leading-8 text-secondary">{section.copy}</p>
-					</article>
+		<section id="calendar-generation" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{calendarGeneration.title}</h2>
+			<p class="mt-3 max-w-3xl text-secondary">{calendarGeneration.intro}</p>
+			<ol class="mt-6 max-w-3xl list-decimal space-y-4 pl-5">
+				{calendarGeneration.steps.map((s) => (
+					<li class="text-secondary"><h3 class="font-semibold text-primary">{s.heading}</h3><p class="mt-2 text-sm">{s.body}</p></li>
 				))}
-			</div>
+			</ol>
+			<p class="mt-5"><a href={calendarGeneration.link.href} class="font-semibold text-accent underline">{calendarGeneration.link.label}</a></p>
 		</section>
 
-		<section class="container-shell pb-16">
-			<div class="premium-card mx-auto max-w-4xl rounded-[2rem] p-3">
-				<div class="rounded-[1.7rem] bg-surface-elevated/80 p-5 sm:p-7">
-					<h2 class="text-3xl font-semibold tracking-[-0.045em] text-primary">Use the calendar as a planning aid</h2>
-					<p class="mt-4 text-base leading-8 text-secondary">
-						After generating a schedule, review exchange days, school mornings, long gaps between homes, holiday conflicts, and overnight percentages. If a schedule may become part of a formal parenting plan or court order, review the details with a qualified professional.
-					</p>
-					<div class="mt-5 flex flex-col gap-3 sm:flex-row">
-						<a href="/custody-schedule-generator/" class="btn-primary inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-semibold">Open the generator</a>
-						<a href="/custody-schedule-generator/#find-a-schedule" class="btn-secondary inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-semibold">Find a schedule</a>
-					</div>
-				</div>
-			</div>
+		<section id="percentage-calculation" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{percentageCalculation.title}</h2>
+			<p class="mt-3 max-w-3xl text-secondary">{percentageCalculation.intro}</p>
+			<p class="mt-4 max-w-3xl rounded-lg bg-surface/50 p-3 font-mono text-sm text-primary ring-1 ring-line-subtle">{percentageCalculation.formula}</p>
+			<ul class="mt-6 max-w-3xl list-disc space-y-2 pl-5 text-sm text-secondary">
+				{percentageCalculation.points.map((p) => <li>{p}</li>)}
+			</ul>
+			<p class="mt-5"><a href={percentageCalculation.link.href} class="font-semibold text-accent underline">{percentageCalculation.link.label}</a></p>
+		</section>
+
+		<section id="guide-review" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{guideReview.title}</h2>
+			<p class="mt-3 max-w-3xl text-secondary">{guideReview.intro}</p>
+			<ul class="mt-6 max-w-3xl list-disc space-y-2 pl-5 text-sm text-secondary">
+				{guideReview.checklist.map((item) => <li>{item}</li>)}
+			</ul>
+		</section>
+
+		<section id="template-structure" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{templateStructure.title}</h2>
+			<p class="mt-3 max-w-3xl text-secondary">{templateStructure.intro}</p>
+			<ul class="mt-6 max-w-3xl space-y-4">
+				{templateStructure.pages.map((p) => (
+					<li class="border-l-2 border-accent/30 pl-4">
+						<h3 class="font-semibold text-primary"><a href={p.href} class="hover:text-accent">{p.heading}</a></h3>
+						<p class="mt-2 text-sm text-secondary">{p.body}</p>
+					</li>
+				))}
+			</ul>
+		</section>
+
+		<section id="texas-limits" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{texasLimits.title}</h2>
+			<p class="mt-3 max-w-3xl text-secondary">{texasLimits.intro}</p>
+			<ul class="mt-6 max-w-3xl list-disc space-y-2 pl-5 text-sm text-secondary">
+				{texasLimits.points.map((p) => <li>{p}</li>)}
+			</ul>
+			<ul class="mt-4 flex flex-wrap gap-4">
+				{texasLimits.links.map((l) => <li><a href={l.href} class="text-sm font-semibold text-accent underline">{l.label}</a></li>)}
+			</ul>
+		</section>
+
+		<section id="limitations" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{whatWeDoNot.title}</h2>
+			<ul class="mt-6 max-w-3xl list-disc space-y-2 pl-5 text-sm text-secondary">
+				{whatWeDoNot.items.map((item) => <li>{item}</li>)}
+			</ul>
+		</section>
+
+		<section id="corrections" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{corrections.title}</h2>
+			<p class="mt-3 max-w-3xl text-secondary">{corrections.intro}</p>
+			<ol class="mt-6 max-w-3xl list-decimal space-y-2 pl-5 text-sm text-secondary">
+				{corrections.process.map((step) => <li>{step}</li>)}
+			</ol>
+			<p class="mt-5"><a href={corrections.link.href} class="font-semibold text-accent underline">{corrections.link.label}</a></p>
+		</section>
+
+		<section id="review-standards" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{reviewStandards.title}</h2>
+			<ul class="mt-6 max-w-3xl list-disc space-y-2 pl-5 text-sm text-secondary">
+				{reviewStandards.items.map((item) => <li>{item}</li>)}
+			</ul>
+			<ul class="mt-5 flex flex-wrap gap-4">
+				{reviewStandards.links.map((l) => <li><a href={l.href} class="text-sm font-semibold text-accent underline">{l.label}</a></li>)}
+			</ul>
 		</section>
 	</main>
 	<Footer />

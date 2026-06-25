@@ -4,12 +4,20 @@ import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
 import { getCanonicalUrl } from '../lib/seo/metadata';
-import { buildBreadcrumbSchema, buildWebPageSchema } from '../lib/seo/schema';
+import { buildArticleSchema, buildBreadcrumbSchema, buildFAQSchema, buildWebPageSchema } from '../lib/seo/schema';
+import {
+	beforeContact,
+	canHelp,
+	cannotHelp,
+	correctionProcess,
+	faqItems,
+	faqSection,
+	hero,
+	meta,
+} from '../data/contactPage';
 
-const title = 'Contact CustodyBuilder | Custody Planning Tools';
-const description =
-	'Contact CustodyBuilder about custody schedule planning tools, printable parenting calendars, and site feedback.';
 const canonical = '/contact/';
 const canonicalUrl = getCanonicalUrl(canonical);
 const breadcrumbs = [
@@ -17,44 +25,85 @@ const breadcrumbs = [
 	{ name: 'Contact', url: canonicalUrl },
 ];
 const schema = [
+	buildWebPageSchema({ name: meta.title, description: meta.description, url: canonicalUrl }),
+	buildArticleSchema({
+		headline: hero.headline,
+		description: meta.description,
+		url: canonicalUrl,
+		datePublished: '2026-06-01',
+		dateModified: meta.dateModified,
+		authorName: 'CustodyBuilder Editorial Team',
+	}),
+	buildFAQSchema(faqItems),
 	buildBreadcrumbSchema(breadcrumbs),
-	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
 ];
 ---
 
-<BaseLayout title={title} description={description} canonical={canonical}>
+<BaseLayout title={meta.title} description={meta.description} canonical={canonical}>
 	<JsonLd slot="head" data={schema} />
 	<Navbar />
 	<Breadcrumbs items={breadcrumbs} />
 	<main>
-		<section class="container-shell py-12 lg:py-16">
-			<div class="mx-auto max-w-3xl">
-				<a href="/" class="text-sm font-medium text-muted transition-colors duration-200 hover:text-primary">← Back to CustodyBuilder</a>
-				<p class="mt-5 text-xs font-semibold uppercase tracking-[0.18em] text-muted">Contact</p>
-				<h1 class="mt-4 text-5xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary lg:text-6xl">
-					Contact CustodyBuilder
-				</h1>
-				<p class="mt-6 text-lg leading-8 text-secondary">
-					Have feedback about the custody schedule generator or a question about using CustodyBuilder planning tools? Send a note to <a href="mailto:hello@custodybuilder.com" class="font-semibold text-accent underline decoration-line underline-offset-4">hello@custodybuilder.com</a>.
+		<section class="container-shell py-10 lg:py-14">
+			<div class="max-w-3xl">
+				<h1 class="text-4xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary sm:text-5xl">{hero.headline}</h1>
+				<p class="mt-5 text-lg leading-8 text-secondary">
+					Send tool bugs, calculator discrepancies, export issues, correction requests, or editorial feedback to{' '}
+					<a href={`mailto:${hero.email}`} class="font-semibold text-accent underline">{hero.email}</a>.
+					{' '}Do not send confidential case details or requests for legal advice.
 				</p>
 			</div>
-
-			<div class="premium-card mx-auto mt-8 grid max-w-3xl gap-6 rounded-[1.75rem] p-6 text-base leading-8 text-secondary sm:p-8">
-				<section>
-					<h2 class="text-2xl font-semibold tracking-[-0.04em] text-primary">What to Include</h2>
-					<p class="mt-3">
-						If you are reporting a site issue, include the page URL, what you expected to happen, and what happened instead. For feature ideas, describe the custody planning task you were trying to complete.
-					</p>
-				</section>
-
-				<section>
-					<h2 class="text-2xl font-semibold tracking-[-0.04em] text-primary">Planning Tools Only</h2>
-					<p class="mt-3">
-						CustodyBuilder provides planning tools and educational information only. It does not provide legal advice, review individual cases, create court orders, or replace guidance from a qualified family law professional.
-					</p>
-				</section>
-			</div>
 		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{canHelp.title}</h2>
+			<ul class="mt-6 max-w-3xl space-y-4">
+				{canHelp.items.map((item) => (
+					<li class="border-l-2 border-accent/30 pl-4">
+						<h3 class="font-semibold text-primary">{item.heading}</h3>
+						<p class="mt-2 text-sm text-secondary">{item.body}</p>
+					</li>
+				))}
+			</ul>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{cannotHelp.title}</h2>
+			<ul class="mt-6 max-w-3xl space-y-4">
+				{cannotHelp.items.map((item) => (
+					<li class="border-l-2 border-line pl-4">
+						<h3 class="font-semibold text-primary">{item.heading}</h3>
+						<p class="mt-2 text-sm text-secondary">{item.body}</p>
+					</li>
+				))}
+			</ul>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{beforeContact.title}</h2>
+			<p class="mt-3 max-w-3xl text-secondary">{beforeContact.intro}</p>
+			<ul class="mt-6 max-w-3xl space-y-3">
+				{beforeContact.links.map((link) => (
+					<li>
+						<a href={link.href} class="font-semibold text-accent underline">{link.label}</a>
+						<span class="text-sm text-secondary"> — {link.detail}</span>
+					</li>
+				))}
+			</ul>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{correctionProcess.title}</h2>
+			<ol class="mt-6 max-w-3xl list-decimal space-y-2 pl-5 text-sm text-secondary">
+				{correctionProcess.steps.map((step) => <li>{step}</li>)}
+			</ol>
+			<p class="mt-6 max-w-3xl text-sm text-secondary">{correctionProcess.responseExpectation}</p>
+			<p class="mt-4">
+				<a href={`mailto:${hero.email}`} class="btn-primary inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-semibold">Email {hero.email}</a>
+			</p>
+		</section>
+
+		<FAQ items={faqItems} title={faqSection.title} description={faqSection.description} />
 	</main>
 	<Footer />
 </BaseLayout>

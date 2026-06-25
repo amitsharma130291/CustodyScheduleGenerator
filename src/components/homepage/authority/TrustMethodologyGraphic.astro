@@ -1,0 +1,42 @@
+---
+const pillars = [
+	{
+		label: 'Reviewed content',
+		items: ['Exchange-day accuracy', 'Calculator parity', 'Cluster ownership'],
+		tone: 'border-accent/30 bg-accent/5',
+		dot: 'bg-accent',
+	},
+	{
+		label: 'Tool logic',
+		items: ['Documented formulas', 'Rotation ID engine', 'dateModified updates'],
+		tone: 'border-parent-b/30 bg-parent-b/5',
+		dot: 'bg-parent-b',
+	},
+	{
+		label: 'Educational boundaries',
+		items: ['No legal advice', 'No credential claims', 'Correction pathway'],
+		tone: 'border-line bg-surface/80',
+		dot: 'bg-line',
+	},
+];
+---
+
+<figure class="trust-methodology w-full overflow-hidden rounded-[1.5rem] border border-line bg-surface/40 p-4 sm:p-5" aria-label="CustodyBuilder editorial review pillars">
+	<figcaption class="text-sm font-semibold text-primary">What gets reviewed on every publish</figcaption>
+
+	<div class="mt-5 grid gap-3 sm:grid-cols-3">
+		{pillars.map((pillar) => (
+			<div class={`rounded-[1.1rem] border p-4 ${pillar.tone}`}>
+				<div class="flex items-center gap-2">
+					<span class={`h-2.5 w-2.5 shrink-0 rounded-full ${pillar.dot}`} aria-hidden="true"></span>
+					<p class="text-xs font-bold uppercase tracking-[0.06em] text-primary">{pillar.label}</p>
+				</div>
+				<ul class="mt-3 space-y-1.5">
+					{pillar.items.map((item) => (
+						<li class="text-[11px] font-medium leading-4 text-secondary">✓ {item}</li>
+					))}
+				</ul>
+			</div>
+		))}
+	</div>
+</figure>

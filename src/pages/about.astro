@@ -5,11 +5,19 @@ import Footer from '../components/Footer.astro';
 import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import { getCanonicalUrl } from '../lib/seo/metadata';
-import { buildAboutPageSchema, buildBreadcrumbSchema } from '../lib/seo/schema';
+import { buildAboutPageSchema, buildArticleSchema, buildBreadcrumbSchema, buildWebPageSchema } from '../lib/seo/schema';
+import {
+	editorialStandards,
+	educationalBoundary,
+	hero,
+	meta,
+	nextLinks,
+	whatToolsDo,
+	whatWeDoNot,
+	whoWeServe,
+	whyExists,
+} from '../data/aboutPage';
 
-const title = 'About CustodyBuilder | Custody Schedule Planning Tool';
-const description =
-	'Learn about CustodyBuilder, our custody schedule tools, editorial review process, public-resource approach, and educational planning disclaimer.';
 const canonical = '/about/';
 const canonicalUrl = getCanonicalUrl(canonical);
 const breadcrumbs = [
@@ -17,74 +25,84 @@ const breadcrumbs = [
 	{ name: 'About', url: canonicalUrl },
 ];
 const schema = [
+	buildWebPageSchema({ name: meta.title, description: meta.description, url: canonicalUrl }),
+	buildArticleSchema({
+		headline: hero.headline,
+		description: meta.description,
+		url: canonicalUrl,
+		datePublished: meta.datePublished,
+		dateModified: meta.dateModified,
+		authorName: 'CustodyBuilder Editorial Team',
+	}),
 	buildBreadcrumbSchema(breadcrumbs),
-	buildAboutPageSchema({ name: title, description, url: canonicalUrl }),
+	buildAboutPageSchema({ name: meta.title, description: meta.description, url: canonicalUrl }),
 ];
 ---
 
-<BaseLayout title={title} description={description} canonical={canonical}>
+<BaseLayout title={meta.title} description={meta.description} canonical={canonical}>
 	<JsonLd slot="head" data={schema} />
 	<Navbar />
 	<Breadcrumbs items={breadcrumbs} />
 	<main>
-		<section class="container-shell py-12 lg:py-16">
-			<div class="mx-auto max-w-3xl">
-				<a href="/" class="text-sm font-medium text-muted transition-colors duration-200 hover:text-primary">← Back to CustodyBuilder</a>
-				<p class="mt-5 text-xs font-semibold uppercase tracking-[0.18em] text-muted">About</p>
-				<h1 class="mt-4 text-5xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary lg:text-6xl">
-					About CustodyBuilder
-				</h1>
-				<p class="mt-6 text-lg leading-8 text-secondary">
-					CustodyBuilder creates plain-English custody schedule tools, parenting time calculators, and printable planning resources for separated and divorced parents.
-				</p>
-				<p class="mt-4 inline-flex rounded-full bg-surface px-4 py-2 text-sm font-semibold text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-					Reviewed by CustodyBuilder Editorial Team
-				</p>
+		<section class="container-shell py-10 lg:py-14">
+			<div class="max-w-3xl">
+				<h1 class="text-4xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary sm:text-5xl">{hero.headline}</h1>
+				<p class="mt-5 text-lg leading-8 text-secondary">{hero.intro}</p>
+				<p class="mt-4 text-sm text-muted">Reviewed by CustodyBuilder Editorial Team · Updated {meta.dateModified}</p>
 			</div>
+		</section>
 
-			<div class="premium-card mx-auto mt-8 grid max-w-3xl gap-6 rounded-[1.75rem] p-6 text-base leading-8 text-secondary sm:p-8">
-				<section>
-					<h2 class="text-2xl font-semibold tracking-[-0.04em] text-primary">What CustodyBuilder Does</h2>
-					<p class="mt-3">
-						CustodyBuilder helps parents compare parenting schedules, visualize custody calendars, estimate parenting time, and prepare printable planning documents. Popular tools include the <a href="/custody-schedule-generator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule generator</a>, <a href="/texas-parenting-plan-template/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Texas parenting plan template</a>, <a href="/texas-child-support-calculator/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Texas child support calculator</a>, and <a href="/parenting-plan-template/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting plan template</a>.
-					</p>
-				</section>
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{whoWeServe.title}</h2>
+			<p class="mt-4 max-w-3xl text-secondary">{whoWeServe.body}</p>
+		</section>
 
-				<section>
-					<h2 class="text-2xl font-semibold tracking-[-0.04em] text-primary">How Our Custody Schedule Tools Work</h2>
-					<p class="mt-3">
-						Our tools turn schedule choices into visible calendars, overnight estimates, percentage ranges, and printable summaries. The goal is to help parents see the practical rhythm of a proposed arrangement before discussing it, sharing it, or taking it for professional review.
-					</p>
-				</section>
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{whatToolsDo.title}</h2>
+			<ul class="mt-6 max-w-3xl space-y-4">
+				{whatToolsDo.items.map((item) => (
+					<li class="border-l-2 border-accent/30 pl-4">
+						<h3 class="font-semibold text-primary"><a href={item.href} class="hover:text-accent">{item.heading}</a></h3>
+						<p class="mt-2 text-sm text-secondary">{item.body}</p>
+					</li>
+				))}
+			</ul>
+		</section>
 
-				<section>
-					<h2 class="text-2xl font-semibold tracking-[-0.04em] text-primary">Editorial Review Process</h2>
-					<p class="mt-3">
-						Content is written and reviewed by the CustodyBuilder Editorial Team for plain-English clarity, practical usefulness, working internal links, consistency with calculator behavior, and clear educational disclaimers. We do not claim attorney review unless a qualified attorney reviewer is actually involved.
-					</p>
-				</section>
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{editorialStandards.title}</h2>
+			<ul class="mt-6 max-w-3xl list-disc space-y-2 pl-5 text-secondary">
+				{editorialStandards.items.map((item) => <li class="text-sm leading-6">{item}</li>)}
+			</ul>
+		</section>
 
-				<section>
-					<h2 class="text-2xl font-semibold tracking-[-0.04em] text-primary">How We Use Public Legal Resources</h2>
-					<p class="mt-3">
-						For state-specific pages, we use public legal and court resources to understand common terms, forms, and schedule concepts. We translate those ideas into educational planning tools, but we do not interpret a family’s legal rights or tell parents what a court will order.
-					</p>
-				</section>
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{whatWeDoNot.title}</h2>
+			<ul class="mt-6 max-w-3xl list-disc space-y-2 pl-5 text-secondary">
+				{whatWeDoNot.items.map((item) => <li class="text-sm leading-6">{item}</li>)}
+			</ul>
+		</section>
 
-				<section>
-					<h2 class="text-2xl font-semibold tracking-[-0.04em] text-primary">Educational Disclaimer</h2>
-					<p class="mt-3">
-						CustodyBuilder is for educational planning only. It does not provide legal advice, create a court order, replace an attorney, guarantee court acceptance, or create an attorney-client relationship.
-					</p>
-				</section>
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{educationalBoundary.title}</h2>
+			<p class="mt-4 max-w-3xl text-secondary">{educationalBoundary.body}</p>
+		</section>
 
-				<section>
-					<h2 class="text-2xl font-semibold tracking-[-0.04em] text-primary">Contact</h2>
-					<p class="mt-3">
-						Questions, corrections, or feedback about custody schedule content can be sent through the <a href="/contact/" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">contact page</a>. Please do not send confidential legal details through the website.
-					</p>
-				</section>
-			</div>
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{whyExists.title}</h2>
+			<p class="mt-4 max-w-3xl text-secondary">{whyExists.body}</p>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{nextLinks.title}</h2>
+			<ul class="mt-6 max-w-3xl space-y-3">
+				{nextLinks.links.map((link) => (
+					<li>
+						<a href={link.href} class="font-semibold text-accent underline">{link.label}</a>
+						<span class="text-sm text-secondary"> — {link.detail}</span>
+					</li>
+				))}
+			</ul>
 		</section>
 	</main>
 	<Footer />

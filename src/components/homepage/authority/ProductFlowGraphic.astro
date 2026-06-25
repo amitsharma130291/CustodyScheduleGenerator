@@ -1,0 +1,58 @@
+---
+const steps = [
+	{
+		label: 'Planning problem',
+		detail: 'School nights · holidays · exchanges',
+		tone: 'bg-page/80 text-secondary',
+	},
+	{
+		label: 'Tool',
+		detail: 'Generator · calculator · template',
+		tone: 'bg-accent/10 text-accent ring-1 ring-accent/25',
+	},
+	{
+		label: 'Output',
+		detail: 'Month grid · overnight % · log',
+		tone: 'bg-parent-b/10 text-parent-b ring-1 ring-parent-b/25',
+	},
+	{
+		label: 'Parenting plan',
+		detail: 'Printable exhibit · clause draft',
+		tone: 'bg-surface text-primary ring-1 ring-line-subtle',
+	},
+];
+---
+
+<figure class="product-flow w-full overflow-hidden rounded-[1.5rem] border border-line bg-surface/40 p-4 sm:p-6" aria-label="CustodyBuilder product flow: planning problem to parenting plan">
+	<figcaption class="text-sm font-semibold text-primary">Problem → Tool → Output → Parenting plan</figcaption>
+
+	<div class="mt-5 flex flex-col gap-3 lg:flex-row lg:items-stretch">
+		{steps.map((step, index) => (
+			<div class="flex min-w-0 flex-1 items-center gap-2 lg:flex-col lg:gap-3">
+				<div class={`min-w-0 flex-1 rounded-[1.1rem] px-3 py-3 text-center shadow-[inset_0_0_0_1px_var(--border-subtle)] sm:px-4 ${step.tone}`}>
+					<p class="text-xs font-bold uppercase tracking-[0.08em]">{step.label}</p>
+					<p class="mt-1 text-[11px] font-medium leading-4 opacity-90">{step.detail}</p>
+				</div>
+				{index < steps.length - 1 && (
+					<span class="hidden shrink-0 text-lg font-bold text-muted lg:block" aria-hidden="true">→</span>
+				)}
+				{index < steps.length - 1 && (
+					<span class="mx-auto text-lg font-bold text-muted lg:hidden" aria-hidden="true">↓</span>
+				)}
+			</div>
+		))}
+	</div>
+
+	<div class="mt-5 grid grid-cols-7 gap-1 rounded-xl bg-page/60 p-3 shadow-[inset_0_0_0_1px_var(--border-subtle)]" aria-hidden="true">
+		{['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((d) => (
+			<span class="text-center text-[9px] font-bold uppercase text-muted">{d}</span>
+		))}
+		{['A', 'A', 'B', 'B', 'A', 'A', 'A', 'B', 'B', 'A', 'A', 'B', 'B', 'B'].map((parent, i) => (
+			<span
+				class={`grid aspect-square place-items-center rounded-md text-[10px] font-bold ${parent === 'A' ? 'bg-parent-a/20 text-parent-a' : 'bg-parent-b/20 text-parent-b'}`}
+			>
+				{i + 1}
+			</span>
+		))}
+	</div>
+</figure>

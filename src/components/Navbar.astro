@@ -14,14 +14,9 @@ type NavConfigItem =
 
 const homepageNavigationConfig: NavConfigItem[] = [
 	{ label: 'Generator', href: '/custody-schedule-generator/', type: 'page' },
-	{
-		label: 'Tools',
-		anchor: 'tools',
-		type: 'home-anchor',
-	},
+	{ label: 'Tools', anchor: 'tools', type: 'home-anchor' },
 	{ label: 'Schedules', anchor: 'schedules', type: 'home-anchor' },
-	{ label: 'Calculators', anchor: 'calculators', type: 'home-anchor' },
-	{ label: 'Resources', anchor: 'resources', type: 'home-anchor' },
+	{ label: 'Templates', anchor: 'templates', type: 'home-anchor' },
 	{ label: 'FAQ', anchor: 'faq', type: 'home-anchor' },
 ];
 
@@ -55,7 +50,7 @@ const navItems: NavItem[] = navigationConfig.map((item) => {
 	if (!isHome) {
 		if (item.anchor === 'schedules') isActive = isSchedulePage;
 		if (item.anchor === 'calculators') isActive = isCalculatorPage;
-		if (item.anchor === 'resources') isActive = pathname.startsWith('/blog/') || pathname.includes('template') || pathname.includes('guide');
+		if (item.anchor === 'templates') isActive = pathname.includes('template');
 	}
 
 	return {
