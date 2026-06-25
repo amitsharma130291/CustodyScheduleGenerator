@@ -29,7 +29,7 @@ export const goodOrBadSection = {
 		],
 	},
 	closing:
-		'Many families land somewhere in the middle: equal time works on paper and most weeks, but specific school years, activities, or travel stretches expose gaps that need a schedule tweak—not a moral debate about whether 50/50 was the wrong choice.',
+		'Equal time often works on paper and most weeks, but specific school years, activities, or travel stretches expose gaps that need a schedule tweak—not a moral debate about whether 50/50 was the wrong choice.',
 };
 
 export const benefitsSections = [
@@ -226,7 +226,7 @@ export const faqItems = [
 	{
 		question: 'What are the disadvantages of 50/50 custody?',
 		answer:
-			'Common challenges include forgotten school supplies between homes, different household rules, emotional adjustment for parents and children, travel time on school nights, and administrative work that can fall unevenly despite equal overnights. See “The Challenges Many Families Do Not Expect” above for practical examples.',
+			'Common challenges include forgotten school supplies between homes, different household rules, emotional adjustment for parents and children, travel time on school nights, and administrative work that can fall unevenly despite equal overnights. See “Operational Challenges Parents Miss at Exchanges” above for practical examples.',
 	},
 	{
 		question: 'Does 50/50 custody cause stress for children?',
@@ -236,7 +236,7 @@ export const faqItems = [
 	{
 		question: 'Is 50/50 custody better than every-other-weekend parenting?',
 		answer:
-			'50/50 custody usually means more weekday time with both parents—homework, school events, and daily routines. Every-other-weekend schedules mean longer gaps with one parent but fewer exchanges. Which fits better depends on distance, school needs, and how the child handles transitions—not a single “better” answer for all families.',
+			'50/50 custody usually means more weekday time with both parents—homework, school events, and daily routines. Every-other-weekend schedules mean longer gaps with one parent but fewer exchanges. Which fits better varies with distance, school needs, and how the child handles transitions—not a single ranking for all households.',
 	},
 	{
 		question: 'What age is best for 50/50 custody?',
@@ -246,7 +246,7 @@ export const faqItems = [
 	{
 		question: 'What happens when parents disagree in a 50/50 arrangement?',
 		answer:
-			'Day-to-day disagreements about activities, schedules, or rules still happen. Many families use written parenting plans, shared calendars, and agreed channels for decisions so the child is not asked to carry messages. Follow your court order or parenting plan for required decision-making processes.',
+			'Day-to-day disagreements about activities, schedules, or rules still happen. Co-parents often use written parenting plans, shared calendars, and agreed channels for decisions so the child is not asked to carry messages. Follow your court order or parenting plan for required decision-making processes.',
 	},
 	{
 		question: 'Does 50/50 custody work if parents live far apart?',
@@ -258,9 +258,9 @@ export const faqItems = [
 export const articleTocItems = [
 	{ label: 'Is 50/50 custody good or bad?', href: '#good-or-bad' },
 	{ label: 'The biggest benefits of 50/50 custody', href: '#benefits' },
-	{ label: 'The challenges many families do not expect', href: '#challenges' },
+	{ label: 'Operational challenges parents miss at exchanges', href: '#challenges' },
 	{ label: 'How age changes the pros and cons', href: '#age-changes' },
-	{ label: 'When 50/50 custody works best', href: '#works-best' },
+	{ label: 'When equal-time blocks fit school weeks', href: '#works-best' },
 	{ label: 'When 50/50 custody may be difficult', href: '#more-difficult' },
 	{ label: 'Questions to ask before choosing 50/50', href: '#questions' },
 	{ label: 'How to make 50/50 custody more successful', href: '#success' },

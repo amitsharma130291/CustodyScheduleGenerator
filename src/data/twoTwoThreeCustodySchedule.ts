@@ -149,7 +149,7 @@ export const tradeOff = {
 		},
 		{
 			heading: 'Activities split across blocks',
-			body: 'Thursday swim is fixed; who drives depends on the cycle week. Lucas\'s coach knows both parents by name because each drives at least twice a month — unlike a <a href="/5-2-2-5-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">5-2-2-5 custody schedule</a> where one parent might own entire school weeks and the other only weekends for a stretch.',
+			body: 'Thursday swim is fixed; who drives follows the cycle week. Lucas\'s coach knows both parents by name because each drives at least twice a month — unlike a <a href="/5-2-2-5-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">5-2-2-5 custody schedule</a> where one parent might own entire school weeks and the other only weekends for a stretch.',
 		},
 	],
 	close:
@@ -164,6 +164,10 @@ export const moveBeyond = {
 		{
 			heading: 'Kindergarten homework needs one kitchen table',
 			body: 'A Monday spelling packet half-finished at Mom\'s and half at Dad\'s means Lucas turns in a smudged worksheet. Some families shift to <a href="/5-2-2-5-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">5-2-2-5</a> so one parent owns Mon–Fri for a full school cycle before the calendar flips.',
+		},
+		{
+			heading: 'Between 2-2-3 and school-week blocks',
+			body: 'When four-day gaps feel too long but full school-week ownership is not needed yet, some families try a <a href="/3-4-4-3-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">3-4-4-3 custody schedule</a> — three- and four-day blocks that trade each week without locking every weekday forever.',
 		},
 		{
 			heading: 'Fixed weekday activities',
@@ -264,7 +268,7 @@ export const faqItems = [
 	{
 		question: 'How many exchanges does 2-2-3 require?',
 		answer:
-			'Typically three or four handoffs in a two-week cycle, depending on how weekends split and whether midweek exchanges happen at school or daycare. That is more than 5-2-2-5 or week-on/week-off and less than some custom short rotations.',
+			'Usually three or four handoffs in a two-week cycle, based on how weekends split and whether midweek exchanges happen at school or daycare. That is more than 5-2-2-5 or week-on/week-off and less than some custom short rotations.',
 		links: [{ label: '5-2-2-5 custody schedule', href: '/5-2-2-5-custody-schedule/' }],
 	},
 	{

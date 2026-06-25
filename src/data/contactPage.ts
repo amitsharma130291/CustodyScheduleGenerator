@@ -13,7 +13,7 @@ export const hero = {
 };
 
 export const canHelp = {
-	title: 'What We Can Help With',
+	title: 'What To Contact Us About',
 	items: [
 		{ heading: 'Tool bugs', body: 'Generator not rendering exchange days, PDF export failures, calculator fields not updating results.' },
 		{ heading: 'Calculator discrepancies', body: 'Output does not match the formula documented on the how-it-works page — include inputs and expected numbers.' },

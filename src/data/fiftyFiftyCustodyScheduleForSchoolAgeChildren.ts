@@ -169,7 +169,7 @@ export const faqItems = [
 	{
 		question: 'Who owns Tuesday night on a school-age 50/50 calendar?',
 		answer:
-			'Depends on the printed rotation: fixed-weekday patterns keep the same parent every Tuesday; rotating patterns alternate by fortnight. Print the calendar and write the responsible parent beside each weekday before adopting the plan.',
+			'The printed rotation sets weekday ownership: fixed-weekday patterns keep the same parent every Tuesday; rotating patterns alternate by fortnight. Print the calendar and write the responsible parent beside each weekday before adopting the plan.',
 	},
 	{
 		question: 'How does homework move between homes on equal time?',

@@ -260,7 +260,7 @@ export const faqItems = [
 	{
 		question: 'How many exchanges occur in a 2-2-5-5 schedule?',
 		answer:
-			'Typically two or three handoffs per fourteen-day cycle — fewer than 2-2-3. Fixed Mon–Thu reduce midweek swaps; most exchanges happen at block changes between the five-day weekend stretches.',
+			'Usually two or three handoffs per fourteen-day cycle — fewer than 2-2-3. Fixed Mon–Thu reduce midweek swaps; most exchanges happen at block changes between the five-day weekend stretches.',
 	},
 	{
 		question: 'Do fixed weekdays change during the five-day block?',

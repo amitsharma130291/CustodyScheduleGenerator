@@ -234,7 +234,7 @@ export const faqItems = [
 	{
 		question: 'Is every-other-weekend enough parenting time?',
 		answer:
-			'Two Fri–Sun blocks per month can work on paper. Whether it feels like enough depends on what crosses the twelve-day gap — school access, midweek contact, activity attendance — not the weekend blocks alone. A parent who only appears Fri–Sun can feel absent while the gap runs.',
+			'Two Fri–Sun blocks per month can work on paper. Whether it feels like enough varies with what crosses the twelve-day gap — school access, midweek contact, activity attendance — not the weekend blocks alone. A parent who only appears Fri–Sun can feel absent while the gap runs.',
 	},
 	{
 		question: 'Why do children sometimes resist weekend-only schedules?',

@@ -274,7 +274,7 @@ export const faqItems = [
 	{
 		question: 'How many exchanges occur in a 5-2-2-5 schedule?',
 		answer:
-			'Typically two or three handoffs per fourteen-day cycle — far fewer than 2-2-3. Exact count depends on whether the two-day bridge exchanges after school Wednesday or on a weekend morning.',
+			'Usually two or three handoffs per fourteen-day cycle — far fewer than 2-2-3. Exact count follows whether the two-day bridge exchanges after school Wednesday or on a weekend morning.',
 	},
 	{
 		question: 'Can a 5-2-2-5 schedule become 2-2-5-5 later?',

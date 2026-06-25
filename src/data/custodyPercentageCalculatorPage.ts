@@ -44,7 +44,7 @@ export const howCalculated = {
 	formula: 'Parent A % = (Parent A overnights ÷ Total overnights) × 100',
 	steps: [
 		{ heading: 'Count overnights per parent', body: 'An overnight is one calendar night the child sleeps at that parent\'s home — partial days without an overnight usually do not count unless your order says otherwise.' },
-		{ heading: 'Sum total overnights', body: 'Parent A overnights + Parent B overnights = denominator. In a 365-day year with no third-party overnights, total is typically 365.' },
+		{ heading: 'Sum total overnights', body: 'Parent A overnights + Parent B overnights = denominator. In a 365-day year with no third-party overnights, total is 365.' },
 		{ heading: 'Round to one decimal', body: '182 ÷ 365 = 49.9%. 183 ÷ 365 = 50.1%. Leap years add one day to the denominator.' },
 	],
 	closing:

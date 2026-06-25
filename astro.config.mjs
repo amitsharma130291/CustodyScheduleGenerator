@@ -50,6 +50,14 @@ export default defineConfig({
           };
         }
 
+        if (item.url === 'https://custodybuilder.com/texas-parenting-plan-template/') {
+          return {
+            ...item,
+            changefreq: 'weekly',
+            priority: 0.9,
+          };
+        }
+
         return item;
       },
     }),

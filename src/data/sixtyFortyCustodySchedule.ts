@@ -289,7 +289,7 @@ export const faqItems = [
 	{
 		question: 'What does a 60/40 calendar usually look like?',
 		answer:
-			'Common patterns include a repeating 4-3 week (four nights with one parent, three with the other), an extended-weekend arrangement with one parent holding most weekdays, or an exact ten-day cycle with six and four overnights. The right layout depends on school distance, work schedules, and how many exchanges you can manage.',
+			'Common patterns include a repeating 4-3 week (four nights with one parent, three with the other), an extended-weekend arrangement with one parent holding most weekdays, or an exact ten-day cycle with six and four overnights. The right layout varies with school distance, work schedules, and how many exchanges you can manage.',
 		links: [{ label: 'Custody schedule generator', href: '/custody-schedule-generator/' }],
 	},
 ];

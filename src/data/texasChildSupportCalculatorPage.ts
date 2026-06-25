@@ -120,7 +120,7 @@ export const fiftyFifty = {
 	answer:
 		'Often, yes — equal parenting time does not automatically eliminate child support. Texas guideline support still starts with net resources and child count. If one parent earns significantly more, guideline support may still apply even when overnights are split evenly.',
 	scenario:
-		'Example: Sarah and David split parenting time evenly. Sarah earns about $9,000 per month and David earns about $4,000 per month. Equal overnight time does not automatically erase support because a court may still consider each parent\'s net resources and the child\'s needs. This illustration is educational — not a prediction of a specific order.',
+		'Example: Sarah and David split parenting time evenly. Sarah earns about $9,000 per month and David earns about $4,000 per month. Equal overnight time does not automatically erase support because a court may still weigh each parent\'s net resources and the child\'s needs. This illustration is educational — not a prediction of a specific order.',
 	points: [
 		'Parenting time can affect negotiations and the facts a court reviews, but 50/50 alone does not reset support to zero.',
 		'Income differences, medical support, child care, and expense sharing may still matter.',
@@ -134,7 +134,7 @@ export const fiftyFifty = {
 
 export const whatIncomeCounts = {
 	title: 'What Income Counts Toward Texas Child Support',
-	intro: 'Texas net resources generally include income the paying parent actually receives — not just base salary.',
+	intro: 'Texas net resources include income the paying parent actually receives — not just base salary.',
 	sources: [
 		{
 			source: 'Salary and wages',
@@ -273,7 +273,7 @@ export const faqItems = [
 	{
 		question: 'How is child support calculated in Texas?',
 		answer:
-			'Texas guideline support generally starts with gross monthly income, subtracts allowable deductions to estimate net resources, then applies a percentage based on the number of children before the court. Other supported children, low-income rules, and court discretion can change the final amount.',
+			'Texas guideline support starts with gross monthly income, subtracts allowable deductions to estimate net resources, then applies a percentage based on the number of children before the court. Other supported children, low-income rules, and court discretion can change the final amount.',
 	},
 	{
 		question: 'What percentage of income goes to child support in Texas?',
@@ -283,7 +283,7 @@ export const faqItems = [
 	{
 		question: 'How much is child support for one child in Texas?',
 		answer:
-			'For one child, guideline support is generally 20% of monthly net resources when no other supported children or adjustments apply. At $5,000 gross income with typical estimated deductions, that often lands near $800–850 per month before case-specific changes.',
+			'For one child, guideline support is 20% of monthly net resources when no other supported children or adjustments apply. At $5,000 gross income with typical estimated deductions, that often lands near $800–850 per month before case-specific changes.',
 	},
 	{
 		question: 'Does 50/50 custody eliminate child support in Texas?',
@@ -293,7 +293,7 @@ export const faqItems = [
 	{
 		question: 'What income counts toward child support in Texas?',
 		answer:
-			'Net resources generally include wages, salary, self-employment income, overtime, bonuses, commissions, and other income the paying parent receives, minus allowable deductions such as taxes and child health insurance.',
+			'Net resources include wages, salary, self-employment income, overtime, bonuses, commissions, and other income the paying parent receives, minus allowable deductions such as taxes and child health insurance.',
 	},
 	{
 		question: 'When does child support end in Texas?',

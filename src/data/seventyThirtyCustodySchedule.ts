@@ -91,7 +91,7 @@ export const weekInFamily = {
 export const thirtyPercentNotVisitor = {
 	title: 'Why The School Week Still Matters At 30%',
 	intro:
-		'About 109 overnights a year clusters on weekends — but at 30%, Parent B can still own repeating school-week routines: a standing Wednesday practice pickup, Sunday homework block, or Tuesday dinner every primary-home week. That rhythm does not exist at 20%; see <a href="/80-20-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">80/20</a> when involvement depends on access between visits, not recurring weekday duty.',
+		'About 109 overnights a year clusters on weekends — but at 30%, Parent B can still own repeating school-week routines: a standing Wednesday practice pickup, Sunday homework block, or Tuesday dinner every primary-home week. That rhythm does not exist at 20%; see <a href="/80-20-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">80/20</a> when involvement follows access between visits, not recurring weekday duty.',
 	problems: [
 		{
 			problem: 'Only "fun" weekends',
@@ -166,7 +166,7 @@ export const transitions = {
 		{
 			direction: '70/30 → 60/40',
 			heading: 'Older child, more weekday time with Dad',
-			body: 'At eleven, Emma wants Tuesday and Thursday dinners at Dad\'s during Mom\'s weeks, plus every weekend. Parents who later move toward nearly equal parenting time may consider a <a href="/60-40-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">60/40 custody schedule</a> if both homes can handle homework and morning routines without chaos.',
+			body: 'At eleven, Emma wants Tuesday and Thursday dinners at Dad\'s during Mom\'s weeks, plus every weekend. Parents who later move toward nearly equal parenting time often compare a <a href="/60-40-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">60/40 custody schedule</a> if both homes can handle homework and morning routines without chaos.',
 		},
 		{
 			direction: '50/50 → 70/30',
@@ -290,7 +290,7 @@ export const faqItems = [
 	{
 		question: 'What does a typical 70/30 calendar look like?',
 		answer:
-			'Common patterns include every weekend (Friday–Saturday with Sunday return to the primary home), alternating weekends plus one weekday overnight, and first/third/fifth weekend monthly rules. The right pattern depends on distance, work schedules, and how much school-week stability the child needs.',
+			'Common patterns include every weekend (Friday–Saturday with Sunday return to the primary home), alternating weekends plus one weekday overnight, and first/third/fifth weekend monthly rules. The right pattern varies with distance, work schedules, and how much school-week stability the child needs.',
 	},
 	{
 		question: 'When might parents choose 70/30 instead of 60/40 or 80/20?',

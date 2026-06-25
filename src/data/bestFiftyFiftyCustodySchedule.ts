@@ -178,7 +178,7 @@ export const bothFail = {
 	outcomes: [
 		{
 			heading: 'Shift to 60/40 or 70/30',
-			body: 'Longer blocks with fewer exchanges when distance or shift work breaks every 50/50 finalist. Compare on the <a href="/60-40-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">60/40 custody schedule</a> page.',
+			body: 'Longer blocks with fewer exchanges when distance or shift work breaks every 50/50 finalist. Compare on the <a href="/60-40-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">60/40 custody schedule</a> page or the <a href="/70-30-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">70/30 custody schedule</a> page.',
 		},
 		{
 			heading: 'Revisit age-specific logistics',

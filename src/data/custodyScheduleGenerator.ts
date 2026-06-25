@@ -103,7 +103,7 @@ export const faqItems = [
 	{ question: 'Does the generator calculate custody percentages?', answer: 'It shows overnight counts as a planning estimate. Court percentage discussions with specific counting rules belong on the custody percentage calculator.' },
 	{ question: 'How do holidays appear on the generated calendar?', answer: 'Holiday overrides are built separately on the holiday custody schedule page. The generator shows the base school-year rotation — attach holiday exhibit rows that replace named date blocks.' },
 	{ question: 'Can I export a printable custody calendar PDF?', answer: 'Yes. Use print or export from the calendar preview. The PDF includes parent color key, month grid, and exchange markers for the selected pattern and start date.' },
-	{ question: 'Which rotation pattern should I pick?', answer: 'Pattern choice depends on distance, school routine, and child age — not the generator defaults. Compare options on schedule-specific pages like 2-2-3, 2-2-5-5, or the 50/50 hub before selecting here.' },
+	{ question: 'Which rotation pattern should I pick?', answer: 'Pattern choice varies with distance, school routine, and child age — not the generator defaults. Compare options on schedule-specific pages like 2-2-3, 2-2-5-5, or the 50/50 hub before selecting here.' },
 	{ question: 'Is the generated calendar a court document?', answer: 'No. Planning output for co-parent review and mediation prep. Confirm filing format with a qualified professional.' },
 	{ question: 'How is this different from the visitation calculator?', answer: 'The generator builds future calendars from rotation rules. The visitation calculator logs actual parenting time against a plan — historical tracking, not forward scheduling.' },
 ];

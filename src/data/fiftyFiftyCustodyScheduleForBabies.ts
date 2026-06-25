@@ -216,7 +216,7 @@ export const faqItems = [
 	{
 		question: 'Can 50/50 custody work for a baby?',
 		answer:
-			'Some families work toward equal parenting time through step-up stages — short visits, longer blocks, first nap, first overnight — as feeding and sleep routines stabilize in both homes. Others never reach equal overnights in the first year. Workability depends on feed intervals, nap rhythm, bottle or pumping logistics, and any court order in place.',
+			'Some families work toward equal parenting time through step-up stages — short visits, longer blocks, first nap, first overnight — as feeding and sleep routines stabilize in both homes. Others never reach equal overnights in the first year. Feasibility varies with feed intervals, nap rhythm, bottle or pumping logistics, and any court order in place.',
 	},
 	{
 		question: 'What should parents test before adding overnights?',

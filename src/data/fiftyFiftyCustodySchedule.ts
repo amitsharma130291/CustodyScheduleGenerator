@@ -184,7 +184,7 @@ export const faqItems = [
 	{
 		question: 'Which 50/50 schedule has the fewest exchanges?',
 		answer:
-			'Week-on/week-off usually means one swap per week — the lowest handoff count among common equal-time patterns. 2-2-3 typically has the most. Pick fewer exchanges only if your child handles longer stretches away from each home.',
+			'Week-on/week-off usually means one swap per week — the lowest handoff count among common equal-time patterns. 2-2-3 usually has the most. Pick fewer exchanges only if your child handles longer stretches away from each home.',
 		links: [{ label: 'Week-on/week-off schedule', href: '/week-on-week-off-custody-schedule/' }],
 	},
 	{
@@ -196,7 +196,7 @@ export const faqItems = [
 	{
 		question: 'Does 50/50 work if parents live far apart?',
 		answer:
-			'Distance does not forbid equal time, but it changes which pattern is realistic. Long drives on school nights push many families toward longer blocks — 5-2-2-5, week-on/week-off, or unequal schedules — because three midweek exchanges in 2-2-3 may not leave time for homework and sleep.',
+			'Distance does not forbid equal time, but it changes which pattern is realistic. Long drives on school nights push parents toward longer blocks — 5-2-2-5, week-on/week-off, or unequal schedules — because three midweek exchanges in 2-2-3 may not leave time for homework and sleep.',
 		links: [{ label: '2-2-3 custody schedule', href: '/2-2-3-custody-schedule/' }],
 	},
 	{

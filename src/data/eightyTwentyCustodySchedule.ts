@@ -26,7 +26,7 @@ export const hero = {
 	intro:
 		'An 80/20 custody schedule often gives one parent most school nights while the other parent has limited time. The challenge is rarely the percentage itself. The challenge is staying involved when most homework, teacher communication, practices, appointments, and weekday routines happen somewhere else. This page explains how 20% parenting time succeeds, where it breaks down, and what families usually put in writing before conflict starts.',
 	boundary:
-		'At 70/30, the lower-time parent often still has recurring school-night involvement. At 80/20, involvement usually depends on information access rather than possession.',
+		'At 70/30, the lower-time parent often still has recurring school-night involvement. At 80/20, involvement usually follows information access rather than possession.',
 };
 
 export const heroKeyStats = [
@@ -144,7 +144,7 @@ export const timeVsAccess = {
 export const involvedParents = {
 	title: 'What The Most Involved 20% Parents Usually Do',
 	intro:
-		'No single formula works for every family. Parents who avoid the "visitor" label tend to share a few operational habits — none of which require changing the overnight split.',
+		'No single household formula fits all 80/20 plans. Parents who avoid the "visitor" label tend to share a few operational habits — none of which require changing the overnight split.',
 	practices: [
 		{
 			heading: 'Show up at practices on off-duty weeks',
@@ -283,5 +283,5 @@ export const faqItems = [
 
 export const faqSection = {
 	title: '80/20 Custody Schedule FAQ',
-	description: 'Involvement, school access, information flow, and when to consider another schedule.',
+	description: 'Involvement, school access, information flow, and when to compare another schedule.',
 };
