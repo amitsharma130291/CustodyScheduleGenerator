@@ -1,0 +1,185 @@
+---
+// Lightweight, self-contained cookie-consent banner wired to Google Consent Mode v2.
+// Consent defaults to "denied" in BaseLayout before GA4 configures; this banner lets the
+// visitor grant or decline, stores the choice in localStorage ('cb-consent'), and calls
+// gtag('consent','update', ...) on accept so Google Analytics only sets cookies after consent.
+// No third-party CMP, no external requests, no framework — just HTML + one inline script.
+---
+
+<div
+	id="cb-cookie-consent"
+	class="cb-cookie-consent"
+	role="dialog"
+	aria-live="polite"
+	aria-label="Cookie consent"
+	hidden
+>
+	<div class="cb-cookie-consent__inner">
+		<div class="cb-cookie-consent__copy">
+			<p class="cb-cookie-consent__title">We use cookies</p>
+			<p class="cb-cookie-consent__text">
+				CustodyBuilder uses Google Analytics cookies to understand how the site is used so we can improve it.
+				Analytics stays off until you accept. See our
+				<a href="/privacy/">Privacy Policy</a> for details.
+			</p>
+		</div>
+		<div class="cb-cookie-consent__actions">
+			<button type="button" class="cb-cookie-consent__btn cb-cookie-consent__btn--ghost" data-consent-decline>
+				Decline
+			</button>
+			<button type="button" class="cb-cookie-consent__btn cb-cookie-consent__btn--solid" data-consent-accept>
+				Accept
+			</button>
+		</div>
+	</div>
+</div>
+
+<style>
+	.cb-cookie-consent {
+		position: fixed;
+		left: 1rem;
+		right: 1rem;
+		bottom: 1rem;
+		z-index: 2000;
+		margin: 0 auto;
+		max-width: 44rem;
+		border-radius: 1.25rem;
+		border: 1px solid var(--border-subtle, rgba(15, 23, 42, 0.12));
+		background: var(--surface-elevated, #ffffff);
+		box-shadow: 0 20px 50px rgba(15, 23, 42, 0.18);
+		padding: 1rem 1.15rem;
+	}
+	.cb-cookie-consent[hidden] {
+		display: none;
+	}
+	.cb-cookie-consent__inner {
+		display: flex;
+		flex-direction: column;
+		gap: 0.85rem;
+	}
+	@media (min-width: 640px) {
+		.cb-cookie-consent__inner {
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+			gap: 1.25rem;
+		}
+	}
+	.cb-cookie-consent__title {
+		margin: 0 0 0.2rem;
+		font-size: 0.95rem;
+		font-weight: 700;
+		color: var(--text-primary, #0f172a);
+	}
+	.cb-cookie-consent__text {
+		margin: 0;
+		font-size: 0.82rem;
+		line-height: 1.5;
+		color: var(--text-secondary, #475569);
+	}
+	.cb-cookie-consent__text a {
+		font-weight: 600;
+		color: var(--text-accent, #2563eb);
+		text-decoration: underline;
+		text-underline-offset: 2px;
+	}
+	.cb-cookie-consent__actions {
+		display: flex;
+		gap: 0.6rem;
+		flex-shrink: 0;
+	}
+	.cb-cookie-consent__btn {
+		cursor: pointer;
+		border-radius: 999px;
+		padding: 0.6rem 1.15rem;
+		font-size: 0.85rem;
+		font-weight: 600;
+		line-height: 1;
+		transition: transform 0.15s ease, background 0.15s ease, opacity 0.15s ease;
+	}
+	.cb-cookie-consent__btn:hover {
+		transform: translateY(-1px);
+	}
+	.cb-cookie-consent__btn--ghost {
+		background: transparent;
+		border: 1px solid var(--border-subtle, rgba(15, 23, 42, 0.16));
+		color: var(--text-secondary, #475569);
+	}
+	.cb-cookie-consent__btn--solid {
+		background: var(--text-primary, #0f172a);
+		border: 1px solid var(--text-primary, #0f172a);
+		color: #ffffff;
+	}
+	.cb-cookie-consent__btn:focus-visible {
+		outline: 2px solid var(--text-accent, #2563eb);
+		outline-offset: 2px;
+	}
+</style>
+
+<script is:inline>
+	(function () {
+		var STORAGE_KEY = 'cb-consent';
+		var banner = document.getElementById('cb-cookie-consent');
+		if (!banner) return;
+
+		function readChoice() {
+			try {
+				return localStorage.getItem(STORAGE_KEY);
+			} catch (e) {
+				return null;
+			}
+		}
+
+		function storeChoice(value) {
+			try {
+				localStorage.setItem(STORAGE_KEY, value);
+			} catch (e) {}
+		}
+
+		function applyConsent(granted) {
+			if (typeof window.gtag === 'function') {
+				window.gtag('consent', 'update', {
+					ad_storage: granted ? 'granted' : 'denied',
+					analytics_storage: granted ? 'granted' : 'denied',
+					ad_user_data: granted ? 'granted' : 'denied',
+					ad_personalization: granted ? 'granted' : 'denied',
+				});
+			}
+		}
+
+		function hide() {
+			banner.setAttribute('hidden', '');
+		}
+
+		function show() {
+			banner.removeAttribute('hidden');
+		}
+
+		var existing = readChoice();
+		if (existing === 'granted' || existing === 'denied') {
+			// Choice already made; BaseLayout already re-applied 'granted' on load. Keep banner hidden.
+			hide();
+			return;
+		}
+
+		show();
+
+		var acceptBtn = banner.querySelector('[data-consent-accept]');
+		var declineBtn = banner.querySelector('[data-consent-decline]');
+
+		if (acceptBtn) {
+			acceptBtn.addEventListener('click', function () {
+				storeChoice('granted');
+				applyConsent(true);
+				hide();
+			});
+		}
+		if (declineBtn) {
+			declineBtn.addEventListener('click', function () {
+				storeChoice('denied');
+				applyConsent(false);
+				hide();
+			});
+		}
+	})();
+</script>

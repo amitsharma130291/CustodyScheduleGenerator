@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import ScrollToTop from '../components/ScrollToTop.astro';
+import CookieConsent from '../components/CookieConsent.astro';
 import { getCanonicalUrl } from '../lib/seo/metadata';
 
 interface Props {
@@ -76,6 +77,31 @@ const shouldLoadAnalytics = import.meta.env.PROD;
 				<script is:inline>
 					window.dataLayer = window.dataLayer || [];
 					function gtag(){dataLayer.push(arguments);}
+
+					// Google Consent Mode v2 — default everything to DENIED before GA4 configures,
+					// so no analytics/ad cookies are set until the visitor accepts via the banner.
+					// A stored prior choice is applied immediately so returning visitors aren't re-gated.
+					gtag('consent', 'default', {
+						ad_storage: 'denied',
+						analytics_storage: 'denied',
+						ad_user_data: 'denied',
+						ad_personalization: 'denied',
+						functionality_storage: 'granted',
+						security_storage: 'granted',
+						wait_for_update: 500,
+					});
+					try {
+						var storedConsent = localStorage.getItem('cb-consent');
+						if (storedConsent === 'granted') {
+							gtag('consent', 'update', {
+								ad_storage: 'granted',
+								analytics_storage: 'granted',
+								ad_user_data: 'granted',
+								ad_personalization: 'granted',
+							});
+						}
+					} catch (e) {}
+
 					gtag('js', new Date());
 					gtag('config', 'G-ZEM3ECSRZH');
 
@@ -98,5 +124,6 @@ const shouldLoadAnalytics = import.meta.env.PROD;
 	<body>
 		<slot />
 		<ScrollToTop />
+		{shouldLoadAnalytics && <CookieConsent />}
 	</body>
 </html>
