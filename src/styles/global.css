@@ -37,14 +37,14 @@
 	--danger: #ef4444;
 	--focus-ring: color-mix(in srgb, var(--accent) 18%, transparent);
 	--focus-border: color-mix(in srgb, var(--accent) 42%, var(--border-subtle));
-	--button-primary-bg: #0F172A;
-	--button-primary-hover: #1E293B;
+	--button-primary-bg: #2563EB;
+	--button-primary-hover: #1D4ED8;
 	--button-primary-text: #FFFFFF;
 	--button-primary-border: transparent;
-	--button-primary-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
-	--button-primary-hover-shadow: 0 8px 20px rgba(15, 23, 42, 0.2);
-	--button-primary-active-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
-	--button-primary-disabled-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+	--button-primary-shadow: 0 4px 14px rgba(37, 99, 235, 0.28);
+	--button-primary-hover-shadow: 0 8px 24px rgba(37, 99, 235, 0.38);
+	--button-primary-active-shadow: 0 2px 8px rgba(37, 99, 235, 0.22);
+	--button-primary-disabled-shadow: 0 2px 8px rgba(37, 99, 235, 0.1);
 	--button-secondary-bg: color-mix(in srgb, var(--surface) 58%, transparent);
 	--button-secondary-hover-bg: var(--surface-hover);
 	--button-secondary-text: var(--text-secondary);
@@ -68,6 +68,41 @@
 	--soft-shadow: 0 16px 42px rgba(15, 23, 42, 0.045), 0 1px 0 rgba(255, 255, 255, 0.72) inset;
 	--hover-shadow: 0 22px 52px rgba(15, 23, 42, 0.07), 0 0 44px rgba(37, 99, 235, 0.045);
 	--glow-accent: rgba(37, 99, 235, 0.08);
+	/* ── NEW: Warm surface layer ───────────────────────────── */
+	--surface-warm:        #FDFAF6;
+	--surface-warm-mid:    #F9F3E8;
+	--surface-deep-navy:   #0F1F3D;
+	/* ── NEW: Amber / date accent ──────────────────────────── */
+	--amber:               #D97706;
+	--amber-soft:          #FEF3C7;
+	--amber-mid:           #FDE68A;
+	--amber-text:          #92400E;
+	/* ── NEW: Sage / schedule / balance ──────────────────────*/
+	--sage:                #4D7C5A;
+	--sage-soft:           #ECFDF5;
+	--sage-mid:            #BBF7D0;
+	--sage-text:           #14532D;
+	/* ── NEW: Lavender / premium / soft feature ──────────────*/
+	--lavender:            #7C3AED;
+	--lavender-soft:       #F5F3FF;
+	--lavender-mid:        #DDD6FE;
+	--lavender-text:       #4C1D95;
+	/* ── NEW: Coral / attention (sparing) ────────────────────*/
+	--coral:               #DC2626;
+	--coral-soft:          #FEF2F2;
+	--coral-text:          #991B1B;
+	/* ── NEW: Calendar semantic colours ─────────────────────*/
+	--cal-parent-a:        #2563EB;
+	--cal-parent-a-soft:   #DBEAFE;
+	--cal-parent-b:        #0F766E;
+	--cal-parent-b-soft:   #CCFBF1;
+	--cal-school:          #D97706;
+	--cal-school-soft:     #FEF3C7;
+	--cal-holiday:         #4D7C5A;
+	--cal-holiday-soft:    #DCFCE7;
+	--cal-today:           #7C3AED;
+	--cal-today-soft:      #F5F3FF;
+	--cal-weekend:         #F8FAFC;
 }
 
 :root[data-theme="dark"] {
@@ -141,6 +176,43 @@
 		0 16px 38px rgba(0, 0, 0, 0.32),
 		0 0 0 1px rgba(255, 255, 255, 0.06);
 	--glow-accent: rgba(37, 99, 235, 0.1);
+	/* ── NEW: Warm surface (dark equivalents) ─────────────── */
+	--surface-warm:        #0D1425;
+	--surface-warm-mid:    #111827;
+	--surface-deep-navy:   #1E3A5F;
+	/* ── NEW: Amber / date accent (dark) ─────────────────── */
+	--amber:               #F59E0B;
+	--amber-soft:          rgba(245, 158, 11, 0.12);
+	--amber-mid:           rgba(245, 158, 11, 0.25);
+	--amber-text:          #FDE68A;
+	/* ── NEW: Sage / schedule (dark) ─────────────────────── */
+	--sage:                #34D399;
+	--sage-soft:           rgba(52, 211, 153, 0.10);
+	--sage-mid:            rgba(52, 211, 153, 0.22);
+	--sage-text:           #A7F3D0;
+	/* ── NEW: Lavender (dark) ────────────────────────────── */
+	--lavender:            #A78BFA;
+	--lavender-soft:       rgba(167, 139, 250, 0.10);
+	--lavender-mid:        rgba(167, 139, 250, 0.22);
+	--lavender-text:       #DDD6FE;
+	/* ── NEW: Coral (dark) ───────────────────────────────── */
+	--coral:               #F87171;
+	--coral-soft:          rgba(248, 113, 113, 0.10);
+	--coral-text:          #FECACA;
+	/* ── NEW: Calendar semantic (dark) ──────────────────────*/
+	--cal-parent-a:        #60A5FA;
+	--cal-parent-a-soft:   rgba(96, 165, 250, 0.14);
+	--cal-parent-b:        #2DD4BF;
+	--cal-parent-b-soft:   rgba(45, 212, 191, 0.12);
+	--cal-school:          #F59E0B;
+	--cal-school-soft:     rgba(245, 158, 11, 0.12);
+	--cal-holiday:         #34D399;
+	--cal-holiday-soft:    rgba(52, 211, 153, 0.10);
+	--cal-today:           #A78BFA;
+	--cal-today-soft:      rgba(167, 139, 250, 0.12);
+	--cal-weekend:         rgba(255, 255, 255, 0.025);
+	/* ── Nudge text-muted to slightly warmer undertone ──────*/
+	--text-muted:          #9ba8b9;
 }
 
 :root[data-theme="light"] {
@@ -163,14 +235,14 @@
 	--danger: #ef4444;
 	--focus-ring: color-mix(in srgb, var(--accent) 18%, transparent);
 	--focus-border: color-mix(in srgb, var(--accent) 42%, var(--border-subtle));
-	--button-primary-bg: #0F172A;
-	--button-primary-hover: #1E293B;
+	--button-primary-bg: #2563EB;
+	--button-primary-hover: #1D4ED8;
 	--button-primary-text: #FFFFFF;
 	--button-primary-border: transparent;
-	--button-primary-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
-	--button-primary-hover-shadow: 0 8px 20px rgba(15, 23, 42, 0.2);
-	--button-primary-active-shadow: 0 4px 12px rgba(15, 23, 42, 0.15);
-	--button-primary-disabled-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+	--button-primary-shadow: 0 4px 14px rgba(37, 99, 235, 0.28);
+	--button-primary-hover-shadow: 0 8px 24px rgba(37, 99, 235, 0.38);
+	--button-primary-active-shadow: 0 2px 8px rgba(37, 99, 235, 0.22);
+	--button-primary-disabled-shadow: 0 2px 8px rgba(37, 99, 235, 0.1);
 	--button-secondary-bg: color-mix(in srgb, var(--surface) 58%, transparent);
 	--button-secondary-hover-bg: var(--surface-hover);
 	--button-secondary-text: var(--text-secondary);
@@ -194,6 +266,41 @@
 	--soft-shadow: 0 16px 42px rgba(15, 23, 42, 0.045), 0 1px 0 rgba(255, 255, 255, 0.72) inset;
 	--hover-shadow: 0 22px 52px rgba(15, 23, 42, 0.07), 0 0 44px rgba(37, 99, 235, 0.045);
 	--glow-accent: rgba(37, 99, 235, 0.08);
+	/* ── NEW: Warm surface layer ───────────────────────────── */
+	--surface-warm:        #FDFAF6;
+	--surface-warm-mid:    #F9F3E8;
+	--surface-deep-navy:   #0F1F3D;
+	/* ── NEW: Amber / date accent ──────────────────────────── */
+	--amber:               #D97706;
+	--amber-soft:          #FEF3C7;
+	--amber-mid:           #FDE68A;
+	--amber-text:          #92400E;
+	/* ── NEW: Sage / schedule / balance ──────────────────────*/
+	--sage:                #4D7C5A;
+	--sage-soft:           #ECFDF5;
+	--sage-mid:            #BBF7D0;
+	--sage-text:           #14532D;
+	/* ── NEW: Lavender / premium / soft feature ──────────────*/
+	--lavender:            #7C3AED;
+	--lavender-soft:       #F5F3FF;
+	--lavender-mid:        #DDD6FE;
+	--lavender-text:       #4C1D95;
+	/* ── NEW: Coral / attention (sparing) ────────────────────*/
+	--coral:               #DC2626;
+	--coral-soft:          #FEF2F2;
+	--coral-text:          #991B1B;
+	/* ── NEW: Calendar semantic colours ─────────────────────*/
+	--cal-parent-a:        #2563EB;
+	--cal-parent-a-soft:   #DBEAFE;
+	--cal-parent-b:        #0F766E;
+	--cal-parent-b-soft:   #CCFBF1;
+	--cal-school:          #D97706;
+	--cal-school-soft:     #FEF3C7;
+	--cal-holiday:         #4D7C5A;
+	--cal-holiday-soft:    #DCFCE7;
+	--cal-today:           #7C3AED;
+	--cal-today-soft:      #F5F3FF;
+	--cal-weekend:         #F8FAFC;
 }
 
 html {
@@ -864,6 +971,26 @@ select:focus-visible {
 	box-shadow: var(--button-primary-hover-shadow);
 }
 
+/* ── NEW: Shimmer sweep on hover (premium feel) ──────────*/
+.btn-primary::after {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(
+		105deg,
+		transparent 40%,
+		rgba(255, 255, 255, 0.12) 50%,
+		transparent 60%
+	);
+	transform: translateX(-100%);
+	transition: transform 0ms;
+	pointer-events: none;
+}
+.btn-primary:hover::after {
+	transform: translateX(100%);
+	transition: transform 500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 .btn-secondary {
 	min-width: 160px;
 	background: var(--button-secondary-bg);
@@ -1327,6 +1454,68 @@ button:disabled,
 
 .motion-load-secondary {
 	animation-delay: 180ms;
+}
+
+/* ── NEW: Tier 3 card entrance animation ─────────────────*/
+.motion-load-card {
+	animation: card-enter 0.50s cubic-bezier(0.16, 1, 0.3, 1) calc(var(--card-index, 0) * 70ms) both;
+}
+
+/* ── NEW: Scroll-reveal for section headings ─────────────*/
+.reveal-heading {
+	opacity: 0;
+	transform: translateY(8px);
+	transition:
+		opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+		transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.motion-ready .reveal-heading.is-visible {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+/* ── NEW: Card hover lift ────────────────────────────────*/
+.card-hover-lift {
+	transition:
+		transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
+		box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1),
+		border-color 200ms ease;
+}
+.card-hover-lift:hover {
+	transform: translateY(-3px);
+	box-shadow: var(--hover-shadow);
+	border-color: color-mix(in srgb, var(--accent) 30%, var(--border-subtle));
+}
+
+/* ── NEW: Card hover glow ────────────────────────────────*/
+.card-hover-glow {
+	transition:
+		transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
+		box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+.card-hover-glow:hover {
+	transform: translateY(-2px);
+	box-shadow:
+		var(--hover-shadow),
+		0 0 0 1px color-mix(in srgb, var(--accent) 18%, transparent),
+		0 0 24px rgba(37, 99, 235, 0.08);
+}
+
+/* ── NEW: Premium CTA ambient glow ──────────────────────*/
+.cta-panel-premium {
+	animation: ambient-glow-pulse 6s ease-in-out infinite;
+}
+
+/* ── NEW: Overnight percentage value roll animation ──────*/
+.overnight-pct-value {
+	display: inline-block;
+	transition:
+		transform 150ms cubic-bezier(0.16, 1, 0.3, 1),
+		opacity 150ms ease;
+}
+.overnight-pct-value.updating {
+	transform: translateY(-4px);
+	opacity: 0;
 }
 
 .platform-workspace-card {
@@ -2106,6 +2295,33 @@ button:disabled,
 	}
 }
 
+/* ── NEW keyframes ────────────────────────────────────────*/
+@keyframes card-enter {
+	from {
+		opacity: 0;
+		transform: translateY(12px);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes calendar-grid-drift {
+	0%   { background-position: 0 0; }
+	100% { background-position: 24px 24px; }
+}
+
+@keyframes cell-colour-settle {
+	from { background-color: transparent; }
+	to   { background-color: var(--cell-bg, transparent); }
+}
+
+@keyframes ambient-glow-pulse {
+	0%, 100% { box-shadow: 0 0 60px rgba(37, 99, 235, 0.04); }
+	50%       { box-shadow: 0 0 80px rgba(37, 99, 235, 0.08); }
+}
+
 @keyframes platform-float {
 	0%,
 	100% {
@@ -2409,6 +2625,34 @@ button:disabled,
 		transform: none !important;
 	}
 
+	/* NEW: disable new motion classes */
+	.motion-load-card {
+		animation: none !important;
+		opacity: 1;
+		transform: none;
+	}
+	.reveal-heading {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+	.brand-hero-section::before {
+		animation: none;
+	}
+	.btn-primary::after {
+		display: none;
+	}
+	.card-hover-lift:hover,
+	.card-hover-glow:hover {
+		transform: none;
+	}
+	.cta-panel-premium {
+		animation: none;
+	}
+	.overnight-pct-value {
+		transition: none;
+	}
+
 	.soft-card,
 	* {
 		transition-duration: 0.01ms !important;
@@ -2705,4 +2949,68 @@ button:disabled,
 		border-bottom: 1px solid #e5e7eb !important;
 		padding: 8px !important;
 	}
+}
+/* =====================================================================
+   Brand identity: subtle calendar-grid motif on hero
+   A lightweight ownable mark — small grid cells in accent colour at
+   very low opacity — appears only in the hero background corner.
+   ===================================================================== */
+
+.brand-hero-section {
+	position: relative;
+	overflow: hidden;
+}
+
+.brand-hero-section::before {
+	content: '';
+	position: absolute;
+	inset: 0;
+	background-image:
+		/* Calendar grid motif: horizontal lines */
+		repeating-linear-gradient(
+			0deg,
+			transparent,
+			transparent 23px,
+			color-mix(in srgb, var(--accent) 6%, transparent) 23px,
+			color-mix(in srgb, var(--accent) 6%, transparent) 24px
+		),
+		/* Calendar grid motif: vertical lines */
+		repeating-linear-gradient(
+			90deg,
+			transparent,
+			transparent 23px,
+			color-mix(in srgb, var(--accent) 6%, transparent) 23px,
+			color-mix(in srgb, var(--accent) 6%, transparent) 24px
+		);
+	background-size: 24px 24px;
+	/* Fade the motif: strong right/bottom corner, invisible left/top */
+	-webkit-mask-image: radial-gradient(ellipse 52% 62% at 88% 72%, rgba(0,0,0,0.22) 0%, rgba(0,0,0,0.08) 40%, transparent 70%);
+	mask-image: radial-gradient(ellipse 52% 62% at 88% 72%, rgba(0,0,0,0.22) 0%, rgba(0,0,0,0.08) 40%, transparent 70%);
+	pointer-events: none;
+	z-index: 0;
+	/* Subtle calendar grid drift — 24s cycle, seamless tile */
+	animation: calendar-grid-drift 24s linear infinite;
+}
+
+.brand-hero-section > * {
+	position: relative;
+	z-index: 1;
+}
+
+:root[data-theme="dark"] .brand-hero-section::before {
+	background-image:
+		repeating-linear-gradient(
+			0deg,
+			transparent,
+			transparent 23px,
+			color-mix(in srgb, var(--accent) 9%, transparent) 23px,
+			color-mix(in srgb, var(--accent) 9%, transparent) 24px
+		),
+		repeating-linear-gradient(
+			90deg,
+			transparent,
+			transparent 23px,
+			color-mix(in srgb, var(--accent) 9%, transparent) 23px,
+			color-mix(in srgb, var(--accent) 9%, transparent) 24px
+		);
 }
