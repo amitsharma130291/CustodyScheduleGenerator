@@ -94,18 +94,8 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 			</label>
 			<p id="parent-labels-help" class="text-xs leading-5 text-muted sm:col-span-2">These names are calendar labels only.</p>
 		</div>
-		<button type="button" class="btn-primary flex h-12 w-full min-w-0 items-center justify-center whitespace-nowrap rounded-full px-5 text-center text-[15px] font-semibold leading-none shadow-[0_10px_24px_rgba(15,23,42,0.14)] transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_12px_28px_rgba(15,23,42,0.18)] active:translate-y-0 active:scale-[0.99] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-generate-calendar>
-			Update calendar preview
-		</button>
 		<p id="schedule-form-status" class="hidden rounded-2xl bg-warning/15 p-3 text-sm leading-6 text-primary" role="status" aria-live="polite" data-form-status></p>
-		{compact && (
-			<div class="grid gap-1.5 rounded-2xl bg-page/45 p-3 text-[11px] font-semibold leading-4 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]" aria-label="Generator reassurance">
-				<span><span class="text-parent-b" aria-hidden="true">✓</span> Preview real dates</span>
-				<span><span class="text-parent-b" aria-hidden="true">✓</span> Check overnight estimates</span>
-				<span><span class="text-parent-b" aria-hidden="true">✓</span> Export when ready</span>
-			</div>
-		)}
-		<div class="mt-4 mb-2 grid w-full min-w-0 gap-3" data-pdf-export-actions>
+		<div class="mt-2 mb-2 grid w-full min-w-0 gap-3" data-pdf-export-actions>
 			<div class="grid gap-1">
 				<p class="mb-0 text-xs font-semibold uppercase tracking-[0.16em] text-muted">Save your calendar</p>
 				<p class="text-xs leading-5 text-muted">PDFs are for planning and discussion.</p>
@@ -120,14 +110,6 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 					<span class="leading-none" data-pdf-button-label>Download yearly PDF</span>
 				</button>
 			</div>
-		</div>
-		<div class="hidden rounded-2xl bg-page/55 p-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]" data-next-steps-panel>
-			<p class="font-semibold text-primary">When the preview looks right</p>
-			<ul class="mt-2 grid gap-1.5 pl-4 [list-style:disc]">
-				<li>Review dates and overnight estimates.</li>
-				<li><a href="/custody-schedule-generator/#related-reading" class="text-accent underline decoration-line underline-offset-4 hover:text-primary">Compare nearby schedules</a> if needed.</li>
-				<li>Download, print, or share the calendar for discussion.</li>
-			</ul>
 		</div>
 	</form>
 </section>
@@ -173,7 +155,6 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 	const printGeneratedDate = document.querySelector('[data-print-generated-date]');
 	const printParentAName = document.querySelector('[data-print-parent-a-name]');
 	const printParentBName = document.querySelector('[data-print-parent-b-name]');
-	const nextStepsPanel = document.querySelector('[data-next-steps-panel]');
 	const formStatus = document.querySelector('[data-form-status]');
 	const scheduleCache = new Map();
 
@@ -190,20 +171,6 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 		const month = String(today.getMonth() + 1).padStart(2, '0');
 		const day = String(today.getDate()).padStart(2, '0');
 		return `${year}-${month}-${day}`;
-	}
-
-	function prefersReducedMotion() {
-		return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-	}
-
-	function scrollCalendarPreviewIntoView() {
-		const calendarPreview = document.querySelector('[data-calendar-preview]');
-		if (!(calendarPreview instanceof HTMLElement)) return;
-
-		calendarPreview.scrollIntoView({
-			block: 'center',
-			behavior: prefersReducedMotion() ? 'auto' : 'smooth',
-		});
 	}
 
 	function setFormStatus(message) {
@@ -451,30 +418,6 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 		}, 2000);
 	}
 
-	function handleGenerateCalendarClick(event) {
-		const target = event.target;
-		const button = target instanceof Element ? target.closest('[data-generate-calendar]') : null;
-		if (!(button instanceof HTMLButtonElement)) return;
-
-		event.preventDefault();
-		event.stopPropagation();
-		const didRender = renderSchedule();
-		if (!didRender) return;
-		button.dataset.state = 'success';
-		setFormStatus('Preview updated. Review the month below.');
-		window.setTimeout(() => {
-			button.removeAttribute('data-state');
-		}, 450);
-		if (form instanceof HTMLFormElement) {
-			const scheduleType = new FormData(form).get('scheduleId');
-			trackGa4Event('generate_calendar', {
-				schedule_type: scheduleType ? String(scheduleType) : 'unknown',
-			});
-		}
-		nextStepsPanel?.classList.remove('hidden');
-		scrollCalendarPreviewIntoView();
-	}
-
 	function renderSchedule(updateUrl = true) {
 		if (!(form instanceof HTMLFormElement) || !calendarGrid) return false;
 
@@ -619,7 +562,6 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 	form?.addEventListener('input', () => renderSchedule());
 	form?.addEventListener('change', () => renderSchedule());
 	form?.addEventListener('click', handlePdfExportClick);
-	form?.addEventListener('click', handleGenerateCalendarClick);
 	window.addEventListener('popstate', () => {
 		applyQueryParamsToForm();
 		renderSchedule(false);
@@ -629,18 +571,24 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 </script>
 
 <style>
-/* Calendar cell semantic colours using CSS token system */
-.cal-cell-a {
+/*
+ * Calendar cell semantic colours using CSS token system.
+ * These classes are applied by the client hydration script (renderSchedule)
+ * via innerHTML, so the generated cells never carry Astro's scoping attribute.
+ * They MUST stay :global() — a scoped selector (.cal-cell-a[data-astro-cid-…])
+ * would not match the JS-injected cells and the calendar renders colourless.
+ */
+:global(.cal-cell-a) {
 	background-color: var(--cal-parent-a-soft);
 	color: var(--cal-parent-a);
 	box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--cal-parent-a) 28%, transparent);
 }
-.cal-cell-b {
+:global(.cal-cell-b) {
 	background-color: var(--cal-parent-b-soft);
 	color: var(--cal-parent-b);
 	box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--cal-parent-b) 22%, transparent);
 }
-.cal-cell-inactive {
+:global(.cal-cell-inactive) {
 	color: var(--text-muted);
 	opacity: 0.3;
 	box-shadow: inset 0 0 0 1px var(--border-subtle);
