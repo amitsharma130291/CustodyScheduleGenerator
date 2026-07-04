@@ -1,0 +1,371 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import GeneratorPanel from '../components/tool/GeneratorPanel.astro';
+import CalendarPreview from '../components/tool/CalendarPreview.astro';
+import { generateSchedule } from '../lib/schedules/generateSchedule';
+import { getDefaultStartDate } from '../lib/schedules/format';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import {
+	buildBreadcrumbSchema,
+	buildFAQSchema,
+	buildWebPageSchema,
+} from '../lib/seo/schema';
+import {
+	byAgeSection,
+	chooseFactors,
+	definition,
+	examples,
+	faqItems,
+	faqSection,
+	fiftyFiftyTable,
+	goodSchedule,
+	hero,
+	holidaysSection,
+	meta,
+	overnights,
+	primaryTable,
+	relatedLinks,
+} from '../data/custodialSchedule';
+
+const canonical = '/custodial-schedule/';
+const canonicalUrl = getCanonicalUrl(canonical);
+const startDate = getDefaultStartDate();
+
+const generatedSchedule = generateSchedule({
+	scheduleId: '223',
+	startDate,
+	parentNames: { parentA: 'Parent A', parentB: 'Parent B' },
+});
+
+const exampleSchedules = examples.map((example) => ({
+	...example,
+	generated: generateSchedule({
+		scheduleId: example.scheduleId,
+		startDate,
+		parentNames: { parentA: 'Parent A', parentB: 'Parent B' },
+	}),
+}));
+
+const breadcrumbs = [
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: 'Custodial Schedule', url: canonicalUrl },
+];
+
+const schema = [
+	buildWebPageSchema({ name: meta.title, description: meta.description, url: canonicalUrl }),
+	buildFAQSchema(faqItems),
+	buildBreadcrumbSchema(breadcrumbs),
+];
+---
+
+<BaseLayout title={meta.title} description={meta.description} canonical={canonical} ogType="article">
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<Breadcrumbs items={breadcrumbs} />
+	<main class="overflow-x-clip">
+
+		<!-- Hero + Generator Panel -->
+		<section class="container-shell grid gap-5 py-4 sm:gap-6 sm:py-5 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start lg:gap-8 lg:py-8" id="overview">
+			<div class="min-w-0 lg:pt-2">
+				<h1 class="max-w-3xl text-[1.7rem] font-semibold leading-[1.04] tracking-[-0.055em] text-primary sm:text-5xl lg:text-6xl">
+					{hero.headline}
+				</h1>
+
+				<ul class="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-secondary">
+					{hero.trustChips.map((chip) => (
+						<li class="rounded-full bg-surface/70 px-3 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">{chip}</li>
+					))}
+				</ul>
+
+				<p class="mt-4 max-w-xl text-base leading-7 text-secondary">{hero.intro}</p>
+				<p class="mt-3 max-w-xl text-sm leading-6 text-secondary">{hero.boundary}</p>
+
+				<p class="mt-4 max-w-xl text-sm leading-6 text-secondary">
+					Ready to see one? Build your own free calendar with the{' '}
+					<a href="/custody-schedule-generator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule generator</a>, or read the{' '}
+					<a href="/50-50-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 custody schedule guide</a>.
+				</p>
+			</div>
+
+			<div class="min-w-0">
+				<div class="premium-card relative overflow-visible rounded-[1.75rem] border-line p-3 sm:p-4">
+					<div class="rounded-[1.4rem] bg-surface-elevated shadow-[inset_0_1px_0_rgba(255,255,255,0.07)] p-1">
+						<div class="grid grid-cols-1 items-start gap-4 xl:grid-cols-[minmax(320px,1fr)_240px]">
+							<div class="min-w-0">
+								<GeneratorPanel selectedScheduleId="223" compact />
+							</div>
+							<div class="min-w-0 xl:w-[240px] xl:min-w-[240px]">
+								<p class="mb-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-muted">Illustrative schedule — adjust dates and parents above to update this calendar</p>
+								<CalendarPreview schedule={generatedSchedule} embedded />
+							</div>
+						</div>
+					</div>
+				</div>
+				<p class="mt-3 text-xs leading-5 text-muted">
+					Educational estimate only. Not legal advice.
+					<a href="/disclaimer/" class="ml-1 font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Read disclaimer</a>
+				</p>
+			</div>
+		</section>
+
+		<!-- On-this-page nav -->
+		<nav class="container-shell border-y border-line-subtle py-3 lg:max-w-5xl" aria-label="On this page">
+			<ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">
+				<li><a href="#definition" class="hover:text-accent">What it is</a></li>
+				<li><a href="#types" class="hover:text-accent">Schedule types</a></li>
+				<li><a href="#examples" class="hover:text-accent">Examples</a></li>
+				<li><a href="#overnights" class="hover:text-accent">Overnights &amp; percentages</a></li>
+				<li><a href="#holidays" class="hover:text-accent">Holidays &amp; summer</a></li>
+				<li><a href="#by-age" class="hover:text-accent">By age</a></li>
+				<li><a href="#good-schedule" class="hover:text-accent">What makes a good one</a></li>
+				<li><a href="#faq" class="hover:text-accent">FAQ</a></li>
+			</ul>
+		</nav>
+
+		<!-- Section: Definition -->
+		<section id="definition" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{definition.title}</h2>
+			<p class="mt-3 max-w-3xl text-secondary">{definition.intro}</p>
+
+			<div class="mt-8 max-w-3xl space-y-6">
+				{definition.subsections.map((sub) => (
+					<article id={sub.id}>
+						<h3 class="text-xl font-semibold text-primary">{sub.heading}</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">{sub.body}</p>
+					</article>
+				))}
+			</div>
+		</section>
+
+		<!-- Section: Types -->
+		<section id="types" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Types of custodial schedules</h2>
+			<p class="mt-3 max-w-3xl text-secondary">
+				Custodial schedules fall into two broad groups: equal-time (50/50) plans and primary-custody plans where the child lives mainly with one parent. Each type below has a real pattern, the split it produces, and who it commonly suits, with a link to its full guide.
+			</p>
+
+			<!-- 50/50 table -->
+			<h3 id="fifty-fifty" class="mt-8 scroll-mt-24 text-xl font-semibold text-primary">{fiftyFiftyTable.title}</h3>
+			<p class="mt-2 max-w-3xl text-sm leading-6 text-secondary">{fiftyFiftyTable.intro}</p>
+			<div class="mt-5 overflow-x-auto rounded-[1.5rem] ring-1 ring-line-subtle">
+				<table class="w-full min-w-[720px] text-left text-sm">
+					<thead class="bg-surface-elevated text-primary">
+						<tr>
+							{fiftyFiftyTable.columns.map((col) => (
+								<th class="px-4 py-3 font-semibold">{col}</th>
+							))}
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-line-subtle text-secondary">
+						{fiftyFiftyTable.rows.map((row) => (
+							<tr>
+								<td class="px-4 py-3 font-medium text-primary">
+									<a href={row.href} class="text-accent underline decoration-line underline-offset-4 hover:text-primary">{row.name}</a>
+								</td>
+								<td class="px-4 py-3">{row.pattern}</td>
+								<td class="px-4 py-3 whitespace-nowrap">{row.split}</td>
+								<td class="px-4 py-3 text-center">{row.transitions}</td>
+								<td class="px-4 py-3 whitespace-nowrap">{row.longest}</td>
+								<td class="px-4 py-3">{row.bestFit}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+
+			<!-- Primary custody table -->
+			<h3 id="primary" class="mt-10 scroll-mt-24 text-xl font-semibold text-primary">{primaryTable.title}</h3>
+			<p class="mt-2 max-w-3xl text-sm leading-6 text-secondary">{primaryTable.intro}</p>
+			<div class="mt-5 overflow-x-auto rounded-[1.5rem] ring-1 ring-line-subtle">
+				<table class="w-full min-w-[560px] text-left text-sm">
+					<thead class="bg-surface-elevated text-primary">
+						<tr>
+							{primaryTable.columns.map((col) => (
+								<th class="px-4 py-3 font-semibold">{col}</th>
+							))}
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-line-subtle text-secondary">
+						{primaryTable.rows.map((row) => (
+							<tr>
+								<td class="px-4 py-3 font-medium text-primary">
+									<a href={row.href} class="text-accent underline decoration-line underline-offset-4 hover:text-primary">{row.name}</a>
+								</td>
+								<td class="px-4 py-3 whitespace-nowrap">{row.split}</td>
+								<td class="px-4 py-3">{row.description}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+
+			<!-- How to choose -->
+			<h3 id="choose" class="mt-10 scroll-mt-24 text-xl font-semibold text-primary">{chooseFactors.title}</h3>
+			<p class="mt-2 max-w-3xl text-sm leading-6 text-secondary">{chooseFactors.intro}</p>
+			<div class="mt-5 grid gap-4 max-w-3xl sm:grid-cols-2">
+				{chooseFactors.factors.map((factor) => (
+					<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<p class="font-semibold text-primary">{factor.heading}</p>
+						<p class="mt-2 text-sm leading-6 text-secondary">{factor.body}</p>
+					</div>
+				))}
+			</div>
+		</section>
+
+		<!-- Section: Examples with visual calendars -->
+		<section id="examples" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Custodial schedule examples</h2>
+			<p class="mt-3 max-w-3xl text-secondary">
+				Three fictional families show how a real situation maps to a schedule. Each carries a colour-blocked mini calendar (one colour per parent) so you can picture the rotation. These are illustrations, not recommendations.
+			</p>
+
+			<div class="mt-8 space-y-6">
+				{exampleSchedules.map((example) => (
+					<article id={`example-${example.id}`} class="soft-card grid gap-5 rounded-[1.5rem] p-5 lg:grid-cols-[minmax(0,1fr)_300px] lg:items-start">
+						<div class="min-w-0">
+							<h3 class="text-lg font-semibold text-primary">{example.title}</h3>
+							<p class="mt-1 text-xs font-semibold text-accent">Best fit: {example.schedule}</p>
+							<p class="mt-3 text-sm leading-6 text-secondary">{example.body}</p>
+							<p class="mt-3 text-sm text-secondary">
+								Full guide: <a href={example.href} class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">{example.schedule} schedule</a>.
+							</p>
+						</div>
+						<div class="min-w-0 lg:w-[300px]">
+							<CalendarPreview schedule={example.generated} embedded headerNote="Illustrative rotation, one colour per parent." showSummary={false} />
+						</div>
+					</article>
+				))}
+			</div>
+
+			<p class="mt-6 max-w-3xl text-sm text-secondary">
+				Build a visual calendar for any of these patterns with the{' '}
+				<a href="/custody-schedule-generator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule generator</a>.
+			</p>
+		</section>
+
+		<!-- Section: Overnights & percentages -->
+		<section id="overnights" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{overnights.title}</h2>
+			<p class="mt-3 max-w-3xl text-secondary">{overnights.intro}</p>
+			<p class="mt-3 max-w-3xl text-sm leading-6 text-secondary">{overnights.body}</p>
+			<div class="mt-5 max-w-3xl rounded-2xl bg-accent/10 px-4 py-3 text-sm leading-6 text-secondary">
+				{overnights.note}
+			</div>
+			<p class="mt-6 max-w-3xl text-sm text-secondary">
+				Estimate a split with the{' '}
+				<a href="/custody-percentage-calculator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody percentage calculator</a>{' '}
+				or the{' '}
+				<a href="/parenting-time-calculator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting-time calculator</a>.
+			</p>
+		</section>
+
+		<!-- Section: Holidays & summer -->
+		<section id="holidays" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{holidaysSection.title}</h2>
+			<p class="mt-3 max-w-3xl text-secondary">{holidaysSection.intro}</p>
+			<p class="mt-3 max-w-3xl text-sm leading-6 text-secondary">{holidaysSection.body}</p>
+			<p class="mt-6 max-w-3xl text-sm text-secondary">
+				Plan holiday time with the{' '}
+				<a href="/holiday-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">holiday custody schedule</a>{' '}
+				guide.
+			</p>
+		</section>
+
+		<!-- Section: By age -->
+		<section id="by-age" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{byAgeSection.title}</h2>
+			<p class="mt-3 max-w-3xl text-secondary">{byAgeSection.intro}</p>
+			<div class="mt-6 max-w-3xl space-y-3">
+				{byAgeSection.bands.map((band) => (
+					<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<p class="font-semibold text-primary">{band.label}</p>
+						<p class="mt-1.5 text-sm leading-6 text-secondary">{band.body}</p>
+					</div>
+				))}
+			</div>
+			<p class="mt-6 max-w-3xl text-sm text-secondary">
+				For a deeper look, see the{' '}
+				<a href="/custody-schedule-by-age/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule by age</a>{' '}
+				guide.
+			</p>
+		</section>
+
+		<!-- Section: Good schedule & mistakes -->
+		<section id="good-schedule" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{goodSchedule.title}</h2>
+			<div class="mt-6 grid gap-5 max-w-3xl sm:grid-cols-2">
+				<div class="rounded-[1.25rem] border border-line bg-surface/40 p-5">
+					<h3 class="text-base font-semibold text-primary">Hallmarks of a workable schedule</h3>
+					<ul class="mt-3 space-y-2 text-sm leading-6 text-secondary">
+						{goodSchedule.hallmarks.map((item) => (
+							<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span>{item}</li>
+						))}
+					</ul>
+				</div>
+				<div class="rounded-[1.25rem] border border-line bg-surface/40 p-5">
+					<h3 class="text-base font-semibold text-primary">Common mistakes to avoid</h3>
+					<ul class="mt-3 space-y-2 text-sm leading-6 text-secondary">
+						{goodSchedule.mistakes.map((item) => (
+							<li class="flex gap-2"><span class="shrink-0 text-muted" aria-hidden="true">•</span>{item}</li>
+						))}
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<!-- Section: Build CTA -->
+		<section id="build" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Build your custodial schedule free</h2>
+			<p class="mt-3 max-w-3xl text-secondary">
+				Pick a pattern, set a start date, add parent labels, and preview a dated calendar you can share and adjust. Add holidays and summer once the weekly rotation looks right.
+			</p>
+			<div class="mt-5 flex flex-wrap gap-3">
+				<a href="/custody-schedule-generator/" class="inline-flex rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:opacity-90" style="color: #ffffff">Open the generator →</a>
+				<a href="/custody-schedule-template/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Custody schedule template</a>
+				<a href="/parenting-plan-template/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Parenting plan template</a>
+			</div>
+		</section>
+
+		<!-- Related links -->
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-xl font-semibold text-primary">Related tools and guides</h2>
+			<ul class="mt-4 grid gap-2 sm:grid-cols-2">
+				{relatedLinks.map((link) => (
+					<li>
+						<a href={link.href} class="text-sm font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">{link.label}</a>
+					</li>
+				))}
+			</ul>
+		</section>
+
+		<!-- FAQ -->
+		<FAQ items={faqItems} title={faqSection.title} description={faqSection.description} />
+
+		<!-- Legal Disclaimer -->
+		<section class="container-shell py-6 lg:max-w-5xl" aria-label="Legal disclaimer">
+			<div class="rounded-2xl bg-page/70 p-4 text-xs leading-5 text-muted shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+				<p class="font-semibold text-secondary">Educational estimate only. Not legal advice.</p>
+				<p class="mt-1">
+					This page provides general, educational information about custodial schedules and how families plan parenting time. It is not legal advice and does not create an attorney-client relationship. Family law varies by state, and the schedule that applies to any case depends on the specific court order and each family's circumstances. Always read your actual court order and consult a qualified family law attorney in your state for advice specific to your situation.
+					<a href="/disclaimer/" class="ml-1 font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Read the full disclaimer</a>.
+				</p>
+			</div>
+		</section>
+
+		<!-- Bottom CTA -->
+		<BackToGeneratorCta
+			headline="Build your custodial schedule calendar"
+			body="Turn any pattern into a dated, shareable calendar. Set the start date, preview months, and download a PDF for planning."
+			href="/custody-schedule-generator/"
+			label="Build your schedule →"
+		/>
+
+	</main>
+	<Footer />
+</BaseLayout>
