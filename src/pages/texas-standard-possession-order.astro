@@ -1,0 +1,392 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import GeneratorPanel from '../components/tool/GeneratorPanel.astro';
+import CalendarPreview from '../components/tool/CalendarPreview.astro';
+import { generateSchedule } from '../lib/schedules/generateSchedule';
+import { getDefaultStartDate } from '../lib/schedules/format';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import {
+	buildArticleSchema,
+	buildBreadcrumbSchema,
+	buildFAQSchema,
+	buildWebPageSchema,
+} from '../lib/seo/schema';
+import {
+	deviationFactors,
+	distanceRules,
+	editorialReview,
+	faqItems,
+	faqSection,
+	hero,
+	holidayNotInSpo,
+	holidaySchedule,
+	meta,
+	relatedLinks,
+	scenarios,
+	schoolYearSchedule,
+	spoComparison,
+	summerSchedule,
+} from '../data/texasSpo';
+
+const canonical = '/texas-standard-possession-order/';
+const canonicalUrl = getCanonicalUrl(canonical);
+const startDate = getDefaultStartDate();
+const generatedSchedule = generateSchedule({
+	scheduleId: '223',
+	startDate,
+	parentNames: { parentA: 'Parent A', parentB: 'Parent B' },
+});
+
+const breadcrumbs = [
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: 'Texas Standard Possession Order', url: canonicalUrl },
+];
+
+const schema = [
+	buildWebPageSchema({ name: meta.title, description: meta.description, url: canonicalUrl }),
+	buildArticleSchema({
+		headline: meta.title,
+		description: meta.description,
+		url: canonicalUrl,
+		datePublished: meta.datePublished,
+		dateModified: meta.dateModified,
+		authorName: editorialReview.reviewer,
+	}),
+	buildFAQSchema(faqItems),
+	buildBreadcrumbSchema(breadcrumbs),
+];
+---
+
+<BaseLayout title={meta.title} description={meta.description} canonical={canonical} ogType="article">
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<Breadcrumbs items={breadcrumbs} />
+	<main class="overflow-x-clip">
+
+		<!-- Hero + Generator Panel -->
+		<section class="container-shell grid gap-5 py-4 sm:gap-6 sm:py-5 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)] lg:items-start lg:gap-8 lg:py-8" id="spo-overview">
+			<div class="min-w-0 lg:pt-2">
+				<h1 class="max-w-3xl text-[1.7rem] font-semibold leading-[1.04] tracking-[-0.055em] text-primary sm:text-5xl lg:text-6xl">
+					{hero.headline}
+				</h1>
+
+				<!-- Trust chips -->
+				<ul class="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-secondary">
+					{hero.trustChips.map((chip) => (
+						<li class="rounded-full bg-surface/70 px-3 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">{chip}</li>
+					))}
+				</ul>
+
+				<p class="mt-4 max-w-xl text-base leading-7 text-secondary">{hero.intro}</p>
+				<p class="mt-3 max-w-xl text-sm leading-6 text-secondary">{hero.boundary}</p>
+
+				<div class="mt-4 max-w-xl text-xs leading-5 text-muted">
+					<p class="font-semibold text-secondary">Reviewed for:</p>
+					<ul class="mt-1 list-inside list-disc">{editorialReview.reviewedFor.map((i) => <li>{i}</li>)}</ul>
+					<p class="mt-2">
+						Reviewed by <a href={editorialReview.reviewerHref} class="font-semibold text-secondary underline">{editorialReview.reviewer}</a>
+						{' · '}<a href={editorialReview.methodologyHref} class="font-semibold text-secondary underline">{editorialReview.methodologyLabel}</a>
+						{' · '}{editorialReview.disclaimer}
+					</p>
+				</div>
+			</div>
+
+			<div class="min-w-0">
+				<div class="premium-card relative overflow-visible rounded-[1.75rem] border-line p-3 sm:p-4">
+					<div class="rounded-[1.4rem] bg-surface-elevated shadow-[inset_0_1px_0_rgba(255,255,255,0.07)]">
+						<div class="grid grid-cols-1 items-start gap-4 xl:grid-cols-[minmax(320px,1fr)_240px]">
+							<div class="min-w-0">
+								<GeneratorPanel selectedScheduleId="every-other-weekend" compact />
+							</div>
+							<div class="min-w-0 xl:w-[240px] xl:min-w-[240px]">
+								<p class="mb-2 text-[10px] font-semibold uppercase tracking-[0.12em] text-muted">Illustrative schedule — adjust dates and parents above to match your order</p>
+								<CalendarPreview schedule={generatedSchedule} embedded />
+							</div>
+						</div>
+					</div>
+				</div>
+				<p class="mt-3 text-xs leading-5 text-muted">
+					Educational estimate only. Not legal advice.
+					<a href="/disclaimer/" class="ml-1 font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Read disclaimer</a>
+				</p>
+			</div>
+		</section>
+
+		<!-- On-this-page nav -->
+		<nav class="container-shell border-y border-line-subtle py-3 lg:max-w-5xl" aria-label="On this page">
+			<ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">
+				<li><a href="#school-year" class="hover:text-accent">School-year schedule</a></li>
+				<li><a href="#summer" class="hover:text-accent">Summer possession</a></li>
+				<li><a href="#standard-vs-expanded" class="hover:text-accent">Standard vs Expanded</a></li>
+				<li><a href="#holidays" class="hover:text-accent">Holiday schedule</a></li>
+				<li><a href="#distance-rules" class="hover:text-accent">Distance rules</a></li>
+				<li><a href="#court-deviations" class="hover:text-accent">Court deviations</a></li>
+				<li><a href="#scenarios" class="hover:text-accent">Real scenarios</a></li>
+				<li><a href="#faq" class="hover:text-accent">FAQ</a></li>
+			</ul>
+		</nav>
+
+		<!-- Section 1: School-year schedule -->
+		<section id="school-year" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{schoolYearSchedule.title}</h2>
+			<p class="mt-3 max-w-3xl text-secondary">{schoolYearSchedule.intro}</p>
+			<p class="mt-1 text-xs text-muted font-semibold">{schoolYearSchedule.citation}</p>
+
+			<div class="mt-8 max-w-3xl space-y-6">
+				{schoolYearSchedule.items.map((item) => (
+					<article>
+						<h3 class="font-semibold text-primary text-xl">{item.heading}</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">{item.body}</p>
+					</article>
+				))}
+			</div>
+
+			<div class="mt-8 max-w-3xl rounded-[1.25rem] border border-line bg-surface/40 p-6">
+				<p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted">Quick reference: 2026 (even year)</p>
+				<ul class="mt-3 space-y-2 text-sm leading-6 text-secondary">
+					<li><span class="font-semibold text-primary">Spring break:</span> Noncustodial parent (even year)</li>
+					<li><span class="font-semibold text-primary">Thursday visits:</span> 6 p.m. – 8 p.m., same evening only (standard SPO)</li>
+					<li><span class="font-semibold text-primary">Weekends:</span> 1st, 3rd, and 5th Fridays — 6 p.m. Friday to 6 p.m. Sunday</li>
+				</ul>
+			</div>
+		</section>
+
+		<!-- Section 2: Summer Possession -->
+		<section id="summer" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Summer Possession</h2>
+			<p class="mt-3 max-w-3xl text-secondary">
+				The noncustodial parent gets an extended summer block. The length depends on how far apart the parents live, and written notice is required to claim it.
+			</p>
+
+			<div class="mt-8 grid gap-4 max-w-3xl sm:grid-cols-2">
+				<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted">Within 100 miles</p>
+					<p class="mt-2 text-3xl font-bold text-primary">30 days</p>
+					<ul class="mt-3 space-y-1.5 text-sm text-secondary">
+						<li><span class="font-semibold text-primary">Notice due:</span> April 1</li>
+						<li><span class="font-semibold text-primary">Default if no notice:</span> July 1 (6 p.m.) through July 31 (6 p.m.)</li>
+						<li><span class="font-semibold text-primary">Can split into:</span> Up to 2 periods, each at least 7 consecutive days</li>
+					</ul>
+					<p class="mt-3 text-xs text-muted">{summerSchedule.citation}</p>
+				</div>
+
+				<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<p class="text-xs font-semibold uppercase tracking-[0.16em] text-muted">Over 100 miles</p>
+					<p class="mt-2 text-3xl font-bold text-primary">42 days</p>
+					<ul class="mt-3 space-y-1.5 text-sm text-secondary">
+						<li><span class="font-semibold text-primary">Notice due:</span> April 1</li>
+						<li><span class="font-semibold text-primary">Default if no notice:</span> June 15 (6 p.m.) through July 27 (6 p.m.)</li>
+						<li><span class="font-semibold text-primary">Split allowed:</span> Up to 2 periods, each at least 7 consecutive days</li>
+					</ul>
+					<p class="mt-3 text-xs text-muted">{summerSchedule.overHundred.citation}</p>
+				</div>
+			</div>
+
+			<div class="mt-6 max-w-3xl rounded-2xl bg-accent/10 px-4 py-3 text-sm leading-6 text-secondary">
+				<span class="font-semibold text-primary">Missing the April 1 deadline</span> means the default summer period applies automatically. The noncustodial parent cannot change dates after the deadline without the other parent's agreement.
+			</div>
+
+			<p class="mt-6 max-w-3xl text-sm text-secondary">
+				The primary conservator also has summer rights: they can designate one weekend to interrupt the noncustodial parent's summer block (two weekends if summer exceeds 30 days), with notice by April 15. Learn more about how summer overlaps with child support on the{' '}
+				<a href="/texas-child-support-calculator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Texas child support calculator</a>.
+			</p>
+		</section>
+
+		<!-- Section 3: Standard vs Expanded SPO -->
+		<section id="standard-vs-expanded" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Standard vs Expanded SPO</h2>
+			<p class="mt-3 max-w-3xl text-secondary">
+				The Expanded SPO (ESPO) is not a different schedule — it uses different start and end times that add more parenting time. For parents 50 miles or less apart, it has been the automatic default since September 2021.
+			</p>
+
+			<div class="mt-8 max-w-3xl overflow-x-auto rounded-[1.5rem] ring-1 ring-line-subtle">
+				<table class="w-full min-w-[540px] text-left text-sm">
+					<thead class="bg-surface-elevated text-primary">
+						<tr>
+							<th class="px-4 py-3 font-semibold">Feature</th>
+							<th class="px-4 py-3 font-semibold">Standard SPO</th>
+							<th class="px-4 py-3 font-semibold">Expanded SPO</th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-line-subtle text-secondary">
+						{spoComparison.map((row) => (
+							<tr>
+								<td class="px-4 py-3 font-medium text-primary">{row.feature}</td>
+								<td class="px-4 py-3">{row.standard}</td>
+								<td class="px-4 py-3">{row.expanded}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+
+			<p class="mt-6 max-w-3xl text-sm text-secondary">
+				Texas Family Code does not use the phrase "Expanded Standard Possession Order" in the statute. The terms come from Sec. 153.317 (elected ESPO) and Sec. 153.3171 (automatic default for parents within 50 miles). See the <a href="/texas-parenting-plan-template/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Texas parenting plan template</a> for SPO calendar examples.
+			</p>
+		</section>
+
+		<!-- Section 4: Holiday Schedule -->
+		<section id="holidays" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Holiday Possession Schedule</h2>
+			<p class="mt-3 max-w-3xl text-secondary">
+				Tex. Fam. Code § 153.314 controls holiday possession. These rules apply regardless of how far apart the parents live — they override any conflicting regular weekend or Thursday visits.
+			</p>
+			<p class="mt-2 max-w-3xl text-sm font-semibold text-primary">
+				2026 is an even year. The columns below show who has each holiday.
+			</p>
+
+			<div class="mt-8 max-w-3xl overflow-x-auto rounded-[1.5rem] ring-1 ring-line-subtle">
+				<table class="w-full min-w-[600px] text-left text-sm">
+					<thead class="bg-surface-elevated text-primary">
+						<tr>
+							<th class="px-4 py-3 font-semibold">Holiday</th>
+							<th class="px-4 py-3 font-semibold">Even years (2026)</th>
+							<th class="px-4 py-3 font-semibold">Odd years (2025, 2027)</th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-line-subtle text-secondary">
+						{holidaySchedule.map((row) => (
+							<tr>
+								<td class="px-4 py-3">
+									<span class="font-medium text-primary">{row.holiday}</span>
+									{row.note && <span class="mt-1 block text-xs text-muted">{row.note}</span>}
+								</td>
+								<td class="px-4 py-3">{row.noncustodialEvenYears}</td>
+								<td class="px-4 py-3">{row.noncustodialOddYears}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+
+			<div class="mt-6 max-w-3xl rounded-2xl bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+				<p class="font-semibold text-primary">Holidays NOT in the Texas SPO statute:</p>
+				<p class="mt-2 text-sm text-secondary">
+					These holidays are not assigned by § 153.314 and default to the regular schedule:
+					{' '}{holidayNotInSpo.join(', ')}.
+				</p>
+				<p class="mt-2 text-sm text-secondary">
+					Courts and parents often add these by agreement in a custom order, but the default SPO does not separately address them. Do not assume they are covered.
+				</p>
+			</div>
+		</section>
+
+		<!-- Section 5: Distance Rules -->
+		<section id="distance-rules" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">How Distance Changes the Schedule</h2>
+			<p class="mt-3 max-w-3xl text-secondary">
+				Texas SPO uses two separate distance thresholds — 50 miles and 100 miles — that people often confuse. Here is what each one means.
+			</p>
+
+			<div class="mt-8 max-w-3xl space-y-4">
+				{distanceRules.map((rule, i) => (
+					<div class={`rounded-[1.25rem] p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)] ${i === 0 ? 'bg-accent/10' : i === 2 ? 'bg-surface/50' : 'bg-surface/70'}`}>
+						<div class="flex items-start gap-3">
+							<span class="shrink-0 rounded-full bg-accent/15 px-3 py-1 text-xs font-bold text-accent">{rule.distance}</span>
+							<h3 class="font-semibold text-primary">{rule.label}</h3>
+						</div>
+						<ul class="mt-3 space-y-2 pl-1">
+							{rule.details.map((detail) => (
+								<li class="flex gap-2 text-sm text-secondary">
+									<span class="shrink-0 text-accent" aria-hidden="true">→</span>
+									{detail}
+								</li>
+							))}
+						</ul>
+					</div>
+				))}
+			</div>
+
+			<p class="mt-6 max-w-3xl text-sm text-secondary">
+				The holiday schedule (Sec. 153.314) applies in all three distance ranges. Distance affects the regular school-year and summer schedule, not holiday possession.
+			</p>
+		</section>
+
+		<!-- Section 6: Court Deviations -->
+		<section id="court-deviations" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{deviationFactors.title}</h2>
+			<p class="mt-3 max-w-3xl text-secondary">{deviationFactors.intro}</p>
+
+			<div class="mt-8 max-w-3xl space-y-6">
+				{deviationFactors.factors.map((factor) => (
+					<article>
+						<h3 class="text-xl font-semibold text-primary">{factor.heading}</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">{factor.body}</p>
+					</article>
+				))}
+			</div>
+
+			<div class="mt-8 max-w-3xl rounded-[1.25rem] border border-line bg-surface/40 p-5">
+				<p class="text-sm leading-6 text-secondary">
+					<span class="font-semibold text-primary">Looking for a 50/50 schedule instead?</span> The SPO is not equal parenting time. If you want something closer to equal, see the <a href="/50-50-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 custody schedule guide</a> or the <a href="/2-2-3-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-3 schedule</a> — both can be used in Texas with court approval.
+				</p>
+			</div>
+		</section>
+
+		<!-- Section 7: Real Scenarios -->
+		<section id="scenarios" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">How the Rules Play Out: Three Texas Families</h2>
+			<p class="mt-3 max-w-3xl text-secondary">
+				Distance is the biggest variable in the Texas SPO. These examples show how the same statute produces different schedules depending on where the parents live.
+			</p>
+
+			<div class="mt-8 max-w-3xl space-y-5">
+				{scenarios.map((scenario) => (
+					<article class="soft-card rounded-[1.5rem] p-5">
+						<h3 class="text-lg font-semibold text-primary">{scenario.title}</h3>
+						<p class="mt-1 text-xs font-semibold text-accent">{scenario.summary}</p>
+						<p class="mt-3 text-sm leading-6 text-secondary">{scenario.body}</p>
+					</article>
+				))}
+			</div>
+
+			<p class="mt-6 max-w-3xl text-sm text-secondary">
+				Build a visual calendar for any of these schedules: <a href="/custody-schedule-generator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule generator</a>.
+			</p>
+		</section>
+
+		<!-- Related links section -->
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-xl font-semibold text-primary">Related Tools and Guides</h2>
+			<ul class="mt-4 grid gap-2">
+				{relatedLinks.map((link) => (
+					<li>
+						<a href={link.href} class="text-sm font-semibold text-accent underline">{link.label}</a>
+					</li>
+				))}
+			</ul>
+		</section>
+
+		<!-- FAQ -->
+		<FAQ items={faqItems} title={faqSection.title} description={faqSection.description} />
+
+		<!-- Legal Disclaimer -->
+		<section class="container-shell py-6 lg:max-w-5xl" aria-label="Legal disclaimer">
+			<div class="rounded-2xl bg-page/70 p-4 text-xs leading-5 text-muted shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+				<p class="font-semibold text-secondary">Legal disclaimer</p>
+				<p class="mt-1">
+					This page provides educational information about the Texas Standard Possession Order based on Texas Family Code Chapter 153. It is not legal advice and does not create an attorney-client relationship. Texas family law is complex, and individual circumstances vary. The schedule that applies to your case depends on your specific court order, the distance between parents, elections made at the time of the order, and other factors. Always read your actual court order and consult a qualified Texas family law attorney for advice specific to your situation.
+				</p>
+				<p class="mt-2">
+					Statutory text quoted or paraphrased on this page is sourced from Texas Legislature Online (statutes.capitol.texas.gov) and should be verified against the current published statute before reliance.
+				</p>
+			</div>
+		</section>
+
+		<!-- Bottom CTA -->
+		<BackToGeneratorCta
+			headline="Build a Texas SPO Calendar"
+			body="Use the generator to create a dated custody calendar for any schedule — Standard SPO, Expanded SPO, or 50/50. Set start date, preview months, and download a PDF."
+			href="/custody-schedule-generator/"
+			label="Build your schedule →"
+		/>
+
+	</main>
+	<Footer />
+</BaseLayout>
