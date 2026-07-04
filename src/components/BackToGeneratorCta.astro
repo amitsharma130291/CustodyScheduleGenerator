@@ -1,0 +1,51 @@
+---
+/**
+ * BackToGeneratorCta — reusable end-of-article CTA that re-engages high-intent users
+ * who have scrolled to the bottom of schedule guide pages (Peak-End Rule).
+ * 
+ * Props:
+ *  - headline: optional override heading
+ *  - body: optional override body text  
+ *  - href: optional override link (defaults to /custody-schedule-generator/)
+ *  - label: optional override CTA label
+ */
+interface Props {
+  headline?: string;
+  body?: string;
+  href?: string;
+  label?: string;
+}
+
+const {
+  headline = 'Ready to build this schedule?',
+  body = 'Use the generator to create dated exchange calendars for any rotation — set start date, preview months, and download a PDF.',
+  href = '/custody-schedule-generator/',
+  label = 'Build this schedule →',
+} = Astro.props;
+---
+
+<section class="container-shell py-10 lg:py-12" aria-labelledby="back-to-gen-heading">
+  <div class="cta-panel-premium relative overflow-hidden rounded-[2rem] p-px shadow-[0_8px_32px_rgba(15,31,61,0.32)]" style="background: var(--surface-deep-navy)">
+    <div class="rounded-[calc(2rem-1px)] px-6 py-8 sm:px-10 sm:py-10" style="background: var(--surface-deep-navy)">
+      <!-- Calendar grid motif overlay with amber accent detail -->
+      <div class="pointer-events-none absolute inset-0 rounded-[calc(2rem-1px)] overflow-hidden" aria-hidden="true">
+        <div class="absolute inset-0 opacity-[0.09]" style="background-image: repeating-linear-gradient(0deg, transparent, transparent 23px, rgba(255,255,255,0.8) 23px, rgba(255,255,255,0.8) 24px), repeating-linear-gradient(90deg, transparent, transparent 23px, rgba(255,255,255,0.8) 23px, rgba(255,255,255,0.8) 24px); background-size: 24px 24px;"></div>
+        <!-- Amber accent dot — rewards close inspection -->
+        <div class="absolute bottom-5 right-8 h-2 w-2 rounded-full opacity-60" style="background: var(--amber)"></div>
+        <div class="absolute bottom-3 right-14 h-1.5 w-1.5 rounded-full opacity-40" style="background: var(--amber)"></div>
+      </div>
+      <div class="relative z-10 flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+        <div class="max-w-xl">
+          <h2 id="back-to-gen-heading" class="text-xl font-semibold leading-tight text-white sm:text-2xl">{headline}</h2>
+          <p class="mt-2 text-sm leading-6" style="color: rgba(203, 213, 225, 0.85)">{body}</p>
+        </div>
+        <a
+          href={href}
+          class="btn-primary inline-flex shrink-0 items-center justify-center rounded-full px-7 py-3.5 text-sm font-semibold focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+        >
+          {label}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

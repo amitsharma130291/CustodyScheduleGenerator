@@ -111,12 +111,12 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 				<p class="text-xs leading-5 text-muted">PDFs are for planning and discussion.</p>
 			</div>
 			<div class="grid w-full min-w-0 gap-3">
-				<button type="button" class="btn-secondary flex h-14 w-full min-w-0 cursor-pointer items-center justify-center gap-2.5 whitespace-nowrap rounded-full px-5 text-center text-[15px] font-semibold leading-none transition-all duration-150 ease-out hover:-translate-y-px active:translate-y-0 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-download-monthly-pdf>
-					<span class="text-sm leading-none opacity-85" aria-hidden="true">📄</span>
+				<button type="button" class="btn-primary flex h-14 w-full min-w-0 cursor-pointer items-center justify-center gap-2.5 whitespace-nowrap rounded-full px-5 text-center text-[15px] font-semibold leading-none transition-all duration-150 ease-out hover:-translate-y-px active:translate-y-0 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-download-monthly-pdf>
+					<svg class="btn-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 15V3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M7 11l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 19h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
 					<span class="leading-none" data-pdf-button-label>Download monthly PDF</span>
 				</button>
-				<button type="button" class="btn-secondary flex h-14 w-full min-w-0 cursor-pointer items-center justify-center gap-2.5 whitespace-nowrap rounded-full px-5 text-center text-[15px] font-semibold leading-none transition-all duration-150 ease-out hover:-translate-y-px active:translate-y-0 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-download-yearly-pdf>
-					<span class="text-sm leading-none opacity-85" aria-hidden="true">📄</span>
+				<button type="button" class="btn-primary flex h-14 w-full min-w-0 cursor-pointer items-center justify-center gap-2.5 whitespace-nowrap rounded-full px-5 text-center text-[15px] font-semibold leading-none transition-all duration-150 ease-out hover:-translate-y-px active:translate-y-0 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-download-yearly-pdf>
+					<svg class="btn-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 15V3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M7 11l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 19h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
 					<span class="leading-none" data-pdf-button-label>Download yearly PDF</span>
 				</button>
 			</div>
@@ -177,10 +177,11 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 	const formStatus = document.querySelector('[data-form-status]');
 	const scheduleCache = new Map();
 
+	// Calendar cell colours — use semantic cal-* tokens for richer, premium look
 	const parentColors = {
-		A: 'bg-[rgba(37,99,235,0.2)] text-accent shadow-[inset_0_0_0_1px_rgba(37,99,235,0.28)]',
-		B: 'bg-[rgba(45,212,191,0.14)] text-parent-b shadow-[inset_0_0_0_1px_rgba(45,212,191,0.18)]',
-		inactive: 'text-muted opacity-30 shadow-[inset_0_0_0_1px_var(--border-subtle)]',
+		A: 'cal-cell-a',
+		B: 'cal-cell-b',
+		inactive: 'cal-cell-inactive',
 	};
 
 	function getBrowserLocalDate() {
@@ -626,3 +627,22 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 	applyQueryParamsToForm();
 	renderSchedule(false);
 </script>
+
+<style>
+/* Calendar cell semantic colours using CSS token system */
+.cal-cell-a {
+	background-color: var(--cal-parent-a-soft);
+	color: var(--cal-parent-a);
+	box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--cal-parent-a) 28%, transparent);
+}
+.cal-cell-b {
+	background-color: var(--cal-parent-b-soft);
+	color: var(--cal-parent-b);
+	box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--cal-parent-b) 22%, transparent);
+}
+.cal-cell-inactive {
+	color: var(--text-muted);
+	opacity: 0.3;
+	box-shadow: inset 0 0 0 1px var(--border-subtle);
+}
+</style>
