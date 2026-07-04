@@ -1,0 +1,360 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import {
+	buildArticleSchema,
+	buildBreadcrumbSchema,
+	buildFAQSchema,
+	buildWebPageSchema,
+} from '../lib/seo/schema';
+import {
+	combinations,
+	courtsSection,
+	editorialReview,
+	examples,
+	faqItems,
+	faqSection,
+	glanceTable,
+	hero,
+	keyTakeaways,
+	legalSection,
+	meta,
+	misconceptions,
+	physicalSection,
+	relatedLinks,
+	scheduleTieIn,
+} from '../data/legalVsPhysical';
+
+const canonical = '/legal-custody-vs-physical-custody/';
+const canonicalUrl = getCanonicalUrl(canonical);
+
+const breadcrumbs = [
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: 'Legal Custody vs Physical Custody', url: canonicalUrl },
+];
+
+const schema = [
+	buildWebPageSchema({ name: meta.title, description: meta.description, url: canonicalUrl }),
+	buildArticleSchema({
+		headline: meta.title,
+		description: meta.description,
+		url: canonicalUrl,
+		datePublished: meta.datePublished,
+		dateModified: meta.dateModified,
+		authorName: editorialReview.reviewer,
+	}),
+	buildFAQSchema(faqItems),
+	buildBreadcrumbSchema(breadcrumbs),
+];
+---
+
+<BaseLayout title={meta.title} description={meta.description} canonical={canonical} ogType="article">
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<Breadcrumbs items={breadcrumbs} />
+	<main class="overflow-x-clip">
+
+		<!-- Hero -->
+		<section class="container-shell py-8 lg:max-w-5xl lg:py-12" id="overview">
+			<h1 class="max-w-3xl text-[1.7rem] font-semibold leading-[1.06] tracking-[-0.05em] text-primary sm:text-4xl lg:text-5xl">
+				{hero.headline}
+			</h1>
+
+			<ul class="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-secondary">
+				{hero.trustChips.map((chip) => (
+					<li class="rounded-full bg-surface/70 px-3 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">{chip}</li>
+				))}
+			</ul>
+
+			<p class="mt-5 max-w-2xl text-base leading-7 text-secondary">{hero.intro}</p>
+			<p class="mt-3 max-w-2xl text-sm leading-6 text-secondary">{hero.boundary}</p>
+
+			<div class="mt-6 max-w-2xl text-xs leading-5 text-muted">
+				<p class="font-semibold text-secondary">Reviewed for:</p>
+				<ul class="mt-1 list-inside list-disc">{editorialReview.reviewedFor.map((i) => <li>{i}</li>)}</ul>
+				<p class="mt-2">
+					Reviewed by <a href={editorialReview.reviewerHref} class="font-semibold text-secondary underline">{editorialReview.reviewer}</a>
+					{' · '}<a href={editorialReview.methodologyHref} class="font-semibold text-secondary underline">{editorialReview.methodologyLabel}</a>
+					{' · '}<span class="font-semibold text-secondary">{editorialReview.lastUpdatedLabel}</span>
+					{' · '}{editorialReview.disclaimer}
+				</p>
+			</div>
+
+			<div class="mt-6 flex flex-wrap gap-3">
+				<a href="/custody-schedule-generator/" class="inline-flex rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:opacity-90" style="color: #ffffff">Build a parenting-time schedule &rarr;</a>
+				<a href="/custodial-schedule/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">See schedule types</a>
+			</div>
+
+			<p class="mt-5 max-w-2xl text-xs leading-5 text-muted">
+				Educational information only. Not legal advice.
+				<a href="/disclaimer/" class="ml-1 font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Read disclaimer</a>
+			</p>
+		</section>
+
+		<!-- Key takeaways (skimmer summary, above the fold) -->
+		<section id="takeaways" class="container-shell scroll-mt-24 pb-2 lg:max-w-5xl" aria-label="Key takeaways">
+			<div class="max-w-3xl rounded-[1.5rem] border border-line bg-accent/10 p-5 sm:p-6">
+				<h2 class="text-sm font-semibold uppercase tracking-[0.08em] text-accent">{keyTakeaways.title}</h2>
+				<ul class="mt-3 space-y-2 text-sm leading-6 text-secondary">
+					{keyTakeaways.points.map((point) => (
+						<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">&rarr;</span>{point}</li>
+					))}
+				</ul>
+			</div>
+		</section>
+
+		<!-- On-this-page nav -->
+		<nav class="container-shell border-y border-line-subtle py-3 lg:max-w-5xl" aria-label="On this page">
+			<ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">
+				<li><a href="#takeaways" class="hover:text-accent">Key takeaways</a></li>
+				<li><a href="#glance" class="hover:text-accent">At a glance</a></li>
+				<li><a href="#legal" class="hover:text-accent">Legal custody</a></li>
+				<li><a href="#physical" class="hover:text-accent">Physical custody</a></li>
+				<li><a href="#combinations" class="hover:text-accent">The 4 combinations</a></li>
+				<li><a href="#schedule" class="hover:text-accent">Who sets the schedule</a></li>
+				<li><a href="#misconceptions" class="hover:text-accent">Misconceptions</a></li>
+				<li><a href="#courts" class="hover:text-accent">How courts think</a></li>
+				<li><a href="#examples" class="hover:text-accent">Examples</a></li>
+				<li><a href="#faq" class="hover:text-accent">FAQ</a></li>
+			</ul>
+		</nav>
+
+		<!-- Section: At a glance (definition table) -->
+		<section id="glance" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{glanceTable.title}</h2>
+			<p class="mt-3 max-w-3xl text-secondary">{glanceTable.intro}</p>
+
+			<div class="mt-6 overflow-x-auto rounded-[1.5rem] ring-1 ring-line-subtle">
+				<table class="w-full min-w-[640px] text-left text-sm">
+					<thead class="bg-surface-elevated text-primary">
+						<tr>
+							{glanceTable.columns.map((col) => (
+								<th class="px-4 py-3 font-semibold">{col}</th>
+							))}
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-line-subtle text-secondary">
+						{glanceTable.rows.map((row) => (
+							<tr>
+								<td class="px-4 py-3 font-medium text-primary">{row.label}</td>
+								<td class="px-4 py-3">{row.legal}</td>
+								<td class="px-4 py-3">{row.physical}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+
+			<div class="mt-5 max-w-3xl rounded-2xl bg-accent/10 px-4 py-3 text-sm leading-6 text-secondary">
+				{glanceTable.takeaway}
+			</div>
+		</section>
+
+		<!-- Section: Legal custody -->
+		<section id="legal" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{legalSection.title}</h2>
+			<p class="mt-3 max-w-3xl text-secondary">{legalSection.intro}</p>
+
+			<div class="mt-6 max-w-3xl space-y-6">
+				{legalSection.subsections.map((sub) => (
+					<article id={sub.id}>
+						<h3 class="text-xl font-semibold text-primary">{sub.heading}</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">{sub.body}</p>
+					</article>
+				))}
+			</div>
+		</section>
+
+		<!-- Section: Physical custody -->
+		<section id="physical" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{physicalSection.title}</h2>
+			<p class="mt-3 max-w-3xl text-secondary">{physicalSection.intro}</p>
+
+			<div class="mt-6 max-w-3xl space-y-6">
+				{physicalSection.subsections.map((sub) => (
+					<article id={sub.id}>
+						<h3 class="text-xl font-semibold text-primary">{sub.heading}</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">
+							{sub.body}
+							{sub.id === 'joint-physical' && (
+								<span> Read the <a href="/50-50-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 custody schedule</a> guide for the rotation detail.</span>
+							)}
+							{sub.id === 'sole-physical' && (
+								<span> See the <a href="/every-other-weekend-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">every-other-weekend custody schedule</a> for the classic version.</span>
+							)}
+						</p>
+					</article>
+				))}
+			</div>
+		</section>
+
+		<!-- Section: The four combinations (signature grid) -->
+		<section id="combinations" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{combinations.title}</h2>
+			<p class="mt-3 max-w-3xl text-secondary">{combinations.intro}</p>
+
+			<div class="mt-6 overflow-x-auto rounded-[1.5rem] ring-1 ring-line-subtle">
+				<table class="w-full min-w-[760px] text-left text-sm">
+					<thead class="bg-surface-elevated text-primary">
+						<tr>
+							{combinations.columns.map((col) => (
+								<th class="px-4 py-3 font-semibold">{col}</th>
+							))}
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-line-subtle text-secondary">
+						{combinations.rows.map((row) => (
+							<tr>
+								<td class="px-4 py-3 font-medium text-primary whitespace-nowrap">{row.combo}</td>
+								<td class="px-4 py-3">{row.decides}</td>
+								<td class="px-4 py-3">{row.lives}</td>
+								<td class="px-4 py-3">{row.practice}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+
+			<div class="mt-5 max-w-3xl rounded-2xl bg-surface/70 px-4 py-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+				{combinations.note}
+			</div>
+		</section>
+
+		<!-- Section: Who sets the schedule (tool tie-in) -->
+		<section id="schedule" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{scheduleTieIn.title}</h2>
+			<p class="mt-3 max-w-3xl text-secondary">{scheduleTieIn.intro}</p>
+
+			<div class="mt-6 grid gap-4 max-w-3xl sm:grid-cols-2">
+				{scheduleTieIn.points.map((point) => (
+					<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<p class="font-semibold text-primary">{point.heading}</p>
+						<p class="mt-2 text-sm leading-6 text-secondary">{point.body}</p>
+					</div>
+				))}
+			</div>
+
+			<p class="mt-5 max-w-3xl text-sm leading-6 text-secondary">{scheduleTieIn.boundary}</p>
+
+			<p class="mt-5 max-w-3xl text-sm text-secondary">
+				When you know the physical arrangement, turn it into a dated calendar with the{' '}
+				<a href="/custody-schedule-generator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule generator</a>, browse patterns on the{' '}
+				<a href="/custodial-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">schedule-types hub</a>, or estimate a split with the{' '}
+				<a href="/custody-percentage-calculator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody percentage calculator</a>.
+			</p>
+		</section>
+
+		<!-- Section: Misconceptions -->
+		<section id="misconceptions" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{misconceptions.title}</h2>
+			<p class="mt-3 max-w-3xl text-secondary">{misconceptions.intro}</p>
+
+			<div class="mt-6 max-w-3xl space-y-4">
+				{misconceptions.items.map((item) => (
+					<div class="rounded-[1.25rem] border border-line bg-surface/40 p-5">
+						<p class="font-semibold text-primary">{item.myth}</p>
+						<p class="mt-2 text-sm leading-6 text-secondary">{item.truth}</p>
+					</div>
+				))}
+			</div>
+		</section>
+
+		<!-- Section: How courts think -->
+		<section id="courts" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{courtsSection.title}</h2>
+			<p class="mt-3 max-w-3xl text-secondary">{courtsSection.intro}</p>
+
+			<ul class="mt-6 max-w-3xl space-y-2 text-sm leading-6 text-secondary">
+				{courtsSection.points.map((point) => (
+					<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">&rarr;</span>{point}</li>
+				))}
+			</ul>
+
+			<div class="mt-5 max-w-3xl rounded-2xl bg-accent/10 px-4 py-3 text-sm leading-6 text-secondary">
+				{courtsSection.caveat}
+			</div>
+
+			<p class="mt-5 max-w-3xl text-sm text-secondary">
+				Where these decisions get written down is the{' '}
+				<a href="/parenting-plan-template/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting plan template</a>.
+			</p>
+		</section>
+
+		<!-- Section: Examples -->
+		<section id="examples" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{examples.title}</h2>
+			<p class="mt-3 max-w-3xl text-secondary">{examples.intro}</p>
+
+			<div class="mt-6 max-w-3xl space-y-4">
+				{examples.cases.map((example) => (
+					<article id={`example-${example.id}`} class="soft-card rounded-[1.5rem] p-5">
+						<h3 class="text-lg font-semibold text-primary">{example.name}</h3>
+						<p class="mt-1 text-xs font-semibold text-accent">{example.combo}</p>
+						<p class="mt-3 text-sm leading-6 text-secondary">{example.body}</p>
+					</article>
+				))}
+			</div>
+
+			<p class="mt-6 max-w-3xl text-sm text-secondary">
+				Schedules also shift as a child grows: see{' '}
+				<a href="/custody-schedule-by-age/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule by age</a>, and plan time off with the{' '}
+				<a href="/holiday-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">holiday custody schedule</a> guide.
+			</p>
+		</section>
+
+		<!-- Section: Build CTA -->
+		<section id="build" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Turn physical custody into a calendar</h2>
+			<p class="mt-3 max-w-3xl text-secondary">
+				Once you know whether physical custody is joint or primary, the next step is a real parenting-time calendar. Pick a pattern, set a start date, add parent labels, and preview a dated schedule you can share and adjust.
+			</p>
+			<div class="mt-5 flex flex-wrap gap-3">
+				<a href="/custody-schedule-generator/" class="inline-flex rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:opacity-90" style="color: #ffffff">Open the generator &rarr;</a>
+				<a href="/custodial-schedule/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Browse schedule types</a>
+				<a href="/parenting-plan-template/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Parenting plan template</a>
+			</div>
+		</section>
+
+		<!-- Related links -->
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-xl font-semibold text-primary">Related tools and guides</h2>
+			<ul class="mt-4 grid gap-2 sm:grid-cols-2">
+				{relatedLinks.map((link) => (
+					<li>
+						<a href={link.href} class="text-sm font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">{link.label}</a>
+					</li>
+				))}
+			</ul>
+		</section>
+
+		<!-- FAQ -->
+		<FAQ items={faqItems} title={faqSection.title} description={faqSection.description} />
+
+		<!-- Legal Disclaimer -->
+		<section class="container-shell py-6 lg:max-w-5xl" aria-label="Legal disclaimer">
+			<div class="rounded-2xl bg-page/70 p-4 text-xs leading-5 text-muted shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+				<p class="font-semibold text-secondary">Educational information only. Not legal advice.</p>
+				<p class="mt-1">
+					This page gives general, educational information about legal and physical custody and how families plan parenting time. It is not legal advice and does not create an attorney-client relationship. Family law varies by state, and the terms, presumptions, and rules that apply to any case depend on the specific court and each family's circumstances. Always read your actual court order and consult a qualified family law attorney in your state for advice specific to your situation.
+					<a href="/disclaimer/" class="ml-1 font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Read the full disclaimer</a>.
+				</p>
+			</div>
+		</section>
+
+		<!-- Bottom CTA -->
+		<BackToGeneratorCta
+			headline="Build your parenting-time schedule"
+			body="Physical custody is what becomes a calendar. Set the start date, preview months, and download a PDF you can share."
+			href="/custody-schedule-generator/"
+			label="Build your schedule &rarr;"
+		/>
+
+	</main>
+	<Footer />
+</BaseLayout>
