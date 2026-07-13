@@ -1,7 +1,7 @@
 export const meta = {
 	title: '50/50 Custody Schedule for Teenagers | When the Calendar Stops Controlling Everything',
 	description:
-		'Equal-time teen calendars bend when driving, shift work, sports, and social plans override exchange nights. Preview how rigid vs flexible rotations behave once teenagers stop asking permission.',
+		'Equal-time custody schedules for teenagers bend when driving, shift work, and social plans override exchange nights. See how 50/50 rotation blocks behave under teen independence and when flexibility is the only way to keep both parents in the picture.',
 	datePublished: '2026-07-09',
 	dateModified: '2026-06-24',
 };
@@ -21,7 +21,7 @@ export const editorialReview = {
 };
 
 export const hero = {
-	headline: '50/50 Custody Schedule for Teenagers',
+	headline: '50/50 Custody Schedule for Teenagers: Equal-Time Blocks Under Teen Independence',
 	intro:
 		'Equal time still governs overnights. It no longer governs every waking hour once the teen drives, works evenings, and makes Friday plans without asking. Preview where the printed rotation bends — and where it breaks.',
 	boundary:

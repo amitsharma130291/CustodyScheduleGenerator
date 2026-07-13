@@ -16,7 +16,7 @@ export const editorialReview = {
 };
 
 export const hero = {
-	headline: 'Custody Schedule Template',
+	headline: 'Custody Schedule Template: Build Your Regular Rotation in Minutes',
 	intro:
 		'A custody schedule template names the recurring rotation — which parent owns Monday, when exchanges happen, and where summer and holiday placeholders attach. Build the pattern here; legal clauses live on the parenting plan page.',
 	boundary:

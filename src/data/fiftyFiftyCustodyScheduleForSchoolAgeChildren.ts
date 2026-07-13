@@ -1,7 +1,7 @@
 export const meta = {
 	title: '50/50 Custody Schedule for School-Age Children | Who Owns Tuesday Night?',
 	description:
-		'Equal-time school-age planning starts with school-night ownership — who handles Monday homework, Tuesday practice, Thursday orchestra, and Friday folders. Pattern names come after weekday responsibility is mapped.',
+		'Elementary school 50/50 custody planning starts with school-night ownership: who handles Monday homework, Tuesday practice, Thursday orchestra, and Friday folders for ages 5–12. Pattern names come after weekday responsibility is mapped.',
 	datePublished: '2026-07-01',
 	dateModified: '2026-06-24',
 };
@@ -21,7 +21,7 @@ export const editorialReview = {
 };
 
 export const hero = {
-	headline: '50/50 Custody Schedule for School-Age Children',
+	headline: '50/50 Custody Schedule for Elementary-Age Children (Ages 5–12): Who Owns Tuesday Night?',
 	intro:
 		'Equal time splits overnights evenly. It does not automatically assign who owns Tuesday spelling, Wednesday practice pickup, or Friday folder signatures. Print a rotation and mark school-night ownership before choosing a pattern label.',
 	boundary:

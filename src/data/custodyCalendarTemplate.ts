@@ -16,7 +16,7 @@ export const editorialReview = {
 };
 
 export const hero = {
-	headline: 'Custody Calendar Template',
+	headline: 'Custody Calendar Template: Print Your Month-Grid Calendar in Minutes',
 	intro:
 		'A custody calendar template renders the recurring rotation as a printable month — color-coded overnights, exchange days highlighted, holiday overrides marked on top of the base grid.',
 	boundary:

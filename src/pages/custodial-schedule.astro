@@ -279,20 +279,29 @@ const schema = [
 
 		<!-- Section: By age -->
 		<section id="by-age" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
-			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{byAgeSection.title}</h2>
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Which Age Stage Are You Planning For?</h2>
 			<p class="mt-3 max-w-3xl text-secondary">{byAgeSection.intro}</p>
-			<div class="mt-6 max-w-3xl space-y-3">
-				{byAgeSection.bands.map((band) => (
-					<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-						<p class="font-semibold text-primary">{band.label}</p>
-						<p class="mt-1.5 text-sm leading-6 text-secondary">{band.body}</p>
-					</div>
-				))}
+			<div class="mt-6 max-w-3xl grid gap-3 sm:grid-cols-2">
+				<div class="rounded-[1.25rem] bg-surface/70 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<p class="font-semibold text-primary">Infants and toddlers (under 3)</p>
+					<p class="mt-1 text-sm leading-6 text-secondary">Short separations and frequent contact. Exchange load matters more than pattern name.</p>
+				</div>
+				<div class="rounded-[1.25rem] bg-surface/70 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<p class="font-semibold text-primary">Preschool (ages 3–5)</p>
+					<p class="mt-1 text-sm leading-6 text-secondary">Predictable, short rotations with consistent bedtime routines at both homes.</p>
+				</div>
+				<div class="rounded-[1.25rem] bg-surface/70 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<p class="font-semibold text-primary">School-age (ages 6–12)</p>
+					<p class="mt-1 text-sm leading-6 text-secondary">Weekday school continuity matters. 2-2-5-5, 5-2-2-5, and 3-4-4-3 work well here.</p>
+				</div>
+				<div class="rounded-[1.25rem] bg-surface/70 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<p class="font-semibold text-primary">Teenagers (13+)</p>
+					<p class="mt-1 text-sm leading-6 text-secondary">Fewer handoffs, longer blocks, and teen social plans that override the printed schedule.</p>
+				</div>
 			</div>
-			<p class="mt-6 max-w-3xl text-sm text-secondary">
-				For a deeper look, see the{' '}
-				<a href="/custody-schedule-by-age/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule by age</a>{' '}
-				guide.
+			<p class="mt-5 max-w-3xl text-sm text-secondary">
+				<a href="/custody-schedule-by-age/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">→ See full custody schedule by age</a>{' '}
+				— age-specific operational detail for each stage.
 			</p>
 		</section>
 

@@ -1,0 +1,321 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import {
+	buildArticleSchema,
+	buildBreadcrumbSchema,
+	buildFAQSchema,
+	buildWebPageSchema,
+} from '../lib/seo/schema';
+
+const canonical = '/ourfamilywizard-alternative/';
+const canonicalUrl = getCanonicalUrl(canonical);
+const title = 'OurFamilyWizard Alternative: Free Custody Schedule Builder';
+const description =
+	'OurFamilyWizard is a co-parenting communication app. If all you need is a custody schedule you can print or attach to your parenting plan, CustodyBuilder does that free — no subscription required.';
+const datePublished = '2026-07-01';
+const dateModified = '2026-07-13';
+
+const breadcrumbs = [
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: 'Co-Parenting Tools', url: getCanonicalUrl('/best-co-parenting-app/') },
+	{ name: 'OurFamilyWizard Alternative', url: canonicalUrl },
+];
+
+const faqItems = [
+	{
+		question: 'Is there a completely free OurFamilyWizard alternative?',
+		answer:
+			'CustodyBuilder is free — no trial period, no credit card, no premium tier required to download your schedule. The schedule generator and PDF export are both free.',
+	},
+	{
+		question: 'Does OurFamilyWizard let you build a custody schedule?',
+		answer:
+			"OFW has a shared calendar where you can mark custody days, but it's not a schedule generator. It doesn't let you pick a rotation pattern (like 2-2-3 or week-on/week-off) and generate a calendar from it. You'd enter custody days manually.",
+	},
+	{
+		question: 'Is CustodyBuilder good enough for a court filing?',
+		answer:
+			"The PDF calendar CustodyBuilder generates can be attached to a parenting plan as a schedule exhibit. It shows the rotation pattern, which parent has custody on which days, and overnight counts. It's not a full legal document — you'll still need an attorney to draft the actual parenting plan language.",
+	},
+	{
+		question: 'What schedule patterns does CustodyBuilder support?',
+		answer:
+			'2-2-3, week-on/week-off (7-7), 5-2-2-5, every-other-weekend, 60/40, 70/30, and custom arrangements. You can adjust start dates and parent names before downloading.',
+	},
+	{
+		question: "What's the catch — why is CustodyBuilder free?",
+		answer:
+			"The core schedule builder and PDF export are free. The site is supported by advertising. There's no hidden paywall for the features described on this page.",
+	},
+	{
+		question: "What about OFW's dual-account requirement — does that matter?",
+		answer:
+			"If you need messaging records and you're already considering OFW, the dual-account requirement matters: expense tracking and the shared calendar only work if both parents are on the platform. CustodyBuilder doesn't require your co-parent to sign up for anything — you build the schedule yourself and download it.",
+	},
+];
+
+const schema = [
+	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+	buildArticleSchema({
+		headline: 'OurFamilyWizard Alternative: Build a Free Custody Schedule Without Paying $180/Year',
+		description,
+		url: canonicalUrl,
+		datePublished,
+		dateModified,
+		authorName: 'CustodyBuilder Editorial Team',
+	}),
+	buildFAQSchema(faqItems),
+	buildBreadcrumbSchema(breadcrumbs),
+];
+---
+
+<BaseLayout title={`${title} | CustodyBuilder`} description={description} canonical={canonical}>
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<Breadcrumbs items={breadcrumbs} />
+	<main>
+		<section class="container-shell py-section lg:py-section-loose">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Free alternative</p>
+				<h1 class="mt-4 text-4xl font-semibold leading-[1.02] tracking-[-0.05em] text-primary sm:text-5xl lg:text-6xl">
+					OurFamilyWizard Alternative: Build a Free Custody Schedule Without Paying $180/Year
+				</h1>
+				<p class="mt-5 text-lg leading-8 text-secondary">
+					OurFamilyWizard is a co-parenting communication app. If all you need is a custody schedule you can print, share, or attach to your parenting plan, CustodyBuilder does that for free. No subscription required.
+				</p>
+				<p class="mt-4 text-base leading-7 text-secondary">
+					This page explains what OFW does well, what it doesn't do, and when a free alternative makes more sense.
+				</p>
+				<p class="mt-4 text-sm leading-6 text-muted">
+					Reviewed by <a href="/about/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">CustodyBuilder Editorial Team</a>
+					<span aria-hidden="true"> · </span>Last updated July 2026
+					<span aria-hidden="true"> · </span><a href="/disclaimer/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Not legal advice</a>
+				</p>
+				<div class="mt-7">
+					<a href="/custody-schedule-generator/" class="btn-primary inline-flex h-12 items-center justify-center rounded-full px-7 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_30px_rgba(37,99,235,0.14)] active:translate-y-0" style="color: #ffffff;">
+						Build a Free Custody Schedule
+					</a>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="what-ofw-is-title">
+			<div class="max-w-3xl">
+				<h2 id="what-ofw-is-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					What OurFamilyWizard actually is
+				</h2>
+				<div class="mt-5 grid gap-4 text-base leading-7 text-secondary">
+					<p>
+						OurFamilyWizard is built around messaging and record-keeping between co-parents: a shared calendar, an expense log, an info bank for medical records and contacts, and a "ToneMeter" that flags hostile language in messages.
+					</p>
+					<p>
+						It's a communication platform. The core use case is ongoing co-parenting coordination after separation — not building a schedule document.
+					</p>
+					<p>
+						Pricing (as of 2025): roughly $100–$180 per year, per parent. Because each parent pays separately, a couple that both use it can pay $200–$360 combined annually.
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="what-cb-does-title">
+			<div class="max-w-3xl">
+				<h2 id="what-cb-does-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					What CustodyBuilder does instead
+				</h2>
+				<div class="mt-5 grid gap-4 text-base leading-7 text-secondary">
+					<p>
+						CustodyBuilder generates the custody schedule itself: the rotation pattern, the calendar, the overnight count, and a PDF you can download and hand to your attorney or attach to your parenting plan.
+					</p>
+					<p>
+						It doesn't have messaging, expense tracking, or a tone meter. It's a schedule-building tool, and it's free.
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="comparison-title">
+			<div class="max-w-3xl">
+				<h2 id="comparison-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					OurFamilyWizard vs CustodyBuilder: side-by-side
+				</h2>
+				<div class="mt-6 overflow-x-auto">
+					<table class="w-full text-sm leading-6">
+						<thead>
+							<tr class="border-b border-line-subtle">
+								<th class="py-3 pr-4 text-left font-semibold text-primary">Feature</th>
+								<th class="py-3 pr-4 text-left font-semibold text-primary">OurFamilyWizard</th>
+								<th class="py-3 text-left font-semibold text-primary">CustodyBuilder</th>
+							</tr>
+						</thead>
+						<tbody class="divide-y divide-line-subtle text-secondary">
+							<tr>
+								<td class="py-3 pr-4 font-medium text-primary">Cost</td>
+								<td class="py-3 pr-4">~$100–$180/yr per parent</td>
+								<td class="py-3 font-semibold text-accent">Free</td>
+							</tr>
+							<tr>
+								<td class="py-3 pr-4 font-medium text-primary">Custody schedule builder</td>
+								<td class="py-3 pr-4">Basic shared calendar</td>
+								<td class="py-3">Full generator (2-2-3, week-on/week-off, 60/40, custom)</td>
+							</tr>
+							<tr>
+								<td class="py-3 pr-4 font-medium text-primary">PDF calendar export</td>
+								<td class="py-3 pr-4">No dedicated export</td>
+								<td class="py-3">Yes — monthly and yearly PDF</td>
+							</tr>
+							<tr>
+								<td class="py-3 pr-4 font-medium text-primary">Overnight count calculator</td>
+								<td class="py-3 pr-4">No</td>
+								<td class="py-3">Yes</td>
+							</tr>
+							<tr>
+								<td class="py-3 pr-4 font-medium text-primary">Parenting plan attachment</td>
+								<td class="py-3 pr-4">Via shared calendar notes</td>
+								<td class="py-3">Downloadable PDF ready to file</td>
+							</tr>
+							<tr>
+								<td class="py-3 pr-4 font-medium text-primary">Co-parenting messaging</td>
+								<td class="py-3 pr-4">Yes</td>
+								<td class="py-3">No</td>
+							</tr>
+							<tr>
+								<td class="py-3 pr-4 font-medium text-primary">Expense tracking</td>
+								<td class="py-3 pr-4">Yes</td>
+								<td class="py-3">No</td>
+							</tr>
+							<tr>
+								<td class="py-3 pr-4 font-medium text-primary">ToneMeter / message review</td>
+								<td class="py-3 pr-4">Yes</td>
+								<td class="py-3">No</td>
+							</tr>
+							<tr>
+								<td class="py-3 pr-4 font-medium text-primary">Mobile app</td>
+								<td class="py-3 pr-4">Yes (iOS/Android)</td>
+								<td class="py-3">Web-based</td>
+							</tr>
+							<tr>
+								<td class="py-3 pr-4 font-medium text-primary">Subscription required</td>
+								<td class="py-3 pr-4">Yes</td>
+								<td class="py-3">No</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="who-ofw-title">
+			<div class="max-w-3xl">
+				<h2 id="who-ofw-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					Who should use OurFamilyWizard
+				</h2>
+				<p class="mt-4 text-base leading-7 text-secondary">
+					OFW makes sense if you and your co-parent need an ongoing shared platform: somewhere to log expenses, message each other with a record, coordinate last-minute changes, and keep everything documented in case of a future dispute.
+				</p>
+				<ul class="mt-4 grid gap-2 text-base leading-7 text-secondary">
+					<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span>High-conflict situations where documented communication matters</li>
+					<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span>Parents who need a shared expense log (medical bills, school fees, activities)</li>
+					<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span>Situations where a family law attorney or mediator has recommended it</li>
+					<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span>Parents who want the ToneMeter to de-escalate tense exchanges</li>
+				</ul>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="who-cb-title">
+			<div class="max-w-3xl">
+				<h2 id="who-cb-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					Who doesn't need OurFamilyWizard
+				</h2>
+				<p class="mt-4 text-base leading-7 text-secondary">
+					If your goal is to build the custody schedule itself — the actual rotation pattern, the calendar, the overnight counts — OFW isn't designed for that. Its shared calendar assumes you already have a schedule and just need somewhere to display it.
+				</p>
+				<div class="mt-6 grid gap-4">
+					<article class="rounded-xl bg-surface/60 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<h3 class="text-base font-semibold text-primary">You're filing a parenting plan and need a schedule document</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">Courts and attorneys want a clear schedule they can read. CustodyBuilder generates a PDF calendar you can attach directly to your parenting plan filing. OFW doesn't produce a standalone schedule document.</p>
+					</article>
+					<article class="rounded-xl bg-surface/60 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<h3 class="text-base font-semibold text-primary">You're negotiating custody percentages</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">If you're trying to understand what a 2-2-3 schedule means for overnight counts, or how a 60/40 split breaks down, CustodyBuilder's calculator shows you exactly that. OFW assumes the schedule is already settled.</p>
+					</article>
+					<article class="rounded-xl bg-surface/60 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<h3 class="text-base font-semibold text-primary">Your communication with your co-parent is fine</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">Not every co-parenting situation involves conflict. If you two can text and email like adults, you don't need a $180/year communication platform — you need a schedule document.</p>
+					</article>
+					<article class="rounded-xl bg-surface/60 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<h3 class="text-base font-semibold text-primary">You're in the early stages of separation</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">Before you've agreed on anything, you need to build the schedule first. CustodyBuilder helps you generate and compare options so you can bring a concrete proposal to mediation or negotiation.</p>
+					</article>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="examples-title">
+			<div class="max-w-3xl">
+				<h2 id="examples-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					Real examples where CustodyBuilder wins
+				</h2>
+				<div class="mt-6 grid gap-5">
+					<article class="rounded-xl border border-line bg-surface/40 p-5">
+						<h3 class="text-base font-semibold text-primary">Scenario 1 — The parenting plan filing</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">Marcus and Diana are filing an uncontested divorce. Their attorney needs a signed parenting plan with a custody schedule attached. They use CustodyBuilder to generate a 2-2-3 schedule, download the PDF calendar, and attach it to their filing. Total cost: zero. They don't need OFW's messaging features because they get along fine.</p>
+					</article>
+					<article class="rounded-xl border border-line bg-surface/40 p-5">
+						<h3 class="text-base font-semibold text-primary">Scenario 2 — Figuring out the numbers before mediation</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">Keiko wants to propose an every-other-weekend arrangement as a starting point but needs to know what that looks like in overnight percentages before her mediation session. She runs it through CustodyBuilder's overnight calculator, sees it gives her co-parent about 52 overnights per year (roughly 14%), and decides to propose a 2-2-3 instead for a more balanced outcome.</p>
+					</article>
+					<article class="rounded-xl border border-line bg-surface/40 p-5">
+						<h3 class="text-base font-semibold text-primary">Scenario 3 — Showing a judge a clear schedule</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">Tom is representing himself in a custody modification. The judge asks for a proposed schedule in writing. Tom builds a week-on/week-off schedule in CustodyBuilder, downloads the monthly and yearly PDF calendars, and brings them to court.</p>
+					</article>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="use-both-title">
+			<div class="max-w-3xl">
+				<h2 id="use-both-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					Can you use both?
+				</h2>
+				<p class="mt-4 text-base leading-7 text-secondary">
+					Yes, and some families do. CustodyBuilder to build and document the schedule initially, OFW to manage ongoing communication and expenses. They serve different phases of co-parenting.
+				</p>
+			</div>
+		</section>
+
+		<FAQ items={faqItems} title="OurFamilyWizard alternative FAQ" description="Common questions about using CustodyBuilder instead of OurFamilyWizard for custody scheduling." />
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="bottom-line-title">
+			<div class="max-w-3xl">
+				<h2 id="bottom-line-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					Bottom line
+				</h2>
+				<div class="mt-4 grid gap-3 text-base leading-7 text-secondary">
+					<p>If you need to build a custody schedule, calculate overnights, and download a PDF for your parenting plan — CustodyBuilder is free and built for exactly that.</p>
+					<p>If you need an ongoing co-parenting communication and documentation platform, OurFamilyWizard is worth considering. The two tools do different things.</p>
+				</div>
+				<div class="mt-6 flex flex-wrap gap-4">
+					<a href="/custody-schedule-generator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Build your custody schedule</a>
+					<a href="/best-co-parenting-app/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Compare co-parenting apps</a>
+					<a href="/custody-percentage-calculator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Calculate your custody percentage</a>
+				</div>
+				<p class="mt-8 text-xs leading-5 text-muted">This page is for informational purposes only and does not constitute legal advice. Consult a family law attorney for guidance specific to your situation.</p>
+			</div>
+		</section>
+
+		<BackToGeneratorCta
+			headline="Ready to build your custody schedule for free?"
+			body="Generate a dated custody calendar for any rotation pattern. Download the PDF and attach it to your parenting plan."
+			label="Build a Free Schedule"
+		/>
+	</main>
+	<Footer />
+</BaseLayout>

@@ -7,6 +7,7 @@ export const meta = {
 };
 
 export const editorialReview = {
+	lastReviewed: 'June 2026',
 	reviewedFor: [
 		'schedule math',
 		'weekend rotation accuracy',
@@ -18,6 +19,7 @@ export const editorialReview = {
 	methodologyLabel: 'How CustodyBuilder Works',
 	methodologyHref: '/how-custodybuilder-works/',
 	disclaimer: 'This page is educational only and is not legal advice.',
+	body: 'Updated for families choosing 3-4-4-3 specifically because neither parent should own every Saturday — with emphasis on rotating weekend balance, exchange mechanics on three-day blocks, and where the pattern breaks down when school projects span a Wednesday handoff. Educational planning content only; not legal advice.',
 };
 
 export const hero = {
@@ -104,6 +106,26 @@ export const typicalMonth = {
 	title: 'What a Typical Month Actually Looks Like',
 	intro:
 		'A two-week 3-4-4-3 cycle repeats twice per month. Week one is a three-day block plus a four-day block; week two flips to four days then three. The calendar looks uneven in any single week — the balance shows across fourteen days. Map your start date in the generator above or the <a href="/custody-schedule-generator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule generator</a> to see which parent holds each weekend.',
+};
+
+export const characterExample = {
+	title: 'A Weekend in a 3-4-4-3 Family — Sofia, Age Seven',
+	subtitle: 'Sofia, age seven — Saturday tournaments, Wednesday science projects, and a rotating calendar her parents track on the fridge.',
+	body: 'Sofia\'s parents chose 3-4-4-3 because neither one was willing to give up every Saturday for the school year. In October, Dad holds a four-day block covering Thursday through Sunday. The weekend soccer tournament on Saturday is his drive. A month later, the blocks flip: Mom holds that same Thursday-Sunday stretch, and the same Saturday tournament slot belongs to her. Both parents pack Sofia\'s cleats, know the field address, and follow the same weekly schedule — only the weekend rotation changes.',
+	details: [
+		{
+			heading: 'Wednesday science project',
+			body: 'Sofia\'s project is due Friday. Her exchange happens Wednesday after school. She started the poster at Mom\'s on Tuesday, brought it in her backpack Wednesday, and finished it at Dad\'s Thursday night. Both homes keep a small art supply box because projects rarely respect the calendar.',
+		},
+		{
+			heading: 'Three-day block adjustment',
+			body: 'On the short blocks, Sofia packs a smaller bag — three nights, not four. Dad learned to keep school shoes at his house year-round so a missing sneaker on a short block does not become a Wednesday morning crisis.',
+		},
+		{
+			heading: 'Why the rotation stuck',
+			body: 'By December, Sofia stopped asking whose weekend it was and started asking what was happening that weekend. The rotation became predictable enough — tracked on a fridge calendar and the generator printout — that both parents could RSVP to birthday parties three weeks out without texting each other first.',
+		},
+	],
 };
 
 export const costOfRotation = {

@@ -23,6 +23,7 @@ import {
 import {
 	articleTocItems,
 	beforeYouChoose,
+	characterExample,
 	costOfRotation,
 	editorialReview,
 	faqItems,
@@ -118,6 +119,8 @@ const schema = [
 						))}
 					</ul>
 					<p class="mt-2">
+						<strong class="text-primary">Last reviewed: {editorialReview.lastReviewed}</strong>
+						{' · '}
 						Reviewed by{' '}
 						<a href={editorialReview.reviewerHref} class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">
 							{editorialReview.reviewer}
@@ -129,6 +132,7 @@ const schema = [
 						</a>
 						{' · '}{editorialReview.disclaimer}
 					</p>
+					{editorialReview.body && <p class="mt-2 text-muted">{editorialReview.body}</p>}
 				</div>
 			</div>
 
@@ -256,6 +260,25 @@ const schema = [
 						<p class="mt-2 text-sm leading-6 text-secondary" set:html={item.body} />
 					</article>
 				))}
+			</div>
+		</section>
+
+		<section id="character-example" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="character-example-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Real-family pattern</p>
+				<h2 id="character-example-title" class="mt-4 text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					{characterExample.title}
+				</h2>
+				<p class="mt-2 text-sm font-semibold text-muted">{characterExample.subtitle}</p>
+				<p class="mt-4 text-base leading-7 text-secondary">{characterExample.body}</p>
+				<div class="mt-6 grid gap-4 sm:grid-cols-3">
+					{characterExample.details.map((item) => (
+						<article class="rounded-xl bg-surface/60 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+							<h3 class="text-base font-semibold text-primary">{item.heading}</h3>
+							<p class="mt-2 text-sm leading-6 text-secondary">{item.body}</p>
+						</article>
+					))}
+				</div>
 			</div>
 		</section>
 

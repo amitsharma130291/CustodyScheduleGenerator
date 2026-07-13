@@ -2,7 +2,7 @@ export const meta = {
 	title: '50/50 Custody Schedule for Babies | Feeding, Sleep & Step-Up Planning',
 	description:
 		'For babies, equal-time planning starts with feeding windows, sleep cycles, and short separations — not pattern names. Preview a step-up calendar before expanding overnights.',
-	datePublished: '2026-07-14',
+	datePublished: '2026-06-01',
 	dateModified: '2026-06-25',
 };
 

@@ -107,6 +107,18 @@ const schema = [
 					))}
 				</dl>
 
+				<p class="mt-3 max-w-2xl text-base leading-7 text-secondary">The best 50/50 custody schedule depends on one operational variable: how often your child can handle exchanges. Start with a quick filter — then use the elimination guide below if you have narrowed it to two choices.</p>
+				<div class="mt-3 max-w-2xl rounded-xl bg-accent/10 p-4 shadow-[inset_0_0_0_1px_rgba(37,99,235,0.15)]">
+					<p class="text-sm font-semibold text-primary">Quick filter — match by exchange tolerance</p>
+					<ul class="mt-2 grid gap-1 text-sm leading-6 text-secondary">
+						<li><a href="/2-2-3-custody-schedule/" class="font-semibold text-accent underline underline-offset-4 hover:text-primary">2-2-3</a> — fewest nights apart, highest exchanges. Best for toddlers and young children.</li>
+						<li><a href="/3-4-4-3-custody-schedule/" class="font-semibold text-accent underline underline-offset-4 hover:text-primary">3-4-4-3</a> — rotating weekends, moderate separation. Best when neither parent should own every Saturday.</li>
+						<li><a href="/2-2-5-5-custody-schedule/" class="font-semibold text-accent underline underline-offset-4 hover:text-primary">2-2-5-5</a> — fixed weekdays, alternating weekends. Best when school-night stability matters most.</li>
+						<li><a href="/5-2-2-5-custody-schedule/" class="font-semibold text-accent underline underline-offset-4 hover:text-primary">5-2-2-5</a> — same as 2-2-5-5 but parent blocks swap. Best when one home owns school mornings consistently.</li>
+						<li><a href="/week-on-week-off-custody-schedule/" class="font-semibold text-accent underline underline-offset-4 hover:text-primary">Week-on/week-off</a> — lowest exchanges, longest blocks. Best for older children and teens who tolerate seven-day stretches.</li>
+					</ul>
+					<p class="mt-3 text-xs text-muted">Already down to two? Use the elimination guide below.</p>
+				</div>
 				<p class="mt-3 max-w-2xl text-base leading-7 text-secondary">{hero.intro}</p>
 				<p class="mt-3 max-w-2xl text-sm leading-6 text-secondary" set:html={hero.boundary} />
 
@@ -137,6 +149,20 @@ const schema = [
 				generatedSchedule={generatedSchedule}
 				heroTrustSignals={heroTrustSignals}
 			/>
+		</section>
+
+		<section id="editorial-review" class="container-shell pb-5">
+			<div class="max-w-3xl rounded-2xl bg-page/70 p-4 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+				<p>
+					<strong class="text-primary">Last reviewed: {editorialReview.lastReviewed}</strong>
+					<br />
+					Reviewed by:{' '}
+					<a href={editorialReview.reviewerHref} class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">
+						{editorialReview.reviewer}
+					</a>
+				</p>
+				<p class="mt-2">{editorialReview.body}</p>
+			</div>
 		</section>
 
 		<nav class="container-shell border-y border-line-subtle py-3" aria-label="On this page">
