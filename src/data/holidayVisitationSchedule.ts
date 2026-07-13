@@ -1,7 +1,7 @@
 export const meta = {
 	title: 'Holiday Visitation Schedule: Access for Limited-Time Parents',
 	description:
-		'How a parent with every-other-weekend or 80/20 time gets written holiday access — start times, make-up weekends, and travel rules when regular gaps are long.',
+		'If you have every-other-weekend custody, this guide explains how to get written holiday access — start times, make-up weekends, and travel rules when regular parenting time gaps are long.',
 	datePublished: '2025-03-01',
 	dateModified: '2026-06-25',
 };
@@ -22,7 +22,7 @@ export const editorialReview = {
 };
 
 export const hero = {
-	headline: 'Holiday Visitation Schedule',
+	headline: 'Holiday Visitation Schedule for Every-Other-Weekend Parents',
 	intro:
 		'A holiday visitation schedule gives a parent with limited regular time clear holiday access, so Thanksgiving, winter break, birthdays, and school breaks do not disappear inside the primary parent\'s normal calendar.',
 	boundary:

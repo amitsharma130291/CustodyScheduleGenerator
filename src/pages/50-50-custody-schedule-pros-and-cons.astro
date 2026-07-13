@@ -73,12 +73,24 @@ const schema = [
 				</h1>
 				<p class="mt-5 text-lg leading-8 text-secondary">{heroIntro.opening}</p>
 				<p class="mt-4 text-base leading-7 text-secondary">{heroIntro.followUp}</p>
-				<p class="mt-4 text-sm leading-6 text-muted">
-					Created by <a href="/about/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">CustodyBuilder Editorial Team</a>
-					<span aria-hidden="true"> • </span>Last reviewed: July 2026
-					<span aria-hidden="true"> • </span>Educational planning resource
-					<span aria-hidden="true"> • </span><a href="/disclaimer/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Not legal advice</a>
-				</p>
+				<div class="mt-4 max-w-2xl rounded-2xl bg-page/70 p-3 text-xs leading-5 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<p class="font-semibold text-secondary">Reviewed for:</p>
+					<ul class="mt-1 list-inside list-disc space-y-0.5 text-muted">
+						<li>50/50 operational trade-offs and logistics</li>
+						<li>Age-specific exchange load considerations</li>
+						<li>Educational boundary accuracy</li>
+						<li>Calendar-generation accuracy</li>
+					</ul>
+					<p class="mt-2">
+						<strong class="text-primary">Last reviewed: July 2026</strong>
+						{' · '}
+						Reviewed by{' '}
+						<a href="/about/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">CustodyBuilder Editorial Team</a>
+						{' · '}
+						<a href="/how-custodybuilder-works/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">How CustodyBuilder Works</a>
+						{' · '}Educational planning resource. <a href="/disclaimer/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Not legal advice</a>
+					</p>
+				</div>
 				<div class="mt-8">
 					<CtaButton href="/50-50-custody-schedule/" variant="primary" size="large">
 						Build a 50/50 Custody Schedule

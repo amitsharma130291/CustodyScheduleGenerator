@@ -16,7 +16,7 @@ export const editorialReview = {
 };
 
 export const hero = {
-	headline: 'Parenting Plan Template',
+	headline: 'Parenting Plan Template: Build the Agreement Layer in Minutes',
 	intro:
 		'A parenting plan template organizes the agreement beyond the calendar — decision-making, communication, medical care, school, travel, expenses, and dispute resolution — with the custody schedule attached as a referenced exhibit.',
 	boundary:

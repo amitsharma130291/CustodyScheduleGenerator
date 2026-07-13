@@ -1,0 +1,353 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import {
+	buildArticleSchema,
+	buildBreadcrumbSchema,
+	buildFAQSchema,
+	buildWebPageSchema,
+} from '../lib/seo/schema';
+
+const canonical = '/overnight-custody-calculator/';
+const canonicalUrl = getCanonicalUrl(canonical);
+const title = 'Overnight Custody Calculator: Count Exact Overnights Per Parent Per Year';
+const description =
+	'Count the exact number of overnights each parent has per year under any custody schedule. Use the lookup table for every common schedule type, or build a custom calendar in the generator.';
+const datePublished = '2026-07-01';
+const dateModified = '2026-07-13';
+
+const breadcrumbs = [
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: 'Calculators', url: getCanonicalUrl('/custody-percentage-calculator/') },
+	{ name: 'Overnight Custody Calculator', url: canonicalUrl },
+];
+
+const overnightData = [
+	{
+		schedule: '2-2-3 rotating schedule',
+		parentA: '182–183 per year',
+		parentB: '182–183 per year',
+		split: 'Nearly exactly 50/50',
+		notes: 'The 2-2-3 is one of the most common 50/50 schedules. Over 14 days, each parent gets exactly 7 nights. Over 365 days, the split lands at 182/183 depending on how the start date falls. Neither parent reliably clears 183 nights — which matters for the IRS rule. Parents on a 2-2-3 who both want the tax dependency exemption typically need to address it explicitly in their parenting plan (alternating years is common).',
+	},
+	{
+		schedule: 'Every-other-weekend (standard non-custodial)',
+		parentA: '~313 overnights (primary)',
+		parentB: '~52 overnights (non-custodial)',
+		split: 'Roughly 86/14',
+		notes: '52 overnights is well under the 183-night threshold. The primary custodial parent has a clear majority for IRS purposes. Child support in most states reflects this heavily lopsided split.',
+	},
+	{
+		schedule: '60/40 split on a 7-day cycle',
+		parentA: '~219 overnights (60% parent)',
+		parentB: '~146 overnights (40% parent)',
+		split: '60/40',
+		notes: 'The 60% parent comfortably clears 183 nights. The 40% parent does not, but 146 overnights is still meaningful for child support calculations that use exact overnight counts.',
+	},
+	{
+		schedule: 'Week-on/week-off (7-7)',
+		parentA: '~182–183 per year',
+		parentB: '~182–183 per year',
+		split: '50/50',
+		notes: 'Same overnight dynamic as the 2-2-3 — perfectly even, which means neither parent automatically qualifies under the 183-night IRS rule without the start date helping them.',
+	},
+	{
+		schedule: 'Every-other-weekend plus a midweek overnight',
+		parentA: '~261 overnights (primary)',
+		parentB: '~104 overnights (non-custodial)',
+		split: 'Roughly 72/28',
+		notes: 'The midweek overnight doubles the non-custodial parent total but still keeps them well under 183 nights. The primary parent retains clear majority status.',
+	},
+];
+
+const faqItems = [
+	{
+		question: 'What counts as an "overnight" for IRS purposes?',
+		answer:
+			"The IRS counts an overnight as a night the child sleeps at a parent's home. A day visit with no overnight doesn't count. If the child sleeps at Parent A's house but is dropped at Parent B's house in the morning, that's still one overnight for Parent A.",
+	},
+	{
+		question: 'Does an overnight count if the child is at school or camp?',
+		answer:
+			"IRS Publication 501 says the child is considered to be with the parent they would have stayed with if not at school or camp. So if it's Parent A's scheduled week and the child is at overnight camp, those nights typically count for Parent A.",
+	},
+	{
+		question: 'What if the schedule changes mid-year?',
+		answer:
+			"The IRS looks at where the child actually slept over the course of the tax year, not what the parenting plan says. If you modify the schedule mid-year by mutual agreement, track the actual nights, not the scheduled ones.",
+	},
+	{
+		question: 'Can both parents claim the child in the same year?',
+		answer:
+			'No. For federal tax purposes, only one parent can claim a child as a dependent in a given tax year. Some states have different rules for state income taxes — check with a tax professional for your state.',
+	},
+	{
+		question: 'Does the calculator handle summer and holiday exceptions?',
+		answer:
+			'The custody schedule generator can factor in deviations. For complex holiday schedules with multiple exceptions, you may need to map custom dates in the generator.',
+	},
+	{
+		question: 'My parenting plan says "joint custody" — does that mean I get 183 nights?',
+		answer:
+			'"Joint custody" is a legal term that refers to shared decision-making, not necessarily equal physical time. Your overnight count depends on the specific schedule, not the label in the order.',
+	},
+	{
+		question: 'How accurate are the overnight counts for a 2-2-3 schedule?',
+		answer:
+			'Very accurate for the rotation itself. The slight variation (182 vs 183) depends on the start date and whether it\'s a leap year. For IRS purposes, count the actual year in question rather than assuming a fixed number.',
+	},
+];
+
+const schema = [
+	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+	buildArticleSchema({
+		headline: 'Overnight Custody Calculator: Count Exact Overnights Per Parent Per Year',
+		description,
+		url: canonicalUrl,
+		datePublished,
+		dateModified,
+		authorName: 'CustodyBuilder Editorial Team',
+	}),
+	buildFAQSchema(faqItems),
+	buildBreadcrumbSchema(breadcrumbs),
+];
+---
+
+<BaseLayout title={`${title} | CustodyBuilder`} description={description} canonical={canonical}>
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<Breadcrumbs items={breadcrumbs} />
+	<main>
+		<section class="container-shell py-section lg:py-section-loose">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Custody overnights</p>
+				<h1 class="mt-4 text-4xl font-semibold leading-[1.02] tracking-[-0.05em] text-primary sm:text-5xl lg:text-6xl">
+					Overnight Custody Calculator: Count Exact Overnights Per Parent Per Year
+				</h1>
+				<p class="mt-5 text-lg leading-8 text-secondary">
+					This calculator counts the raw number of overnights each parent has per year under a given custody schedule. That's different from a custody percentage — this is about exact nights, which matters for IRS tax rules, child support worksheets, and verifying what your court order actually produces.
+				</p>
+				<p class="mt-4 text-base leading-7 text-secondary">
+					Use the lookup table below for every common schedule type, or build a custom calendar in the <a href="/custody-schedule-generator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule generator</a>.
+				</p>
+				<p class="mt-4 text-sm leading-6 text-muted">
+					Reviewed by <a href="/about/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">CustodyBuilder Editorial Team</a>
+					<span aria-hidden="true"> · </span>Last updated July 2026
+					<span aria-hidden="true"> · </span><a href="/disclaimer/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Not legal or tax advice</a>
+				</p>
+
+				<div class="mt-6 rounded-xl border border-line bg-accent/5 p-4 shadow-[inset_0_0_0_1px_rgba(37,99,235,0.10)]">
+					<p class="text-sm font-semibold text-primary">Interactive calculator: coming soon</p>
+					<p class="mt-1 text-sm leading-6 text-secondary">While we finish building the interactive overnight counter, the lookup table below covers every common schedule type. For a personalised calendar, use the <a href="/custody-schedule-generator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule generator</a>.</p>
+				</div>
+
+				<div class="mt-7 flex flex-col gap-3 sm:flex-row">
+					<a href="/custody-schedule-generator/" class="btn-primary inline-flex h-12 items-center justify-center rounded-full px-7 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_30px_rgba(37,99,235,0.14)] active:translate-y-0" style="color: #ffffff;">
+						Build a Dated Custody Calendar
+					</a>
+					<a href="/custody-percentage-calculator/" class="btn-secondary inline-flex h-12 items-center justify-center rounded-full px-7 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-px active:translate-y-0">
+						Calculate Custody Percentage
+					</a>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="why-title">
+			<div class="max-w-3xl">
+				<h2 id="why-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					Why overnights matter (and why percentages aren't enough)
+				</h2>
+				<p class="mt-4 text-base leading-7 text-secondary">A custody percentage tells you the split: 60/40, 50/50, 70/30. That's useful for understanding the general arrangement, but it doesn't tell you the exact number of nights.</p>
+				<p class="mt-4 text-base leading-7 text-secondary">For some purposes, you need the exact number:</p>
+				<div class="mt-4 grid gap-4">
+					<article class="rounded-xl bg-surface/60 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<h3 class="text-base font-semibold text-primary">The IRS 183-night rule</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">To claim a child as a dependent for the tax dependency exemption, the IRS requires the child to have lived with you for more than half the year — more than 182.5 nights, meaning at least 183. A "60/40 schedule" might sound like more than enough, but depending on how the rotation falls, it could produce fewer overnights than you expect in a given year.</p>
+					</article>
+					<article class="rounded-xl bg-surface/60 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<h3 class="text-base font-semibold text-primary">Child support calculations</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">Many states base child support on the exact number of overnight visits per year, not a percentage. Even a small difference in overnights can shift the calculation.</p>
+					</article>
+					<article class="rounded-xl bg-surface/60 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<h3 class="text-base font-semibold text-primary">Court order verification</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">If your order specifies a certain number of nights and you want to confirm the actual schedule you're living matches it, counting overnights is how you verify.</p>
+					</article>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="table-title">
+			<div class="max-w-3xl">
+				<h2 id="table-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					Real overnight counts by schedule type
+				</h2>
+				<p class="mt-4 text-base leading-7 text-secondary">These numbers assume a standard year with no holiday exceptions. Actual counts shift slightly based on start date and whether it's a leap year.</p>
+				<div class="mt-6 overflow-x-auto">
+					<table class="w-full text-sm leading-6">
+						<thead>
+							<tr class="border-b border-line-subtle">
+								<th class="py-3 pr-4 text-left font-semibold text-primary">Schedule</th>
+								<th class="py-3 pr-4 text-left font-semibold text-primary">Primary / Parent A</th>
+								<th class="py-3 pr-4 text-left font-semibold text-primary">Other / Parent B</th>
+								<th class="py-3 text-left font-semibold text-primary">Split</th>
+							</tr>
+						</thead>
+						<tbody class="divide-y divide-line-subtle text-secondary">
+							{overnightData.map((row) => (
+								<tr>
+									<td class="py-3 pr-4 font-medium text-primary">{row.schedule}</td>
+									<td class="py-3 pr-4">{row.parentA}</td>
+									<td class="py-3 pr-4">{row.parentB}</td>
+									<td class="py-3">{row.split}</td>
+								</tr>
+							))}
+						</tbody>
+					</table>
+				</div>
+				<div class="mt-8 grid gap-5">
+					{overnightData.map((row) => (
+						<article class="rounded-xl bg-surface/60 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+							<h3 class="text-base font-semibold text-primary">{row.schedule}</h3>
+							<div class="mt-2 grid grid-cols-3 gap-2 text-xs font-semibold">
+								<div class="rounded-lg bg-accent/10 px-2 py-1.5 text-center">
+									<p class="text-accent">{row.parentA.split(' ')[0]}</p>
+									<p class="text-muted">Parent A</p>
+								</div>
+								<div class="rounded-lg bg-surface px-2 py-1.5 text-center shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+									<p class="text-secondary">{row.parentB.split(' ')[0]}</p>
+									<p class="text-muted">Parent B</p>
+								</div>
+								<div class="rounded-lg bg-surface px-2 py-1.5 text-center shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+									<p class="text-secondary">{row.split}</p>
+									<p class="text-muted">Split</p>
+								</div>
+							</div>
+							<p class="mt-3 text-sm leading-6 text-secondary">{row.notes}</p>
+						</article>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="irs-title">
+			<div class="max-w-3xl">
+				<h2 id="irs-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					The IRS 183-night rule explained
+				</h2>
+				<div class="mt-4 grid gap-4 text-base leading-7 text-secondary">
+					<p>The IRS determines which parent can claim a child as a dependent using the "qualifying child" test. One of the requirements is that the child must have lived with the parent for more than half the year — more than 182.5 nights, so at least 183.</p>
+					<p>The parent who clears 183 nights is the "custodial parent" for IRS purposes. They get to claim the child as a dependent, which can include the child tax credit, head of household filing status, and the earned income credit (if eligible).</p>
+					<p>The other parent — with fewer than 183 nights — is the "non-custodial parent" for tax purposes, even if the custody arrangement is called "joint" in the parenting plan.</p>
+				</div>
+				<div class="mt-6 rounded-xl bg-surface/60 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<h3 class="text-base font-semibold text-primary">What if it's exactly 50/50 and neither parent hits 183?</h3>
+					<p class="mt-2 text-sm leading-6 text-secondary">When overnights split evenly (182/183), the IRS tiebreaker is adjusted gross income (AGI) — whichever parent has the higher AGI gets to claim the child. Parents often sidestep this by agreeing in their parenting plan to alternate who claims the child each year, regardless of the overnight count in any given year.</p>
+				</div>
+				<div class="mt-4 rounded-xl bg-surface/60 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<h3 class="text-base font-semibold text-primary">Can the non-custodial parent ever claim the child?</h3>
+					<p class="mt-2 text-sm leading-6 text-secondary">Yes, if the custodial parent signs IRS Form 8332 releasing the exemption for that year. This is a common arrangement when the non-custodial parent has a higher income and would benefit more from the deduction.</p>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="child-support-title">
+			<div class="max-w-3xl">
+				<h2 id="child-support-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					Overnights and child support
+				</h2>
+				<div class="mt-4 grid gap-4 text-base leading-7 text-secondary">
+					<p>Most states use the number of overnight visits to calculate child support. The more overnights the non-custodial parent has, the lower their child support obligation (because they're directly paying for the child's expenses during those nights).</p>
+					<p>Exact thresholds vary by state. These figures reflect common patterns, not any specific state formula:</p>
+				</div>
+				<div class="mt-5 grid gap-3">
+					<div class="flex items-start gap-3 rounded-xl bg-surface/60 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<span class="shrink-0 rounded-full bg-accent/10 px-2 py-0.5 text-xs font-bold text-accent">Under 90</span>
+						<p class="text-sm leading-6 text-secondary">Standard non-custodial support rate, no reduction</p>
+					</div>
+					<div class="flex items-start gap-3 rounded-xl bg-surface/60 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<span class="shrink-0 rounded-full bg-accent/10 px-2 py-0.5 text-xs font-bold text-accent">90–130</span>
+						<p class="text-sm leading-6 text-secondary">Modest reduction in most states</p>
+					</div>
+					<div class="flex items-start gap-3 rounded-xl bg-surface/60 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<span class="shrink-0 rounded-full bg-accent/10 px-2 py-0.5 text-xs font-bold text-accent">130+</span>
+						<p class="text-sm leading-6 text-secondary">Significant reduction, sometimes called "shared physical custody" status</p>
+					</div>
+					<div class="flex items-start gap-3 rounded-xl bg-surface/60 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<span class="shrink-0 rounded-full bg-accent/10 px-2 py-0.5 text-xs font-bold text-accent">182+</span>
+						<p class="text-sm leading-6 text-secondary">Full shared-custody calculation, may result in no transfer payment depending on income levels</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="verify-title">
+			<div class="max-w-3xl">
+				<h2 id="verify-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					Verifying your court order using overnight counts
+				</h2>
+				<p class="mt-4 text-base leading-7 text-secondary">If your parenting order specifies a certain arrangement, it's worth running the schedule through an overnight counter to verify what it actually produces in practice.</p>
+				<p class="mt-4 text-base leading-7 text-secondary">Common mismatches between what orders say and what they produce:</p>
+				<ul class="mt-4 grid gap-2 text-base leading-7 text-secondary">
+					<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span>An order specifying "every other weekend, Friday to Sunday" produces 52 overnights if "Friday to Sunday" means Friday night and Saturday night (2 nights), or 78 if it means Friday, Saturday, and Sunday night (3 nights). The language matters.</li>
+					<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span>Extended summer parenting time is often 4–6 consecutive weeks. Adding 28–42 overnights to the non-custodial parent's total can shift their annual count significantly.</li>
+					<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span>Holiday schedules can shift 10–20 overnights per year depending on how they're structured.</li>
+				</ul>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="vs-title">
+			<div class="max-w-3xl">
+				<h2 id="vs-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					This calculator vs the custody percentage calculator
+				</h2>
+				<div class="mt-4 grid gap-4 text-base leading-7 text-secondary">
+					<p>The <a href="/custody-percentage-calculator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody percentage calculator</a> converts a schedule pattern into a percentage split: 60/40, 50/50, and so on. Use it when you need to express the arrangement as a ratio.</p>
+					<p>This overnight calculator counts absolute nights. Use it when you need a specific number — for the IRS, for a child support worksheet, or to verify what your court order produces.</p>
+				</div>
+				<div class="mt-5 grid gap-3 sm:grid-cols-3">
+					<a href="/custody-percentage-calculator/" class="rounded-xl bg-surface/60 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:shadow-[inset_0_0_0_1px_var(--accent)] transition-shadow">
+						<p class="text-xs font-semibold uppercase tracking-wide text-muted">Percentage</p>
+						<p class="mt-1 text-sm font-semibold text-primary">What percentage of time does each parent have?</p>
+						<p class="mt-1 text-xs text-accent">Custody Percentage Calculator</p>
+					</a>
+					<div class="rounded-xl border-2 border-accent/30 bg-accent/5 p-4">
+						<p class="text-xs font-semibold uppercase tracking-wide text-muted">Overnights</p>
+						<p class="mt-1 text-sm font-semibold text-primary">How many nights per year does each parent have?</p>
+						<p class="mt-1 text-xs text-accent">This page</p>
+					</div>
+					<a href="/custody-schedule-generator/" class="rounded-xl bg-surface/60 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:shadow-[inset_0_0_0_1px_var(--accent)] transition-shadow">
+						<p class="text-xs font-semibold uppercase tracking-wide text-muted">Calendar</p>
+						<p class="mt-1 text-sm font-semibold text-primary">What does a specific schedule look like on a calendar?</p>
+						<p class="mt-1 text-xs text-accent">Custody Schedule Generator</p>
+					</a>
+				</div>
+			</div>
+		</section>
+
+		<FAQ items={faqItems} title="Overnight custody calculator FAQ" description="Common questions about counting custody overnights for IRS, child support, and court order verification purposes." />
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<div class="max-w-3xl">
+				<div class="flex flex-wrap gap-4">
+					<a href="/custody-percentage-calculator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Calculate custody percentage</a>
+					<a href="/custody-schedule-generator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Build a custody schedule</a>
+					<a href="/visitation-calculator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Visitation calculator</a>
+				</div>
+				<p class="mt-6 text-xs leading-5 text-muted">This page is for educational purposes only and does not constitute legal or tax advice. For tax dependency questions, consult a tax professional. For child support calculations, consult a family law attorney in your state.</p>
+			</div>
+		</section>
+
+		<BackToGeneratorCta
+			headline="Build a dated custody calendar to count exact overnights"
+			body="Enter your start date and rotation pattern to see which parent has the child on each overnight — and download the annual count as a PDF."
+			label="Open Custody Schedule Generator"
+		/>
+	</main>
+	<Footer />
+</BaseLayout>

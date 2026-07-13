@@ -1,0 +1,261 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import {
+	buildArticleSchema,
+	buildBreadcrumbSchema,
+	buildFAQSchema,
+	buildWebPageSchema,
+} from '../lib/seo/schema';
+
+const canonical = '/custody-x-change-alternative/';
+const canonicalUrl = getCanonicalUrl(canonical);
+const title = 'Custody X Change Alternative: Free Custody Schedule Builder';
+const description =
+	"Both Custody X Change and CustodyBuilder build custody schedules. CXC goes further and produces the full parenting plan document. CustodyBuilder builds the schedule and calendar only — and it's free. Here's when each one makes sense.";
+const datePublished = '2026-07-01';
+const dateModified = '2026-07-13';
+
+const breadcrumbs = [
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: 'Co-Parenting Tools', url: getCanonicalUrl('/best-co-parenting-app/') },
+	{ name: 'Custody X Change Alternative', url: canonicalUrl },
+];
+
+const faqItems = [
+	{
+		question: "I'm filing pro se — is CustodyBuilder's PDF enough?",
+		answer:
+			"For the schedule exhibit, yes. If you need a complete parenting plan with legal provisions (holiday schedule, dispute resolution, communication rules), that's CXC's territory. CustodyBuilder builds the rotation; CXC builds the document.",
+	},
+	{
+		question: "CXC has a visual schedule builder — how is that different from CustodyBuilder?",
+		answer:
+			"CXC's calendar builder is one component inside a full document tool. CustodyBuilder's is the whole product — it's faster to use for just the schedule, but it doesn't generate the surrounding legal document.",
+	},
+	{
+		question: 'Can I start in CustodyBuilder and migrate to CXC later?',
+		answer:
+			"Yes. Build the schedule in CustodyBuilder first to confirm the rotation works for your family. Once agreed, use those dates as the reference rotation when you build the full plan in CXC. The two tools don't link directly, but the workflow is natural.",
+	},
+	{
+		question: 'Does CustodyBuilder calculate custody percentages?',
+		answer:
+			'Yes. CustodyBuilder shows overnight counts per parent and the resulting custody percentage, which is useful for child support worksheets and tax dependency questions.',
+	},
+	{
+		question: 'What format does CustodyBuilder export in?',
+		answer:
+			'PDF — monthly and yearly calendar views. These can be attached to a parenting plan as a schedule exhibit.',
+	},
+];
+
+const schema = [
+	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+	buildArticleSchema({
+		headline: 'Custody X Change Alternative: Free Custody Schedule Builder Without the Subscription',
+		description,
+		url: canonicalUrl,
+		datePublished,
+		dateModified,
+		authorName: 'CustodyBuilder Editorial Team',
+	}),
+	buildFAQSchema(faqItems),
+	buildBreadcrumbSchema(breadcrumbs),
+];
+---
+
+<BaseLayout title={`${title} | CustodyBuilder`} description={description} canonical={canonical}>
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<Breadcrumbs items={breadcrumbs} />
+	<main>
+		<section class="container-shell py-section lg:py-section-loose">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Free alternative</p>
+				<h1 class="mt-4 text-4xl font-semibold leading-[1.02] tracking-[-0.05em] text-primary sm:text-5xl lg:text-6xl">
+					Custody X Change Alternative: Free Custody Schedule Builder Without the Subscription
+				</h1>
+				<p class="mt-5 text-lg leading-8 text-secondary">
+					Both Custody X Change and CustodyBuilder build custody schedules. That's where the similarity ends. CXC goes further — it produces the entire parenting plan document. CustodyBuilder builds the schedule and calendar only, and it's free.
+				</p>
+				<p class="mt-4 text-base leading-7 text-secondary">
+					If you're deciding which to use, the question isn't really about features. It's about what stage you're in and what you actually need to produce.
+				</p>
+				<p class="mt-4 text-sm leading-6 text-muted">
+					Reviewed by <a href="/about/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">CustodyBuilder Editorial Team</a>
+					<span aria-hidden="true"> · </span>Last updated July 2026
+					<span aria-hidden="true"> · </span><a href="/disclaimer/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Not legal advice</a>
+				</p>
+				<div class="mt-7">
+					<a href="/custody-schedule-generator/" class="btn-primary inline-flex h-12 items-center justify-center rounded-full px-7 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_30px_rgba(37,99,235,0.14)] active:translate-y-0" style="color: #ffffff;">
+						Build a Free Custody Schedule
+					</a>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="where-line-is-title">
+			<div class="max-w-3xl">
+				<h2 id="where-line-is-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					Both tools build custody schedules — here's where the line is
+				</h2>
+				<div class="mt-5 grid gap-4 text-base leading-7 text-secondary">
+					<p>
+						Custody X Change is a parenting plan software. It generates a complete written document: schedule provisions, legal language, holiday schedules, dispute resolution clauses, and a visual calendar — all formatted as a court-ready document you can file without an attorney writing it from scratch.
+					</p>
+					<p>
+						CustodyBuilder generates the schedule and calendar component: the rotation pattern, which parent has the child on which days, monthly and yearly PDF calendars, and overnight counts. It doesn't generate legal plan language or holiday provisions. What it produces is the schedule exhibit — the visual calendar and overnight breakdown that typically gets attached to a parenting plan.
+					</p>
+					<p>
+						CustodyBuilder is free. CXC is paid (historically in the $50–$180 range depending on tier — verify current pricing on their site before purchasing).
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="comparison-title">
+			<div class="max-w-3xl">
+				<h2 id="comparison-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					Comparison table
+				</h2>
+				<div class="mt-6 overflow-x-auto">
+					<table class="w-full text-sm leading-6">
+						<thead>
+							<tr class="border-b border-line-subtle">
+								<th class="py-3 pr-4 text-left font-semibold text-primary">Feature</th>
+								<th class="py-3 pr-4 text-left font-semibold text-primary">Custody X Change</th>
+								<th class="py-3 text-left font-semibold text-primary">CustodyBuilder</th>
+							</tr>
+						</thead>
+						<tbody class="divide-y divide-line-subtle text-secondary">
+							<tr>
+								<td class="py-3 pr-4 font-medium text-primary">Cost</td>
+								<td class="py-3 pr-4">Paid (~$50–$180, verify current pricing)</td>
+								<td class="py-3 font-semibold text-accent">Free</td>
+							</tr>
+							<tr>
+								<td class="py-3 pr-4 font-medium text-primary">Custody schedule generator</td>
+								<td class="py-3 pr-4">Yes — visual schedule builder</td>
+								<td class="py-3">Yes — pattern-based generator</td>
+							</tr>
+							<tr>
+								<td class="py-3 pr-4 font-medium text-primary">Full parenting plan document</td>
+								<td class="py-3 pr-4">Yes — with legal language</td>
+								<td class="py-3">No</td>
+							</tr>
+							<tr>
+								<td class="py-3 pr-4 font-medium text-primary">Holiday schedule provisions</td>
+								<td class="py-3 pr-4">Yes</td>
+								<td class="py-3">No</td>
+							</tr>
+							<tr>
+								<td class="py-3 pr-4 font-medium text-primary">PDF calendar export</td>
+								<td class="py-3 pr-4">Yes</td>
+								<td class="py-3">Yes</td>
+							</tr>
+							<tr>
+								<td class="py-3 pr-4 font-medium text-primary">Overnight count calculator</td>
+								<td class="py-3 pr-4">Yes</td>
+								<td class="py-3">Yes</td>
+							</tr>
+							<tr>
+								<td class="py-3 pr-4 font-medium text-primary">Custody percentage calculator</td>
+								<td class="py-3 pr-4">Yes</td>
+								<td class="py-3">Yes</td>
+							</tr>
+							<tr>
+								<td class="py-3 pr-4 font-medium text-primary">Court-ready document formatting</td>
+								<td class="py-3 pr-4">Yes</td>
+								<td class="py-3">Schedule/calendar exhibit only</td>
+							</tr>
+							<tr>
+								<td class="py-3 pr-4 font-medium text-primary">Modification tracking</td>
+								<td class="py-3 pr-4">Yes</td>
+								<td class="py-3">No</td>
+							</tr>
+							<tr>
+								<td class="py-3 pr-4 font-medium text-primary">Attorney/mediator collaboration</td>
+								<td class="py-3 pr-4">Some plans</td>
+								<td class="py-3">No</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="decision-title">
+			<div class="max-w-3xl">
+				<h2 id="decision-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					Decision guide: Start with CustodyBuilder if... / Switch to CXC when...
+				</h2>
+				<div class="mt-6 grid gap-5">
+					<div class="rounded-[1.25rem] bg-accent/10 p-5 shadow-[inset_0_0_0_1px_rgba(37,99,235,0.15)]">
+						<h3 class="text-base font-semibold text-primary">Start with CustodyBuilder if:</h3>
+						<ul class="mt-3 grid gap-2 text-sm leading-6 text-secondary">
+							<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span>You're in negotiation and need to compare schedules before anything is agreed. Building a 2-2-3 vs. a week-on/week-off vs. a 60/40 side-by-side takes minutes.</li>
+							<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span>Your attorney is drafting the parenting plan. Most families with attorneys don't need parenting plan software — the attorney writes the plan. What they need is a schedule to hand the attorney.</li>
+							<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span>You need a schedule exhibit for court, mediation, or a co-parenting session. CustodyBuilder produces that as a downloadable PDF.</li>
+							<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span>You're calculating overnights for the IRS rule or child support worksheets.</li>
+						</ul>
+					</div>
+					<div class="rounded-[1.25rem] bg-surface/60 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<h3 class="text-base font-semibold text-primary">Switch to CXC when:</h3>
+						<ul class="mt-3 grid gap-2 text-sm leading-6 text-secondary">
+							<li class="flex gap-2"><span class="shrink-0 text-muted" aria-hidden="true">→</span>You're filing pro se (without an attorney) and need a complete written parenting plan with legal language, not just the schedule exhibit.</li>
+							<li class="flex gap-2"><span class="shrink-0 text-muted" aria-hidden="true">→</span>Your custody arrangement is fully agreed and you need to get it on paper in a legally structured format — with holiday schedules, dispute resolution provisions, and communication rules.</li>
+							<li class="flex gap-2"><span class="shrink-0 text-muted" aria-hidden="true">→</span>You want one document that covers everything: the schedule, the holiday calendar, and the legal text.</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="overlap-title">
+			<div class="max-w-3xl">
+				<h2 id="overlap-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					The overlap problem
+				</h2>
+				<div class="mt-4 grid gap-4 text-base leading-7 text-secondary">
+					<p>Here's where people get confused: CXC has a visual schedule builder, and CustodyBuilder has a schedule generator. They look like the same thing.</p>
+					<p>They're not. CXC's calendar builder is one component inside a full document tool — you use it as part of building the written plan, not as a standalone product. CustodyBuilder's is the whole product. It's faster to use if all you need is the schedule, but it doesn't generate the surrounding legal document.</p>
+					<p>The ambiguity trips people up when they're looking for "a cheaper CXC." If the schedule calendar is genuinely all they need, CustodyBuilder is the right answer. If they need the full document, CustodyBuilder can't replace CXC.</p>
+				</div>
+			</div>
+		</section>
+
+		<FAQ items={faqItems} title="Custody X Change alternative FAQ" description="Common questions about using CustodyBuilder instead of Custody X Change." />
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="bottom-line-title">
+			<div class="max-w-3xl">
+				<h2 id="bottom-line-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					Bottom line
+				</h2>
+				<div class="mt-4 grid gap-3 text-base leading-7 text-secondary">
+					<p>If you're filing pro se and need a complete document with legal provisions and holiday schedules, Custody X Change is one of the few DIY tools that takes that seriously.</p>
+					<p>If you have an attorney drafting the plan — or if the schedule itself is all you need — CustodyBuilder handles that free.</p>
+				</div>
+				<div class="mt-6 flex flex-wrap gap-4">
+					<a href="/custody-schedule-generator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Build your custody schedule</a>
+					<a href="/best-co-parenting-app/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Compare co-parenting apps</a>
+					<a href="/custody-percentage-calculator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Calculate your custody percentage</a>
+				</div>
+				<p class="mt-8 text-xs leading-5 text-muted">This page is for informational purposes only and does not constitute legal advice. Pricing information for third-party tools may change; verify directly with the provider. Consult a family law attorney for guidance specific to your situation.</p>
+			</div>
+		</section>
+
+		<BackToGeneratorCta
+			headline="Ready to build your custody schedule for free?"
+			body="Generate a dated custody calendar for any rotation pattern. Download the PDF and attach it to your parenting plan."
+			label="Build a Free Schedule"
+		/>
+	</main>
+	<Footer />
+</BaseLayout>
