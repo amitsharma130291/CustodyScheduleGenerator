@@ -15,6 +15,8 @@ export const editorialReview = {
 	],
 	reviewer: 'CustodyBuilder Editorial Team',
 	reviewerHref: '/about/',
+	lastReviewed: 'July 2026',
+	body: 'This page was reviewed for accuracy of overnight count ranges, schedule pattern names, and alignment with typical court-accepted custody arrangements. Percentage figures were verified against CustodyBuilder\'s schedule generator output.',
 	methodologyLabel: 'How CustodyBuilder Works',
 	methodologyHref: '/how-custodybuilder-works/',
 	disclaimer: 'This page explains how to eliminate one finalist between two equal-time calendars and is not legal advice.',
