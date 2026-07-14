@@ -1,0 +1,353 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import {
+	buildArticleSchema,
+	buildBreadcrumbSchema,
+	buildFAQSchema,
+	buildWebPageSchema,
+} from '../lib/seo/schema';
+
+const canonical = '/talkingparents-alternative/';
+const canonicalUrl = getCanonicalUrl(canonical);
+const title = 'TalkingParents Alternative: What to Use After the Free Plan Ended';
+const description =
+	'TalkingParents removed its free plan in March 2026. If you relied on the free tier, here\'s what changed, what still exists, and what CustodyBuilder handles at no cost.';
+const datePublished = '2026-07-01';
+const dateModified = '2026-07-14';
+
+const breadcrumbs = [
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: 'Co-Parenting Tools', url: getCanonicalUrl('/best-co-parenting-app/') },
+	{ name: 'TalkingParents Alternative', url: canonicalUrl },
+];
+
+const faqItems = [
+	{
+		question: 'Did TalkingParents remove the free plan?',
+		answer:
+			'Yes. TalkingParents ended its free tier in March 2026. All plans now require a paid subscription. There is no free version of TalkingParents currently available.',
+	},
+	{
+		question: 'What did TalkingParents free include?',
+		answer:
+			'The free plan included limited secure messaging with timestamps and a basic shared calendar. It did not include call recording, expense tracking, unlimited messages, or the ability to generate court-ready communication records.',
+	},
+	{
+		question: 'Is there a free TalkingParents alternative?',
+		answer:
+			'It depends on what you used TalkingParents for. If you need documented messaging and call recording, there is no fully free replacement — the major co-parenting apps that offer those features all charge. If you mainly used TalkingParents for the custody schedule, CustodyBuilder builds and exports custody schedules at no cost with no account required.',
+	},
+	{
+		question: 'Does CustodyBuilder have messaging features?',
+		answer:
+			'No. CustodyBuilder focuses on schedule building, PDF export, and parenting time calculation. It does not include messaging, call recording, expense logs, or any communication features.',
+	},
+	{
+		question: "What's the best free co-parenting app in 2026?",
+		answer:
+			'For schedule building: CustodyBuilder is free with no account required. For documented communication: TalkingParents, OurFamilyWizard, and AppClose all now require a paid subscription. There is no fully free co-parenting communication app with a strong track record in 2026. See the full comparison for current options by use case.',
+	},
+	{
+		question: 'Can CustodyBuilder replace TalkingParents for scheduling?',
+		answer:
+			'Yes, for the scheduling piece specifically. If your main use of TalkingParents was building and keeping track of the custody schedule, CustodyBuilder does that for free. It generates the schedule, calculates parenting time, and exports a PDF you can share or attach to a parenting plan. It does not replace the communication features.',
+	},
+	{
+		question: 'How do I calculate parenting time after switching from TalkingParents?',
+		answer:
+			"Use CustodyBuilder's overnight calculator. Enter your schedule pattern and a date range, and it calculates the number of overnights and the percentage split for each parent. The result appears in the downloaded PDF. See also the custody percentage calculator for detailed percentage breakdowns.",
+	},
+];
+
+const schema = [
+	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+	buildArticleSchema({
+		headline: 'TalkingParents Alternative: What to Use After the Free Plan Ended',
+		description,
+		url: canonicalUrl,
+		datePublished,
+		dateModified,
+		authorName: 'CustodyBuilder Editorial Team',
+	}),
+	buildFAQSchema(faqItems),
+	buildBreadcrumbSchema(breadcrumbs),
+];
+---
+
+<BaseLayout title={`${title} | CustodyBuilder`} description={description} canonical={canonical}>
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<Breadcrumbs items={breadcrumbs} />
+	<main>
+		<section class="container-shell py-section lg:py-section-loose">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Free alternative</p>
+				<h1 class="mt-4 text-4xl font-semibold leading-[1.02] tracking-[-0.05em] text-primary sm:text-5xl lg:text-6xl">
+					TalkingParents Alternative: What to Use After the Free Plan Ended
+				</h1>
+				<p class="mt-5 text-lg leading-8 text-secondary">
+					TalkingParents removed its free plan in March 2026. If you were on that free tier, every core feature now sits behind a paid subscription starting at $8.99/month. There is no free version of TalkingParents anymore.
+				</p>
+				<p class="mt-4 text-base leading-7 text-secondary">
+					This page explains what was on the free plan, what it costs now, and which alternative works depending on what you actually used TalkingParents for.
+				</p>
+				<p class="mt-4 text-sm leading-6 text-muted">
+					Reviewed by <a href="/about/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">CustodyBuilder Editorial Team</a>
+					<span aria-hidden="true"> · </span>Last updated July 2026
+					<span aria-hidden="true"> · </span><a href="/disclaimer/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Not legal advice</a>
+				</p>
+				<div class="mt-7">
+					<a href="/custody-schedule-generator/" class="btn-primary inline-flex h-12 items-center justify-center rounded-full px-7 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_30px_rgba(37,99,235,0.14)] active:translate-y-0" style="color: #ffffff;">
+						Build Your Free Custody Schedule
+					</a>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="what-removed-title">
+			<div class="max-w-3xl">
+				<h2 id="what-removed-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					What TalkingParents Removed in March 2026
+				</h2>
+				<div class="mt-5 grid gap-4 text-base leading-7 text-secondary">
+					<p>TalkingParents built its reputation partly on having a free tier. The free plan gave co-parents access to:</p>
+					<ul class="grid gap-2">
+						<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span><span><strong>Secure messaging</strong> with timestamps. A limited number of messages per month, stored with a record of when they were sent and read.</span></li>
+						<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span><span><strong>A basic shared calendar.</strong> Parents could enter custody dates and events that both could see.</span></li>
+					</ul>
+					<p>The free plan did not include call recording, expense tracking, unlimited messages, or the ability to generate court-ready records. Those were paid features from the beginning.</p>
+					<p>In March 2026, TalkingParents ended the free tier. The calendar and messaging features that were previously free are now available only on paid plans.</p>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="current-cost-title">
+			<div class="max-w-3xl">
+				<h2 id="current-cost-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					What TalkingParents Costs Now
+				</h2>
+				<div class="mt-5 grid gap-4 text-base leading-7 text-secondary">
+					<p>TalkingParents now offers two paid tiers (pricing as of July 2026 — check talkingparents.com for current rates):</p>
+					<ul class="grid gap-2">
+						<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span><span><strong>Standard plan:</strong> approximately $8.99/month per user ($107.88/year)</span></li>
+						<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span><span><strong>Premium plan:</strong> higher monthly rate, adds additional storage and features</span></li>
+					</ul>
+					<p>Both plans are priced per user. If both parents want access, both parents pay separately.</p>
+					<p>For parents who were using the free plan for basic scheduling and occasional messaging, the move to $8.99/month is a significant change. That's around $108/year per parent, or over $200/year for a co-parenting pair if both pay.</p>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="what-tp-is-for-title">
+			<div class="max-w-3xl">
+				<h2 id="what-tp-is-for-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					What TalkingParents Is Actually Built For
+				</h2>
+				<p class="mt-4 text-base leading-7 text-secondary">
+					Before deciding on an alternative, it's worth being clear about what TalkingParents does well, because it's genuinely useful for a specific kind of co-parenting situation.
+				</p>
+				<div class="mt-6 grid gap-4">
+					<article class="rounded-xl bg-surface/60 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<h3 class="text-base font-semibold text-primary">Documented, timestamped communication</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">Every message on TalkingParents carries a timestamp that can't be altered. The record shows when a message was sent and when it was read. This is designed for situations where one parent may later dispute that communication happened, or where court proceedings require evidence of what was said and when.</p>
+					</article>
+					<article class="rounded-xl bg-surface/60 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<h3 class="text-base font-semibold text-primary">Call recording</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">TalkingParents records phone calls between co-parents (with disclosure to both parties). These recordings can be downloaded and, depending on jurisdiction, may be admissible in court proceedings.</p>
+					</article>
+					<article class="rounded-xl bg-surface/60 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<h3 class="text-base font-semibold text-primary">Expense tracking</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">Parents can log shared expenses with supporting documentation — receipts, photos, descriptions — that both parents can access. This creates a clear record for reimbursement disputes.</p>
+					</article>
+					<article class="rounded-xl bg-surface/60 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<h3 class="text-base font-semibold text-primary">Court-ready records</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">TalkingParents offers the ability to download your communication history in a format intended for presentation to a court or attorney.</p>
+					</article>
+				</div>
+				<p class="mt-6 text-base leading-7 text-secondary">
+					If you were using TalkingParents because you need any of those features — especially the timestamped messaging and call recording — there is no fully free replacement. OurFamilyWizard and AppClose are the most comparable paid alternatives, and both charge per user per year.
+				</p>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="what-free-users-used-title">
+			<div class="max-w-3xl">
+				<h2 id="what-free-users-used-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					What Most Free Plan Users Actually Used TalkingParents For
+				</h2>
+				<div class="mt-5 grid gap-4 text-base leading-7 text-secondary">
+					<p>
+						The TalkingParents free plan attracted a specific group: parents who needed basic co-parenting structure but not a full documented communication suite.
+					</p>
+					<p>
+						Many of those parents used the shared calendar to keep track of the custody schedule. Not because they needed court-admissible records, but because having one place where both parents could see the schedule reduced confusion. The messaging was occasional and informal — reminders about pickups, notes about schedule changes.
+					</p>
+					<p>For that use case, the free plan made sense. A custody schedule and a basic communication layer, at no cost.</p>
+					<p>With the free tier gone, the question is: which part actually mattered?</p>
+				</div>
+				<div class="mt-6 grid gap-4">
+					<article class="rounded-xl bg-surface/60 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<h3 class="text-base font-semibold text-primary">If the scheduling was the main thing</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">CustodyBuilder handles this for free. It builds the custody schedule, calculates overnights and parenting time percentages, and produces a PDF you can share. No account required, no subscription.</p>
+					</article>
+					<article class="rounded-xl bg-surface/60 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<h3 class="text-base font-semibold text-primary">If the documented messaging was the main thing</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">There's no free alternative that does this well. TalkingParents, OurFamilyWizard, and AppClose all charge because the infrastructure for timestamped, stored communication with court-ready export isn't cheap to run. If you genuinely need that, the cost is real and the alternatives are paid.</p>
+					</article>
+					<article class="rounded-xl bg-surface/60 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<h3 class="text-base font-semibold text-primary">If it was both</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">You may need two tools — CustodyBuilder for the scheduling piece, and a paid app for communication. Or you may find, on reflection, that your communication works fine over text or email and the messaging feature wasn't doing much work.</p>
+					</article>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="cb-covers-title">
+			<div class="max-w-3xl">
+				<h2 id="cb-covers-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					What CustodyBuilder Covers (and What It Doesn't)
+				</h2>
+				<p class="mt-5 text-base font-semibold leading-7 text-primary">What's free on CustodyBuilder:</p>
+				<ul class="mt-2 grid gap-2 text-base leading-7 text-secondary">
+					<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span><span><strong>Custody schedule builder.</strong> Set up a repeating weekly schedule using common patterns: 2-2-3, week-on-week-off, every other weekend with midweek visits, and others. The tool shows you a calendar view across the full rotation cycle.</span></li>
+					<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span><span><strong>PDF export.</strong> Download the schedule as a formatted PDF — clean, with the calendar, the overnight count per parent, and the parenting time percentage. No watermarks, no upgrade required.</span></li>
+					<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span><span><strong>Overnight and parenting time calculator.</strong> Enter any date range and get the overnight count and percentage for each parent. Useful for child support calculations, attorney requests, or simply confirming the split is what you agreed on.</span></li>
+					<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span><span><strong>No account required.</strong> Go to the site, build, download, done. No email address, no registration, no subscription.</span></li>
+				</ul>
+				<p class="mt-6 text-base font-semibold leading-7 text-primary">What CustodyBuilder doesn't cover:</p>
+				<ul class="mt-2 grid gap-2 text-base leading-7 text-secondary">
+					<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span>Messaging between parents (none)</li>
+					<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span>Timestamped communication records (none)</li>
+					<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span>Call recording (none)</li>
+					<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span>Expense tracking (none)</li>
+					<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span>Court-ready communication exports (none)</li>
+				</ul>
+				<p class="mt-4 text-base leading-7 text-secondary">
+					CustodyBuilder is a schedule tool. It does the scheduling piece well and at no cost. It is not a co-parenting communication platform.
+				</p>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="comparison-title">
+			<div class="max-w-3xl">
+				<h2 id="comparison-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					A Factual Comparison: TalkingParents vs CustodyBuilder
+				</h2>
+				<div class="mt-6 overflow-x-auto">
+					<table class="w-full text-sm leading-6">
+						<thead>
+							<tr class="border-b border-line-subtle">
+								<th class="py-3 pr-4 text-left font-semibold text-primary">Feature</th>
+								<th class="py-3 pr-4 text-left font-semibold text-primary">TalkingParents (paid)</th>
+								<th class="py-3 text-left font-semibold text-primary">CustodyBuilder (free)</th>
+							</tr>
+						</thead>
+						<tbody class="divide-y divide-line-subtle text-secondary">
+							<tr>
+								<td class="py-3 pr-4 font-medium text-primary">Timestamped messaging</td>
+								<td class="py-3 pr-4">Yes</td>
+								<td class="py-3">No</td>
+							</tr>
+							<tr>
+								<td class="py-3 pr-4 font-medium text-primary">Call recording</td>
+								<td class="py-3 pr-4">Yes (Premium)</td>
+								<td class="py-3">No</td>
+							</tr>
+							<tr>
+								<td class="py-3 pr-4 font-medium text-primary">Expense tracking</td>
+								<td class="py-3 pr-4">Yes</td>
+								<td class="py-3">No</td>
+							</tr>
+							<tr>
+								<td class="py-3 pr-4 font-medium text-primary">Custody schedule builder</td>
+								<td class="py-3 pr-4">Basic shared calendar</td>
+								<td class="py-3">Full schedule generator</td>
+							</tr>
+							<tr>
+								<td class="py-3 pr-4 font-medium text-primary">PDF export</td>
+								<td class="py-3 pr-4">Limited</td>
+								<td class="py-3">Yes, formatted</td>
+							</tr>
+							<tr>
+								<td class="py-3 pr-4 font-medium text-primary">Overnight/% calculator</td>
+								<td class="py-3 pr-4">No</td>
+								<td class="py-3">Yes</td>
+							</tr>
+							<tr>
+								<td class="py-3 pr-4 font-medium text-primary">Court-ready record export</td>
+								<td class="py-3 pr-4">Yes</td>
+								<td class="py-3">No</td>
+							</tr>
+							<tr>
+								<td class="py-3 pr-4 font-medium text-primary">Account required</td>
+								<td class="py-3 pr-4">Yes</td>
+								<td class="py-3">No</td>
+							</tr>
+							<tr>
+								<td class="py-3 pr-4 font-medium text-primary">Cost per user</td>
+								<td class="py-3 pr-4">~$8.99/mo</td>
+								<td class="py-3 font-semibold text-accent">Free</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<p class="mt-4 text-sm leading-6 text-muted">This is not a ranking — it's a feature map. The two tools serve different needs. TalkingParents is designed for high-conflict co-parenting where documentation matters. CustodyBuilder is designed for parents who need a clear schedule and parenting time calculation without paying for features they don't use.</p>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="full-replacement-title">
+			<div class="max-w-3xl">
+				<h2 id="full-replacement-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					If You Need a Full TalkingParents Replacement
+				</h2>
+				<p class="mt-4 text-base leading-7 text-secondary">
+					If you need everything TalkingParents offered — messaging, call recording, expense logs, court records — the paid alternatives to consider are:
+				</p>
+				<div class="mt-6 grid gap-4">
+					<article class="rounded-xl border border-line bg-surface/40 p-5">
+						<h3 class="text-base font-semibold text-primary">OurFamilyWizard</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">The most widely used paid co-parenting app. Similar feature set to TalkingParents, with timestamped messaging, shared calendar, expense tracking, and court-ready exports. Costs $99.95–149.95 per parent per year. See the <a href="/ourfamilywizard-alternative/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">full OurFamilyWizard comparison</a> for a feature breakdown.</p>
+					</article>
+					<article class="rounded-xl border border-line bg-surface/40 p-5">
+						<h3 class="text-base font-semibold text-primary">AppClose</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">Includes messaging, expense tracking, and a shared calendar. Pricing varies; check their current rates directly.</p>
+					</article>
+				</div>
+				<p class="mt-4 text-base leading-7 text-secondary">
+					For a broader comparison of paid options, see <a href="/best-co-parenting-app/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">the best co-parenting app guide</a>.
+				</p>
+			</div>
+		</section>
+
+		<FAQ items={faqItems} title="TalkingParents alternative FAQ" description="Common questions about the TalkingParents free plan removal and what alternatives exist." />
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="related-title">
+			<div class="max-w-3xl">
+				<h2 id="related-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					Related pages
+				</h2>
+				<div class="mt-4 flex flex-wrap gap-4">
+					<a href="/best-co-parenting-app/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Best Co-Parenting App — full comparison of paid options</a>
+					<a href="/ourfamilywizard-alternative/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">OurFamilyWizard Alternative</a>
+					<a href="/custody-schedule-generator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Custody Schedule Generator</a>
+					<a href="/custody-percentage-calculator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Custody Percentage Calculator</a>
+				</div>
+				<p class="mt-8 text-xs leading-5 text-muted">This page is for informational and educational purposes only and does not constitute legal advice. For guidance specific to your situation, consult a qualified family law attorney.</p>
+			</div>
+		</section>
+
+		<BackToGeneratorCta
+			headline="Build your free custody schedule — no account required"
+			body="Generate a dated custody calendar, calculate overnights, and download the PDF. Free, with no time limit."
+			label="Build a Free Schedule"
+		/>
+	</main>
+	<Footer />
+</BaseLayout>
