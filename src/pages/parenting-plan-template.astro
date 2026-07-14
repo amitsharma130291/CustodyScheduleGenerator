@@ -80,6 +80,14 @@ const schema = [
 		<section id="holiday-reference" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12"><h2 class="text-2xl font-semibold text-primary sm:text-3xl">{holidayReference.title}</h2><p class="mt-3 max-w-3xl text-secondary">{holidayReference.body}</p><p class="mt-4"><a href={holidayReference.linkHref} class="font-semibold text-accent underline">{holidayReference.linkLabel}</a></p></section>
 		<section id="disputes" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12"><h2 class="text-2xl font-semibold text-primary sm:text-3xl">{disputes.title}</h2><p class="mt-3 max-w-3xl text-secondary">{disputes.intro}</p><ul class="mt-6 max-w-3xl space-y-4">{disputes.steps.map((s) => <li class="border-l-2 border-accent/30 pl-4"><h3 class="font-semibold text-primary">{s.heading}</h3><p class="mt-2 text-sm text-secondary" set:html={s.body} /></li>)}</ul></section>
 		<FAQ items={faqItems} title={faqSection.title} description={faqSection.description} />
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<div class="max-w-3xl">
+				<p class="text-base leading-7 text-secondary">
+					Need to draft the specific custody schedule section of your agreement? Use our <a href="/custody-agreement-builder/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody agreement builder</a> to generate and download the schedule exhibit.
+				</p>
+			</div>
+		</section>
 	</main>
 	<Footer />
 	<script>

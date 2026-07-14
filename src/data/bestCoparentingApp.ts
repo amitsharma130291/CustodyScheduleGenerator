@@ -351,6 +351,7 @@ export const relatedLinks = [
 	{ href: '/legal-custody-vs-physical-custody/', label: 'Legal vs physical custody, explained' },
 	{ href: '/custody-percentage-calculator/', label: 'Calculate your parenting-time percentage' },
 	{ href: '/holiday-custody-schedule/', label: 'Plan holiday custody' },
+	{ href: '/talkingparents-alternative/', label: 'See our TalkingParents alternative guide' },
 ];
 
 // ItemList schema payload (no ratings, honest): the set of apps this page compares.
