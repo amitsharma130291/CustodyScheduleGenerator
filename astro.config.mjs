@@ -21,7 +21,6 @@ export default defineConfig({
           '/child-support-calculator',
           '/parenting-time-calculator',
           '/holiday-custody-planner',
-          '/custody-agreement-builder',
           '/schedule-comparison-tool',
         ]);
 

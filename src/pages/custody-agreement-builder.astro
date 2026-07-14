@@ -1,9 +1,355 @@
 ---
-import ComingSoonToolPage from '../components/pages/ComingSoonToolPage.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import {
+	buildArticleSchema,
+	buildBreadcrumbSchema,
+	buildFAQSchema,
+	buildWebPageSchema,
+} from '../lib/seo/schema';
+
+const canonical = '/custody-agreement-builder/';
+const canonicalUrl = getCanonicalUrl(canonical);
+const title = 'Free Custody Agreement Builder | CustodyBuilder';
+const description =
+	"A custody agreement has six sections. CustodyBuilder builds the physical custody schedule — the most concrete part. Here's what the full agreement needs.";
+const datePublished = '2026-07-01';
+const dateModified = '2026-07-14';
+
+const breadcrumbs = [
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: 'Parenting Plans', url: getCanonicalUrl('/parenting-plan-template/') },
+	{ name: 'Custody Agreement Builder', url: canonicalUrl },
+];
+
+const faqItems = [
+	{
+		question: 'Can I create a custody agreement without a lawyer?',
+		answer:
+			"You can draft the terms, and many uncontested parents do — especially through court self-help centers that provide state-specific forms. But a court must still approve the agreement, and most states require it to be filed and signed in a specific format. An attorney or certified mediator helps ensure the language is valid in your state and accounts for situations that could become disputes later.",
+	},
+	{
+		question: 'What does a custody agreement include?',
+		answer:
+			'A full custody agreement typically includes: legal custody provisions (who makes decisions about education, medical care, and religion), the physical custody schedule, a holiday and school break schedule, communication rules between parents, terms for modification, and signature and notarisation requirements. CustodyBuilder helps with the physical custody schedule section.',
+	},
+	{
+		question: 'How does CustodyBuilder help with a custody agreement?',
+		answer:
+			"CustodyBuilder builds the physical custody schedule — the calendar of when each parent has the child — and calculates the overnight count and parenting time percentage. You download it as a formatted PDF to include with your agreement or bring to your attorney. It handles the most concrete, calculable section of the agreement accurately and for free.",
+	},
+	{
+		question: 'Is a custody agreement the same as a parenting plan?',
+		answer:
+			"The terms are often used interchangeably, but there's a technical distinction. A custody agreement is typically the legal document filed with and approved by a court. A parenting plan is broader — it may include communication protocols, decision-making frameworks, and dispute resolution steps, some of which are not filed with the court but are referenced in it. Your attorney can clarify which terms your state uses.",
+	},
+	{
+		question: 'Does a custody agreement need to be notarised?',
+		answer:
+			"Requirements vary by state. Many states require notarisation or witnessing for a custody agreement to be legally valid. Some require the agreement to be filed in a specific form with the family court. Check your state's family court rules or ask an attorney before assuming a signed document is sufficient.",
+	},
+	{
+		question: 'Can I modify a custody agreement later?',
+		answer:
+			"Yes, but it requires a formal modification process. You file a modification petition with the court, and either both parents agree to the change (the court typically approves agreed modifications with minimal hearing) or a judge decides based on changed circumstances — a parent's job change, a relocation, or a significant change in the child's needs. Most agreements include a modification clause specifying the process.",
+	},
+	{
+		question: 'Does the schedule I build in CustodyBuilder become the legal agreement?',
+		answer:
+			"No. The CustodyBuilder PDF is a reference document showing the schedule you've chosen, the overnight count, and the parenting time percentage. Your attorney uses it to draft the physical custody schedule in the correct legal language for filing. The PDF is an input to the process, not the final agreement itself.",
+	},
+];
+
+const schema = [
+	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+	buildArticleSchema({
+		headline: 'Custody Agreement Builder: What Goes In One and How to Build the Schedule Section',
+		description,
+		url: canonicalUrl,
+		datePublished,
+		dateModified,
+		authorName: 'CustodyBuilder Editorial Team',
+	}),
+	buildFAQSchema(faqItems),
+	buildBreadcrumbSchema(breadcrumbs),
+];
 ---
 
-<ComingSoonToolPage
-	title="Custody Agreement Builder"
-	description="A custody agreement builder is coming soon to help organize schedule terms, exchanges, communication rules, expenses, and parenting plan details."
-	canonical="/custody-agreement-builder/"
-/>
+<BaseLayout title={`${title} | CustodyBuilder`} description={description} canonical={canonical}>
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<Breadcrumbs items={breadcrumbs} />
+	<main>
+		<section class="container-shell py-section lg:py-section-loose">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Custody agreements explained</p>
+				<h1 class="mt-4 text-4xl font-semibold leading-[1.02] tracking-[-0.05em] text-primary sm:text-5xl lg:text-6xl">
+					Custody Agreement Builder: What Goes In One and How to Build the Schedule Section
+				</h1>
+				<p class="mt-5 text-lg leading-8 text-secondary">
+					A custody agreement is a legal document filed with a court that sets out how two parents share responsibility for their child. Most people approaching it for the first time don't know what it needs to contain, which parts they can draft themselves, and which parts genuinely require an attorney.
+				</p>
+				<p class="mt-4 text-base leading-7 text-secondary">
+					This page covers all of that. CustodyBuilder builds one specific section of a custody agreement — the physical custody schedule — well, and for free. The rest of the agreement requires more than a builder can provide.
+				</p>
+				<p class="mt-4 text-sm leading-6 text-muted">
+					Reviewed by <a href="/about/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">CustodyBuilder Editorial Team</a>
+					<span aria-hidden="true"> · </span>Last updated July 2026
+					<span aria-hidden="true"> · </span><a href="/disclaimer/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Not legal advice</a>
+				</p>
+				<div class="mt-7">
+					<a href="/custody-schedule-generator/" class="btn-primary inline-flex h-12 items-center justify-center rounded-full px-7 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_30px_rgba(37,99,235,0.14)] active:translate-y-0" style="color: #ffffff;">
+						Build the Schedule Section Free
+					</a>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="what-contains-title">
+			<div class="max-w-3xl">
+				<h2 id="what-contains-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					What a Custody Agreement Actually Contains
+				</h2>
+				<p class="mt-4 text-base leading-7 text-secondary">A complete custody agreement typically includes six components:</p>
+				<div class="mt-6 grid gap-4">
+					<article class="rounded-xl bg-surface/60 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<h3 class="text-base font-semibold text-primary">1. Legal custody provisions</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">This section states who has decision-making authority over major areas of the child's life: education (which school, special needs evaluations), medical care (surgery, medication, therapy), and religious upbringing. Legal custody can be sole (one parent decides) or joint (both parents must agree or one parent decides with consultation).</p>
+						<p class="mt-2 text-sm leading-6 text-secondary">This section requires careful drafting. The language needs to match your state's statutory framework, specify what happens when parents disagree, and account for situations that aren't obvious — what happens if a parent moves? What if there's a medical emergency and the other parent can't be reached? Attorneys earn their fee here.</p>
+					</article>
+					<article class="rounded-xl bg-surface/60 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<h3 class="text-base font-semibold text-primary">2. Physical custody schedule</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">This section specifies when the child is with each parent. It includes the regular weekly rotation (which nights, which transitions), how school breaks work, and the holiday rotation. This is the most concrete, specific, and calculable part of the agreement.</p>
+						<p class="mt-2 text-sm font-semibold leading-6 text-accent">This is the section CustodyBuilder builds.</p>
+					</article>
+					<article class="rounded-xl bg-surface/60 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<h3 class="text-base font-semibold text-primary">3. Holiday and school break schedule</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">Most custody agreements have a separate holiday schedule that overrides the regular rotation for specific dates: Thanksgiving, winter break, spring break, Mother's Day, Father's Day, birthdays, and others. Some agreements treat summer separately, with one parent getting a longer block.</p>
+						<p class="mt-2 text-sm leading-6 text-secondary">The holiday schedule usually needs to fit within the physical custody framework — CustodyBuilder's PDF export helps parents see how holidays overlay onto the regular rotation.</p>
+					</article>
+					<article class="rounded-xl bg-surface/60 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<h3 class="text-base font-semibold text-primary">4. Communication rules</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">This section sets out how parents communicate about the child. It may specify response time expectations for messages about the child's health or schedule, rules about the child's access to phones during each parent's time, and how parents handle disagreements about the child's activities.</p>
+					</article>
+					<article class="rounded-xl bg-surface/60 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<h3 class="text-base font-semibold text-primary">5. Modification terms</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">Custody agreements can be changed, but courts generally require a formal modification filed and approved by a judge. This section specifies what triggers a modification request (a parent's job change, relocation, the child's changed circumstances) and how disputes are handled before they escalate to court.</p>
+					</article>
+					<article class="rounded-xl bg-surface/60 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<h3 class="text-base font-semibold text-primary">6. Signatures and notarisation requirements</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">Requirements vary by state. Most courts require both parents' signatures, witness signatures in some jurisdictions, and notarisation. The document typically must be filed with the family court, not just signed between the two parties.</p>
+					</article>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="cta-section">
+			<div class="max-w-3xl">
+				<div class="rounded-xl border-2 border-accent bg-[#f0f7ff] p-6">
+					<h2 id="cta-section" class="text-lg font-semibold text-primary">Build the schedule section of your custody agreement</h2>
+					<p class="mt-2 text-base leading-7 text-secondary">
+						CustodyBuilder builds Section 2 above — the physical custody schedule. Enter your schedule pattern, see the calendar, calculate overnights, and download a formatted PDF to use with your attorney or include in your agreement.
+					</p>
+					<div class="mt-4">
+						<a href="/custody-schedule-generator/" class="btn-primary inline-flex h-11 items-center justify-center rounded-full px-6 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-px hover:shadow-[0_10px_30px_rgba(37,99,235,0.14)] active:translate-y-0" style="color: #ffffff;">
+							Build the schedule section of your custody agreement
+						</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="what-cb-builds-title">
+			<div class="max-w-3xl">
+				<h2 id="what-cb-builds-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					What CustodyBuilder Builds
+				</h2>
+				<p class="mt-4 text-base leading-7 text-secondary">
+					CustodyBuilder handles the physical custody schedule (Section 2) and contributes to the holiday schedule (Section 3). Specifically:
+				</p>
+				<div class="mt-6 grid gap-4">
+					<article class="rounded-xl bg-surface/60 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<h3 class="text-base font-semibold text-primary">The repeating weekly schedule</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">You choose a schedule pattern — 2-2-3, week-on-week-off, every other weekend with a midweek night, primary with one parent and alternating weekends, or others. The generator shows you the full rotation on a calendar view so you can see how it plays out across weeks and months.</p>
+					</article>
+					<article class="rounded-xl bg-surface/60 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<h3 class="text-base font-semibold text-primary">The overnight count and parenting time percentage</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">The tool calculates exactly how many overnights each parent has in a given period and expresses this as a percentage. Courts, attorneys, and child support calculations frequently ask for the parenting time percentage. Having a documented calculation avoids disputes about the number.</p>
+					</article>
+					<article class="rounded-xl bg-surface/60 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<h3 class="text-base font-semibold text-primary">A formatted PDF</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">The output is a clean document showing the custody calendar, the overnight count per parent over a specified period, and the parenting time percentage. This PDF is in a format suitable for review with an attorney, attachment to a draft parenting plan, or reference during mediation.</p>
+					</article>
+					<article class="rounded-xl bg-surface/60 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<h3 class="text-base font-semibold text-primary">Free, with no account</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">You don't register or pay to access any of this. Go to the site, enter your schedule details, and download the PDF.</p>
+					</article>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="attorney-title">
+			<div class="max-w-3xl">
+				<h2 id="attorney-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					Which Parts of the Agreement Require an Attorney
+				</h2>
+				<div class="mt-5 grid gap-4 text-base leading-7 text-secondary">
+					<p>
+						The legal custody provisions (Section 1) require attorney review in almost every situation. The language needs to match your state's statutes, account for edge cases your state's courts commonly deal with, and hold up if circumstances change. A form template downloaded from the internet may not reflect your state's current requirements.
+					</p>
+					<p>
+						The modification terms (Section 5) benefit significantly from attorney drafting. A vague modification clause creates problems later — if the terms for requesting a change are unclear, parents return to court more often than necessary.
+					</p>
+					<p>
+						Signatures and notarisation (Section 6) must follow your state's family court rules exactly. Getting this wrong can delay the agreement's approval.
+					</p>
+				</div>
+				<div class="mt-6 grid gap-4">
+					<article class="rounded-xl border border-line bg-surface/40 p-5">
+						<h3 class="text-base font-semibold text-primary">When you may not need an attorney for the full agreement</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">Uncontested situations where both parents have agreed on everything, including legal custody, the schedule, and holiday arrangements, can sometimes be handled through a family court self-help center or a certified family law mediator. Many courts have forms that walk you through the required sections. In these cases, CustodyBuilder's PDF still helps because it gives you a professional-looking schedule document to include with the court's forms.</p>
+					</article>
+					<article class="rounded-xl border border-line bg-surface/40 p-5">
+						<h3 class="text-base font-semibold text-primary">When you definitely need an attorney</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">Any contested custody situation. Any situation involving domestic violence, substance abuse, or mental health concerns. Any situation where parents disagree about legal custody or the schedule. Relocations. Cases involving children with special needs where care decisions are complex.</p>
+					</article>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="how-to-use-title">
+			<div class="max-w-3xl">
+				<h2 id="how-to-use-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					How to Use CustodyBuilder as Part of the Agreement Process
+				</h2>
+				<p class="mt-4 text-base leading-7 text-secondary">Here's a practical sequence that many parents follow:</p>
+				<div class="mt-6 grid gap-4">
+					<div class="flex gap-4">
+						<div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-bold text-white">1</div>
+						<div>
+							<h3 class="text-base font-semibold text-primary">Agree on the schedule in principle</h3>
+							<p class="mt-1 text-sm leading-6 text-secondary">Before you build anything, the two parents need to roughly agree on the custody arrangement. This doesn't have to be finalized — it often changes after attorney review — but you need a starting point.</p>
+						</div>
+					</div>
+					<div class="flex gap-4">
+						<div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-bold text-white">2</div>
+						<div>
+							<h3 class="text-base font-semibold text-primary">Build the schedule in CustodyBuilder</h3>
+							<p class="mt-1 text-sm leading-6 text-secondary">Go to the <a href="/custody-schedule-generator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule generator</a>, enter the schedule you've agreed on, and see how it looks on a calendar. The visual often reveals things the words don't: a schedule that sounded like "every other weekend" might produce a stretch where one parent goes 9 days without seeing the child. The generator makes these stretches visible.</p>
+						</div>
+					</div>
+					<div class="flex gap-4">
+						<div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-bold text-white">3</div>
+						<div>
+							<h3 class="text-base font-semibold text-primary">Download the PDF</h3>
+							<p class="mt-1 text-sm leading-6 text-secondary">Once the schedule looks right, download the PDF. This gives you a document showing the rotation pattern, the overnight split, and the parenting time percentage.</p>
+						</div>
+					</div>
+					<div class="flex gap-4">
+						<div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-bold text-white">4</div>
+						<div>
+							<h3 class="text-base font-semibold text-primary">Bring the PDF to your attorney or mediator</h3>
+							<p class="mt-1 text-sm leading-6 text-secondary">The PDF is a reference document, not the final agreement. Your attorney will use it to draft the physical custody schedule section in the correct legal language. Having the PDF reduces back-and-forth: the attorney knows exactly what schedule you've agreed on and can focus their time on the legal provisions, not on helping you calculate overnights.</p>
+						</div>
+					</div>
+					<div class="flex gap-4">
+						<div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-bold text-white">5</div>
+						<div>
+							<h3 class="text-base font-semibold text-primary">Review the draft agreement against the schedule</h3>
+							<p class="mt-1 text-sm leading-6 text-secondary">When your attorney drafts the agreement, verify that the written schedule language matches what the CustodyBuilder PDF shows. It should — this step is a sanity check.</p>
+						</div>
+					</div>
+					<div class="flex gap-4">
+						<div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-accent text-sm font-bold text-white">6</div>
+						<div>
+							<h3 class="text-base font-semibold text-primary">File the agreement with the court</h3>
+							<p class="mt-1 text-sm leading-6 text-secondary">Your attorney handles this, or the court's self-help center does if you're filing without representation. Filing requirements vary by state.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="self-serve-title">
+			<div class="max-w-3xl">
+				<h2 id="self-serve-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					Self-Serve vs When You Need Legal Help
+				</h2>
+				<div class="mt-6 grid gap-4 sm:grid-cols-2">
+					<div class="rounded-xl bg-surface/60 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<h3 class="text-base font-semibold text-primary">Self-serve works when:</h3>
+						<ul class="mt-3 grid gap-2 text-sm leading-6 text-secondary">
+							<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span>Both parents agree on the schedule and legal custody arrangement</li>
+							<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span>The situation is straightforward: no relocation issues, no disputes about decision-making, no history of domestic conflict</li>
+							<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span>You're using the court's approved forms and a self-help center to file</li>
+							<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span>You're in mediation with a certified mediator who can review the agreement</li>
+						</ul>
+					</div>
+					<div class="rounded-xl bg-surface/60 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<h3 class="text-base font-semibold text-primary">Legal help is necessary when:</h3>
+						<ul class="mt-3 grid gap-2 text-sm leading-6 text-secondary">
+							<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span>Either parent contests the schedule, legal custody, or decision-making</li>
+							<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span>There's any history of domestic violence, substance abuse, or a prior protective order</li>
+							<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span>One parent plans to relocate with the child</li>
+							<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span>The child has significant medical or educational needs requiring complex decision-making language</li>
+							<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">→</span>Either parent is dissatisfied with the terms and plans to fight them</li>
+						</ul>
+					</div>
+				</div>
+				<p class="mt-6 text-base leading-7 text-secondary">
+					The cost of not getting legal help when you need it is usually higher than the cost of the attorney. Agreements that don't hold up to scrutiny get challenged in court, which is far more expensive than drafting them correctly the first time.
+				</p>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="related-pages-title">
+			<div class="max-w-3xl">
+				<h2 id="related-pages-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					What This Page Covers vs Other CustodyBuilder Pages
+				</h2>
+				<div class="mt-5 grid gap-4 text-base leading-7 text-secondary">
+					<p>This page is about the full custody agreement — what it needs, what CustodyBuilder handles, and what requires professional help.</p>
+					<p>
+						If you want to see complete examples of finalized parenting plans (not a builder, but annotated real-world examples), see the <a href="/sample-parenting-plan/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">sample parenting plan page</a>.
+					</p>
+					<p>
+						If you want a blank template to fill in, see the <a href="/parenting-plan-template/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting plan template</a>.
+					</p>
+					<p>
+						If you just want to build and download the schedule section now without reading the full agreement context, go directly to the <a href="/custody-schedule-generator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule generator</a>.
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<FAQ items={faqItems} title="Custody agreement builder FAQ" description="Common questions about custody agreements, what they contain, and how CustodyBuilder helps." />
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12" aria-labelledby="links-title">
+			<div class="max-w-3xl">
+				<h2 id="links-title" class="text-3xl font-semibold leading-[1.05] tracking-[-0.045em] text-primary sm:text-4xl">
+					Related pages
+				</h2>
+				<div class="mt-4 flex flex-wrap gap-4">
+					<a href="/parenting-plan-template/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Parenting Plan Template</a>
+					<a href="/sample-parenting-plan/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Sample Parenting Plan</a>
+					<a href="/custody-schedule-generator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Custody Schedule Generator</a>
+					<a href="/custody-percentage-calculator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Custody Percentage Calculator</a>
+				</div>
+				<p class="mt-8 text-xs leading-5 text-muted">This page is for informational and educational purposes only and does not constitute legal advice. Custody agreements are legal documents with state-specific requirements. Consult a qualified family law attorney for guidance on your situation.</p>
+			</div>
+		</section>
+
+		<BackToGeneratorCta
+			headline="Build the schedule section of your custody agreement — free"
+			body="Generate a dated custody calendar, calculate overnights, and download a formatted PDF to bring to your attorney or include in your agreement."
+			label="Build the Schedule Section Free"
+		/>
+	</main>
+	<Footer />
+</BaseLayout>
