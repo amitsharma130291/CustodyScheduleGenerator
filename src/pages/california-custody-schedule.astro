@@ -1,0 +1,472 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import {
+	buildArticleSchema,
+	buildBreadcrumbSchema,
+	buildFAQSchema,
+	buildWebPageSchema,
+} from '../lib/seo/schema';
+
+const title = "California Custody Schedule: Common Arrangements & How to Choose";
+const description = "California has no automatic 50/50 split. Here's how custody schedules actually work in CA — the most common arrangements, how courts decide, and a free schedule builder.";
+const canonical = '/california-custody-schedule/';
+const canonicalUrl = getCanonicalUrl(canonical);
+const datePublished = '2024-08-01';
+const dateModified = '2024-08-01';
+
+const editorialReview = {
+	reviewer: 'CustodyBuilder Editorial Team',
+	reviewerHref: '/about/',
+	methodologyLabel: 'How CustodyBuilder Works',
+	methodologyHref: '/how-custodybuilder-works/',
+	lastUpdatedLabel: 'Last updated August 2024',
+	disclaimer: 'Educational information only. Not legal advice.',
+	reviewedFor: [
+		'Accuracy of California Family Code references',
+		'Practical guidance for CA custody schedules',
+		'Developmental appropriateness by age',
+	],
+};
+
+const breadcrumbs = [
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: 'California Custody Schedule', url: canonicalUrl },
+];
+
+const faqItems = [
+	{
+		question: 'Does California automatically split custody 50/50?',
+		answer: 'No. California has no legal presumption of equal time-sharing. Courts decide based on the child\'s best interest, weighing factors like each parent\'s established caregiving role, proximity of homes, work schedules, and the child\'s age and preferences. Many California cases do result in substantial time with both parents, but 50/50 is not guaranteed or presumed.',
+	},
+	{
+		question: 'Can I make my own custody schedule without going to court in California?',
+		answer: 'Yes — both parents can draft and agree on a schedule themselves. It becomes legally enforceable only once a judge approves it and incorporates it into a court order. Agreed arrangements are typically approved quickly unless the judge identifies a problem. Many California families use a mediator or family law attorney to help draft the agreement before filing.',
+	},
+	{
+		question: 'What does "joint physical custody" mean in California?',
+		answer: 'Joint physical custody means both parents have significant parenting time — the child has a real home with each parent. California does not require exactly 50/50 for this designation. A 60/40 arrangement can qualify as joint physical custody. The key is that neither parent\'s time is purely incidental.',
+	},
+	{
+		question: 'How does California handle custody when parents live far apart?',
+		answer: 'Distance is a major practical constraint. Courts consider travel time and its impact on the child when setting a schedule. Common solutions for distant parents include longer blocks (extended school breaks or summers with the more-distant parent) rather than frequent short visits. If parents live in different cities within California, every-other-weekend arrangements with phone/video contact during the week are common.',
+	},
+	{
+		question: 'Will a California judge interview my child about custody preferences?',
+		answer: 'The judge may, but it is not automatic. Under Family Code § 3042, a child 14 or older has the right to address the court unless the judge finds it is not in their best interest. For younger children, the court may appoint a minor\'s counsel or order a custody evaluation. In practice, many judges interview children 10 and older in chambers.',
+	},
+	{
+		question: 'What is the difference between "legal custody" and "physical custody" in California?',
+		answer: 'Legal custody covers decision-making — schooling, medical care, religion, extracurriculars. Physical custody covers where the child lives and who handles day-to-day care. Courts frequently award joint legal custody (both parents decide together) while physical custody arrangements vary widely.',
+	},
+	{
+		question: 'How long does a California custody case take?',
+		answer: 'An uncontested agreement can be finalized within a few months of filing. A contested case that goes to evidentiary hearing can take six months to two-plus years depending on county backlog and case complexity. Los Angeles and the Bay Area counties typically have longer waits than rural counties.',
+	},
+	{
+		question: 'Can a grandparent get visitation rights in California?',
+		answer: 'Yes, under limited circumstances. California Family Code § 3102 allows grandparents to seek visitation, but courts require a showing that visitation is in the child\'s best interest and will not interfere significantly with the parent-child relationship.',
+	},
+];
+
+const schema = [
+	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+	buildArticleSchema({
+		headline: title,
+		description,
+		url: canonicalUrl,
+		datePublished,
+		dateModified,
+		authorName: editorialReview.reviewer,
+	}),
+	buildFAQSchema(faqItems),
+	buildBreadcrumbSchema(breadcrumbs),
+];
+
+const situationTable = [
+	{ situation: 'Both parents within 20 miles, child under 7', schedule: '2-2-3 rotation', why: 'Short gaps match young children\'s attachment needs; frequent handoffs are manageable at close range' },
+	{ situation: 'Both parents near same school, child 7+', schedule: 'Week-on, week-off', why: 'One transition per week suits school-age predictability; simple to explain to the child' },
+	{ situation: 'Parents in different cities or counties', schedule: 'Every-other-weekend + extended breaks', why: 'Long drives make frequent exchanges impractical; quality blocks beat stressful commutes' },
+	{ situation: 'High-conflict co-parenting relationship', schedule: '2-2-3 with written exchange rules', why: 'Shorter stretches limit each conflict window; structure reduces improvisation' },
+	{ situation: 'One parent travels frequently for work', schedule: '2-2-5-5 rotation', why: 'Fixed Mon-Tue and Wed-Thu blocks are predictable; only the longer block alternates' },
+	{ situation: 'Parents live 30-60 minutes apart', schedule: '2-2-5-5 or week-on/week-off', why: 'Fewer transitions reduce drive burden compared to 2-2-3' },
+	{ situation: 'Child is 12+ with strong school/social ties', schedule: 'Week-on/week-off', why: 'Teenagers need schedule stability; minimises disruption to activities and friend groups' },
+	{ situation: 'Newborn or infant (under 12 months)', schedule: 'Step-up plan, day visits first', why: 'Developmental attachment needs frequent but shorter contact before overnights begin' },
+];
+
+const comparisonTable = [
+	{ schedule: '2-2-3', split: '50/50', gap: '3 days', best: 'Young kids, close proximity' },
+	{ schedule: 'Week on/week off', split: '50/50', gap: '7 days', best: 'School-age kids, predictability' },
+	{ schedule: '2-2-5-5', split: '50/50', gap: '5 days', best: 'Travel schedules, middle ground' },
+	{ schedule: 'Every other weekend + midweek', split: '~70/30', gap: 'Varies', best: 'Distance, primary-home preference' },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article">
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<Breadcrumbs items={breadcrumbs} />
+	<main class="overflow-x-clip">
+
+		<!-- Hero -->
+		<section class="container-shell py-8 lg:max-w-5xl lg:py-12" id="overview">
+			<h1 class="max-w-3xl text-[1.7rem] font-semibold leading-[1.06] tracking-[-0.05em] text-primary sm:text-4xl lg:text-5xl">
+				California Custody Schedule: What Actually Works
+			</h1>
+
+			<ul class="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-secondary">
+				{['No 50/50 presumption in CA', 'Best-interest standard (Fam. Code § 3011)', 'Common arrangements explained', 'Decision framework by situation'].map((chip) => (
+					<li class="rounded-full bg-surface/70 px-3 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">{chip}</li>
+				))}
+			</ul>
+
+			<p class="mt-5 max-w-2xl text-base leading-7 text-secondary">
+				California courts use no automatic custody formula. Schedules are decided on the "best interest of the child" standard under Family Code § 3011 — each family's facts drive the outcome. The most common arrangements are the 2-2-3 rotation, week-on/week-off, and every-other-weekend with midweek time. None is presumed.
+			</p>
+
+			<div class="mt-6 max-w-2xl text-xs leading-5 text-muted">
+				<p class="font-semibold text-secondary">Reviewed for:</p>
+				<ul class="mt-1 list-inside list-disc">{editorialReview.reviewedFor.map((i) => <li>{i}</li>)}</ul>
+				<p class="mt-2">
+					Reviewed by <a href={editorialReview.reviewerHref} class="font-semibold text-secondary underline">{editorialReview.reviewer}</a>
+					{' · '}<a href={editorialReview.methodologyHref} class="font-semibold text-secondary underline">{editorialReview.methodologyLabel}</a>
+					{' · '}<span class="font-semibold text-secondary">{editorialReview.lastUpdatedLabel}</span>
+					{' · '}{editorialReview.disclaimer}
+				</p>
+			</div>
+
+			<div class="mt-6 flex flex-wrap gap-3">
+				<a href="/custody-schedule-generator/" class="inline-flex rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:opacity-90" style="color: #ffffff">Build your CA schedule free &rarr;</a>
+				<a href="/custody-percentage-calculator/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Custody percentage calculator</a>
+			</div>
+
+			<p class="mt-5 max-w-2xl text-xs leading-5 text-muted">
+				Educational information only. Not legal advice. Laws and county practices differ — consult a California family law attorney for your specific situation.
+				<a href="/disclaimer/" class="ml-1 font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Read disclaimer</a>
+			</p>
+		</section>
+
+		<!-- Key takeaways -->
+		<section id="takeaways" class="container-shell scroll-mt-24 pb-2 lg:max-w-5xl" aria-label="Key takeaways">
+			<div class="max-w-3xl rounded-[1.5rem] border border-line bg-accent/10 p-5 sm:p-6">
+				<h2 class="text-sm font-semibold uppercase tracking-[0.08em] text-accent">Key Takeaways</h2>
+				<ul class="mt-3 space-y-2 text-sm leading-6 text-secondary">
+					{[
+						'California has no 50/50 presumption — unlike Florida (2023), there is no starting point; judges weigh each family\'s facts.',
+						'The primary caregiver history carries heavy weight — disrupting an established two-year pattern requires strong evidence.',
+						'Mandatory mediation is required before a contested hearing — and in "recommending" counties, the mediator\'s report often becomes the order.',
+						'County practices differ significantly — a Los Angeles mediator operates differently from a San Francisco one.',
+						'A step-up schedule is strongly recommended for infants rather than a fixed arrangement from birth.',
+					].map((point) => (
+						<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">&rarr;</span>{point}</li>
+					))}
+				</ul>
+			</div>
+		</section>
+
+		<!-- On-this-page nav -->
+		<nav class="container-shell border-y border-line-subtle py-3 lg:max-w-5xl" aria-label="On this page">
+			<ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">
+				<li><a href="#how-it-works" class="hover:text-accent">How CA schedules work</a></li>
+				<li><a href="#situation-table" class="hover:text-accent">By situation</a></li>
+				<li><a href="#common-schedules" class="hover:text-accent">Common schedules</a></li>
+				<li><a href="#decision-tree" class="hover:text-accent">Decision tree</a></li>
+				<li><a href="#what-courts-weigh" class="hover:text-accent">What courts weigh</a></li>
+				<li><a href="#mistakes" class="hover:text-accent">Common mistakes</a></li>
+				<li><a href="#legal-facts" class="hover:text-accent">CA legal facts</a></li>
+				<li><a href="#tools" class="hover:text-accent">Tools</a></li>
+				<li><a href="#faq" class="hover:text-accent">FAQ</a></li>
+			</ul>
+		</nav>
+
+		<!-- How CA Custody Schedules Work -->
+		<section id="how-it-works" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">How California Custody Schedules Actually Work</h2>
+			<p class="mt-3 max-w-3xl text-secondary">California gives judges wide discretion, and no single schedule is the default.</p>
+
+			<div class="mt-6 max-w-3xl space-y-4 text-secondary">
+				<p>Unlike Florida — which added a 50/50 presumption in 2023 — California law contains no starting point. Family Code § 3011 lists the factors courts must weigh: the health, safety, and welfare of the child; any history of abuse or domestic violence; habitual substance use; and the nature and amount of contact each parent has had with the child. Stability and continuity get heavy weight. A parent who has been the primary caregiver for two years is unlikely to see that disrupted overnight just because the other parent wants equal time.</p>
+
+				<p class="rounded-2xl bg-surface/70 px-4 py-3 text-sm shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<strong class="text-primary">What this means practically:</strong> negotiations in California start from scratch, not from a 50/50 baseline. Parents who assume equal time is the default and do not present evidence about their specific situation can be surprised by how much judges defer to the status quo.
+				</p>
+
+				<p>One thing judges notice immediately in California parenting plan hearings is vague language around school enrollment. If the plan says "the parents will agree on schooling" without naming a school or a district, it often gets sent back. Judges see this as a sign the parents have not actually worked through the hard decisions.</p>
+
+				<div class="grid gap-4 sm:grid-cols-2">
+					<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<p class="font-semibold text-primary">Legal custody</p>
+						<p class="mt-2 text-sm leading-6 text-secondary">The right to make major decisions — education, healthcare, religion, extracurriculars. Most California cases result in <strong>joint legal custody</strong>, meaning both parents decide together on major issues.</p>
+					</div>
+					<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<p class="font-semibold text-primary">Physical custody</p>
+						<p class="mt-2 text-sm leading-6 text-secondary">Where the child actually lives, day to day. This is where arrangements vary most. Since 2016, California courts officially use <strong>"parenting time"</strong> instead of "visitation."</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Situation table -->
+		<section id="situation-table" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Which California Custody Schedule Is Right for Your Situation?</h2>
+			<p class="mt-3 max-w-3xl text-secondary">Match your circumstances to a recommended starting arrangement. A California family law attorney can help you assess whether it fits your specific county and judge.</p>
+
+			<div class="mt-6 overflow-x-auto rounded-[1.5rem] ring-1 ring-line-subtle">
+				<table class="w-full min-w-[640px] text-left text-sm">
+					<thead class="bg-surface-elevated text-primary">
+						<tr>
+							<th class="px-4 py-3 font-semibold">Your Situation</th>
+							<th class="px-4 py-3 font-semibold">Recommended Schedule</th>
+							<th class="px-4 py-3 font-semibold">Why</th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-line-subtle text-secondary">
+						{situationTable.map((row) => (
+							<tr>
+								<td class="px-4 py-3 font-medium text-primary">{row.situation}</td>
+								<td class="px-4 py-3">{row.schedule}</td>
+								<td class="px-4 py-3">{row.why}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<!-- Common schedules -->
+		<section id="common-schedules" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">The 4 Most Common California Custody Schedules</h2>
+			<p class="mt-3 max-w-3xl text-secondary">The best arrangement depends on your child's age, how close you live to each other, and each parent's work schedule.</p>
+
+			<div class="mt-8 space-y-10">
+				<!-- 2-2-3 -->
+				<div id="schedule-223" class="scroll-mt-24">
+					<h3 class="text-xl font-semibold text-primary">2-2-3 Rotation</h3>
+					<p class="mt-3 max-w-3xl text-secondary"><strong class="text-primary">How it works:</strong> Parent A has Monday and Tuesday. Parent B has Wednesday and Thursday. The Friday-Saturday-Sunday block alternates weekly. Result: exactly 50/50, and neither parent goes more than three days without seeing the child.</p>
+					<p class="mt-3 max-w-3xl text-secondary"><strong class="text-primary">Choose the 2-2-3 if:</strong> your child is under 7, you live within 20-30 minutes of each other, and both parents have fairly predictable weekday schedules. The shorter gaps work well for kids who struggle with missing a parent for a full week.</p>
+					<p class="mt-3 max-w-3xl text-secondary"><strong class="text-primary">Be cautious if:</strong> either parent travels for work unpredictably, or you live more than 45 minutes apart. Frequent transitions that require long drives wear on kids and parents fast.</p>
+					<div class="mt-4 max-w-3xl rounded-2xl bg-accent/10 px-4 py-4 text-sm leading-6 text-secondary">
+						<strong class="text-primary">The harder edge case:</strong> for toddlers under 3, the alternating weekend means the long block parent changes every week, which can genuinely confuse kids who do not track calendar days. Many families who start with 2-2-3 shift to 2-2-5-5 by age 4 or 5. Plan for this transition in your initial order.
+					</div>
+					<p class="mt-3 max-w-3xl text-sm italic text-secondary">Example: Sara and Michael live in adjacent Sacramento neighborhoods. Their 4-year-old daughter does well with the 2-2-3 — she sees each parent multiple times a week, and her daycare is equidistant from both homes.</p>
+				</div>
+
+				<!-- Week on/week off -->
+				<div id="schedule-wowo" class="scroll-mt-24">
+					<h3 class="text-xl font-semibold text-primary">Week On, Week Off</h3>
+					<p class="mt-3 max-w-3xl text-secondary"><strong class="text-primary">How it works:</strong> The child spends a full week with each parent, alternating every Sunday or Friday. Result: 50/50, with each parent going seven days without seeing the child.</p>
+					<p class="mt-3 max-w-3xl text-secondary"><strong class="text-primary">Choose week-on/week-off if:</strong> your child is school-age (roughly 7+), both parents live near the child's school, and your child does better with predictability and fewer transitions. Teenagers often specifically request this arrangement.</p>
+					<div class="mt-4 max-w-3xl rounded-2xl bg-accent/10 px-4 py-4 text-sm leading-6 text-secondary">
+						<strong class="text-primary">Transition day matters:</strong> switching on Sunday night means the child goes into Monday morning at school coming off a parent transition. Many California families switch on Friday afternoon instead, giving the child a weekend to settle in before school resumes.
+					</div>
+				</div>
+
+				<!-- EOW + midweek -->
+				<div id="schedule-eow" class="scroll-mt-24">
+					<h3 class="text-xl font-semibold text-primary">Every Other Weekend + Midweek</h3>
+					<p class="mt-3 max-w-3xl text-secondary"><strong class="text-primary">How it works:</strong> One parent has primary physical custody. The other has every other weekend (typically Friday evening through Sunday evening) plus one or two midweek evenings or overnights. Result: roughly 70/30 or 80/20 depending on the midweek arrangement.</p>
+					<p class="mt-3 max-w-3xl text-secondary"><strong class="text-primary">Choose this if:</strong> parents live more than 45-60 minutes apart, one parent has a work schedule that makes consistent weekday custody impractical, or the child is young and thrives with a stable home base.</p>
+					<p class="mt-3 max-w-3xl text-secondary">A stable primary home in the school district plus meaningful, quality time with the other parent is better than a 50/50 arrangement that involves a 90-minute drive twice a week.</p>
+				</div>
+
+				<!-- 2-2-5-5 -->
+				<div id="schedule-2255" class="scroll-mt-24">
+					<h3 class="text-xl font-semibold text-primary">2-2-5-5 Rotation</h3>
+					<p class="mt-3 max-w-3xl text-secondary"><strong class="text-primary">How it works:</strong> Parent A always has Monday-Tuesday. Parent B always has Wednesday-Thursday. The 5-day block (Friday through Tuesday) alternates. Result: 50/50 with consistent shorter days and alternating longer stretches.</p>
+					<p class="mt-3 max-w-3xl text-secondary"><strong class="text-primary">Choose 2-2-5-5 if:</strong> you want 50/50 but find the 2-2-3 too choppy and week-on/week-off too long. Because Monday-Tuesday and Wednesday-Thursday are fixed, both parents can plan their weeks more reliably than with the alternating 2-2-3.</p>
+				</div>
+			</div>
+
+			<!-- Comparison table -->
+			<div class="mt-10 overflow-x-auto rounded-[1.5rem] ring-1 ring-line-subtle">
+				<table class="w-full min-w-[480px] text-left text-sm">
+					<thead class="bg-surface-elevated text-primary">
+						<tr>
+							<th class="px-4 py-3 font-semibold">Schedule</th>
+							<th class="px-4 py-3 font-semibold">Split</th>
+							<th class="px-4 py-3 font-semibold">Longest Gap</th>
+							<th class="px-4 py-3 font-semibold">Best For</th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-line-subtle text-secondary">
+						{comparisonTable.map((row) => (
+							<tr>
+								<td class="px-4 py-3 font-medium text-primary">{row.schedule}</td>
+								<td class="px-4 py-3">{row.split}</td>
+								<td class="px-4 py-3">{row.gap}</td>
+								<td class="px-4 py-3">{row.best}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<!-- Decision tree -->
+		<section id="decision-tree" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Which Schedule Is Right for You?</h2>
+			<p class="mt-3 max-w-3xl text-secondary">Walk through these questions in order to find a reasonable starting point for your family.</p>
+
+			<div class="mt-6 max-w-3xl space-y-4">
+				<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<p class="font-semibold text-primary">Are both parents in the same city or county?</p>
+					<ul class="mt-3 space-y-2 text-sm text-secondary">
+						<li><span class="font-semibold text-accent">YES &rarr;</span> Is your child under 5? If yes: 2-2-3 or a step-up plan transitioning to 2-2-5-5 at age 3-4. If 7+: week-on/week-off or 2-2-5-5 both work well.</li>
+						<li><span class="font-semibold text-accent">NO &rarr;</span> Is the distance under 90 minutes one way? If yes: 2-2-5-5 or every-other-weekend + extended midweek. If no: every-other-weekend with generous holiday/summer blocks, primary home near school.</li>
+					</ul>
+				</div>
+				<div class="max-w-3xl rounded-2xl bg-surface/70 px-4 py-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<strong class="text-primary">High-conflict overlay:</strong> if communication is difficult, prefer schedules with fewer transitions. Week-on/week-off beats 2-2-3 for high conflict. Specify every exchange detail in writing — location, time, who drives.
+				</div>
+			</div>
+		</section>
+
+		<!-- What courts weigh -->
+		<section id="what-courts-weigh" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">What California Courts Actually Weigh</h2>
+			<p class="mt-3 max-w-3xl text-secondary">Stability and the existing parenting relationship carry the most weight, followed by each parent's ability to support the child's relationship with the other parent.</p>
+
+			<div class="mt-6 max-w-3xl space-y-4 text-secondary">
+				<p class="rounded-2xl bg-surface/70 px-4 py-3 text-sm shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<strong class="text-primary">Important:</strong> laws change, county practices differ, and judges have significant discretion. What works in one county courthouse may not reflect what a different judge in a neighboring county would order. A family law attorney who practices in your specific county is the only source of reliable local guidance.
+				</p>
+
+				<div class="space-y-5">
+					<div>
+						<h3 class="font-semibold text-primary">History with the child</h3>
+						<p class="mt-1 text-sm leading-6">Who has been doing the day-to-day caregiving? The parent who has handled school drop-offs, pediatric appointments, and bedtime routines has an established track record courts are reluctant to disrupt. Document it: school pickup records, medical appointment logs, communications with teachers.</p>
+					</div>
+					<div>
+						<h3 class="font-semibold text-primary">Proximity of homes</h3>
+						<p class="mt-1 text-sm leading-6">A schedule that requires a 90-minute commute twice a week is not going to work well for a 6-year-old. If parents live in the same school district, the range of workable schedules expands significantly.</p>
+					</div>
+					<div>
+						<h3 class="font-semibold text-primary">Each parent's work schedule</h3>
+						<p class="mt-1 text-sm leading-6">A parent who travels internationally 15 days a month cannot realistically do week-on/week-off. Courts expect proposed schedules to match each parent's actual availability, not their ideal availability.</p>
+					</div>
+					<div>
+						<h3 class="font-semibold text-primary">Support for the other parent's relationship</h3>
+						<p class="mt-1 text-sm leading-6">California judges pay attention to which parent is more willing to facilitate the child's relationship with the other. A parent who consistently undermines the co-parent sends a signal courts notice.</p>
+					</div>
+					<div>
+						<h3 class="font-semibold text-primary">Child's preferences (ages 10+)</h3>
+						<p class="mt-1 text-sm leading-6">Family Code § 3042 requires courts to consider the preferences of a child "of sufficient age and capacity." A 12-year-old's stated preference carries real weight; a 14-year-old's strong preference can be nearly determinative unless the judge finds a good reason to override it.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Common mistakes -->
+		<section id="mistakes" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Common Mistakes California Parents Make</h2>
+
+			<div class="mt-6 max-w-3xl space-y-4">
+				{[
+					{ title: 'Assuming 50/50 is the starting point', body: 'It is not. Parents who go into negotiations expecting equal time by default, without evidence supporting that arrangement, can be caught off guard.' },
+					{ title: 'Proposing a schedule that does not match their actual life', body: 'Courts see through proposals that look good on paper but do not reflect either parent\'s real schedule. A judge who hears that Parent A works 60-hour weeks and travels monthly, then sees a 50/50 proposal from Parent A, will have questions.' },
+					{ title: 'Vague holiday terms', body: '"We will work out holidays together" is not a parenting plan — it is a future source of conflict. A California custody order needs specific holiday provisions: who has Thanksgiving, what time does Christmas Eve start, what happens if the child\'s birthday falls during the other parent\'s week.' },
+					{ title: 'Not accounting for school enrollment', body: 'In California, where a child is enrolled in school is often tied to the parents\' addresses. Many California custody orders designate one address as the "school-of-record" address specifically to prevent disruption if one parent moves out of the district.' },
+					{ title: 'Skipping mandatory mediation prep', body: 'If your case goes to Family Court Services mediation (required before a contested hearing), arriving without a concrete proposal is a missed opportunity. In recommending counties, the mediator\'s written recommendation often becomes the court order.' },
+				].map((item) => (
+					<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<p class="font-semibold text-primary">{item.title}</p>
+						<p class="mt-2 text-sm leading-6 text-secondary">{item.body}</p>
+					</div>
+				))}
+			</div>
+		</section>
+
+		<!-- California legal facts -->
+		<section id="legal-facts" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">California-Specific Legal Facts</h2>
+
+			<div class="mt-6 max-w-3xl space-y-4 text-secondary">
+				<div class="overflow-hidden rounded-[1.5rem] ring-1 ring-line-subtle">
+					<dl class="divide-y divide-line-subtle">
+						{[
+							{ label: 'No 50/50 presumption', body: 'California law (Family Code § 3020) states a preference for "frequent and continuing contact" with both parents — but this is not a presumption of equal time. Courts have wide discretion.' },
+							{ label: 'Mandatory mediation', body: 'Before a judge hears a contested custody dispute, California requires mediation through Family Court Services — free through the court system. Counties differ: some (like Los Angeles) have mediators who make written recommendations to the judge; others (like San Francisco) keep sessions confidential.' },
+							{ label: 'Relocation rules', body: 'A parent who wants to move more than roughly 50 miles — even within California — must give advance notice and may need court approval. Move-away rules are complex and depend on whether a permanent custody order already exists.' },
+							{ label: 'Key filing forms', body: 'FL-100 is the Petition for Dissolution (married parents). FL-260 is used by unmarried parents. Court orders are typically memorialized using FL-341 (Child Custody and Visitation Order Attachment).' },
+							{ label: 'Modification requires changed circumstances', body: 'Once a California custody order is in place, the requesting parent must show a "significant change in circumstances" to modify it. This bar is intentionally high — courts prioritize stability.' },
+						].map((item) => (
+							<div class="grid gap-1 px-5 py-4 sm:grid-cols-[200px_1fr] sm:gap-4">
+								<dt class="text-sm font-semibold text-primary">{item.label}</dt>
+								<dd class="text-sm leading-6 text-secondary">{item.body}</dd>
+							</div>
+						))}
+					</dl>
+				</div>
+				<p class="text-xs text-muted italic">This is general information, not legal advice. For guidance on your specific situation, consult a California family law attorney.</p>
+			</div>
+		</section>
+
+		<!-- Tools section -->
+		<section id="tools" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Tools to Build Your California Schedule</h2>
+			<p class="mt-3 max-w-3xl text-secondary">CustodyBuilder's free tools help you design, calculate, and document your custody arrangement before you finalize it with an attorney or mediator.</p>
+
+			<div class="mt-6 grid gap-4 sm:grid-cols-2 max-w-3xl">
+				{[
+					{ title: 'Custody Schedule Generator', href: '/custody-schedule-generator/', desc: 'Design a visual custody schedule, see exactly what percentage of time each arrangement produces, and download it as a PDF — no account needed.' },
+					{ title: 'Custody Percentage Calculator', href: '/custody-percentage-calculator/', desc: 'See the exact parenting-time percentages for any schedule. Useful for California child support calculations via the DissoMaster formula.' },
+					{ title: 'Overnight Custody Calculator', href: '/overnight-custody-calculator/', desc: 'Count overnights per year for each parent. Needed for some California child support calculations.' },
+					{ title: 'California Parenting Plan Template', href: '/california-parenting-plan-template/', desc: 'A complete template covering all sections a California custody order should address, with vague-vs-precise comparisons.' },
+				].map((tool) => (
+					<a href={tool.href} class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:shadow-md transition-shadow">
+						<p class="font-semibold text-accent">{tool.title}</p>
+						<p class="mt-2 text-sm leading-6 text-secondary">{tool.desc}</p>
+					</a>
+				))}
+			</div>
+
+			<div class="mt-8">
+				<BackToGeneratorCta />
+			</div>
+		</section>
+
+		<!-- Related links -->
+		<section class="container-shell border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-xl font-semibold text-primary">Related Tools and Resources</h2>
+			<ul class="mt-4 grid gap-2 text-sm sm:grid-cols-2">
+				{[
+					{ label: 'Parenting Plan Template', href: '/parenting-plan-template/' },
+					{ label: '50/50 Custody Schedule', href: '/50-50-custody-schedule/' },
+					{ label: '2-2-3 Custody Schedule', href: '/2-2-3-custody-schedule/' },
+					{ label: 'Week On, Week Off Schedule', href: '/week-on-week-off-custody-schedule/' },
+					{ label: 'Holiday Custody Schedule', href: '/holiday-custody-schedule/' },
+					{ label: 'Custody Schedule by Age', href: '/custody-schedule-by-age/' },
+					{ label: 'Joint Custody vs Sole Custody', href: '/joint-custody-vs-sole-custody/' },
+					{ label: 'Legal Custody vs Physical Custody', href: '/legal-custody-vs-physical-custody/' },
+				].map((link) => (
+					<li>
+						<a href={link.href} class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">{link.label}</a>
+					</li>
+				))}
+			</ul>
+		</section>
+
+		<!-- FAQ -->
+		<section id="faq" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Frequently Asked Questions</h2>
+			<div class="mt-6 max-w-3xl">
+				<FAQ items={faqItems} />
+			</div>
+		</section>
+
+		<!-- Legal disclaimer -->
+		<section class="container-shell border-t border-line-subtle py-8 lg:max-w-5xl">
+			<p class="max-w-3xl text-xs leading-5 text-muted">
+				This page provides general information about California custody schedules for educational purposes only. It is not legal advice and does not create an attorney-client relationship. Custody laws vary by county and individual circumstances. Consult a licensed California family law attorney before making decisions about your custody arrangement.
+			</p>
+		</section>
+
+	</main>
+	<Footer />
+</BaseLayout>

@@ -1,0 +1,496 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import {
+	buildArticleSchema,
+	buildBreadcrumbSchema,
+	buildFAQSchema,
+	buildWebPageSchema,
+} from '../lib/seo/schema';
+
+const title = "Newborn Custody Schedule: Developmental Research, Common Arrangements, Step-Up Plans";
+const description = "Newborn custody schedules require balancing both parents' access with a baby's developmental needs. Here's what the research actually says — and what works in practice.";
+const canonical = '/newborn-custody-schedule/';
+const canonicalUrl = getCanonicalUrl(canonical);
+const datePublished = '2024-08-01';
+const dateModified = '2024-08-01';
+
+const editorialReview = {
+	reviewer: 'CustodyBuilder Editorial Team',
+	reviewerHref: '/about/',
+	methodologyLabel: 'How CustodyBuilder Works',
+	methodologyHref: '/how-custodybuilder-works/',
+	lastUpdatedLabel: 'Last updated August 2024',
+	disclaimer: 'Educational information only. Not legal advice. Consult a pediatrician for guidance specific to your baby.',
+	reviewedFor: [
+		'Alignment with developmental attachment research',
+		'Practical step-up plan frameworks used in mediation',
+		'Court approaches across states',
+	],
+};
+
+const breadcrumbs = [
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: 'Custody Schedule by Age', url: getCanonicalUrl('/custody-schedule-by-age/') },
+	{ name: 'Newborn Custody Schedule', url: canonicalUrl },
+];
+
+const faqItems = [
+	{
+		question: 'Can a newborn have a 50/50 custody schedule?',
+		answer: 'It depends. Many child development professionals recommend against strict 50/50 for newborns under 3 months because frequent transitions can disrupt feeding and sleep routines. Courts have wide discretion and weigh the specific circumstances: both parents\' caregiving roles, whether the baby is breastfed, proximity of homes, and each parent\'s availability. By 6-12 months, 50/50 becomes more feasible for most families. By 18-24 months, it is common.',
+	},
+	{
+		question: 'Does breastfeeding automatically mean the nursing parent gets more custody time?',
+		answer: 'Breastfeeding is a legitimate factor courts consider, but it does not automatically entitle the nursing parent to primary custody or eliminate the other parent\'s access. Courts balance the breastfeeding constraint against the non-nursing parent\'s right to a meaningful relationship with the baby. Pumping and bottle-feeding is often presented as an alternative path to expanded contact. The weight given to breastfeeding varies significantly by state and by judge.',
+	},
+	{
+		question: 'At what age do courts allow overnight custody for infants?',
+		answer: 'There is no universal rule. Some states and individual judges have informal guidelines (common benchmarks are 3 months, 6 months, or 1 year), but courts have wide discretion. Developmental research suggests overnights become less disruptive as the baby\'s attachment patterns stabilize, memory extends, and sleep becomes more regular — generally somewhere between 3 and 12 months depending on the specific child.',
+	},
+	{
+		question: 'What if we can\'t agree on a newborn custody schedule?',
+		answer: 'Most states require mediation before a court hearing on custody disputes. A mediator experienced in infant custody can be very helpful in bridging gaps between parents with different views on what the baby needs. If mediation fails, a family court judge decides. Courts sometimes order a custody evaluation for newborn disputes, which includes a developmental assessment by a licensed professional.',
+	},
+	{
+		question: 'Do I need a lawyer to set up a newborn custody agreement?',
+		answer: 'You do not legally require one, but newborn cases are where the cost of a poorly drafted agreement is highest. The developmental stakes are significant, the emotional intensity is extreme, and vague terms about overnight introduction or breastfeeding access create predictable conflicts 6-12 months later. An experienced family law attorney who knows local court norms on infant custody is worth the investment — particularly to help draft the step-up schedule correctly.',
+	},
+	{
+		question: 'How do I handle custody if the baby has special medical needs?',
+		answer: 'Medical complexity adds another dimension to the custody analysis. Courts take a baby\'s health needs seriously and structure arrangements around medical appointments, medication schedules, and caregiver training requirements. If your newborn has special medical needs, involve your pediatric specialist in documenting what the custody schedule needs to accommodate — their input can be decisive in mediation or at a hearing.',
+	},
+	{
+		question: 'Can we change the newborn custody schedule as the baby gets older?',
+		answer: 'Yes — and the best agreements plan for it explicitly. A written step-up plan built into the initial agreement is far less expensive and conflictual than returning to court for each adjustment. If you did not include a progression plan initially, you can return to court to modify the order when circumstances change significantly. Judges are generally receptive to requests to expand the non-primary parent\'s time as the baby develops, particularly when the requesting parent has been reliably present throughout.',
+	},
+	{
+		question: 'What does a good step-up plan include?',
+		answer: 'Written, specific milestones tied to the baby\'s age (keyed to the pediatric well-child appointment date, not to the other parent\'s subjective assessment of readiness). The actual schedule written out in advance — not just "we agree to revisit at 6 months" — so the plan self-executes. A clause that says "overnights begin when Parent B demonstrates sufficient caregiving competence" is unenforceable gatekeeping; a clause that says "overnights begin at the baby\'s 4-month well-child appointment" is specific and outside either parent\'s control to obstruct.',
+	},
+];
+
+const schema = [
+	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+	buildArticleSchema({
+		headline: title,
+		description,
+		url: canonicalUrl,
+		datePublished,
+		dateModified,
+		authorName: editorialReview.reviewer,
+	}),
+	buildFAQSchema(faqItems),
+	buildBreadcrumbSchema(breadcrumbs),
+];
+
+const stepUpTable = [
+	{ age: '0-6 weeks', schedule: '2-3 visits/week, 1-2 hours each at primary parent\'s home or nearby', overnights: 'None', notes: 'Feeding schedule fragile; visits structured around feeding times' },
+	{ age: '6-12 weeks', schedule: '3 visits/week, 2-3 hours each; may transition to non-primary parent\'s home', overnights: 'None', notes: 'Baby developing first social smiles; building familiarity with second home' },
+	{ age: '3-4 months', schedule: '3-4 visits/week, 3-5 hours each; full day visits on weekends', overnights: 'None; introduce 1 overnight if both parents agree', notes: 'Bottle feeding more established; schedule can tolerate longer gaps' },
+	{ age: '4-6 months', schedule: 'Visits extend to 5-8 hours; 1 overnight every 1-2 weeks', overnights: '1-2 per month', notes: 'Sleep patterns stabilising; attachment to both parents strengthening' },
+	{ age: '6-9 months', schedule: '2+ days/week including overnights; some 2-night stretches', overnights: '4-6 per month', notes: 'Memory developing; longer separations more manageable' },
+	{ age: '9-12 months', schedule: 'Every-other-week pattern or 2-2-3 rotation appropriate for most families', overnights: '6-8 per month', notes: 'Most families ready to transition toward a more standard schedule' },
+	{ age: '12-18 months', schedule: 'Review point: move toward standard 50/50 arrangement if both agree child is ready', overnights: 'Standard', notes: 'See Custody Schedule by Age for toddler frameworks' },
+	{ age: '18 months+', schedule: 'Standard schedules (2-2-3, 2-2-5-5, week-on/week-off) appropriate', overnights: 'Standard', notes: 'See 50/50 Custody Schedule for Toddlers' },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article">
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<Breadcrumbs items={breadcrumbs} />
+	<main class="overflow-x-clip">
+
+		<!-- Hero -->
+		<section class="container-shell py-8 lg:max-w-5xl lg:py-12" id="overview">
+			<h1 class="max-w-3xl text-[1.7rem] font-semibold leading-[1.06] tracking-[-0.05em] text-primary sm:text-4xl lg:text-5xl">
+				Newborn Custody Schedule: What the Research Says and What Actually Works
+			</h1>
+
+			<ul class="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-secondary">
+				{['Step-up plan strongly recommended', 'Developmental research explained', 'Month-by-month progression framework', 'What courts actually weigh'].map((chip) => (
+					<li class="rounded-full bg-surface/70 px-3 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">{chip}</li>
+				))}
+			</ul>
+
+			<p class="mt-5 max-w-2xl text-base leading-7 text-secondary">
+				A newborn custody schedule typically starts with frequent, shorter visits (3-4 times per week, a few hours each) for the non-primary parent, with no or very limited overnights in the first 3-6 months. The best newborn custody agreements include a written step-up plan — a schedule that automatically expands the non-primary parent's time as the baby reaches specific developmental milestones, typically at 3, 6, 12, and 18 months.
+			</p>
+
+			<div class="mt-6 max-w-2xl text-xs leading-5 text-muted">
+				<p class="font-semibold text-secondary">Reviewed for:</p>
+				<ul class="mt-1 list-inside list-disc">{editorialReview.reviewedFor.map((i) => <li>{i}</li>)}</ul>
+				<p class="mt-2">
+					Reviewed by <a href={editorialReview.reviewerHref} class="font-semibold text-secondary underline">{editorialReview.reviewer}</a>
+					{' · '}<a href={editorialReview.methodologyHref} class="font-semibold text-secondary underline">{editorialReview.methodologyLabel}</a>
+					{' · '}<span class="font-semibold text-secondary">{editorialReview.lastUpdatedLabel}</span>
+					{' · '}{editorialReview.disclaimer}
+				</p>
+			</div>
+
+			<div class="mt-6 flex flex-wrap gap-3">
+				<a href="/custody-schedule-generator/" class="inline-flex rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:opacity-90" style="color: #ffffff">Build your newborn schedule free &rarr;</a>
+				<a href="/50-50-custody-schedule-for-babies/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">50/50 for babies</a>
+			</div>
+
+			<p class="mt-5 max-w-2xl text-xs leading-5 text-muted">
+				Educational information only. Not legal advice. Infant custody law varies significantly by state. Consult a pediatrician for guidance specific to your baby's needs, and a licensed family law attorney before making decisions about your custody arrangement.
+				<a href="/disclaimer/" class="ml-1 font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Read disclaimer</a>
+			</p>
+		</section>
+
+		<!-- Key takeaways -->
+		<section id="takeaways" class="container-shell scroll-mt-24 pb-2 lg:max-w-5xl" aria-label="Key takeaways">
+			<div class="max-w-3xl rounded-[1.5rem] border border-line bg-accent/10 p-5 sm:p-6">
+				<h2 class="text-sm font-semibold uppercase tracking-[0.08em] text-accent">Key Takeaways</h2>
+				<ul class="mt-3 space-y-2 text-sm leading-6 text-secondary">
+					{[
+						'The right newborn arrangement is not permanent — it is a starting point designed to evolve as the baby develops.',
+						'A written step-up plan is the most important thing you can include — it commits both parents to expanding time predictably, preventing future litigation.',
+						'Tie milestones to the baby\'s age (the pediatric well-child appointment date), not to the other parent\'s subjective assessment of readiness.',
+						'Frequent short contact beats infrequent long contact for infants under 6 months — a baby who sees the second parent 3-4 times a week maintains that relationship effectively.',
+						'The overnight debate is genuinely unsettled — experts disagree, and courts have wide discretion; what local courts tend to do varies significantly.',
+					].map((point) => (
+						<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">&rarr;</span>{point}</li>
+					))}
+				</ul>
+			</div>
+		</section>
+
+		<!-- On-this-page nav -->
+		<nav class="container-shell border-y border-line-subtle py-3 lg:max-w-5xl" aria-label="On this page">
+			<ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">
+				<li><a href="#why-different" class="hover:text-accent">Why newborns are different</a></li>
+				<li><a href="#research" class="hover:text-accent">What the research says</a></li>
+				<li><a href="#step-up-table" class="hover:text-accent">Month-by-month step-up</a></li>
+				<li><a href="#why-step-up" class="hover:text-accent">Why you need a step-up plan</a></li>
+				<li><a href="#arrangements" class="hover:text-accent">4 common arrangements</a></li>
+				<li><a href="#decision-tree" class="hover:text-accent">Decision tree</a></li>
+				<li><a href="#agreement-must-include" class="hover:text-accent">Agreement must-haves</a></li>
+				<li><a href="#how-courts" class="hover:text-accent">How courts approach it</a></li>
+				<li><a href="#mistakes" class="hover:text-accent">Common mistakes</a></li>
+				<li><a href="#tools" class="hover:text-accent">Tools</a></li>
+				<li><a href="#faq" class="hover:text-accent">FAQ</a></li>
+			</ul>
+		</nav>
+
+		<!-- Why newborns are different -->
+		<section id="why-different" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Why Newborn Custody Is Different From Every Other Age</h2>
+			<p class="mt-3 max-w-3xl text-secondary">A newborn cannot tell you what they need, cannot remember a parent they do not see regularly, and cannot handle schedule disruptions the way an older child can.</p>
+
+			<div class="mt-6 max-w-3xl space-y-4 text-secondary">
+				<p>Most custody resources focus on school-age children. For them, the tradeoffs between 50/50 schedules are relatively clear: proximity to school, work schedule logistics, the child's preference. The frameworks are mature. Newborn custody is genuinely harder. The developmental stakes are higher, the research is more contested, and the emotional intensity — on both sides — is as high as it gets. Both parents often feel they are fighting for something irreplaceable: time with their baby in the first weeks and months of life that they can never get back.</p>
+
+				<p class="rounded-2xl bg-accent/10 px-4 py-4 text-sm leading-6 text-secondary">
+					<strong class="text-primary">What makes it tractable:</strong> the right newborn custody arrangement is not permanent. It is a starting point designed to serve the baby's needs at this specific developmental stage, with a built-in plan to evolve as the baby grows.
+				</p>
+			</div>
+		</section>
+
+		<!-- Research -->
+		<section id="research" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">What the Developmental Research Actually Says</h2>
+			<p class="mt-3 max-w-3xl text-secondary">Infants need frequent contact with both parents, but not at the cost of disrupting feeding routines, sleep, and primary attachment formation.</p>
+
+			<div class="mt-6 max-w-3xl space-y-5">
+				{[
+					{
+						title: 'Attachment is the foundation',
+						body: 'Developmental psychology research (drawing on Bowlby\'s attachment theory and subsequent decades of study) consistently shows that infants need to form secure attachments to their primary caregivers in the first year of life. This does not mean only one parent — infants attach to multiple caregivers. But it does mean that consistent, predictable caregiving matters enormously, and disruptions to that consistency carry real costs for infant wellbeing.',
+					},
+					{
+						title: 'Frequent short contact beats infrequent long contact',
+						body: 'For infants under 6 months, most developmental experts favor a schedule where the non-primary parent has several visits per week of a few hours each, rather than one or two long visits. A baby who sees the second parent three or four times a week maintains that relationship effectively. A baby who sees the second parent once a week may not yet have the memory capacity to maintain a sense of that parent\'s presence between visits.',
+					},
+					{
+						title: 'The overnight debate is genuinely unsettled',
+						body: 'The research on overnights for infants under 18-24 months is mixed, and experts disagree. Dr. Michael Lamb, one of the most cited researchers on infant custody, argues that the quality of care from both parents matters more than the overnight question per se. Other developmental psychologists in the "attachment parenting" tradition are more cautious about overnights for very young infants, especially under 6 months. Courts reflect this uncertainty — some states have informal guidelines discouraging overnights under 6 months; others treat it as entirely fact-specific.',
+					},
+					{
+						title: 'Breastfeeding is a real logistical factor, not a tactic',
+						body: 'If the baby is breastfed, the nursing parent\'s schedule constraints are biological, not strategic. A 3-week-old who breastfeeds every 2-3 hours cannot realistically spend the night with the other parent without either the nursing parent coming along or extensive expressed milk logistics. Courts take breastfeeding seriously as a legitimate custody factor. By 3-4 months, when many babies take bottles more reliably, this constraint loosens significantly.',
+					},
+					{
+						title: 'The primary caregiver matters',
+						body: 'Who has been doing the feeding, nighttime waking, bathing, and daily caregiving since birth? Courts and developmental professionals pay attention to this. The parent with the established daily routine has a track record — and an infant who has spent their first weeks with one primary caregiver has already formed their first attachment there.',
+					},
+				].map((item) => (
+					<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<h3 class="font-semibold text-primary">{item.title}</h3>
+						<p class="mt-2 text-sm leading-6 text-secondary">{item.body}</p>
+					</div>
+				))}
+
+				<p class="text-sm italic text-secondary">Example: When Priya and Daniel separated six weeks after their son was born, they set up a schedule where Daniel had the baby for three hours every Tuesday morning, Thursday afternoon, and Sunday afternoon. By four months, the baby clearly recognized Daniel and showed visible excitement when he arrived. This connection built from frequent short contact — not from long separations.</p>
+			</div>
+		</section>
+
+		<!-- Step-up table -->
+		<section id="step-up-table" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Newborn Step-Up Plan: Month-by-Month Progression</h2>
+			<p class="mt-3 max-w-3xl text-secondary">A detailed progression framework — more granular than most guides provide — that you can adapt for your family's specific circumstances.</p>
+
+			<div class="mt-6 overflow-x-auto rounded-[1.5rem] ring-1 ring-line-subtle">
+				<table class="w-full min-w-[700px] text-left text-sm">
+					<thead class="bg-surface-elevated text-primary">
+						<tr>
+							<th class="px-4 py-3 font-semibold">Baby's Age</th>
+							<th class="px-4 py-3 font-semibold">Non-Primary Parent's Schedule</th>
+							<th class="px-4 py-3 font-semibold">Overnights</th>
+							<th class="px-4 py-3 font-semibold">Notes</th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-line-subtle text-secondary">
+						{stepUpTable.map((row) => (
+							<tr>
+								<td class="px-4 py-3 font-medium text-primary whitespace-nowrap">{row.age}</td>
+								<td class="px-4 py-3">{row.schedule}</td>
+								<td class="px-4 py-3 whitespace-nowrap">{row.overnights}</td>
+								<td class="px-4 py-3">{row.notes}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+
+			<div class="mt-6 max-w-3xl rounded-2xl bg-accent/10 px-4 py-4 text-sm leading-6 text-secondary">
+				<strong class="text-primary">Critical drafting note:</strong> tie every milestone to the baby's age (keyed to the pediatric well-child appointment date), not to the other parent's subjective assessment of readiness. A clause that says "overnights begin when Parent B demonstrates sufficient caregiving competence" is a recipe for gatekeeping. A clause that says "overnights begin at the baby's 4-month well-child appointment" is specific, measurable, and outside either parent's control to obstruct.
+			</div>
+		</section>
+
+		<!-- Why step-up plan -->
+		<section id="why-step-up" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">The Step-Up Plan: Why Every Newborn Agreement Should Have One</h2>
+			<p class="mt-3 max-w-3xl text-secondary">A step-up plan commits both parents in writing to expanding the non-primary parent's time as the baby develops, preventing the arrangement from calcifying into something that no longer fits.</p>
+
+			<div class="mt-6 max-w-3xl space-y-4 text-secondary">
+				<p>The biggest mistake in newborn custody arrangements is not the initial schedule — it is failing to plan for what comes next.</p>
+				<p>A common pattern: parents agree on a conservative initial schedule (frequent short visits, no overnights). Twelve months later, the non-primary parent wants to expand their time, and the primary parent has become accustomed to being the home base and resists. The initial schedule that was appropriate at 6 weeks is now being litigated at 14 months — and both parents are spending money and emotional energy that could have been avoided with a written progression plan.</p>
+
+				<div class="rounded-2xl bg-surface/70 px-4 py-4 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<p><strong class="text-primary">Parents who have been through this process often report</strong> that the cost of not having a written step-up plan was not just financial — it was the relationship damage that came from a year of conflict over something they could have agreed on from the start. The step-up plan is not just logistically smart; it is one of the kindest things you can do for your co-parenting relationship.</p>
+				</div>
+
+				<p><strong class="text-primary">What a good step-up plan looks like:</strong> written, specific milestones tied to the baby's age, incorporated as an attachment to the initial custody order — not a vague commitment to "revisit at 6 months" but the actual schedule written out in advance. See the table above for a detailed framework.</p>
+			</div>
+		</section>
+
+		<!-- 4 arrangements -->
+		<section id="arrangements" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">The 4 Most Common Newborn Custody Arrangements</h2>
+
+			<div class="mt-8 space-y-10 max-w-3xl">
+				<div id="arrangement-short-visits" class="scroll-mt-24">
+					<h3 class="text-xl font-semibold text-primary">Frequent Short Visits (0-6 months, primary model)</h3>
+					<p class="mt-3 text-secondary">The non-primary parent has 3-4 visits per week, each lasting 2-4 hours during the day. No overnights initially. Specific days are agreed in advance so both parents can plan around them.</p>
+					<p class="mt-3 text-secondary"><strong class="text-primary">Choose this if:</strong> the baby is under 3 months, is breastfed, one parent has been the clear primary caregiver since birth, or either parent's work schedule makes overnights logistically difficult.</p>
+					<div class="mt-4 rounded-2xl bg-accent/10 px-4 py-4 text-sm leading-6 text-secondary">
+						<strong class="text-primary">What this gives the non-primary parent:</strong> genuine, meaningful contact with their baby multiple times a week. A parent who sees their baby three times a week for three hours each visit gets nine hours of contact per week — far more total time than a once-a-week overnight visit would produce (perhaps six hours of waking time with the baby).
+					</div>
+				</div>
+
+				<div id="arrangement-expanded-daytime" class="scroll-mt-24">
+					<h3 class="text-xl font-semibold text-primary">Expanded Daytime Visits With Introduced Overnights (3-6 months)</h3>
+					<p class="mt-3 text-secondary">As the baby reaches 3 months and feeding patterns stabilize, the non-primary parent's visits extend in duration and frequency. One overnight per week or every other week is introduced, typically on a weekend night.</p>
+					<p class="mt-3 text-secondary"><strong class="text-primary">Choose this if:</strong> the baby has established some feeding consistency, the non-primary parent has been reliably present for shorter visits, and the primary parent's attachment concerns have been validated through the initial schedule.</p>
+					<div class="mt-4 rounded-2xl bg-surface/70 px-4 py-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<strong class="text-primary">In practice:</strong> the first overnight goes better than the primary parent feared and worse than the non-primary parent hoped. The baby cries more than usual; the non-primary parent panics; the primary parent stays up all night waiting for a call. The second overnight is easier. The third is routine. Planning for this emotional arc — not just the logistical one — is part of good newborn custody agreement drafting.
+					</div>
+				</div>
+
+				<div id="arrangement-graduated" class="scroll-mt-24">
+					<h3 class="text-xl font-semibold text-primary">Graduated Step-Up (Most Expert-Recommended)</h3>
+					<p class="mt-3 text-secondary">A written plan covering birth through 18 months, with specific schedule expansions tied to the baby's age. Starts conservative, expands predictably.</p>
+					<p class="mt-3 text-secondary"><strong class="text-primary">Why developmental experts favor this:</strong> it matches the schedule to the baby's changing developmental needs rather than applying a static arrangement to a rapidly developing child. A 3-month-old and a 14-month-old have completely different memory, attachment, and transition capacities — the arrangement should reflect that.</p>
+					<p class="mt-3 text-secondary"><strong class="text-primary">The key drafting point:</strong> include the step-up schedule in the parenting plan as a written schedule attachment, not as a vague commitment to "revisit." A written schedule that self-executes does not require the primary parent's agreement to initiate — it just happens at the specified date.</p>
+				</div>
+
+				<div id="arrangement-early-5050" class="scroll-mt-24">
+					<h3 class="text-xl font-semibold text-primary">Early 50/50 for Newborns</h3>
+					<p class="mt-3 text-secondary">Equal time from very early in the baby's life, typically using a 2-2-3 or similar rotation adapted for infant schedules.</p>
+					<p class="mt-3 text-secondary"><strong class="text-primary">When this works:</strong> both parents have been equally involved caregivers from birth (or before — prenatal involvement matters), both parents live very close to each other, both have flexible schedules that allow consistent infant care, and the baby is formula-fed or taking bottles reliably.</p>
+					<p class="mt-3 text-secondary"><strong class="text-primary">When it does not work:</strong> when one parent has been the primary caregiver, when the baby is breastfed and bottle introduction has not happened, when parents live more than 30 minutes apart, or when one parent has limited infant caregiving experience. Courts in most states are skeptical of strict 50/50 for newborns and will consider evidence that it is disrupting the baby's development.</p>
+					<p class="mt-3 text-sm text-secondary">For a detailed look at the 50/50 question for infants, see <a href="/50-50-custody-schedule-for-babies/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 Custody Schedule for Babies</a>.</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- Decision tree -->
+		<section id="decision-tree" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Which Newborn Schedule Is Right for Your Situation?</h2>
+
+			<div class="mt-6 max-w-3xl space-y-4">
+				<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<p class="font-semibold text-primary">Is the baby under 3 months?</p>
+					<ul class="mt-3 space-y-3 text-sm text-secondary">
+						<li>
+							<span class="font-semibold text-accent">YES &rarr;</span> Is the baby breastfed or primarily breastfed?
+							<ul class="mt-1 ml-4 space-y-1">
+								<li>YES: Frequent short visits (2-4 hours, 3-4x/week) at primary parent's home. Plan expressed milk logistics for any extended visit. No overnights until 3-4 months minimum.</li>
+								<li>NO: Frequent visits + introduce 1 overnight every 2 weeks if non-primary parent has been actively caregiving since birth.</li>
+							</ul>
+						</li>
+						<li>
+							<span class="font-semibold text-accent">NO (3-6 months) &rarr;</span> Has the non-primary parent been reliably present for shorter visits?
+							<ul class="mt-1 ml-4 space-y-1">
+								<li>YES: Expand to longer day visits; introduce 1 overnight/week. Follow the step-up table above.</li>
+								<li>NO: Continue frequent short visits; set 2-month re-evaluation date.</li>
+							</ul>
+						</li>
+						<li>
+							<span class="font-semibold text-accent">NO (6-12 months) &rarr;</span> Are both parents within 30 minutes of each other?
+							<ul class="mt-1 ml-4 space-y-1">
+								<li>YES: 2-2-3 rotation or equivalent 50/50 likely appropriate.</li>
+								<li>NO: Every-other-week or 2-2-5-5 with reduced transitions.</li>
+							</ul>
+						</li>
+						<li><span class="font-semibold text-accent">12+ months &rarr;</span> Standard schedule frameworks apply. See <a href="/custody-schedule-by-age/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Custody Schedule by Age</a>.</li>
+					</ul>
+				</div>
+				<div class="max-w-3xl rounded-2xl bg-surface/70 px-4 py-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<strong class="text-primary">High-conflict overlay:</strong> if communication between parents is difficult, build in a structured communication protocol from day one. Newborn schedules generate more urgent contact than any other custody situation — feeding windows, illness, sleep regression. Specify what constitutes an emergency vs. a routine update before the baby arrives.
+				</div>
+			</div>
+		</section>
+
+		<!-- Agreement must-haves -->
+		<section id="agreement-must-include" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">What a Newborn Custody Agreement Must Include</h2>
+			<p class="mt-3 max-w-3xl text-secondary">Beyond the standard parenting plan elements, newborn-specific custody agreements should address these additional provisions.</p>
+
+			<div class="mt-6 max-w-3xl space-y-4">
+				{[
+					{ title: 'Feeding logistics', body: 'If the baby is breastfed: how does feeding happen during the non-primary parent\'s visits? Does the nursing parent come to the visit location to feed? Is expressed milk provided? What is the transition plan when the baby starts taking bottles reliably? Spelling it out prevents post-agreement disputes.' },
+					{ title: 'The step-up schedule in writing', body: 'Not "we agree to revisit the schedule at 6 months" but the actual schedule written out: "At the baby\'s 6-month pediatric appointment, the schedule transitions to [X]." Written, specific, self-executing.' },
+					{ title: 'When overnights begin and how they are introduced', body: 'If the initial agreement limits overnights, it must also clearly state when and how they begin — tied to age or developmental milestone, not to the other parent\'s subjective satisfaction. Tying overnight introduction to compliance with other plan terms is a common litigation tactic and judges do not look favorably on it.' },
+					{ title: 'Pediatric appointment access', body: 'Both parents attend all pediatric well-child appointments. All medical records go to both parents. Routine medical decisions during each parent\'s time are made by that parent; significant medical decisions require joint agreement (or specified tiebreaker process).' },
+					{ title: 'Flexibility for infant unpredictability', body: 'Newborns do not follow schedules reliably. The agreement should acknowledge that infant illness, growth spurts, and sleep regressions will sometimes require temporary schedule adjustments, and establish a lightweight process for making those adjustments without requiring court involvement.' },
+					{ title: 'Emergency contact protocol', body: 'Both parents have the other\'s current contact information, the pediatrician\'s contact, the baby\'s insurance information, and access to all medical records at all times, regardless of whose parenting time it is. Define what constitutes an emergency requiring immediate contact vs. what can wait until morning — this distinction matters enormously in the exhausted early months.' },
+				].map((item) => (
+					<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<p class="font-semibold text-primary">{item.title}</p>
+						<p class="mt-2 text-sm leading-6 text-secondary">{item.body}</p>
+					</div>
+				))}
+			</div>
+		</section>
+
+		<!-- How courts approach it -->
+		<section id="how-courts" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">How Courts Approach Newborn Custody</h2>
+			<p class="mt-3 max-w-3xl text-secondary">Courts have the most discretion in newborn cases and rely heavily on expert testimony, pediatric guidance, and the specifics of each family.</p>
+
+			<div class="mt-6 max-w-3xl space-y-4 text-secondary">
+				<p>Most states have no hard rule about newborn custody. Judges apply a best interest standard with very few bright lines at this age — which means the quality of the evidence presented matters enormously.</p>
+
+				<div class="space-y-4">
+					{[
+						{ label: 'Who has been the primary caregiver since birth', body: 'Hospital records, feeding logs, documentation of who handled the baby\'s medical appointments — all of this paints a picture of the established caregiving relationship that courts are reluctant to disrupt suddenly.' },
+						{ label: 'Each parent\'s actual caregiving capacity', body: 'Not their aspirations, but their demonstrated ability. A parent who has been present and actively caring for the baby since birth is in a stronger position than a parent who has been largely absent in the early weeks.' },
+						{ label: 'The breastfeeding question', body: 'Most courts treat breastfeeding as a legitimate factor that can justify a more primary-caregiver-focused initial schedule, while also pushing toward expressed milk or bottle introduction as a path toward expanded contact for the non-breastfeeding parent.' },
+						{ label: 'The willingness to support the other parent\'s relationship with the child', body: 'Courts pay close attention to which parent is more willing to ensure the baby has a meaningful relationship with the other parent. A primary parent who actively facilitates frequent visits is in a better position than one who creates barriers to the other parent\'s access.' },
+					].map((item) => (
+						<div class="grid gap-1 sm:grid-cols-[220px_1fr] sm:gap-4">
+							<dt class="text-sm font-semibold text-primary">{item.label}</dt>
+							<dd class="text-sm leading-6">{item.body}</dd>
+						</div>
+					))}
+				</div>
+
+				<div class="rounded-2xl bg-accent/10 px-4 py-4 text-sm leading-6 text-secondary">
+					<strong class="text-primary">One thing judges notice immediately in newborn custody hearings:</strong> which parent is focused on the baby's needs and which is focused on winning. A parent who proposes a step-up plan with specific milestones and explains how it serves the baby's developmental interests signals credibility. A parent who is primarily arguing for maximum time without reference to the infant's needs signals something else.
+				</div>
+			</div>
+		</section>
+
+		<!-- Common mistakes -->
+		<section id="mistakes" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Common Mistakes</h2>
+
+			<div class="mt-6 max-w-3xl space-y-4">
+				{[
+					{ title: 'Not building in the step-up plan', body: 'The most costly newborn custody mistake. A conservative initial schedule that lacks a written progression plan becomes entrenched. Twelve months later, both parents are back in court fighting over overnights that could have been planned from the beginning.' },
+					{ title: 'Tying overnight introduction to the other parent\'s behavior', body: '"Overnights begin when Parent B demonstrates they can handle nighttime care" is not a milestone — it is an invitation to gatekeep. Tie the progression to the baby\'s age, not to subjective assessments that the other parent controls.' },
+					{ title: 'Underestimating the logistics of breastfeeding', body: 'Parents who plan a custody arrangement without accounting for the feeding realities of a breastfed newborn find themselves renegotiating within weeks. Address it specifically in the agreement.' },
+					{ title: 'Proposing extreme positions on overnights', body: 'A primary parent who seeks to eliminate all overnights until age 3 and a non-primary parent who demands 50/50 from day one are both likely to alienate courts and mediators. The credible position accounts for the baby\'s developmental needs while genuinely committing to expanding contact as the baby grows.' },
+					{ title: 'Not getting the agreement in writing', body: 'Informal newborn custody arrangements work until they do not. The moment one parent wants to change something and the other does not agree, there is nothing to enforce. Get it in writing and get it court-ordered.' },
+				].map((item) => (
+					<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<p class="font-semibold text-primary">{item.title}</p>
+						<p class="mt-2 text-sm leading-6 text-secondary">{item.body}</p>
+					</div>
+				))}
+			</div>
+		</section>
+
+		<!-- Tools section -->
+		<section id="tools" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Tools to Build Your Newborn Custody Schedule</h2>
+			<p class="mt-3 max-w-3xl text-secondary">CustodyBuilder's free tools help you create a visual calendar showing which parent has the baby on which days, even for non-standard newborn arrangements.</p>
+
+			<div class="mt-6 grid gap-4 sm:grid-cols-2 max-w-3xl">
+				{[
+					{ title: 'Custody Schedule Generator', href: '/custody-schedule-generator/', desc: 'Create a visual calendar showing which parent has the baby on which days. Customize start dates, build out specific days and times, and download a PDF to share with your co-parent, attorney, or mediator.' },
+					{ title: 'Overnight Custody Calculator', href: '/overnight-custody-calculator/', desc: 'Count overnights per year — affects child support in most states.' },
+					{ title: 'Custody Schedule by Age', href: '/custody-schedule-by-age/', desc: 'Full guide to how the right schedule changes at each developmental stage, from newborn through teenager.' },
+					{ title: '50/50 Custody Schedule for Babies', href: '/50-50-custody-schedule-for-babies/', desc: 'When equal time-sharing is developmentally appropriate for infants and how to implement it.' },
+				].map((tool) => (
+					<a href={tool.href} class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:shadow-md transition-shadow">
+						<p class="font-semibold text-accent">{tool.title}</p>
+						<p class="mt-2 text-sm leading-6 text-secondary">{tool.desc}</p>
+					</a>
+				))}
+			</div>
+
+			<div class="mt-8">
+				<BackToGeneratorCta />
+			</div>
+		</section>
+
+		<!-- Related links -->
+		<section class="container-shell border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-xl font-semibold text-primary">Related Tools and Resources</h2>
+			<ul class="mt-4 grid gap-2 text-sm sm:grid-cols-2">
+				{[
+					{ label: '50/50 Custody Schedule for Babies', href: '/50-50-custody-schedule-for-babies/' },
+					{ label: 'Custody Schedule by Age', href: '/custody-schedule-by-age/' },
+					{ label: 'Best Custody Schedule for Toddlers', href: '/best-custody-schedule-for-toddler/' },
+					{ label: 'Parenting Plan Template', href: '/parenting-plan-template/' },
+					{ label: 'Custody Percentage Calculator', href: '/custody-percentage-calculator/' },
+					{ label: 'Overnight Custody Calculator', href: '/overnight-custody-calculator/' },
+					{ label: 'Holiday Custody Schedule', href: '/holiday-custody-schedule/' },
+					{ label: 'Custody Schedule Generator', href: '/custody-schedule-generator/' },
+				].map((link) => (
+					<li>
+						<a href={link.href} class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">{link.label}</a>
+					</li>
+				))}
+			</ul>
+		</section>
+
+		<!-- FAQ -->
+		<section id="faq" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Frequently Asked Questions</h2>
+			<div class="mt-6 max-w-3xl">
+				<FAQ items={faqItems} />
+			</div>
+		</section>
+
+		<!-- Legal disclaimer -->
+		<section class="container-shell border-t border-line-subtle py-8 lg:max-w-5xl">
+			<p class="max-w-3xl text-xs leading-5 text-muted">
+				This page provides general information about newborn custody schedules for educational purposes only. It is not legal advice and does not create an attorney-client relationship. Infant custody law and practice varies significantly by state and by individual judge. The developmental research cited reflects general professional consensus as of 2024 — consult a pediatrician for guidance specific to your baby's needs, and consult a licensed family law attorney in your state before making decisions about your custody arrangement.
+			</p>
+		</section>
+
+	</main>
+	<Footer />
+</BaseLayout>

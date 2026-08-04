@@ -1,0 +1,470 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import {
+	buildArticleSchema,
+	buildBreadcrumbSchema,
+	buildFAQSchema,
+	buildWebPageSchema,
+} from '../lib/seo/schema';
+
+const title = "Florida Custody Schedule: 2023 Law & Time-Sharing Arrangements Explained";
+const description = "Florida's 2023 law created a 50/50 presumption. Here's how time-sharing actually works now, which schedules courts approve, and a free Florida schedule builder.";
+const canonical = '/florida-custody-schedule/';
+const canonicalUrl = getCanonicalUrl(canonical);
+const datePublished = '2024-08-01';
+const dateModified = '2024-08-01';
+
+const editorialReview = {
+	reviewer: 'CustodyBuilder Editorial Team',
+	reviewerHref: '/about/',
+	methodologyLabel: 'How CustodyBuilder Works',
+	methodologyHref: '/how-custodybuilder-works/',
+	lastUpdatedLabel: 'Last updated August 2024',
+	disclaimer: 'Educational information only. Not legal advice.',
+	reviewedFor: [
+		'Accuracy of Florida F.S. 61.13 references',
+		'2023 Senate Bill 1796 changes',
+		'Practical guidance for FL time-sharing',
+	],
+};
+
+const breadcrumbs = [
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: 'Florida Custody Schedule', url: canonicalUrl },
+];
+
+const faqItems = [
+	{
+		question: 'What did Florida\'s 2023 custody law change?',
+		answer: 'Senate Bill 1796, effective May 2023, added a rebuttable presumption that equal (50/50) time-sharing is in the child\'s best interest. Before this law, courts applied the 20 statutory factors with no starting presumption — equal time had no legal advantage. Now, 50/50 is the starting point, and a parent seeking a different arrangement must present evidence to justify it.',
+	},
+	{
+		question: 'Does 50/50 time-sharing mean exactly equal days?',
+		answer: 'Roughly equal — 182 or 183 days per year per parent. The specific pattern depends on the schedule chosen. Week-on/week-off and 2-2-3 both produce 50/50. Courts have flexibility on implementation; what matters is that the overall division is substantially equal.',
+	},
+	{
+		question: 'What is a Florida Parenting Plan and do I need one?',
+		answer: 'A Parenting Plan is a legally required document under F.S. 61.13 for any Florida custody arrangement. It is not optional — not for agreed cases, not for contested cases. The plan must cover the time-sharing schedule, decision-making responsibilities, healthcare, education, and how parents communicate. Without a court-approved Parenting Plan, you do not have a custody order.',
+	},
+	{
+		question: 'Can I get less than 50/50 time-sharing in Florida?',
+		answer: 'Yes, but under the 2023 law you need evidence to overcome the presumption. Courts look at the 20 F.S. 61.13 factors to determine whether a different arrangement serves the child better. Valid reasons include significant distance between parents, infant developmental concerns, or documented evidence that one parent has had minimal involvement.',
+	},
+	{
+		question: 'How does Florida determine time-sharing if parents can\'t agree?',
+		answer: 'Most Florida counties require mediation before the case reaches a judge. If mediation fails, an evidentiary hearing is scheduled where both parents present evidence. The judge applies the 20 statutory factors, starting from the 50/50 presumption. Courts also sometimes appoint a Guardian ad Litem to represent the child\'s interests.',
+	},
+	{
+		question: 'Does Florida consider the child\'s preference?',
+		answer: 'Yes — child preference is one of the 20 statutory factors in F.S. 61.13(3). How much weight it carries depends on the child\'s age and maturity. Florida does not set a minimum age; judges use discretion. In practice, most judges give meaningful weight to the preferences of children 10 and older, and teenagers\' preferences often significantly influence the outcome.',
+	},
+	{
+		question: 'How is child support calculated with a 50/50 Florida schedule?',
+		answer: 'Florida uses an income shares model. The number of overnights each parent has is a direct input into the calculation — more overnights for the higher-earning parent reduces their support obligation. Use the Overnight Custody Calculator to confirm your overnight count before working through Florida\'s child support worksheet.',
+	},
+	{
+		question: 'What happens if one parent violates the Parenting Plan?',
+		answer: 'File a Motion for Contempt with the family court. Florida courts take Parenting Plan violations seriously. Remedies can include make-up time, monetary sanctions, attorney\'s fees, and in serious cases, modification of the time-sharing arrangement.',
+	},
+];
+
+const schema = [
+	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+	buildArticleSchema({
+		headline: title,
+		description,
+		url: canonicalUrl,
+		datePublished,
+		dateModified,
+		authorName: editorialReview.reviewer,
+	}),
+	buildFAQSchema(faqItems),
+	buildBreadcrumbSchema(breadcrumbs),
+];
+
+const situationTable = [
+	{ situation: 'Both parents near same school, child 6+', schedule: 'Week-on/week-off', why: 'Minimal transitions; school-age kids handle week-long separations well' },
+	{ situation: 'Child under 5, parents close together', schedule: '2-2-3 rotation', why: 'Shorter gaps better match young children\'s developmental needs' },
+	{ situation: 'Parents 30-60 minutes apart', schedule: '2-2-5-5 rotation', why: 'Fewer exchanges than 2-2-3; longer blocks than week-on/week-off' },
+	{ situation: 'Parents 60+ miles apart', schedule: 'Every-other-weekend + extended school breaks', why: 'Frequent exchanges not feasible; quality time in longer blocks' },
+	{ situation: 'Infant under 6 months', schedule: 'Step-up plan, day visits initially', why: '50/50 presumption still applies but courts accept developmental evidence' },
+	{ situation: 'High-conflict relationship', schedule: 'Week-on/week-off with structured exchanges', why: 'Fewer handoffs = fewer conflict opportunities; structure reduces ambiguity' },
+	{ situation: 'One parent has irregular work schedule', schedule: '2-2-5-5 or negotiated custom', why: 'Fixed Mon-Tue/Wed-Thu anchors work around unpredictable longer blocks' },
+	{ situation: 'Teenager with strong preference', schedule: 'Weight child\'s stated preference heavily', why: 'Florida courts give meaningful deference to teenage time-sharing preferences' },
+];
+
+const comparisonTable = [
+	{ schedule: 'Week on/week off', split: '50/50', gap: '7 days', best: 'School-age, predictability, proximity' },
+	{ schedule: '2-2-3', split: '50/50', gap: '3 days', best: 'Young children, close homes' },
+	{ schedule: '2-2-5-5', split: '50/50', gap: '5 days', best: 'Travel schedules, middle ground' },
+	{ schedule: 'Every other weekend + midweek', split: '~70/30', gap: 'Varies', best: 'Distance, infant schedules, documented cause' },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article">
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<Breadcrumbs items={breadcrumbs} />
+	<main class="overflow-x-clip">
+
+		<!-- Hero -->
+		<section class="container-shell py-8 lg:max-w-5xl lg:py-12" id="overview">
+			<h1 class="max-w-3xl text-[1.7rem] font-semibold leading-[1.06] tracking-[-0.05em] text-primary sm:text-4xl lg:text-5xl">
+				Florida Custody Schedule: 2023 Law, Time-Sharing, and How to Choose
+			</h1>
+
+			<ul class="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-secondary">
+				{['50/50 presumption since May 2023', 'Written Parenting Plan mandatory', 'All schedules use "time-sharing"', '20 statutory factors still apply'].map((chip) => (
+					<li class="rounded-full bg-surface/70 px-3 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">{chip}</li>
+				))}
+			</ul>
+
+			<p class="mt-5 max-w-2xl text-base leading-7 text-secondary">
+				Florida's 2023 Senate Bill 1796 created a rebuttable presumption that equal (50/50) time-sharing is in the best interest of the child. Courts now start from 50/50 and move away from it only when a parent presents evidence justifying a different arrangement. A written Parenting Plan is mandatory for every Florida custody order under F.S. 61.13 — without one, you do not have a custody order.
+			</p>
+
+			<div class="mt-6 max-w-2xl text-xs leading-5 text-muted">
+				<p class="font-semibold text-secondary">Reviewed for:</p>
+				<ul class="mt-1 list-inside list-disc">{editorialReview.reviewedFor.map((i) => <li>{i}</li>)}</ul>
+				<p class="mt-2">
+					Reviewed by <a href={editorialReview.reviewerHref} class="font-semibold text-secondary underline">{editorialReview.reviewer}</a>
+					{' · '}<a href={editorialReview.methodologyHref} class="font-semibold text-secondary underline">{editorialReview.methodologyLabel}</a>
+					{' · '}<span class="font-semibold text-secondary">{editorialReview.lastUpdatedLabel}</span>
+					{' · '}{editorialReview.disclaimer}
+				</p>
+			</div>
+
+			<div class="mt-6 flex flex-wrap gap-3">
+				<a href="/custody-schedule-generator/" class="inline-flex rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:opacity-90" style="color: #ffffff">Build your FL time-sharing schedule &rarr;</a>
+				<a href="/florida-parenting-plan-template/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Florida Parenting Plan template</a>
+			</div>
+
+			<p class="mt-5 max-w-2xl text-xs leading-5 text-muted">
+				Educational information only. Not legal advice. Laws and county practices differ — consult a Florida family law attorney for your specific situation.
+				<a href="/disclaimer/" class="ml-1 font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Read disclaimer</a>
+			</p>
+		</section>
+
+		<!-- Key takeaways -->
+		<section id="takeaways" class="container-shell scroll-mt-24 pb-2 lg:max-w-5xl" aria-label="Key takeaways">
+			<div class="max-w-3xl rounded-[1.5rem] border border-line bg-accent/10 p-5 sm:p-6">
+				<h2 class="text-sm font-semibold uppercase tracking-[0.08em] text-accent">Key Takeaways</h2>
+				<ul class="mt-3 space-y-2 text-sm leading-6 text-secondary">
+					{[
+						'Florida\'s 2023 law (SB 1796) flipped the framework — 50/50 is now the starting point, not just one option.',
+						'A parent seeking less than 50/50 bears the burden of proof — they must present evidence, not just argue it.',
+						'The 20 F.S. 61.13 factors still apply — they determine whether and how far to move from the 50/50 presumption.',
+						'A written, court-approved Parenting Plan is legally mandatory — informal agreements are not enforceable.',
+						'Florida uses "time-sharing" not "custody" or "visitation" — your documents must use Florida\'s terminology.',
+					].map((point) => (
+						<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">&rarr;</span>{point}</li>
+					))}
+				</ul>
+			</div>
+		</section>
+
+		<!-- On-this-page nav -->
+		<nav class="container-shell border-y border-line-subtle py-3 lg:max-w-5xl" aria-label="On this page">
+			<ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">
+				<li><a href="#2023-change" class="hover:text-accent">What changed in 2023</a></li>
+				<li><a href="#situation-table" class="hover:text-accent">By situation</a></li>
+				<li><a href="#common-schedules" class="hover:text-accent">Common schedules</a></li>
+				<li><a href="#decision-tree" class="hover:text-accent">Decision tree</a></li>
+				<li><a href="#20-factors" class="hover:text-accent">20 statutory factors</a></li>
+				<li><a href="#by-age" class="hover:text-accent">By child's age</a></li>
+				<li><a href="#mistakes" class="hover:text-accent">Common mistakes</a></li>
+				<li><a href="#tools" class="hover:text-accent">Tools</a></li>
+				<li><a href="#faq" class="hover:text-accent">FAQ</a></li>
+			</ul>
+		</nav>
+
+		<!-- What changed in 2023 -->
+		<section id="2023-change" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">What Changed in Florida Custody Law in 2023</h2>
+			<p class="mt-3 max-w-3xl text-secondary">Florida went from "no default" to a 50/50 presumption — the single biggest change in Florida custody law in a generation.</p>
+
+			<div class="mt-6 max-w-3xl space-y-4 text-secondary">
+				<p>Before May 2023, Florida courts weighed the 20 statutory factors in F.S. 61.13 with no starting presumption. Both parents presented their case, the judge applied the factors, and time-sharing was set accordingly. Parents seeking equal time had no legal advantage over parents seeking primary custody.</p>
+
+				<p>Senate Bill 1796, signed into law May 25, 2023, changed that:</p>
+
+				<div class="overflow-hidden rounded-[1.5rem] ring-1 ring-line-subtle">
+					<dl class="divide-y divide-line-subtle">
+						{[
+							{ label: 'The starting point is 50/50', body: 'A rebuttable presumption means courts begin with the assumption that equal time-sharing serves the child\'s best interest.' },
+							{ label: 'Burden shifts', body: 'A parent who wants less than 50/50 bears the burden of proof. They must present evidence to overcome the presumption, not just argue it.' },
+							{ label: 'The 20 factors still apply', body: 'The presumption sets the starting point; the factors determine whether to move from it.' },
+						].map((item) => (
+							<div class="grid gap-1 px-5 py-4 sm:grid-cols-[220px_1fr] sm:gap-4">
+								<dt class="text-sm font-semibold text-primary">{item.label}</dt>
+								<dd class="text-sm leading-6 text-secondary">{item.body}</dd>
+							</div>
+						))}
+					</dl>
+				</div>
+
+				<p class="rounded-2xl bg-surface/70 px-4 py-3 text-sm shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<strong class="text-primary">One thing that did not change:</strong> Florida still does not use the words "custody" or "visitation." The law uses <strong>time-sharing</strong>. Your Parenting Plan and any court documents should use Florida's terminology.
+				</p>
+
+				<p class="text-sm text-muted italic">Laws change, county practices differ, and judges have individual approaches to applying the 2023 presumption — especially for infant cases where developmental factors push against a strict equal split. A Florida family law attorney who practices in your county is the only reliable source of local guidance.</p>
+			</div>
+		</section>
+
+		<!-- Situation table -->
+		<section id="situation-table" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Which Florida Time-Sharing Schedule Is Right for Your Situation?</h2>
+
+			<div class="mt-6 overflow-x-auto rounded-[1.5rem] ring-1 ring-line-subtle">
+				<table class="w-full min-w-[640px] text-left text-sm">
+					<thead class="bg-surface-elevated text-primary">
+						<tr>
+							<th class="px-4 py-3 font-semibold">Your Situation</th>
+							<th class="px-4 py-3 font-semibold">Recommended Arrangement</th>
+							<th class="px-4 py-3 font-semibold">Why</th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-line-subtle text-secondary">
+						{situationTable.map((row) => (
+							<tr>
+								<td class="px-4 py-3 font-medium text-primary">{row.situation}</td>
+								<td class="px-4 py-3">{row.schedule}</td>
+								<td class="px-4 py-3">{row.why}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<!-- Common schedules -->
+		<section id="common-schedules" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">The 4 Most Common Florida Time-Sharing Schedules</h2>
+			<p class="mt-3 max-w-3xl text-secondary">Most Florida families now use a 50/50 schedule as the default, with the specific pattern determined by the child's age, both parents' proximity, and work schedules.</p>
+
+			<div class="mt-8 space-y-10">
+				<!-- Week on/week off -->
+				<div id="schedule-wowo" class="scroll-mt-24">
+					<h3 class="text-xl font-semibold text-primary">Week On, Week Off</h3>
+					<p class="mt-3 max-w-3xl text-secondary"><strong class="text-primary">How it works:</strong> Each parent has the child for a full week, alternating on Sunday or Friday. Result: exactly 50/50, with one transition per week.</p>
+					<p class="mt-3 max-w-3xl text-secondary"><strong class="text-primary">Choose week-on/week-off if:</strong> your child is school-age (roughly 7+), both parents live near the child's school, and your child does better with predictability and minimal transitions. This is the most common 50/50 implementation in Florida — simple, easy to explain to the child, and easy to enforce.</p>
+					<div class="mt-4 max-w-3xl rounded-2xl bg-accent/10 px-4 py-4 text-sm leading-6 text-secondary">
+						<strong class="text-primary">Transition day question:</strong> switching on Sunday night means the child starts Monday morning at school coming off a parent transition — not ideal. Friday afternoon transitions give the child a full weekend to settle in before school. Many Florida parenting plans specify Friday 3 PM (at school pickup) as the transition time precisely for this reason.
+					</div>
+					<p class="mt-3 max-w-3xl text-sm italic text-secondary">Example: Jenna and Marcus live two miles apart in Orlando. Week-on/week-off has worked well since their daughter Emma was 8. Each parent has a full week of predictable parenting time, and Emma's only transition is a Friday school pickup.</p>
+				</div>
+
+				<!-- 2-2-3 -->
+				<div id="schedule-223" class="scroll-mt-24">
+					<h3 class="text-xl font-semibold text-primary">2-2-3 Rotation</h3>
+					<p class="mt-3 max-w-3xl text-secondary"><strong class="text-primary">How it works:</strong> Parent A has Monday-Tuesday. Parent B has Wednesday-Thursday. The 3-day block (Friday-Saturday-Sunday) alternates weekly. Result: 50/50, no parent goes more than three days without seeing the child.</p>
+					<p class="mt-3 max-w-3xl text-secondary"><strong class="text-primary">Choose 2-2-3 if:</strong> your child is younger (roughly 2-7), you live within 20-30 minutes of each other, and frequent contact with both parents is a priority.</p>
+					<div class="mt-4 max-w-3xl rounded-2xl bg-accent/10 px-4 py-4 text-sm leading-6 text-secondary">
+						<strong class="text-primary">Harder edge case:</strong> the 2-2-3 requires more transitions than any other 50/50 schedule — typically 6-8 handoffs per month. After the first 6 months on a 2-2-3, many Florida families find they want more predictability and shift to the 2-2-5-5. Build that possibility into your agreement from the start.
+					</div>
+					<p class="mt-3 max-w-3xl text-sm italic text-secondary">Example: David and Rosa live in adjacent Tampa neighborhoods. Their 4-year-old Leo sees each parent multiple times every week. His pediatrician noted his attachment to both parents is strong — largely because neither parent goes more than three days out of his life.</p>
+				</div>
+
+				<!-- 2-2-5-5 -->
+				<div id="schedule-2255" class="scroll-mt-24">
+					<h3 class="text-xl font-semibold text-primary">2-2-5-5 Rotation</h3>
+					<p class="mt-3 max-w-3xl text-secondary"><strong class="text-primary">How it works:</strong> Parent A always has Monday-Tuesday. Parent B always has Wednesday-Thursday. The 5-day block (Friday through Tuesday) alternates weekly. Result: 50/50, with consistent short days and alternating longer blocks.</p>
+					<p class="mt-3 max-w-3xl text-secondary"><strong class="text-primary">Choose 2-2-5-5 if:</strong> you want 50/50 but the 2-2-3 feels too chaotic and week-on/week-off too long. Both parents know exactly which days they reliably have the child every single week — no week-to-week tracking needed for the short blocks.</p>
+				</div>
+
+				<!-- Every other weekend -->
+				<div id="schedule-eow" class="scroll-mt-24">
+					<h3 class="text-xl font-semibold text-primary">Every Other Weekend + Primary Home (Non-50/50)</h3>
+					<p class="mt-3 max-w-3xl text-secondary"><strong class="text-primary">How it works:</strong> One parent is primary, the other has every other weekend (typically Friday evening to Sunday evening) plus one or two midweek visits. Result: roughly 70/30 or 80/20.</p>
+					<div class="mt-4 max-w-3xl rounded-2xl bg-surface/70 px-4 py-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<strong class="text-primary">Under Florida's 2023 law, this arrangement requires justification.</strong> It is no longer the default. Common reasons courts accept: significant geographic distance, a very young infant with a primary caregiver attachment, or documented evidence that one parent has had minimal caregiving involvement.
+					</div>
+					<p class="mt-3 max-w-3xl text-secondary">Going into a Florida custody hearing seeking a 70/30 split without strong evidence is a significantly harder argument than it was before 2023.</p>
+				</div>
+			</div>
+
+			<!-- Comparison table -->
+			<div class="mt-10 overflow-x-auto rounded-[1.5rem] ring-1 ring-line-subtle">
+				<table class="w-full min-w-[480px] text-left text-sm">
+					<thead class="bg-surface-elevated text-primary">
+						<tr>
+							<th class="px-4 py-3 font-semibold">Schedule</th>
+							<th class="px-4 py-3 font-semibold">Split</th>
+							<th class="px-4 py-3 font-semibold">Max Gap</th>
+							<th class="px-4 py-3 font-semibold">Best For</th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-line-subtle text-secondary">
+						{comparisonTable.map((row) => (
+							<tr>
+								<td class="px-4 py-3 font-medium text-primary">{row.schedule}</td>
+								<td class="px-4 py-3">{row.split}</td>
+								<td class="px-4 py-3">{row.gap}</td>
+								<td class="px-4 py-3">{row.best}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<!-- Decision tree -->
+		<section id="decision-tree" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Which Florida Time-Sharing Schedule Fits You?</h2>
+
+			<div class="mt-6 max-w-3xl space-y-4">
+				<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<p class="font-semibold text-primary">Are both parents within 30 minutes of the child's school?</p>
+					<ul class="mt-3 space-y-3 text-sm text-secondary">
+						<li>
+							<span class="font-semibold text-accent">YES &rarr;</span> Is your child under 5?
+							<ul class="mt-1 ml-4 space-y-1">
+								<li>YES: 2-2-3 rotation (frequent contact matches developmental needs). Consider step-up plan if infant under 12 months.</li>
+								<li>NO: Week-on/week-off (school-age predictability; fewest transitions). 2-2-5-5 if work schedule needs fixed anchor days.</li>
+							</ul>
+						</li>
+						<li>
+							<span class="font-semibold text-accent">NO &rarr;</span> Is the distance under 60 miles?
+							<ul class="mt-1 ml-4 space-y-1">
+								<li>YES: 2-2-5-5 or every-other-week (fewer transitions than 2-2-3).</li>
+								<li>NO: Every-other-weekend + extended school breaks + summer weeks. You will need to overcome the 50/50 presumption — document the distance and its logistical impact thoroughly.</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+				<div class="max-w-3xl rounded-2xl bg-surface/70 px-4 py-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<strong class="text-primary">High conflict overlay:</strong> fewer transitions always reduce friction. If communication is difficult, week-on/week-off is structurally better than 2-2-3 regardless of the child's age. Pair it with a structured co-parenting app and defined exchange rules.
+				</div>
+			</div>
+		</section>
+
+		<!-- 20 factors -->
+		<section id="20-factors" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">What Florida Courts Actually Weigh: The 20 Statutory Factors</h2>
+			<p class="mt-3 max-w-3xl text-secondary">Florida courts run through all 20 factors in F.S. 61.13(3) even when the 2023 presumption applies. The factors determine whether — and how far — to move from 50/50.</p>
+
+			<div class="mt-6 max-w-3xl space-y-4">
+				{[
+					{ label: 'Factor 1: Capacity to facilitate the other parent\'s relationship', body: 'A parent who actively supports the child\'s relationship with the other parent, makes the child available for calls and visits, and avoids speaking negatively about the co-parent demonstrates the single most important co-parenting quality Florida courts look for.' },
+					{ label: 'Factor 2: Stable environment history', body: 'Courts are reluctant to disrupt a working arrangement that is serving the child well. If the child has had a stable primary home for three years and is thriving, that history matters.' },
+					{ label: 'Factor 3: Geographic viability', body: 'The proposed schedule has to be physically achievable. A parenting plan that requires an 8-year-old to commute 90 minutes twice a week for school will not be approved.' },
+					{ label: 'Factor 10: Preference of the child', body: 'Florida considers the child\'s preference when the child is old enough and mature enough. Unlike some states, Florida does not set a specific age cutoff — judges have discretion. In practice, a teenager\'s strong, clearly stated preference carries real weight.' },
+					{ label: 'Factor 20: Other relevant circumstances', body: 'Florida\'s catch-all gives judges latitude to consider anything else that materially affects the child\'s best interest.' },
+				].map((item) => (
+					<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<p class="font-semibold text-primary">{item.label}</p>
+						<p class="mt-2 text-sm leading-6 text-secondary">{item.body}</p>
+					</div>
+				))}
+				<p class="text-sm text-secondary">In practice, the parent who has documented their involvement — school records, medical appointment logs, communication history — outperforms the parent making unsubstantiated claims. Evidence beats assertion.</p>
+			</div>
+		</section>
+
+		<!-- By child's age -->
+		<section id="by-age" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Florida Time-Sharing by the Child's Age</h2>
+			<p class="mt-3 max-w-3xl text-secondary">Florida's 50/50 presumption applies regardless of age, but courts recognize that how it is implemented varies significantly by developmental stage.</p>
+
+			<div class="mt-6 max-w-3xl space-y-4">
+				{[
+					{ label: 'Infants and toddlers (0-3)', body: 'Courts are most receptive to departures from strict 50/50 at this age. Developmental attachment research supports shorter, more frequent visits rather than week-long separations for very young children. Breastfeeding is a factor that courts take seriously and can justify more caregiver time in the very early months.' },
+					{ label: 'School-age children (4-12)', body: '50/50 schedules are most commonly implemented at this stage. School proximity becomes critical — many Florida courts are reluctant to approve schedules that require long commutes to school from both homes.' },
+					{ label: 'Teenagers (13+)', body: 'Florida courts give substantial weight to teenagers\' preferences. A 15-year-old who strongly prefers spending more time with one parent, and can articulate why, is very likely to influence the judge\'s decision.' },
+				].map((item) => (
+					<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<p class="font-semibold text-primary">{item.label}</p>
+						<p class="mt-2 text-sm leading-6 text-secondary">{item.body}</p>
+					</div>
+				))}
+			</div>
+			<p class="mt-4 max-w-3xl text-sm text-secondary">For detailed age-specific guidance, see <a href="/custody-schedule-by-age/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Custody Schedule by Age</a> and <a href="/50-50-custody-schedule-for-babies/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 Custody Schedule for Babies</a>.</p>
+		</section>
+
+		<!-- Common mistakes -->
+		<section id="mistakes" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Common Mistakes Florida Parents Make</h2>
+
+			<div class="mt-6 max-w-3xl space-y-4">
+				{[
+					{ title: 'Treating the 2023 presumption as a guarantee', body: 'The presumption is rebuttable. If the facts of your family\'s situation support a departure from 50/50, a court can and will deviate. Assuming 50/50 is automatic and not making a strong case for your specific arrangement is a mistake on both sides.' },
+					{ title: 'Not addressing the holiday schedule specifically', body: 'Florida courts want a Parenting Plan with a detailed holiday schedule, not vague language like "we\'ll alternate." Who has the child for Thanksgiving dinner — 5 PM or does it start at noon? What time does the Christmas period begin and end? Getting specific now prevents future conflicts.' },
+					{ title: 'Forgetting that the Parenting Plan must be filed', body: 'Some Florida parents reach an informal agreement and rely on it without getting a court-approved Parenting Plan. That informal agreement is not legally enforceable. Under F.S. 61.13, a court-approved written Parenting Plan is mandatory.' },
+					{ title: 'Relocating without following Florida\'s rules', body: 'Florida has strict relocation statutes for moves of more than 50 miles. If you have a time-sharing order and want to relocate, you need either the other parent\'s written agreement or court approval. Florida\'s relocation statute is triggered by the parent\'s intended move — filing before you move, not after, is mandatory.' },
+				].map((item) => (
+					<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<p class="font-semibold text-primary">{item.title}</p>
+						<p class="mt-2 text-sm leading-6 text-secondary">{item.body}</p>
+					</div>
+				))}
+			</div>
+		</section>
+
+		<!-- Tools section -->
+		<section id="tools" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Tools for Your Florida Time-Sharing Plan</h2>
+
+			<div class="mt-6 grid gap-4 sm:grid-cols-2 max-w-3xl">
+				{[
+					{ title: 'Custody Schedule Generator', href: '/custody-schedule-generator/', desc: 'Design a visual time-sharing schedule, see the percentage split, and download a PDF calendar — all without creating an account. Useful for drafting the schedule section of your Florida Parenting Plan.' },
+					{ title: 'Custody Percentage Calculator', href: '/custody-percentage-calculator/', desc: 'Confirm the exact percentage split under any schedule. Useful before finalizing your Parenting Plan.' },
+					{ title: 'Overnight Custody Calculator', href: '/overnight-custody-calculator/', desc: 'Count overnights per year — a direct input into Florida\'s child support formula. More overnights for the higher-earning parent reduces their support obligation.' },
+					{ title: 'Holiday Custody Planner', href: '/holiday-custody-planner/', desc: 'Map out every major holiday for at least two years. Florida mandates a specific holiday schedule in every Parenting Plan.' },
+				].map((tool) => (
+					<a href={tool.href} class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:shadow-md transition-shadow">
+						<p class="font-semibold text-accent">{tool.title}</p>
+						<p class="mt-2 text-sm leading-6 text-secondary">{tool.desc}</p>
+					</a>
+				))}
+			</div>
+
+			<div class="mt-8">
+				<BackToGeneratorCta />
+			</div>
+		</section>
+
+		<!-- Related links -->
+		<section class="container-shell border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-xl font-semibold text-primary">Related Tools and Resources</h2>
+			<ul class="mt-4 grid gap-2 text-sm sm:grid-cols-2">
+				{[
+					{ label: 'Florida Parenting Plan Template', href: '/florida-parenting-plan-template/' },
+					{ label: 'Parenting Plan Template', href: '/parenting-plan-template/' },
+					{ label: '50/50 Custody Schedule', href: '/50-50-custody-schedule/' },
+					{ label: '2-2-3 Custody Schedule', href: '/2-2-3-custody-schedule/' },
+					{ label: 'Week On, Week Off Schedule', href: '/week-on-week-off-custody-schedule/' },
+					{ label: 'Holiday Custody Schedule', href: '/holiday-custody-schedule/' },
+					{ label: 'Custody Schedule by Age', href: '/custody-schedule-by-age/' },
+					{ label: 'Joint Custody vs Sole Custody', href: '/joint-custody-vs-sole-custody/' },
+				].map((link) => (
+					<li>
+						<a href={link.href} class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">{link.label}</a>
+					</li>
+				))}
+			</ul>
+		</section>
+
+		<!-- FAQ -->
+		<section id="faq" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Frequently Asked Questions</h2>
+			<div class="mt-6 max-w-3xl">
+				<FAQ items={faqItems} />
+			</div>
+		</section>
+
+		<!-- Legal disclaimer -->
+		<section class="container-shell border-t border-line-subtle py-8 lg:max-w-5xl">
+			<p class="max-w-3xl text-xs leading-5 text-muted">
+				This page provides general information about Florida custody schedules and time-sharing law for educational purposes only. It is not legal advice and does not create an attorney-client relationship. Florida custody law changed significantly in May 2023 and continues to be interpreted by courts. Consult a licensed Florida family law attorney before making decisions about your time-sharing arrangement.
+			</p>
+		</section>
+
+	</main>
+	<Footer />
+</BaseLayout>
