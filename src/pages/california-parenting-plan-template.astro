@@ -1,0 +1,523 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import {
+	buildArticleSchema,
+	buildBreadcrumbSchema,
+	buildFAQSchema,
+	buildWebPageSchema,
+} from '../lib/seo/schema';
+
+const title = "California Parenting Plan Template: What Courts Require and What to Avoid";
+const description = "California doesn't mandate a single Parenting Plan form, but courts require specific terms. Here's what to include, what judges reject, and a free schedule builder.";
+const canonical = '/california-parenting-plan-template/';
+const canonicalUrl = getCanonicalUrl(canonical);
+const datePublished = '2024-08-01';
+const dateModified = '2024-08-01';
+
+const editorialReview = {
+	reviewer: 'CustodyBuilder Editorial Team',
+	reviewerHref: '/about/',
+	methodologyLabel: 'How CustodyBuilder Works',
+	methodologyHref: '/how-custodybuilder-works/',
+	lastUpdatedLabel: 'Last updated August 2024',
+	disclaimer: 'Educational information only. Not legal advice.',
+	reviewedFor: [
+		'California Family Code requirements and FL-341 forms',
+		'County-specific practice differences',
+		'Enforceable vs aspirational language',
+	],
+};
+
+const breadcrumbs = [
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: 'Parenting Plan Template', url: getCanonicalUrl('/parenting-plan-template/') },
+	{ name: 'California Parenting Plan Template', url: canonicalUrl },
+];
+
+const faqItems = [
+	{
+		question: 'Does California require a formal Parenting Plan document?',
+		answer: 'California does not mandate a single document called a "Parenting Plan" the way Florida does, but a California custody order must include specific, enforceable parenting time terms. Most families produce a comprehensive written agreement that gets incorporated into the court order via FL-341 and related forms. The substance is effectively the same as a formal Parenting Plan — the terminology differs.',
+	},
+	{
+		question: 'Can I write my own California parenting plan without a lawyer?',
+		answer: 'Yes. Many California families, especially those with uncontested arrangements, draft their own plans using templates and the court\'s self-help forms. Every California county has a family law facilitator office (free) that can help with forms and basic process questions. For anything contested, or if there is any history of conflict, having an attorney draft or at minimum review your plan is worth it.',
+	},
+	{
+		question: 'What if my co-parent won\'t agree to a parenting plan?',
+		answer: 'If you cannot reach agreement, California courts require mediation through Family Court Services before a judge hears the contested issues. If mediation does not produce agreement, a judge decides at a hearing. In high-conflict cases, the court may appoint a minor\'s counsel (an attorney for the child) or order a custody evaluation conducted by a licensed professional.',
+	},
+	{
+		question: 'How specific does a California parenting plan need to be?',
+		answer: 'Specific enough to be self-executing — meaning any adult reading the document can determine where the child is supposed to be on any given day, without requiring the parents to agree on anything in the moment. Courts reject vague language like "reasonable time" or "as the parties agree." Specificity now prevents expensive court appearances later.',
+	},
+	{
+		question: 'Does a California parenting plan address child support?',
+		answer: 'The parenting plan itself does not set child support — that is handled through a separate California child support order (Form FL-342 or FL-343) using the DissoMaster formula. The parenting time percentage from your plan directly feeds into that formula. Use the Custody Percentage Calculator to confirm your percentages before the child support discussion.',
+	},
+	{
+		question: 'What is the difference between a California parenting plan and a Marital Settlement Agreement?',
+		answer: 'A Marital Settlement Agreement covers property division, debt allocation, and spousal support. The parenting plan covers the children. They are separate documents, though they are typically filed together in a dissolution proceeding. Unmarried parents do not have a Marital Settlement Agreement but still need a parenting plan (or its functional equivalent in a custody order).',
+	},
+];
+
+const schema = [
+	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+	buildArticleSchema({
+		headline: title,
+		description,
+		url: canonicalUrl,
+		datePublished,
+		dateModified,
+		authorName: editorialReview.reviewer,
+	}),
+	buildFAQSchema(faqItems),
+	buildBreadcrumbSchema(breadcrumbs),
+];
+
+const disputedProvisions = [
+	{ provision: 'School enrollment address', dispute: 'One parent moves out of district; other wants child to change schools', prevention: 'Name the school and designate the enrollment address explicitly; state what happens if that parent moves' },
+	{ provision: 'Holiday schedule', dispute: 'Ambiguous start/end times; which parent\'s "week" a floating holiday falls in', prevention: 'Specify exact times (not just days) for every holiday; state that holiday schedule governs over regular rotation' },
+	{ provision: 'Summer vacation selection', dispute: 'Parents book overlapping weeks; no agreed deadline for selections', prevention: 'Require written notice by March 1 (Parent A) / March 15 (Parent B); define how conflicts are resolved' },
+	{ provision: 'Right of first refusal', dispute: 'One parent uses third-party childcare when the other is available', prevention: 'Define the trigger duration (4-8 hours is common); specify how the offer is made and response timeframe' },
+	{ provision: 'Decision-making deadlock', dispute: 'Joint legal custody produces no decision; child\'s needs go unaddressed', prevention: 'Include a tiered process: direct discussion → parenting coordinator → designated tiebreaker per category' },
+	{ provision: 'Communication platform', dispute: 'One parent floods the other with messages; no response time defined', prevention: 'Name the platform, set 24-hour response time for non-emergencies, prohibit late-night non-emergency contact' },
+];
+
+const vagueVsPrecise = [
+	{ vague: '"The parents will alternate parenting time equally"', precise: '"Parent A has the child Sunday 5 PM through Sunday 5 PM on odd weeks. Parent B has the child Sunday 5 PM through Sunday 5 PM on even weeks, beginning [date]."' },
+	{ vague: '"Parents will alternate holidays"', precise: '"Thanksgiving: Parent A in odd-numbered years, Parent B in even-numbered years. Holiday begins Wednesday at school pickup (or 5 PM if no school) and ends Sunday at 6 PM."' },
+	{ vague: '"The child will attend school near the custodial parent"', precise: '"The child is enrolled at [School Name] in [District]. Parent A\'s address at [address] is the school enrollment address. Neither parent may change the school or district without mutual written agreement."' },
+	{ vague: '"Parents will cooperate on major decisions"', precise: '"Major decisions (school enrollment, elective surgery, change of pediatrician, religious upbringing) require written agreement of both parents. If agreement is not reached within 10 days, Parent A has final authority on educational matters; Parent B has final authority on medical matters."' },
+	{ vague: '"The child will spend the summer with both parents"', precise: '"Each parent selects 2 weeks of continuous summer vacation. Parent A submits selections by April 1 in odd years; Parent B submits first in even years. Selections must be submitted by April 15 and may not overlap without written agreement."' },
+	{ vague: '"Parents will communicate respectfully"', precise: '"All non-emergency communications will occur via TalkingParents. Each parent will respond within 24 hours. Non-emergency contact is limited to 8 AM-9 PM. Phone calls to the child are permitted daily, 7-7:30 PM."' },
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article">
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<Breadcrumbs items={breadcrumbs} />
+	<main class="overflow-x-clip">
+
+		<!-- Hero -->
+		<section class="container-shell py-8 lg:max-w-5xl lg:py-12" id="overview">
+			<h1 class="max-w-3xl text-[1.7rem] font-semibold leading-[1.06] tracking-[-0.05em] text-primary sm:text-4xl lg:text-5xl">
+				California Parenting Plan Template: What to Include and How to Make It Hold Up
+			</h1>
+
+			<ul class="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-secondary">
+				{['No single required CA form', 'Incorporated via FL-341', 'Vague orders are rejected', 'County practices differ'].map((chip) => (
+					<li class="rounded-full bg-surface/70 px-3 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">{chip}</li>
+				))}
+			</ul>
+
+			<p class="mt-5 max-w-2xl text-base leading-7 text-secondary">
+				California does not mandate a single document called a "Parenting Plan" the way Florida does, but a California custody order must include specific parenting time terms — vague orders are not approved. Most arrangements are formalized through a court order using Form FL-341 (Child Custody and Visitation Order Attachment). Once approved by a judge, the plan is a legally binding court order enforceable through contempt proceedings.
+			</p>
+
+			<div class="mt-6 max-w-2xl text-xs leading-5 text-muted">
+				<p class="font-semibold text-secondary">Reviewed for:</p>
+				<ul class="mt-1 list-inside list-disc">{editorialReview.reviewedFor.map((i) => <li>{i}</li>)}</ul>
+				<p class="mt-2">
+					Reviewed by <a href={editorialReview.reviewerHref} class="font-semibold text-secondary underline">{editorialReview.reviewer}</a>
+					{' · '}<a href={editorialReview.methodologyHref} class="font-semibold text-secondary underline">{editorialReview.methodologyLabel}</a>
+					{' · '}<span class="font-semibold text-secondary">{editorialReview.lastUpdatedLabel}</span>
+					{' · '}{editorialReview.disclaimer}
+				</p>
+			</div>
+
+			<div class="mt-6 flex flex-wrap gap-3">
+				<a href="/custody-schedule-generator/" class="inline-flex rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:opacity-90" style="color: #ffffff">Build the schedule section free &rarr;</a>
+				<a href="/custody-agreement-builder/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Custody agreement builder</a>
+			</div>
+
+			<p class="mt-5 max-w-2xl text-xs leading-5 text-muted">
+				Educational information only. Not legal advice. California custody law is applied differently across counties. Consult a licensed California family law attorney before drafting or filing any documents with a California court.
+				<a href="/disclaimer/" class="ml-1 font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Read disclaimer</a>
+			</p>
+		</section>
+
+		<!-- Key takeaways -->
+		<section id="takeaways" class="container-shell scroll-mt-24 pb-2 lg:max-w-5xl" aria-label="Key takeaways">
+			<div class="max-w-3xl rounded-[1.5rem] border border-line bg-accent/10 p-5 sm:p-6">
+				<h2 class="text-sm font-semibold uppercase tracking-[0.08em] text-accent">Key Takeaways</h2>
+				<ul class="mt-3 space-y-2 text-sm leading-6 text-secondary">
+					{[
+						'California uses "parenting time" not "visitation" — your documents should reflect this terminology, which courts have used since 2016.',
+						'No 50/50 presumption — unlike Florida, California analyzes each family on its own facts; the primary caregiver history carries heavy weight.',
+						'Mandatory mediation is required before contested hearings — in "recommending" counties (like Los Angeles), the mediator\'s report often becomes the court order.',
+						'"Reasonable parenting time" is unenforceable — California judges want a specific schedule specific enough that any adult can determine where the child is supposed to be.',
+						'Modification requires a significant change in circumstances — what you agree to now becomes the baseline you\'ll need to justify changing later.',
+					].map((point) => (
+						<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">&rarr;</span>{point}</li>
+					))}
+				</ul>
+			</div>
+		</section>
+
+		<!-- On-this-page nav -->
+		<nav class="container-shell border-y border-line-subtle py-3 lg:max-w-5xl" aria-label="On this page">
+			<ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">
+				<li><a href="#how-it-works" class="hover:text-accent">How CA plans work</a></li>
+				<li><a href="#ca-rules" class="hover:text-accent">CA-specific rules</a></li>
+				<li><a href="#disputed-provisions" class="hover:text-accent">Most-disputed provisions</a></li>
+				<li><a href="#ten-sections" class="hover:text-accent">10 sections to cover</a></li>
+				<li><a href="#vague-vs-precise" class="hover:text-accent">Vague vs precise</a></li>
+				<li><a href="#checklist" class="hover:text-accent">Checklist</a></li>
+				<li><a href="#mistakes" class="hover:text-accent">Common mistakes</a></li>
+				<li><a href="#step-by-step" class="hover:text-accent">Step by step</a></li>
+				<li><a href="#tools" class="hover:text-accent">Tools</a></li>
+				<li><a href="#faq" class="hover:text-accent">FAQ</a></li>
+			</ul>
+		</nav>
+
+		<!-- How CA plans work -->
+		<section id="how-it-works" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">How California Parenting Plans Actually Work</h2>
+			<p class="mt-3 max-w-3xl text-secondary">California's approach is less document-centric than Florida's, but the substance requirements are just as real.</p>
+
+			<div class="mt-6 max-w-3xl space-y-4 text-secondary">
+				<p>California does not issue a mandate like Florida's that every custody case produce a single document called a "Parenting Plan." Instead, custody terms are incorporated into a court order — often using Judicial Council Form FL-341 and its attachments, sometimes through a comprehensive agreement drafted by attorneys that the judge then signs. The practical result is identical: a legally binding written arrangement covering all the elements of co-parenting.</p>
+
+				<p class="rounded-2xl bg-surface/70 px-4 py-3 text-sm shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<strong class="text-primary">What California courts will not accept:</strong> vague orders. "Reasonable parenting time" sounds flexible but is unenforceable. If parents later disagree about what "reasonable" means on a given Tuesday, no court can enforce that language. California judges want a specific schedule, specific holiday provisions, and specific decision-making procedures — detailed enough that the document is self-executing.
+				</p>
+
+				<div class="grid gap-4 sm:grid-cols-2">
+					<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<p class="font-semibold text-primary">Legal custody</p>
+						<p class="mt-2 text-sm leading-6 text-secondary">The right to make major decisions — education, healthcare, religion, extracurriculars. Most California cases result in joint legal custody. Solo decisions belong to whichever parent has the child on a given day.</p>
+					</div>
+					<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<p class="font-semibold text-primary">Physical custody</p>
+						<p class="mt-2 text-sm leading-6 text-secondary">Where the child actually lives. This is where the schedule lives, and where most negotiation happens. Since 2016, California courts use <strong>"parenting time"</strong> instead of "visitation" — your documents should reflect this.</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- CA-specific rules -->
+		<section id="ca-rules" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">California-Specific Rules That Shape the Plan</h2>
+
+			<div class="mt-6 max-w-3xl overflow-hidden rounded-[1.5rem] ring-1 ring-line-subtle">
+				<dl class="divide-y divide-line-subtle">
+					{[
+						{ label: 'No 50/50 presumption', body: 'California Family Code § 3020 expresses a preference for "frequent and continuing contact with both parents," but this is not a presumption of equal time. Unlike Florida, California courts analyze each family on its own facts. The parent who has been the primary caregiver, the parents\' work schedules, proximity of homes, and the child\'s needs all factor in.' },
+						{ label: 'Mandatory mediation', body: 'If you and your co-parent cannot agree, California requires mediation through Family Court Services before a judge hears the dispute — free through the court. The stakes vary significantly by county: in Los Angeles and some other counties, the mediator writes a recommendation that goes to the judge. In San Francisco and other counties, sessions are confidential. Knowing your county\'s approach matters for how you prepare.' },
+						{ label: 'Child\'s preference', body: 'Family Code § 3042 requires courts to consider the preferences of a child who is "of sufficient age and capacity." Most California judges give meaningful weight to children 12 and older, and a 14-year-old\'s strong preference about living arrangements can be close to determinative.' },
+						{ label: 'Modification requires changed circumstances', body: 'Once a California parenting plan is a court order, the requesting parent must show a "significant change in circumstances" to modify it. This bar is intentionally high — California courts prioritize stability. What you agree to now becomes the baseline you\'ll need to justify changing later.' },
+						{ label: 'Key filing forms', body: 'FL-100 is the Petition for Dissolution (married couples). FL-260 is for unmarried parents. FL-341 (Child Custody and Visitation Order Attachment) and its supplemental attachments are where parenting plan terms are formally memorialized in court orders.' },
+					].map((item) => (
+						<div class="grid gap-1 px-5 py-4 sm:grid-cols-[200px_1fr] sm:gap-4">
+							<dt class="text-sm font-semibold text-primary">{item.label}</dt>
+							<dd class="text-sm leading-6 text-secondary">{item.body}</dd>
+						</div>
+					))}
+				</dl>
+			</div>
+			<p class="mt-4 max-w-3xl text-xs text-muted italic">County practices differ. A family law attorney who practices in your specific county is the only reliable source of guidance on local norms. This is general information, not legal advice.</p>
+		</section>
+
+		<!-- Most-disputed provisions -->
+		<section id="disputed-provisions" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Which California Parenting Plan Provisions Are Most Commonly Disputed?</h2>
+			<p class="mt-3 max-w-3xl text-secondary">Understanding where California parenting plans break down helps you draft them better. These are the sections that generate the most post-order litigation.</p>
+
+			<div class="mt-6 overflow-x-auto rounded-[1.5rem] ring-1 ring-line-subtle">
+				<table class="w-full min-w-[640px] text-left text-sm">
+					<thead class="bg-surface-elevated text-primary">
+						<tr>
+							<th class="px-4 py-3 font-semibold">Provision</th>
+							<th class="px-4 py-3 font-semibold">Most Common Dispute</th>
+							<th class="px-4 py-3 font-semibold">How to Prevent It</th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-line-subtle text-secondary">
+						{disputedProvisions.map((row) => (
+							<tr>
+								<td class="px-4 py-3 font-medium text-primary">{row.provision}</td>
+								<td class="px-4 py-3">{row.dispute}</td>
+								<td class="px-4 py-3">{row.prevention}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<!-- 10 sections -->
+		<section id="ten-sections" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">What a California Parenting Plan Should Cover</h2>
+			<p class="mt-3 max-w-3xl text-secondary">Ten substantive areas. Courts want specific language in each — not aspirational statements.</p>
+
+			<div class="mt-8 space-y-8 max-w-3xl">
+				<div id="ca-section-1" class="scroll-mt-24">
+					<h3 class="text-lg font-semibold text-primary">1. Physical Custody Schedule</h3>
+					<p class="mt-2 text-sm leading-6 text-secondary">The day-by-day schedule defining which parent has the child on which days and times. California courts want specificity: not "alternating weeks" but "Parent A has the child from Sunday at 5 PM through Sunday at 5 PM on alternating weeks, beginning [date]."</p>
+					<p class="mt-2 text-sm leading-6 text-secondary">Common California arrangements: <a href="/2-2-3-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-3 rotation</a> (younger children, close proximity), <a href="/week-on-week-off-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">week on, week off</a> (school-age), <a href="/2-2-5-5-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-5-5 rotation</a> (good middle ground). For a full comparison, see <a href="/california-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">California Custody Schedule</a>.</p>
+				</div>
+
+				<div id="ca-section-2" class="scroll-mt-24">
+					<h3 class="text-lg font-semibold text-primary">2. Legal Custody — Joint vs. Sole</h3>
+					<p class="mt-2 text-sm leading-6 text-secondary">Joint legal custody is the norm in California. The plan should address more than just the label: what decisions require agreement from both parents (school enrollment, elective surgery, changing pediatricians, relocating, religious education); what each parent decides independently during their parenting time; what happens when joint decision-makers cannot agree (tiered process: discuss directly → mediator → designated tiebreaker per category).</p>
+				</div>
+
+				<div id="ca-section-3" class="scroll-mt-24">
+					<h3 class="text-lg font-semibold text-primary">3. Holiday and Vacation Schedule</h3>
+					<p class="mt-2 text-sm leading-6 text-secondary">The regular weekly schedule is suspended during holidays — the holiday schedule governs. Specify exact start and end times for each major holiday:</p>
+					<ul class="mt-2 space-y-1 text-sm leading-6 text-secondary list-inside list-disc">
+						<li><strong class="text-primary">Thanksgiving:</strong> alternated annually; California plans typically run from Wednesday at school pickup through Sunday at 6 PM — specify the exact hour to prevent the recurring dispute over whether it starts Wednesday evening or Thursday morning</li>
+						<li><strong class="text-primary">Winter break:</strong> California plans often split at noon on December 25; the school-district calendar determines when "winter break" actually begins, so name the child's district or school explicitly</li>
+						<li><strong class="text-primary">Spring break:</strong> alternated annually; California school districts vary widely in spring break timing, so specify the start as the last day of school before break per the child's school calendar</li>
+						<li><strong class="text-primary">Summer:</strong> California plans typically give each parent 2-4 continuous weeks; advance notice of 30-60 days is standard; many plans require Parent A to submit first in odd years and Parent B first in even years</li>
+						<li><strong class="text-primary">Mother's Day/Father's Day:</strong> each parent always has their respective day regardless of the regular parenting time rotation — this holds even when the day falls during the other parent's week</li>
+					</ul>
+				</div>
+
+				<div id="ca-section-4" class="scroll-mt-24">
+					<h3 class="text-lg font-semibold text-primary">4. Decision-Making Procedures</h3>
+					<p class="mt-2 text-sm leading-6 text-secondary">How do joint legal custodians actually make decisions? Specify: first direct contact; timeline (each parent has X days to respond); if disagreement persists: mediation with a parenting coordinator; emergency decisions (parent present makes them; notifies other as soon as practicable); tiebreaker provision (some California plans designate one parent as having final say on specific categories to prevent endless deadlock).</p>
+				</div>
+
+				<div id="ca-section-5" class="scroll-mt-24">
+					<h3 class="text-lg font-semibold text-primary">5. Healthcare</h3>
+					<p class="mt-2 text-sm leading-6 text-secondary">Which parent carries the child on their health insurance — California courts typically assign this based on which plan is more affordable, more comprehensive, or receives an employer subsidy for dependent coverage. Unreimbursed medical expenses: 50/50 is common in California plans, but many attorneys recommend splitting in proportion to each parent's DissoMaster-calculated income share — this ties the healthcare cost division to the same formula as child support and reduces future disputes as incomes change. The attending parent must notify the other within 24 hours of any non-routine appointment. Both parents have independent access to all medical records under California law regardless of which parent attended; the plan should affirm this explicitly and name the medical portal if one exists.</p>
+				</div>
+
+				<div id="ca-section-6" class="scroll-mt-24">
+					<h3 class="text-lg font-semibold text-primary">6. Education</h3>
+					<p class="mt-2 text-sm leading-6 text-secondary">Which parent's address is used for school enrollment — important in California where school district boundaries are often competitive and changing schools is disruptive. How each parent accesses school records, teacher communications, report cards, and school portals (California law gives both parents these rights; the plan can affirm this and add notification obligations). School dispute resolution if parents with joint legal custody disagree on school choice.</p>
+				</div>
+
+				<div id="ca-section-7" class="scroll-mt-24">
+					<h3 class="text-lg font-semibold text-primary">7. Communication Between Parents</h3>
+					<p class="mt-2 text-sm leading-6 text-secondary">Name a specific platform (a co-parenting communication tool like OurFamilyWizard or TalkingParents provides a documented record useful if disputes arise later). Set response times: 24 hours for non-urgent matters; immediate for emergencies. Limit scope to matters concerning the child. Many California plans specify that non-emergency communications are limited to reasonable hours (8 AM-9 PM).</p>
+				</div>
+
+				<div id="ca-section-8" class="scroll-mt-24">
+					<h3 class="text-lg font-semibold text-primary">8. Communication Between Each Parent and the Child</h3>
+					<p class="mt-2 text-sm leading-6 text-secondary">One phone or video call per day during a specified window (e.g., 6:30-7:30 PM); the parent in possession facilitates but does not force the child to participate; emergency contact permitted at any time; neither parent records calls without consent of the other parent.</p>
+				</div>
+
+				<div id="ca-section-9" class="scroll-mt-24">
+					<h3 class="text-lg font-semibold text-primary">9. Travel</h3>
+					<p class="mt-2 text-sm leading-6 text-secondary">Local travel (typically no advance notice required within the county); out-of-state travel (most California plans require 30 days' written notice with the travel itinerary); international travel (requires the other parent's written notarized consent or a court order). Specify passport control: which parent holds the child's passport and what consent is required to use it.</p>
+				</div>
+
+				<div id="ca-section-10" class="scroll-mt-24">
+					<h3 class="text-lg font-semibold text-primary">10. Right of First Refusal (Optional)</h3>
+					<p class="mt-2 text-sm leading-6 text-secondary">Commonly negotiated in California. If the parent who has the child needs childcare for more than a specified period (typically 4-8 hours), they must first offer the other parent the opportunity to care for the child before using a third-party caregiver.</p>
+					<div class="mt-3 rounded-2xl bg-surface/70 px-4 py-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<strong class="text-primary">Think carefully before including this:</strong> the right of first refusal clause sounds simple but generates significant conflict in practice when parents have poor communication. A trigger duration of 4-8 hours is far more practical than 2 hours. A 2-hour response window to accept or decline is reasonable. If parents live far apart or have unpredictable work schedules, the clause may create daily friction rather than additional parenting time.
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Vague vs precise -->
+		<section id="vague-vs-precise" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Vague vs. Precise: What California Courts Accept</h2>
+			<p class="mt-3 max-w-3xl text-secondary">The single most common reason California parenting plans generate post-order conflict is language that sounded reasonable at signing but cannot be enforced when parents disagree.</p>
+
+			<div class="mt-6 overflow-x-auto rounded-[1.5rem] ring-1 ring-line-subtle">
+				<table class="w-full min-w-[640px] text-left text-sm">
+					<thead class="bg-surface-elevated text-primary">
+						<tr>
+							<th class="px-4 py-3 font-semibold">Vague (courts push back or later dispute)</th>
+							<th class="px-4 py-3 font-semibold">Precise (courts accept and can enforce)</th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-line-subtle text-secondary">
+						{vagueVsPrecise.map((row) => (
+							<tr>
+								<td class="px-4 py-3 italic text-muted">{row.vague}</td>
+								<td class="px-4 py-3">{row.precise}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<!-- Checklist -->
+		<section id="checklist" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Before You Submit: California Parenting Plan Checklist</h2>
+
+			<div class="mt-6 max-w-3xl space-y-6">
+				{[
+					{
+						section: 'Schedule',
+						items: [
+							'Specific start/end days and times for each parent\'s regular parenting time',
+							'Start date identified',
+							'Exchange location and transportation responsibility specified',
+							'Statement that holiday schedule governs when it conflicts with regular schedule',
+							'Separate school-year and summer schedules if different',
+						],
+					},
+					{
+						section: 'Holidays',
+						items: [
+							'Every major holiday named explicitly',
+							'Exact start and end times for each holiday period (not just dates)',
+							'Alternating year assignments designated for each alternating holiday',
+							'Three-day weekends addressed (Memorial Day, Labor Day, Presidents\' Day)',
+							'Summer vacation selection process with notification deadlines',
+						],
+					},
+					{
+						section: 'Decision-making',
+						items: [
+							'Joint or sole legal custody designated clearly',
+							'Categories of "major decisions" defined',
+							'Tiered dispute resolution process: discussion → coordinator → tiebreaker',
+							'Emergency decision authority specified (attending parent decides; notifies other)',
+						],
+					},
+					{
+						section: 'School enrollment',
+						items: [
+							'Enrollment address designated explicitly',
+							'Both parents\' portal/record access affirmed',
+							'What happens if enrollment-address parent moves out of district',
+						],
+					},
+					{
+						section: 'Language and forms',
+						items: [
+							'"Parenting time" used throughout (not "visitation")',
+							'FL-341 and applicable attachments identified for court filing',
+							'County-specific local rules checked',
+						],
+					},
+				].map((group) => (
+					<div>
+						<h3 class="font-semibold text-primary">{group.section}</h3>
+						<ul class="mt-2 space-y-1">
+							{group.items.map((item) => (
+								<li class="flex gap-2 text-sm text-secondary">
+									<span class="mt-0.5 shrink-0 text-accent" aria-hidden="true">&#9633;</span>
+									{item}
+								</li>
+							))}
+						</ul>
+					</div>
+				))}
+			</div>
+		</section>
+
+		<!-- Common mistakes -->
+		<section id="mistakes" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Common Mistakes California Parents Make With Parenting Plans</h2>
+
+			<div class="mt-6 max-w-3xl space-y-4">
+				{[
+					{ title: 'Writing aspirational statements instead of specific rules', body: '"The parties will cooperate on all decisions" sounds good but means nothing when they do not cooperate. Courts want enforceable terms, not intentions.' },
+					{ title: 'Leaving school enrollment unaddressed', body: 'In California, the child\'s school is often tied to the primary parent\'s address. If one parent moves to a different school district after the order is in place, this creates a problem the plan did not anticipate. Designating the school-of-record address explicitly — and what happens if that parent moves — prevents this.' },
+					{ title: 'Not building in a holiday schedule update mechanism', body: 'A holiday schedule drafted when the child is 4 may not make sense at 14. Some California plans include a review point at specific ages or an agreement to negotiate holiday modifications in good faith annually.' },
+					{ title: 'Not accounting for summer notice deadlines', body: 'If each parent has 2-4 weeks of chosen summer time, when must they notify the other? Plans without a deadline (March 1 or April 1 is common) result in parents booking conflicting summers and fighting about it every June.' },
+					{ title: 'Using "visitation" instead of "parenting time"', body: 'California courts moved to this terminology in 2016. A plan drafted in the old language is not invalid, but updating it signals you understand the current framework — and that you are not using a decade-old template.' },
+				].map((item) => (
+					<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<p class="font-semibold text-primary">{item.title}</p>
+						<p class="mt-2 text-sm leading-6 text-secondary">{item.body}</p>
+					</div>
+				))}
+			</div>
+		</section>
+
+		<!-- Step by step -->
+		<section id="step-by-step" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">How to Use a California Parenting Plan Template: Step by Step</h2>
+
+			<div class="mt-6 max-w-3xl space-y-4">
+				{[
+					{ title: 'Build the schedule first', body: 'Use the Custody Schedule Generator to design your parenting time arrangement visually — see what any rotation looks like on an actual calendar before committing to it in writing. Confirm percentages with the Custody Percentage Calculator. Count overnights with the Overnight Custody Calculator — that figure may affect California child support calculations via the DissoMaster formula.' },
+					{ title: 'Map out holidays for at least two years', body: 'Use the Holiday Custody Schedule tool to assign every major holiday, with specific times. A self-executing holiday schedule — one you can read in October and know exactly who has Thanksgiving without renegotiating — is worth the hour it takes to draft.' },
+					{ title: 'Draft decision-making and communication sections with specifics', body: 'Name the communication platform. Set the response times. Define the tiebreaker process for joint legal custody deadlocks. Write it to be self-executing.' },
+					{ title: 'Have a California attorney review it', body: 'Even a flat-fee review ($300-600 in most California markets) catches terms that local judges consistently push back on, language that will not survive a contested modification later, or gaps that will generate expensive conflict in year two. Recommending-county mediation cases benefit especially from attorney prep — the mediator\'s recommendation matters.' },
+					{ title: 'File with the court', body: 'Use the appropriate California Judicial Council forms — FL-341 and its attachments are the standard vehicle for making your agreement a court order. The court\'s family law facilitator (free in every county) can help with the filing process.' },
+				].map((item, i) => (
+					<div class="flex gap-4">
+						<div class="shrink-0 flex h-8 w-8 items-center justify-center rounded-full bg-accent text-sm font-bold text-white" aria-hidden="true">{i + 1}</div>
+						<div>
+							<p class="font-semibold text-primary">{item.title}</p>
+							<p class="mt-1 text-sm leading-6 text-secondary">{item.body}</p>
+						</div>
+					</div>
+				))}
+			</div>
+		</section>
+
+		<!-- Tools section -->
+		<section id="tools" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Tools for Your California Parenting Plan</h2>
+			<p class="mt-3 max-w-3xl text-secondary">The schedule section is what you and your co-parent will look at every week. CustodyBuilder's free generator lets you build it visually — see it on a real calendar, confirm the percentages, download a PDF.</p>
+
+			<div class="mt-6 grid gap-4 sm:grid-cols-2 max-w-3xl">
+				{[
+					{ title: 'Custody Schedule Generator', href: '/custody-schedule-generator/', desc: 'Build your California parenting time schedule visually and download as PDF — no account needed.' },
+					{ title: 'Custody Percentage Calculator', href: '/custody-percentage-calculator/', desc: 'Confirm the parenting time split for California child support calculations.' },
+					{ title: 'Overnight Custody Calculator', href: '/overnight-custody-calculator/', desc: 'Count annual overnights per parent — the DissoMaster formula uses this figure.' },
+					{ title: 'Custody Agreement Builder', href: '/custody-agreement-builder/', desc: 'Build a comprehensive parenting agreement covering all ten sections with specific, court-ready language.' },
+				].map((tool) => (
+					<a href={tool.href} class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:shadow-md transition-shadow">
+						<p class="font-semibold text-accent">{tool.title}</p>
+						<p class="mt-2 text-sm leading-6 text-secondary">{tool.desc}</p>
+					</a>
+				))}
+			</div>
+
+			<div class="mt-8">
+				<BackToGeneratorCta />
+			</div>
+		</section>
+
+		<!-- Related links -->
+		<section class="container-shell border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-xl font-semibold text-primary">Related Tools and Resources</h2>
+			<ul class="mt-4 grid gap-2 text-sm sm:grid-cols-2">
+				{[
+					{ label: 'California Custody Schedule', href: '/california-custody-schedule/' },
+					{ label: 'Parenting Plan Template', href: '/parenting-plan-template/' },
+					{ label: 'Sample Parenting Plan', href: '/sample-parenting-plan/' },
+					{ label: 'Holiday Custody Schedule', href: '/holiday-custody-schedule/' },
+					{ label: 'Custody Percentage Calculator', href: '/custody-percentage-calculator/' },
+					{ label: '2-2-3 Custody Schedule', href: '/2-2-3-custody-schedule/' },
+					{ label: 'Custody Schedule by Age', href: '/custody-schedule-by-age/' },
+					{ label: 'Legal Custody vs Physical Custody', href: '/legal-custody-vs-physical-custody/' },
+				].map((link) => (
+					<li>
+						<a href={link.href} class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">{link.label}</a>
+					</li>
+				))}
+			</ul>
+		</section>
+
+		<!-- FAQ -->
+		<section id="faq" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Frequently Asked Questions</h2>
+			<div class="mt-6 max-w-3xl">
+				<FAQ items={faqItems} />
+			</div>
+		</section>
+
+		<!-- Legal disclaimer -->
+		<section class="container-shell border-t border-line-subtle py-8 lg:max-w-5xl">
+			<p class="max-w-3xl text-xs leading-5 text-muted">
+				This page provides general information about California parenting plans for educational purposes only. It is not legal advice and does not create an attorney-client relationship. California custody law is applied differently across counties, and individual circumstances vary widely. Consult a licensed California family law attorney before drafting or filing any documents with a California court.
+			</p>
+		</section>
+
+	</main>
+	<Footer />
+</BaseLayout>
