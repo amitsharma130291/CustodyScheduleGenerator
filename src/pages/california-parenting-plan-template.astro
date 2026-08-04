@@ -7,6 +7,9 @@ import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import FAQ from '../components/FAQ.astro';
 import { getCanonicalUrl } from '../lib/seo/metadata';
+import ScheduleHeroGeneratorPanel from '../components/schedules/ScheduleHeroGeneratorPanel.astro';
+import { generateSchedule } from '../lib/schedules/generateSchedule';
+import { getDefaultStartDate } from '../lib/schedules/format';
 import {
 	buildArticleSchema,
 	buildBreadcrumbSchema,
@@ -18,6 +21,13 @@ const title = "California Parenting Plan Template: What Courts Require and What 
 const description = "California doesn't mandate a single Parenting Plan form, but courts require specific terms. Here's what to include, what judges reject, and a free schedule builder.";
 const canonical = '/california-parenting-plan-template/';
 const canonicalUrl = getCanonicalUrl(canonical);
+const startDate = getDefaultStartDate();
+const generatedSchedule = generateSchedule({
+	scheduleId: '223',
+	startDate,
+	parentNames: { parentA: 'Parent A', parentB: 'Parent B' },
+});
+const heroTrustSignals = ["Free — no account needed", "Build the schedule section", "Download as PDF"];
 const datePublished = '2024-08-01';
 const dateModified = '2024-08-01';
 
@@ -108,8 +118,10 @@ const vagueVsPrecise = [
 	<main class="overflow-x-clip">
 
 		<!-- Hero -->
-		<section class="container-shell py-8 lg:max-w-5xl lg:py-12" id="overview">
-			<h1 class="max-w-3xl text-[1.7rem] font-semibold leading-[1.06] tracking-[-0.05em] text-primary sm:text-4xl lg:text-5xl">
+		<section class="container-shell grid grid-cols-1 gap-5 py-4 sm:py-5 lg:grid-cols-[minmax(0,0.88fr)_minmax(704px,1.12fr)] lg:items-start lg:gap-7 lg:py-6 xl:w-[min(100%,1360px)]" id="schedule-generator">
+			<div class="order-1 min-w-0 lg:col-start-1 lg:row-start-1 lg:pt-1">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">California Parenting Plan schedule builder</p>
+				<h1 class="mt-2.5 max-w-3xl text-[1.7rem] font-semibold leading-[1.06] tracking-[-0.05em] text-primary sm:text-4xl lg:text-5xl">
 				California Parenting Plan Template: What to Include and How to Make It Hold Up
 			</h1>
 
@@ -143,6 +155,14 @@ const vagueVsPrecise = [
 				Educational information only. Not legal advice. California custody law is applied differently across counties. Consult a licensed California family law attorney before drafting or filing any documents with a California court.
 				<a href="/disclaimer/" class="ml-1 font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Read disclaimer</a>
 			</p>
+
+			</div>
+
+			<ScheduleHeroGeneratorPanel
+				selectedScheduleId="223"
+				generatedSchedule={generatedSchedule}
+				heroTrustSignals={heroTrustSignals}
+			/>
 		</section>
 
 		<!-- Key takeaways -->
@@ -275,11 +295,11 @@ const vagueVsPrecise = [
 					<h3 class="text-lg font-semibold text-primary">3. Holiday and Vacation Schedule</h3>
 					<p class="mt-2 text-sm leading-6 text-secondary">The regular weekly schedule is suspended during holidays — the holiday schedule governs. Specify exact start and end times for each major holiday:</p>
 					<ul class="mt-2 space-y-1 text-sm leading-6 text-secondary list-inside list-disc">
-						<li><strong class="text-primary">Thanksgiving:</strong> alternated annually; California plans typically run from Wednesday at school pickup through Sunday at 6 PM — specify the exact hour to prevent the recurring dispute over whether it starts Wednesday evening or Thursday morning</li>
-						<li><strong class="text-primary">Winter break:</strong> California plans often split at noon on December 25; the school-district calendar determines when "winter break" actually begins, so name the child's district or school explicitly</li>
-						<li><strong class="text-primary">Spring break:</strong> alternated annually; California school districts vary widely in spring break timing, so specify the start as the last day of school before break per the child's school calendar</li>
-						<li><strong class="text-primary">Summer:</strong> California plans typically give each parent 2-4 continuous weeks; advance notice of 30-60 days is standard; many plans require Parent A to submit first in odd years and Parent B first in even years</li>
-						<li><strong class="text-primary">Mother's Day/Father's Day:</strong> each parent always has their respective day regardless of the regular parenting time rotation — this holds even when the day falls during the other parent's week</li>
+						<li><strong class="text-primary">Thanksgiving:</strong> alternated annually; specify pickup time Wednesday before and return Sunday evening</li>
+						<li><strong class="text-primary">Winter break:</strong> often split at noon on December 25</li>
+						<li><strong class="text-primary">Spring break:</strong> alternated annually with specific start (last day of school before break)</li>
+						<li><strong class="text-primary">Summer:</strong> most plans give each parent 2-4 continuous weeks of their choosing, with advance notice (commonly 30-60 days)</li>
+						<li><strong class="text-primary">Mother's Day/Father's Day:</strong> each parent always has their respective day</li>
 					</ul>
 				</div>
 
@@ -290,7 +310,7 @@ const vagueVsPrecise = [
 
 				<div id="ca-section-5" class="scroll-mt-24">
 					<h3 class="text-lg font-semibold text-primary">5. Healthcare</h3>
-					<p class="mt-2 text-sm leading-6 text-secondary">Which parent carries the child on their health insurance — California courts typically assign this based on which plan is more affordable, more comprehensive, or receives an employer subsidy for dependent coverage. Unreimbursed medical expenses: 50/50 is common in California plans, but many attorneys recommend splitting in proportion to each parent's DissoMaster-calculated income share — this ties the healthcare cost division to the same formula as child support and reduces future disputes as incomes change. The attending parent must notify the other within 24 hours of any non-routine appointment. Both parents have independent access to all medical records under California law regardless of which parent attended; the plan should affirm this explicitly and name the medical portal if one exists.</p>
+					<p class="mt-2 text-sm leading-6 text-secondary">Which parent carries health insurance; how unreimbursed medical expenses are split (50/50 is common; some California plans split in proportion to each parent's income using a ratio from the child support calculation); notification requirements (attending parent notifies the other within 24 hours of any non-routine appointment); both parents have independent access to all records.</p>
 				</div>
 
 				<div id="ca-section-6" class="scroll-mt-24">
