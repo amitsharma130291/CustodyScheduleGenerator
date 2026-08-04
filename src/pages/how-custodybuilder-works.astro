@@ -133,6 +133,21 @@ const schema = [
 				{reviewStandards.links.map((l) => <li><a href={l.href} class="text-sm font-semibold text-accent underline">{l.label}</a></li>)}
 			</ul>
 		</section>
+
+		<section id="related-resources" class="container-shell scroll-mt-24 py-section" aria-labelledby="related-resources-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Keep exploring</p>
+				<h2 id="related-resources-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">Related Tools &amp; Resources</h2>
+				<ul class="mt-6 space-y-3 text-base leading-7 text-secondary">
+				<li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span><span>Try the <a href="/custody-schedule-generator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule generator</a> to build your first schedule.</span></li>
+				<li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span><span>Explore popular schedule patterns: <a href="/2-2-3-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-3 schedule</a>, <a href="/50-50-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 schedule</a>, <a href="/week-on-week-off-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">week-on-week-off</a>.</span></li>
+				<li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span><span>Use the <a href="/custody-percentage-calculator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody percentage calculator</a> to check your parenting-time split.</span></li>
+				<li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span><span>Download a blank <a href="/parenting-plan-template/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting plan template</a> for your full agreement.</span></li>
+				<li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span><span>Compare tools with the <a href="/schedule-comparison-tool/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">schedule comparison tool</a>.</span></li>
+				</ul>
+			</div>
+		</section>
+
 	</main>
 	<Footer />
 </BaseLayout>

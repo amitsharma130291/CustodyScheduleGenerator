@@ -54,6 +54,21 @@ const schema = [
 		<section id="color-month" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12"><div class="grid gap-8 lg:grid-cols-[1fr_360px]"><div><h2 class="text-2xl font-semibold text-primary sm:text-3xl">{colorMonth.title}</h2><p class="mt-3 text-secondary">{colorMonth.intro}</p><ul class="mt-6 space-y-4">{colorMonth.legend.map((l) => <li class="border-l-2 border-accent/30 pl-4"><h3 class="font-semibold text-primary">{l.heading}</h3><p class="mt-2 text-sm text-secondary">{l.body}</p></li>)}</ul></div><ColorCodedMonthGraphic /></div></section>
 		<section id="school-summer" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12"><h2 class="text-2xl font-semibold text-primary sm:text-3xl">{schoolSummer.title}</h2><p class="mt-3 max-w-3xl text-secondary">{schoolSummer.intro}</p><ul class="mt-6 max-w-3xl space-y-4">{schoolSummer.items.map((i) => <li class="rounded-[1rem] bg-surface/50 p-4 ring-1 ring-line-subtle"><h3 class="font-semibold text-primary">{i.heading}</h3><p class="mt-2 text-sm text-secondary" set:html={i.body} /></li>)}</ul></section>
 		<section id="print-export" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12"><div class="max-w-2xl rounded-[1.25rem] border border-line bg-surface/40 p-6"><h2 class="text-2xl font-semibold text-primary">{printExport.title}</h2><p class="mt-3 text-secondary">{printExport.body}</p><div class="mt-5 flex flex-col gap-3 sm:flex-row"><CtaButton href={printExport.primaryHref} variant="primary" size="large">{printExport.primaryLabel}</CtaButton><a href={printExport.secondaryHref} class="text-sm font-semibold text-accent underline">{printExport.secondaryLabel}</a></div></div></section>
+
+		<section id="related-resources" class="container-shell scroll-mt-24 py-section" aria-labelledby="related-resources-title">
+			<div class="max-w-3xl">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Keep exploring</p>
+				<h2 id="related-resources-title" class="mt-3 text-3xl font-semibold tracking-[-0.04em] text-primary sm:text-4xl">Related Tools &amp; Resources</h2>
+				<ul class="mt-6 space-y-3 text-base leading-7 text-secondary">
+				<li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span><span>Generate and preview your schedule with the <a href="/custody-schedule-generator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule generator</a>.</span></li>
+				<li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span><span>Use the <a href="/custody-schedule-template/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule template</a> to define your rotation rules.</span></li>
+				<li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span><span>Mark holiday overrides using the <a href="/holiday-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">holiday custody schedule</a> guide.</span></li>
+				<li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span><span>The <a href="/2-2-3-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-3 custody schedule</a> and <a href="/week-on-week-off-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">week-on-week-off schedule</a> are the most calendar-friendly patterns.</span></li>
+				<li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span><span>Document your full agreement in a <a href="/parenting-plan-template/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting plan template</a>.</span></li>
+				</ul>
+			</div>
+		</section>
+
 		<FAQ items={faqItems} title={faqSection.title} description={faqSection.description} />
 	</main>
 	<Footer />
