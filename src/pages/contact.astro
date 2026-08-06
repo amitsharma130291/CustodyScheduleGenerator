@@ -44,17 +44,123 @@ const schema = [
 	<Navbar />
 	<Breadcrumbs items={breadcrumbs} />
 	<main>
+		<!-- Hero -->
 		<section class="container-shell py-10 lg:py-14">
 			<div class="max-w-3xl">
 				<h1 class="text-4xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary sm:text-5xl">{hero.headline}</h1>
 				<p class="mt-5 text-lg leading-8 text-secondary">
-					Send tool bugs, calculator discrepancies, export issues, correction requests, or editorial feedback to{' '}
-					<a href={`mailto:${hero.email}`} class="font-semibold text-accent underline">{hero.email}</a>.
-					{' '}Do not send confidential case details or requests for legal advice.
+					Use the form below for tool bugs, calculator discrepancies, export issues, correction requests, or editorial
+					feedback. Do not send confidential case details or requests for legal advice. You can also email{' '}
+					<a href={`mailto:${hero.email}`} class="font-semibold text-accent underline">{hero.email}</a>{' '}directly.
 				</p>
 			</div>
 		</section>
 
+		<!-- Contact form -->
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<div class="max-w-xl">
+				<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Send a Message</h2>
+				<p class="mt-2 text-sm text-secondary">All fields are required unless marked optional.</p>
+
+				<!-- Success state (hidden until JS reveals it) -->
+				<div
+					id="contact-success"
+					class="mt-6 hidden rounded-xl border border-[color-mix(in_srgb,var(--success)_28%,var(--border-subtle))] bg-[color-mix(in_srgb,var(--success)_6%,white)] p-5"
+					role="alert"
+					aria-live="polite"
+				>
+					<p class="font-semibold text-[var(--success)]">Message sent!</p>
+					<p class="mt-1 text-sm text-secondary">We review submissions on a best-effort basis. Legal advice requests will not receive a reply.</p>
+				</div>
+
+				<!-- Error banner (hidden until needed) -->
+				<div
+					id="contact-error"
+					class="mt-6 hidden rounded-xl border border-[color-mix(in_srgb,var(--danger)_28%,var(--border-subtle))] bg-[color-mix(in_srgb,var(--danger)_6%,white)] p-5"
+					role="alert"
+					aria-live="polite"
+				>
+					<p class="font-semibold text-[var(--danger)]">Something went wrong</p>
+					<p id="contact-error-msg" class="mt-1 text-sm text-secondary">Please try again or email {hero.email} directly.</p>
+				</div>
+
+				<form
+					id="contact-form"
+					method="POST"
+					action="/api/contact"
+					novalidate
+					class="mt-6 space-y-5"
+				>
+					<!-- Honeypot: hidden from humans, filled by bots -->
+					<div aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden;">
+						<label for="cf-website">Website</label>
+						<input id="cf-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+					</div>
+
+					<!-- Source page (auto-populated, not shown to user) -->
+					<input type="hidden" name="page_url" id="contact-page-url" />
+
+					<!-- Name -->
+					<div>
+						<label for="cf-name" class="block text-sm font-medium text-primary">Your name</label>
+						<input
+							id="cf-name"
+							name="name"
+							type="text"
+							required
+							minlength="2"
+							maxlength="100"
+							autocomplete="name"
+							placeholder="Jane Smith"
+							class="mt-1.5 w-full rounded-lg border border-line bg-surface px-3.5 py-2.5 text-sm text-primary placeholder:text-muted focus:border-accent focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)]"
+						/>
+						<p id="cf-name-err" class="mt-1 hidden text-xs text-[var(--danger)]"></p>
+					</div>
+
+					<!-- Email -->
+					<div>
+						<label for="cf-email" class="block text-sm font-medium text-primary">Your email</label>
+						<input
+							id="cf-email"
+							name="email"
+							type="email"
+							required
+							maxlength="254"
+							autocomplete="email"
+							placeholder="you@example.com"
+							class="mt-1.5 w-full rounded-lg border border-line bg-surface px-3.5 py-2.5 text-sm text-primary placeholder:text-muted focus:border-accent focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)]"
+						/>
+						<p id="cf-email-err" class="mt-1 hidden text-xs text-[var(--danger)]"></p>
+					</div>
+
+					<!-- Message -->
+					<div>
+						<label for="cf-message" class="block text-sm font-medium text-primary">Message</label>
+						<textarea
+							id="cf-message"
+							name="message"
+							required
+							minlength="10"
+							maxlength="5000"
+							rows="6"
+							placeholder="Describe the tool bug, calculation issue, or feedback…"
+							class="mt-1.5 w-full resize-y rounded-lg border border-line bg-surface px-3.5 py-2.5 text-sm text-primary placeholder:text-muted focus:border-accent focus:outline-none focus:ring-2 focus:ring-[var(--focus-ring)]"
+						></textarea>
+						<p id="cf-message-err" class="mt-1 hidden text-xs text-[var(--danger)]"></p>
+					</div>
+
+					<button
+						type="submit"
+						id="contact-submit"
+						class="btn-primary inline-flex h-11 items-center justify-center rounded-full px-6 text-sm font-semibold disabled:opacity-60 disabled:cursor-not-allowed"
+					>
+						Send message
+					</button>
+				</form>
+			</div>
+		</section>
+
+		<!-- What we can / can't help with -->
 		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
 			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{canHelp.title}</h2>
 			<ul class="mt-6 max-w-3xl space-y-4">
@@ -98,12 +204,94 @@ const schema = [
 				{correctionProcess.steps.map((step) => <li>{step}</li>)}
 			</ol>
 			<p class="mt-6 max-w-3xl text-sm text-secondary">{correctionProcess.responseExpectation}</p>
-			<p class="mt-4">
-				<a href={`mailto:${hero.email}`} class="btn-primary inline-flex h-11 items-center justify-center rounded-full px-5 text-sm font-semibold">Email {hero.email}</a>
-			</p>
 		</section>
 
 		<FAQ items={faqItems} title={faqSection.title} description={faqSection.description} />
 	</main>
 	<Footer />
 </BaseLayout>
+
+<script>
+// Auto-populate source page URL (client-side only — no SSR needed)
+const urlInput = document.getElementById('contact-page-url') as HTMLInputElement | null;
+if (urlInput) urlInput.value = window.location.href;
+
+const form    = document.getElementById('contact-form') as HTMLFormElement | null;
+const success = document.getElementById('contact-success') as HTMLElement | null;
+const errBanner = document.getElementById('contact-error') as HTMLElement | null;
+const errMsg  = document.getElementById('contact-error-msg') as HTMLElement | null;
+const submit  = document.getElementById('contact-submit') as HTMLButtonElement | null;
+
+function showFieldError(id: string, msg: string) {
+	const el = document.getElementById(id);
+	if (!el) return;
+	el.textContent = msg;
+	el.classList.remove('hidden');
+}
+function clearErrors() {
+	['cf-name-err', 'cf-email-err', 'cf-message-err'].forEach((id) => {
+		const el = document.getElementById(id);
+		if (el) { el.textContent = ''; el.classList.add('hidden'); }
+	});
+	errBanner?.classList.add('hidden');
+}
+
+form?.addEventListener('submit', async (e) => {
+	e.preventDefault();
+	clearErrors();
+
+	const data = new FormData(form);
+	const name    = (data.get('name')    as string || '').trim();
+	const email   = (data.get('email')   as string || '').trim();
+	const message = (data.get('message') as string || '').trim();
+
+	// Client-side validation (mirrors server)
+	let valid = true;
+	if (!name || name.length < 2) {
+		showFieldError('cf-name-err', 'Name is required (minimum 2 characters).');
+		valid = false;
+	}
+	if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+		showFieldError('cf-email-err', 'Please enter a valid email address.');
+		valid = false;
+	}
+	if (!message || message.length < 10) {
+		showFieldError('cf-message-err', 'Message is required (minimum 10 characters).');
+		valid = false;
+	}
+	if (!valid) return;
+
+	// Submit
+	if (submit) { submit.disabled = true; submit.textContent = 'Sending…'; }
+
+	try {
+		const res = await fetch('/api/contact', {
+			method: 'POST',
+			headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({
+				name,
+				email,
+				message,
+				page_url: (data.get('page_url') as string) || window.location.href,
+				website:  data.get('website') || '', // honeypot
+			}),
+		});
+
+		const json = await res.json() as { ok: boolean; error?: string; errors?: string[] };
+
+		if (json.ok) {
+			form.classList.add('hidden');
+			success?.classList.remove('hidden');
+		} else {
+			const msg = json.errors?.join(' ') || json.error || 'Please try again.';
+			if (errMsg) errMsg.textContent = msg;
+			errBanner?.classList.remove('hidden');
+		}
+	} catch {
+		if (errMsg) errMsg.textContent = 'Network error — please try again or email us directly.';
+		errBanner?.classList.remove('hidden');
+	} finally {
+		if (submit) { submit.disabled = false; submit.textContent = 'Send message'; }
+	}
+});
+</script>
