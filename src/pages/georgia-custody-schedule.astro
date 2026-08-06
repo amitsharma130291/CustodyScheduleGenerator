@@ -8,7 +8,10 @@ import FAQ from '../components/FAQ.astro';
 import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
 import { getCanonicalUrl } from '../lib/seo/metadata';
 import { buildArticleSchema, buildBreadcrumbSchema, buildFAQSchema, buildWebPageSchema } from '../lib/seo/schema';
-const title = "Georgia Custody Schedule: Laws, Standards & Teen Rights";
+
+import ScheduleHeroGeneratorPanel from '../components/schedules/ScheduleHeroGeneratorPanel.astro';
+import { generateSchedule } from '../lib/schedules/generateSchedule';
+import { getDefaultStartDate } from '../lib/schedules/format';const title = "Georgia Custody Schedule: Laws, Standards & Teen Rights";
 const description = "Georgia gives children 14+ a legal voice that courts must respect. See what Georgia courts actually order, the 14-year election law, and how to build a schedule that fits your child's age.";
 const canonical = "/georgia-custody-schedule/";
 const canonicalUrl = getCanonicalUrl(canonical);
@@ -17,6 +20,15 @@ const dateModified = "2026-08-06";
 const editorialReview = { reviewer: "CustodyBuilder Editorial Team", reviewerHref: "/about/", methodologyLabel: "How CustodyBuilder Works", methodologyHref: "/how-custodybuilder-works/", lastUpdatedLabel: "Last updated August 2026", disclaimer: "Educational information only. Not legal advice.", reviewedFor: ["Accuracy of O.C.G.A. § 19-9-3 references","Georgia 14-year election rules","Georgia modification standard and county-level practice"] };
 const breadcrumbs = [{ name: "Home", url: getCanonicalUrl("/") }, { name: "Georgia Custody Schedule", url: canonicalUrl }];
 const faqItems = [{ question: "Does Georgia have a standard possession order like Texas?", answer: "No. Georgia has no statewide default schedule. Judges have broad discretion to craft individual orders based on the specific family's circumstances. What attorneys call 'standard visitation' in Georgia is a common local convention (every other weekend plus Wednesday dinner) — not a statutory baseline." },{ question: "What happens if my 14-year-old refuses to visit the other parent?", answer: "This is one of the most difficult enforcement problems in Georgia family law. Legally, both parents are obligated to follow the court order. A parent who facilitates refusal can be held in contempt. Courts have multiple enforcement remedies, but the appropriate response to an older teenager's refusal depends on the order, the parents' conduct, the child's circumstances, and judicial discretion." },{ question: "Can a Georgia court refuse a 14-year-old's election?", answer: "Yes, but the bar is high. Under O.C.G.A. § 19-9-3(a)(5), the judge must make specific written findings that honoring the election would be contrary to the child's best interest. Evidence that might support overriding: the child is being manipulated or coached, a history of abuse or instability in the preferred parent's home, or serious safety concerns." },{ question: "How long does a Georgia custody case take?", answer: "When parents agree: 60–120 days is typical for a consent order. When parents disagree and litigation proceeds: timelines vary considerably by county, court backlog, and case complexity. An attorney familiar with the specific county's docket can give a more accurate estimate." },{ question: "Can parents create their own custody schedule without going to court?", answer: "Parents can agree on any arrangement — but to make it legally enforceable, it must be approved by a judge and entered as a court order. An agreement between parents alone is not enforceable through contempt proceedings." },{ question: "Does Georgia favor mothers in custody decisions?", answer: "No. Georgia law explicitly prohibits gender-based preferences in custody. Judges are required to apply the best-interest standard regardless of the parent's gender. The legal inquiry concerns the parenting history and the child's best interests, not the parent's gender." },{ question: "At what age can a child in Georgia decide which parent to live with?", answer: "The 14-year-old election under O.C.G.A. § 19-9-3(a)(5) is the formal legal mechanism. Children under 14 have no equivalent right, though their preferences are considered from around age 11. Children 14 and older have the strongest formal right, but courts retain authority to override the election in the child's best interest." },{ question: "What if a parent moves out of Georgia after a custody order is entered?", answer: "Georgia retains 'continuing exclusive jurisdiction' over a custody order as long as one parent or the child remains in Georgia. If both parents move away, jurisdiction can transfer to the new state. Interstate custody jurisdiction is governed by the UCCJEA, adopted in Georgia and all other states." }];
+
+const startDate = getDefaultStartDate();
+const generatedSchedule = generateSchedule({
+	scheduleId: '223',
+	startDate,
+	parentNames: { parentA: 'Parent A', parentB: 'Parent B' },
+});
+const heroTrustSignals = ['Free — no account needed', 'Georgia schedule builder', 'Download as PDF'];
+
 const schema = [buildWebPageSchema({ name: title, description, url: canonicalUrl }), buildArticleSchema({ headline: title, description, url: canonicalUrl, datePublished, dateModified, authorName: editorialReview.reviewer }), buildFAQSchema(faqItems), buildBreadcrumbSchema(breadcrumbs)];
 const ageSituationTable = [{ age: "0–2", rel: "Any", proximity: "Same area", rec: "Modified frequent contact with primary parent; limited overnights for very young infants" },{ age: "3–5", rel: "Cooperative", proximity: "Same school zone", rec: "2-2-3 or every-other-weekend-plus-midweek" },{ age: "6–12", rel: "Cooperative", proximity: "Same school district", rec: "Week-on/week-off or every-other-weekend-plus-midweek" },{ age: "6–12", rel: "Conflicted", proximity: "Any", rec: "Traditional primary/non-primary with clear exchange procedures" },{ age: "11–13", rel: "Any", proximity: "Any", rec: "All of above, but child's preference carries weight — get ahead of this" },{ age: "14+", rel: "Any", proximity: "Any", rec: "Child may file election — build relationship now, not when they are filing paperwork" }];
 const commonMistakes = [{ title: "Expecting the Texas SPO to apply", body: "Georgia has no equivalent. The Texas Standard Possession Order's specific timelines, holiday structure, and geographic triggers do not exist in Georgia law. Every Georgia order is crafted individually within broad judicial discretion." },{ title: "Not knowing about the 14-year election until it's filed", body: "Parents are sometimes blindsided by their 14-year-old filing an election. The time to build the relationship that makes the election go your way is years before age 14 — not the week the election is filed." },{ title: "Filing for modification too soon", body: "Georgia courts enforce the material-change standard carefully under O.C.G.A. § 19-9-3(b). A modification petition filed 8 months after the original order, citing vague changes in circumstances, will likely be dismissed." },{ title: "Coaching children to express preferences", body: "Judges who conduct child interviews are experienced at identifying coached responses. Evidence that a parent coached or pressured a child can affect the court's assessment of that parent's credibility and the weight given to the child's stated preference." },{ title: "Not differentiating joint legal from joint physical", body: "Joint legal custody (shared decisions) and joint physical custody (shared parenting time) are separate orders with different implications. Know which you're asking for and why." },{ title: "Ignoring the enforcement problem with teenagers", body: "Georgia custody orders are legally enforceable at any age. But practically, getting a 16-year-old to comply with a visitation order they strongly resist is difficult. Plan for this reality early by investing in the relationship." }];
@@ -26,7 +38,7 @@ const commonMistakes = [{ title: "Expecting the Texas SPO to apply", body: "Geor
   <Navbar />
   <Breadcrumbs items={breadcrumbs} />
   <main class="overflow-x-clip">
-    <section class="container-shell py-8 lg:py-12 lg:max-w-5xl">
+    <section class="container-shell grid grid-cols-1 gap-5 py-4 sm:py-5 lg:grid-cols-[minmax(0,0.88fr)_minmax(704px,1.12fr)] lg:items-start lg:gap-7 lg:py-6 xl:w-[min(100%,1360px)]" id="schedule-generator">
       <p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Georgia custody schedule guide</p>
       <h1 class="mt-2.5 max-w-3xl text-[1.7rem] font-semibold leading-[1.06] tracking-[-0.05em] text-primary sm:text-4xl lg:text-5xl">Georgia Custody Schedule: What the Courts Actually Order (and What Teenagers Can Do About It)</h1>
       <div class="mt-4 max-w-3xl rounded-[1.25rem] border border-line bg-accent/10 p-5">
@@ -44,6 +56,14 @@ const commonMistakes = [{ title: "Expecting the Texas SPO to apply", body: "Geor
         <a href="/best-custody-schedule-for-teenager/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Teen custody schedules</a>
         <a href="/holiday-custody-schedule/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Holiday custody schedule</a>
       </div>
+
+		</div>
+
+		<ScheduleHeroGeneratorPanel
+			selectedScheduleId="223"
+			generatedSchedule={generatedSchedule}
+			heroTrustSignals={heroTrustSignals}
+		/>
     </section>
     <nav class="container-shell border-y border-line-subtle py-3 lg:max-w-5xl" aria-label="On this page">
       <ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">

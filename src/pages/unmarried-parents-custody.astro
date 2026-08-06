@@ -8,7 +8,10 @@ import FAQ from '../components/FAQ.astro';
 import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
 import { getCanonicalUrl } from '../lib/seo/metadata';
 import { buildArticleSchema, buildBreadcrumbSchema, buildFAQSchema, buildWebPageSchema } from '../lib/seo/schema';
-const title = "Unmarried Parents Custody Rights: What You Need to Know";
+
+import ScheduleHeroGeneratorPanel from '../components/schedules/ScheduleHeroGeneratorPanel.astro';
+import { generateSchedule } from '../lib/schedules/generateSchedule';
+import { getDefaultStartDate } from '../lib/schedules/format';const title = "Unmarried Parents Custody Rights: What You Need to Know";
 const description = "Unmarried parents' custody rights depend on state law and whether legal parentage has been established. Learn the general process and find your state's rules.";
 const canonical = "/unmarried-parents-custody/";
 const canonicalUrl = getCanonicalUrl(canonical);
@@ -17,6 +20,15 @@ const dateModified = "2026-08-06";
 const editorialReview = { reviewer: "CustodyBuilder Editorial Team", reviewerHref: "/about/", methodologyLabel: "How CustodyBuilder Works", methodologyHref: "/how-custodybuilder-works/", lastUpdatedLabel: "Last updated August 2026", disclaimer: "Educational information only. Not legal advice.", reviewedFor: ["General principles of unmarried parents custody law across US states","Paternity establishment pathways","Best-interest standard application for unmarried parents"] };
 const breadcrumbs = [{ name: "Home", url: getCanonicalUrl("/") }, { name: "Unmarried Parents Custody", url: canonicalUrl }];
 const faqItems = [{ question: "If we were never married, do I need to go to court to get custody?", answer: "Yes, unless both parents are satisfied with an informal arrangement and neither expects it to be tested. For a custody arrangement to be legally enforceable, it generally needs to be incorporated into a court order. Informal written agreements between parents are not orders and may be difficult to enforce if one parent does not comply." },{ question: "Can an unmarried father establish paternity if the mother refuses to cooperate?", answer: "Yes. A father can file a petition for paternity in family court without the mother's cooperation. The court can order DNA testing of all parties. If DNA confirms paternity, the court issues an order regardless of the mother's objection." },{ question: "Does paternity by VAP expire or need to be renewed?", answer: "No. A valid VAP is permanent, subject only to the rescission window. The timeframe varies by state, with different rules and conditions depending on the basis for rescission. After the rescission period closes, it takes a court proceeding to challenge it." },{ question: "Can a mother voluntarily give up custody to the father?", answer: "Yes — parties can negotiate primary custody with either parent. A court-approved parenting plan can designate the father as the primary residential parent. Courts approve this when it's in the child's interest and the mother agrees." },{ question: "What if the father's name is on the birth certificate but he's not the biological father?", answer: "The named father can challenge paternity through a disestablishment proceeding, but time limits vary by state. Some states impose strict deadlines. Consult an attorney promptly. After the window closes, courts often refuse disestablishment in the child's interest." },{ question: "Can grandparents seek custody if both parents are unmarried and unfit?", answer: "Yes. Grandparents and other relatives can petition for custody if both parents are deemed unfit, absent, or otherwise unable to care for the child. Courts may also grant grandparent visitation in many states even when a fit parent objects, though this is legally complex." },{ question: "How long does it take to get a custody order for unmarried parents?", answer: "When parents agree: weeks to a few months (drafting the plan, filing, waiting for a court date to approve). When parents disagree: timelines vary considerably by court and location — a contested custody case can take many months or longer." },{ question: "Is mediation available for unmarried parents?", answer: "Yes. Mediation is available (and in many jurisdictions, required before a contested custody hearing) for unmarried parents the same as for divorcing parents. Mediation can produce an agreed parenting plan that both parties submit for court approval." }];
+
+const startDate = getDefaultStartDate();
+const generatedSchedule = generateSchedule({
+	scheduleId: '223',
+	startDate,
+	parentNames: { parentA: 'Parent A', parentB: 'Parent B' },
+});
+const heroTrustSignals = ['Free — no account needed', 'Parenting schedule builder', 'Download as PDF'];
+
 const schema = [buildWebPageSchema({ name: title, description, url: canonicalUrl }), buildArticleSchema({ headline: title, description, url: canonicalUrl, datePublished, dateModified, authorName: editorialReview.reviewer }), buildFAQSchema(faqItems), buildBreadcrumbSchema(breadcrumbs)];
 const paternityPaths = [{ path: "Path 1: Voluntary Acknowledgment of Paternity (VAP) at the Hospital", desc: "Both parents sign a VAP form at the hospital when the child is born. This is the simplest and fastest route — and it's free. Creates legal fatherhood in most states. Does not automatically create a custody order.", when: "When both parents agree on who the father is and there's no dispute." },{ path: "Path 2: Administrative Paternity Through the State Child Support Agency", desc: "Most states have a child support enforcement agency that can assist with administrative paternity establishment. The process typically involves DNA testing (cheek swab) and is free without requiring a lawyer.", when: "Establishes legal fatherhood and triggers child support obligations. The father now has legal standing to seek a custody or visitation order." },{ path: "Path 3: Court-Ordered DNA Test", desc: "When paternity is disputed, the court can order DNA testing. Either parent files a petition in family court, the court orders testing, and results are submitted as evidence. The court enters an order establishing or disestablishing paternity.", when: "When either parent denies the biological relationship. Court filing fees and DNA testing costs apply." }];
 const commonMistakes = [{ title: "Waiting years to establish paternity", body: "The informal 'we have an agreement' arrangement works until it doesn't. The moment the relationship with the other parent deteriorates, a father without established paternity has no legal recourse. Establish paternity early, even if the relationship is cooperative." },{ title: "Assuming the birth certificate equals custody rights", body: "A birth certificate records the person identified as the child's father. Its legal effect on parentage and custody depends on state law. In most states, it does not, by itself, create legal custody rights. Paternity must be established separately." },{ title: "Relying on informal agreements", body: "'She said I can see him every other weekend' is not enforceable. If the mother changes her mind, you have no court order to point to. Get every custody arrangement in writing and submit it for court approval." },{ title: "Thinking paternity automatically gives custody", body: "Paternity = legal standing to seek custody. It doesn't grant custody. File for a custody order as the next step." },{ title: "Fathers avoiding paternity because they fear child support", body: "Avoiding paternity to avoid support means forgoing all parental rights. The trade is always worse for fathers who delay." },{ title: "Mothers blocking fathers before paternity is established", body: "If a mother prevents a father from having any contact before paternity is established, courts may consider that pattern when deciding custody. Interfering with a father's opportunity to form a parent-child relationship can affect judicial perception." }];
@@ -26,7 +38,7 @@ const commonMistakes = [{ title: "Waiting years to establish paternity", body: "
   <Navbar />
   <Breadcrumbs items={breadcrumbs} />
   <main class="overflow-x-clip">
-    <section class="container-shell py-8 lg:py-12 lg:max-w-5xl">
+    <section class="container-shell grid grid-cols-1 gap-5 py-4 sm:py-5 lg:grid-cols-[minmax(0,0.88fr)_minmax(704px,1.12fr)] lg:items-start lg:gap-7 lg:py-6 xl:w-[min(100%,1360px)]" id="schedule-generator">
       <p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Unmarried parents custody rights guide</p>
       <h1 class="mt-2.5 max-w-3xl text-[1.7rem] font-semibold leading-[1.06] tracking-[-0.05em] text-primary sm:text-4xl lg:text-5xl">Unmarried Parents Custody: Your Rights Start With One Document</h1>
       <div class="mt-4 max-w-3xl rounded-[1.25rem] border border-line bg-accent/10 p-5">
@@ -46,6 +58,14 @@ const commonMistakes = [{ title: "Waiting years to establish paternity", body: "
         <a href="/legal-custody-vs-physical-custody/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Legal vs. physical custody</a>
       </div>
       <div class="mt-4 max-w-2xl rounded-2xl bg-amber-50 border border-amber-300 px-4 py-3 text-xs leading-5 text-secondary dark:bg-amber-900/20 dark:border-amber-700"><strong class="text-primary">Jurisdiction note:</strong> Custody law is state law. This page explains general principles that apply across most US states. The specific factors, forms, procedures, and timelines differ by state. Where your state has different rules, those rules govern.</div>
+
+		</div>
+
+		<ScheduleHeroGeneratorPanel
+			selectedScheduleId="223"
+			generatedSchedule={generatedSchedule}
+			heroTrustSignals={heroTrustSignals}
+		/>
     </section>
     <nav class="container-shell border-y border-line-subtle py-3 lg:max-w-5xl" aria-label="On this page">
       <ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">

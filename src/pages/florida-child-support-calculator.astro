@@ -8,7 +8,10 @@ import FAQ from '../components/FAQ.astro';
 import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
 import { getCanonicalUrl } from '../lib/seo/metadata';
 import { buildArticleSchema, buildBreadcrumbSchema, buildFAQSchema, buildWebPageSchema } from '../lib/seo/schema';
-const title = "Florida Child Support Calculator 2026";
+
+import ScheduleHeroGeneratorPanel from '../components/schedules/ScheduleHeroGeneratorPanel.astro';
+import { generateSchedule } from '../lib/schedules/generateSchedule';
+import { getDefaultStartDate } from '../lib/schedules/format';const title = "Florida Child Support Calculator 2026";
 const description = "Calculate Florida child support using the Income Shares model. See the 5 deviation factors, net income rules, and what courts actually consider in FL cases.";
 const canonical = "/florida-child-support-calculator/";
 const canonicalUrl = getCanonicalUrl(canonical);
@@ -17,6 +20,15 @@ const dateModified = "2026-08-06";
 const editorialReview = { reviewer: "CustodyBuilder Editorial Team", reviewerHref: "/about/", methodologyLabel: "How CustodyBuilder Works", methodologyHref: "/how-custodybuilder-works/", lastUpdatedLabel: "Last updated August 2026", disclaimer: "Educational information only. Not legal advice.", reviewedFor: ["Accuracy of Florida F.S. \u00a7 61.30 and Family Law Rule 12.902(e) references","Income Shares model formula accuracy","Florida-specific deviation factors and overnight threshold rules"] };
 const breadcrumbs = [{ name: "Home", url: getCanonicalUrl("/") }, { name: "Florida Child Support Calculator", url: canonicalUrl }];
 const faqItems = [{ question: "How does Florida's Income Shares model differ from other states?", answer: "Florida pools both parents' incomes and applies a guideline schedule based on the combined total. States like Texas use only the paying parent's income. Under the Income Shares model, both parents' incomes factor into the obligation — so when both parents earn significant income, the formula accounts for the combined household standard of living the child would have had. Florida codified this approach in F.S. § 61.30." },{ question: "What happens if the other parent refuses to disclose income?", answer: "File a motion for discovery. Courts can compel financial disclosure and, if a parent fails to comply, can impute income based on their earning capacity, lifestyle, or prior employment history." },{ question: "Can child support be modified after it's set?", answer: "Yes. Florida allows modification when there's a substantial change in circumstances and the new amount would differ from the current order by at least 15% or $50 per month, whichever is greater. A modification requires a new court order, not just agreement between parents." },{ question: "Does Florida support end at 18?", answer: "Generally yes, unless the child is still in high school at 18, in which case support continues until graduation or the child's 19th birthday, whichever comes first. Support for adult disabled children can continue indefinitely." },{ question: "What counts as income for child support in Florida?", answer: "Gross income includes wages, salary, bonuses, commissions, overtime, tips, self-employment income, rental income, interest and dividends, disability benefits, workers' comp, alimony received from a prior case, and pension or retirement income. Need-based public assistance is excluded." },{ question: "Can parents agree to a different amount than the guideline?", answer: "Yes — but the court must approve any agreement and will only do so if it finds the agreed amount adequate for the child's needs. Courts will not approve a number that's dramatically below guideline." },{ question: "What if I lose my job after the order is set?", answer: "File for modification immediately. Courts can retroactively reduce support only to the date of filing the modification petition, not the date you lost the job." },{ question: "Does the paying parent's new spouse's income count?", answer: "No. A new spouse's income is generally not included in Florida's child support calculation. Only the biological or adoptive parent's income is used." }];
+
+const startDate = getDefaultStartDate();
+const generatedSchedule = generateSchedule({
+	scheduleId: 'every-other-weekend',
+	startDate,
+	parentNames: { parentA: 'Parent A', parentB: 'Parent B' },
+});
+const heroTrustSignals = ['Free — no account needed', 'Florida time-sharing scheduler', 'Download as PDF'];
+
 const schema = [buildWebPageSchema({ name: title, description, url: canonicalUrl }), buildArticleSchema({ headline: title, description, url: canonicalUrl, datePublished, dateModified, authorName: editorialReview.reviewer }), buildFAQSchema(faqItems), buildBreadcrumbSchema(breadcrumbs)];
 const netIncomeTable = [{ deducted: "Federal, state, local income taxes", notDeducted: "Voluntary retirement contributions" },{ deducted: "FICA (Social Security + Medicare)", notDeducted: "Voluntary health insurance for yourself" },{ deducted: "Mandatory union dues", notDeducted: "Car loans, credit card payments" },{ deducted: "Health insurance premiums for the children", notDeducted: "Voluntary 401(k) beyond minimum" },{ deducted: "Court-ordered support from prior relationships", notDeducted: "Personal expenses" }];
 const deviationFactors = [{ title: "1. Extraordinary medical, psychological, educational, or dental expenses", body: "If a child has ongoing therapy, special schooling, or medical costs not covered by insurance, the court can add those costs on top of the guideline amount, or reduce support if the paying parent already bears these costs directly." },{ title: "2. Independent income of the child", body: "A child who earns significant income from modeling, acting, or a trust distribution can reduce the guideline amount. Rare in practice, but courts do address it." },{ title: "3. Seasonal variations in income", body: "Construction workers, teachers on summer contracts, and commissioned salespeople often have income that spikes and dips. Courts can average income over 12 months or order adjustments by season." },{ title: "4. Age of the child and needs of older children", body: "A court can deviate upward when a child's actual expenses demonstrably exceed what the guideline assumed, based on a statutory deviation factor under F.S. \u00a7 61.30(11)." },{ title: "5. A parent's other support obligations", body: "If the paying parent supports other children from a different relationship through a court order, those payments factor in. Voluntary payments to other children generally do not reduce your obligation." }];
@@ -27,8 +39,9 @@ const commonMistakes = [{ title: "Not documenting the children's health insuranc
   <Navbar />
   <Breadcrumbs items={breadcrumbs} />
   <main class="overflow-x-clip">
-    <section class="container-shell py-8 lg:py-12 lg:max-w-5xl">
-      <p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Florida child support calculator 2026</p>
+    <section class="container-shell grid grid-cols-1 gap-5 py-4 sm:py-5 lg:grid-cols-[minmax(0,0.88fr)_minmax(704px,1.12fr)] lg:items-start lg:gap-7 lg:py-6 xl:w-[min(100%,1360px)]" id="schedule-generator">
+      <div class="order-1 min-w-0 lg:col-start-1 lg:row-start-1 lg:pt-1">
+			<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Florida child support calculator 2026</p>
       <h1 class="mt-2.5 max-w-3xl text-[1.7rem] font-semibold leading-[1.06] tracking-[-0.05em] text-primary sm:text-4xl lg:text-5xl">Florida Child Support Calculator: Estimate Your Guideline Amount</h1>
       <p class="mt-4 max-w-2xl text-base leading-7 text-secondary">Florida uses the Income Shares model under Family Law Rule 12.902(e) &mdash; both parents' net incomes determine a guideline amount from the state schedule. The 73-overnight threshold is what changes the calculation most dramatically in many Florida cases.</p>
       <aside class="mt-6 max-w-2xl rounded-[1.25rem] border border-line bg-surface/70 px-5 py-4 text-xs leading-5 text-muted">
@@ -51,6 +64,14 @@ const commonMistakes = [{ title: "Not documenting the children's health insuranc
         <a href="/overnight-custody-calculator/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">73-night threshold tracker</a>
         <a href="/parenting-plan-template/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Parenting plan template</a>
       </div>
+
+		</div>
+
+		<ScheduleHeroGeneratorPanel
+			selectedScheduleId="every-other-weekend"
+			generatedSchedule={generatedSchedule}
+			heroTrustSignals={heroTrustSignals}
+		/>
     </section>
     <nav class="container-shell border-y border-line-subtle py-3 lg:max-w-5xl" aria-label="On this page">
       <ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">
