@@ -1,11 +1,20 @@
 /**
  * Florida Child Support Calculator Tests
- * Version: FL-CS-2026.1
+ * Version: FL-CS-2026.2
  * Authority: Florida Statutes §61.30
+ *
+ * v2 additions:
+ * - FIX 1: Schedule row count verification (185 rows)
+ * - FIX 2: Noncovered medical in gross-up base (§61.30(8))
  */
 
 import { describe, it, expect } from 'vitest';
-import { calculateFLChildSupport, getBasicNeed } from './floridaChildSupport';
+import {
+  calculateFLChildSupport,
+  getBasicNeed,
+  getFLBasicNeed,
+  FL_SCHEDULE_ROW_COUNT,
+} from './floridaChildSupport';
 
 // ---------------------------------------------------------------------------
 // Helper: base input with no add-on expenses
@@ -412,7 +421,9 @@ describe('CRITICAL REGRESSION: childcare NOT in 1.5× gross-up', () => {
     expect(result.grossedObligationA).toBeCloseTo(basicNeed * incomeShareA * 1.5, 2);
   });
 
-  it('noncovered medical NOT in 1.5× gross-up', () => {
+  it('noncovered medical IS in 1.5× gross-up base (§61.30(8), FIX 2)', () => {
+    // §61.30(8): noncovered medical is part of the base obligation, included in gross-up.
+    // Only day care and health insurance are excluded from the 1.5× gross-up per §61.30(11)(b)(1).
     const medicalAmount = 150;
     const result = calculateFLChildSupport(
       baseInput({
@@ -431,8 +442,14 @@ describe('CRITICAL REGRESSION: childcare NOT in 1.5× gross-up', () => {
     const incomeShareA = 5000 / combinedIncome;
     const incomeShareB = 2000 / combinedIncome;
 
-    expect(result.grossedObligationA).toBeCloseTo(basicNeed * incomeShareA * 1.5, 2);
-    expect(result.grossedObligationB).toBeCloseTo(basicNeed * incomeShareB * 1.5, 2);
+    // grossupBase = basicNeed + noncoveredMedical (default: 'included-in-guideline')
+    const expectedGrossupBase = basicNeed + medicalAmount;
+    expect(result.grossupBase).toBeCloseTo(expectedGrossupBase, 2);
+    expect(result.grossedObligationA).toBeCloseTo(expectedGrossupBase * incomeShareA * 1.5, 2);
+    expect(result.grossedObligationB).toBeCloseTo(expectedGrossupBase * incomeShareB * 1.5, 2);
+
+    // REGRESSION: grossupBase must differ from basicNeed when noncoveredMedical > 0
+    expect(result.grossupBase).not.toBeCloseTo(basicNeed, 2);
   });
 });
 
@@ -522,9 +539,9 @@ describe('Above-$10,000: §61.30(6)(b) excess-income formula', () => {
 // Result structure
 // ---------------------------------------------------------------------------
 describe('Result structure', () => {
-  it('version is always FL-CS-2026.1', () => {
+  it('version is always FL-CS-2026.2', () => {
     const result = calculateFLChildSupport(baseInput());
-    expect(result.version).toBe('FL-CS-2026.1');
+    expect(result.version).toBe('FL-CS-2026.2');
   });
 
   it('receipt is an array of strings', () => {
@@ -550,7 +567,7 @@ describe('Result structure', () => {
 // ---------------------------------------------------------------------------
 // FIX 1: §61.30(6)(a) low-income branch (combined income < $800)
 // ---------------------------------------------------------------------------
-import { getFLBasicNeed } from './floridaChildSupport';
+// (getFLBasicNeed already imported at top)
 
 describe('getFLBasicNeed — low-income branch §61.30(6)(a)', () => {
   it('combined income 799 → branch=low-income-below-800, basicNeed=null, warning present', () => {
@@ -618,5 +635,178 @@ describe('calculateFLChildSupport — low-income early return', () => {
     expect(result.branch).toBe('schedule');
     expect(result.finalSupport).not.toBeNull();
     expect(typeof result.finalSupport).toBe('number');
+  });
+});
+
+// ---------------------------------------------------------------------------
+// FIX 1 (v2): §61.30 schedule row count — must be exactly 185 rows
+// ---------------------------------------------------------------------------
+// (FL_SCHEDULE_ROW_COUNT and FLNoncoveredMedicalTreatment already imported at top)
+
+describe('FIX 1 (v2) — FL_SCHEDULE row count = 185', () => {
+  it('FL_SCHEDULE has exactly 185 rows ($800–$10,000 at $50 increments)', () => {
+    // (10000 - 800) / 50 + 1 = 185
+    expect(FL_SCHEDULE_ROW_COUNT).toBe(185);
+  });
+
+  it('first row income = $800, 1 child = 170', () => {
+    expect(getBasicNeed(800, 1)).toBeCloseTo(170, 0);
+  });
+
+  it('last row income = $10,000, 1 child = 1492', () => {
+    expect(getBasicNeed(10000, 1)).toBeCloseTo(1492, 0);
+  });
+
+  it('$2550 is now a real row (was missing in old 62-row schedule)', () => {
+    // Row: [2550, 499, 726, 835, 927, 1009, 1080]
+    expect(getBasicNeed(2550, 2)).toBeCloseTo(726, 0);
+    expect(getBasicNeed(2550, 1)).toBeCloseTo(499, 0);
+  });
+
+  it('$3050 is now a real row (was missing in old 62-row schedule)', () => {
+    // Row: [3050, 591, 859, 988, 1096, 1193, 1278]
+    expect(getBasicNeed(3050, 1)).toBeCloseTo(591, 0);
+    expect(getBasicNeed(3050, 2)).toBeCloseTo(859, 0);
+  });
+
+  it('$5050 is now a real row (was missing in old 62-row schedule)', () => {
+    // Row: [5050, 934, 1359, 1564, 1735, 1888, 2021]
+    expect(getBasicNeed(5050, 1)).toBeCloseTo(934, 0);
+    expect(getBasicNeed(5050, 2)).toBeCloseTo(1359, 0);
+  });
+
+  it('schedule is monotonically non-decreasing across representative $50 steps', () => {
+    const checkpoints = [800, 850, 900, 1000, 2000, 2050, 2500, 2550, 3000, 3050,
+                         5000, 5050, 7000, 7050, 9950, 10000];
+    for (let i = 1; i < checkpoints.length; i++) {
+      const lo = getBasicNeed(checkpoints[i - 1], 2)!;
+      const hi = getBasicNeed(checkpoints[i], 2)!;
+      expect(hi).toBeGreaterThanOrEqual(lo);
+    }
+  });
+});
+
+// ---------------------------------------------------------------------------
+// FIX 2 (v2): Noncovered medical in 1.5× gross-up base (§61.30(8))
+// ---------------------------------------------------------------------------
+describe('FIX 2 (v2) — noncovered medical in gross-up base', () => {
+  it('default (included-in-guideline): grossupBase = basicNeed + noncoveredMedical', () => {
+    const medicalAmount = 200;
+    const result = calculateFLChildSupport(
+      baseInput({
+        netIncomeA: 4000,
+        netIncomeB: 3000,
+        numberOfChildren: 2,
+        overnightsA: 200,
+        overnightsB: 165,
+        qualifyingNoncoveredMedical: medicalAmount,
+        noncoveredMedicalPaidByB: medicalAmount,
+      })
+    );
+    const combinedIncome = 7000;
+    const basicNeed = getBasicNeed(combinedIncome, 2)!;
+    expect(result.grossupBase).toBeCloseTo(basicNeed + medicalAmount, 2);
+    expect(result.noncoveredMedicalTreatment).toBe('included-in-guideline');
+  });
+
+  it('noncoveredMedical in grossupBase: grossedObligations reflect it', () => {
+    const medicalAmount = 300;
+    const result = calculateFLChildSupport(
+      baseInput({
+        netIncomeA: 4000,
+        netIncomeB: 3000,
+        numberOfChildren: 2,
+        overnightsA: 200,
+        overnightsB: 165,
+        qualifyingNoncoveredMedical: medicalAmount,
+        noncoveredMedicalPaidByB: medicalAmount,
+      })
+    );
+    const combinedIncome = 7000;
+    const basicNeed = getBasicNeed(combinedIncome, 2)!;
+    const grossupBase = basicNeed + medicalAmount;
+    const incomeShareA = 4000 / combinedIncome;
+    const incomeShareB = 3000 / combinedIncome;
+    expect(result.grossedObligationA).toBeCloseTo(grossupBase * incomeShareA * 1.5, 2);
+    expect(result.grossedObligationB).toBeCloseTo(grossupBase * incomeShareB * 1.5, 2);
+  });
+
+  it('REGRESSION: grossupBase !== basicNeed when noncoveredMedical > 0 and treatment is included-in-guideline', () => {
+    const medicalAmount = 150;
+    const result = calculateFLChildSupport(
+      baseInput({
+        netIncomeA: 4000,
+        netIncomeB: 3000,
+        numberOfChildren: 2,
+        overnightsA: 200,
+        overnightsB: 165,
+        qualifyingNoncoveredMedical: medicalAmount,
+      })
+    );
+    const combinedIncome = 7000;
+    const basicNeed = getBasicNeed(combinedIncome, 2)!;
+    // grossupBase must be strictly greater than basicNeed
+    expect(result.grossupBase).toBeGreaterThan(basicNeed);
+    expect(result.grossupBase).toBeCloseTo(basicNeed + medicalAmount, 2);
+  });
+
+  it('separately-allocated: grossupBase = basicNeed only (noncoveredMedical excluded)', () => {
+    const medicalAmount = 200;
+    const result = calculateFLChildSupport(
+      baseInput({
+        netIncomeA: 4000,
+        netIncomeB: 3000,
+        numberOfChildren: 2,
+        overnightsA: 200,
+        overnightsB: 165,
+        qualifyingNoncoveredMedical: medicalAmount,
+        noncoveredMedicalPaidByB: medicalAmount,
+        noncoveredMedicalTreatment: 'separately-allocated',
+      })
+    );
+    const combinedIncome = 7000;
+    const basicNeed = getBasicNeed(combinedIncome, 2)!;
+    // When separately-allocated, grossupBase equals basicNeed (medical excluded)
+    expect(result.grossupBase).toBeCloseTo(basicNeed, 2);
+    expect(result.noncoveredMedicalTreatment).toBe('separately-allocated');
+  });
+
+  it('noncoveredMedical = 0: grossupBase equals basicNeed regardless of treatment flag', () => {
+    const resultDefault = calculateFLChildSupport(
+      baseInput({ netIncomeA: 4000, netIncomeB: 3000, overnightsA: 200, overnightsB: 165 })
+    );
+    const resultSeparate = calculateFLChildSupport(
+      baseInput({
+        netIncomeA: 4000,
+        netIncomeB: 3000,
+        overnightsA: 200,
+        overnightsB: 165,
+        noncoveredMedicalTreatment: 'separately-allocated',
+      })
+    );
+    const combinedIncome = 7000;
+    const basicNeed = getBasicNeed(combinedIncome, 2)!;
+    expect(resultDefault.grossupBase).toBeCloseTo(basicNeed, 2);
+    expect(resultSeparate.grossupBase).toBeCloseTo(basicNeed, 2);
+  });
+
+  it('childcare and health insurance remain EXCLUDED from grossupBase (unchanged)', () => {
+    const result = calculateFLChildSupport(
+      baseInput({
+        netIncomeA: 4000,
+        netIncomeB: 3000,
+        numberOfChildren: 2,
+        overnightsA: 200,
+        overnightsB: 165,
+        qualifyingChildcare: 500,
+        qualifyingChildHealthInsurance: 200,
+        childcarePaidByA: 500,
+        healthInsurancePaidByA: 200,
+      })
+    );
+    const combinedIncome = 7000;
+    const basicNeed = getBasicNeed(combinedIncome, 2)!;
+    // No noncoveredMedical, so grossupBase = basicNeed (childcare/insurance NOT in it)
+    expect(result.grossupBase).toBeCloseTo(basicNeed, 2);
   });
 });

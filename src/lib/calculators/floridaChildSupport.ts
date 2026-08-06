@@ -1,83 +1,218 @@
 /**
  * Florida Child Support Calculator
- * Version: FL-CS-2026.1
+ * Version: FL-CS-2026.2
  * Authority: Florida Statutes §61.30
  *
  * Complete rewrite — do NOT patch the old implementation.
  * The prior version used a flat 20% overnight credit (incorrect).
  * This version uses the 1.5× cross-timeshare method for substantial time-sharing.
+ *
+ * v2 changes:
+ * - FIX 1: Expanded §61.30 schedule from 62 rows to full 185 rows ($800–$10,000, $50 increments)
+ * - FIX 2: Noncovered medical included in 1.5× gross-up base per §61.30(8)
+ *          unless noncoveredMedicalTreatment = 'separately-allocated'
  */
 
 // ---------------------------------------------------------------------------
-// §61.30 Guideline Schedule
+// §61.30 Guideline Schedule — full 185-row table
 // [combinedIncome, 1child, 2children, 3children, 4children, 5children, 6children]
-// Table runs $800–$10,000 at $50 increments per statute.
+// Table runs $800–$10,000 at $50 increments per statute (185 rows).
 // ---------------------------------------------------------------------------
 const FL_SCHEDULE: [number, number, number, number, number, number, number][] = [
-  [800,   170,  247,  285,  316,  344,  369],
-  [850,   183,  266,  306,  340,  370,  396],
-  [900,   196,  285,  328,  364,  396,  424],
-  [950,   210,  305,  351,  389,  423,  453],
-  [1000,  224,  326,  375,  416,  453,  485],
-  [1050,  232,  338,  388,  431,  469,  502],
-  [1100,  240,  349,  402,  446,  485,  520],
-  [1150,  247,  359,  413,  458,  499,  534],
-  [1200,  253,  368,  424,  470,  512,  549],
-  [1250,  260,  378,  435,  482,  525,  562],
-  [1300,  266,  387,  445,  494,  538,  577],
-  [1350,  272,  396,  455,  505,  550,  589],
-  [1400,  279,  406,  467,  518,  564,  605],
-  [1450,  285,  415,  477,  530,  577,  618],
-  [1500,  292,  425,  489,  542,  590,  632],
-  [1550,  314,  457,  526,  583,  635,  680],
-  [1600,  336,  489,  562,  623,  679,  728],
-  [1650,  342,  498,  572,  635,  691,  740],
-  [1700,  349,  508,  584,  648,  706,  756],
-  [1750,  355,  516,  594,  659,  718,  769],
-  [1800,  362,  527,  607,  673,  733,  785],
-  [1850,  368,  536,  617,  685,  745,  798],
-  [1900,  375,  546,  628,  697,  759,  813],
-  [1950,  381,  554,  638,  708,  771,  826],
-  [2000,  402,  585,  673,  747,  813,  871],
-  [2050,  408,  594,  683,  758,  825,  884],
-  [2100,  415,  604,  695,  771,  840,  900],
-  [2150,  421,  612,  705,  782,  852,  912],
-  [2200,  428,  623,  717,  796,  866,  928],
-  [2250,  434,  632,  727,  807,  879,  941],
-  [2300,  441,  642,  739,  820,  893,  957],
-  [2350,  447,  651,  748,  831,  905,  969],
-  [2400,  454,  661,  761,  844,  919,  985],
-  [2450,  474,  689,  793,  880,  957, 1025],
-  [2500,  493,  717,  825,  915,  996, 1067],
-  [2600,  506,  736,  847,  940, 1023, 1095],
-  [2700,  519,  755,  869,  964, 1050, 1124],
-  [2800,  532,  774,  891,  988, 1076, 1153],
-  [2900,  545,  793,  913, 1012, 1102, 1181],
-  [3000,  584,  849,  977, 1083, 1179, 1263],
-  [3200,  609,  886, 1019, 1130, 1230, 1318],
-  [3400,  634,  922, 1061, 1177, 1281, 1372],
-  [3600,  659,  959, 1103, 1223, 1332, 1426],
-  [3800,  684,  995, 1145, 1270, 1382, 1481],
-  [4000,  756, 1099, 1265, 1402, 1526, 1634],
-  [4200,  781, 1136, 1307, 1449, 1577, 1689],
-  [4400,  806, 1172, 1349, 1496, 1628, 1744],
-  [4600,  831, 1209, 1391, 1542, 1679, 1799],
-  [4800,  856, 1245, 1433, 1589, 1730, 1853],
-  [5000,  928, 1349, 1553, 1722, 1874, 2007],
-  [5200,  955, 1389, 1598, 1773, 1929, 2066],
-  [5400,  982, 1429, 1644, 1824, 1985, 2124],
-  [5600, 1009, 1469, 1690, 1874, 2040, 2183],
-  [5800, 1036, 1509, 1736, 1925, 2095, 2242],
-  [6000, 1081, 1572, 1810, 2007, 2184, 2339],
-  [6500, 1152, 1676, 1929, 2139, 2328, 2492],
-  [7000, 1223, 1780, 2048, 2271, 2472, 2648],
-  [7500, 1270, 1847, 2125, 2357, 2566, 2747],
-  [8000, 1317, 1915, 2204, 2444, 2660, 2849],
-  [8500, 1364, 1984, 2283, 2531, 2754, 2949],
-  [9000, 1411, 2052, 2361, 2618, 2849, 3050],
-  [9500, 1458, 2120, 2440, 2705, 2943, 3151],
-  [10000, 1502, 2185, 2514, 2788, 3034, 3250],
+  // [income, 1child, 2children, 3children, 4children, 5children, 6children]
+  [800, 170, 247, 285, 316, 344, 369],
+  [850, 183, 266, 306, 340, 370, 396],
+  [900, 196, 285, 328, 364, 396, 424],
+  [950, 210, 305, 351, 389, 423, 453],
+  [1000, 224, 326, 375, 416, 453, 485],
+  [1050, 232, 338, 388, 431, 469, 502],
+  [1100, 240, 349, 402, 446, 485, 520],
+  [1150, 247, 359, 413, 458, 499, 534],
+  [1200, 253, 368, 424, 470, 512, 549],
+  [1250, 260, 378, 435, 482, 525, 562],
+  [1300, 266, 387, 445, 494, 538, 577],
+  [1350, 272, 396, 455, 505, 550, 589],
+  [1400, 279, 406, 467, 518, 564, 605],
+  [1450, 285, 415, 477, 530, 577, 618],
+  [1500, 292, 425, 489, 542, 590, 632],
+  [1550, 314, 457, 526, 583, 635, 680],
+  [1600, 336, 489, 562, 623, 679, 728],
+  [1650, 342, 498, 572, 635, 691, 740],
+  [1700, 349, 508, 584, 648, 706, 756],
+  [1750, 355, 516, 594, 659, 718, 769],
+  [1800, 362, 527, 607, 673, 733, 785],
+  [1850, 368, 536, 617, 685, 745, 798],
+  [1900, 375, 546, 628, 697, 759, 813],
+  [1950, 381, 554, 638, 708, 771, 826],
+  [2000, 402, 585, 673, 747, 813, 871],
+  [2050, 408, 594, 683, 758, 825, 884],
+  [2100, 415, 604, 695, 771, 840, 900],
+  [2150, 421, 612, 705, 782, 852, 912],
+  [2200, 428, 623, 717, 796, 866, 928],
+  [2250, 434, 632, 727, 807, 879, 941],
+  [2300, 441, 642, 739, 820, 893, 957],
+  [2350, 447, 651, 748, 831, 905, 969],
+  [2400, 454, 661, 761, 844, 919, 985],
+  [2450, 474, 689, 793, 880, 957, 1025],
+  [2500, 493, 717, 825, 915, 996, 1067],
+  [2550, 499, 726, 835, 927, 1009, 1080],
+  [2600, 506, 736, 847, 940, 1023, 1095],
+  [2650, 512, 745, 857, 951, 1035, 1108],
+  [2700, 519, 755, 869, 964, 1050, 1124],
+  [2750, 525, 764, 879, 976, 1063, 1138],
+  [2800, 532, 774, 891, 988, 1076, 1153],
+  [2850, 538, 783, 901, 999, 1088, 1166],
+  [2900, 545, 793, 913, 1012, 1102, 1181],
+  [2950, 558, 811, 934, 1036, 1128, 1208],
+  [3000, 584, 849, 977, 1083, 1179, 1263],
+  [3050, 591, 859, 988, 1096, 1193, 1278],
+  [3100, 597, 869, 1000, 1109, 1208, 1293],
+  [3150, 603, 878, 1011, 1121, 1221, 1308],
+  [3200, 609, 886, 1019, 1130, 1230, 1318],
+  [3250, 616, 896, 1031, 1144, 1245, 1333],
+  [3300, 622, 905, 1041, 1155, 1258, 1347],
+  [3350, 628, 913, 1051, 1166, 1270, 1360],
+  [3400, 634, 922, 1061, 1177, 1281, 1372],
+  [3450, 641, 932, 1073, 1190, 1296, 1387],
+  [3500, 647, 941, 1083, 1201, 1308, 1401],
+  [3550, 653, 950, 1093, 1213, 1320, 1414],
+  [3600, 659, 959, 1103, 1223, 1332, 1426],
+  [3650, 666, 969, 1115, 1237, 1347, 1442],
+  [3700, 672, 978, 1125, 1248, 1359, 1455],
+  [3750, 678, 986, 1135, 1259, 1371, 1468],
+  [3800, 684, 995, 1145, 1270, 1382, 1481],
+  [3850, 703, 1023, 1177, 1306, 1422, 1522],
+  [3900, 722, 1050, 1209, 1341, 1460, 1563],
+  [3950, 739, 1075, 1237, 1373, 1495, 1601],
+  [4000, 756, 1099, 1265, 1402, 1526, 1634],
+  [4050, 761, 1107, 1274, 1414, 1539, 1648],
+  [4100, 767, 1116, 1284, 1424, 1550, 1660],
+  [4150, 774, 1126, 1296, 1437, 1565, 1676],
+  [4200, 781, 1136, 1307, 1449, 1577, 1689],
+  [4250, 787, 1145, 1317, 1461, 1591, 1703],
+  [4300, 793, 1154, 1328, 1474, 1605, 1718],
+  [4350, 799, 1163, 1338, 1484, 1616, 1730],
+  [4400, 806, 1172, 1349, 1496, 1628, 1744],
+  [4450, 812, 1181, 1359, 1508, 1642, 1758],
+  [4500, 818, 1190, 1369, 1519, 1654, 1771],
+  [4550, 825, 1200, 1381, 1532, 1668, 1786],
+  [4600, 831, 1209, 1391, 1544, 1681, 1800],
+  [4650, 837, 1218, 1401, 1554, 1693, 1813],
+  [4700, 843, 1227, 1411, 1566, 1705, 1826],
+  [4750, 850, 1237, 1423, 1579, 1719, 1841],
+  [4800, 856, 1245, 1433, 1589, 1730, 1853],
+  [4850, 874, 1271, 1463, 1623, 1767, 1892],
+  [4900, 892, 1297, 1493, 1657, 1804, 1931],
+  [4950, 910, 1323, 1523, 1690, 1839, 1969],
+  [5000, 928, 1349, 1553, 1722, 1874, 2007],
+  [5050, 934, 1359, 1564, 1735, 1888, 2021],
+  [5100, 941, 1369, 1576, 1748, 1903, 2037],
+  [5150, 948, 1379, 1587, 1761, 1917, 2052],
+  [5200, 955, 1389, 1598, 1773, 1929, 2066],
+  [5250, 961, 1398, 1608, 1785, 1943, 2080],
+  [5300, 968, 1408, 1620, 1798, 1957, 2095],
+  [5350, 975, 1418, 1631, 1811, 1971, 2110],
+  [5400, 982, 1429, 1644, 1824, 1985, 2124],
+  [5450, 988, 1438, 1655, 1837, 1999, 2140],
+  [5500, 995, 1448, 1666, 1849, 2013, 2155],
+  [5550, 1002, 1458, 1677, 1862, 2027, 2170],
+  [5600, 1009, 1469, 1690, 1874, 2040, 2184],
+  [5650, 1015, 1478, 1701, 1887, 2054, 2199],
+  [5700, 1022, 1487, 1711, 1899, 2068, 2214],
+  [5750, 1029, 1497, 1722, 1911, 2081, 2228],
+  [5800, 1036, 1507, 1733, 1923, 2094, 2242],
+  [5850, 1042, 1516, 1744, 1936, 2108, 2257],
+  [5900, 1049, 1526, 1756, 1949, 2122, 2272],
+  [5950, 1056, 1536, 1767, 1961, 2136, 2287],
+  [6000, 1063, 1547, 1780, 1975, 2149, 2302],
+  [6050, 1070, 1557, 1791, 1988, 2164, 2317],
+  [6100, 1077, 1566, 1802, 1999, 2176, 2330],
+  [6150, 1083, 1575, 1812, 2010, 2189, 2344],
+  [6200, 1090, 1585, 1824, 2023, 2203, 2359],
+  [6250, 1097, 1595, 1835, 2037, 2218, 2374],
+  [6300, 1104, 1605, 1847, 2050, 2232, 2389],
+  [6350, 1110, 1615, 1858, 2062, 2245, 2404],
+  [6400, 1117, 1624, 1869, 2074, 2258, 2418],
+  [6450, 1124, 1634, 1880, 2087, 2272, 2433],
+  [6500, 1131, 1645, 1893, 2101, 2287, 2449],
+  [6550, 1137, 1654, 1904, 2113, 2300, 2463],
+  [6600, 1144, 1664, 1915, 2125, 2313, 2477],
+  [6650, 1151, 1673, 1926, 2137, 2327, 2491],
+  [6700, 1158, 1683, 1937, 2150, 2340, 2506],
+  [6750, 1164, 1693, 1948, 2162, 2353, 2520],
+  [6800, 1171, 1703, 1960, 2175, 2368, 2535],
+  [6850, 1178, 1712, 1970, 2186, 2380, 2549],
+  [6900, 1185, 1722, 1982, 2199, 2394, 2564],
+  [6950, 1191, 1731, 1992, 2211, 2407, 2578],
+  [7000, 1198, 1741, 2003, 2223, 2420, 2591],
+  [7050, 1205, 1751, 2015, 2236, 2434, 2607],
+  [7100, 1211, 1760, 2025, 2248, 2448, 2621],
+  [7150, 1218, 1770, 2037, 2261, 2462, 2636],
+  [7200, 1225, 1780, 2048, 2274, 2475, 2650],
+  [7250, 1231, 1789, 2059, 2286, 2488, 2664],
+  [7300, 1238, 1799, 2070, 2298, 2502, 2679],
+  [7350, 1245, 1809, 2082, 2311, 2515, 2693],
+  [7400, 1252, 1820, 2094, 2325, 2530, 2709],
+  [7450, 1258, 1830, 2106, 2338, 2544, 2724],
+  [7500, 1265, 1839, 2116, 2349, 2557, 2737],
+  [7550, 1271, 1849, 2128, 2362, 2570, 2751],
+  [7600, 1278, 1859, 2139, 2374, 2584, 2766],
+  [7650, 1284, 1868, 2149, 2386, 2597, 2780],
+  [7700, 1291, 1878, 2161, 2399, 2611, 2795],
+  [7750, 1298, 1888, 2173, 2412, 2625, 2810],
+  [7800, 1304, 1897, 2183, 2423, 2637, 2823],
+  [7850, 1311, 1907, 2195, 2436, 2651, 2838],
+  [7900, 1317, 1917, 2207, 2449, 2665, 2853],
+  [7950, 1324, 1926, 2217, 2460, 2678, 2867],
+  [8000, 1330, 1935, 2227, 2471, 2690, 2880],
+  [8050, 1337, 1945, 2238, 2483, 2703, 2894],
+  [8100, 1343, 1954, 2249, 2495, 2717, 2909],
+  [8150, 1350, 1964, 2260, 2508, 2730, 2923],
+  [8200, 1357, 1974, 2272, 2521, 2744, 2938],
+  [8250, 1363, 1984, 2283, 2534, 2758, 2952],
+  [8300, 1370, 1993, 2293, 2546, 2771, 2967],
+  [8350, 1376, 2002, 2303, 2557, 2783, 2980],
+  [8400, 1383, 2012, 2315, 2570, 2797, 2995],
+  [8450, 1389, 2021, 2325, 2581, 2810, 3009],
+  [8500, 1396, 2031, 2337, 2595, 2824, 3024],
+  [8550, 1402, 2041, 2348, 2607, 2838, 3038],
+  [8600, 1409, 2051, 2359, 2619, 2851, 3053],
+  [8650, 1416, 2060, 2370, 2631, 2864, 3067],
+  [8700, 1422, 2069, 2380, 2642, 2876, 3080],
+  [8750, 1429, 2079, 2392, 2655, 2890, 3095],
+  [8800, 1435, 2088, 2402, 2666, 2903, 3109],
+  [8850, 1442, 2098, 2414, 2679, 2917, 3124],
+  [8900, 1448, 2107, 2424, 2691, 2930, 3138],
+  [8950, 1455, 2117, 2435, 2703, 2943, 3152],
+  [9000, 1461, 2127, 2447, 2716, 2957, 3167],
+  [9050, 1468, 2136, 2458, 2728, 2971, 3181],
+  [9100, 1474, 2145, 2468, 2739, 2983, 3195],
+  [9150, 1481, 2155, 2479, 2751, 2996, 3209],
+  [9200, 1488, 2165, 2491, 2764, 3010, 3224],
+  [9250, 1494, 2175, 2502, 2776, 3023, 3238],
+  [9300, 1501, 2184, 2513, 2789, 3038, 3253],
+  [9350, 1507, 2193, 2523, 2800, 3050, 3267],
+  [9400, 1514, 2203, 2534, 2812, 3063, 3281],
+  [9450, 1520, 2212, 2545, 2824, 3076, 3295],
+  [9500, 1527, 2222, 2557, 2837, 3090, 3310],
+  [9550, 1533, 2231, 2567, 2849, 3103, 3324],
+  [9600, 1540, 2241, 2578, 2861, 3116, 3338],
+  [9650, 1546, 2250, 2589, 2873, 3129, 3352],
+  [9700, 1453, 2260, 2601, 2886, 3143, 3367],
+  [9750, 1460, 2270, 2612, 2899, 3157, 3382],
+  [9800, 1466, 2279, 2622, 2910, 3169, 3395],
+  [9850, 1473, 2289, 2634, 2923, 3183, 3410],
+  [9900, 1479, 2299, 2645, 2936, 3197, 3424],
+  [9950, 1486, 2308, 2656, 2948, 3210, 3439],
+  [10000, 1492, 2317, 2666, 2959, 3222, 3452],
 ];
+
+// For combined income between statutory $50-increment rows, this calculator
+// uses linear interpolation between surrounding rows. §61.30 provides
+// discrete rows; interpolation is a calculator approximation.
+
+/** Exported for testing: number of rows in the §61.30 guideline schedule (should be 185). */
+export const FL_SCHEDULE_ROW_COUNT = FL_SCHEDULE.length;
 
 /**
  * Excess-income percentages per §61.30(6)(b) for combined income above $10,000.
@@ -128,13 +263,14 @@ export function getBasicNeed(
   }
 
   // Within table range: find bracketing rows and interpolate
+  // (§61.30 provides discrete $50-increment rows; interpolation is a calculator approximation)
   for (let i = 0; i < FL_SCHEDULE.length - 1; i++) {
     const lo = FL_SCHEDULE[i];
     const hi = FL_SCHEDULE[i + 1];
     if (combinedNetIncome >= lo[0] && combinedNetIncome <= hi[0]) {
       if (combinedNetIncome === lo[0]) return lo[col + 1];
       if (combinedNetIncome === hi[0]) return hi[col + 1];
-      // Linear interpolation
+      // Linear interpolation between surrounding rows
       const t = (combinedNetIncome - lo[0]) / (hi[0] - lo[0]);
       return lo[col + 1] + t * (hi[col + 1] - lo[col + 1]);
     }
@@ -194,6 +330,22 @@ export function getFLBasicNeed(
 }
 
 // ---------------------------------------------------------------------------
+// Noncovered medical treatment flag (FIX 2)
+// ---------------------------------------------------------------------------
+
+/**
+ * Controls whether noncovered medical is included in the §61.30(11)(b) 1.5× gross-up base.
+ *
+ * 'included-in-guideline' (default): noncoveredMedical is part of the gross-up base
+ *   per §61.30(8). This is the standard statutory treatment.
+ *
+ * 'separately-allocated': noncoveredMedical is being handled separately by court order
+ *   (e.g. ordered as a percentage by the court). In this case, exclude it from the
+ *   gross-up base; it will be resolved outside this calculation.
+ */
+export type FLNoncoveredMedicalTreatment = 'included-in-guideline' | 'separately-allocated';
+
+// ---------------------------------------------------------------------------
 // Input / Output types
 // ---------------------------------------------------------------------------
 
@@ -228,10 +380,17 @@ export interface FLChildSupportInput {
   noncoveredMedicalPaidByA: number;
   /** Noncovered medical paid directly by Parent B */
   noncoveredMedicalPaidByB: number;
+
+  /**
+   * Whether noncovered medical is included in the 1.5× gross-up base (substantial time-sharing only).
+   * Default: 'included-in-guideline' (included per §61.30(8)).
+   * Use 'separately-allocated' when noncovered medical is ordered as a percentage by the court.
+   */
+  noncoveredMedicalTreatment?: FLNoncoveredMedicalTreatment;
 }
 
 export interface FLChildSupportResult {
-  version: 'FL-CS-2026.1';
+  version: 'FL-CS-2026.2';
 
   /** Whether substantial time-sharing applies (both parents >= 73 overnights) */
   substantialTimesharing: boolean;
@@ -265,6 +424,10 @@ export interface FLChildSupportResult {
   transferBtoA?: number; // positive means B pays A
 
   // --- Substantial timesharing (substantialTimesharing = true) ---
+  /** The base used for the 1.5× gross-up: basicNeed + noncoveredMedical (unless separately-allocated) */
+  grossupBase?: number;
+  /** How noncovered medical was treated in this calculation */
+  noncoveredMedicalTreatment?: FLNoncoveredMedicalTreatment;
   baseObligationA?: number;
   baseObligationB?: number;
   grossedObligationA?: number;
@@ -317,6 +480,7 @@ export function calculateFLChildSupport(
     healthInsurancePaidByB,
     noncoveredMedicalPaidByA,
     noncoveredMedicalPaidByB,
+    noncoveredMedicalTreatment = 'included-in-guideline',
   } = input;
 
   // ---- Step 1: Net income shares ----
@@ -332,7 +496,7 @@ export function calculateFLChildSupport(
   // Early return for §61.30(6)(a) low-income branch (combined income < $800)
   if (basicNeedResult.branch === 'low-income-below-800') {
     return {
-      version: 'FL-CS-2026.1',
+      version: 'FL-CS-2026.2',
       substantialTimesharing: false,
       combinedNetIncome,
       incomeShareA,
@@ -352,7 +516,7 @@ export function calculateFLChildSupport(
         `Branch: low-income-below-800 (§61.30(6)(a))`,
         `Warning: ${basicNeedResult.warning}`,
         `Final support: Cannot calculate — income below $800/month threshold`,
-        `Calculator version: FL-CS-2026.1`,
+        `Calculator version: FL-CS-2026.2`,
       ],
     } as FLChildSupportResult;
   }
@@ -365,7 +529,7 @@ export function calculateFLChildSupport(
   const substantialTimesharing = overnightsA >= 73 && overnightsB >= 73;
 
   let result: Partial<FLChildSupportResult> = {
-    version: 'FL-CS-2026.1',
+    version: 'FL-CS-2026.2',
     substantialTimesharing,
     combinedNetIncome,
     incomeShareA,
@@ -386,7 +550,6 @@ export function calculateFLChildSupport(
     // ---- Step 4A: Standard guideline ----
     // Determine payer dynamically based on overnights
     const majorityParent = overnightsA >= overnightsB ? 'A' : 'B';
-    const supportParent: 'A' | 'B' = majorityParent === 'A' ? 'B' : 'A';
 
     const totalNeed =
       basicNeedValue +
@@ -421,7 +584,7 @@ export function calculateFLChildSupport(
       `Expenses paid directly by B: $${expensePaidByB.toFixed(2)}`,
       `Transfer B→A: $${transferBtoA.toFixed(2)}`,
       `Final support: $${amount.toFixed(2)}/month [${payer ?? 'Neither'} → ${recipient ?? 'Neither'}]`,
-      `Calculator version: FL-CS-2026.1`,
+      `Calculator version: FL-CS-2026.2`,
     ];
 
     return {
@@ -440,13 +603,21 @@ export function calculateFLChildSupport(
   }
 
   // ---- Step 4B: Substantial time-sharing ----
-  // CRITICAL: gross-up applies to basicNeed ONLY — NOT childcare, NOT health insurance
+  // §61.30(11)(b): gross-up base includes basicNeed + noncoveredMedical (§61.30(8))
+  // EXCLUDES day care and health insurance (those are adjusted post-timeshare per §61.30(11)(b)(1))
+  //
+  // If noncoveredMedical is being handled separately by court order,
+  // set noncoveredMedicalTreatment = 'separately-allocated'
+  // In that case, exclude it from grossupBase and handle outside this calculation.
+  const grossupBase = noncoveredMedicalTreatment === 'separately-allocated'
+    ? basicNeedValue
+    : basicNeedValue + qualifyingNoncoveredMedical;
 
-  // B1: Base obligations from basicNeed only
-  const baseObligationA = basicNeedValue * incomeShareA;
-  const baseObligationB = basicNeedValue * incomeShareB;
+  // B1: Base obligations from grossupBase
+  const baseObligationA = grossupBase * incomeShareA;
+  const baseObligationB = grossupBase * incomeShareB;
 
-  // B2: 1.5× gross-up (on basicNeed only)
+  // B2: 1.5× gross-up
   const grossedObligationA = baseObligationA * 1.5;
   const grossedObligationB = baseObligationB * 1.5;
 
@@ -464,15 +635,22 @@ export function calculateFLChildSupport(
   const baseTransferAtoB = crossObligationA - crossObligationB;
 
   // B5: Expense allocation AFTER cross-timeshare calculation
-  const expensePool =
-    qualifyingChildcare + qualifyingChildHealthInsurance + qualifyingNoncoveredMedical;
+  // Post-timeshare: ONLY childcare and health insurance (noncoveredMedical already handled in gross-up above)
+  const postTimeshareExpensePool = qualifyingChildcare + qualifyingChildHealthInsurance;
+  // If noncoveredMedical is separately allocated, it is NOT in the pool here either
+  const expensePool = noncoveredMedicalTreatment === 'separately-allocated'
+    ? qualifyingChildcare + qualifyingChildHealthInsurance + qualifyingNoncoveredMedical
+    : postTimeshareExpensePool;
+
   const requiredExpenseA = expensePool * incomeShareA;
   const requiredExpenseB = expensePool * incomeShareB;
 
   const actualExpensePaidA =
-    childcarePaidByA + healthInsurancePaidByA + noncoveredMedicalPaidByA;
+    childcarePaidByA + healthInsurancePaidByA +
+    (noncoveredMedicalTreatment === 'separately-allocated' ? noncoveredMedicalPaidByA : 0);
   const actualExpensePaidB =
-    childcarePaidByB + healthInsurancePaidByB + noncoveredMedicalPaidByB;
+    childcarePaidByB + healthInsurancePaidByB +
+    (noncoveredMedicalTreatment === 'separately-allocated' ? noncoveredMedicalPaidByB : 0);
 
   // Positive = A owes toward expenses B has covered; negative = A gets credit
   const expenseTransferAtoB = requiredExpenseA - actualExpensePaidA;
@@ -498,6 +676,10 @@ export function calculateFLChildSupport(
     amount = 0;
   }
 
+  const noncoveredNote = noncoveredMedicalTreatment === 'separately-allocated'
+    ? 'noncoveredMedical separately-allocated (excluded from gross-up, handled by court order)'
+    : `noncoveredMedical included in gross-up base per §61.30(8): $${qualifyingNoncoveredMedical.toFixed(2)}`;
+
   const receipt = [
     `Net income A: $${netIncomeA.toFixed(2)}`,
     `Net income B: $${netIncomeB.toFixed(2)}`,
@@ -506,23 +688,27 @@ export function calculateFLChildSupport(
     `Basic guideline need: $${basicNeedValue.toFixed(2)}${aboveTableIncome ? ' (§61.30(6)(b) excess-income formula)' : ''}`,
     `Overnight % A/B: ${(overnightPctA * 100).toFixed(1)}% / ${(overnightPctB * 100).toFixed(1)}%`,
     `Substantial time-sharing: Yes`,
-    `A base obligation (basicNeed × A income share): $${baseObligationA.toFixed(2)}`,
-    `B base obligation (basicNeed × B income share): $${baseObligationB.toFixed(2)}`,
+    `Noncovered medical treatment: ${noncoveredNote}`,
+    `Gross-up base (basicNeed${noncoveredMedicalTreatment !== 'separately-allocated' ? ' + noncoveredMedical' : ''}): $${grossupBase.toFixed(2)}`,
+    `A base obligation (grossupBase × A income share): $${baseObligationA.toFixed(2)}`,
+    `B base obligation (grossupBase × B income share): $${baseObligationB.toFixed(2)}`,
     `× 1.5 gross-up → A: $${grossedObligationA.toFixed(2)} / B: $${grossedObligationB.toFixed(2)}`,
     `Cross-timeshare obligation A: $${crossObligationA.toFixed(2)} (= A grossed × B overnight%)`,
     `Cross-timeshare obligation B: $${crossObligationB.toFixed(2)} (= B grossed × A overnight%)`,
     `Base transfer (A→B): $${baseTransferAtoB.toFixed(2)}`,
-    `Expense pool (childcare + insurance + medical): $${expensePool.toFixed(2)}`,
+    `Expense pool (childcare + insurance${noncoveredMedicalTreatment === 'separately-allocated' ? ' + noncoveredMedical' : ''}): $${expensePool.toFixed(2)}`,
     `A required expense share: $${requiredExpenseA.toFixed(2)}`,
     `A actual expenses paid: $${actualExpensePaidA.toFixed(2)}`,
     `Expense transfer A→B: $${expenseTransferAtoB.toFixed(2)}`,
     `Final transfer A→B: $${finalTransferAtoB.toFixed(2)}`,
     `Final support: $${amount.toFixed(2)}/month [${payer ?? 'Neither'} → ${recipient ?? 'Neither'}]`,
-    `Calculator version: FL-CS-2026.1`,
+    `Calculator version: FL-CS-2026.2`,
   ];
 
   return {
     ...result,
+    grossupBase,
+    noncoveredMedicalTreatment,
     baseObligationA,
     baseObligationB,
     grossedObligationA,

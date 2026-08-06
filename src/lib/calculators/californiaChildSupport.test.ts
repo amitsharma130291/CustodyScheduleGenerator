@@ -655,3 +655,109 @@ describe('calculateCAChildSupport — §4061(c)+(d) spousal support net adjustme
     expect(result.addonAllocation.shareA + result.addonAllocation.shareB).toBeCloseTo(1.0, 6);
   });
 });
+
+// ---------------------------------------------------------------------------
+// FIX 3 (v2): CA — abs(CS) for low-income adjustment and §4061(d)
+// ---------------------------------------------------------------------------
+describe('FIX 3 — CA abs(signedCS) = basicSupport for downstream calculations', () => {
+  // Helper: construct a scenario where CS1 * childMultiplier is negative
+  // CS = K*(HN - H*TN). For CS to be negative: HN < H*TN, i.e., high earner timeshare
+  // fraction exceeds (HN/TN). With equal incomes and high timeshare for the "high earner"
+  // the formula can produce a negative value.
+  function negativeCSInput() {
+    // A earns slightly more (high earner), but has very high timeshare (70%)
+    // HN=3100, LN=2900, TN=6000, H=0.70 (A's timeshare)
+    // K = 0.250 (flat bracket, TN=6000)
+    // hMultiplier = 2 - 0.70 = 1.30
+    // K_final = 0.250 * 1.30 = 0.325
+    // CS1 = 0.325 * (3100 - 0.70*6000) = 0.325 * (3100 - 4200) = 0.325 * -1100 = -357.5
+    return baseInput({
+      netDisposableIncomeA: 3100,
+      netDisposableIncomeB: 2900,
+      numberOfChildren: 1,
+      timeshareA: 0.70,
+      timeshareB: 0.30,
+    });
+  }
+
+  it('negative CS1 scenario: basicSupport = abs(signedCS) is positive', () => {
+    const result = calculateCAChildSupport(negativeCSInput());
+    // CS should be negative; baseSupport must be its absolute value (positive)
+    expect(result.CS).toBeLessThan(0);
+    expect(result.baseSupport).toBeGreaterThan(0);
+    expect(result.baseSupport).toBeCloseTo(Math.abs(result.CS), 4);
+  });
+
+  it('negative CS: payer is the low earner (B), recipient is high earner (A)', () => {
+    const result = calculateCAChildSupport(negativeCSInput());
+    // CS < 0 means low earner (B) pays high earner (A)
+    expect(result.basePayer).toBe('B');
+    expect(result.baseRecipient).toBe('A');
+  });
+
+  it('negative CS + low-income eligible obligor: maxLowIncomeReduction is positive', () => {
+    // B is the payer (negativeCS scenario), B's income is 2900 which is < CA min wage ~2929
+    const result = calculateCAChildSupport(negativeCSInput());
+    if (result.lowIncomeAdjustmentEligible) {
+      // maximumLowIncomeReduction must be positive (not negative)
+      expect(result.maximumLowIncomeReduction).toBeGreaterThan(0);
+      // The adjusted range lower bound must be >= 0
+      expect(result.lowIncomeAdjustedRange![0]).toBeGreaterThanOrEqual(0);
+      expect(result.lowIncomeAdjustedRange![1]).toBeGreaterThan(0);
+    }
+    // Even if B's 2900 is just at/above threshold, baseSupport must still be positive
+    expect(result.baseSupport).toBeGreaterThan(0);
+  });
+
+  it('negative CS + §4061(d): payerAdjustedNet = adjustedNet[lowEarner] - basicSupport (floored at 0)', () => {
+    const result = calculateCAChildSupport(negativeCSInput());
+    // Payer is B (low earner), so B's net is reduced by baseSupport
+    if (result.basePayer === 'B') {
+      const expected = Math.max(result.adjustedNetB - result.baseSupport, 0);
+      expect(result.netBForAddons).toBeCloseTo(expected, 4);
+      // Must not be negative
+      expect(result.netBForAddons).toBeGreaterThanOrEqual(0);
+    }
+  });
+
+  it('negative CS: finalSupport is non-negative', () => {
+    const result = calculateCAChildSupport(negativeCSInput());
+    expect(result.finalSupport).toBeGreaterThanOrEqual(0);
+  });
+
+  it('zero CS: no payer, no recipient, finalSupport = 0 (or add-ons only)', () => {
+    // CS = 0 when HN = H * TN exactly, i.e. H = HN/TN
+    // A=6000, B=2000, TN=8000, HN=6000, H=6000/8000=0.75
+    // K (TN=8000, flat 0.250), hMultiplier = 2 - 0.75 = 1.25, K=0.3125
+    // CS1 = 0.3125 * (6000 - 0.75*8000) = 0.3125 * 0 = 0
+    const result = calculateCAChildSupport(
+      baseInput({
+        netDisposableIncomeA: 6000,
+        netDisposableIncomeB: 2000,
+        timeshareA: 0.75,
+        timeshareB: 0.25,
+        qualifyingChildcare: 0,
+        qualifyingHealthcare: 0,
+      })
+    );
+    expect(result.CS).toBeCloseTo(0, 4);
+    expect(result.baseSupport).toBeCloseTo(0, 4);
+    expect(result.basePayer).toBeNull();
+    expect(result.finalSupport).toBeGreaterThanOrEqual(0);
+  });
+
+  it('positive CS: baseSupport = CS (unchanged, abs has no effect)', () => {
+    // Normal scenario — high earner has low timeshare, CS is positive
+    const result = calculateCAChildSupport(
+      baseInput({
+        netDisposableIncomeA: 6000,
+        netDisposableIncomeB: 2000,
+        timeshareA: 0.20,
+        timeshareB: 0.80,
+      })
+    );
+    expect(result.CS).toBeGreaterThan(0);
+    expect(result.baseSupport).toBeCloseTo(result.CS, 4);
+    expect(result.basePayer).toBe('A'); // high earner pays
+  });
+});
