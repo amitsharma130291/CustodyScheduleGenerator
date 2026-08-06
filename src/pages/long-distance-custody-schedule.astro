@@ -8,7 +8,10 @@ import FAQ from '../components/FAQ.astro';
 import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
 import { getCanonicalUrl } from '../lib/seo/metadata';
 import { buildArticleSchema, buildBreadcrumbSchema, buildFAQSchema, buildWebPageSchema } from '../lib/seo/schema';
-const title = "Long-Distance Custody Schedule: 4 Models by Distance";
+
+import ScheduleHeroGeneratorPanel from '../components/schedules/ScheduleHeroGeneratorPanel.astro';
+import { generateSchedule } from '../lib/schedules/generateSchedule';
+import { getDefaultStartDate } from '../lib/schedules/format';const title = "Long-Distance Custody Schedule: 4 Models by Distance";
 const description = "Build a long-distance custody schedule that works. Compare 4 distance-based planning models, school-year/summer splits, travel logistics, holidays, relocation issues, and sample schedules.";
 const canonical = "/long-distance-custody-schedule/";
 const canonicalUrl = getCanonicalUrl(canonical);
@@ -17,6 +20,15 @@ const dateModified = "2026-08-06";
 const editorialReview = { reviewer: "CustodyBuilder Editorial Team", reviewerHref: "/about/", methodologyLabel: "How CustodyBuilder Works", methodologyHref: "/how-custodybuilder-works/", lastUpdatedLabel: "Last updated August 2026", disclaimer: "Educational information only. Not legal advice.", reviewedFor: ["CustodyBuilder Distance Planning Framework accuracy","Relocation law general principles","Transportation logistics and communication provisions"] };
 const breadcrumbs = [{ name: "Home", url: getCanonicalUrl("/") }, { name: "Long-Distance Custody Schedule", url: canonicalUrl }];
 const faqItems = [{ question: "Can a long-distance parent get equal custody?", answer: "In theory, yes — but a 50/50 interstate schedule can be difficult to maintain once a child attends school, because frequent interstate exchanges may conflict with school attendance, activities, and the need for a predictable weekly routine. For preschool-aged children not yet tied to a school schedule, more frequent exchanges may be practical." },{ question: "What if one parent relocates without notice?", answer: "If a parent moves with the child without required notice or court approval, courts treat this seriously. Remedies include an order requiring the child to be returned, a modification of custody, sanctions, and in some cases contempt of court." },{ question: "How do courts decide which parent is primary in a long-distance situation?", answer: "Courts weigh: which parent has historically been the primary caregiver, where the child's school and support network are established, each parent's ability to support the child's relationship with the other parent, and the child's preference (if old enough)." },{ question: "Do I need a lawyer for a long-distance parenting plan?", answer: "You don't legally require one, but the stakes are high. A poorly drafted long-distance plan creates years of disputes. At minimum, have an attorney review the travel provisions and make-up time language before you sign." },{ question: "What happens when the child becomes a teenager and doesn't want to fly?", answer: "Teenage preference is a real enforcement issue in long-distance custody. Courts take teenage preference seriously, especially 14+ depending on the state. The best protection is building a strong relationship during the school years so the teenager wants to visit." },{ question: "How are travel costs treated at tax time?", answer: "Travel costs for custody visits are generally not deductible for federal tax purposes. The child tax credit, dependent care credit, and head-of-household status are separate questions with their own rules — coordinate with a tax professional." },{ question: "At what age can a child fly as an unaccompanied minor?", answer: "Airline age requirements, route restrictions, and unaccompanied-minor fees vary by carrier and can change. Check the operating airline's current policy directly before finalizing any parenting plan that depends on a child flying alone." },{ question: "Can the parenting plan specify video call platforms?", answer: "Yes, and it should. Parenting plans may specify the communication platform, call frequency, and duration. OurFamilyWizard and TalkingParents are court-recognized platforms with built-in message logs." }];
+
+const startDate = getDefaultStartDate();
+const generatedSchedule = generateSchedule({
+	scheduleId: 'week-on-week-off',
+	startDate,
+	parentNames: { parentA: 'Parent A', parentB: 'Parent B' },
+});
+const heroTrustSignals = ['Free — no account needed', 'Long-distance schedule builder', 'Download as PDF'];
+
 const schema = [buildWebPageSchema({ name: title, description, url: canonicalUrl }), buildArticleSchema({ headline: title, description, url: canonicalUrl, datePublished, dateModified, authorName: editorialReview.reviewer }), buildFAQSchema(faqItems), buildBreadcrumbSchema(breadcrumbs)];
 const distanceTable = [{ distance: "Under 100 miles", drive: "Under 2 hours", model: "Model 1: Modified frequent" },{ distance: "100–250 miles", drive: "2–4 hours", model: "Model 2: Monthly weekend" },{ distance: "250–400 miles", drive: "4–7 hours", model: "Model 2 (extended) or Model 3" },{ distance: "400+ miles or different state", drive: "Requires flying", model: "Model 3: School-year/summer" },{ distance: "Different country", drive: "International", model: "Different legal framework — Hague Convention" }];
 const commonMistakes = [{ title: "Not writing in flight logistics", body: "Plans that say 'the child shall travel to Parent B for summer' without specifying who buys tickets, at what price point, with what advance notice, and who accompanies the child create annual arguments. Name every detail." },{ title: "Not specifying what happens when flights are cancelled", body: "Weather delays, mechanical issues, and missed connections happen. Without explicit make-up provisions, every cancellation becomes a dispute about who 'lost' time." },{ title: "No video call schedule in the order", body: "'Reasonable communication' is not enforceable. A parent who stonewalls video calls while technically allowing them has a defense. Specific times, frequency, and platforms in the order give you enforcement options." },{ title: "Using summer dates that don't match the school calendar", body: "'June 15 to August 15' sounds specific, but school start and end dates shift by 1–2 weeks each year. Use trigger language: 'the day after school concludes' and '7 days before school resumes.'"},{ title: "Not addressing the distant parent's local visits during the school year", body: "School-year/summer splits focus on summer blocks, but the distant parent often wants to visit during the school year too. Build in provisions: 'Parent B may visit the child in [child's city] during school breaks with 14 days notice, without disrupting the school-year schedule.'" },{ title: "Forgetting time zone notation", body: "A parenting plan that specifies '7 PM pickup' without specifying whose time zone creates confusion when parents are in different zones. Always use the child's local time zone as the reference." }];
@@ -26,7 +38,7 @@ const commonMistakes = [{ title: "Not writing in flight logistics", body: "Plans
   <Navbar />
   <Breadcrumbs items={breadcrumbs} />
   <main class="overflow-x-clip">
-    <section class="container-shell py-8 lg:py-12 lg:max-w-5xl">
+    <section class="container-shell grid grid-cols-1 gap-5 py-4 sm:py-5 lg:grid-cols-[minmax(0,0.88fr)_minmax(704px,1.12fr)] lg:items-start lg:gap-7 lg:py-6 xl:w-[min(100%,1360px)]" id="schedule-generator">
       <p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Long-distance custody schedule guide</p>
       <h1 class="mt-2.5 max-w-3xl text-[1.7rem] font-semibold leading-[1.06] tracking-[-0.05em] text-primary sm:text-4xl lg:text-5xl">Long-Distance Custody Schedule: The School-Year/Summer Split and Everything Around It</h1>
       <p class="mt-4 max-w-2xl text-base leading-7 text-secondary">A practical long-distance custody schedule depends on travel time, school schedules, cost, the child's age, and state law. The CustodyBuilder framework uses four distance bands to compare schedules that may be logistically workable. The school-year/summer split is a common foundation for interstate arrangements &mdash; everything else is negotiable.</p>
@@ -41,6 +53,14 @@ const commonMistakes = [{ title: "Not writing in flight logistics", body: "Plans
         <a href="/custody-schedule-by-age/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Schedule by age</a>
         <a href="/overnight-custody-calculator/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Overnight calculator</a>
       </div>
+
+		</div>
+
+		<ScheduleHeroGeneratorPanel
+			selectedScheduleId="week-on-week-off"
+			generatedSchedule={generatedSchedule}
+			heroTrustSignals={heroTrustSignals}
+		/>
     </section>
     <nav class="container-shell border-y border-line-subtle py-3 lg:max-w-5xl" aria-label="On this page">
       <ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">
