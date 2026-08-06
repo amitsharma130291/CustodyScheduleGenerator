@@ -98,21 +98,38 @@ export interface CAChildSupportResult {
   baseRecipient: 'A' | 'B' | null;
   baseSupport: number;
 
-  // ---- Low-income adjustment ----
+  // ---- Low-income adjustment (§4055(b)(7)) ----
   lowIncomeAdjustmentEligible: boolean;
   lowIncomeThreshold: number; // CA minimum wage full-time monthly
   maximumLowIncomeReduction?: number;
+  lowIncomeAdjustmentFraction?: number;
   lowIncomeAdjustedRange?: [number, number];
+  lowIncomeNote?: string;
 
-  // ---- §4062 add-ons ----
+  // ---- §4062 add-ons (§4061(c)+(d) net adjustment) ----
   adjustedNetA: number;
   adjustedNetB: number;
+  netAForAddons: number;
+  netBForAddons: number;
   payerAdjustedNetForAddons: number;
   recipientAdjustedNet: number;
   totalAdjustedForAddons: number;
   addonSharePayer: number;
   addonShareRecipient: number;
   addonTransfer: number;
+  addonAllocation: {
+    adjustedNetA: number;
+    adjustedNetB: number;
+    netAForAddons: number;
+    netBForAddons: number;
+    shareA: number;
+    shareB: number;
+    childcareOwedByA: number;
+    childcareOwedByB: number;
+    healthcareOwedByA: number;
+    healthcareOwedByB: number;
+    assumptions: string[];
+  };
 
   // ---- Final ----
   finalSupport: number;
@@ -226,7 +243,7 @@ export function calculateCAChildSupport(
     baseSupport = 0;
   }
 
-  // ---- Step 7: Low-income adjustment ----
+  // ---- Step 7: Low-income adjustment (§4055(b)(7) statutory range formula) ----
   const obligorNetIncome =
     basePayer === 'A' ? netDisposableIncomeA : netDisposableIncomeB;
   const lowIncomeAdjustmentEligible =
@@ -234,51 +251,101 @@ export function calculateCAChildSupport(
 
   let maximumLowIncomeReduction: number | undefined;
   let lowIncomeAdjustedRange: [number, number] | undefined;
+  let lowIncomeAdjustmentFraction: number | undefined;
+  let lowIncomeNote: string | undefined;
 
   if (lowIncomeAdjustmentEligible) {
-    // The court may reduce support; the range spans from a low (near $0) to the full amount
-    // Per statute, the obligor must retain enough for subsistence living
-    const subsistenceReduction = Math.max(0, baseSupport - (obligorNetIncome * 0.25));
-    maximumLowIncomeReduction = subsistenceReduction;
+    // §4055(b)(7): adjustment fraction = (minWage - obligorNet) / minWage
+    const adjustmentFraction =
+      (CA_MIN_WAGE_MONTHLY - obligorNetIncome) / CA_MIN_WAGE_MONTHLY;
+    const maxReduction = baseSupport * adjustmentFraction;
+
+    lowIncomeAdjustmentFraction = adjustmentFraction;
+    maximumLowIncomeReduction = maxReduction;
     lowIncomeAdjustedRange = [
-      Math.max(0, baseSupport - subsistenceReduction),
+      Math.max(baseSupport - maxReduction, 0),
       baseSupport,
     ];
+    lowIncomeNote =
+      'Low-income adjustment may apply (§4055(b)(7)). The court has discretion to reduce ' +
+      'support within the range shown. This calculator cannot select the final amount — ' +
+      'that determination requires judicial discretion.';
+  } else if (basePayer !== null) {
+    lowIncomeNote =
+      'Low-income adjustment does not apply (obligor income at or above minimum wage threshold).';
   }
 
-  // ---- Step 8: §4062 add-ons (separate from §4055 base) ----
-  // Adjust net incomes for spousal support
+  // ---- Step 8: §4062 add-ons with §4061(c)+(d) spousal support net adjustment ----
+  // §4061(c): apply spousal support adjustments to net disposable income.
+  // Note: precise recomputation requires gross income (§4059); since this calculator
+  // takes net as input, we apply the adjustment directly to net as an approximation.
+  const hasSpousalSupport = spousalSupportAPaysB > 0 || spousalSupportBPaysA > 0;
+  const spousalAdjustmentNote = hasSpousalSupport
+    ? 'Spousal support adjustment applied to net income (approximation). ' +
+      'A precise §4061(c) calculation requires gross income and §4059 recomputation.'
+    : undefined;
+
+  // Approximate §4061(c) adjusted net incomes
   const adjustedNetA =
     netDisposableIncomeA - spousalSupportAPaysB + spousalSupportBPaysA;
   const adjustedNetB =
     netDisposableIncomeB - spousalSupportBPaysA + spousalSupportAPaysB;
 
-  // Identify payer and recipient adjusted nets
-  const payerAdjustedNet =
-    basePayer === 'A' ? adjustedNetA :
-    basePayer === 'B' ? adjustedNetB : 0;
-  const recipientAdjustedNet =
-    baseRecipient === 'A' ? adjustedNetA :
-    baseRecipient === 'B' ? adjustedNetB : 0;
+  // §4061(d): reduce paying parent's adjusted net by basic child support
+  const netAForAddons =
+    basePayer === 'A'
+      ? Math.max(adjustedNetA - baseSupport, 0)
+      : adjustedNetA;
+  const netBForAddons =
+    basePayer === 'B'
+      ? Math.max(adjustedNetB - baseSupport, 0)
+      : adjustedNetB;
 
-  // Payer's adjusted income is reduced by the base child support
-  const payerAdjustedNetForAddons = payerAdjustedNet - baseSupport;
+  const totalNetForAddons = netAForAddons + netBForAddons;
+  const shareAForAddons = totalNetForAddons > 0 ? netAForAddons / totalNetForAddons : 0.5;
+  const shareBForAddons = totalNetForAddons > 0 ? netBForAddons / totalNetForAddons : 0.5;
 
-  const totalAdjustedForAddons =
-    payerAdjustedNetForAddons + recipientAdjustedNet;
-
+  // Payer share determines how much payer owes toward joint add-ons
   const addonSharePayer =
-    totalAdjustedForAddons > 0
-      ? payerAdjustedNetForAddons / totalAdjustedForAddons
-      : 0;
+    basePayer === 'A' ? shareAForAddons :
+    basePayer === 'B' ? shareBForAddons : 0;
   const addonShareRecipient =
-    totalAdjustedForAddons > 0
-      ? recipientAdjustedNet / totalAdjustedForAddons
-      : 0;
+    baseRecipient === 'A' ? shareAForAddons :
+    baseRecipient === 'B' ? shareBForAddons : 0;
 
-  // Payer's share of qualifying add-ons = what they owe beyond direct payments
+  // Backwards-compat aliases for result fields
+  const payerAdjustedNetForAddons =
+    basePayer === 'A' ? netAForAddons :
+    basePayer === 'B' ? netBForAddons : 0;
+  const recipientAdjustedNet =
+    baseRecipient === 'A' ? netAForAddons :
+    baseRecipient === 'B' ? netBForAddons : 0;
+  const totalAdjustedForAddons = totalNetForAddons;
+
+  // Payer's share of qualifying add-ons
   const addonTransfer =
     (qualifyingChildcare + qualifyingHealthcare) * addonSharePayer;
+
+  // Collect §4061 assumption notes
+  const addonAssumptions: string[] = [
+    ...(spousalAdjustmentNote ? [spousalAdjustmentNote] : []),
+    '§4061(d) reduction applied to paying parent\'s adjusted net income.',
+  ];
+
+  // Per-parent add-on allocation details
+  const addonAllocation = {
+    adjustedNetA,
+    adjustedNetB,
+    netAForAddons,
+    netBForAddons,
+    shareA: shareAForAddons,
+    shareB: shareBForAddons,
+    childcareOwedByA: qualifyingChildcare * shareAForAddons,
+    childcareOwedByB: qualifyingChildcare * shareBForAddons,
+    healthcareOwedByA: qualifyingHealthcare * shareAForAddons,
+    healthcareOwedByB: qualifyingHealthcare * shareBForAddons,
+    assumptions: addonAssumptions,
+  };
 
   const finalSupport = baseSupport + addonTransfer;
 
@@ -305,11 +372,22 @@ export function calculateCAChildSupport(
   ];
 
   if (childrenWarning) receipt.push(`Warning: ${childrenWarning}`);
-  if (lowIncomeAdjustmentEligible) {
+  if (lowIncomeAdjustmentEligible && lowIncomeAdjustedRange) {
     receipt.push(
-      `Low-income adjustment eligible: Yes (obligor income $${obligorNetIncome.toFixed(2)} < CA min wage $${CA_MIN_WAGE_MONTHLY.toFixed(2)}/mo)`,
-      `Adjusted range: $${lowIncomeAdjustedRange![0].toFixed(2)} – $${lowIncomeAdjustedRange![1].toFixed(2)}/month`
+      `Low-income adjustment eligible: Yes (§4055(b)(7))`,
+      `Obligor net income: $${obligorNetIncome.toFixed(2)} < CA min wage $${CA_MIN_WAGE_MONTHLY.toFixed(2)}/mo`,
+      `Adjustment fraction: ${((lowIncomeAdjustmentFraction ?? 0) * 100).toFixed(2)}%`,
+      `Maximum reduction: $${(maximumLowIncomeReduction ?? 0).toFixed(2)}`,
+      `Permitted support range: $${lowIncomeAdjustedRange[0].toFixed(2)} – $${lowIncomeAdjustedRange[1].toFixed(2)}/month (court discretion)`,
+      `Note: ${lowIncomeNote}`
     );
+  }
+  if (hasSpousalSupport) {
+    receipt.push(
+      `§4061(c) spousal adjustment: A net $${adjustedNetA.toFixed(2)}, B net $${adjustedNetB.toFixed(2)} (approx — gross income required for exact)`,
+      `§4061(d) payer net for add-ons: $${payerAdjustedNetForAddons.toFixed(2)}`
+    );
+    addonAllocation.assumptions.filter(a => a.includes('Spousal')).forEach(a => receipt.push(`Assumption: ${a}`));
   }
 
   return {
@@ -332,15 +410,20 @@ export function calculateCAChildSupport(
     lowIncomeAdjustmentEligible,
     lowIncomeThreshold: CA_MIN_WAGE_MONTHLY,
     maximumLowIncomeReduction,
+    lowIncomeAdjustmentFraction,
     lowIncomeAdjustedRange,
+    lowIncomeNote,
     adjustedNetA,
     adjustedNetB,
+    netAForAddons,
+    netBForAddons,
     payerAdjustedNetForAddons,
     recipientAdjustedNet,
     totalAdjustedForAddons,
     addonSharePayer,
     addonShareRecipient,
     addonTransfer,
+    addonAllocation,
     finalSupport,
     payer,
     recipient,

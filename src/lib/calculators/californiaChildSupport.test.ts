@@ -504,3 +504,154 @@ describe('Result structure', () => {
     expect(result.TN).toBeCloseTo(8000, 4);
   });
 });
+
+// ---------------------------------------------------------------------------
+// FIX 2: §4055(b)(7) low-income adjustment — actual range formula
+// ---------------------------------------------------------------------------
+describe('calculateCAChildSupport — §4055(b)(7) low-income range formula', () => {
+  const CA_MIN_WAGE_MONTHLY = (16.90 * 40 * 52) / 12; // ~2929.33
+
+  function lowIncomeInput(obligorNet: number) {
+    // Make A the high earner (payer) so obligor=A
+    return baseInput({
+      netDisposableIncomeA: 6000,
+      netDisposableIncomeB: obligorNet,
+      timeshareA: 0.20,
+      timeshareB: 0.80,
+    });
+    // B is low earner/recipient; A is payer. Test obligor = A.
+  }
+
+  function obligorAInput(obligorNet: number) {
+    // Force A to be obligor by making A pay (A high earner, low timeshare)
+    return baseInput({
+      netDisposableIncomeA: obligorNet,
+      netDisposableIncomeB: 500,
+      timeshareA: 0.10,
+      timeshareB: 0.90,
+    });
+  }
+
+  it('obligorNet just below threshold (2929): eligible=true, permittedSupportRange is non-null array', () => {
+    const result = calculateCAChildSupport(obligorAInput(2929));
+    expect(result.lowIncomeAdjustmentEligible).toBe(true);
+    expect(result.lowIncomeAdjustedRange).not.toBeNull();
+    expect(Array.isArray(result.lowIncomeAdjustedRange)).toBe(true);
+    expect(result.lowIncomeAdjustedRange!.length).toBe(2);
+  });
+
+  it('obligorNet just above threshold (2930): eligible=false, range=undefined', () => {
+    const result = calculateCAChildSupport(obligorAInput(2930));
+    expect(result.lowIncomeAdjustmentEligible).toBe(false);
+    expect(result.lowIncomeAdjustedRange).toBeUndefined();
+  });
+
+  it('obligorNet very low (50): eligible=true, range bottom >= 0, range top = baseSupport', () => {
+    // Use a case where A is clearly the high earner and payer, with very low income for B as recipient.
+    // Force obligor=A (payer) with near-zero income: A=50, B=0, A has very low timeshare.
+    const result = calculateCAChildSupport(baseInput({
+      netDisposableIncomeA: 50,
+      netDisposableIncomeB: 0,
+      timeshareA: 0.05,
+      timeshareB: 0.95,
+    }));
+    // A is high earner (50 >= 0), A is payer, obligorNet=50 which is well below threshold
+    if (result.basePayer !== null) {
+      expect(result.lowIncomeAdjustmentEligible).toBe(true);
+      // adjustmentFraction = (minWage - 50) / minWage ≈ 0.983, so maxReduction ≈ 0.983 * baseSupport
+      // rangeBottom = baseSupport - maxReduction = ~0.017 * baseSupport (small but > 0)
+      expect(result.lowIncomeAdjustedRange![0]).toBeGreaterThanOrEqual(0);
+      expect(result.lowIncomeAdjustedRange![1]).toBeCloseTo(result.baseSupport, 4);
+      expect(result.maximumLowIncomeReduction!).toBeGreaterThan(0);
+      expect(result.maximumLowIncomeReduction!).toBeLessThanOrEqual(result.baseSupport);
+    }
+  });
+
+  it('range bottom is never negative (Math.max with 0)', () => {
+    const result = calculateCAChildSupport(obligorAInput(100));
+    if (result.lowIncomeAdjustedRange) {
+      expect(result.lowIncomeAdjustedRange[0]).toBeGreaterThanOrEqual(0);
+    }
+  });
+
+  it('range top equals baseSupport', () => {
+    const result = calculateCAChildSupport(obligorAInput(1500));
+    if (result.lowIncomeAdjustedRange) {
+      expect(result.lowIncomeAdjustedRange[1]).toBeCloseTo(result.baseSupport, 4);
+    }
+  });
+
+  it('adjustmentFraction is (minWage - obligorNet) / minWage', () => {
+    const obligorNet = 2000;
+    const result = calculateCAChildSupport(obligorAInput(obligorNet));
+    if (result.lowIncomeAdjustmentFraction !== undefined) {
+      const expected = (CA_MIN_WAGE_MONTHLY - obligorNet) / CA_MIN_WAGE_MONTHLY;
+      expect(result.lowIncomeAdjustmentFraction).toBeCloseTo(expected, 6);
+    }
+  });
+});
+
+// ---------------------------------------------------------------------------
+// FIX 3: §4061(c)+(d) spousal support net income adjustment
+// ---------------------------------------------------------------------------
+describe('calculateCAChildSupport — §4061(c)+(d) spousal support net adjustment', () => {
+  it('spousalSupportAPaysB > 0: adjustedNetA reflects deduction, adjustedNetB reflects addition', () => {
+    const spousal = 500;
+    const result = calculateCAChildSupport(baseInput({ spousalSupportAPaysB: spousal }));
+    expect(result.adjustedNetA).toBeCloseTo(
+      baseInput().netDisposableIncomeA - spousal, 4
+    );
+    expect(result.adjustedNetB).toBeCloseTo(
+      baseInput().netDisposableIncomeB + spousal, 4
+    );
+  });
+
+  it('spousalSupportBPaysA > 0: adjustedNetB reflects deduction, adjustedNetA reflects addition', () => {
+    const spousal = 300;
+    const result = calculateCAChildSupport(baseInput({ spousalSupportBPaysA: spousal }));
+    expect(result.adjustedNetA).toBeCloseTo(
+      baseInput().netDisposableIncomeA + spousal, 4
+    );
+    expect(result.adjustedNetB).toBeCloseTo(
+      baseInput().netDisposableIncomeB - spousal, 4
+    );
+  });
+
+  it('spousal support > 0: addonAllocation.assumptions contains spousal note', () => {
+    const result = calculateCAChildSupport(baseInput({ spousalSupportAPaysB: 400 }));
+    const hasSpousalNote = result.addonAllocation.assumptions.some(a =>
+      a.toLowerCase().includes('spousal')
+    );
+    expect(hasSpousalNote).toBe(true);
+  });
+
+  it('spousal support = 0: addonAllocation.assumptions does NOT contain spousal note', () => {
+    const result = calculateCAChildSupport(baseInput({ spousalSupportAPaysB: 0, spousalSupportBPaysA: 0 }));
+    const hasSpousalNote = result.addonAllocation.assumptions.some(a =>
+      a.toLowerCase().includes('spousal')
+    );
+    expect(hasSpousalNote).toBe(false);
+  });
+
+  it('§4061(d): payer net for addons = adjustedNet - baseSupport (floored at 0)', () => {
+    const result = calculateCAChildSupport(baseInput({ spousalSupportAPaysB: 200 }));
+    if (result.basePayer === 'A') {
+      const expected = Math.max(result.adjustedNetA - result.baseSupport, 0);
+      expect(result.netAForAddons).toBeCloseTo(expected, 4);
+    } else if (result.basePayer === 'B') {
+      const expected = Math.max(result.adjustedNetB - result.baseSupport, 0);
+      expect(result.netBForAddons).toBeCloseTo(expected, 4);
+    }
+  });
+
+  it('addonAllocation.assumptions always contains §4061(d) note', () => {
+    const result = calculateCAChildSupport(baseInput());
+    const has4061d = result.addonAllocation.assumptions.some(a => a.includes('§4061(d)'));
+    expect(has4061d).toBe(true);
+  });
+
+  it('addonAllocation share totals to 1.0 when totalNet > 0', () => {
+    const result = calculateCAChildSupport(baseInput({ spousalSupportAPaysB: 300 }));
+    expect(result.addonAllocation.shareA + result.addonAllocation.shareB).toBeCloseTo(1.0, 6);
+  });
+});
