@@ -145,6 +145,55 @@ export function getBasicNeed(
 }
 
 // ---------------------------------------------------------------------------
+// Low-income branch result type (§61.30(6)(a))
+// ---------------------------------------------------------------------------
+
+export type FLBasicNeedBranch = 'low-income-below-800' | 'schedule' | 'excess-income';
+
+export interface FLBasicNeedResult {
+  basicNeed: number | null;
+  branch: FLBasicNeedBranch;
+  warning?: string;
+}
+
+/**
+ * Full branch-aware basic need lookup per §61.30(6)(a)+(b).
+ * Returns null + warning for combined income below $800.
+ */
+export function getFLBasicNeed(
+  combinedNetIncome: number,
+  children: number
+): FLBasicNeedResult {
+  // Branch 1: Below $800 — §61.30(6)(a) statutory low-income rule
+  if (combinedNetIncome < 800) {
+    return {
+      basicNeed: null,
+      branch: 'low-income-below-800',
+      warning:
+        'Combined net income is below $800/month. Under Florida §61.30(6)(a), ' +
+        'support is determined case-by-case and may not exceed 90% of the ' +
+        "obligor's income above the applicable federal poverty guideline. " +
+        'This calculator cannot produce a reliable estimate at this income level. ' +
+        'Consult a family law attorney.',
+    };
+  }
+
+  // Branch 2: $800–$10,000 — statutory schedule with interpolation
+  if (combinedNetIncome <= 10000) {
+    return {
+      basicNeed: getBasicNeed(combinedNetIncome, children),
+      branch: 'schedule',
+    };
+  }
+
+  // Branch 3: Above $10,000 — §61.30(6)(b) excess-income formula
+  return {
+    basicNeed: getBasicNeed(combinedNetIncome, children),
+    branch: 'excess-income',
+  };
+}
+
+// ---------------------------------------------------------------------------
 // Input / Output types
 // ---------------------------------------------------------------------------
 
@@ -196,9 +245,13 @@ export interface FLChildSupportResult {
 
   /**
    * Basic need from §61.30 guideline schedule or excess-income formula.
-   * Always a number — the formula handles all income levels above $10,000.
+   * null when combined income < $800 (low-income branch, §61.30(6)(a)).
    */
   basicNeed: number | null;
+  /** Which branch was used: low-income-below-800, schedule, or excess-income */
+  branch: FLBasicNeedBranch;
+  /** Warning when low-income branch or excess-income formula applies */
+  warning?: string;
   /** True if income exceeds the $10,000 table maximum (formula applied) */
   aboveTableIncome: boolean;
   /** Informational note when excess-income formula is applied */
@@ -235,6 +288,8 @@ export interface FLChildSupportResult {
   recipient: 'A' | 'B' | null;
   /** Monthly support transfer amount (always positive or 0) */
   amount: number;
+  /** Final support amount (null when low-income branch prevents calculation) */
+  finalSupport: number | null;
 
   /** Human-readable receipt lines for UI display */
   receipt: string[];
@@ -269,11 +324,40 @@ export function calculateFLChildSupport(
   const incomeShareA = combinedNetIncome > 0 ? netIncomeA / combinedNetIncome : 0.5;
   const incomeShareB = combinedNetIncome > 0 ? netIncomeB / combinedNetIncome : 0.5;
 
-  // ---- Step 2: Basic child support need ----
-  // getBasicNeed never returns null — formula handles all income levels
-  const basicNeedValue = getBasicNeed(combinedNetIncome, numberOfChildren)!;
+  // ---- Step 2: Basic child support need (branch-aware) ----
+  const basicNeedResult = getFLBasicNeed(combinedNetIncome, numberOfChildren);
   const scheduleMax = FL_SCHEDULE[FL_SCHEDULE.length - 1][0]; // 10000
   const aboveTableIncome = combinedNetIncome > scheduleMax;
+
+  // Early return for §61.30(6)(a) low-income branch (combined income < $800)
+  if (basicNeedResult.branch === 'low-income-below-800') {
+    return {
+      version: 'FL-CS-2026.1',
+      substantialTimesharing: false,
+      combinedNetIncome,
+      incomeShareA,
+      incomeShareB,
+      basicNeed: null,
+      branch: 'low-income-below-800',
+      warning: basicNeedResult.warning,
+      aboveTableIncome: false,
+      payer: null,
+      recipient: null,
+      amount: 0,
+      finalSupport: null,
+      receipt: [
+        `Net income A: $${netIncomeA.toFixed(2)}`,
+        `Net income B: $${netIncomeB.toFixed(2)}`,
+        `Combined net income: $${combinedNetIncome.toFixed(2)}`,
+        `Branch: low-income-below-800 (§61.30(6)(a))`,
+        `Warning: ${basicNeedResult.warning}`,
+        `Final support: Cannot calculate — income below $800/month threshold`,
+        `Calculator version: FL-CS-2026.1`,
+      ],
+    } as FLChildSupportResult;
+  }
+
+  const basicNeedValue = basicNeedResult.basicNeed!;
 
   // ---- Step 3: Time-sharing branch ----
   // §61.30: substantial time-sharing requires BOTH parents >= 73 overnights
@@ -287,6 +371,7 @@ export function calculateFLChildSupport(
     incomeShareA,
     incomeShareB,
     basicNeed: basicNeedValue,
+    branch: basicNeedResult.branch,
     aboveTableIncome,
   };
 
@@ -349,6 +434,7 @@ export function calculateFLChildSupport(
       payer,
       recipient,
       amount,
+      finalSupport: amount,
       receipt,
     } as FLChildSupportResult;
   }
@@ -456,6 +542,7 @@ export function calculateFLChildSupport(
     payer,
     recipient,
     amount,
+    finalSupport: amount,
     receipt,
   } as FLChildSupportResult;
 }

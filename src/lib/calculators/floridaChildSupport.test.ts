@@ -546,3 +546,77 @@ describe('Result structure', () => {
     }
   });
 });
+
+// ---------------------------------------------------------------------------
+// FIX 1: §61.30(6)(a) low-income branch (combined income < $800)
+// ---------------------------------------------------------------------------
+import { getFLBasicNeed } from './floridaChildSupport';
+
+describe('getFLBasicNeed — low-income branch §61.30(6)(a)', () => {
+  it('combined income 799 → branch=low-income-below-800, basicNeed=null, warning present', () => {
+    const r = getFLBasicNeed(799, 1);
+    expect(r.branch).toBe('low-income-below-800');
+    expect(r.basicNeed).toBeNull();
+    expect(r.warning).toBeTruthy();
+    expect(r.warning).toContain('§61.30(6)(a)');
+  });
+
+  it('combined income 0 → branch=low-income-below-800', () => {
+    const r = getFLBasicNeed(0, 2);
+    expect(r.branch).toBe('low-income-below-800');
+    expect(r.basicNeed).toBeNull();
+  });
+
+  it('combined income 800 → branch=schedule, basicNeed > 0', () => {
+    const r = getFLBasicNeed(800, 1);
+    expect(r.branch).toBe('schedule');
+    expect(r.basicNeed).not.toBeNull();
+    expect(r.basicNeed!).toBeGreaterThan(0);
+  });
+
+  it('combined income 5000 → branch=schedule', () => {
+    const r = getFLBasicNeed(5000, 2);
+    expect(r.branch).toBe('schedule');
+    expect(r.basicNeed).not.toBeNull();
+  });
+
+  it('combined income 10001 → branch=excess-income', () => {
+    const r = getFLBasicNeed(10001, 1);
+    expect(r.branch).toBe('excess-income');
+    expect(r.basicNeed).not.toBeNull();
+    expect(r.basicNeed!).toBeGreaterThan(0);
+  });
+});
+
+describe('calculateFLChildSupport — low-income early return', () => {
+  it('combined income 799: finalSupport=null, payer=null, branch=low-income-below-800', () => {
+    const result = calculateFLChildSupport(baseInput({
+      netIncomeA: 400,
+      netIncomeB: 399,
+    }));
+    expect(result.branch).toBe('low-income-below-800');
+    expect(result.basicNeed).toBeNull();
+    expect(result.finalSupport).toBeNull();
+    expect(result.payer).toBeNull();
+    expect(result.warning).toBeTruthy();
+  });
+
+  it('combined income 0: finalSupport=null', () => {
+    const result = calculateFLChildSupport(baseInput({
+      netIncomeA: 0,
+      netIncomeB: 0,
+    }));
+    expect(result.finalSupport).toBeNull();
+    expect(result.branch).toBe('low-income-below-800');
+  });
+
+  it('combined income 800: normal calculation proceeds, finalSupport is a number', () => {
+    const result = calculateFLChildSupport(baseInput({
+      netIncomeA: 500,
+      netIncomeB: 300,
+    }));
+    expect(result.branch).toBe('schedule');
+    expect(result.finalSupport).not.toBeNull();
+    expect(typeof result.finalSupport).toBe('number');
+  });
+});
