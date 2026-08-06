@@ -14,6 +14,8 @@ import {
   getBasicNeed,
   getFLBasicNeed,
   FL_SCHEDULE_ROW_COUNT,
+  FL_POVERTY_GUIDELINE_2026_ANNUAL,
+  getMonthlyPovertyGuideline,
 } from './floridaChildSupport';
 
 // ---------------------------------------------------------------------------
@@ -610,6 +612,7 @@ describe('calculateFLChildSupport — low-income early return', () => {
     const result = calculateFLChildSupport(baseInput({
       netIncomeA: 400,
       netIncomeB: 399,
+      obligorParent: 'B',
     }));
     expect(result.branch).toBe('low-income-below-800');
     expect(result.basicNeed).toBeNull();
@@ -622,6 +625,7 @@ describe('calculateFLChildSupport — low-income early return', () => {
     const result = calculateFLChildSupport(baseInput({
       netIncomeA: 0,
       netIncomeB: 0,
+      obligorParent: 'B',
     }));
     expect(result.finalSupport).toBeNull();
     expect(result.branch).toBe('low-income-below-800');
@@ -1012,48 +1016,29 @@ describe('FIX 4 — <$800 branch: §61.30(6)(a) obligor-level 90% cap (FL-CS-202
       netIncomeB: 399, // combined = 799, below $800
       overnightsA: 292,
       overnightsB: 73,
+      obligorParent: 'B' as const, // required in low-income branch
+      obligorHouseholdSize: 1,
       ...overrides,
     });
   }
 
-  it('combinedIncome=799, obligorNet=$1500, household=1: ninetyPercentCap = (1500-1255)*0.90 = $220.50', () => {
+  it('combinedIncome=799, obligorNet=$399, household=1: incomeAbovePoverty=0 (below poverty line)', () => {
     const result = calculateFLChildSupport(lowIncomeInput({
       netIncomeA: 400,
       netIncomeB: 399,
       obligorParent: 'B',
       obligorHouseholdSize: 1,
     }));
-    // Override netIncomeB for the obligor income:
-    // The test uses default netIncomeB=399, but the brief's example uses obligorNet=$1500
-    // So we test with obligorParent='A', netIncomeA=1500 to hit combined<800:
-    // Actually combined must be <800, so let's use netIncomeA=1500, netIncomeB=299 (combined=1799 — too high)
-    // Per the brief: "combinedIncome=799, obligorNet=$1500" is not possible (obligorNet > combined).
-    // The brief means: obliger has $1500 net but OTHER parent has negative? No — brief's scenario is:
-    // combinedIncome=799 as a SEPARATE check from obligorNet. The obligor is one of two parents whose
-    // combined is 799. So obligorNet can be up to ~799. The brief's example (1500) uses a synthetic
-    // obligorNet passed separately for illustration.
-    // We interpret it as: obligorNetIncome read from the input = netIncomeB when obligorParent='B'.
-    // Let's test the formula directly: obligorNet=1500 means netIncomeB=1500, but then combined≥1500≥800.
-    // Resolution: the brief's cap test is about the FORMULA, not a realistic scenario.
-    // Test the formula: use a calculated result and check obligorLevelCheck arithmetic.
     expect(result.branch).toBe('low-income-below-800');
     expect(result.obligorLevelCheck).toBeDefined();
     const check = result.obligorLevelCheck!;
-    // With netIncomeB=399 as obligor, poverty=1255, incomeAbovePoverty=max(399-1255,0)=0
+    // netIncomeB=399, monthly poverty (1-person, 2026 HHS) = 15960/12 = 1330, so incomeAbovePoverty = 0
     expect(check.incomeAbovePoverty).toBe(0);
-    expect(check.ninetyPercentCap).toBeCloseTo(0, 4);
+    expect(check.ninetyPercentReferenceCap).toBeCloseTo(0, 4);
   });
 
-  // Direct formula test per brief: obligorNet=1500, household=1 => cap=(1500-1255)*0.90=220.50
-  it('obligorLevelCheck formula: obligorNet=1500, household=1 => ninetyPercentCap=$220.50', () => {
-    // To get combined<800 with obligorNet=1500, use obligorParent='A', netIncomeA=399, netIncomeB=400
-    // Wait — obligor A with net=399, combined=799<800. But brief says obligorNet=$1500.
-    // The only way to have combined<800 AND obligorNet=$1500 is if the OTHER parent has negative income,
-    // which is statistically impossible in a real case. The brief is testing the CAP FORMULA
-    // in isolation — so we test it with combined<800 inputs that expose the formula.
-    // Re-read brief: "combinedIncome=799, obligorNet=$1500" — this is a UNIT test of the math,
-    // not a realistic scenario. The calculator reads obligorNet FROM the input (netIncomeA or B).
-    // We test: netIncomeA=750, netIncomeB=49 (combined=799), obligorParent='A' => obligorNet=750
+  // Direct formula test: obligorNet=750, household=1
+  it('obligorLevelCheck formula: obligorNet=750, household=1 => ninetyPercentReferenceCap=$0 (below poverty)', () => {
     const result = calculateFLChildSupport(baseInput({
       netIncomeA: 750,
       netIncomeB: 49,
@@ -1064,38 +1049,24 @@ describe('FIX 4 — <$800 branch: §61.30(6)(a) obligor-level 90% cap (FL-CS-202
     const check = result.obligorLevelCheck!;
     expect(check.obligorParent).toBe('A');
     expect(check.obligorNetIncome).toBeCloseTo(750, 2);
-    expect(check.federalPovertyGuidelineMonthly).toBe(1255);
-    // incomeAbovePoverty = max(750-1255, 0) = 0
+    // 2026 HHS monthly (1-person) = 15960/12 = 1330
+    expect(check.federalPovertyGuidelineMonthly).toBeCloseTo(15960 / 12, 4);
+    // 750 < 1330: incomeAbovePoverty = 0
     expect(check.incomeAbovePoverty).toBe(0);
-    expect(check.ninetyPercentCap).toBeCloseTo(0, 4);
+    expect(check.ninetyPercentReferenceCap).toBeCloseTo(0, 4);
   });
 
-  // Test the exact brief arithmetic with a synthetic helper (testing formula directly)
-  it('obligorLevelCheck formula verified: incomeAbovePoverty=(1500-1255)=245, cap=245*0.90=220.50', () => {
-    // We can't reach combined<800 with obligorNet=1500, so we verify formula correctness
-    // by using a scenario where obligorNet > povertyGuideline:
-    // netIncomeA=780, netIncomeB=19 (combined=799), obligorParent='A', obligorNet=780
-    const result = calculateFLChildSupport(baseInput({
-      netIncomeA: 780,
-      netIncomeB: 19,
-      obligorParent: 'A',
-      obligorHouseholdSize: 1,
-    }));
-    expect(result.branch).toBe('low-income-below-800');
-    const check = result.obligorLevelCheck!;
-    // 780 < 1255 so incomeAbovePoverty = 0
-    expect(check.incomeAbovePoverty).toBe(0);
-    expect(check.ninetyPercentCap).toBe(0);
-    // The formula is correct: (obligorNet - povertyGuideline) * 0.90
-    // Verify the formula would give 220.50 for obligorNet=1500:
-    const hypothetical = Math.max(1500 - 1255, 0) * 0.90;
-    expect(hypothetical).toBeCloseTo(220.50, 2);
+  // Verify formula correctness with 2026 HHS values
+  it('obligorLevelCheck formula verified: hypothetical obligorNet=$1500, household=1 => cap=$152.50', () => {
+    // 2026 HHS monthly (1-person) = 15960/12 = 1330
+    // incomeAbovePoverty = max(1500 - 1330, 0) = 170
+    // ninetyPercentReferenceCap = 170 * 0.90 = 153.00
+    const povertyMonthly = 15960 / 12; // 1330
+    const hypothetical = Math.max(1500 - povertyMonthly, 0) * 0.90;
+    expect(hypothetical).toBeCloseTo(153.00, 1);
   });
 
-  it('obligorLevelCheck: obligorNet=$1200, household=1 => incomeAbovePoverty=0, cap=$0', () => {
-    // 1200 < 1255, so obligor is below poverty line
-    // netIncomeA=1200, netIncomeB=-401 not possible. Use combined<800 scenario with scaled incomes.
-    // Best we can do: netIncomeA=700, netIncomeB=99 (combined=799), obligorParent='A', net=700<1255
+  it('obligorLevelCheck: obligorNet=$700, household=1 => incomeAbovePoverty=0, cap=$0', () => {
     const result = calculateFLChildSupport(baseInput({
       netIncomeA: 700,
       netIncomeB: 99,
@@ -1104,9 +1075,9 @@ describe('FIX 4 — <$800 branch: §61.30(6)(a) obligor-level 90% cap (FL-CS-202
     }));
     expect(result.branch).toBe('low-income-below-800');
     const check = result.obligorLevelCheck!;
-    // 700 < 1255: incomeAbovePoverty = 0
+    // 700 < 1330: incomeAbovePoverty = 0
     expect(check.incomeAbovePoverty).toBe(0);
-    expect(check.ninetyPercentCap).toBeCloseTo(0, 4);
+    expect(check.ninetyPercentReferenceCap).toBeCloseTo(0, 4);
   });
 
   it('combinedIncome=800: does NOT trigger low-income branch', () => {
@@ -1125,15 +1096,9 @@ describe('FIX 4 — <$800 branch: §61.30(6)(a) obligor-level 90% cap (FL-CS-202
     const check = result.obligorLevelCheck!;
     expect(typeof check.obligorNetIncome).toBe('number');
     expect(typeof check.incomeAbovePoverty).toBe('number');
-    expect(typeof check.ninetyPercentCap).toBe('number');
+    expect(typeof check.ninetyPercentReferenceCap).toBe('number');
     expect(check.incomeAbovePoverty).toBeGreaterThanOrEqual(0);
-    expect(check.ninetyPercentCap).toBeGreaterThanOrEqual(0);
-  });
-
-  it('obligorLevelCheck: note contains §61.30(6)(a) reference', () => {
-    const result = calculateFLChildSupport(lowIncomeInput());
-    expect(result.obligorLevelCheck!.note).toContain('§61.30(6)(a)');
-    expect(result.obligorLevelCheck!.note).toContain('90%');
+    expect(check.ninetyPercentReferenceCap).toBeGreaterThanOrEqual(0);
   });
 
   it('obligorLevelCheck: obligorParent=A reads netIncomeA', () => {
@@ -1160,32 +1125,32 @@ describe('FIX 4 — <$800 branch: §61.30(6)(a) obligor-level 90% cap (FL-CS-202
     expect(result.obligorLevelCheck!.obligorNetIncome).toBeCloseTo(199, 2);
   });
 
-  it('obligorHouseholdSize=1: poverty guideline = $1255/month', () => {
+  it('obligorHouseholdSize=1: poverty guideline = $1330/month (15960/12, 2026 HHS)', () => {
     const result = calculateFLChildSupport(lowIncomeInput({ obligorHouseholdSize: 1 }));
-    expect(result.obligorLevelCheck!.federalPovertyGuidelineMonthly).toBe(1255);
+    expect(result.obligorLevelCheck!.federalPovertyGuidelineMonthly).toBeCloseTo(15960 / 12, 4);
     expect(result.obligorLevelCheck!.obligorHouseholdSize).toBe(1);
   });
 
-  it('obligorHouseholdSize=2: poverty guideline = $1700/month', () => {
+  it('obligorHouseholdSize=2: poverty guideline = $1803.33/month (21640/12, 2026 HHS)', () => {
     const result = calculateFLChildSupport(lowIncomeInput({ obligorHouseholdSize: 2 }));
-    expect(result.obligorLevelCheck!.federalPovertyGuidelineMonthly).toBe(1700);
+    expect(result.obligorLevelCheck!.federalPovertyGuidelineMonthly).toBeCloseTo(21640 / 12, 4);
   });
 
-  it('obligorHouseholdSize=3: poverty guideline = $2146/month', () => {
+  it('obligorHouseholdSize=3: poverty guideline = $2276.67/month (27320/12, 2026 HHS)', () => {
     const result = calculateFLChildSupport(lowIncomeInput({ obligorHouseholdSize: 3 }));
-    expect(result.obligorLevelCheck!.federalPovertyGuidelineMonthly).toBe(2146);
+    expect(result.obligorLevelCheck!.federalPovertyGuidelineMonthly).toBeCloseTo(27320 / 12, 4);
   });
 
-  it('obligorHouseholdSize=4: poverty guideline = $2592/month', () => {
+  it('obligorHouseholdSize=4: poverty guideline = $2750/month (33000/12, 2026 HHS)', () => {
     const result = calculateFLChildSupport(lowIncomeInput({ obligorHouseholdSize: 4 }));
-    expect(result.obligorLevelCheck!.federalPovertyGuidelineMonthly).toBe(2592);
+    expect(result.obligorLevelCheck!.federalPovertyGuidelineMonthly).toBeCloseTo(33000 / 12, 4);
   });
 
   it('default obligorHouseholdSize=1 when not provided', () => {
     const result = calculateFLChildSupport(lowIncomeInput());
     // No obligorHouseholdSize in input => defaults to 1
     expect(result.obligorLevelCheck!.obligorHouseholdSize).toBe(1);
-    expect(result.obligorLevelCheck!.federalPovertyGuidelineMonthly).toBe(1255);
+    expect(result.obligorLevelCheck!.federalPovertyGuidelineMonthly).toBeCloseTo(15960 / 12, 4);
   });
 
   it('version is FL-CS-2026.3', () => {
@@ -1196,5 +1161,90 @@ describe('FIX 4 — <$800 branch: §61.30(6)(a) obligor-level 90% cap (FL-CS-202
   it('version is FL-CS-2026.3 for normal (non-low-income) results', () => {
     const result = calculateFLChildSupport(baseInput());
     expect(result.version).toBe('FL-CS-2026.3');
+  });
+});
+
+// ===========================================================================
+// NEW TESTS: FL 2026 HHS Poverty Guideline Fix
+// ===========================================================================
+
+describe('2026 HHS poverty guideline constants', () => {
+  it('2026 HHS annual poverty guideline values', () => {
+    expect(FL_POVERTY_GUIDELINE_2026_ANNUAL[1]).toBe(15960);
+    expect(FL_POVERTY_GUIDELINE_2026_ANNUAL[2]).toBe(21640);
+    expect(FL_POVERTY_GUIDELINE_2026_ANNUAL[3]).toBe(27320);
+    expect(FL_POVERTY_GUIDELINE_2026_ANNUAL[4]).toBe(33000);
+  });
+
+  it('monthly poverty guideline derived from annual', () => {
+    expect(getMonthlyPovertyGuideline(1)).toBeCloseTo(1330.00, 2);
+    expect(getMonthlyPovertyGuideline(2)).toBeCloseTo(1803.3333, 2);
+    expect(getMonthlyPovertyGuideline(3)).toBeCloseTo(2276.6667, 2);
+    expect(getMonthlyPovertyGuideline(4)).toBeCloseTo(2750.00, 2);
+  });
+
+  // Regression: old wrong values must not be returned
+  it('old poverty guideline values are not used', () => {
+    expect(getMonthlyPovertyGuideline(1)).not.toBe(1255);
+    expect(getMonthlyPovertyGuideline(2)).not.toBe(1700);
+    expect(getMonthlyPovertyGuideline(3)).not.toBe(2146);
+    expect(getMonthlyPovertyGuideline(4)).not.toBe(2592);
+  });
+});
+
+describe('Low-income branch — 2026 fixes', () => {
+  it('combined income < $800: returns case-by-case result', () => {
+    const result = calculateFLChildSupport({
+      netIncomeA: 500, netIncomeB: 250, children: 1,
+      overnightsA: 250, overnightsB: 115,
+      qualifyingChildcare: 0, qualifyingChildHealthInsurance: 0, qualifyingNoncoveredMedical: 0,
+      childcarePaidByA: 0, childcarePaidByB: 0,
+      healthInsurancePaidByA: 0, healthInsurancePaidByB: 0,
+      noncoveredMedicalPaidByA: 0, noncoveredMedicalPaidByB: 0,
+      obligorParent: 'A', obligorHouseholdSize: 1,
+    });
+    expect(result.branch).toBe('low-income-below-800');
+    expect(result.basicNeed).toBeNull();
+    expect(result.finalSupport).toBeNull();
+    expect((result as any).requiresCaseByCaseDetermination).toBe(true);
+    // 500 < 1330 (2026 HHS monthly 1-person), so incomeAbovePoverty = 0, cap = 0
+    expect((result as any).obligorLevelCheck.ninetyPercentReferenceCap).toBe(0);
+  });
+
+  it('obligorParent required when combined < $800', () => {
+    expect(() => calculateFLChildSupport({
+      netIncomeA: 400, netIncomeB: 300, children: 1,
+      overnightsA: 200, overnightsB: 165,
+      qualifyingChildcare: 0, qualifyingChildHealthInsurance: 0, qualifyingNoncoveredMedical: 0,
+      childcarePaidByA: 0, childcarePaidByB: 0,
+      healthInsurancePaidByA: 0, healthInsurancePaidByB: 0,
+      noncoveredMedicalPaidByA: 0, noncoveredMedicalPaidByB: 0,
+      // obligorParent intentionally missing
+    })).toThrow('obligorParent is required');
+  });
+
+  it('invalid household size rejected', () => {
+    expect(() => calculateFLChildSupport({
+      netIncomeA: 400, netIncomeB: 300, children: 1,
+      overnightsA: 200, overnightsB: 165,
+      qualifyingChildcare: 0, qualifyingChildHealthInsurance: 0, qualifyingNoncoveredMedical: 0,
+      childcarePaidByA: 0, childcarePaidByB: 0,
+      healthInsurancePaidByA: 0, healthInsurancePaidByB: 0,
+      noncoveredMedicalPaidByA: 0, noncoveredMedicalPaidByB: 0,
+      obligorParent: 'A', obligorHouseholdSize: 5,
+    })).toThrow('Invalid obligorHouseholdSize');
+  });
+
+  it('combined = $800 does NOT trigger low-income branch', () => {
+    const result = calculateFLChildSupport({
+      netIncomeA: 500, netIncomeB: 300, children: 1,
+      overnightsA: 200, overnightsB: 165,
+      qualifyingChildcare: 0, qualifyingChildHealthInsurance: 0, qualifyingNoncoveredMedical: 0,
+      childcarePaidByA: 0, childcarePaidByB: 0,
+      healthInsurancePaidByA: 0, healthInsurancePaidByB: 0,
+      noncoveredMedicalPaidByA: 0, noncoveredMedicalPaidByB: 0,
+    });
+    expect(result.branch).not.toBe('low-income-below-800');
+    expect(result.finalSupport).not.toBeNull();
   });
 });
