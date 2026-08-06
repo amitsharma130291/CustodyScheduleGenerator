@@ -220,34 +220,43 @@ export function calculateCAChildSupport(
     childMultiplier = CA_CHILD_MULTIPLIERS[numberOfChildren] ?? CA_CHILD_MULTIPLIERS[10];
   }
 
-  const CS = CS1 * childMultiplier;
+  const signedCS = CS1 * childMultiplier;
+  // CS is kept as alias for the signed value (used in receipt and result fields)
+  const CS = signedCS;
 
-  // ---- Step 6: Determine payer from sign ----
+  // ---- Step 6: Determine payer from sign; use abs value for all downstream calculations ----
+  // Using Math.abs(signedCS) as basicSupport prevents negative reduction amounts
+  // when the lower earner is the obligor (negative CS scenario).
   let basePayer: 'A' | 'B' | null;
   let baseRecipient: 'A' | 'B' | null;
-  let baseSupport: number;
 
-  if (CS > 0) {
+  if (signedCS > 0) {
     // High earner pays low earner
     basePayer = highEarner;
     baseRecipient = highEarner === 'A' ? 'B' : 'A';
-    baseSupport = CS;
-  } else if (CS < 0) {
+  } else if (signedCS < 0) {
     // Rare edge case: low earner pays high earner
     basePayer = highEarner === 'A' ? 'B' : 'A';
     baseRecipient = highEarner;
-    baseSupport = Math.abs(CS);
   } else {
     basePayer = null;
     baseRecipient = null;
-    baseSupport = 0;
   }
 
+  // Use absolute value for all downstream calculations (low-income adjustment + §4061(d))
+  const basicSupport = Math.abs(signedCS);
+  const baseSupport = basicSupport;
+
   // ---- Step 7: Low-income adjustment (§4055(b)(7) statutory range formula) ----
-  const obligorNetIncome =
-    basePayer === 'A' ? netDisposableIncomeA : netDisposableIncomeB;
+  // Uses basicSupport (unsigned) so maxLowIncomeReduction is always positive.
+  const netDisposableIncome: Record<'A' | 'B', number> = {
+    A: netDisposableIncomeA,
+    B: netDisposableIncomeB,
+  };
+  const obligorNet = basePayer !== null ? netDisposableIncome[basePayer] : 0;
+  const minimumWageMonthly = CA_MIN_WAGE_MONTHLY;
   const lowIncomeAdjustmentEligible =
-    basePayer !== null && obligorNetIncome < CA_MIN_WAGE_MONTHLY;
+    basePayer !== null && obligorNet < minimumWageMonthly;
 
   let maximumLowIncomeReduction: number | undefined;
   let lowIncomeAdjustedRange: [number, number] | undefined;
@@ -257,14 +266,15 @@ export function calculateCAChildSupport(
   if (lowIncomeAdjustmentEligible) {
     // §4055(b)(7): adjustment fraction = (minWage - obligorNet) / minWage
     const adjustmentFraction =
-      (CA_MIN_WAGE_MONTHLY - obligorNetIncome) / CA_MIN_WAGE_MONTHLY;
-    const maxReduction = baseSupport * adjustmentFraction;
+      (minimumWageMonthly - obligorNet) / minimumWageMonthly;
+    // Use basicSupport (unsigned) so maxReduction is always positive
+    const maxReduction = basicSupport * adjustmentFraction;
 
     lowIncomeAdjustmentFraction = adjustmentFraction;
     maximumLowIncomeReduction = maxReduction;
     lowIncomeAdjustedRange = [
-      Math.max(baseSupport - maxReduction, 0),
-      baseSupport,
+      Math.max(basicSupport - maxReduction, 0),
+      basicSupport,
     ];
     lowIncomeNote =
       'Low-income adjustment may apply (§4055(b)(7)). The court has discretion to reduce ' +
@@ -274,6 +284,9 @@ export function calculateCAChildSupport(
     lowIncomeNote =
       'Low-income adjustment does not apply (obligor income at or above minimum wage threshold).';
   }
+
+  // Alias for receipt line (backward compat)
+  const obligorNetIncome = obligorNet;
 
   // ---- Step 8: §4062 add-ons with §4061(c)+(d) spousal support net adjustment ----
   // §4061(c): apply spousal support adjustments to net disposable income.
@@ -291,14 +304,18 @@ export function calculateCAChildSupport(
   const adjustedNetB =
     netDisposableIncomeB - spousalSupportBPaysA + spousalSupportAPaysB;
 
-  // §4061(d): reduce paying parent's adjusted net by basic child support
+  // §4061(d): reduce PAYER's adjusted net by basicSupport (unsigned)
+  // Do NOT increase recipient's net by child support received.
+  const payerAdjustedNetB4 = basePayer === 'A'
+    ? Math.max(adjustedNetA - basicSupport, 0)
+    : Math.max(adjustedNetB - basicSupport, 0);
   const netAForAddons =
     basePayer === 'A'
-      ? Math.max(adjustedNetA - baseSupport, 0)
+      ? Math.max(adjustedNetA - basicSupport, 0)
       : adjustedNetA;
   const netBForAddons =
     basePayer === 'B'
-      ? Math.max(adjustedNetB - baseSupport, 0)
+      ? Math.max(adjustedNetB - basicSupport, 0)
       : adjustedNetB;
 
   const totalNetForAddons = netAForAddons + netBForAddons;
