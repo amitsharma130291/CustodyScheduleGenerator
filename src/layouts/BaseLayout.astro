@@ -118,6 +118,10 @@ const shouldLoadAnalytics = import.meta.env.PROD;
 				</script>
 			</>
 		)}
+		{/* Google AdSense verification — publisher ID only; no ad units, no Auto ads */}
+		{shouldLoadAnalytics && (
+			<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6726234905496938" crossorigin="anonymous"></script>
+		)}
 		<slot name="head" />
 		<title>{title}</title>
 	</head>
