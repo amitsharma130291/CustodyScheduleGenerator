@@ -1,0 +1,189 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import { buildArticleSchema, buildBreadcrumbSchema, buildFAQSchema, buildWebPageSchema } from '../lib/seo/schema';
+const title = "Florida Child Support Calculator 2026";
+const description = "Calculate Florida child support using the Income Shares model. See the 5 deviation factors, net income rules, and what courts actually consider in FL cases.";
+const canonical = "/florida-child-support-calculator/";
+const canonicalUrl = getCanonicalUrl(canonical);
+const datePublished = "2026-08-06";
+const dateModified = "2026-08-06";
+const editorialReview = { reviewer: "CustodyBuilder Editorial Team", reviewerHref: "/about/", methodologyLabel: "How CustodyBuilder Works", methodologyHref: "/how-custodybuilder-works/", lastUpdatedLabel: "Last updated August 2026", disclaimer: "Educational information only. Not legal advice.", reviewedFor: ["Accuracy of Florida F.S. \u00a7 61.30 and Family Law Rule 12.902(e) references","Income Shares model formula accuracy","Florida-specific deviation factors and overnight threshold rules"] };
+const breadcrumbs = [{ name: "Home", url: getCanonicalUrl("/") }, { name: "Florida Child Support Calculator", url: canonicalUrl }];
+const faqItems = [{ question: "How does Florida's Income Shares model differ from other states?", answer: "Florida pools both parents' incomes and applies a guideline schedule based on the combined total. States like Texas use only the paying parent's income. The Income Shares model is generally considered more equitable when both parents earn significant income." },{ question: "What happens if the other parent refuses to disclose income?", answer: "File a motion for discovery. Courts can compel financial disclosure and, if a parent fails to comply, can impute income based on their earning capacity, lifestyle, or prior employment history." },{ question: "Can child support be modified after it's set?", answer: "Yes. Florida allows modification when there's a substantial change in circumstances and the new amount would differ from the current order by at least 15% or $50 per month, whichever is greater. A modification requires a new court order, not just agreement between parents." },{ question: "Does Florida support end at 18?", answer: "Generally yes, unless the child is still in high school at 18, in which case support continues until graduation or the child's 19th birthday, whichever comes first. Support for adult disabled children can continue indefinitely." },{ question: "What counts as income for child support in Florida?", answer: "Gross income includes wages, salary, bonuses, commissions, overtime, tips, self-employment income, rental income, interest and dividends, disability benefits, workers' comp, alimony received from a prior case, and pension or retirement income. Need-based public assistance is excluded." },{ question: "Can parents agree to a different amount than the guideline?", answer: "Yes — but the court must approve any agreement and will only do so if it finds the agreed amount adequate for the child's needs. Courts will not approve a number that's dramatically below guideline." },{ question: "What if I lose my job after the order is set?", answer: "File for modification immediately. Courts can retroactively reduce support only to the date of filing the modification petition, not the date you lost the job." },{ question: "Does the paying parent's new spouse's income count?", answer: "No. A new spouse's income is generally not included in Florida's child support calculation. Only the biological or adoptive parent's income is used." }];
+const schema = [buildWebPageSchema({ name: title, description, url: canonicalUrl }), buildArticleSchema({ headline: title, description, url: canonicalUrl, datePublished, dateModified, authorName: editorialReview.reviewer }), buildFAQSchema(faqItems), buildBreadcrumbSchema(breadcrumbs)];
+const netIncomeTable = [{ deducted: "Federal, state, local income taxes", notDeducted: "Voluntary retirement contributions" },{ deducted: "FICA (Social Security + Medicare)", notDeducted: "Voluntary health insurance for yourself" },{ deducted: "Mandatory union dues", notDeducted: "Car loans, credit card payments" },{ deducted: "Health insurance premiums for the children", notDeducted: "Voluntary 401(k) beyond minimum" },{ deducted: "Court-ordered support from prior relationships", notDeducted: "Personal expenses" }];
+const deviationFactors = [{ title: "1. Extraordinary medical, psychological, educational, or dental expenses", body: "If a child has ongoing therapy, special schooling, or medical costs not covered by insurance, the court can add those costs on top of the guideline amount, or reduce support if the paying parent already bears these costs directly." },{ title: "2. Independent income of the child", body: "A child who earns significant income from modeling, acting, or a trust distribution can reduce the guideline amount. Rare in practice, but courts do address it." },{ title: "3. Seasonal variations in income", body: "Construction workers, teachers on summer contracts, and commissioned salespeople often have income that spikes and dips. Courts can average income over 12 months or order adjustments by season." },{ title: "4. Age of the child and needs of older children", body: "A court can deviate upward when a child's actual expenses demonstrably exceed what the guideline assumed, based on a statutory deviation factor under F.S. \u00a7 61.30(11)." },{ title: "5. A parent's other support obligations", body: "If the paying parent supports other children from a different relationship through a court order, those payments factor in. Voluntary payments to other children generally do not reduce your obligation." }];
+const commonMistakes = [{ title: "Not documenting the children's health insurance premium correctly", body: "Courts want the precise delta between employee-only and employee-plus-children rates. Get this number from your HR department in writing." },{ title: "Hiding income or underreporting", body: "Florida courts have extensive tools: subpoenas to employers, bank account analysis, lifestyle assessments. Penalties for hiding income include retroactive support, attorney's fees, and contempt." },{ title: "Not tracking overnights through the 73-night threshold", body: "If you are approaching 73 overnights, document every overnight with a calendar or OurFamilyWizard logs. Contemporaneous records can help establish which schedule was actually exercised." },{ title: "Forgetting about add-ons beyond the base guideline", body: "Childcare costs necessary for a parent to work or attend school, healthcare costs not covered by insurance, and special needs expenses are added on top, split proportionally by income." },{ title: "Assuming a verbal agreement is enough", body: "Courts in Florida are not bound by private child support agreements. Only a court-approved order is enforceable." },{ title: "Missing the $50 minimum", body: "Florida establishes a minimum support amount of $50 per month per child under F.S. \u00a7 61.30(1)(b). Even if income calculations produce a lower number, the statutory minimum applies." }];
+---
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article">
+  <JsonLd slot="head" data={schema} />
+  <Navbar />
+  <Breadcrumbs items={breadcrumbs} />
+  <main class="overflow-x-clip">
+    <section class="container-shell py-8 lg:py-12 lg:max-w-5xl">
+      <p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Florida child support calculator 2026</p>
+      <h1 class="mt-2.5 max-w-3xl text-[1.7rem] font-semibold leading-[1.06] tracking-[-0.05em] text-primary sm:text-4xl lg:text-5xl">Florida Child Support Calculator: Estimate Your Guideline Amount</h1>
+      <p class="mt-4 max-w-2xl text-base leading-7 text-secondary">Florida uses the Income Shares model under Family Law Rule 12.902(e) &mdash; both parents' net incomes determine a guideline amount from the state schedule. The 73-overnight threshold is what changes the calculation most dramatically in many Florida cases.</p>
+      <aside class="mt-6 max-w-2xl rounded-[1.25rem] border border-line bg-surface/70 px-5 py-4 text-xs leading-5 text-muted">
+        <p class="font-semibold text-secondary">Source status &mdash; Florida Child Support Calculator</p>
+        <ul class="mt-2 space-y-1">
+          <li><strong class="text-primary">Jurisdiction:</strong> Florida</li>
+          <li><strong class="text-primary">Primary authority:</strong> Florida Family Law Rule 12.902(e); F.S. &sect; 61.30</li>
+          <li><strong class="text-primary">Calculator version:</strong> FL-CS-2026.1</li>
+          <li><strong class="text-primary">Last content review:</strong> August 6, 2026</li>
+        </ul>
+      </aside>
+      <div class="mt-6 max-w-2xl text-xs leading-5 text-muted">
+        <p class="font-semibold text-secondary">Reviewed for:</p>
+        <ul class="mt-1 list-inside list-disc">{editorialReview.reviewedFor.map((i) => <li>{i}</li>)}</ul>
+        <p class="mt-2">Reviewed by <a href={editorialReview.reviewerHref} class="font-semibold text-secondary underline">{editorialReview.reviewer}</a>{' \u00b7 '}<a href={editorialReview.methodologyHref} class="font-semibold text-secondary underline">{editorialReview.methodologyLabel}</a>{' \u00b7 '}<span class="font-semibold text-secondary">{editorialReview.lastUpdatedLabel}</span>{' \u00b7 '}{editorialReview.disclaimer}</p>
+      </div>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a href="/custody-schedule-generator/" class="inline-flex rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:opacity-90" style="color: #ffffff">Build your FL parenting plan free &rarr;</a>
+        <a href="/parenting-time-calculator/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Parenting time calculator</a>
+        <a href="/overnight-custody-calculator/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">73-night threshold tracker</a>
+        <a href="/parenting-plan-template/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Parenting plan template</a>
+      </div>
+    </section>
+    <nav class="container-shell border-y border-line-subtle py-3 lg:max-w-5xl" aria-label="On this page">
+      <ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">
+        <li><a href="#how-calculated" class="hover:text-accent">How FL calculates support</a></li>
+        <li><a href="#net-income" class="hover:text-accent">Net income definition</a></li>
+        <li><a href="#overnight-threshold" class="hover:text-accent">73-overnight threshold</a></li>
+        <li><a href="#examples" class="hover:text-accent">Worked examples</a></li>
+        <li><a href="#deviation-factors" class="hover:text-accent">5 deviation factors</a></li>
+        <li><a href="#overtime" class="hover:text-accent">Overtime income</a></li>
+        <li><a href="#mistakes" class="hover:text-accent">Common mistakes</a></li>
+        <li><a href="#compare" class="hover:text-accent">FL vs TX vs CA</a></li>
+        <li><a href="#faq" class="hover:text-accent">FAQ</a></li>
+      </ul>
+    </nav>
+    <section id="how-calculated" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">How Florida Calculates Child Support</h2>
+      <div class="mt-4 max-w-3xl rounded-2xl bg-surface/70 px-4 py-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]"><strong class="text-primary">Law:</strong> Florida uses the Income Shares model &mdash; both parents' net incomes are added together and a guideline table sets the base support amount proportional to each parent's share of combined income, under F.S. &sect; 61.30 and Family Law Rule 12.902(e).</div>
+      <p class="mt-4 max-w-3xl text-secondary">Unlike states that look only at the paying parent's income, Florida's formula treats child support as a shared obligation. The logic: a child should receive the same proportion of parental income they would have enjoyed if the household stayed intact.</p>
+      <ol class="mt-6 max-w-3xl space-y-3">
+        {["Calculate each parent's gross monthly income (wages, self-employment, rental income, investment income, overtime)","Subtract allowed deductions to arrive at net income","Add both parents' net incomes to get combined net income","Look up the guideline amount for that combined income level and number of children from the FL Schedule (Rule 12.902(e))","Apportion each parent's share based on their percentage of combined income","Adjust for overnight custody \u2014 overnights determine whether Standard or Extended Standard applies","Apply any deviation factors"].map((step, i) => (
+          <li class="flex gap-3"><span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/15 text-xs font-bold text-accent">{i + 1}</span><p class="text-sm leading-6 text-secondary">{step}</p></li>
+        ))}
+      </ol>
+      <div class="mt-6 max-w-3xl rounded-2xl bg-surface/70 px-4 py-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]"><strong class="text-primary">Law:</strong> Florida establishes a minimum support amount of <strong>$50 per month</strong> per child under F.S. &sect; 61.30(1)(b), regardless of how low a parent's income is.</div>
+    </section>
+    <section id="net-income" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">What &ldquo;Net Income&rdquo; Means in Florida</h2>
+      <p class="mt-3 max-w-3xl text-secondary">Net income in Florida is gross income minus taxes, FICA, health insurance premiums for the children, and mandatory union dues &mdash; not simply take-home pay.</p>
+      <div class="mt-6 max-w-3xl overflow-x-auto rounded-[1.5rem] ring-1 ring-line-subtle">
+        <table class="w-full min-w-[480px] text-left text-sm">
+          <thead class="bg-surface-elevated text-primary"><tr><th class="px-4 py-3 font-semibold">Deducted from Gross</th><th class="px-4 py-3 font-semibold">Not Deducted</th></tr></thead>
+          <tbody class="divide-y divide-line-subtle text-secondary">{netIncomeTable.map((row) => (<tr><td class="px-4 py-3">{row.deducted}</td><td class="px-4 py-3">{row.notDeducted}</td></tr>))}</tbody>
+        </table>
+      </div>
+      <p class="mt-4 max-w-3xl text-sm text-secondary"><strong class="text-primary">What catches parents off-guard:</strong> The health insurance deduction applies only to the children's portion of the premium. Compare the employee-only premium with the dependent-coverage premium &mdash; that difference is the deductible amount. Self-employed parents face extra scrutiny and courts can impute income if expenses seem inflated or the parent appears voluntarily underemployed.</p>
+    </section>
+    <section id="overnight-threshold" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">The 73-Overnight Threshold: Standard vs. Extended Standard</h2>
+      <p class="mt-3 max-w-3xl text-secondary">73 or more overnights per year with the non-primary parent triggers Extended Standard calculation, which adjusts support downward to reflect actual shared costs.</p>
+      <div class="mt-4 max-w-3xl rounded-2xl bg-surface/70 px-4 py-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]"><strong class="text-primary">Law:</strong> The 73-overnight threshold is established under Florida Family Law Rule 12.902(e).</div>
+      <div class="mt-6 max-w-3xl grid gap-4 sm:grid-cols-2">
+        <div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]"><p class="font-semibold text-primary">Under 73 overnights/year (Standard)</p><p class="mt-2 text-sm leading-6 text-secondary">The residential parent gets the full guideline amount, adjusted only by each parent's income share.</p></div>
+        <div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]"><p class="font-semibold text-primary">73+ overnights/year (Extended Standard)</p><p class="mt-2 text-sm leading-6 text-secondary">Florida applies a multiplier that reduces support to account for duplicated household costs maintained by both parents.</p></div>
+      </div>
+      <p class="mt-4 max-w-3xl text-secondary"><strong class="text-primary">The practical implication:</strong> Going from 72 to 73 overnights can reduce support by hundreds of dollars per month on a middle-income case. This is why parenting plan negotiations often center on this specific number.</p>
+      <p class="mt-3 max-w-3xl text-sm text-secondary">Define "overnight" precisely in the parenting plan to avoid disputes at the threshold. Courts may order parents to keep a shared custody log for the first year to settle disputes about the overnight count.</p>
+      <div class="mt-4 flex flex-wrap gap-3">
+        <a href="/overnight-custody-calculator/" class="inline-flex rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:opacity-90" style="color: #ffffff">Track your overnight count &rarr;</a>
+        <a href="/custody-percentage-calculator/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Custody percentage calculator</a>
+      </div>
+    </section>
+    <section id="examples" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">Worked Examples</h2>
+      <p class="mt-3 max-w-3xl text-secondary">The arithmetic can be a useful starting point &mdash; but the real calculation depends on what inputs a court would actually accept.</p>
+      <div class="mt-6 max-w-3xl space-y-4">
+        <div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+          <p class="text-xs font-semibold uppercase tracking-[0.08em] text-muted">Example FL-001</p>
+          <h3 class="mt-2 font-semibold text-primary">Maria and David: walking through the Income Shares formula</h3>
+          <p class="mt-3 text-sm leading-6 text-secondary">Maria earns $9,200/month net. David earns $3,800/month net. Their daughter spends 60 overnights/year with David (below the 73-overnight threshold).</p>
+          <ul class="mt-3 space-y-1 text-sm leading-6 text-secondary">
+            <li><strong class="text-primary">Combined net income:</strong> $13,000/month</li>
+            <li><strong class="text-primary">Basic support obligation:</strong> approximately $1,840/month (from the Rule 12.902(e) schedule)</li>
+            <li><strong class="text-primary">David's income share:</strong> $3,800 &divide; $13,000 = 29.2%</li>
+            <li><strong class="text-primary">David's base support payment:</strong> $1,840 &times; 29.2% = approximately $537/month</li>
+          </ul>
+          <p class="mt-3 text-sm leading-6 text-secondary"><strong class="text-primary">What changes at 73 overnights (FL-001b):</strong> If David increases his overnights from 60 to 80 per year, the Extended Standard multiplier reduces his estimated support by approximately $150&ndash;230/month &mdash; saving David $1,800&ndash;$2,760 annually at this income level.</p>
+        </div>
+        <div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+          <p class="text-xs font-semibold uppercase tracking-[0.08em] text-muted">Example FL-002</p>
+          <h3 class="mt-2 font-semibold text-primary">Jason works overtime &mdash; does it count?</h3>
+          <p class="mt-3 text-sm leading-6 text-secondary">Jason earned $12,000 in overtime last year, consistent with his W-2 history for three years. His ex argues it should be included. Jason argues he worked it voluntarily.</p>
+          <div class="mt-3 rounded-2xl bg-accent/10 px-4 py-3 text-sm leading-6 text-secondary"><strong class="text-primary">Law:</strong> Under F.S. &sect; 61.30(2)(a), overtime income is included in gross income. Three consecutive years of consistent overtime is strong evidence it is a regular feature of employment.</div>
+        </div>
+        <div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+          <p class="text-xs font-semibold uppercase tracking-[0.08em] text-muted">Example FL-003</p>
+          <h3 class="mt-2 font-semibold text-primary">What changes your estimate the most?</h3>
+          <p class="mt-2 text-sm text-secondary">Parent A net: $6,500/month | Parent B net: $3,500/month | 2 children | $400/month childcare</p>
+          <div class="mt-3 overflow-x-auto rounded-[1.25rem] ring-1 ring-line-subtle">
+            <table class="w-full text-left text-sm">
+              <thead class="bg-surface-elevated text-primary"><tr><th class="px-4 py-3 font-semibold">Scenario</th><th class="px-4 py-3 font-semibold">Est. monthly support</th></tr></thead>
+              <tbody class="divide-y divide-line-subtle text-secondary">
+                {[["60 overnights with Parent B","~$820"],["73 overnights with Parent B (threshold)","~$640"],["80 overnights with Parent B","~$590"],["Add $500/month childcare","~$1,050 (at 60 overnights)"]].map((row) => (<tr><td class="px-4 py-3">{row[0]}</td><td class="px-4 py-3 font-semibold text-primary">{row[1]}</td></tr>))}
+              </tbody>
+            </table>
+          </div>
+          <p class="mt-2 text-xs text-muted">Illustrative figures based on Florida's Income Shares schedule (Rule 12.902(e)). Self-employment, irregular bonuses, imputed income and disputed parenting time may require additional analysis.</p>
+        </div>
+      </div>
+    </section>
+    <section id="deviation-factors" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">Florida's 5 Deviation Factors</h2>
+      <div class="mt-4 max-w-3xl rounded-2xl bg-surface/70 px-4 py-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]"><strong class="text-primary">Law:</strong> The guideline amount under F.S. &sect; 61.30(11) is a presumption, not a ceiling or floor. To deviate, a judge must find the guideline amount is unjust or inappropriate and state the reason in writing.</div>
+      <div class="mt-6 max-w-3xl space-y-4">
+        {deviationFactors.map((factor) => (<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]"><p class="font-semibold text-primary">{factor.title}</p><p class="mt-2 text-sm leading-6 text-secondary">{factor.body}</p></div>))}
+      </div>
+    </section>
+    <section id="overtime" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">Does Overtime Count as Income in Florida?</h2>
+      <p class="mt-3 max-w-3xl text-secondary">Getting this wrong can cost thousands over the life of a support order.</p>
+      <div class="mt-4 max-w-3xl rounded-2xl bg-surface/70 px-4 py-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]"><strong class="text-primary">Law:</strong> Under F.S. &sect; 61.30(2)(a), overtime income is included in gross income. Courts have consistently held that a parent cannot simply decline overtime to reduce their support obligation.</div>
+      <p class="mt-4 max-w-3xl text-secondary"><strong class="text-primary">The exception:</strong> If overtime is truly voluntary and you can show a documented pattern of not working overtime, courts have discretion to exclude it. This is a fact-specific determination. Historical W-2 records almost always carry the day.</p>
+    </section>
+    <section id="mistakes" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">Common Mistakes in Florida Child Support Cases</h2>
+      <div class="mt-6 max-w-3xl space-y-4">
+        {commonMistakes.map((item) => (<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]"><p class="font-semibold text-primary">{item.title}</p><p class="mt-2 text-sm leading-6 text-secondary">{item.body}</p></div>))}
+      </div>
+    </section>
+    <section id="compare" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">How Florida Compares to Texas and California</h2>
+      <p class="mt-3 max-w-3xl text-secondary">Florida uses Income Shares &mdash; both parents' incomes drive the calculation. Texas uses only the paying parent's net income (20% for one child, 25% for two). California uses a formula that weights timeshare percentage directly, meaning custody schedule changes shift the support number immediately. See the <a href="/texas-child-support-calculator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Texas child support calculator</a> and <a href="/california-child-support-calculator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">California child support calculator</a> for side-by-side comparisons. For all states, use the <a href="/child-support-calculator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">general child support calculator</a>.</p>
+    </section>
+    <section id="tools" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">Build a Parenting Plan That Locks In Your Schedule</h2>
+      <p class="mt-3 max-w-3xl text-secondary">The support amount follows the schedule &mdash; and the schedule follows the parenting plan. A well-drafted plan that clearly establishes 73+ overnights determines how much support is owed each month.</p>
+      <div class="mt-6 grid gap-4 sm:grid-cols-2 max-w-3xl">
+        {[{ title: "Custody Schedule Generator", href: "/custody-schedule-generator/", desc: "Build your schedule visually and download as PDF, free." },{ title: "Parenting Time Calculator", href: "/parenting-time-calculator/", desc: "Calculate your exact overnight percentage." },{ title: "Overnight Custody Calculator", href: "/overnight-custody-calculator/", desc: "Track and verify your overnight count toward the 73-night Extended Standard threshold." },{ title: "Parenting Plan Template", href: "/parenting-plan-template/", desc: "Full template with built-in schedule section for Florida orders." },{ title: "Florida Custody Schedule", href: "/florida-custody-schedule/", desc: "Common custody schedules used by Florida families." },{ title: "Florida Parenting Plan Template", href: "/florida-parenting-plan-template/", desc: "Pre-formatted template for Florida family courts." }].map((tool) => (
+          <a href={tool.href} class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:shadow-md transition-shadow"><p class="font-semibold text-accent">{tool.title}</p><p class="mt-2 text-sm leading-6 text-secondary">{tool.desc}</p></a>
+        ))}
+      </div>
+      <div class="mt-8"><BackToGeneratorCta /></div>
+    </section>
+    <FAQ items={faqItems} title="Florida Child Support \u2014 Frequently Asked Questions" description="Common questions about Florida's Income Shares model, the 73-overnight threshold, and how courts apply the guidelines." />
+    <section class="container-shell border-t border-line-subtle py-8 lg:max-w-5xl">
+      <h2 class="text-lg font-semibold text-primary">Sources</h2>
+      <ol class="mt-3 space-y-2 text-xs text-muted">
+        <li>[1] Florida Legislature &mdash; F.S. &sect; 61.30, Child Support Guidelines &mdash; last verified August 6, 2026</li>
+        <li>[2] Florida Family Law Rules of Procedure &mdash; Rule 12.902(e) &mdash; last verified August 6, 2026</li>
+      </ol>
+    </section>
+    <section class="container-shell border-t border-line-subtle py-8 lg:max-w-5xl">
+      <p class="max-w-3xl text-xs leading-5 text-muted">This calculator and content are for informational and educational purposes only. They do not constitute legal advice and do not create an attorney-client relationship. Child support calculations depend on specific facts, local judicial discretion, and information not captured in any online tool. Consult a licensed family law attorney in Florida before making any legal decisions.</p>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

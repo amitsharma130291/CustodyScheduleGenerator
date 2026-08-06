@@ -1,0 +1,211 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import { buildArticleSchema, buildBreadcrumbSchema, buildFAQSchema, buildWebPageSchema } from '../lib/seo/schema';
+const title = "Long-Distance Custody Schedule: 4 Models by Distance";
+const description = "Build a long-distance custody schedule that works. Compare 4 distance-based planning models, school-year/summer splits, travel logistics, holidays, relocation issues, and sample schedules.";
+const canonical = "/long-distance-custody-schedule/";
+const canonicalUrl = getCanonicalUrl(canonical);
+const datePublished = "2026-08-06";
+const dateModified = "2026-08-06";
+const editorialReview = { reviewer: "CustodyBuilder Editorial Team", reviewerHref: "/about/", methodologyLabel: "How CustodyBuilder Works", methodologyHref: "/how-custodybuilder-works/", lastUpdatedLabel: "Last updated August 2026", disclaimer: "Educational information only. Not legal advice.", reviewedFor: ["CustodyBuilder Distance Planning Framework accuracy","Relocation law general principles","Transportation logistics and communication provisions"] };
+const breadcrumbs = [{ name: "Home", url: getCanonicalUrl("/") }, { name: "Long-Distance Custody Schedule", url: canonicalUrl }];
+const faqItems = [{ question: "Can a long-distance parent get equal custody?", answer: "In theory, yes — but a 50/50 interstate schedule can be difficult to maintain once a child attends school, because frequent interstate exchanges may conflict with school attendance, activities, and the need for a predictable weekly routine. For preschool-aged children not yet tied to a school schedule, more frequent exchanges may be practical." },{ question: "What if one parent relocates without notice?", answer: "If a parent moves with the child without required notice or court approval, courts treat this seriously. Remedies include an order requiring the child to be returned, a modification of custody, sanctions, and in some cases contempt of court." },{ question: "How do courts decide which parent is primary in a long-distance situation?", answer: "Courts weigh: which parent has historically been the primary caregiver, where the child's school and support network are established, each parent's ability to support the child's relationship with the other parent, and the child's preference (if old enough)." },{ question: "Do I need a lawyer for a long-distance parenting plan?", answer: "You don't legally require one, but the stakes are high. A poorly drafted long-distance plan creates years of disputes. At minimum, have an attorney review the travel provisions and make-up time language before you sign." },{ question: "What happens when the child becomes a teenager and doesn't want to fly?", answer: "Teenage preference is a real enforcement issue in long-distance custody. Courts take teenage preference seriously, especially 14+ depending on the state. The best protection is building a strong relationship during the school years so the teenager wants to visit." },{ question: "How are travel costs treated at tax time?", answer: "Travel costs for custody visits are generally not deductible for federal tax purposes. The child tax credit, dependent care credit, and head-of-household status are separate questions with their own rules — coordinate with a tax professional." },{ question: "At what age can a child fly as an unaccompanied minor?", answer: "Airline age requirements, route restrictions, and unaccompanied-minor fees vary by carrier and can change. Check the operating airline's current policy directly before finalizing any parenting plan that depends on a child flying alone." },{ question: "Can the parenting plan specify video call platforms?", answer: "Yes, and it should. Parenting plans may specify the communication platform, call frequency, and duration. OurFamilyWizard and TalkingParents are court-recognized platforms with built-in message logs." }];
+const schema = [buildWebPageSchema({ name: title, description, url: canonicalUrl }), buildArticleSchema({ headline: title, description, url: canonicalUrl, datePublished, dateModified, authorName: editorialReview.reviewer }), buildFAQSchema(faqItems), buildBreadcrumbSchema(breadcrumbs)];
+const distanceTable = [{ distance: "Under 100 miles", drive: "Under 2 hours", model: "Model 1: Modified frequent" },{ distance: "100–250 miles", drive: "2–4 hours", model: "Model 2: Monthly weekend" },{ distance: "250–400 miles", drive: "4–7 hours", model: "Model 2 (extended) or Model 3" },{ distance: "400+ miles or different state", drive: "Requires flying", model: "Model 3: School-year/summer" },{ distance: "Different country", drive: "International", model: "Different legal framework — Hague Convention" }];
+const commonMistakes = [{ title: "Not writing in flight logistics", body: "Plans that say 'the child shall travel to Parent B for summer' without specifying who buys tickets, at what price point, with what advance notice, and who accompanies the child create annual arguments. Name every detail." },{ title: "Not specifying what happens when flights are cancelled", body: "Weather delays, mechanical issues, and missed connections happen. Without explicit make-up provisions, every cancellation becomes a dispute about who 'lost' time." },{ title: "No video call schedule in the order", body: "'Reasonable communication' is not enforceable. A parent who stonewalls video calls while technically allowing them has a defense. Specific times, frequency, and platforms in the order give you enforcement options." },{ title: "Using summer dates that don't match the school calendar", body: "'June 15 to August 15' sounds specific, but school start and end dates shift by 1–2 weeks each year. Use trigger language: 'the day after school concludes' and '7 days before school resumes.'"},{ title: "Not addressing the distant parent's local visits during the school year", body: "School-year/summer splits focus on summer blocks, but the distant parent often wants to visit during the school year too. Build in provisions: 'Parent B may visit the child in [child's city] during school breaks with 14 days notice, without disrupting the school-year schedule.'" },{ title: "Forgetting time zone notation", body: "A parenting plan that specifies '7 PM pickup' without specifying whose time zone creates confusion when parents are in different zones. Always use the child's local time zone as the reference." }];
+---
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article">
+  <JsonLd slot="head" data={schema} />
+  <Navbar />
+  <Breadcrumbs items={breadcrumbs} />
+  <main class="overflow-x-clip">
+    <section class="container-shell py-8 lg:py-12 lg:max-w-5xl">
+      <p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Long-distance custody schedule guide</p>
+      <h1 class="mt-2.5 max-w-3xl text-[1.7rem] font-semibold leading-[1.06] tracking-[-0.05em] text-primary sm:text-4xl lg:text-5xl">Long-Distance Custody Schedule: The School-Year/Summer Split and Everything Around It</h1>
+      <p class="mt-4 max-w-2xl text-base leading-7 text-secondary">A practical long-distance custody schedule depends on travel time, school schedules, cost, the child's age, and state law. The CustodyBuilder framework uses four distance bands to compare schedules that may be logistically workable. The school-year/summer split is a common foundation for interstate arrangements &mdash; everything else is negotiable.</p>
+      <div class="mt-6 max-w-2xl text-xs leading-5 text-muted">
+        <p class="font-semibold text-secondary">Reviewed for:</p>
+        <ul class="mt-1 list-inside list-disc">{editorialReview.reviewedFor.map((i) => <li>{i}</li>)}</ul>
+        <p class="mt-2">Reviewed by <a href={editorialReview.reviewerHref} class="font-semibold text-secondary underline">{editorialReview.reviewer}</a>{' · '}<a href={editorialReview.methodologyHref} class="font-semibold text-secondary underline">{editorialReview.methodologyLabel}</a>{' · '}<span class="font-semibold text-secondary">{editorialReview.lastUpdatedLabel}</span>{' · '}{editorialReview.disclaimer}</p>
+      </div>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a href="/custody-schedule-generator/" class="inline-flex rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:opacity-90" style="color: #ffffff">Build your long-distance schedule free &rarr;</a>
+        <a href="/holiday-custody-planner/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Holiday custody planner</a>
+        <a href="/custody-schedule-by-age/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Schedule by age</a>
+        <a href="/overnight-custody-calculator/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Overnight calculator</a>
+      </div>
+    </section>
+    <nav class="container-shell border-y border-line-subtle py-3 lg:max-w-5xl" aria-label="On this page">
+      <ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">
+        <li><a href="#why-different" class="hover:text-accent">Why long-distance is different</a></li>
+        <li><a href="#models" class="hover:text-accent">4 distance models</a></li>
+        <li><a href="#which-model" class="hover:text-accent">Which model fits?</a></li>
+        <li><a href="#examples" class="hover:text-accent">Worked examples</a></li>
+        <li><a href="#international" class="hover:text-accent">International custody</a></li>
+        <li><a href="#communication" class="hover:text-accent">Communication provisions</a></li>
+        <li><a href="#relocation" class="hover:text-accent">Relocation law</a></li>
+        <li><a href="#transportation" class="hover:text-accent">Transportation</a></li>
+        <li><a href="#mistakes" class="hover:text-accent">Common mistakes</a></li>
+        <li><a href="#faq" class="hover:text-accent">FAQ</a></li>
+      </ul>
+    </nav>
+    <section id="why-different" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">Why Long-Distance Custody Is Different</h2>
+      <p class="mt-3 max-w-3xl text-secondary">Distance removes the option of the child moving between homes mid-week. Every schedule design has to account for travel time and cost, which changes the entire structure. In a local custody arrangement, the child can spend Tuesday night with Dad and Thursday dinner with Mom. A long-distance arrangement physically can't work that way &mdash; a 6-hour drive or a cross-country flight isn't a mid-week solution.</p>
+      <p class="mt-3 max-w-3xl text-secondary">Distance compresses time into blocks: longer, less frequent visits that give both the child and the distant parent meaningful time together. The fundamental design question isn't "how many overnights per week" &mdash; it's "how do we distribute the school year vs. holidays vs. summer so the child gets real relationships with both parents?"</p>
+      <p class="mt-4 max-w-3xl text-secondary">For unmarried parents navigating this, see the <a href="/unmarried-parents-custody/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">unmarried parents custody guide</a> first &mdash; establishing legal parentage is often the prerequisite to getting any long-distance order enforced.</p>
+    </section>
+    <section id="models" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">The CustodyBuilder Distance Planning Framework</h2>
+      <div class="mt-4 max-w-3xl rounded-2xl bg-amber-50 border border-amber-300 px-4 py-3 text-sm leading-6 text-secondary dark:bg-amber-900/20 dark:border-amber-700"><strong class="text-primary">Note:</strong> The four distance categories below are a practical planning tool &mdash; not legal thresholds. Courts decide custody arrangements based on state law and the specific facts of each case.</div>
+      <div class="mt-6 max-w-3xl space-y-6">
+        <div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+          <p class="text-xs font-semibold uppercase tracking-[0.08em] text-muted">Model 1</p>
+          <h3 class="mt-1 font-semibold text-primary">Modified Frequent Schedule (Under 100 Miles)</h3>
+          <p class="mt-2 text-sm leading-6 text-secondary">At this distance, driving is feasible. The goal is preserving as much frequency as a local schedule while accommodating travel.</p>
+          <ul class="mt-2 space-y-1 text-sm leading-6 text-secondary list-inside list-disc">
+            <li>Every other weekend (Friday after school to Sunday evening) for the distant parent</li>
+            <li>One midweek overnight (Wednesday evening to Thursday morning) where geography allows</li>
+            <li>Half of all school breaks and holidays</li>
+            <li>4&ndash;6 weeks of summer with the distant parent</li>
+          </ul>
+        </div>
+        <div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+          <p class="text-xs font-semibold uppercase tracking-[0.08em] text-muted">Model 2</p>
+          <h3 class="mt-1 font-semibold text-primary">Monthly Visit Schedule (100&ndash;400 Miles)</h3>
+          <p class="mt-2 text-sm leading-6 text-secondary">Driving becomes burdensome for weekly visits; flying feels excessive for a 2-night trip. Monthly long weekends become the natural unit.</p>
+          <ul class="mt-2 space-y-1 text-sm leading-6 text-secondary list-inside list-disc">
+            <li>One long weekend per month (Thursday or Friday through Sunday or Monday &mdash; 3&ndash;4 nights)</li>
+            <li>Half of all school breaks: winter break, spring break, Thanksgiving</li>
+            <li>6&ndash;8 weeks of summer with the distant parent</li>
+            <li>Video calls 3&ndash;4 times per week</li>
+          </ul>
+          <p class="mt-2 text-sm text-secondary"><strong class="text-primary">The holiday math matters more here.</strong> Build explicit language: "in months where a holiday visit occurs, the monthly visit is waived" or "the monthly visit is in addition to holidays."</p>
+        </div>
+        <div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+          <p class="text-xs font-semibold uppercase tracking-[0.08em] text-muted">Model 3</p>
+          <h3 class="mt-1 font-semibold text-primary">School-Year/Summer Split (400+ Miles or Different State)</h3>
+          <p class="mt-2 text-sm leading-6 text-secondary">One widely used structure for families separated by significant distance. It acknowledges that the child needs stable school-year enrollment while preserving a real relationship with the distant parent.</p>
+          <ul class="mt-2 space-y-1 text-sm leading-6 text-secondary list-inside list-disc">
+            <li>School year (September&ndash;May): child lives primarily with the local parent</li>
+            <li>Summer (June&ndash;August): 8&ndash;10 weeks with the distant parent</li>
+            <li>Spring break: alternates each year, or always with the distant parent</li>
+            <li>Winter break: split evenly, or first half to one parent, second half to the other</li>
+            <li>Thanksgiving: alternates each year</li>
+          </ul>
+          <div class="mt-3 rounded-2xl bg-accent/10 px-4 py-3 text-sm leading-6 text-secondary"><strong class="text-primary">A recurring source of disputes is summer start and end dates.</strong> Build explicit triggers: "summer begins the day after the last day of school and ends 7 days before the first day of school." Vague language like "summer vacation" means different things to different people and different school districts.</div>
+        </div>
+        <div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+          <p class="text-xs font-semibold uppercase tracking-[0.08em] text-muted">Model 4</p>
+          <h3 class="mt-1 font-semibold text-primary">Reverse Schedule (Child with Distant Parent in Summer)</h3>
+          <p class="mt-2 text-sm leading-6 text-secondary">A variation of Model 3 where the child lives primarily with the distant parent during summer and holidays, with the local parent providing stability during the school year. Custody percentage is often 85/15 or 80/20 toward the local parent, but the distant parent gets concentrated, meaningful blocks.</p>
+        </div>
+      </div>
+    </section>
+    <section id="which-model" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">Which Model Fits Your Situation?</h2>
+      <div class="mt-6 max-w-3xl overflow-x-auto rounded-[1.5rem] ring-1 ring-line-subtle">
+        <table class="w-full min-w-[480px] text-left text-sm">
+          <thead class="bg-surface-elevated text-primary"><tr><th class="px-4 py-3 font-semibold">Your Distance</th><th class="px-4 py-3 font-semibold">Driving Time</th><th class="px-4 py-3 font-semibold">Recommended Model</th></tr></thead>
+          <tbody class="divide-y divide-line-subtle text-secondary">{distanceTable.map((row) => (<tr><td class="px-4 py-3 font-semibold text-primary">{row.distance}</td><td class="px-4 py-3">{row.drive}</td><td class="px-4 py-3">{row.model}</td></tr>))}</tbody>
+        </table>
+      </div>
+    </section>
+    <section id="examples" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">Worked Examples</h2>
+      <div class="mt-6 max-w-3xl space-y-4">
+        <div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+          <p class="text-xs font-semibold uppercase tracking-[0.08em] text-muted">Example LD-001</p>
+          <h3 class="mt-2 font-semibold text-primary">Sophie and her co-parent live 300 miles apart (Nashville/Atlanta)</h3>
+          <p class="mt-3 text-sm leading-6 text-secondary">Sophie (age 9, 3rd grade) lives in Nashville with her mother. Her father lives in Atlanta, 300 miles away.</p>
+          <ul class="mt-3 space-y-1 text-sm leading-6 text-secondary">
+            <li><strong class="text-primary">School year:</strong> Sophie lives in Nashville, enrolled in her neighborhood school</li>
+            <li><strong class="text-primary">Monthly visit:</strong> Father drives or flies Sophie to Atlanta the first weekend of every month &mdash; Thursday evening through Sunday evening (3 nights)</li>
+            <li><strong class="text-primary">Thanksgiving:</strong> Alternates each year</li>
+            <li><strong class="text-primary">Winter break:</strong> Father gets December 26 through January 2; Mother gets December 23&ndash;25</li>
+            <li><strong class="text-primary">Summer:</strong> Father gets June 10 through August 3 (8 weeks), triggered by "the day after school concludes" and ending "14 days before school resumes"</li>
+          </ul>
+          <p class="mt-3 text-sm text-secondary">This structure gives Father approximately 28% of overnights annually. See the <a href="/overnight-custody-calculator/" class="font-semibold text-accent underline">overnight custody calculator</a> to map your schedule to overnight percentages.</p>
+        </div>
+        <div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+          <p class="text-xs font-semibold uppercase tracking-[0.08em] text-muted">Example LD-002</p>
+          <h3 class="mt-2 font-semibold text-primary">Logan's co-parent moves to a different state (Chicago/Denver)</h3>
+          <p class="mt-3 text-sm leading-6 text-secondary">Logan (age 7) lives with his mother in Chicago during the school year. His father lives in Denver.</p>
+          <ul class="mt-3 space-y-1 text-sm leading-6 text-secondary">
+            <li><strong class="text-primary">Summer block:</strong> Logan travels to Denver on June 15 (or the first Saturday after the last day of school, whichever is later) and returns to Chicago on August 10 (or 10 days before the first day of school, whichever is earlier) &mdash; approximately 8&ndash;9 weeks</li>
+            <li><strong class="text-primary">Flight logistics:</strong> Father purchases round-trip tickets at least 30 days before summer block begins</li>
+            <li><strong class="text-primary">Make-up time:</strong> If either flight is cancelled or significantly delayed, the visit is extended by the equivalent number of missed days at the end of the summer block, not at the beginning of the school year</li>
+          </ul>
+          <p class="mt-3 text-sm text-secondary"><strong class="text-primary">What makes this enforceable:</strong> Every date is a specific calendar date or a specific trigger (last day of school, first day of school). There is no room for ambiguity.</p>
+        </div>
+      </div>
+    </section>
+    <section id="international" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">International Long-Distance: A Different Category</h2>
+      <p class="mt-3 max-w-3xl text-secondary">If one parent lives outside the US, the parenting plan needs specific provisions beyond a standard domestic arrangement:</p>
+      <div class="mt-4 max-w-3xl space-y-3">
+        {[{ title: "Passport control", body: "Parenting plans often require both parents' consent for a child's passport application, particularly for international travel, or that the US parent holds the passport except during international travel." },{ title: "Hague Convention", body: "Covers 101+ signatory countries and provides the mechanism for returning internationally abducted children — but it's not automatic and requires court proceedings in the destination country." },{ title: "Emergency provisions", body: "Build in a clause about what happens if a country becomes unsafe, politically unstable, or travel-restricted." },{ title: "Attorney required", body: "Do not use a generic parenting plan template for international custody. An attorney familiar with both jurisdictions is essential." }].map((item) => (
+          <div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]"><p class="font-semibold text-primary">{item.title}</p><p class="mt-2 text-sm leading-6 text-secondary">{item.body}</p></div>
+        ))}
+      </div>
+    </section>
+    <section id="communication" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">Communication Provisions</h2>
+      <p class="mt-3 max-w-3xl text-secondary">Build video call schedules into the order. A parenting plan that says "reasonable communication" is a dispute waiting to happen.</p>
+      <div class="mt-4 max-w-3xl space-y-3">
+        <div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]"><p class="font-semibold text-primary">Frequency</p><p class="mt-2 text-sm leading-6 text-secondary">"Parent B shall have video calls with the child on Tuesday and Thursday evenings between 7:00 PM and 8:00 PM (child's time zone), and on Saturday or Sunday mornings between 10:00 AM and 11:00 AM (child's time zone)."</p></div>
+        <div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]"><p class="font-semibold text-primary">Platform</p><p class="mt-2 text-sm leading-6 text-secondary">Name it. "Video calls via FaceTime, Zoom, or an equivalent platform agreed upon by both parents." OurFamilyWizard and TalkingParents both have built-in video call features that create logs.</p></div>
+        <div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]"><p class="font-semibold text-primary">Missed calls</p><p class="mt-2 text-sm leading-6 text-secondary">"If the child is unavailable, the parent shall notify the other parent by message within one hour and reschedule within 24 hours."</p></div>
+      </div>
+    </section>
+    <section id="relocation" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">Relocation Law Basics</h2>
+      <p class="mt-3 max-w-3xl text-secondary">Many states require advance written notice before a parent can relocate with the child. Courts weigh the child's established life, the relocation's reason, and the impact on the other parent.</p>
+      <p class="mt-3 max-w-3xl text-secondary"><strong class="text-primary">Notice requirements:</strong> Some states require 30 days, others 60 or more, and some have different rules depending on move distance. Some states require court approval if the other parent objects. Violating applicable notice requirements can result in the court ordering the child returned.</p>
+      <p class="mt-3 max-w-3xl font-semibold text-primary">What courts weigh in relocation cases:</p>
+      <ol class="mt-3 max-w-3xl space-y-2">
+        {["The reason for the move (a genuine job opportunity vs. moving to make contact harder)","The child's relationship with each parent and with their current community (school, friends, activities)","Whether the relocation will harm the non-moving parent's relationship with the child","The child's preference (weighted by age)","Whether a modified custody arrangement can preserve the relationship"].map((item, i) => (
+          <li class="flex gap-3"><span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/15 text-xs font-bold text-accent">{i + 1}</span><p class="text-sm leading-6 text-secondary">{item}</p></li>
+        ))}
+      </ol>
+      <p class="mt-4 max-w-3xl text-sm text-secondary">For Georgia families relocating, see the <a href="/georgia-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Georgia custody schedule guide</a> which covers Georgia's material-change standard for relocation cases.</p>
+    </section>
+    <section id="transportation" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">Transportation: Who Pays and What Happens When Flights Are Cancelled</h2>
+      <p class="mt-3 max-w-3xl text-secondary">Courts either split travel costs 50/50, allocate them by income, or put them on the parent who caused the distance. Build cancelled-flight procedures into the order.</p>
+      <div class="mt-4 max-w-3xl space-y-3">
+        {[{ title: "Cost allocation", body: "'Travel costs shall be shared equally' or 'Parent B, as the relocating parent, shall bear travel costs' or 'Travel costs shall be split proportionally to income.'" },{ title: "Airline unaccompanied minor policies", body: "Airline age requirements, route restrictions, and unaccompanied-minor fees vary by carrier and can change. Check the operating airline's current policy directly before finalizing any parenting plan that depends on a child flying alone." },{ title: "Cancelled/delayed flights", body: "Build explicit language: 'If travel is disrupted due to weather or mechanical issues, the visit shall be rescheduled to the next available travel date, with makeup time added at the end of the next scheduled visit.'" }].map((item) => (
+          <div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]"><p class="font-semibold text-primary">{item.title}</p><p class="mt-2 text-sm leading-6 text-secondary">{item.body}</p></div>
+        ))}
+      </div>
+    </section>
+    <section id="mistakes" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">Common Mistakes</h2>
+      <div class="mt-6 max-w-3xl space-y-4">
+        {commonMistakes.map((item) => (<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]"><p class="font-semibold text-primary">{item.title}</p><p class="mt-2 text-sm leading-6 text-secondary">{item.body}</p></div>))}
+      </div>
+    </section>
+    <section id="tools" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">Build the School-Year Schedule First, Then the Summer Block</h2>
+      <p class="mt-3 max-w-3xl text-secondary">The most practical order: start with the school-year base (which parent provides primary placement and educational stability), then design the summer block, then fill in holiday allocation.</p>
+      <div class="mt-6 grid gap-4 sm:grid-cols-2 max-w-3xl">
+        {[{ title: "Custody Schedule Generator", href: "/custody-schedule-generator/", desc: "Build your school-year and summer blocks visually, download as PDF free." },{ title: "Holiday Custody Planner", href: "/holiday-custody-planner/", desc: "Design your holiday rotation alongside the base schedule." },{ title: "Parenting Plan Template", href: "/parenting-plan-template/", desc: "Full template including long-distance communication and travel provisions." },{ title: "Custody Schedule by Age", href: "/custody-schedule-by-age/", desc: "Age-appropriate schedules including recommendations for long-distance arrangements." },{ title: "Overnight Custody Calculator", href: "/overnight-custody-calculator/", desc: "Calculate total overnights per year across school-year and summer blocks." },{ title: "Custody Calendar Template", href: "/custody-calendar-template/", desc: "Downloadable calendar template to document your long-distance schedule." }].map((tool) => (
+          <a href={tool.href} class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:shadow-md transition-shadow"><p class="font-semibold text-accent">{tool.title}</p><p class="mt-2 text-sm leading-6 text-secondary">{tool.desc}</p></a>
+        ))}
+      </div>
+      <div class="mt-8"><BackToGeneratorCta /></div>
+    </section>
+    <FAQ items={faqItems} title="Long-Distance Custody — Frequently Asked Questions" description="Common questions about long-distance custody schedules, relocation law, and travel logistics." />
+    <section class="container-shell border-t border-line-subtle py-8 lg:max-w-5xl">
+      <p class="max-w-3xl text-xs leading-5 text-muted">Rules vary by state. This content reflects general principles — your state's specific laws and procedures govern. This content is for informational and educational purposes only and does not constitute legal advice. Relocation and long-distance custody involve state-specific laws, jurisdictional questions, and judicial discretion that vary significantly. Consult a licensed family law attorney in your jurisdiction before making decisions about relocation or long-distance custody arrangements.</p>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

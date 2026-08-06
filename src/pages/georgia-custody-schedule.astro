@@ -1,0 +1,203 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import { buildArticleSchema, buildBreadcrumbSchema, buildFAQSchema, buildWebPageSchema } from '../lib/seo/schema';
+const title = "Georgia Custody Schedule: Laws, Standards & Teen Rights";
+const description = "Georgia gives children 14+ a legal voice that courts must respect. See what Georgia courts actually order, the 14-year election law, and how to build a schedule that fits your child's age.";
+const canonical = "/georgia-custody-schedule/";
+const canonicalUrl = getCanonicalUrl(canonical);
+const datePublished = "2026-08-06";
+const dateModified = "2026-08-06";
+const editorialReview = { reviewer: "CustodyBuilder Editorial Team", reviewerHref: "/about/", methodologyLabel: "How CustodyBuilder Works", methodologyHref: "/how-custodybuilder-works/", lastUpdatedLabel: "Last updated August 2026", disclaimer: "Educational information only. Not legal advice.", reviewedFor: ["Accuracy of O.C.G.A. § 19-9-3 references","Georgia 14-year election rules","Georgia modification standard and county-level practice"] };
+const breadcrumbs = [{ name: "Home", url: getCanonicalUrl("/") }, { name: "Georgia Custody Schedule", url: canonicalUrl }];
+const faqItems = [{ question: "Does Georgia have a standard possession order like Texas?", answer: "No. Georgia has no statewide default schedule. Judges have broad discretion to craft individual orders based on the specific family's circumstances. What attorneys call 'standard visitation' in Georgia is a common local convention (every other weekend plus Wednesday dinner) — not a statutory baseline." },{ question: "What happens if my 14-year-old refuses to visit the other parent?", answer: "This is one of the most difficult enforcement problems in Georgia family law. Legally, both parents are obligated to follow the court order. A parent who facilitates refusal can be held in contempt. Courts have multiple enforcement remedies, but the appropriate response to an older teenager's refusal depends on the order, the parents' conduct, the child's circumstances, and judicial discretion." },{ question: "Can a Georgia court refuse a 14-year-old's election?", answer: "Yes, but the bar is high. Under O.C.G.A. § 19-9-3(a)(5), the judge must make specific written findings that honoring the election would be contrary to the child's best interest. Evidence that might support overriding: the child is being manipulated or coached, a history of abuse or instability in the preferred parent's home, or serious safety concerns." },{ question: "How long does a Georgia custody case take?", answer: "When parents agree: 60–120 days is typical for a consent order. When parents disagree and litigation proceeds: timelines vary considerably by county, court backlog, and case complexity. An attorney familiar with the specific county's docket can give a more accurate estimate." },{ question: "Can parents create their own custody schedule without going to court?", answer: "Parents can agree on any arrangement — but to make it legally enforceable, it must be approved by a judge and entered as a court order. An agreement between parents alone is not enforceable through contempt proceedings." },{ question: "Does Georgia favor mothers in custody decisions?", answer: "No. Georgia law explicitly prohibits gender-based preferences in custody. Judges are required to apply the best-interest standard regardless of the parent's gender. The legal inquiry concerns the parenting history and the child's best interests, not the parent's gender." },{ question: "At what age can a child in Georgia decide which parent to live with?", answer: "The 14-year-old election under O.C.G.A. § 19-9-3(a)(5) is the formal legal mechanism. Children under 14 have no equivalent right, though their preferences are considered from around age 11. Children 14 and older have the strongest formal right, but courts retain authority to override the election in the child's best interest." },{ question: "What if a parent moves out of Georgia after a custody order is entered?", answer: "Georgia retains 'continuing exclusive jurisdiction' over a custody order as long as one parent or the child remains in Georgia. If both parents move away, jurisdiction can transfer to the new state. Interstate custody jurisdiction is governed by the UCCJEA, adopted in Georgia and all other states." }];
+const schema = [buildWebPageSchema({ name: title, description, url: canonicalUrl }), buildArticleSchema({ headline: title, description, url: canonicalUrl, datePublished, dateModified, authorName: editorialReview.reviewer }), buildFAQSchema(faqItems), buildBreadcrumbSchema(breadcrumbs)];
+const ageSituationTable = [{ age: "0–2", rel: "Any", proximity: "Same area", rec: "Modified frequent contact with primary parent; limited overnights for very young infants" },{ age: "3–5", rel: "Cooperative", proximity: "Same school zone", rec: "2-2-3 or every-other-weekend-plus-midweek" },{ age: "6–12", rel: "Cooperative", proximity: "Same school district", rec: "Week-on/week-off or every-other-weekend-plus-midweek" },{ age: "6–12", rel: "Conflicted", proximity: "Any", rec: "Traditional primary/non-primary with clear exchange procedures" },{ age: "11–13", rel: "Any", proximity: "Any", rec: "All of above, but child's preference carries weight — get ahead of this" },{ age: "14+", rel: "Any", proximity: "Any", rec: "Child may file election — build relationship now, not when they are filing paperwork" }];
+const commonMistakes = [{ title: "Expecting the Texas SPO to apply", body: "Georgia has no equivalent. The Texas Standard Possession Order's specific timelines, holiday structure, and geographic triggers do not exist in Georgia law. Every Georgia order is crafted individually within broad judicial discretion." },{ title: "Not knowing about the 14-year election until it's filed", body: "Parents are sometimes blindsided by their 14-year-old filing an election. The time to build the relationship that makes the election go your way is years before age 14 — not the week the election is filed." },{ title: "Filing for modification too soon", body: "Georgia courts enforce the material-change standard carefully under O.C.G.A. § 19-9-3(b). A modification petition filed 8 months after the original order, citing vague changes in circumstances, will likely be dismissed." },{ title: "Coaching children to express preferences", body: "Judges who conduct child interviews are experienced at identifying coached responses. Evidence that a parent coached or pressured a child can affect the court's assessment of that parent's credibility and the weight given to the child's stated preference." },{ title: "Not differentiating joint legal from joint physical", body: "Joint legal custody (shared decisions) and joint physical custody (shared parenting time) are separate orders with different implications. Know which you're asking for and why." },{ title: "Ignoring the enforcement problem with teenagers", body: "Georgia custody orders are legally enforceable at any age. But practically, getting a 16-year-old to comply with a visitation order they strongly resist is difficult. Plan for this reality early by investing in the relationship." }];
+---
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article">
+  <JsonLd slot="head" data={schema} />
+  <Navbar />
+  <Breadcrumbs items={breadcrumbs} />
+  <main class="overflow-x-clip">
+    <section class="container-shell py-8 lg:py-12 lg:max-w-5xl">
+      <p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Georgia custody schedule guide</p>
+      <h1 class="mt-2.5 max-w-3xl text-[1.7rem] font-semibold leading-[1.06] tracking-[-0.05em] text-primary sm:text-4xl lg:text-5xl">Georgia Custody Schedule: What the Courts Actually Order (and What Teenagers Can Do About It)</h1>
+      <div class="mt-4 max-w-3xl rounded-[1.25rem] border border-line bg-accent/10 p-5">
+        <p class="text-sm font-semibold text-primary">Featured answer</p>
+        <p class="mt-2 text-sm leading-6 text-secondary">Georgia custody schedules are governed by O.C.G.A. § 19-9-3, which gives courts wide discretion &mdash; there is no statewide standard visitation order equivalent to Texas's SPO. Georgia's most distinctive feature: children aged 14 and older can file a parental election that courts must honor unless it is contrary to the child's best interest. Children aged 11&ndash;13 receive meaningful but non-binding weight for their preference.</p>
+      </div>
+      <div class="mt-6 max-w-2xl text-xs leading-5 text-muted">
+        <p class="font-semibold text-secondary">Reviewed for:</p>
+        <ul class="mt-1 list-inside list-disc">{editorialReview.reviewedFor.map((i) => <li>{i}</li>)}</ul>
+        <p class="mt-2">Reviewed by <a href={editorialReview.reviewerHref} class="font-semibold text-secondary underline">{editorialReview.reviewer}</a>{' · '}<a href={editorialReview.methodologyHref} class="font-semibold text-secondary underline">{editorialReview.methodologyLabel}</a>{' · '}<span class="font-semibold text-secondary">{editorialReview.lastUpdatedLabel}</span>{' · '}{editorialReview.disclaimer}</p>
+      </div>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a href="/custody-schedule-generator/" class="inline-flex rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:opacity-90" style="color: #ffffff">Build your Georgia schedule free &rarr;</a>
+        <a href="/custody-schedule-by-age/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Schedule by age</a>
+        <a href="/best-custody-schedule-for-teenager/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Teen custody schedules</a>
+        <a href="/holiday-custody-schedule/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Holiday custody schedule</a>
+      </div>
+    </section>
+    <nav class="container-shell border-y border-line-subtle py-3 lg:max-w-5xl" aria-label="On this page">
+      <ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">
+        <li><a href="#no-spo" class="hover:text-accent">Georgia vs. Texas: no SPO</a></li>
+        <li><a href="#election" class="hover:text-accent">14-year election</a></li>
+        <li><a href="#gray-zone" class="hover:text-accent">11&ndash;13 gray zone</a></li>
+        <li><a href="#examples" class="hover:text-accent">Worked examples</a></li>
+        <li><a href="#joint-custody" class="hover:text-accent">Joint custody in GA</a></li>
+        <li><a href="#common-arrangements" class="hover:text-accent">Common arrangements</a></li>
+        <li><a href="#which-schedule" class="hover:text-accent">Which schedule fits?</a></li>
+        <li><a href="#grandparent" class="hover:text-accent">Grandparent visitation</a></li>
+        <li><a href="#modification" class="hover:text-accent">Modification</a></li>
+        <li><a href="#mistakes" class="hover:text-accent">Common mistakes</a></li>
+        <li><a href="#faq" class="hover:text-accent">FAQ</a></li>
+      </ul>
+    </nav>
+    <section id="no-spo" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">Georgia Is Not Texas: No Statewide Standard Order</h2>
+      <p class="mt-3 max-w-3xl text-secondary">Georgia does not have a standard possession order (SPO) the way Texas does. Georgia judges have broad discretion, and local norms vary by county. This is the first thing parents moving from Texas or with Texas-based attorneys need to understand.</p>
+      <p class="mt-3 max-w-3xl text-secondary"><strong class="text-primary">What Georgia judges start from in practice:</strong></p>
+      <ul class="mt-2 max-w-3xl space-y-1 text-sm leading-6 text-secondary list-inside list-disc">
+        <li>Every other weekend: Friday after school (or 6 PM) through Sunday evening (or 6 PM) &mdash; often Friday to Sunday, not Thursday to Monday as in the Texas SPO</li>
+        <li>Wednesday dinner visit: 5 or 6 PM to 8 or 8:30 PM, non-overnight in most counties</li>
+        <li>Holiday alternation: Thanksgiving, Christmas, spring break often alternate each year</li>
+        <li>Summer: 4&ndash;6 weeks with the non-primary parent, sometimes more depending on the case</li>
+      </ul>
+      <div class="mt-4 max-w-3xl rounded-2xl bg-surface/70 px-4 py-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]"><strong class="text-primary">Law:</strong> Under O.C.G.A. § 19-9-3, a court may approve any arrangement that serves the child's best interests. In practice, outcomes vary by the specific facts, the parties' cooperation, and individual judicial discretion.</div>
+      <p class="mt-4 max-w-3xl text-secondary">For a long-distance version of a Georgia arrangement, see the <a href="/long-distance-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">long-distance custody schedule guide</a>, including Georgia parents who relocate.</p>
+    </section>
+    <section id="election" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">The 14-Year-Old Election: Georgia's Most Powerful Rule</h2>
+      <div class="mt-4 max-w-3xl rounded-2xl bg-surface/70 px-4 py-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]"><strong class="text-primary">Law:</strong> Under O.C.G.A. § 19-9-3(a)(5), a child aged 14 or older can file a parental election &mdash; and the court must grant it unless doing so would be contrary to the child's best interest.</div>
+      <p class="mt-4 max-w-3xl text-secondary"><strong class="text-primary">What the election is:</strong> A formal written statement filed with the court by the child, expressing which parent they want to live with primarily. Unlike a preference stated in a judge's chambers, a 14-year-old's election carries the force of a legal presumption.</p>
+      <div class="mt-4 max-w-3xl space-y-2">
+        {[{ title: "It is the child's right, not the parent's", body: "A parent cannot file an election on the child's behalf. A parent coaching a child to file is viewed extremely unfavorably by courts." },{ title: "The election is not permanent", body: "A 14-year-old can file an election that modifies custody, and at 15 or 16, they can file another if circumstances change." },{ title: "The election addresses primary physical custody", body: "It doesn't necessarily eliminate the other parent's visitation or override legal custody arrangements." }].map((item) => (
+          <div class="rounded-[1.25rem] bg-surface/70 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]"><p class="font-semibold text-primary">{item.title}</p><p class="mt-1 text-sm leading-6 text-secondary">{item.body}</p></div>
+        ))}
+      </div>
+      <p class="mt-4 max-w-3xl text-secondary">For age-specific schedule recommendations including teen arrangements, see the <a href="/best-custody-schedule-for-teenager/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">best custody schedule for teenager</a> and the <a href="/custody-schedule-by-age/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule by age guide</a>.</p>
+    </section>
+    <section id="gray-zone" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">The 11&ndash;13 Gray Zone</h2>
+      <div class="mt-4 max-w-3xl rounded-2xl bg-surface/70 px-4 py-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]"><strong class="text-primary">Law:</strong> O.C.G.A. § 19-9-3(a)(6) requires courts to consider the preference of children who are "of sufficient age and maturity" &mdash; case law has established 11 as the general threshold where judicial interviews and guardian ad litem recommendations become routine.</div>
+      <p class="mt-4 max-w-3xl text-secondary">An 11-year-old's preference matters, but a judge can override it if other factors favor a different outcome. The weight given to preference increases with age and apparent maturity.</p>
+      <div class="mt-4 max-w-3xl rounded-2xl bg-surface/70 px-4 py-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]"><strong class="text-primary">The coaching trap:</strong> When a parent tries to influence a child's stated preference, courts notice. Judges who conduct child interviews are experienced at distinguishing genuine preference from rehearsed responses. A child who uses adult legal language or mirrors exactly one parent's talking points raises red flags.</div>
+    </section>
+    <section id="examples" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">Worked Examples</h2>
+      <div class="mt-6 max-w-3xl space-y-4">
+        <div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+          <p class="text-xs font-semibold uppercase tracking-[0.08em] text-muted">Example GA-001</p>
+          <h3 class="mt-2 font-semibold text-primary">James is 14 and wants to live with his father</h3>
+          <p class="mt-3 text-sm leading-6 text-secondary">James (14) has lived primarily with his mother in Marietta since his parents divorced when he was 10. His father lives 12 miles away in Kennesaw. James wants to live primarily with his father, whose home is closer to his high school and his baseball team.</p>
+          <ol class="mt-3 space-y-1 text-sm leading-6 text-secondary">
+            <li>1. James (not his father) files a written election with the Cobb County Superior Court</li>
+            <li>2. The court schedules a hearing. Timelines vary by county, court backlog, and case complexity.</li>
+            <li>3. The judge may interview James privately in chambers, without either parent present</li>
+            <li>4. The judge reviews whether any override grounds apply: coaching/manipulation, history of abuse, credible safety concerns</li>
+            <li>5. Absent those findings, the court grants the election and modifies primary custody to the father</li>
+          </ol>
+          <p class="mt-3 text-sm text-secondary">The new schedule: Father becomes primary; James lives with his father during the school year. Mother receives every other weekend and a portion of holidays and summer.</p>
+        </div>
+        <div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+          <p class="text-xs font-semibold uppercase tracking-[0.08em] text-muted">Example GA-002</p>
+          <h3 class="mt-2 font-semibold text-primary">A modification request &mdash; what qualifies vs. what doesn't</h3>
+          <p class="mt-3 text-sm leading-6 text-secondary">Donna and Paul divorced in 2022. Their son Marcus (now 9) lives primarily with Donna. Paul has every other weekend and a Wednesday dinner visit.</p>
+          <div class="mt-3 grid gap-3 sm:grid-cols-2">
+            <div class="rounded-2xl bg-red-50 border border-red-200 px-4 py-3 text-sm leading-6 text-secondary dark:bg-red-900/20 dark:border-red-800"><p class="font-semibold text-primary">Does NOT qualify</p><p class="mt-1">Paul files 14 months after divorce citing: he got a new apartment closer to school, Donna is stricter about screen time, and Marcus likes staying at Dad's. A Georgia court would almost certainly dismiss this petition.</p></div>
+            <div class="rounded-2xl bg-green-50 border border-green-200 px-4 py-3 text-sm leading-6 text-secondary dark:bg-green-900/20 dark:border-green-800"><p class="font-semibold text-primary">Qualifies as material change</p><p class="mt-1">Two years later: Donna accepts a job requiring relocation to Charlotte, NC. Marcus would need to change schools, leave his baseball league, and see Paul only during summers. Relocation is a textbook material change under O.C.G.A. § 19-9-3(b).</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="joint-custody" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">Joint Custody in Georgia: The Strong Default</h2>
+      <p class="mt-3 max-w-3xl text-secondary">Georgia courts strongly favor joint legal custody. Joint physical custody is granted when parents can cooperate effectively &mdash; and metro Atlanta courts grant it frequently.</p>
+      <div class="mt-4 max-w-3xl grid gap-4 sm:grid-cols-2">
+        <div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]"><p class="font-semibold text-primary">Joint legal custody</p><p class="mt-2 text-sm leading-6 text-secondary">Shared decision-making authority over education, healthcare, religion, and extracurriculars. The presumptive norm in Georgia. Courts expect both parents to be involved in major decisions unless one parent is demonstrably unfit.</p></div>
+        <div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]"><p class="font-semibold text-primary">Joint physical custody</p><p class="mt-2 text-sm leading-6 text-secondary">Increasingly common in Georgia, particularly in metro Atlanta. More likely when both parents live in the same school district, both have historically been active caregivers, and the child is school-age or older.</p></div>
+      </div>
+    </section>
+    <section id="common-arrangements" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">Most Common Georgia Custody Arrangements</h2>
+      <div class="mt-6 max-w-3xl space-y-4">
+        {[{ title: "Every-Other-Weekend (Traditional Primary/Non-Primary)", desc: "The most common non-primary parent schedule in Georgia: every other weekend Friday 6 PM through Sunday 6 PM, Wednesday dinner 5:30–8:30 PM (non-overnight), alternating holidays, 4–6 weeks summer. Best for: cases where one parent is primary caregiver, parents live in different school districts, or significant conflict makes frequent transitions difficult." },{ title: "Week-On/Week-Off (50/50)", desc: "Increasingly common in metro Atlanta for school-age children: child alternates one full week with each parent, exchange on Sunday evenings or Friday after school. Best for: parents who live in the same or adjacent school districts, both have flexible work schedules, and have a cooperative co-parenting relationship." },{ title: "2-2-3 Rotation (50/50)", desc: "Child spends 2 days with Parent A, 2 days with Parent B, then 3 days with Parent A, rotating weekly. Best for: younger children (3–8 range) who benefit from more frequent contact with both parents. Young children maintain attachment through consistent, frequent contact — longer gaps between visits can be harder for toddlers and preschoolers." },{ title: "Extended Non-Primary Schedule", desc: "A step up from every-other-weekend without full 50/50: every other weekend (Friday through Monday morning), one overnight mid-week per week, extended summer (8–10 weeks or even the full summer). Best for: cases where one parent is primary but the non-primary parent is highly involved and lives nearby." }].map((item) => (
+          <div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]"><p class="font-semibold text-primary">{item.title}</p><p class="mt-2 text-sm leading-6 text-secondary">{item.desc}</p></div>
+        ))}
+      </div>
+    </section>
+    <section id="which-schedule" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">Which Georgia Schedule Fits Your Situation?</h2>
+      <div class="mt-6 max-w-3xl overflow-x-auto rounded-[1.5rem] ring-1 ring-line-subtle">
+        <table class="w-full min-w-[600px] text-left text-sm">
+          <thead class="bg-surface-elevated text-primary"><tr><th class="px-4 py-3 font-semibold">Child's Age</th><th class="px-4 py-3 font-semibold">Parents' Relationship</th><th class="px-4 py-3 font-semibold">Proximity</th><th class="px-4 py-3 font-semibold">Recommended Arrangement</th></tr></thead>
+          <tbody class="divide-y divide-line-subtle text-secondary">{ageSituationTable.map((row) => (<tr><td class="px-4 py-3 font-semibold text-primary">{row.age}</td><td class="px-4 py-3">{row.rel}</td><td class="px-4 py-3">{row.proximity}</td><td class="px-4 py-3">{row.rec}</td></tr>))}</tbody>
+        </table>
+      </div>
+    </section>
+    <section id="grandparent" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">Grandparent Visitation in Georgia</h2>
+      <div class="mt-4 max-w-3xl rounded-2xl bg-surface/70 px-4 py-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]"><strong class="text-primary">Law:</strong> O.C.G.A. § 19-7-3 allows grandparents to petition for visitation rights when: the parents have filed for divorce, either parent has died, the child was born outside of marriage, or the child lived with the grandparent for 12+ months and was then removed.</div>
+      <p class="mt-4 max-w-3xl text-secondary">The court applies a best-interest standard and must find that the absence of grandparent contact would harm the child. This is a higher bar than just showing the relationship is good for the child. Grandparent visitation litigation in Georgia is expensive and uncertain &mdash; more commonly used in cases where one parent has died and the surviving parent is cutting off the deceased parent's family.</p>
+    </section>
+    <section id="modification" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">Modification of Georgia Custody Orders</h2>
+      <div class="mt-4 max-w-3xl rounded-2xl bg-surface/70 px-4 py-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]"><strong class="text-primary">Law:</strong> To modify a final Georgia custody order under O.C.G.A. § 19-9-3(b), the parent seeking modification must show: (1) a material change in circumstances has occurred since the last order; and (2) the change is substantial enough that modification is in the child's best interest.</div>
+      <div class="mt-6 max-w-3xl grid gap-4 sm:grid-cols-2">
+        <div class="rounded-[1.25rem] bg-green-50 border border-green-200 p-5 dark:bg-green-900/20 dark:border-green-800">
+          <p class="font-semibold text-primary">Qualifies as material change</p>
+          <ul class="mt-2 space-y-1 text-sm leading-6 text-secondary list-inside list-disc">
+            <li>A significant change in the child's needs (new medical or educational requirements)</li>
+            <li>A parent's relocation</li>
+            <li>Evidence of abuse, neglect, or substance abuse emerging after the order</li>
+            <li>The child reaching age 14 and filing an election</li>
+          </ul>
+        </div>
+        <div class="rounded-[1.25rem] bg-red-50 border border-red-200 p-5 dark:bg-red-900/20 dark:border-red-800">
+          <p class="font-semibold text-primary">Does NOT qualify</p>
+          <ul class="mt-2 space-y-1 text-sm leading-6 text-secondary list-inside list-disc">
+            <li>One parent simply wants more time</li>
+            <li>Minor disagreements about implementation</li>
+            <li>General dissatisfaction with the arrangement</li>
+            <li>The passage of time alone</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <section id="mistakes" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">Common Mistakes in Georgia Custody Cases</h2>
+      <div class="mt-6 max-w-3xl space-y-4">
+        {commonMistakes.map((item) => (<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]"><p class="font-semibold text-primary">{item.title}</p><p class="mt-2 text-sm leading-6 text-secondary">{item.body}</p></div>))}
+      </div>
+    </section>
+    <section id="tools" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">Build a Schedule That Accounts for Your Child's Age and Preferences</h2>
+      <p class="mt-3 max-w-3xl text-secondary">Georgia custody arrangements work best when they're designed with the child's current age and trajectory in mind &mdash; an arrangement that works for a 9-year-old may need revisiting at 13, and a 14-year-old has legal tools that didn't exist three years earlier.</p>
+      <div class="mt-6 grid gap-4 sm:grid-cols-2 max-w-3xl">
+        {[{ title: "Custody Schedule Generator", href: "/custody-schedule-generator/", desc: "Build your Georgia schedule visually and download as PDF, free." },{ title: "Custody Schedule by Age", href: "/custody-schedule-by-age/", desc: "Age-specific schedule recommendations including teen arrangements." },{ title: "Holiday Custody Schedule", href: "/holiday-custody-schedule/", desc: "Design Georgia's alternating holiday structure." },{ title: "Best Custody Schedule for Teenager", href: "/best-custody-schedule-for-teenager/", desc: "Arrangements designed around teen preferences and schedules, including the 14-year election context." },{ title: "Week-On/Week-Off Custody Schedule", href: "/week-on-week-off-custody-schedule/", desc: "Common 50/50 schedule in metro Atlanta courts." },{ title: "Long-Distance Custody Schedule", href: "/long-distance-custody-schedule/", desc: "For Georgia parents who relocate — the school-year/summer split and what courts weigh." }].map((tool) => (
+          <a href={tool.href} class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:shadow-md transition-shadow"><p class="font-semibold text-accent">{tool.title}</p><p class="mt-2 text-sm leading-6 text-secondary">{tool.desc}</p></a>
+        ))}
+      </div>
+      <div class="mt-8"><BackToGeneratorCta /></div>
+    </section>
+    <FAQ items={faqItems} title="Georgia Custody Schedule — Frequently Asked Questions" description="Common questions about Georgia custody law, the 14-year election, and how courts apply the best-interest standard." />
+    <section class="container-shell border-t border-line-subtle py-8 lg:max-w-5xl">
+      <h2 class="text-lg font-semibold text-primary">Sources</h2>
+      <ol class="mt-3 space-y-2 text-xs text-muted">
+        <li>[1] Georgia General Assembly, O.C.G.A. § 19-9-3, Custody of minor children — available at law.georgia.gov — last verified August 6, 2026</li>
+        <li>[2] Georgia General Assembly, O.C.G.A. § 19-7-3, Grandparent visitation rights — available at law.georgia.gov — last verified August 6, 2026</li>
+      </ol>
+    </section>
+    <section class="container-shell border-t border-line-subtle py-8 lg:max-w-5xl">
+      <p class="max-w-3xl text-xs leading-5 text-muted">This page covers Georgia state law. Rules and procedures differ by county and by the specific facts of each case. This content is for informational and educational purposes only and does not constitute legal advice. The O.C.G.A. provisions cited here are current as of publication but may be amended. Consult a licensed Georgia family law attorney before making decisions about custody, modification, or the parental election process.</p>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

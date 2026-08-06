@@ -1,0 +1,219 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import { buildArticleSchema, buildBreadcrumbSchema, buildFAQSchema, buildWebPageSchema } from '../lib/seo/schema';
+const title = "California Child Support Calculator 2026";
+const description = "California child support is mostly about timeshare percentage. See the formula, how changing custody percentage affects your monthly payment, and what courts actually weigh.";
+const canonical = "/california-child-support-calculator/";
+const canonicalUrl = getCanonicalUrl(canonical);
+const datePublished = "2026-08-06";
+const dateModified = "2026-08-06";
+const editorialReview = { reviewer: "CustodyBuilder Editorial Team", reviewerHref: "/about/", methodologyLabel: "How CustodyBuilder Works", methodologyHref: "/how-custodybuilder-works/", lastUpdatedLabel: "Last updated August 2026", disclaimer: "Educational information only. Not legal advice.", reviewedFor: ["Accuracy of California Family Code §§ 4050–4076 references","Statewide Uniform Guideline formula components","Timeshare percentage sensitivity analysis"] };
+const breadcrumbs = [{ name: "Home", url: getCanonicalUrl("/") }, { name: "California Child Support Calculator", url: canonicalUrl }];
+const faqItems = [{ question: "Can parents agree to a support amount different from the guideline in California?", answer: "Yes, with limitations. Courts can approve a non-guideline agreement if both parents are represented by counsel, the agreement is knowing and voluntary, and it is in the child's interest. Courts will not approve an agreement that leaves the child inadequately supported." },{ question: "Does California have a support calculator I can use myself?", answer: "The Judicial Council's child support calculator (available at the California Courts website) runs the same formula as Dissomaster. It is publicly available but requires accurate income inputs and doesn't account for all variables the software handles." },{ question: "What happens if my income changes significantly after the order?", answer: "Either parent can petition for modification when there is a change in circumstances — a meaningful change in either parent's income or in the custody schedule. California courts don't require a specific percentage threshold, though modest changes may not justify the cost and complexity of a modification proceeding." },{ question: "Does overtime count as income in California?", answer: "Generally yes. California courts include regular overtime in income. If overtime is genuinely irregular (a one-time emergency project), you may be able to argue it shouldn't be included, but recurring overtime is treated as income." },{ question: "How does California handle parents who quit their jobs to reduce support?", answer: "Courts impute income based on earning capacity. If a parent voluntarily leaves employment, courts use their prior income or their capacity to earn as the basis for the calculation — not $0." },{ question: "Does the California formula change for multiple children?", answer: "Yes — the K factor in the formula adjusts for number of children. Support does not simply multiply by the number of children; the formula produces a blended result that increases with additional children but not proportionally." },{ question: "What is the difference between guideline and add-on support in California?", answer: "Guideline support (from the formula) covers basic expenses: food, clothing, shelter, routine healthcare. Add-on support under § 4062 covers specific costs beyond basics — childcare, uninsured medical expenses, and special needs costs. Both are part of the total support obligation." },{ question: "Can the court order support before the case is finalized?", answer: "Yes. Courts may issue temporary support orders while a case is pending. Timelines vary by county and court backlog. Temporary orders use the same formula and are enforceable immediately." }];
+const schema = [buildWebPageSchema({ name: title, description, url: canonicalUrl }), buildArticleSchema({ headline: title, description, url: canonicalUrl, datePublished, dateModified, authorName: editorialReview.reviewer }), buildFAQSchema(faqItems), buildBreadcrumbSchema(breadcrumbs)];
+const timeshareTable = [{ pct: "20%", support: "~$1,480/month" },{ pct: "28%", support: "~$1,240/month" },{ pct: "35%", support: "~$950/month" },{ pct: "40%", support: "~$780/month" },{ pct: "50%", support: "~$480/month" }];
+const sensitivityTable = [{ change: "High earner timeshare increases from 28% to 35%", effect: "Support decreases ~$200–$350/month" },{ change: "High earner timeshare increases from 35% to 42%", effect: "Support decreases ~$150–$250/month" },{ change: "High earner net income increases by $1,000/month", effect: "Support increases ~$100–$160/month" },{ change: "Lower earner net income increases by $1,000/month", effect: "Support decreases ~$60–$100/month" },{ change: "$400/month childcare add-on (§ 4062) added", effect: "Support increases ~$200/month (split 50/50 by default)" }];
+const addOnTable = [{ addon: "Childcare (work/education related)", split: "50/50*", notes: "Only childcare that allows the parent to work or attend school" },{ addon: "Uninsured healthcare costs", split: "50/50*", notes: "Copays, deductibles, treatments not covered" },{ addon: "Education and special needs", split: "50/50*", notes: "Special schooling, tutoring for documented needs" },{ addon: "Travel for visitation", split: "Negotiated", notes: "Courts can allocate based on who caused the distance" }];
+const commonMistakes = [{ title: "Not accounting for add-ons when evaluating an offer", body: "A support number without the add-on split looks much lower than the true obligation. Always calculate childcare and healthcare add-ons before accepting or rejecting a settlement offer." },{ title: "Underreporting self-employment income", body: "Courts are experienced with this. Forensic accountants may be appointed in contested cases involving complex or disputed business income. Penalties include retroactive support, attorney's fees, and potential contempt." },{ title: "Not knowing that even $1 of income difference matters", body: "California's formula is continuous, not a step function. Every dollar of net income and every fraction of a percent of timeshare changes the result. Don't round numbers when running scenarios." },{ title: "Assuming the guideline is a ceiling", body: "In high-income cases, it's a floor. Judges have authority to go higher when the guideline doesn't maintain the child's accustomed standard of living." },{ title: "Forgetting that a new spouse affects the calculation", body: "Not directly — the spouse's income doesn't count under Family Code § 4057.5 — but remarriage changes tax filing status and therefore net disposable income. Run the numbers again after any major household change." },{ title: "Treating custody time as only a parenting question", body: "In California, timeshare percentage is a primary variable in the support formula. Agreeing to a custody schedule without understanding its support implications is one of the most expensive mistakes in California family law." }];
+---
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article">
+  <JsonLd slot="head" data={schema} />
+  <Navbar />
+  <Breadcrumbs items={breadcrumbs} />
+  <main class="overflow-x-clip">
+    <section class="container-shell py-8 lg:py-12 lg:max-w-5xl">
+      <p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">California child support calculator 2026</p>
+      <h1 class="mt-2.5 max-w-3xl text-[1.7rem] font-semibold leading-[1.06] tracking-[-0.05em] text-primary sm:text-4xl lg:text-5xl">California Child Support Calculator: How Timeshare Changes Your Number</h1>
+      <p class="mt-4 max-w-2xl text-base leading-7 text-secondary">California child support uses a formula that weighs two primary factors: each parent's net disposable income and the percentage of time each parent spends with the child. Because timeshare percentage sits directly in the formula, increasing your custody time &mdash; even by 7 or 8 percentage points &mdash; can reduce support meaningfully in a typical middle-income case.</p>
+      <aside class="mt-6 max-w-2xl rounded-[1.25rem] border border-line bg-surface/70 px-5 py-4 text-xs leading-5 text-muted">
+        <p class="font-semibold text-secondary">Source status &mdash; California Child Support Calculator</p>
+        <ul class="mt-2 space-y-1">
+          <li><strong class="text-primary">Jurisdiction:</strong> California</li>
+          <li><strong class="text-primary">Primary authority:</strong> California Family Code &sect;&sect; 4050&ndash;4076</li>
+          <li><strong class="text-primary">Calculator version:</strong> CA-CS-2026.1</li>
+          <li><strong class="text-primary">Last content review:</strong> August 6, 2026</li>
+        </ul>
+      </aside>
+      <div class="mt-6 max-w-2xl text-xs leading-5 text-muted">
+        <p class="font-semibold text-secondary">Reviewed for:</p>
+        <ul class="mt-1 list-inside list-disc">{editorialReview.reviewedFor.map((i) => <li>{i}</li>)}</ul>
+        <p class="mt-2">Reviewed by <a href={editorialReview.reviewerHref} class="font-semibold text-secondary underline">{editorialReview.reviewer}</a>{' · '}<a href={editorialReview.methodologyHref} class="font-semibold text-secondary underline">{editorialReview.methodologyLabel}</a>{' · '}<span class="font-semibold text-secondary">{editorialReview.lastUpdatedLabel}</span>{' · '}{editorialReview.disclaimer}</p>
+      </div>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <a href="/custody-percentage-calculator/" class="inline-flex rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:opacity-90" style="color: #ffffff">Calculate your timeshare % &rarr;</a>
+        <a href="/custody-schedule-generator/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Build your CA schedule free</a>
+        <a href="/parenting-time-calculator/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Parenting time calculator</a>
+      </div>
+    </section>
+    <nav class="container-shell border-y border-line-subtle py-3 lg:max-w-5xl" aria-label="On this page">
+      <ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">
+        <li><a href="#formula" class="hover:text-accent">The CA formula</a></li>
+        <li><a href="#timeshare-effect" class="hover:text-accent">Timeshare effect</a></li>
+        <li><a href="#examples" class="hover:text-accent">Worked examples</a></li>
+        <li><a href="#net-income" class="hover:text-accent">Net disposable income</a></li>
+        <li><a href="#add-ons" class="hover:text-accent">Add-ons beyond guideline</a></li>
+        <li><a href="#high-income" class="hover:text-accent">High-income deviation</a></li>
+        <li><a href="#self-employment" class="hover:text-accent">Self-employment</a></li>
+        <li><a href="#mistakes" class="hover:text-accent">Common mistakes</a></li>
+        <li><a href="#faq" class="hover:text-accent">FAQ</a></li>
+      </ul>
+    </nav>
+    <section id="formula" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">How California Calculates Child Support</h2>
+      <div class="mt-4 max-w-3xl rounded-2xl bg-surface/70 px-4 py-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]"><strong class="text-primary">Law:</strong> California Family Code &sect; 4055 sets the formula. Courts and attorneys use licensed software (Dissomaster or XSpouse) that inputs the variables, but the underlying formula is public.</div>
+      <p class="mt-4 max-w-3xl font-semibold text-primary">The core formula simplified:</p>
+      <div class="mt-3 max-w-3xl rounded-[1.25rem] bg-surface-elevated p-5 font-mono text-sm text-primary">
+        <p>CS = K &times; (HN &minus; (H% &times; TN))</p>
+        <ul class="mt-3 space-y-1 text-secondary font-sans text-xs">
+          <li><strong class="text-primary">CS</strong> = child support</li>
+          <li><strong class="text-primary">K</strong> = combined income factor (decreases as combined income rises)</li>
+          <li><strong class="text-primary">HN</strong> = high earner's net disposable monthly income</li>
+          <li><strong class="text-primary">H%</strong> = high earner's approximate timeshare percentage</li>
+          <li><strong class="text-primary">TN</strong> = total net disposable income of both parents</li>
+        </ul>
+      </div>
+      <p class="mt-4 max-w-3xl text-secondary"><strong class="text-primary">Key insight:</strong> H% &mdash; the high earner's timeshare &mdash; sits in the middle of the formula. When the high earner has more custody time, H% increases, and the support amount drops. This is why parenting time and support are inseparable conversations in California.</p>
+      <div class="mt-4 max-w-3xl rounded-2xl bg-surface/70 px-4 py-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]"><strong class="text-primary">Calculator assumption:</strong> This calculator applies the published formula components under Family Code &sect; 4055 to your entered income and timeshare figures. It treats all income as fixed monthly net income. Variable income, imputed income, and high-income deviations are not automatically modeled.</div>
+    </section>
+    <section id="timeshare-effect" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">The Timeshare Effect: Concrete Numbers</h2>
+      <p class="mt-3 max-w-3xl text-secondary">Timeshare percentage is the variable parents most often underestimate entering negotiations. Agreeing to 35% custody instead of 28% could substantially change monthly support over years &mdash; because timeshare percentage is directly incorporated into the &sect; 4055 formula.</p>
+      <div class="mt-4 max-w-3xl rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+        <p class="text-xs font-semibold uppercase tracking-[0.08em] text-muted">Example CA-001</p>
+        <h3 class="mt-2 font-semibold text-primary">Parenting time sensitivity at a single income level</h3>
+        <p class="mt-2 text-sm text-secondary">Parent A (high earner) nets $6,500/month, Parent B nets $2,800/month, one child.</p>
+        <div class="mt-3 overflow-x-auto rounded-[1.25rem] ring-1 ring-line-subtle">
+          <table class="w-full text-left text-sm">
+            <thead class="bg-surface-elevated text-primary"><tr><th class="px-4 py-3 font-semibold">Timeshare (Parent A)</th><th class="px-4 py-3 font-semibold">Estimated Support Owed by Parent A</th></tr></thead>
+            <tbody class="divide-y divide-line-subtle text-secondary">{timeshareTable.map((row) => (<tr><td class="px-4 py-3 font-semibold text-primary">{row.pct}</td><td class="px-4 py-3">{row.support}</td></tr>))}</tbody>
+          </table>
+        </div>
+        <p class="mt-2 text-xs text-muted">Based on formula components under Family Code &sect; 4055. The reduction is not linear; it is steeper at lower timeshare levels. Your result will differ.</p>
+      </div>
+      <div class="mt-4 flex flex-wrap gap-3">
+        <a href="/custody-percentage-calculator/" class="inline-flex rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:opacity-90" style="color: #ffffff">Calculate your timeshare % &rarr;</a>
+        <a href="/overnight-custody-calculator/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Overnight custody calculator</a>
+        <a href="/parenting-time-calculator/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Parenting time calculator</a>
+      </div>
+      <p class="mt-6 max-w-3xl font-semibold text-primary">What changes your estimate the most?</p>
+      <p class="mt-2 max-w-3xl text-sm text-secondary">Based on the published formula components for a family with $10,000/month combined net disposable income and one child:</p>
+      <div class="mt-3 max-w-3xl overflow-x-auto rounded-[1.5rem] ring-1 ring-line-subtle">
+        <table class="w-full min-w-[480px] text-left text-sm">
+          <thead class="bg-surface-elevated text-primary"><tr><th class="px-4 py-3 font-semibold">Change to the inputs</th><th class="px-4 py-3 font-semibold">Estimated effect on monthly support</th></tr></thead>
+          <tbody class="divide-y divide-line-subtle text-secondary">{sensitivityTable.map((row) => (<tr><td class="px-4 py-3">{row.change}</td><td class="px-4 py-3 font-semibold text-primary">{row.effect}</td></tr>))}</tbody>
+        </table>
+      </div>
+    </section>
+    <section id="examples" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">Worked Examples</h2>
+      <div class="mt-6 max-w-3xl space-y-4">
+        <div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+          <p class="text-xs font-semibold uppercase tracking-[0.08em] text-muted">Example CA-002</p>
+          <h3 class="mt-2 font-semibold text-primary">Miguel earns $120k salary. Sandra earns $120k from her business. Why the inputs differ.</h3>
+          <p class="mt-3 text-sm leading-6 text-secondary">Both report $8,000/month gross income. Miguel is a salaried engineer; Sandra runs a consulting business.</p>
+          <div class="mt-3 grid gap-3 sm:grid-cols-2">
+            <div class="rounded-2xl bg-accent/10 px-4 py-3 text-sm leading-6 text-secondary"><p class="font-semibold text-primary">Miguel's net disposable: ~$5,216/month</p><p class="mt-1 text-xs">After federal/state taxes, FICA, SDI, health insurance</p></div>
+            <div class="rounded-2xl bg-accent/10 px-4 py-3 text-sm leading-6 text-secondary"><p class="font-semibold text-primary">Sandra's net disposable: ~$3,700/month</p><p class="mt-1 text-xs">After business expenses, self-employment tax (15.3%), income taxes, health insurance</p></div>
+          </div>
+          <p class="mt-3 text-sm leading-6 text-secondary">Even though both start at "$8,000/month," Sandra's net disposable income for support purposes is roughly 29% lower. This is why the formula inputs matter more than the headline income figure.</p>
+        </div>
+        <div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+          <p class="text-xs font-semibold uppercase tracking-[0.08em] text-muted">Example CA-003</p>
+          <h3 class="mt-2 font-semibold text-primary">Marcus increases his parenting time from 28% to 35%. How much does it change support?</h3>
+          <p class="mt-3 text-sm leading-6 text-secondary">Marcus earns $7,200/month net disposable. Elena earns $3,100/month. One child.</p>
+          <ul class="mt-3 space-y-1 text-sm leading-6 text-secondary">
+            <li><strong class="text-primary">At 28% timeshare (~102 overnights/year):</strong> estimated support approximately $1,050/month owed by Marcus</li>
+            <li><strong class="text-primary">At 35% timeshare (~128 overnights/year):</strong> estimated support approximately $790/month owed by Marcus</li>
+          </ul>
+          <p class="mt-3 text-sm leading-6 text-secondary">Moving from 28% to 35% parenting time is a reduction of roughly $260/month, or $3,120/year. Over a 10-year support obligation, that schedule decision is worth roughly $31,000. Your result will differ.</p>
+        </div>
+      </div>
+    </section>
+    <section id="net-income" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">What "Net Disposable Income" Means in California</h2>
+      <p class="mt-3 max-w-3xl text-secondary">Net disposable income in California is gross income after a long list of deductions &mdash; taxes, FICA, health insurance, union dues, and certain mandatory expenses. It is not take-home pay.</p>
+      <div class="mt-6 max-w-3xl grid gap-4 sm:grid-cols-2">
+        <div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+          <p class="font-semibold text-primary">Deducted from gross</p>
+          <ul class="mt-2 space-y-1 text-sm leading-6 text-secondary list-inside list-disc">
+            <li>Federal and state income taxes (at actual rate)</li>
+            <li>FICA (Social Security and Medicare)</li>
+            <li>State disability insurance (SDI)</li>
+            <li>Mandatory union dues</li>
+            <li>Health insurance premiums (for yourself and the children)</li>
+            <li>Hardship deductions for supporting other minor children</li>
+          </ul>
+        </div>
+        <div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+          <p class="font-semibold text-primary">Not deducted</p>
+          <ul class="mt-2 space-y-1 text-sm leading-6 text-secondary list-inside list-disc">
+            <li>Voluntary retirement contributions beyond the minimum</li>
+            <li>Discretionary spending</li>
+            <li>New spouse's income (though remarriage changes tax calculations)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="mt-4 max-w-3xl rounded-2xl bg-surface/70 px-4 py-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]"><strong class="text-primary">Law:</strong> New spouse income is excluded from the California child support calculation under Family Code &sect; 4057.5. However, remarriage changes your tax filing status, which changes your net disposable income calculation, which changes your support number. Family law software accounts for this automatically; many parents don't understand why their support number shifted after remarrying.</div>
+    </section>
+    <section id="add-ons" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">Add-Ons Beyond Guideline Support</h2>
+      <p class="mt-3 max-w-3xl text-secondary">Guideline support covers basic needs. Childcare, healthcare, and certain other expenses are add-ons &mdash; always split 50/50 unless income disparity justifies adjustment.</p>
+      <div class="mt-4 max-w-3xl rounded-2xl bg-surface/70 px-4 py-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]"><strong class="text-primary">Law:</strong> California Family Code &sect; 4062 requires courts to order these additional expenses on top of guideline support.</div>
+      <div class="mt-6 max-w-3xl overflow-x-auto rounded-[1.5rem] ring-1 ring-line-subtle">
+        <table class="w-full min-w-[480px] text-left text-sm">
+          <thead class="bg-surface-elevated text-primary"><tr><th class="px-4 py-3 font-semibold">Add-On</th><th class="px-4 py-3 font-semibold">Default Split</th><th class="px-4 py-3 font-semibold">Notes</th></tr></thead>
+          <tbody class="divide-y divide-line-subtle text-secondary">{addOnTable.map((row) => (<tr><td class="px-4 py-3 font-semibold text-primary">{row.addon}</td><td class="px-4 py-3">{row.split}</td><td class="px-4 py-3">{row.notes}</td></tr>))}</tbody>
+        </table>
+      </div>
+      <p class="mt-4 max-w-3xl text-sm text-secondary"><strong class="text-primary">What parents miss:</strong> A $1,200/month support order alongside $800/month in daycare costs means the real support arrangement is $1,600/month after the 50/50 daycare split &mdash; 33% higher than the support order alone suggests.</p>
+    </section>
+    <section id="high-income" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">High-Income Cases: When Courts Deviate Upward</h2>
+      <div class="mt-4 max-w-3xl rounded-2xl bg-surface/70 px-4 py-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]"><strong class="text-primary">Law:</strong> Under California Family Code &sect; 4057, courts can deviate from guideline support in both directions. In high-income cases, when a court exercises discretion to deviate, the deviation may increase or decrease the guideline amount depending on the circumstances.</div>
+      <p class="mt-4 max-w-3xl text-secondary">In high-asset cases, courts scrutinize lifestyle evidence: private school enrollment, vacation patterns, activity costs. The guideline provides a floor, not a ceiling, when combined parental income is high and the formula result looks obviously inadequate compared to the family's established expenses.</p>
+    </section>
+    <section id="self-employment" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">Self-Employment Income in California</h2>
+      <p class="mt-3 max-w-3xl text-secondary">California imputes income based on earning capacity, not just what you report &mdash; self-employed parents who underreport income face significant risk.</p>
+      <p class="mt-3 max-w-3xl text-secondary">California courts have broad authority to impute income to a parent based on their earning capacity. For self-employed parents: courts examine business tax returns (Schedule C/K-1) for 2&ndash;3 years, business bank records, whether business expenses are genuine or inflated, and whether the parent is voluntarily working below capacity.</p>
+      <div class="mt-4 max-w-3xl rounded-2xl bg-surface/70 px-4 py-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]"><strong class="text-primary">Common trap:</strong> A self-employed parent who moves income into the business to reduce personal income, then takes personal benefits (car, phone, meals) through the business, will see those "add-backs" in the income calculation. Courts are familiar with this pattern.</div>
+    </section>
+    <section id="mistakes" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">Common Mistakes</h2>
+      <div class="mt-6 max-w-3xl space-y-4">
+        {commonMistakes.map((item) => (<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]"><p class="font-semibold text-primary">{item.title}</p><p class="mt-2 text-sm leading-6 text-secondary">{item.body}</p></div>))}
+      </div>
+    </section>
+    <section id="tools" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">See How Your Custody Schedule Affects Support</h2>
+      <p class="mt-3 max-w-3xl text-secondary">In California, custody schedule and support amount are not separate conversations &mdash; they are the same conversation. Changing your schedule by 5&ndash;10 percentage points shifts the support number meaningfully.</p>
+      <div class="mt-6 grid gap-4 sm:grid-cols-2 max-w-3xl">
+        {[{ title: "Custody Percentage Calculator", href: "/custody-percentage-calculator/", desc: "See exactly what percentage of time your schedule gives each parent — the key formula input." },{ title: "Custody Schedule Generator", href: "/custody-schedule-generator/", desc: "Build your schedule and download as PDF, free." },{ title: "Parenting Time Calculator", href: "/parenting-time-calculator/", desc: "Convert your overnights to a timeshare percentage." },{ title: "Overnight Custody Calculator", href: "/overnight-custody-calculator/", desc: "Count overnights per year by schedule type." },{ title: "California Custody Schedule", href: "/california-custody-schedule/", desc: "Common California schedule patterns and how they map to timeshare percentages." },{ title: "California Parenting Plan Template", href: "/california-parenting-plan-template/", desc: "Template formatted for California family courts." }].map((tool) => (
+          <a href={tool.href} class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:shadow-md transition-shadow"><p class="font-semibold text-accent">{tool.title}</p><p class="mt-2 text-sm leading-6 text-secondary">{tool.desc}</p></a>
+        ))}
+      </div>
+      <div class="mt-8"><BackToGeneratorCta /></div>
+    </section>
+    <FAQ items={faqItems} title="California Child Support — Frequently Asked Questions" description="Common questions about California's Statewide Uniform Guideline, timeshare percentage, and add-on expenses." />
+    <section class="container-shell border-t border-line-subtle py-8 lg:max-w-5xl">
+      <h2 class="text-lg font-semibold text-primary">Sources</h2>
+      <ol class="mt-3 space-y-2 text-xs text-muted">
+        <li>[1] California Legislative Information &mdash; Family Code &sect; 4055, Statewide Uniform Guideline formula &mdash; last verified August 6, 2026</li>
+        <li>[2] California Legislative Information &mdash; Family Code &sect; 4062, Additional child support &mdash; last verified August 6, 2026</li>
+        <li>[3] California Legislative Information &mdash; Family Code &sect; 4057, Deviation from guideline &mdash; last verified August 6, 2026</li>
+        <li>[4] California Legislative Information &mdash; Family Code &sect; 4057.5, New spouse income &mdash; last verified August 6, 2026</li>
+      </ol>
+    </section>
+    <section class="container-shell border-t border-line-subtle py-8 lg:max-w-5xl">
+      <p class="max-w-3xl text-xs leading-5 text-muted">This content is for informational and educational purposes only. It does not constitute legal advice and does not create an attorney-client relationship. California child support calculations require licensed software, complete financial disclosure, and judicial discretion. Consult a licensed family law attorney in California before making decisions about child support or custody.</p>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>
