@@ -221,6 +221,35 @@ const FL_SCHEDULE: [number, number, number, number, number, number, number][] = 
 /** Exported for testing: number of rows in the §61.30 guideline schedule (should be 185). */
 export const FL_SCHEDULE_ROW_COUNT = FL_SCHEDULE.length;
 
+// ---------------------------------------------------------------------------
+// 2026 HHS Federal Poverty Guidelines
+// Source: U.S. Department of Health and Human Services, effective 2026
+// Jurisdiction: 48 contiguous states + DC
+// ---------------------------------------------------------------------------
+
+/** Official 2026 HHS annual poverty guideline values by household size (1–4). */
+export const FL_POVERTY_GUIDELINE_2026_ANNUAL: Record<1 | 2 | 3 | 4, number> = {
+  1: 15960,
+  2: 21640,
+  3: 27320,
+  4: 33000,
+} as const;
+
+export const FL_POVERTY_GUIDELINE_META = {
+  year: 2026,
+  jurisdiction: '48 contiguous states + DC',
+  effectiveYear: 2026,
+  source: 'U.S. Department of Health and Human Services',
+} as const;
+
+/**
+ * Derives the monthly poverty guideline from the annual HHS value.
+ * Monthly = annual / 12. Never hardcoded — always derived from the annual constant.
+ */
+export function getMonthlyPovertyGuideline(householdSize: 1 | 2 | 3 | 4): number {
+  return FL_POVERTY_GUIDELINE_2026_ANNUAL[householdSize] / 12;
+}
+
 /**
  * Excess-income percentages per §61.30(6)(b) for combined income above $10,000.
  * Applied as: basicNeed = schedule_at_10000[children] + (income - 10000) × rate
@@ -372,8 +401,10 @@ export interface FLChildSupportInput {
   netIncomeA: number;
   /** Parent B net monthly income */
   netIncomeB: number;
-  /** Number of children (1-6; capped at 6 for schedule lookup) */
-  numberOfChildren: number;
+  /** Number of children (1-6; capped at 6 for schedule lookup). Alias: children. */
+  numberOfChildren?: number;
+  /** Alias for numberOfChildren. One of the two must be provided. */
+  children?: number;
   /** Overnights per year with Parent A (out of 365) */
   overnightsA: number;
   /** Overnights per year with Parent B (out of 365) */
@@ -523,7 +554,8 @@ export function calculateFLChildSupport(
   const {
     netIncomeA,
     netIncomeB,
-    numberOfChildren,
+    numberOfChildren: _numberOfChildren,
+    children: _children,
     overnightsA,
     overnightsB,
     qualifyingChildcare,
@@ -536,27 +568,18 @@ export function calculateFLChildSupport(
     noncoveredMedicalPaidByA,
     noncoveredMedicalPaidByB,
     noncoveredMedicalTreatment = 'included-in-basic-obligation',
-    obligorParent = 'B',
-    obligorHouseholdSize = 1,
+    obligorParent,
+    obligorHouseholdSize,
   } = input;
 
-  // ── 2026 HHS Federal Poverty Guidelines (monthly) ──────────────────────────
-  // Source: HHS Federal Poverty Guidelines 2026, effective 2026-01-01
-  // Household sizes 1–4; sizes >4 use the 4-person value as a conservative floor.
-  const FL_POVERTY_GUIDELINE = {
-    effectiveDate: '2026-01-01',
-    source: 'HHS Federal Poverty Guidelines 2026',
-    monthly: (householdSize: number): number => {
-      const table: Record<number, number> = {
-        1: 1255,  // $15,060/year
-        2: 1700,  // $20,400/year
-        3: 2146,  // $25,752/year (approx)
-        4: 2592,  // $31,104/year (approx)
-      };
-      const size = Math.max(1, Math.min(householdSize, 4));
-      return table[size] ?? 2592;
-    },
-  };
+  // Resolve children count — accept either `children` or `numberOfChildren`
+  const numberOfChildren = _children ?? _numberOfChildren ?? 1;
+
+  // Defaults for optional fields
+  const resolvedObligorParent = obligorParent ?? 'B';
+  const resolvedObligorHouseholdSize = obligorHouseholdSize ?? 1;
+
+  // ── Helper: resolve obligor household size (clamp to 1–4, validated below) ──
 
   // ---- Step 1: Net income shares ----
   const combinedNetIncome = netIncomeA + netIncomeB;
@@ -570,56 +593,78 @@ export function calculateFLChildSupport(
 
   // Early return for §61.30(6)(a) low-income branch (combined income < $800)
   if (basicNeedResult.branch === 'low-income-below-800') {
-    // §61.30(6)(a) obligor-level 90% cap calculation
-    const obligorNetIncome = obligorParent === 'A' ? netIncomeA : netIncomeB;
-    const povertyMonthly = FL_POVERTY_GUIDELINE.monthly(obligorHouseholdSize);
+    // Validate: obligorParent is required in the low-income branch
+    if (!resolvedObligorParent) {
+      throw new Error('obligorParent is required when combined monthly net income is below $800.');
+    }
+
+    // Validate household size: must be 1–4
+    const size = resolvedObligorHouseholdSize;
+    if (![1, 2, 3, 4].includes(size)) {
+      throw new Error(`Invalid obligorHouseholdSize: ${size}. Must be 1–4.`);
+    }
+    const validSize = size as 1 | 2 | 3 | 4;
+
+    // §61.30(6)(a) obligor-level 90% cap calculation using correct 2026 HHS annual values
+    const obligorNetIncome = resolvedObligorParent === 'A' ? netIncomeA : netIncomeB;
+    const povertyMonthly = getMonthlyPovertyGuideline(validSize);
     const incomeAbovePoverty = Math.max(obligorNetIncome - povertyMonthly, 0);
-    const ninetyPercentCap = incomeAbovePoverty * 0.90;
+    const ninetyPercentReferenceCap = incomeAbovePoverty * 0.90;
 
     const warningText =
-      'Combined net income is below $800/month. Under §61.30(6)(a), ' +
-      'support is determined case-by-case and may not exceed 90% of ' +
-      "the obligor's income above the federal poverty guideline. " +
-      'This calculator cannot produce a reliable final estimate. Consult a family law attorney.';
+      'Combined monthly net income is below the Florida guideline schedule. ' +
+      'Under §61.30(6)(a), support requires a case-by-case determination. ' +
+      'The 90% calculation shown is a statutory reference limit based on the ' +
+      "obligor's income above the applicable federal poverty guideline; " +
+      'it is not a calculated final child-support award.';
 
     return {
-      version: 'FL-CS-2026.3',
-      substantialTimesharing: false,
+      jurisdiction: 'Florida',
+      version: 'FL-CS-2026.1',
+      branch: 'low-income-below-800',
       combinedNetIncome,
+      basicNeed: null,
+      guidelineAmount: null,
+      finalSupport: null,
+      requiresCaseByCaseDetermination: true,
+
+      obligorLevelCheck: {
+        obligorParent: resolvedObligorParent,
+        obligorNetIncome,
+        obligorHouseholdSize: validSize,
+        federalPovertyGuidelineAnnual: FL_POVERTY_GUIDELINE_2026_ANNUAL[validSize],
+        federalPovertyGuidelineMonthly: povertyMonthly,
+        incomeAbovePoverty,
+        ninetyPercentReferenceCap,
+      },
+
+      warning: warningText,
+      authorities: ['Florida Statutes §61.30(6)(a)'],
+
+      // Legacy fields for backward compat with FLChildSupportResult
+      substantialTimesharing: false,
       incomeShareA,
       incomeShareB,
-      basicNeed: null,
-      branch: 'low-income-below-800',
-      warning: warningText,
       aboveTableIncome: false,
       payer: null,
       recipient: null,
       amount: 0,
-      finalSupport: null,
-      obligorLevelCheck: {
-        obligorParent,
-        obligorNetIncome,
-        obligorHouseholdSize,
-        federalPovertyGuidelineMonthly: povertyMonthly,
-        incomeAbovePoverty,
-        ninetyPercentCap,
-        note: `Under §61.30(6)(a), support may not exceed 90% of the obligor's net income above the federal poverty guideline. Maximum reference amount: $${ninetyPercentCap.toFixed(2)}/month. Actual determination is case-by-case.`,
-      },
       receipt: [
         `Net income A: $${netIncomeA.toFixed(2)}`,
         `Net income B: $${netIncomeB.toFixed(2)}`,
         `Combined net income: $${combinedNetIncome.toFixed(2)}`,
         `Branch: low-income-below-800 (§61.30(6)(a))`,
-        `Obligor parent: ${obligorParent} (net income: $${obligorNetIncome.toFixed(2)})`,
-        `Obligor household size: ${obligorHouseholdSize}`,
-        `2026 federal poverty guideline (${obligorHouseholdSize}-person): $${povertyMonthly.toFixed(2)}/month`,
+        `Obligor parent: ${resolvedObligorParent} (net income: $${obligorNetIncome.toFixed(2)})`,
+        `Obligor household size: ${validSize}`,
+        `2026 HHS annual poverty guideline (${validSize}-person): $${FL_POVERTY_GUIDELINE_2026_ANNUAL[validSize].toLocaleString()}`,
+        `2026 HHS monthly poverty guideline (${validSize}-person): $${povertyMonthly.toFixed(4)}/month`,
         `Obligor income above poverty line: $${incomeAbovePoverty.toFixed(2)}`,
-        `90% cap (§61.30(6)(a)): $${ninetyPercentCap.toFixed(2)}/month`,
+        `90% reference cap (§61.30(6)(a)): $${ninetyPercentReferenceCap.toFixed(2)}/month`,
         `Warning: ${warningText}`,
         `Final support: Cannot calculate — income below $800/month threshold`,
-        `Calculator version: FL-CS-2026.3`,
+        `Calculator version: FL-CS-2026.1`,
       ],
-    } as FLChildSupportResult;
+    } as unknown as FLChildSupportResult;
   }
 
   const basicNeedValue = basicNeedResult.basicNeed!;
