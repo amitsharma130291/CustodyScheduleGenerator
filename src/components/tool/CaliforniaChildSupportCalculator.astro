@@ -1,19 +1,25 @@
 ---
 import {
-	calculateCaliforniaChildSupport,
-	formatCaliforniaCurrency,
-	formatCaliforniaPercent,
+	calculateCAChildSupport,
 } from '../../lib/calculators/californiaChildSupport';
 
 const initialInput = {
-	netIncomeA: 4000,
-	netIncomeB: 8000,
+	netDisposableIncomeA: 4000,
+	netDisposableIncomeB: 8000,
 	numberOfChildren: 1,
-	parentBOvernights: 100,
-	monthlyChildcare: 0,
-	monthlyUninsuredHealthcare: 0,
+	timeshareA: (365 - 100) / 365,
+	timeshareB: 100 / 365,
+	qualifyingChildcare: 0,
+	qualifyingHealthcare: 0,
+	spousalSupportAPaysB: 0,
+	spousalSupportBPaysA: 0,
 } as const;
-const initialResult = calculateCaliforniaChildSupport(initialInput);
+
+const initialResult = calculateCAChildSupport(initialInput);
+
+function fmt(n: number) {
+	return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
 ---
 
 <section id="ca-calculator" class="premium-card rounded-[1.6rem] p-3 sm:p-4" data-california-child-support-calculator>
@@ -22,24 +28,24 @@ const initialResult = calculateCaliforniaChildSupport(initialInput);
 
 			<!-- Inputs -->
 			<div>
-				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">California Guideline Calculator</p>
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">California §4055 Guideline Calculator</p>
 				<h2 class="mt-1.5 text-xl font-semibold tracking-[-0.04em] text-primary sm:text-2xl">Enter income &amp; timeshare</h2>
 				<p class="mt-1.5 text-xs leading-4 text-muted">
-					Use net monthly disposable income after taxes and mandatory deductions.
+					Use net monthly disposable income after taxes and mandatory deductions. Version CA-CS-2026.1.
 				</p>
 
 				<form class="mt-2.5 grid gap-2.5" data-ca-child-support-form>
 
 					<label class="grid gap-0.5">
 						<span class="text-sm font-medium text-secondary">Parent A net monthly disposable income ($)</span>
-						<input name="netIncomeA" type="number" min="0" step="0.01" value={initialInput.netIncomeA} inputmode="decimal"
+						<input name="netIncomeA" type="number" min="0" step="0.01" value={initialInput.netDisposableIncomeA} inputmode="decimal"
 							class="w-full min-w-0 rounded-xl bg-page px-3.5 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
 						<span class="text-[11px] leading-4 text-muted">After federal/state income tax, FICA, and mandatory deductions.</span>
 					</label>
 
 					<label class="grid gap-0.5">
 						<span class="text-sm font-medium text-secondary">Parent B net monthly disposable income ($)</span>
-						<input name="netIncomeB" type="number" min="0" step="0.01" value={initialInput.netIncomeB} inputmode="decimal"
+						<input name="netIncomeB" type="number" min="0" step="0.01" value={initialInput.netDisposableIncomeB} inputmode="decimal"
 							class="w-full min-w-0 rounded-xl bg-page px-3.5 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
 						<span class="text-[11px] leading-4 text-muted">The higher earner typically pays the lower earner.</span>
 					</label>
@@ -53,49 +59,61 @@ const initialResult = calculateCaliforniaChildSupport(initialInput);
 							<option value="4">4 children</option>
 							<option value="5">5 children</option>
 							<option value="6">6 children</option>
+							<option value="7">7 children</option>
+							<option value="8">8 children</option>
+							<option value="9">9 children</option>
+							<option value="10">10 children</option>
 						</select>
 					</label>
 
-					<label class="grid gap-0.5">
-						<span class="text-sm font-medium text-secondary">Parent B overnights per year</span>
-						<input name="parentBOvernights" type="number" min="0" max="365" step="1" value={initialInput.parentBOvernights} inputmode="numeric"
-							class="w-full min-w-0 rounded-xl bg-page px-3.5 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
-						<span class="text-[11px] leading-4 text-muted" data-ca-overnight-pct>
-							= {formatCaliforniaPercent(initialResult.highEarnerIsParentB ? initialResult.highEarnerTimesharePct : 100 - initialResult.highEarnerTimesharePct)} of year for Parent B.
-							Timeshare directly reduces support for the high earner.
-						</span>
-					</label>
+					<div class="grid grid-cols-2 gap-2">
+						<label class="grid gap-0.5">
+							<span class="text-sm font-medium text-secondary">Parent A overnights/year</span>
+							<input name="overnightsA" type="number" min="0" max="365" step="1" value="265" inputmode="numeric"
+								class="w-full min-w-0 rounded-xl bg-page px-3.5 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+						</label>
+						<label class="grid gap-0.5">
+							<span class="text-sm font-medium text-secondary">Parent B overnights/year</span>
+							<input name="overnightsB" type="number" min="0" max="365" step="1" value="100" inputmode="numeric"
+								class="w-full min-w-0 rounded-xl bg-page px-3.5 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+							<span class="text-[11px] leading-4 text-muted" data-ca-overnight-hint>
+								Timeshare (H) is the high earner's fraction of total overnights.
+							</span>
+						</label>
+					</div>
 
 					<details class="group rounded-[1.1rem] bg-page/45 p-2.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
 						<summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-3 text-sm font-semibold text-primary">
-							Add-ons (§ 4062)
+							Add-ons &amp; spousal support (§4062)
 							<span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-surface text-lg leading-none text-muted shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-transform group-open:rotate-45">+</span>
 						</summary>
 						<div class="mt-3 grid gap-3">
 							<label class="grid gap-1">
 								<span class="text-sm font-medium text-secondary">Monthly work/education childcare ($)</span>
-								<input name="monthlyChildcare" type="number" min="0" step="0.01" value="0" inputmode="decimal"
+								<input name="qualifyingChildcare" type="number" min="0" step="0.01" value="0" inputmode="decimal"
 									class="w-full min-w-0 rounded-xl bg-page px-3.5 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
-								<span class="text-[11px] leading-4 text-muted">Split proportionally by income (§ 4062(a)(1)).</span>
+								<span class="text-[11px] leading-4 text-muted">Apportioned by adjusted income (§4062(a)(1)). Separate from §4055 base.</span>
 							</label>
 							<label class="grid gap-1">
 								<span class="text-sm font-medium text-secondary">Monthly uninsured healthcare costs ($)</span>
-								<input name="monthlyUninsuredHealthcare" type="number" min="0" step="0.01" value="0" inputmode="decimal"
+								<input name="qualifyingHealthcare" type="number" min="0" step="0.01" value="0" inputmode="decimal"
 									class="w-full min-w-0 rounded-xl bg-page px-3.5 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
-								<span class="text-[11px] leading-4 text-muted">Split 50/50 between parents (§ 4062(b)).</span>
+								<span class="text-[11px] leading-4 text-muted">Uninsured medical/dental/vision (§4062(a)(2)). Separate from §4055 base.</span>
+							</label>
+							<label class="grid gap-1">
+								<span class="text-sm font-medium text-secondary">Spousal support A pays B ($/mo)</span>
+								<input name="spousalSupportAPaysB" type="number" min="0" step="0.01" value="0" inputmode="decimal"
+									class="w-full min-w-0 rounded-xl bg-page px-3.5 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+							</label>
+							<label class="grid gap-1">
+								<span class="text-sm font-medium text-secondary">Spousal support B pays A ($/mo)</span>
+								<input name="spousalSupportBPaysA" type="number" min="0" step="0.01" value="0" inputmode="decimal"
+									class="w-full min-w-0 rounded-xl bg-page px-3.5 py-2 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
 							</label>
 						</div>
 					</details>
 
-					<p class="flex items-start gap-2 rounded-xl bg-[rgba(37,99,235,0.07)] px-2.5 py-2 text-xs leading-[1.25] text-[color-mix(in_srgb,var(--accent)_72%,var(--text-secondary))] shadow-[inset_0_0_0_1px_rgba(37,99,235,0.16)] sm:items-center">
-						<span class="mt-px grid h-4 w-4 shrink-0 place-items-center rounded-full bg-[rgba(37,99,235,0.1)] text-[10px] font-semibold leading-none text-accent sm:mt-0" aria-hidden="true">i</span>
-						<span>California uses net disposable income (after taxes). Timeshare % directly shifts the support amount.</span>
-					</p>
-
-					<button type="submit" class="btn-primary inline-flex h-12 w-full items-center justify-center whitespace-nowrap rounded-full px-5 text-sm font-semibold transition-all duration-200 ease-out hover:-translate-y-px active:translate-y-0">
-						Calculate Estimate
-					</button>
-					<p class="hidden rounded-xl bg-page/70 p-2.5 text-xs leading-5 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]" data-ca-error></p>
+					<div class="hidden rounded-xl bg-red-50 px-3 py-2 text-xs text-red-700" data-ca-error></div>
 				</form>
 			</div>
 
@@ -103,89 +121,51 @@ const initialResult = calculateCaliforniaChildSupport(initialInput);
 			<div class="rounded-[1.35rem] bg-page/65 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]" aria-live="polite">
 				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Estimated Monthly Support</p>
 				<p class="mt-2 text-4xl font-bold leading-none tracking-[-0.06em] text-accent sm:text-5xl" data-ca-support-monthly>
-					{formatCaliforniaCurrency(initialResult.totalMonthlySupport)}
+					{fmt(initialResult.finalSupport)}
 				</p>
-				<p class="mt-2 text-xs leading-5 text-muted" data-ca-payer-label>
-					{initialResult.payerIsParentB ? 'Parent B pays Parent A' : 'Parent A pays Parent B'} — planning estimate only.
+				<p class="mt-2 text-xs leading-5 text-muted" data-ca-direction>
+					{initialResult.payer ? `Parent ${initialResult.payer} pays Parent ${initialResult.recipient}` : 'No transfer'} — planning estimate only.
 				</p>
 
-				<div class="mt-5 rounded-[1.15rem] bg-surface-elevated/75 p-4 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-					<p class="font-semibold text-primary">Calculation breakdown (§ 4055 simplified)</p>
-					<div class="mt-3 grid gap-3">
+				<div class="mt-3 rounded-xl bg-surface-elevated/70 px-3 py-2 text-xs leading-5 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<p class="font-semibold text-primary" data-ca-high-earner-status>
+						High earner: Parent {initialResult.highEarner} | H = {(initialResult.H * 100).toFixed(1)}% | K = {initialResult.K.toFixed(4)}
+					</p>
+				</div>
 
-						<div class="flex items-start justify-between gap-4">
-							<span>Total net income (both parents)</span>
-							<strong class="text-right text-[#0F766E]" data-ca-total-net>{formatCaliforniaCurrency(initialResult.totalNet)}</strong>
-						</div>
-
-						<div class="flex items-start justify-between gap-4">
-							<span>High earner net income</span>
-							<strong class="text-right text-[#0F766E]" data-ca-high-earner-net>{formatCaliforniaCurrency(initialResult.highEarnerNet)}</strong>
-						</div>
-
-						<div class="flex items-start justify-between gap-4 border-t border-line-subtle pt-3">
-							<span>High earner timeshare (H%)</span>
-							<strong class="rounded-full bg-page px-2.5 py-1 text-right text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" data-ca-timeshare-pct>
-								{formatCaliforniaPercent(initialResult.highEarnerTimesharePct)}
-							</strong>
-						</div>
-
-						<div class="flex items-start justify-between gap-4">
-							<span>K factor</span>
-							<strong class="text-right text-primary" data-ca-k-factor>{initialResult.kFactor}</strong>
-						</div>
-
-						<div class="flex items-start justify-between gap-4">
-							<span>Base support (1 child)</span>
-							<strong class="text-right text-[#2563EB]" data-ca-base-support>{formatCaliforniaCurrency(initialResult.baseSupport)}</strong>
-						</div>
-
-						<div class="flex items-start justify-between gap-4" data-ca-child-factor-row>
-							<span data-ca-child-factor-label>Child factor ({initialInput.numberOfChildren} children × {initialResult.childFactor})</span>
-							<strong class="text-right text-[#2563EB]" data-ca-adjusted-support>{formatCaliforniaCurrency(initialResult.adjustedSupport)}</strong>
-						</div>
-
-						<div class="hidden flex items-start justify-between gap-4" data-ca-childcare-row>
-							<span>Childcare add-on (Parent B share)</span>
-							<strong class="text-right text-[#0F766E]" data-ca-childcare>+{formatCaliforniaCurrency(initialResult.parentBChildcare)}</strong>
-						</div>
-
-						<div class="hidden flex items-start justify-between gap-4" data-ca-healthcare-row>
-							<span>Uninsured healthcare (each parent)</span>
-							<strong class="text-right text-[#0F766E]" data-ca-healthcare>+{formatCaliforniaCurrency(initialResult.uninsuredHealthcareEach)}</strong>
-						</div>
-
-						<div class="flex items-start justify-between gap-4 rounded-xl bg-page/70 p-3 border-t border-line-subtle pt-3">
-							<span class="font-semibold text-primary">Estimated monthly support</span>
-							<strong class="text-right text-xl font-bold tracking-[-0.04em] text-primary" data-ca-support-summary>
-								{formatCaliforniaCurrency(initialResult.totalMonthlySupport)}
-							</strong>
-						</div>
+				<!-- Calculation receipt (collapsible) -->
+				<details class="mt-4 group">
+					<summary class="flex cursor-pointer items-center justify-between gap-2 rounded-xl bg-surface-elevated/60 px-3 py-2 text-xs font-semibold text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						Show calculation receipt
+						<span class="text-muted transition-transform group-open:rotate-180">▾</span>
+					</summary>
+					<div class="mt-2 rounded-xl bg-surface-elevated/60 p-3 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<ol class="grid gap-1.5 text-[11px] leading-5 text-secondary" data-ca-receipt>
+							{initialResult.receipt.map(line => {
+								const colonIdx = line.indexOf(':');
+								const label = colonIdx >= 0 ? line.slice(0, colonIdx) : line;
+								const value = colonIdx >= 0 ? line.slice(colonIdx + 1).trim() : '';
+								return (
+									<li class="flex items-start justify-between gap-3 border-b border-line-subtle pb-1 last:border-0 last:pb-0">
+										<span>{label}</span>
+										<strong class="shrink-0 text-right text-primary">{value}</strong>
+									</li>
+								);
+							})}
+						</ol>
 					</div>
-				</div>
+				</details>
 
-				<div class="mt-3 rounded-xl bg-surface-elevated/60 px-3 py-2 text-xs leading-5 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-					<p class="font-semibold text-primary">Timeshare sensitivity</p>
-					<p class="mt-1" data-ca-timeshare-effect>{initialResult.timeshareEffect}</p>
-				</div>
-
-				<div class="mt-3 grid gap-2 rounded-xl bg-surface-elevated/70 p-3 text-xs leading-5 text-secondary">
-					<p class="font-semibold text-primary">How this estimate was calculated</p>
-					<ul class="grid gap-1.5 pl-4 [list-style:disc]">
-						<li>Formula: CS = K &times; (HN &minus; H% &times; TN) &times; child factor</li>
-						<li>K = combined income factor (0.20–0.25 based on total income)</li>
-						<li>HN = high earner's net income; H% = high earner's timeshare; TN = total net income</li>
-						<li>Higher timeshare for the high earner reduces the support amount directly.</li>
-					</ul>
-				</div>
+				<div class="hidden mt-3 rounded-xl bg-amber-50 px-3 py-2 text-[11px] leading-5 text-amber-800" data-ca-low-income-warning></div>
+				<div class="hidden mt-3 rounded-xl bg-amber-50 px-3 py-2 text-[11px] leading-5 text-amber-800" data-ca-children-warning></div>
 
 				<p class="mt-3 rounded-xl bg-surface/70 p-3 text-[11px] leading-4 text-muted shadow-[inset_0_0_0_1px_var(--border-subtle)]">
-					California's actual guideline uses Dissomaster/XSpouse software. This estimate applies the published § 4055 formula components and may differ from a court calculation. Consult a licensed California family law attorney.
+					Estimate based on California Family Code §4055 guideline formula (CA-CS-2026.1). Add-ons are calculated separately under §4062. Your actual order may differ. Consult a licensed California family law attorney.
 				</p>
 
 				<div class="mt-3">
-					<a href="/custody-percentage-calculator/" class="inline-flex rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:opacity-90" style="color: #ffffff">
-						Calculate your timeshare % &rarr;
+					<a href="/overnight-custody-calculator/" class="inline-flex rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:opacity-90" style="color: #ffffff">
+						Calculate your parenting time &rarr;
 					</a>
 				</div>
 			</div>
@@ -195,31 +175,34 @@ const initialResult = calculateCaliforniaChildSupport(initialInput);
 
 <script>
 	import { trackGa4Event } from '../../lib/analytics/ga4';
-	import {
-		calculateCaliforniaChildSupport,
-		formatCaliforniaCurrency,
-		formatCaliforniaPercent,
-	} from '../../lib/calculators/californiaChildSupport';
+	import { calculateCAChildSupport } from '../../lib/calculators/californiaChildSupport';
 
 	document.querySelectorAll('[data-california-child-support-calculator]').forEach((calculator) => {
 		const form = calculator.querySelector('[data-ca-child-support-form]');
 		const errorEl = calculator.querySelector('[data-ca-error]');
-		const monthly = calculator.querySelector('[data-ca-support-monthly]');
-		const summary = calculator.querySelector('[data-ca-support-summary]');
-		const payerLabel = calculator.querySelector('[data-ca-payer-label]');
-		const totalNet = calculator.querySelector('[data-ca-total-net]');
-		const highEarnerNet = calculator.querySelector('[data-ca-high-earner-net]');
-		const timesharePct = calculator.querySelector('[data-ca-timeshare-pct]');
-		const kFactor = calculator.querySelector('[data-ca-k-factor]');
-		const baseSupport = calculator.querySelector('[data-ca-base-support]');
-		const childFactorLabel = calculator.querySelector('[data-ca-child-factor-label]');
-		const adjustedSupport = calculator.querySelector('[data-ca-adjusted-support]');
-		const childcareRow = calculator.querySelector('[data-ca-childcare-row]');
-		const childcareEl = calculator.querySelector('[data-ca-childcare]');
-		const healthcareRow = calculator.querySelector('[data-ca-healthcare-row]');
-		const healthcareEl = calculator.querySelector('[data-ca-healthcare]');
-		const timeshareEffect = calculator.querySelector('[data-ca-timeshare-effect]');
-		const overnightPct = calculator.querySelector('[data-ca-overnight-pct]');
+		const monthlyEl = calculator.querySelector('[data-ca-support-monthly]');
+		const directionEl = calculator.querySelector('[data-ca-direction]');
+		const highEarnerStatusEl = calculator.querySelector('[data-ca-high-earner-status]');
+		const receiptEl = calculator.querySelector('[data-ca-receipt]');
+		const lowIncomeWarningEl = calculator.querySelector('[data-ca-low-income-warning]');
+		const childrenWarningEl = calculator.querySelector('[data-ca-children-warning]');
+
+		function fmt(n: number) {
+			return '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+		}
+
+		function renderReceipt(lines: string[]) {
+			if (!receiptEl) return;
+			receiptEl.innerHTML = lines.map(line => {
+				const colonIdx = line.indexOf(':');
+				const label = colonIdx >= 0 ? line.slice(0, colonIdx) : line;
+				const value = colonIdx >= 0 ? line.slice(colonIdx + 1).trim() : '';
+				return `<li class="flex items-start justify-between gap-3 border-b border-line-subtle pb-1 last:border-0 last:pb-0">
+					<span>${label}</span>
+					<strong class="shrink-0 text-right text-primary">${value}</strong>
+				</li>`;
+			}).join('');
+		}
 
 		function showError(message: string) {
 			if (!errorEl) return;
@@ -236,66 +219,67 @@ const initialResult = calculateCaliforniaChildSupport(initialInput);
 		function update() {
 			if (!(form instanceof HTMLFormElement)) return;
 			const data = new FormData(form);
+			const g = (name: string) => Number(data.get(name)) || 0;
 
 			try {
-				const result = calculateCaliforniaChildSupport({
-					netIncomeA: Number(data.get('netIncomeA')),
-					netIncomeB: Number(data.get('netIncomeB')),
-					numberOfChildren: Number(data.get('numberOfChildren')) as 1 | 2 | 3 | 4 | 5 | 6,
-					parentBOvernights: Number(data.get('parentBOvernights')),
-					monthlyChildcare: Number(data.get('monthlyChildcare')),
-					monthlyUninsuredHealthcare: Number(data.get('monthlyUninsuredHealthcare')),
+				const overnightsA = g('overnightsA');
+				const overnightsB = g('overnightsB');
+				const totalOvernights = overnightsA + overnightsB || 365;
+				const timeshareA = overnightsA / totalOvernights;
+				const timeshareB = overnightsB / totalOvernights;
+
+				const result = calculateCAChildSupport({
+					netDisposableIncomeA: g('netIncomeA'),
+					netDisposableIncomeB: g('netIncomeB'),
+					numberOfChildren: Math.max(1, Math.round(g('numberOfChildren'))),
+					timeshareA,
+					timeshareB,
+					qualifyingChildcare: g('qualifyingChildcare'),
+					qualifyingHealthcare: g('qualifyingHealthcare'),
+					spousalSupportAPaysB: g('spousalSupportAPaysB'),
+					spousalSupportBPaysA: g('spousalSupportBPaysA'),
 				});
 
 				clearError();
 
-				if (monthly) monthly.textContent = formatCaliforniaCurrency(result.totalMonthlySupport);
-				if (summary) summary.textContent = formatCaliforniaCurrency(result.totalMonthlySupport);
-				if (payerLabel) {
-					payerLabel.textContent = result.payerIsParentB
-						? 'Parent B pays Parent A — planning estimate only.'
-						: 'Parent A pays Parent B — planning estimate only.';
+				if (monthlyEl) monthlyEl.textContent = fmt(result.finalSupport);
+				if (directionEl) {
+					directionEl.textContent = result.payer
+						? `Parent ${result.payer} pays Parent ${result.recipient} — planning estimate only.`
+						: 'No transfer — planning estimate only.';
 				}
-				if (totalNet) totalNet.textContent = formatCaliforniaCurrency(result.totalNet);
-				if (highEarnerNet) highEarnerNet.textContent = formatCaliforniaCurrency(result.highEarnerNet);
-				if (timesharePct) timesharePct.textContent = formatCaliforniaPercent(result.highEarnerTimesharePct);
-				if (kFactor) kFactor.textContent = String(result.kFactor);
-				if (baseSupport) baseSupport.textContent = formatCaliforniaCurrency(result.baseSupport);
-				if (childFactorLabel) {
-					childFactorLabel.textContent = result.childFactor === 1
-						? '1 child (no child factor)'
-						: `Child factor (${Number(data.get('numberOfChildren'))} children × ${result.childFactor})`;
-				}
-				if (adjustedSupport) adjustedSupport.textContent = formatCaliforniaCurrency(result.adjustedSupport);
-
-				// Childcare add-on
-				childcareRow?.classList.toggle('hidden', result.parentBChildcare === 0);
-				if (childcareEl) childcareEl.textContent = `+${formatCaliforniaCurrency(result.parentBChildcare)}`;
-
-				// Healthcare add-on
-				healthcareRow?.classList.toggle('hidden', result.uninsuredHealthcareEach === 0);
-				if (healthcareEl) healthcareEl.textContent = `+${formatCaliforniaCurrency(result.uninsuredHealthcareEach)}`;
-
-				// Timeshare effect
-				if (timeshareEffect) timeshareEffect.textContent = result.timeshareEffect;
-
-				// Overnight % hint
-				const overnights = Number(data.get('parentBOvernights'));
-				const parentBPct = (overnights / 365 * 100).toFixed(1);
-				if (overnightPct) {
-					overnightPct.textContent = `= ${parentBPct}% of year for Parent B. Timeshare directly reduces support for the high earner.`;
+				if (highEarnerStatusEl) {
+					highEarnerStatusEl.textContent =
+						`High earner: Parent ${result.highEarner} | H = ${(result.H * 100).toFixed(1)}% | K = ${result.K.toFixed(4)}`;
 				}
 
+				renderReceipt(result.receipt);
+
+				if (lowIncomeWarningEl) {
+					if (result.lowIncomeAdjustmentEligible && result.lowIncomeAdjustedRange) {
+						lowIncomeWarningEl.textContent =
+							`Low-income adjustment may apply. Adjusted range: ${fmt(result.lowIncomeAdjustedRange[0])} – ${fmt(result.lowIncomeAdjustedRange[1])}/month.`;
+						lowIncomeWarningEl.classList.remove('hidden');
+					} else {
+						lowIncomeWarningEl.classList.add('hidden');
+					}
+				}
+
+				if (childrenWarningEl) {
+					if (result.childrenWarning) {
+						childrenWarningEl.textContent = result.childrenWarning;
+						childrenWarningEl.classList.remove('hidden');
+					} else {
+						childrenWarningEl.classList.add('hidden');
+					}
+				}
+
+				trackGa4Event('calculate_ca_child_support');
 			} catch (err) {
 				showError(err instanceof Error ? err.message : 'Enter valid values to calculate.');
 			}
 		}
 
-		form?.addEventListener('submit', (e) => {
-			e.preventDefault();
-			update();
-			trackGa4Event('calculate_ca_child_support');
-		});
 		form?.addEventListener('input', update);
 		form?.addEventListener('change', update);
 		update();
