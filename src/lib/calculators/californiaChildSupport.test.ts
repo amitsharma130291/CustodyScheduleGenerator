@@ -761,3 +761,77 @@ describe('FIX 3 — CA abs(signedCS) = basicSupport for downstream calculations'
     expect(result.basePayer).toBe('A'); // high earner pays
   });
 });
+
+// ---------------------------------------------------------------------------
+// CA FIX 4: addonShare calculated per actual parent label (A/B), not payer/recipient
+// ---------------------------------------------------------------------------
+describe('CA addonShare — per-parent label (A/B), payer net reduced by basicSupport', () => {
+  it('when A is payer: netAForAddons = adjustedNetA - basicSupport, netBForAddons = adjustedNetB', () => {
+    // A is high earner with low timeshare -> A pays B
+    const result = calculateCAChildSupport(baseInput({
+      netDisposableIncomeA: 6000,
+      netDisposableIncomeB: 2000,
+      timeshareA: 0.20,
+      timeshareB: 0.80,
+      qualifyingChildcare: 1000,
+      qualifyingHealthcare: 0,
+      spousalSupportAPaysB: 0,
+      spousalSupportBPaysA: 0,
+    }));
+    expect(result.basePayer).toBe('A');
+    // A's net for addons must be reduced by basicSupport
+    expect(result.addonAllocation.netAForAddons).toBeLessThan(result.addonAllocation.adjustedNetA);
+    // B's net for addons must equal adjustedNetB (recipient unchanged)
+    expect(result.addonAllocation.netBForAddons).toBeCloseTo(result.addonAllocation.adjustedNetB, 6);
+    // addonShareA and addonShareB must sum to 1
+    expect(result.addonAllocation.addonShareA + result.addonAllocation.addonShareB).toBeCloseTo(1.0, 6);
+  });
+
+  it('when B is payer: netBForAddons = adjustedNetB - basicSupport, netAForAddons = adjustedNetA', () => {
+    // B is high earner with low timeshare -> B pays A
+    const result = calculateCAChildSupport(baseInput({
+      netDisposableIncomeA: 2000,
+      netDisposableIncomeB: 6000,
+      timeshareA: 0.80,
+      timeshareB: 0.20,
+      qualifyingChildcare: 600,
+      qualifyingHealthcare: 0,
+      spousalSupportAPaysB: 0,
+      spousalSupportBPaysA: 0,
+    }));
+    expect(result.basePayer).toBe('B');
+    // B's net for addons must be reduced by basicSupport
+    expect(result.addonAllocation.netBForAddons).toBeLessThan(result.addonAllocation.adjustedNetB);
+    // A's net for addons must equal adjustedNetA (recipient unchanged)
+    expect(result.addonAllocation.netAForAddons).toBeCloseTo(result.addonAllocation.adjustedNetA, 6);
+    // addonShareA + addonShareB = 1
+    expect(result.addonAllocation.addonShareA + result.addonAllocation.addonShareB).toBeCloseTo(1.0, 6);
+  });
+
+  it('addonAllocation exposes addonShareA and addonShareB fields', () => {
+    const result = calculateCAChildSupport(baseInput({
+      qualifyingChildcare: 500,
+      qualifyingHealthcare: 200,
+    }));
+    expect(typeof result.addonAllocation.addonShareA).toBe('number');
+    expect(typeof result.addonAllocation.addonShareB).toBe('number');
+    expect(result.addonAllocation.addonShareA).toBeGreaterThanOrEqual(0);
+    expect(result.addonAllocation.addonShareB).toBeGreaterThanOrEqual(0);
+  });
+
+  it('childcareOwedByA + childcareOwedByB = total childcare', () => {
+    const childcare = 800;
+    const result = calculateCAChildSupport(baseInput({ qualifyingChildcare: childcare }));
+    expect(
+      result.addonAllocation.childcareOwedByA + result.addonAllocation.childcareOwedByB
+    ).toBeCloseTo(childcare, 6);
+  });
+
+  it('healthcareOwedByA + healthcareOwedByB = total healthcare', () => {
+    const healthcare = 300;
+    const result = calculateCAChildSupport(baseInput({ qualifyingHealthcare: healthcare }));
+    expect(
+      result.addonAllocation.healthcareOwedByA + result.addonAllocation.healthcareOwedByB
+    ).toBeCloseTo(healthcare, 6);
+  });
+});

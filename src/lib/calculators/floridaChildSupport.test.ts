@@ -28,6 +28,7 @@ function baseInput(overrides: Partial<Parameters<typeof calculateFLChildSupport>
     numberOfChildren: 2,
     overnightsA: 292,
     overnightsB: 73,
+    obligorParent: 'B' as const, // required for standard branch; B net=2000 >= 800
     qualifyingChildcare: 0,
     qualifyingChildHealthInsurance: 0,
     qualifyingNoncoveredMedical: 0,
@@ -574,7 +575,7 @@ describe('Result structure', () => {
 describe('getFLBasicNeed — low-income branch §61.30(6)(a)', () => {
   it('combined income 799 → branch=low-income-below-800, basicNeed=null, warning present', () => {
     const r = getFLBasicNeed(799, 1);
-    expect(r.branch).toBe('low-income-below-800');
+    expect(r.branch).toBe('low-income-obligor-below-schedule');
     expect(r.basicNeed).toBeNull();
     expect(r.warning).toBeTruthy();
     expect(r.warning).toContain('§61.30(6)(a)');
@@ -582,7 +583,7 @@ describe('getFLBasicNeed — low-income branch §61.30(6)(a)', () => {
 
   it('combined income 0 → branch=low-income-below-800', () => {
     const r = getFLBasicNeed(0, 2);
-    expect(r.branch).toBe('low-income-below-800');
+    expect(r.branch).toBe('low-income-obligor-below-schedule');
     expect(r.basicNeed).toBeNull();
   });
 
@@ -614,7 +615,7 @@ describe('calculateFLChildSupport — low-income early return', () => {
       netIncomeB: 399,
       obligorParent: 'B',
     }));
-    expect(result.branch).toBe('low-income-below-800');
+    expect(result.branch).toBe('low-income-obligor-below-schedule');
     expect(result.basicNeed).toBeNull();
     expect(result.finalSupport).toBeNull();
     expect(result.payer).toBeNull();
@@ -628,13 +629,15 @@ describe('calculateFLChildSupport — low-income early return', () => {
       obligorParent: 'B',
     }));
     expect(result.finalSupport).toBeNull();
-    expect(result.branch).toBe('low-income-below-800');
+    expect(result.branch).toBe('low-income-obligor-below-schedule');
   });
 
-  it('combined income 800: normal calculation proceeds, finalSupport is a number', () => {
+  it('both parents >= $800: normal schedule calculation proceeds, finalSupport is a number', () => {
+    // Neither obligor net < $800 — use incomes both clearly above threshold
     const result = calculateFLChildSupport(baseInput({
-      netIncomeA: 500,
-      netIncomeB: 300,
+      netIncomeA: 900,
+      netIncomeB: 800,
+      obligorParent: 'B',
     }));
     expect(result.branch).toBe('schedule');
     expect(result.finalSupport).not.toBeNull();
@@ -1029,7 +1032,7 @@ describe('FIX 4 — <$800 branch: §61.30(6)(a) obligor-level 90% cap (FL-CS-202
       obligorParent: 'B',
       obligorHouseholdSize: 1,
     }));
-    expect(result.branch).toBe('low-income-below-800');
+    expect(result.branch).toBe('low-income-obligor-below-schedule');
     expect(result.obligorLevelCheck).toBeDefined();
     const check = result.obligorLevelCheck!;
     // netIncomeB=399, monthly poverty (1-person, 2026 HHS) = 15960/12 = 1330, so incomeAbovePoverty = 0
@@ -1045,7 +1048,7 @@ describe('FIX 4 — <$800 branch: §61.30(6)(a) obligor-level 90% cap (FL-CS-202
       obligorParent: 'A',
       obligorHouseholdSize: 1,
     }));
-    expect(result.branch).toBe('low-income-below-800');
+    expect(result.branch).toBe('low-income-obligor-below-schedule');
     const check = result.obligorLevelCheck!;
     expect(check.obligorParent).toBe('A');
     expect(check.obligorNetIncome).toBeCloseTo(750, 2);
@@ -1073,17 +1076,19 @@ describe('FIX 4 — <$800 branch: §61.30(6)(a) obligor-level 90% cap (FL-CS-202
       obligorParent: 'A',
       obligorHouseholdSize: 1,
     }));
-    expect(result.branch).toBe('low-income-below-800');
+    expect(result.branch).toBe('low-income-obligor-below-schedule');
     const check = result.obligorLevelCheck!;
     // 700 < 1330: incomeAbovePoverty = 0
     expect(check.incomeAbovePoverty).toBe(0);
     expect(check.ninetyPercentReferenceCap).toBeCloseTo(0, 4);
   });
 
-  it('combinedIncome=800: does NOT trigger low-income branch', () => {
+  it('combinedIncome=800 with obligor >= 800: uses schedule branch', () => {
+    // obligorParent=A, netIncomeA=500<800 => would trigger! Use A=900 instead
     const result = calculateFLChildSupport(baseInput({
-      netIncomeA: 500,
-      netIncomeB: 300, // combined = 800
+      netIncomeA: 900,
+      netIncomeB: 300,
+      obligorParent: 'A', // obligorNet=900 >= 800, so no low-income trigger
     }));
     expect(result.branch).toBe('schedule');
     expect(result.obligorLevelCheck).toBeUndefined();
@@ -1108,7 +1113,7 @@ describe('FIX 4 — <$800 branch: §61.30(6)(a) obligor-level 90% cap (FL-CS-202
       obligorParent: 'A',
       obligorHouseholdSize: 1,
     }));
-    expect(result.branch).toBe('low-income-below-800');
+    expect(result.branch).toBe('low-income-obligor-below-schedule');
     expect(result.obligorLevelCheck!.obligorParent).toBe('A');
     expect(result.obligorLevelCheck!.obligorNetIncome).toBeCloseTo(600, 2);
   });
@@ -1120,37 +1125,37 @@ describe('FIX 4 — <$800 branch: §61.30(6)(a) obligor-level 90% cap (FL-CS-202
       obligorParent: 'B',
       obligorHouseholdSize: 1,
     }));
-    expect(result.branch).toBe('low-income-below-800');
+    expect(result.branch).toBe('low-income-obligor-below-schedule');
     expect(result.obligorLevelCheck!.obligorParent).toBe('B');
     expect(result.obligorLevelCheck!.obligorNetIncome).toBeCloseTo(199, 2);
   });
 
-  it('obligorHouseholdSize=1: poverty guideline = $1330/month (15960/12, 2026 HHS)', () => {
+  it('poverty guideline always $1330/month (15960/12, 2026 single-person HHS per §61.30(6)(a))', () => {
     const result = calculateFLChildSupport(lowIncomeInput({ obligorHouseholdSize: 1 }));
     expect(result.obligorLevelCheck!.federalPovertyGuidelineMonthly).toBeCloseTo(15960 / 12, 4);
-    expect(result.obligorLevelCheck!.obligorHouseholdSize).toBe(1);
   });
 
-  it('obligorHouseholdSize=2: poverty guideline = $1803.33/month (21640/12, 2026 HHS)', () => {
+  it('obligorHouseholdSize=2 (deprecated): poverty guideline still uses single-person ($1330/month)', () => {
+    // §61.30(6)(a) uses single-person poverty line regardless — obligorHouseholdSize is deprecated
     const result = calculateFLChildSupport(lowIncomeInput({ obligorHouseholdSize: 2 }));
-    expect(result.obligorLevelCheck!.federalPovertyGuidelineMonthly).toBeCloseTo(21640 / 12, 4);
-  });
-
-  it('obligorHouseholdSize=3: poverty guideline = $2276.67/month (27320/12, 2026 HHS)', () => {
-    const result = calculateFLChildSupport(lowIncomeInput({ obligorHouseholdSize: 3 }));
-    expect(result.obligorLevelCheck!.federalPovertyGuidelineMonthly).toBeCloseTo(27320 / 12, 4);
-  });
-
-  it('obligorHouseholdSize=4: poverty guideline = $2750/month (33000/12, 2026 HHS)', () => {
-    const result = calculateFLChildSupport(lowIncomeInput({ obligorHouseholdSize: 4 }));
-    expect(result.obligorLevelCheck!.federalPovertyGuidelineMonthly).toBeCloseTo(33000 / 12, 4);
-  });
-
-  it('default obligorHouseholdSize=1 when not provided', () => {
-    const result = calculateFLChildSupport(lowIncomeInput());
-    // No obligorHouseholdSize in input => defaults to 1
-    expect(result.obligorLevelCheck!.obligorHouseholdSize).toBe(1);
     expect(result.obligorLevelCheck!.federalPovertyGuidelineMonthly).toBeCloseTo(15960 / 12, 4);
+  });
+
+  it('obligorHouseholdSize=3 (deprecated): poverty guideline still uses single-person ($1330/month)', () => {
+    const result = calculateFLChildSupport(lowIncomeInput({ obligorHouseholdSize: 3 }));
+    expect(result.obligorLevelCheck!.federalPovertyGuidelineMonthly).toBeCloseTo(15960 / 12, 4);
+  });
+
+  it('obligorHouseholdSize=4 (deprecated): poverty guideline still uses single-person ($1330/month)', () => {
+    const result = calculateFLChildSupport(lowIncomeInput({ obligorHouseholdSize: 4 }));
+    expect(result.obligorLevelCheck!.federalPovertyGuidelineMonthly).toBeCloseTo(15960 / 12, 4);
+  });
+
+  it('poverty guideline defaults to single-person $1330/month when no household size provided', () => {
+    const result = calculateFLChildSupport(lowIncomeInput());
+    // obligorHouseholdSize is deprecated — single-person always used per §61.30(6)(a)
+    expect(result.obligorLevelCheck!.federalPovertyGuidelineMonthly).toBeCloseTo(15960 / 12, 4);
+    expect(result.obligorLevelCheck!.federalPovertyGuidelineAnnual).toBe(15960);
   });
 
   it('version is FL-CS-2026.3', () => {
@@ -1203,7 +1208,7 @@ describe('Low-income branch — 2026 fixes', () => {
       noncoveredMedicalPaidByA: 0, noncoveredMedicalPaidByB: 0,
       obligorParent: 'A', obligorHouseholdSize: 1,
     });
-    expect(result.branch).toBe('low-income-below-800');
+    expect(result.branch).toBe('low-income-obligor-below-schedule');
     expect(result.basicNeed).toBeNull();
     expect(result.finalSupport).toBeNull();
     expect((result as any).requiresCaseByCaseDetermination).toBe(true);
@@ -1232,19 +1237,163 @@ describe('Low-income branch — 2026 fixes', () => {
       healthInsurancePaidByA: 0, healthInsurancePaidByB: 0,
       noncoveredMedicalPaidByA: 0, noncoveredMedicalPaidByB: 0,
       obligorParent: 'A', obligorHouseholdSize: 5,
-    })).toThrow('Invalid obligorHouseholdSize');
+    })).not.toThrow(); // obligorHouseholdSize is deprecated; ignored (single-person used per §61.30(6)(a))
   });
 
-  it('combined = $800 does NOT trigger low-income branch', () => {
+  it('obligor >= $800 does NOT trigger low-income branch (combined may be low)', () => {
+    // Both parents have substantial TS (>=73); obligor defaults to B.
+    // Use netIncomeB >= 800 so it does NOT trigger the obligor low-income rule.
     const result = calculateFLChildSupport({
-      netIncomeA: 500, netIncomeB: 300, children: 1,
+      netIncomeA: 500, netIncomeB: 900, children: 1,
       overnightsA: 200, overnightsB: 165,
       qualifyingChildcare: 0, qualifyingChildHealthInsurance: 0, qualifyingNoncoveredMedical: 0,
       childcarePaidByA: 0, childcarePaidByB: 0,
       healthInsurancePaidByA: 0, healthInsurancePaidByB: 0,
       noncoveredMedicalPaidByA: 0, noncoveredMedicalPaidByB: 0,
     });
-    expect(result.branch).not.toBe('low-income-below-800');
+    // obligorNet (B) = 900 >= 800 => no low-income branch
+    expect(result.branch).not.toBe('low-income-obligor-below-schedule');
     expect(result.finalSupport).not.toBeNull();
+  });
+});
+
+// ---------------------------------------------------------------------------
+// FL FIX 1: Poverty guideline — single person only (§61.30(6)(a))
+// ---------------------------------------------------------------------------
+describe('FL poverty guideline — single-person constant (§61.30(6)(a))', () => {
+  it('FL_POVERTY_GUIDELINE_2026.monthly is always 1330.00 (single person living alone)', () => {
+    const { FL_POVERTY_GUIDELINE_2026 } = require('./floridaChildSupport');
+    expect(FL_POVERTY_GUIDELINE_2026.monthly).toBeCloseTo(1330.00, 2);
+  });
+
+  it('FL_POVERTY_GUIDELINE_2026.annual is 15960', () => {
+    const { FL_POVERTY_GUIDELINE_2026 } = require('./floridaChildSupport');
+    expect(FL_POVERTY_GUIDELINE_2026.annual).toBe(15960);
+  });
+
+  it('monthly is exactly annual / 12', () => {
+    const { FL_POVERTY_GUIDELINE_2026 } = require('./floridaChildSupport');
+    expect(FL_POVERTY_GUIDELINE_2026.monthly).toBeCloseTo(FL_POVERTY_GUIDELINE_2026.annual / 12, 8);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// FL FIX 2: Low-income trigger = obligorNet < $800, not combinedNet < $800
+// ---------------------------------------------------------------------------
+describe('FL low-income trigger — obligorNet < $800 (§61.30(6)(a))', () => {
+  it('obligor B net < $800 triggers low-income branch even when combined >= $800', () => {
+    const result = calculateFLChildSupport({
+      netIncomeA: 2000, netIncomeB: 700, // combined $2700, but obligor B < $800
+      children: 1,
+      overnightsA: 300, overnightsB: 65,
+      obligorParent: 'B',
+      qualifyingChildcare: 0, qualifyingChildHealthInsurance: 0, qualifyingNoncoveredMedical: 0,
+      childcarePaidByA: 0, childcarePaidByB: 0,
+      healthInsurancePaidByA: 0, healthInsurancePaidByB: 0,
+      noncoveredMedicalPaidByA: 0, noncoveredMedicalPaidByB: 0,
+    });
+    expect(result.branch).toBe('low-income-obligor-below-schedule');
+    expect(result.finalSupport).toBeNull();
+    expect((result as any).requiresCaseByCaseDetermination).toBe(true);
+  });
+
+  it('obligor A net < $800 triggers low-income branch', () => {
+    const result = calculateFLChildSupport({
+      netIncomeA: 750, netIncomeB: 3000,
+      children: 1,
+      overnightsA: 65, overnightsB: 300,
+      obligorParent: 'A',
+      qualifyingChildcare: 0, qualifyingChildHealthInsurance: 0, qualifyingNoncoveredMedical: 0,
+      childcarePaidByA: 0, childcarePaidByB: 0,
+      healthInsurancePaidByA: 0, healthInsurancePaidByB: 0,
+      noncoveredMedicalPaidByA: 0, noncoveredMedicalPaidByB: 0,
+    });
+    expect(result.branch).toBe('low-income-obligor-below-schedule');
+    expect(result.finalSupport).toBeNull();
+  });
+
+  it('obligor net >= $800 does NOT trigger low-income branch even when combined is low', () => {
+    // obligor A = $900 >= $800 — standard branch applies regardless of combined
+    const result = calculateFLChildSupport({
+      netIncomeA: 900, netIncomeB: 0,
+      children: 1,
+      overnightsA: 300, overnightsB: 65,
+      obligorParent: 'A',
+      qualifyingChildcare: 0, qualifyingChildHealthInsurance: 0, qualifyingNoncoveredMedical: 0,
+      childcarePaidByA: 0, childcarePaidByB: 0,
+      healthInsurancePaidByA: 0, healthInsurancePaidByB: 0,
+      noncoveredMedicalPaidByA: 0, noncoveredMedicalPaidByB: 0,
+    });
+    expect(result.branch).not.toBe('low-income-obligor-below-schedule');
+    expect(result.finalSupport).not.toBeNull();
+  });
+
+  it('low-income branch uses single-person poverty guideline (not household size)', () => {
+    const result = calculateFLChildSupport({
+      netIncomeA: 2000, netIncomeB: 700,
+      children: 1,
+      overnightsA: 300, overnightsB: 65,
+      obligorParent: 'B',
+      qualifyingChildcare: 0, qualifyingChildHealthInsurance: 0, qualifyingNoncoveredMedical: 0,
+      childcarePaidByA: 0, childcarePaidByB: 0,
+      healthInsurancePaidByA: 0, healthInsurancePaidByB: 0,
+      noncoveredMedicalPaidByA: 0, noncoveredMedicalPaidByB: 0,
+    });
+    const check = (result as any).obligorLevelCheck;
+    expect(check).toBeDefined();
+    // Single-person monthly = 1330.00 exactly
+    expect(check.federalPovertyGuidelineMonthly).toBeCloseTo(1330.00, 2);
+    // annual = 15960
+    expect(check.federalPovertyGuidelineAnnual).toBe(15960);
+    // 90% cap: (700 - 1330) = negative, so incomeAbovePoverty = 0, cap = 0
+    expect(check.incomeAbovePoverty).toBe(0);
+    expect(check.ninetyPercentReferenceCap).toBe(0);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// FL FIX 3: Standard branch requires explicit obligorParent
+// ---------------------------------------------------------------------------
+describe('FL standard branch — explicit obligorParent required', () => {
+  it('throws when obligorParent omitted on standard (non-substantial) branch', () => {
+    expect(() => calculateFLChildSupport({
+      netIncomeA: 3000, netIncomeB: 2000,
+      children: 1,
+      overnightsA: 300, overnightsB: 65, // non-substantial
+      // obligorParent deliberately omitted
+      qualifyingChildcare: 0, qualifyingChildHealthInsurance: 0, qualifyingNoncoveredMedical: 0,
+      childcarePaidByA: 0, childcarePaidByB: 0,
+      healthInsurancePaidByA: 0, healthInsurancePaidByB: 0,
+      noncoveredMedicalPaidByA: 0, noncoveredMedicalPaidByB: 0,
+    })).toThrow('obligorParent');
+  });
+
+  it('does NOT throw when substantial time-sharing (obligorParent not required)', () => {
+    // Both parents >= 73 overnights — substantial TS, formula determines direction
+    expect(() => calculateFLChildSupport({
+      netIncomeA: 3000, netIncomeB: 2000,
+      children: 1,
+      overnightsA: 200, overnightsB: 165, // both >= 73
+      qualifyingChildcare: 0, qualifyingChildHealthInsurance: 0, qualifyingNoncoveredMedical: 0,
+      childcarePaidByA: 0, childcarePaidByB: 0,
+      healthInsurancePaidByA: 0, healthInsurancePaidByB: 0,
+      noncoveredMedicalPaidByA: 0, noncoveredMedicalPaidByB: 0,
+    })).not.toThrow();
+  });
+
+  it('standard branch with explicit obligorParent B calculates correctly', () => {
+    const result = calculateFLChildSupport({
+      netIncomeA: 3000, netIncomeB: 2000,
+      children: 1,
+      overnightsA: 300, overnightsB: 65,
+      obligorParent: 'B',
+      qualifyingChildcare: 0, qualifyingChildHealthInsurance: 0, qualifyingNoncoveredMedical: 0,
+      childcarePaidByA: 0, childcarePaidByB: 0,
+      healthInsurancePaidByA: 0, healthInsurancePaidByB: 0,
+      noncoveredMedicalPaidByA: 0, noncoveredMedicalPaidByB: 0,
+    });
+    expect(result.finalSupport).not.toBeNull();
+    expect(result.payer).toBe('B');
+    expect(result.recipient).toBe('A');
   });
 });
