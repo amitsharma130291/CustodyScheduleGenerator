@@ -155,8 +155,8 @@ function fmt(n: number) {
 						<ol class="grid gap-1.5 text-[11px] leading-5 text-secondary" data-fl-receipt>
 							{initialResult.receipt.map(line => (
 								<li class="flex items-start justify-between gap-3 border-b border-line-subtle pb-1 last:border-0 last:pb-0">
-									<span>{line.split(':')[0]}</span>
-									<strong class="shrink-0 text-right text-primary">{line.split(':').slice(1).join(':').trim()}</strong>
+									<span class="min-w-0 break-words">{line.split(':')[0]}</span>
+									<strong class="shrink-0 min-w-0 text-right break-words text-primary">{line.split(':').slice(1).join(':').trim()}</strong>
 								</li>
 							))}
 						</ol>
@@ -207,8 +207,8 @@ function fmt(n: number) {
 				const label = colonIdx >= 0 ? line.slice(0, colonIdx) : line;
 				const value = colonIdx >= 0 ? line.slice(colonIdx + 1).trim() : '';
 				return `<li class="flex items-start justify-between gap-3 border-b border-line-subtle pb-1 last:border-0 last:pb-0">
-					<span>${label}</span>
-					<strong class="shrink-0 text-right text-primary">${value}</strong>
+					<span class="min-w-0 break-words">${label}</span>
+					<strong class="shrink-0 min-w-0 text-right break-words text-primary">${value}</strong>
 				</li>`;
 			}).join('');
 		}

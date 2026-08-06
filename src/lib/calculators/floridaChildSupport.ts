@@ -868,8 +868,8 @@ export function calculateFLChildSupport(
   }
 
   const noncoveredNote = noncoveredMedicalTreatment === 'separately-allocated'
-    ? 'noncoveredMedical separately-allocated (excluded from gross-up, returned as separateMedicalAllocation)'
-    : `noncoveredMedical included in gross-up base per §61.30(8) (included-in-basic-obligation): $${qualifyingNoncoveredMedical.toFixed(2)}`;
+    ? 'Separately allocated by court order'
+    : `Included in gross-up (§61.30(8)): $${qualifyingNoncoveredMedical.toFixed(2)}`;
 
   const receipt = [
     `Net income A: $${netIncomeA.toFixed(2)}`,
