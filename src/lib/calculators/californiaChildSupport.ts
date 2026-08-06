@@ -190,15 +190,15 @@ export function calculateCAChildSupport(
 
   let kBracket: string;
   if (TN <= 2900) {
-    kBracket = '0.165 + TN/82857 (TN ≤ $2,900)';
+    kBracket = 'TN ≤ $2,900';
   } else if (TN <= 5000) {
-    kBracket = '0.131 + TN/42149 ($2,900 < TN ≤ $5,000)';
+    kBracket = '$2.9k < TN ≤ $5k';
   } else if (TN <= 10000) {
-    kBracket = '0.250 (flat) ($5,000 < TN ≤ $10,000)';
+    kBracket = '$5k < TN ≤ $10k (flat 0.250)';
   } else if (TN <= 15000) {
-    kBracket = '0.10 + 1499/TN ($10,000 < TN ≤ $15,000)';
+    kBracket = '$10k < TN ≤ $15k';
   } else {
-    kBracket = '0.12 + 1200/TN (TN > $15,000)';
+    kBracket = 'TN > $15k';
   }
 
   // ---- Step 3: Apply H% adjustment to K ----
