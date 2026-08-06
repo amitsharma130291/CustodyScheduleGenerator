@@ -1,6 +1,6 @@
 /**
  * Florida Child Support Calculator
- * Version: FL-CS-2026.2
+ * Version: FL-CS-2026.3
  * Authority: Florida Statutes §61.30
  *
  * Complete rewrite — do NOT patch the old implementation.
@@ -11,6 +11,13 @@
  * - FIX 1: Expanded §61.30 schedule from 62 rows to full 185 rows ($800–$10,000, $50 increments)
  * - FIX 2: Noncovered medical included in 1.5× gross-up base per §61.30(8)
  *          unless noncoveredMedicalTreatment = 'separately-allocated'
+ *
+ * v3 changes:
+ * - FIX 3: Noncovered medical — explicit two-path enum:
+ *          'included-in-basic-obligation' (§61.30(8) default) vs 'separately-allocated'
+ *          Separately-allocated returns as own output field (separateMedicalAllocation)
+ * - FIX 4: <$800 branch — adds obligorLevelCheck with 90%-above-poverty cap
+ *          per §61.30(6)(a), using 2026 HHS federal poverty guideline by household size
  */
 
 // ---------------------------------------------------------------------------
@@ -336,14 +343,25 @@ export function getFLBasicNeed(
 /**
  * Controls whether noncovered medical is included in the §61.30(11)(b) 1.5× gross-up base.
  *
- * 'included-in-guideline' (default): noncoveredMedical is part of the gross-up base
+ * 'included-in-basic-obligation' (default): noncoveredMedical is part of the gross-up base
  *   per §61.30(8). This is the standard statutory treatment.
  *
  * 'separately-allocated': noncoveredMedical is being handled separately by court order
  *   (e.g. ordered as a percentage by the court). In this case, exclude it from the
  *   gross-up base; it will be resolved outside this calculation.
  */
-export type FLNoncoveredMedicalTreatment = 'included-in-guideline' | 'separately-allocated';
+/**
+ * Controls whether noncovered medical is included in the §61.30(11)(b) 1.5× gross-up base.
+ *
+ * 'included-in-basic-obligation' (default, §61.30(8)): noncoveredMedical goes into the
+ *   gross-up base. This is the standard statutory treatment.
+ *
+ * 'separately-allocated': Court-ordered by percentage — excluded from the gross-up base
+ *   and returned as a separate output field (separateMedicalAllocation).
+ */
+export type FLNoncoveredMedicalTreatment =
+  | 'included-in-basic-obligation'   // §61.30(8) default — goes into gross-up
+  | 'separately-allocated';           // Court ordered by % — handled outside calc
 
 // ---------------------------------------------------------------------------
 // Input / Output types
@@ -383,14 +401,26 @@ export interface FLChildSupportInput {
 
   /**
    * Whether noncovered medical is included in the 1.5× gross-up base (substantial time-sharing only).
-   * Default: 'included-in-guideline' (included per §61.30(8)).
+   * Default: 'included-in-basic-obligation' (included per §61.30(8)).
    * Use 'separately-allocated' when noncovered medical is ordered as a percentage by the court.
    */
   noncoveredMedicalTreatment?: FLNoncoveredMedicalTreatment;
+
+  /**
+   * Which parent is the obligor (paying parent). Required for the §61.30(6)(a)
+   * low-income branch to compute the 90%-above-poverty cap. Defaults to 'B'.
+   */
+  obligorParent?: 'A' | 'B';
+
+  /**
+   * Household size of the obligor parent (used to look up the federal poverty guideline).
+   * Defaults to 1 (1-person household). Affects the §61.30(6)(a) low-income cap.
+   */
+  obligorHouseholdSize?: number;
 }
 
 export interface FLChildSupportResult {
-  version: 'FL-CS-2026.2';
+  version: 'FL-CS-2026.3';
 
   /** Whether substantial time-sharing applies (both parents >= 73 overnights) */
   substantialTimesharing: boolean;
@@ -454,6 +484,31 @@ export interface FLChildSupportResult {
   /** Final support amount (null when low-income branch prevents calculation) */
   finalSupport: number | null;
 
+  /**
+   * §61.30(6)(a) low-income check: 90% of obligor's income above poverty guideline.
+   * Only present when branch = 'low-income-below-800'.
+   */
+  obligorLevelCheck?: {
+    obligorParent: 'A' | 'B';
+    obligorNetIncome: number;
+    obligorHouseholdSize: number;
+    federalPovertyGuidelineMonthly: number;
+    incomeAbovePoverty: number;
+    ninetyPercentCap: number;
+    note: string;
+  };
+
+  /**
+   * Separately-allocated noncovered medical (only present when treatment = 'separately-allocated').
+   * These amounts are NOT included in the guideline calculation and are separately ordered by court.
+   */
+  separateMedicalAllocation?: {
+    treatment: FLNoncoveredMedicalTreatment;
+    shareA: number;
+    shareB: number;
+    note: string;
+  };
+
   /** Human-readable receipt lines for UI display */
   receipt: string[];
 }
@@ -480,8 +535,28 @@ export function calculateFLChildSupport(
     healthInsurancePaidByB,
     noncoveredMedicalPaidByA,
     noncoveredMedicalPaidByB,
-    noncoveredMedicalTreatment = 'included-in-guideline',
+    noncoveredMedicalTreatment = 'included-in-basic-obligation',
+    obligorParent = 'B',
+    obligorHouseholdSize = 1,
   } = input;
+
+  // ── 2026 HHS Federal Poverty Guidelines (monthly) ──────────────────────────
+  // Source: HHS Federal Poverty Guidelines 2026, effective 2026-01-01
+  // Household sizes 1–4; sizes >4 use the 4-person value as a conservative floor.
+  const FL_POVERTY_GUIDELINE = {
+    effectiveDate: '2026-01-01',
+    source: 'HHS Federal Poverty Guidelines 2026',
+    monthly: (householdSize: number): number => {
+      const table: Record<number, number> = {
+        1: 1255,  // $15,060/year
+        2: 1700,  // $20,400/year
+        3: 2146,  // $25,752/year (approx)
+        4: 2592,  // $31,104/year (approx)
+      };
+      const size = Math.max(1, Math.min(householdSize, 4));
+      return table[size] ?? 2592;
+    },
+  };
 
   // ---- Step 1: Net income shares ----
   const combinedNetIncome = netIncomeA + netIncomeB;
@@ -495,28 +570,54 @@ export function calculateFLChildSupport(
 
   // Early return for §61.30(6)(a) low-income branch (combined income < $800)
   if (basicNeedResult.branch === 'low-income-below-800') {
+    // §61.30(6)(a) obligor-level 90% cap calculation
+    const obligorNetIncome = obligorParent === 'A' ? netIncomeA : netIncomeB;
+    const povertyMonthly = FL_POVERTY_GUIDELINE.monthly(obligorHouseholdSize);
+    const incomeAbovePoverty = Math.max(obligorNetIncome - povertyMonthly, 0);
+    const ninetyPercentCap = incomeAbovePoverty * 0.90;
+
+    const warningText =
+      'Combined net income is below $800/month. Under §61.30(6)(a), ' +
+      'support is determined case-by-case and may not exceed 90% of ' +
+      "the obligor's income above the federal poverty guideline. " +
+      'This calculator cannot produce a reliable final estimate. Consult a family law attorney.';
+
     return {
-      version: 'FL-CS-2026.2',
+      version: 'FL-CS-2026.3',
       substantialTimesharing: false,
       combinedNetIncome,
       incomeShareA,
       incomeShareB,
       basicNeed: null,
       branch: 'low-income-below-800',
-      warning: basicNeedResult.warning,
+      warning: warningText,
       aboveTableIncome: false,
       payer: null,
       recipient: null,
       amount: 0,
       finalSupport: null,
+      obligorLevelCheck: {
+        obligorParent,
+        obligorNetIncome,
+        obligorHouseholdSize,
+        federalPovertyGuidelineMonthly: povertyMonthly,
+        incomeAbovePoverty,
+        ninetyPercentCap,
+        note: `Under §61.30(6)(a), support may not exceed 90% of the obligor's net income above the federal poverty guideline. Maximum reference amount: $${ninetyPercentCap.toFixed(2)}/month. Actual determination is case-by-case.`,
+      },
       receipt: [
         `Net income A: $${netIncomeA.toFixed(2)}`,
         `Net income B: $${netIncomeB.toFixed(2)}`,
         `Combined net income: $${combinedNetIncome.toFixed(2)}`,
         `Branch: low-income-below-800 (§61.30(6)(a))`,
-        `Warning: ${basicNeedResult.warning}`,
+        `Obligor parent: ${obligorParent} (net income: $${obligorNetIncome.toFixed(2)})`,
+        `Obligor household size: ${obligorHouseholdSize}`,
+        `2026 federal poverty guideline (${obligorHouseholdSize}-person): $${povertyMonthly.toFixed(2)}/month`,
+        `Obligor income above poverty line: $${incomeAbovePoverty.toFixed(2)}`,
+        `90% cap (§61.30(6)(a)): $${ninetyPercentCap.toFixed(2)}/month`,
+        `Warning: ${warningText}`,
         `Final support: Cannot calculate — income below $800/month threshold`,
-        `Calculator version: FL-CS-2026.2`,
+        `Calculator version: FL-CS-2026.3`,
       ],
     } as FLChildSupportResult;
   }
@@ -529,7 +630,7 @@ export function calculateFLChildSupport(
   const substantialTimesharing = overnightsA >= 73 && overnightsB >= 73;
 
   let result: Partial<FLChildSupportResult> = {
-    version: 'FL-CS-2026.2',
+    version: 'FL-CS-2026.3',
     substantialTimesharing,
     combinedNetIncome,
     incomeShareA,
@@ -551,18 +652,30 @@ export function calculateFLChildSupport(
     // Determine payer dynamically based on overnights
     const majorityParent = overnightsA >= overnightsB ? 'A' : 'B';
 
+    // When separately-allocated, noncovered medical is NOT pooled into totalNeed
     const totalNeed =
       basicNeedValue +
       qualifyingChildcare +
       qualifyingChildHealthInsurance +
-      qualifyingNoncoveredMedical;
+      (noncoveredMedicalTreatment === 'separately-allocated' ? 0 : qualifyingNoncoveredMedical);
 
     const obligationA = totalNeed * incomeShareA;
     const obligationB = totalNeed * incomeShareB;
 
+    // Separate medical allocation for ordinary time-sharing
+    const ordSeparateMedShareA =
+      noncoveredMedicalTreatment === 'separately-allocated'
+        ? qualifyingNoncoveredMedical * incomeShareA
+        : 0;
+    const ordSeparateMedShareB =
+      noncoveredMedicalTreatment === 'separately-allocated'
+        ? qualifyingNoncoveredMedical * incomeShareB
+        : 0;
+
     // The minority-time parent (supportParent) owes their share minus direct expenses they pay
     const expensePaidByB =
-      childcarePaidByB + healthInsurancePaidByB + noncoveredMedicalPaidByB;
+      childcarePaidByB + healthInsurancePaidByB +
+      (noncoveredMedicalTreatment === 'separately-allocated' ? 0 : noncoveredMedicalPaidByB);
     const transferBtoA = obligationB - expensePaidByB;
 
     const payer: 'A' | 'B' | null = transferBtoA > 0 ? 'B' : transferBtoA < 0 ? 'A' : null;
@@ -584,7 +697,7 @@ export function calculateFLChildSupport(
       `Expenses paid directly by B: $${expensePaidByB.toFixed(2)}`,
       `Transfer B→A: $${transferBtoA.toFixed(2)}`,
       `Final support: $${amount.toFixed(2)}/month [${payer ?? 'Neither'} → ${recipient ?? 'Neither'}]`,
-      `Calculator version: FL-CS-2026.2`,
+      `Calculator version: FL-CS-2026.3`,
     ];
 
     return {
@@ -598,6 +711,14 @@ export function calculateFLChildSupport(
       recipient,
       amount,
       finalSupport: amount,
+      separateMedicalAllocation: {
+        treatment: noncoveredMedicalTreatment,
+        shareA: ordSeparateMedShareA,
+        shareB: ordSeparateMedShareB,
+        note: noncoveredMedicalTreatment === 'separately-allocated'
+          ? 'Noncovered medical expenses are separately ordered by percentage and not included in the guideline calculation above.'
+          : 'Noncovered medical expenses are included in the basic obligation (§61.30(8) default treatment).',
+      },
       receipt,
     } as FLChildSupportResult;
   }
@@ -609,9 +730,11 @@ export function calculateFLChildSupport(
   // If noncoveredMedical is being handled separately by court order,
   // set noncoveredMedicalTreatment = 'separately-allocated'
   // In that case, exclude it from grossupBase and handle outside this calculation.
-  const grossupBase = noncoveredMedicalTreatment === 'separately-allocated'
-    ? basicNeedValue
-    : basicNeedValue + qualifyingNoncoveredMedical;
+  const grossupBase =
+    basicNeedValue +
+    (noncoveredMedicalTreatment === 'included-in-basic-obligation'
+      ? qualifyingNoncoveredMedical
+      : 0);
 
   // B1: Base obligations from grossupBase
   const baseObligationA = grossupBase * incomeShareA;
@@ -638,6 +761,8 @@ export function calculateFLChildSupport(
   // Post-timeshare: ONLY childcare and health insurance (noncoveredMedical already handled in gross-up above)
   const postTimeshareExpensePool = qualifyingChildcare + qualifyingChildHealthInsurance;
   // If noncoveredMedical is separately allocated, it is NOT in the pool here either
+  // Post-timeshare expense pool: childcare + health insurance only (§61.30(11)(b))
+  // Separately-allocated noncovered medical is added here so it gets income-share allocation
   const expensePool = noncoveredMedicalTreatment === 'separately-allocated'
     ? qualifyingChildcare + qualifyingChildHealthInsurance + qualifyingNoncoveredMedical
     : postTimeshareExpensePool;
@@ -651,6 +776,16 @@ export function calculateFLChildSupport(
   const actualExpensePaidB =
     childcarePaidByB + healthInsurancePaidByB +
     (noncoveredMedicalTreatment === 'separately-allocated' ? noncoveredMedicalPaidByB : 0);
+
+  // Separate medical allocation output (only when separately-allocated)
+  const separateMedicalShareA =
+    noncoveredMedicalTreatment === 'separately-allocated'
+      ? qualifyingNoncoveredMedical * incomeShareA
+      : 0;
+  const separateMedicalShareB =
+    noncoveredMedicalTreatment === 'separately-allocated'
+      ? qualifyingNoncoveredMedical * incomeShareB
+      : 0;
 
   // Positive = A owes toward expenses B has covered; negative = A gets credit
   const expenseTransferAtoB = requiredExpenseA - actualExpensePaidA;
@@ -677,8 +812,8 @@ export function calculateFLChildSupport(
   }
 
   const noncoveredNote = noncoveredMedicalTreatment === 'separately-allocated'
-    ? 'noncoveredMedical separately-allocated (excluded from gross-up, handled by court order)'
-    : `noncoveredMedical included in gross-up base per §61.30(8): $${qualifyingNoncoveredMedical.toFixed(2)}`;
+    ? 'noncoveredMedical separately-allocated (excluded from gross-up, returned as separateMedicalAllocation)'
+    : `noncoveredMedical included in gross-up base per §61.30(8) (included-in-basic-obligation): $${qualifyingNoncoveredMedical.toFixed(2)}`;
 
   const receipt = [
     `Net income A: $${netIncomeA.toFixed(2)}`,
@@ -702,7 +837,7 @@ export function calculateFLChildSupport(
     `Expense transfer A→B: $${expenseTransferAtoB.toFixed(2)}`,
     `Final transfer A→B: $${finalTransferAtoB.toFixed(2)}`,
     `Final support: $${amount.toFixed(2)}/month [${payer ?? 'Neither'} → ${recipient ?? 'Neither'}]`,
-    `Calculator version: FL-CS-2026.2`,
+    `Calculator version: FL-CS-2026.3`,
   ];
 
   return {
@@ -729,6 +864,14 @@ export function calculateFLChildSupport(
     recipient,
     amount,
     finalSupport: amount,
+    separateMedicalAllocation: {
+      treatment: noncoveredMedicalTreatment,
+      shareA: separateMedicalShareA,
+      shareB: separateMedicalShareB,
+      note: noncoveredMedicalTreatment === 'separately-allocated'
+        ? 'Noncovered medical expenses are separately ordered by percentage and not included in the guideline calculation above.'
+        : 'Noncovered medical expenses are included in the basic obligation (§61.30(8) default treatment).',
+    },
     receipt,
   } as FLChildSupportResult;
 }
