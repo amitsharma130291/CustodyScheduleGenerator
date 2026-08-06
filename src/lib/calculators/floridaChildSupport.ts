@@ -11,25 +11,43 @@
 // ---------------------------------------------------------------------------
 // §61.30 Guideline Schedule
 // [combinedIncome, 1child, 2children, 3children, 4children, 5children, 6children]
+// Table runs $800–$10,000 at $50 increments per statute.
 // ---------------------------------------------------------------------------
 const FL_SCHEDULE: [number, number, number, number, number, number, number][] = [
   [800,   170,  247,  285,  316,  344,  369],
+  [850,   183,  266,  306,  340,  370,  396],
   [900,   196,  285,  328,  364,  396,  424],
+  [950,   210,  305,  351,  389,  423,  453],
   [1000,  224,  326,  375,  416,  453,  485],
+  [1050,  232,  338,  388,  431,  469,  502],
   [1100,  240,  349,  402,  446,  485,  520],
+  [1150,  247,  359,  413,  458,  499,  534],
   [1200,  253,  368,  424,  470,  512,  549],
+  [1250,  260,  378,  435,  482,  525,  562],
   [1300,  266,  387,  445,  494,  538,  577],
+  [1350,  272,  396,  455,  505,  550,  589],
   [1400,  279,  406,  467,  518,  564,  605],
+  [1450,  285,  415,  477,  530,  577,  618],
   [1500,  292,  425,  489,  542,  590,  632],
+  [1550,  314,  457,  526,  583,  635,  680],
   [1600,  336,  489,  562,  623,  679,  728],
+  [1650,  342,  498,  572,  635,  691,  740],
   [1700,  349,  508,  584,  648,  706,  756],
+  [1750,  355,  516,  594,  659,  718,  769],
   [1800,  362,  527,  607,  673,  733,  785],
+  [1850,  368,  536,  617,  685,  745,  798],
   [1900,  375,  546,  628,  697,  759,  813],
+  [1950,  381,  554,  638,  708,  771,  826],
   [2000,  402,  585,  673,  747,  813,  871],
+  [2050,  408,  594,  683,  758,  825,  884],
   [2100,  415,  604,  695,  771,  840,  900],
+  [2150,  421,  612,  705,  782,  852,  912],
   [2200,  428,  623,  717,  796,  866,  928],
+  [2250,  434,  632,  727,  807,  879,  941],
   [2300,  441,  642,  739,  820,  893,  957],
+  [2350,  447,  651,  748,  831,  905,  969],
   [2400,  454,  661,  761,  844,  919,  985],
+  [2450,  474,  689,  793,  880,  957, 1025],
   [2500,  493,  717,  825,  915,  996, 1067],
   [2600,  506,  736,  847,  940, 1023, 1095],
   [2700,  519,  755,  869,  964, 1050, 1124],
@@ -59,43 +77,57 @@ const FL_SCHEDULE: [number, number, number, number, number, number, number][] = 
   [9000, 1411, 2052, 2361, 2618, 2849, 3050],
   [9500, 1458, 2120, 2440, 2705, 2943, 3151],
   [10000, 1502, 2185, 2514, 2788, 3034, 3250],
-  [10500, 1546, 2249, 2589, 2872, 3126, 3348],
-  [11000, 1591, 2314, 2663, 2955, 3216, 3444],
-  [11500, 1635, 2378, 2737, 3037, 3307, 3541],
-  [12000, 1651, 2400, 2762, 3063, 3333, 3569],
-  [12500, 1701, 2474, 2847, 3160, 3439, 3684],
-  [13000, 1751, 2547, 2931, 3252, 3540, 3791],
-  [13500, 1787, 2599, 2993, 3321, 3614, 3870],
-  [14000, 1804, 2624, 3020, 3351, 3648, 3906],
-  [14500, 1812, 2635, 3033, 3366, 3665, 3924],
-  [15000, 1820, 2648, 3048, 3379, 3678, 3939],
-  [20000, 2079, 3024, 3480, 3859, 4200, 4497],
-  [25000, 2293, 3335, 3839, 4257, 4631, 4960],
 ];
 
-const TABLE_MAX_INCOME = 25000;
+/**
+ * Excess-income percentages per §61.30(6)(b) for combined income above $10,000.
+ * Applied as: basicNeed = schedule_at_10000[children] + (income - 10000) × rate
+ */
+const FL_EXCESS_RATES: Record<number, number> = {
+  1: 0.050,  // 5.0%
+  2: 0.075,  // 7.5%
+  3: 0.095,  // 9.5%
+  4: 0.110,  // 11.0%
+  5: 0.120,  // 12.0%
+  6: 0.125,  // 12.5%
+};
 
 /**
- * Look up the basic child support need from the §61.30 schedule.
- * Uses linear interpolation between adjacent rows.
- * Returns null if income exceeds $25,000 (requires manual calculation per statute).
+ * Look up the value at exactly $10,000 for the given child count.
+ * This is the anchor for the excess-income formula.
+ */
+function lookupScheduleAt10000(children: number): number {
+  const col = Math.min(Math.max(children, 1), 6) - 1;
+  const row = FL_SCHEDULE[FL_SCHEDULE.length - 1]; // last row is $10,000
+  return row[col + 1];
+}
+
+/**
+ * Look up the basic child support need from the §61.30 schedule using linear interpolation.
+ * For combined income above $10,000, applies the statutory excess-income formula (§61.30(6)(b)).
+ * Never returns null — the formula handles all income levels.
  */
 export function getBasicNeed(
   combinedNetIncome: number,
   numberOfChildren: number
 ): number | null {
-  if (combinedNetIncome > TABLE_MAX_INCOME) {
-    return null; // Above-table: manual calculation required per §61.30(1)
-  }
-
-  const col = Math.min(numberOfChildren, 6) - 1; // 0-indexed, cap at 6
+  const clampedChildren = Math.min(Math.max(numberOfChildren, 1), 6);
+  const col = clampedChildren - 1; // 0-indexed
 
   // Below minimum table row — use minimum row
   if (combinedNetIncome <= FL_SCHEDULE[0][0]) {
     return FL_SCHEDULE[0][col + 1];
   }
 
-  // Find bracketing rows
+  // Above $10,000: statutory excess-income formula (§61.30(6)(b))
+  const scheduleMax = FL_SCHEDULE[FL_SCHEDULE.length - 1][0]; // 10000
+  if (combinedNetIncome > scheduleMax) {
+    const baseAt10000 = lookupScheduleAt10000(clampedChildren);
+    const excessRate = FL_EXCESS_RATES[clampedChildren];
+    return baseAt10000 + (combinedNetIncome - scheduleMax) * excessRate;
+  }
+
+  // Within table range: find bracketing rows and interpolate
   for (let i = 0; i < FL_SCHEDULE.length - 1; i++) {
     const lo = FL_SCHEDULE[i];
     const hi = FL_SCHEDULE[i + 1];
@@ -163,13 +195,13 @@ export interface FLChildSupportResult {
   incomeShareB: number;
 
   /**
-   * Basic need from §61.30 guideline schedule.
-   * null if combined income > $25,000 (manual calculation required).
+   * Basic need from §61.30 guideline schedule or excess-income formula.
+   * Always a number — the formula handles all income levels above $10,000.
    */
   basicNeed: number | null;
-  /** True if income exceeds the $25,000 table maximum */
+  /** True if income exceeds the $10,000 table maximum (formula applied) */
   aboveTableIncome: boolean;
-  /** Warning message when income is above table */
+  /** Informational note when excess-income formula is applied */
   aboveTableWarning?: string;
 
   // --- Standard timesharing (substantialTimesharing = false) ---
@@ -238,9 +270,10 @@ export function calculateFLChildSupport(
   const incomeShareB = combinedNetIncome > 0 ? netIncomeB / combinedNetIncome : 0.5;
 
   // ---- Step 2: Basic child support need ----
-  const basicNeedRaw = getBasicNeed(combinedNetIncome, numberOfChildren);
-  const aboveTableIncome = basicNeedRaw === null;
-  const basicNeed = basicNeedRaw !== null ? basicNeedRaw : getBasicNeed(TABLE_MAX_INCOME, numberOfChildren)!;
+  // getBasicNeed never returns null — formula handles all income levels
+  const basicNeedValue = getBasicNeed(combinedNetIncome, numberOfChildren)!;
+  const scheduleMax = FL_SCHEDULE[FL_SCHEDULE.length - 1][0]; // 10000
+  const aboveTableIncome = combinedNetIncome > scheduleMax;
 
   // ---- Step 3: Time-sharing branch ----
   // §61.30: substantial time-sharing requires BOTH parents >= 73 overnights
@@ -253,21 +286,25 @@ export function calculateFLChildSupport(
     combinedNetIncome,
     incomeShareA,
     incomeShareB,
-    basicNeed: basicNeedRaw,
+    basicNeed: basicNeedValue,
     aboveTableIncome,
   };
 
   if (aboveTableIncome) {
     result.aboveTableWarning =
-      'Combined net income exceeds $25,000. The Florida §61.30 guideline table ends at $25,000. ' +
-      'Amounts above this level require manual calculation per §61.30(1). ' +
-      'The figure shown uses the $25,000 row as a floor — consult an attorney for the exact statutory amount.';
+      'Combined net income exceeds $10,000. The §61.30(6)(b) excess-income formula has been applied ' +
+      `(base at $10,000 + ${((FL_EXCESS_RATES[Math.min(Math.max(numberOfChildren, 1), 6)]) * 100).toFixed(1)}% of income above $10,000). ` +
+      'Consult an attorney to confirm the applicable statutory rate.';
   }
 
   if (!substantialTimesharing) {
     // ---- Step 4A: Standard guideline ----
+    // Determine payer dynamically based on overnights
+    const majorityParent = overnightsA >= overnightsB ? 'A' : 'B';
+    const supportParent: 'A' | 'B' = majorityParent === 'A' ? 'B' : 'A';
+
     const totalNeed =
-      basicNeed +
+      basicNeedValue +
       qualifyingChildcare +
       qualifyingChildHealthInsurance +
       qualifyingNoncoveredMedical;
@@ -275,7 +312,7 @@ export function calculateFLChildSupport(
     const obligationA = totalNeed * incomeShareA;
     const obligationB = totalNeed * incomeShareB;
 
-    // Parent B (noncustodial) owes their share minus direct expenses they pay
+    // The minority-time parent (supportParent) owes their share minus direct expenses they pay
     const expensePaidByB =
       childcarePaidByB + healthInsurancePaidByB + noncoveredMedicalPaidByB;
     const transferBtoA = obligationB - expensePaidByB;
@@ -289,9 +326,10 @@ export function calculateFLChildSupport(
       `Net income B: $${netIncomeB.toFixed(2)}`,
       `Combined net income: $${combinedNetIncome.toFixed(2)}`,
       `Income share A/B: ${(incomeShareA * 100).toFixed(1)}% / ${(incomeShareB * 100).toFixed(1)}%`,
-      `Basic guideline need: $${basicNeed.toFixed(2)}`,
+      `Basic guideline need: $${basicNeedValue.toFixed(2)}${aboveTableIncome ? ' (§61.30(6)(b) excess-income formula)' : ''}`,
       `Overnight % A/B: ${((overnightsA / 365) * 100).toFixed(1)}% / ${((overnightsB / 365) * 100).toFixed(1)}%`,
       `Substantial time-sharing: No`,
+      `Majority parent: ${majorityParent}`,
       `Total need (basic + add-ons): $${totalNeed.toFixed(2)}`,
       `Obligation A: $${obligationA.toFixed(2)} (A's income share × total need)`,
       `Obligation B: $${obligationB.toFixed(2)} (B's income share × total need)`,
@@ -319,8 +357,8 @@ export function calculateFLChildSupport(
   // CRITICAL: gross-up applies to basicNeed ONLY — NOT childcare, NOT health insurance
 
   // B1: Base obligations from basicNeed only
-  const baseObligationA = basicNeed * incomeShareA;
-  const baseObligationB = basicNeed * incomeShareB;
+  const baseObligationA = basicNeedValue * incomeShareA;
+  const baseObligationB = basicNeedValue * incomeShareB;
 
   // B2: 1.5× gross-up (on basicNeed only)
   const grossedObligationA = baseObligationA * 1.5;
@@ -379,7 +417,7 @@ export function calculateFLChildSupport(
     `Net income B: $${netIncomeB.toFixed(2)}`,
     `Combined net income: $${combinedNetIncome.toFixed(2)}`,
     `Income share A/B: ${(incomeShareA * 100).toFixed(1)}% / ${(incomeShareB * 100).toFixed(1)}%`,
-    `Basic guideline need: $${basicNeed.toFixed(2)}`,
+    `Basic guideline need: $${basicNeedValue.toFixed(2)}${aboveTableIncome ? ' (§61.30(6)(b) excess-income formula)' : ''}`,
     `Overnight % A/B: ${(overnightPctA * 100).toFixed(1)}% / ${(overnightPctB * 100).toFixed(1)}%`,
     `Substantial time-sharing: Yes`,
     `A base obligation (basicNeed × A income share): $${baseObligationA.toFixed(2)}`,

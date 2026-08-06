@@ -131,10 +131,17 @@ export interface CAChildSupportResult {
 // ---------------------------------------------------------------------------
 
 /**
- * California minimum wage (2025): $16.50/hr × 2080 hrs/yr ÷ 12 months.
- * This threshold is used for the low-income adjustment eligibility check.
+ * California minimum wage effective 2026-01-01: $16.90/hr (per Jan 1 2026 increase).
+ * §4055 defines the low-income threshold as: hourlyRate × 40 hrs × 52 weeks ÷ 12 months.
+ * Update only the hourly rate here to keep the formula accurate for future changes.
  */
-const CA_MIN_WAGE_MONTHLY = (16.50 * 2080) / 12; // ~$2,860/month
+const CA_MINIMUM_WAGE = {
+  effectiveDate: '2026-01-01',
+  hourly: 16.90,
+};
+
+const CA_MIN_WAGE_MONTHLY =
+  (CA_MINIMUM_WAGE.hourly * 40 * 52) / 12; // ~$2,929.33/month
 
 export function calculateCAChildSupport(
   input: CAChildSupportInput

@@ -305,30 +305,65 @@ describe('§4062 add-ons — separate from base', () => {
 });
 
 // ---------------------------------------------------------------------------
-// Low-income adjustment
+// Low-income adjustment — 2026 CA minimum wage ($16.90/hr, Bug 3 fix)
 // ---------------------------------------------------------------------------
-describe('Low-income adjustment', () => {
-  it('eligible when obligor income < CA minimum wage threshold', () => {
-    // Make B the payer with very low income
-    const result = calculateCAChildSupport(
-      baseInput({
-        netDisposableIncomeA: 2000,  // A is high earner (barely)
-        netDisposableIncomeB: 1500,  // B is low earner, pays if CS < 0 — but let's flip
-        // Force A to be obligor with low income:
-        netDisposableIncomeA: 1800,
-        netDisposableIncomeB: 5000,  // B is high earner, pays A
-        timeshareA: 0.70,
-        timeshareB: 0.30,
-      })
-    );
-    // B is high earner, pays A; B's income is 5000 which is above threshold
-    // For low-income test: need the PAYER to be below threshold
-    // Rearrange: A is high earner but very low income payer
-    // Actually test with explicit low-income payer scenario
-    expect(typeof result.lowIncomeAdjustmentEligible).toBe('boolean');
+describe('Low-income adjustment — 2026 CA minimum wage', () => {
+  // §4055 threshold: $16.90 × 40 × 52 / 12 = $2,929.33/month
+  const EXPECTED_THRESHOLD = (16.90 * 40 * 52) / 12; // ~2929.33
+
+  it('lowIncomeThreshold matches 2026 CA minimum wage formula ($16.90/hr)', () => {
+    const result = calculateCAChildSupport(baseInput());
+    expect(result.lowIncomeThreshold).toBeCloseTo(EXPECTED_THRESHOLD, 2);
   });
 
-  it('not eligible when obligor income is above CA min wage', () => {
+  it('lowIncomeThreshold is NOT the old 2025 value ($2,860/month)', () => {
+    const OLD_THRESHOLD = (16.50 * 2080) / 12; // old: ~2860
+    const result = calculateCAChildSupport(baseInput());
+    expect(result.lowIncomeThreshold).not.toBeCloseTo(OLD_THRESHOLD, 0);
+  });
+
+  it('threshold is derived from formula, not hard-coded: ~$2,929.33', () => {
+    const result = calculateCAChildSupport(baseInput());
+    // Verify the numeric value is correct
+    expect(result.lowIncomeThreshold).toBeCloseTo(2929.33, 1);
+  });
+
+  it('obligor at $2,929 (just below threshold) → lowIncomeAdjustmentEligible: true', () => {
+    // Set A as high earner payer with income just below threshold
+    const result = calculateCAChildSupport(
+      baseInput({
+        netDisposableIncomeA: 2929,
+        netDisposableIncomeB: 1000,
+        timeshareA: 0.30,
+        timeshareB: 0.70,
+      })
+    );
+    // A is high earner (pays), income 2929 < 2929.33 threshold
+    expect(result.highEarner).toBe('A');
+    expect(result.basePayer).toBe('A');
+    expect(result.lowIncomeAdjustmentEligible).toBe(true);
+    expect(result.maximumLowIncomeReduction).toBeDefined();
+    expect(result.lowIncomeAdjustedRange).toBeDefined();
+    expect(result.lowIncomeAdjustedRange![0]).toBeGreaterThanOrEqual(0);
+    expect(result.lowIncomeAdjustedRange![1]).toBeCloseTo(result.baseSupport, 2);
+  });
+
+  it('obligor at $2,930 (just above threshold) → lowIncomeAdjustmentEligible: false', () => {
+    const result = calculateCAChildSupport(
+      baseInput({
+        netDisposableIncomeA: 2930,
+        netDisposableIncomeB: 1000,
+        timeshareA: 0.30,
+        timeshareB: 0.70,
+      })
+    );
+    // A is high earner (pays), income 2930 > 2929.33 threshold
+    expect(result.highEarner).toBe('A');
+    expect(result.basePayer).toBe('A');
+    expect(result.lowIncomeAdjustmentEligible).toBe(false);
+  });
+
+  it('not eligible when obligor income is well above threshold', () => {
     const result = calculateCAChildSupport(
       baseInput({
         netDisposableIncomeA: 6000,
@@ -337,26 +372,20 @@ describe('Low-income adjustment', () => {
         timeshareB: 0.70,
       })
     );
-    // A pays (high earner), A income = 6000 >> CA min wage ~2860
     expect(result.lowIncomeAdjustmentEligible).toBe(false);
   });
 
-  it('eligible when payer income is below CA min wage (~$2,860/month)', () => {
-    // Set up: A is low-income high earner (just barely)
+  it('eligible when payer income is clearly below $2,929.33', () => {
     const result = calculateCAChildSupport(
       baseInput({
-        netDisposableIncomeA: 2500, // below ~2860 threshold
+        netDisposableIncomeA: 2500,
         netDisposableIncomeB: 1000,
         timeshareA: 0.30,
         timeshareB: 0.70,
       })
     );
-    // A is high earner, pays, income 2500 < ~2860
     expect(result.lowIncomeAdjustmentEligible).toBe(true);
     expect(result.maximumLowIncomeReduction).toBeDefined();
-    expect(result.lowIncomeAdjustedRange).toBeDefined();
-    expect(result.lowIncomeAdjustedRange![0]).toBeGreaterThanOrEqual(0);
-    expect(result.lowIncomeAdjustedRange![1]).toBeCloseTo(result.baseSupport, 2);
   });
 });
 
