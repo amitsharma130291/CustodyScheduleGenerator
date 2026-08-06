@@ -2,14 +2,13 @@ export const meta = {
 	title: 'Contact CustodyBuilder | Support & Corrections',
 	description:
 		'Contact CustodyBuilder for tool bugs, calculator issues, schedule export problems, correction requests, and editorial feedback — not legal advice.',
-	dateModified: '2026-06-25',
+	dateModified: '2026-08-06',
 };
 
 export const hero = {
 	headline: 'Contact CustodyBuilder',
 	intro:
-		'Send tool bugs, calculator discrepancies, export issues, correction requests, or editorial feedback to hello@custodybuilder.com. Do not send confidential case details or requests for legal advice.',
-	email: 'hello@custodybuilder.com',
+		'Use the form below to send tool bugs, calculator discrepancies, export issues, correction requests, or editorial feedback. Do not send confidential case details or requests for legal advice.',
 };
 
 export const canHelp = {
@@ -47,22 +46,22 @@ export const beforeContact = {
 export const correctionProcess = {
 	title: 'Correction & Feedback Process',
 	steps: [
-		'Email hello@custodybuilder.com with subject line: Tool bug, Calculator correction, or Editorial feedback',
+		'Use the form above and select a subject such as Tool bug, Calculator correction, or Editorial feedback',
 		'Include page URL, browser if relevant, and reproduction steps',
 		'Calculator issues are verified against methodology documentation',
 		'Accepted corrections update page copy, tool logic, or dateModified as appropriate',
 		'We do not reply to legal advice requests or case-specific schedule questions',
 	],
-	responseExpectation: 'Product and correction emails are reviewed on a best-effort basis. No guaranteed response time. Urgent legal matters require a qualified professional — not this contact channel.',
+	responseExpectation: 'Product and correction messages are reviewed on a best-effort basis. No guaranteed response time. Urgent legal matters require a qualified professional — not this contact channel.',
 };
 
 export const faqSection = { title: 'Contact FAQ', description: 'Support boundaries only.' };
 
 export const faqItems = [
-	{ question: 'What email should I use?', answer: 'hello@custodybuilder.com for tool bugs, calculator issues, correction requests, and editorial feedback.' },
+	{ question: 'What email should I use?', answer: 'Use the contact form on this page and select the subject that best matches your query: Tool bug, Calculator correction, or Editorial feedback.' },
 	{ question: 'Can CustodyBuilder review my custody order?', answer: 'No. We do not review individual orders, provide legal advice, or recommend case strategy.' },
-	{ question: 'How do I report a calculator error?', answer: 'Email the page URL, inputs entered, expected result, and actual result. We verify against the methodology on the how-it-works page.' },
+	{ question: 'How do I report a calculator error?', answer: 'Use the form on this page. Include the page URL, inputs entered, expected result, and actual result. We verify against the methodology on the how-it-works page.' },
 	{ question: 'Will you fix guide content if something is wrong?', answer: 'Yes, when a factual error, broken link, or calculator parity issue is confirmed. Send the page URL and the specific sentence or output that is wrong.' },
-	{ question: 'Do you offer phone support?', answer: 'No. Contact is email only for product and editorial issues.' },
-	{ question: 'Is my email confidential?', answer: 'Do not send confidential legal details, court filings, or sensitive child information. We use contact messages only to fix tools and improve educational content.' },
+	{ question: 'Do you offer phone support?', answer: 'No. Contact is through this form only for product and editorial issues.' },
+	{ question: 'Is my message confidential?', answer: 'Do not send confidential legal details, court filings, or sensitive child information. We use contact messages only to fix tools and improve educational content.' },
 ];

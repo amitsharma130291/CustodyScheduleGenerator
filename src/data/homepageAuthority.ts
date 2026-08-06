@@ -179,6 +179,6 @@ export const faqItems = [
 	},
 	{
 		question: 'How do I report an error?',
-		answer: 'Email hello@custodybuilder.com through the contact page with page URL, inputs used, and expected vs actual output. Calculator issues are verified against documented formulas.',
+		answer: 'Use the contact form at /contact/ with the page URL, inputs used, and expected vs actual output. Calculator issues are verified against documented formulas.',
 	},
 ];
