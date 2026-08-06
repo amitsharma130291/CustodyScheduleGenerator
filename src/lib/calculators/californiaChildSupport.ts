@@ -122,8 +122,10 @@ export interface CAChildSupportResult {
     adjustedNetB: number;
     netAForAddons: number;
     netBForAddons: number;
-    shareA: number;
-    shareB: number;
+    addonShareA: number;
+    addonShareB: number;
+    shareA: number; // alias for addonShareA
+    shareB: number; // alias for addonShareB
     childcareOwedByA: number;
     childcareOwedByB: number;
     healthcareOwedByA: number;
@@ -298,39 +300,39 @@ export function calculateCAChildSupport(
       'A precise §4061(c) calculation requires gross income and §4059 recomputation.'
     : undefined;
 
-  // Approximate §4061(c) adjusted net incomes
+  // §4061(c): approximate adjusted net incomes per parent label (A and B)
   const adjustedNetA =
     netDisposableIncomeA - spousalSupportAPaysB + spousalSupportBPaysA;
   const adjustedNetB =
     netDisposableIncomeB - spousalSupportBPaysA + spousalSupportAPaysB;
 
-  // §4061(d): reduce PAYER's adjusted net by basicSupport (unsigned)
-  // Do NOT increase recipient's net by child support received.
-  const payerAdjustedNetB4 = basePayer === 'A'
-    ? Math.max(adjustedNetA - basicSupport, 0)
-    : Math.max(adjustedNetB - basicSupport, 0);
-  const netAForAddons =
-    basePayer === 'A'
-      ? Math.max(adjustedNetA - basicSupport, 0)
-      : adjustedNetA;
-  const netBForAddons =
-    basePayer === 'B'
-      ? Math.max(adjustedNetB - basicSupport, 0)
-      : adjustedNetB;
+  // §4061(d): reduce the PAYER's adjusted net by basicSupport.
+  // Build net-for-addons per actual parent label (A/B), not generic payer/recipient.
+  let netAForAddons = adjustedNetA;
+  let netBForAddons = adjustedNetB;
 
+  if (basePayer === 'A') {
+    netAForAddons = Math.max(adjustedNetA - basicSupport, 0);
+  }
+  if (basePayer === 'B') {
+    netBForAddons = Math.max(adjustedNetB - basicSupport, 0);
+  }
+
+  // Per-parent proportional shares
   const totalNetForAddons = netAForAddons + netBForAddons;
-  const shareAForAddons = totalNetForAddons > 0 ? netAForAddons / totalNetForAddons : 0.5;
-  const shareBForAddons = totalNetForAddons > 0 ? netBForAddons / totalNetForAddons : 0.5;
+  const addonShareA = totalNetForAddons > 0 ? netAForAddons / totalNetForAddons : 0.5;
+  const addonShareB = totalNetForAddons > 0 ? netBForAddons / totalNetForAddons : 0.5;
 
-  // Payer share determines how much payer owes toward joint add-ons
+  const shareAForAddons = addonShareA;
+  const shareBForAddons = addonShareB;
+
   const addonSharePayer =
-    basePayer === 'A' ? shareAForAddons :
-    basePayer === 'B' ? shareBForAddons : 0;
+    basePayer === 'A' ? addonShareA :
+    basePayer === 'B' ? addonShareB : 0;
   const addonShareRecipient =
-    baseRecipient === 'A' ? shareAForAddons :
-    baseRecipient === 'B' ? shareBForAddons : 0;
+    baseRecipient === 'A' ? addonShareA :
+    baseRecipient === 'B' ? addonShareB : 0;
 
-  // Backwards-compat aliases for result fields
   const payerAdjustedNetForAddons =
     basePayer === 'A' ? netAForAddons :
     basePayer === 'B' ? netBForAddons : 0;
@@ -339,31 +341,29 @@ export function calculateCAChildSupport(
     baseRecipient === 'B' ? netBForAddons : 0;
   const totalAdjustedForAddons = totalNetForAddons;
 
-  // Payer's share of qualifying add-ons
   const addonTransfer =
     (qualifyingChildcare + qualifyingHealthcare) * addonSharePayer;
 
-  // Collect §4061 assumption notes
   const addonAssumptions: string[] = [
     ...(spousalAdjustmentNote ? [spousalAdjustmentNote] : []),
-    '§4061(d) reduction applied to paying parent\'s adjusted net income.',
+    '§4061(d) reduction applied to paying parent\'s adjusted net income (per-parent-label method).',
   ];
 
-  // Per-parent add-on allocation details
   const addonAllocation = {
     adjustedNetA,
     adjustedNetB,
     netAForAddons,
     netBForAddons,
-    shareA: shareAForAddons,
-    shareB: shareBForAddons,
-    childcareOwedByA: qualifyingChildcare * shareAForAddons,
-    childcareOwedByB: qualifyingChildcare * shareBForAddons,
-    healthcareOwedByA: qualifyingHealthcare * shareAForAddons,
-    healthcareOwedByB: qualifyingHealthcare * shareBForAddons,
+    addonShareA,
+    addonShareB,
+    shareA: addonShareA,
+    shareB: addonShareB,
+    childcareOwedByA: qualifyingChildcare * addonShareA,
+    childcareOwedByB: qualifyingChildcare * addonShareB,
+    healthcareOwedByA: qualifyingHealthcare * addonShareA,
+    healthcareOwedByB: qualifyingHealthcare * addonShareB,
     assumptions: addonAssumptions,
   };
-
   const finalSupport = baseSupport + addonTransfer;
 
   const payer: 'A' | 'B' | null = basePayer;
