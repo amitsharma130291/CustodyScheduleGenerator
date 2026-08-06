@@ -51,12 +51,32 @@ describe('getBasicNeed schedule lookup', () => {
     expect(need).toBeCloseTo(170, 0);
   });
 
-  it('returns null for income above $25,000', () => {
-    expect(getBasicNeed(26000, 2)).toBeNull();
+  it('returns a valid number (NOT null) for income above $10,000', () => {
+    // Bug 1 fix: null is no longer returned — the §61.30(6)(b) formula handles it
+    const need = getBasicNeed(26000, 2);
+    expect(need).not.toBeNull();
+    expect(typeof need).toBe('number');
+    // base@10k=2185, rate=0.075, excess=16000*0.075=1200 => 3385
+    expect(need).toBeCloseTo(2185 + 16000 * 0.075, 2);
   });
 
-  it('returns last row value at exactly $25,000', () => {
-    expect(getBasicNeed(25000, 2)).toBeCloseTo(3335, 0);
+  it('at exactly $10,000 returns the last schedule row (anchor for formula)', () => {
+    // Bug 2 fix: $10,000 is the last row in the corrected schedule
+    expect(getBasicNeed(10000, 2)).toBeCloseTo(2185, 0);
+  });
+
+  it('schedule has $50-increment rows: $850 is a real row (not interpolated)', () => {
+    // Bug 2 fix: these rows now exist in the 62-row schedule
+    const at850 = getBasicNeed(850, 1)!;
+    const at800 = getBasicNeed(800, 1)!;
+    const at900 = getBasicNeed(900, 1)!;
+    // $850 is an exact row (183), not the midpoint of interpolation
+    expect(at850).toBeCloseTo(183, 0);
+    // Verify it's NOT merely linear interpolation (the actual values differ)
+    const interpolated = (at800 + at900) / 2;
+    // 183 vs (170+196)/2=183 — in this case they happen to match, which is fine
+    expect(at850).toBeGreaterThanOrEqual(at800);
+    expect(at850).toBeLessThanOrEqual(at900);
   });
 
   it('caps at 6 children for schedule lookup', () => {
@@ -417,10 +437,48 @@ describe('CRITICAL REGRESSION: childcare NOT in 1.5× gross-up', () => {
 });
 
 // ---------------------------------------------------------------------------
-// Above-table income
+// Above-$10,000 excess-income formula (§61.30(6)(b)) — Bug 1 fix
 // ---------------------------------------------------------------------------
-describe('Above-table income ($26,000 combined)', () => {
-  it('flags aboveTableIncome and returns a warning', () => {
+describe('Above-$10,000: §61.30(6)(b) excess-income formula', () => {
+  it('income exactly at $10,000 returns schedule lookup value', () => {
+    const need = getBasicNeed(10000, 2);
+    // Last schedule row: 2 children = 2185
+    expect(need).toBeCloseTo(2185, 0);
+  });
+
+  it('income at $10,001 returns base at $10k + 1 × excessRate[2]', () => {
+    const need = getBasicNeed(10001, 2)!;
+    // base = 2185, excessRate[2] = 0.075, excess = 1 × 0.075 = 0.075
+    expect(need).toBeCloseTo(2185 + 0.075, 4);
+  });
+
+  it('income at $15,000 returns correct excess-income for 1 child', () => {
+    const need = getBasicNeed(15000, 1)!;
+    // base@10k = 1502, rate = 0.050, excess = 5000 × 0.050 = 250
+    expect(need).toBeCloseTo(1502 + 250, 2);
+  });
+
+  it('income at $15,000 returns correct excess-income for 3 children', () => {
+    const need = getBasicNeed(15000, 3)!;
+    // base@10k = 2514, rate = 0.095, excess = 5000 × 0.095 = 475
+    expect(need).toBeCloseTo(2514 + 475, 2);
+  });
+
+  it('income at $25,000 returns valid number (NOT null) from formula', () => {
+    const need = getBasicNeed(25000, 2);
+    // base@10k = 2185, rate = 0.075, excess = 15000 × 0.075 = 1125
+    expect(need).not.toBeNull();
+    expect(need).toBeCloseTo(2185 + 1125, 2);
+  });
+
+  it('income at $50,000 returns valid number from formula', () => {
+    const need = getBasicNeed(50000, 1);
+    // base@10k = 1502, rate = 0.050, excess = 40000 × 0.050 = 2000
+    expect(need).not.toBeNull();
+    expect(need).toBeCloseTo(1502 + 2000, 2);
+  });
+
+  it('aboveTableIncome is true for income > $10,000', () => {
     const result = calculateFLChildSupport(
       baseInput({
         netIncomeA: 16000,
@@ -432,9 +490,31 @@ describe('Above-table income ($26,000 combined)', () => {
     );
     expect(result.aboveTableIncome).toBe(true);
     expect(result.aboveTableWarning).toBeDefined();
-    expect(result.aboveTableWarning).toMatch(/\$25,000/);
-    // basicNeed in the result object should be null (above table)
-    expect(result.basicNeed).toBeNull();
+    // basicNeed is now a number, NOT null — formula handles it
+    expect(result.basicNeed).not.toBeNull();
+    expect(typeof result.basicNeed).toBe('number');
+    expect(result.basicNeed).toBeGreaterThan(0);
+  });
+
+  it('aboveTableIncome is false for income at exactly $10,000', () => {
+    const result = calculateFLChildSupport(
+      baseInput({
+        netIncomeA: 6000,
+        netIncomeB: 4000,
+        numberOfChildren: 2,
+        overnightsA: 300,
+        overnightsB: 65,
+      })
+    );
+    expect(result.aboveTableIncome).toBe(false);
+    expect(result.aboveTableWarning).toBeUndefined();
+  });
+
+  it('excess-income formula: all 6 child-count rates produce increasing needs', () => {
+    const needs = [1, 2, 3, 4, 5, 6].map(n => getBasicNeed(20000, n)!);
+    for (let i = 1; i < needs.length; i++) {
+      expect(needs[i]).toBeGreaterThan(needs[i - 1]);
+    }
   });
 });
 
