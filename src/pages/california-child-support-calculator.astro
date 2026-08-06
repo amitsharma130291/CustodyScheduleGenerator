@@ -6,12 +6,9 @@ import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import FAQ from '../components/FAQ.astro';
 import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
+import CaliforniaChildSupportCalculator from '../components/tool/CaliforniaChildSupportCalculator.astro';
 import { getCanonicalUrl } from '../lib/seo/metadata';
-import { buildArticleSchema, buildBreadcrumbSchema, buildFAQSchema, buildWebPageSchema } from '../lib/seo/schema';
-
-import ScheduleHeroGeneratorPanel from '../components/schedules/ScheduleHeroGeneratorPanel.astro';
-import { generateSchedule } from '../lib/schedules/generateSchedule';
-import { getDefaultStartDate } from '../lib/schedules/format';const title = "California Child Support Calculator 2026";
+import { buildArticleSchema, buildBreadcrumbSchema, buildFAQSchema, buildWebPageSchema, buildSoftwareApplicationSchema, buildOrganizationSchema } from '../lib/seo/schema';const title = "California Child Support Calculator 2026";
 const description = "California child support is mostly about timeshare percentage. See the formula, how changing custody percentage affects your monthly payment, and what courts actually weigh.";
 const canonical = "/california-child-support-calculator/";
 const canonicalUrl = getCanonicalUrl(canonical);
@@ -21,15 +18,18 @@ const editorialReview = { reviewer: "CustodyBuilder Editorial Team", reviewerHre
 const breadcrumbs = [{ name: "Home", url: getCanonicalUrl("/") }, { name: "California Child Support Calculator", url: canonicalUrl }];
 const faqItems = [{ question: "Can parents agree to a support amount different from the guideline in California?", answer: "Yes, with limitations. Courts can approve a non-guideline agreement if both parents are represented by counsel, the agreement is knowing and voluntary, and it is in the child's interest. Courts will not approve an agreement that leaves the child inadequately supported." },{ question: "Does California have a support calculator I can use myself?", answer: "The Judicial Council's child support calculator (available at the California Courts website) runs the same formula as Dissomaster. It is publicly available but requires accurate income inputs and doesn't account for all variables the software handles." },{ question: "What happens if my income changes significantly after the order?", answer: "Either parent can petition for modification when there is a change in circumstances — a meaningful change in either parent's income or in the custody schedule. California courts don't require a specific percentage threshold, though modest changes may not justify the cost and complexity of a modification proceeding." },{ question: "Does overtime count as income in California?", answer: "Generally yes. California courts include regular overtime in income. If overtime is genuinely irregular (a one-time emergency project), you may be able to argue it shouldn't be included, but recurring overtime is treated as income." },{ question: "How does California handle parents who quit their jobs to reduce support?", answer: "Courts impute income based on earning capacity. If a parent voluntarily leaves employment, courts use their prior income or their capacity to earn as the basis for the calculation — not $0." },{ question: "Does the California formula change for multiple children?", answer: "Yes — the K factor in the formula adjusts for number of children. Support does not simply multiply by the number of children; the formula produces a blended result that increases with additional children but not proportionally." },{ question: "What is the difference between guideline and add-on support in California?", answer: "Guideline support (from the formula) covers basic expenses: food, clothing, shelter, routine healthcare. Add-on support under § 4062 covers specific costs beyond basics — childcare, uninsured medical expenses, and special needs costs. Both are part of the total support obligation." },{ question: "Can the court order support before the case is finalized?", answer: "Yes. Courts may issue temporary support orders while a case is pending. Timelines vary by county and court backlog. Temporary orders use the same formula and are enforceable immediately." }];
 
-const startDate = getDefaultStartDate();
-const generatedSchedule = generateSchedule({
-	scheduleId: '223',
-	startDate,
-	parentNames: { parentA: 'Parent A', parentB: 'Parent B' },
-});
-const heroTrustSignals = ['Free — no account needed', 'California schedule builder', 'Download as PDF'];
-
-const schema = [buildWebPageSchema({ name: title, description, url: canonicalUrl }), buildArticleSchema({ headline: title, description, url: canonicalUrl, datePublished, dateModified, authorName: editorialReview.reviewer }), buildFAQSchema(faqItems), buildBreadcrumbSchema(breadcrumbs)];
+const schema = [
+	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+	buildArticleSchema({ headline: title, description, url: canonicalUrl, datePublished, dateModified, authorName: editorialReview.reviewer }),
+	buildFAQSchema(faqItems),
+	buildBreadcrumbSchema(breadcrumbs),
+	buildOrganizationSchema({ name: 'CustodyBuilder', url: getCanonicalUrl('/') }),
+	{
+		...buildSoftwareApplicationSchema({ name: 'California Child Support Calculator', description, url: canonicalUrl, applicationCategory: 'LegalApplication' }),
+		operatingSystem: 'Web',
+		offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+	},
+];
 const timeshareTable = [{ pct: "20%", support: "~$1,480/month" },{ pct: "28%", support: "~$1,240/month" },{ pct: "35%", support: "~$950/month" },{ pct: "40%", support: "~$780/month" },{ pct: "50%", support: "~$480/month" }];
 const sensitivityTable = [{ change: "High earner timeshare increases from 28% to 35%", effect: "Support decreases ~$200–$350/month" },{ change: "High earner timeshare increases from 35% to 42%", effect: "Support decreases ~$150–$250/month" },{ change: "High earner net income increases by $1,000/month", effect: "Support increases ~$100–$160/month" },{ change: "Lower earner net income increases by $1,000/month", effect: "Support decreases ~$60–$100/month" },{ change: "$400/month childcare add-on (§ 4062) added", effect: "Support increases ~$200/month (split 50/50 by default)" }];
 const addOnTable = [{ addon: "Childcare (work/education related)", split: "50/50*", notes: "Only childcare that allows the parent to work or attend school" },{ addon: "Uninsured healthcare costs", split: "50/50*", notes: "Copays, deductibles, treatments not covered" },{ addon: "Education and special needs", split: "50/50*", notes: "Special schooling, tutoring for documented needs" },{ addon: "Travel for visitation", split: "Negotiated", notes: "Courts can allocate based on who caused the distance" }];
@@ -40,7 +40,7 @@ const commonMistakes = [{ title: "Not accounting for add-ons when evaluating an 
   <Navbar />
   <Breadcrumbs items={breadcrumbs} />
   <main class="overflow-x-clip">
-    <section class="container-shell grid grid-cols-1 gap-5 py-4 sm:py-5 lg:grid-cols-[minmax(0,0.88fr)_minmax(704px,1.12fr)] lg:items-start lg:gap-7 lg:py-6 xl:w-[min(100%,1360px)]" id="schedule-generator">
+    <section class="container-shell grid grid-cols-1 gap-5 py-4 sm:py-5 lg:grid-cols-[minmax(0,0.88fr)_minmax(0,1.12fr)] lg:items-start lg:gap-7 lg:py-6 xl:w-[min(100%,1360px)]" id="calculator">
       <div class="order-1 min-w-0 lg:col-start-1 lg:row-start-1 lg:pt-1">
 			<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">California child support calculator 2026</p>
       <h1 class="mt-2.5 max-w-3xl text-[1.7rem] font-semibold leading-[1.06] tracking-[-0.05em] text-primary sm:text-4xl lg:text-5xl">California Child Support Calculator: How Timeshare Changes Your Number</h1>
@@ -67,11 +67,7 @@ const commonMistakes = [{ title: "Not accounting for add-ons when evaluating an 
 
 		</div>
 
-		<ScheduleHeroGeneratorPanel
-			selectedScheduleId="223"
-			generatedSchedule={generatedSchedule}
-			heroTrustSignals={heroTrustSignals}
-		/>
+		<CaliforniaChildSupportCalculator />
     </section>
     <nav class="container-shell border-y border-line-subtle py-3 lg:max-w-5xl" aria-label="On this page">
       <ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">
