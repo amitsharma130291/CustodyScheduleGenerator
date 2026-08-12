@@ -67,10 +67,10 @@ const diagnosticTable = [
 ];
 
 const jurisdictionTable = [
-	{ state: "New York", formulation: "A post-order change in circumstances must justify renewed review; modification must then serve best interests", why: "A new fact opens the door; best interests decides the requested change" },
-	{ state: "Illinois", formulation: "§610.5 uses changed/substantial-change rules and exceptions; parenting time and decision-making are treated differently", why: "Changing Tuesdays is legally different from reallocating major decisions" },
-	{ state: "Florida", formulation: "Supreme Court form 12.905(a) directs the filer to allege a substantial, material, and unanticipated change plus best interests", why: "A preferred calendar alone does not plead the threshold" },
-	{ state: "California", formulation: "Official self-help directs a parent to use the existing case and Request for Order process", why: "The statewide form is the procedural vehicle, not the merits test" },
+	{ state: "New York", href: "/new-york-custody-schedule/", formulation: "A post-order change in circumstances must justify renewed review; modification must then serve best interests", why: "A new fact opens the door; best interests decides the requested change" },
+	{ state: "Illinois", href: "/illinois-custody-schedule/", formulation: "§610.5 uses changed/substantial-change rules and exceptions; parenting time and decision-making are treated differently", why: "Changing Tuesdays is legally different from reallocating major decisions" },
+	{ state: "Florida", href: "/florida-custody-schedule/", formulation: "Supreme Court form 12.905(a) directs the filer to allege a substantial, material, and unanticipated change plus best interests", why: "A preferred calendar alone does not plead the threshold" },
+	{ state: "California", href: "/california-custody-schedule/", formulation: "Official self-help directs a parent to use the existing case and Request for Order process", why: "The statewide form is the procedural vehicle, not the merits test" },
 ];
 
 const steps = [
@@ -161,10 +161,10 @@ const failureReasons = [
 			<div class="mt-6 max-w-3xl overflow-x-auto rounded-[1.5rem] ring-1 ring-line-subtle">
 				<table class="w-full min-w-[640px] text-left text-sm">
 					<thead class="bg-surface-elevated text-primary"><tr><th class="px-4 py-3 font-semibold">Jurisdiction</th><th class="px-4 py-3 font-semibold">Current formulation or procedural emphasis</th><th class="px-4 py-3 font-semibold">Why it matters</th></tr></thead>
-					<tbody class="divide-y divide-line-subtle text-secondary">{jurisdictionTable.map((row) => (<tr><td class="px-4 py-3 font-semibold text-primary">{row.state}</td><td class="px-4 py-3">{row.formulation}</td><td class="px-4 py-3">{row.why}</td></tr>))}</tbody>
+					<tbody class="divide-y divide-line-subtle text-secondary">{jurisdictionTable.map((row) => (<tr><td class="px-4 py-3 font-semibold text-primary"><a href={row.href} class="underline decoration-line underline-offset-4 hover:text-accent">{row.state}</a></td><td class="px-4 py-3">{row.formulation}</td><td class="px-4 py-3">{row.why}</td></tr>))}</tbody>
 				</table>
 			</div>
-			<p class="mt-4 max-w-3xl text-sm text-secondary">This is a research map, not a substitute for the current statute, controlling cases, local rules, and exact order in the filing state.</p>
+			<p class="mt-4 max-w-3xl text-sm text-secondary">This is a research map, not a substitute for the current statute, controlling cases, local rules, and exact order in the filing state. Deployment can also trigger modification &mdash; see the <a href="/military-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">military custody schedule guide</a> for how the SCRA limits that specific factor.</p>
 		</section>
 
 		<section id="steps" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
@@ -194,6 +194,7 @@ const failureReasons = [
 				<p><strong class="text-primary">Proposed order:</strong> Replace Wednesday evening with Thursday school dismissal through Friday school drop-off, preserving alternating weekends. On school-closed Thursdays, pickup occurs at 4:30 p.m. at the library.</p>
 				<p>This proposal preserves tutoring, replaces an unreliable four-hour window with a predictable overnight, and gives the court exact language to order. Whether it satisfies the threshold still depends on the jurisdiction and evidence.</p>
 			</div>
+			<p class="mt-3 max-w-3xl text-xs text-muted"><a href="#schedule-generator" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">&uarr; Build this Thursday-to-Friday replacement calendar in the generator above</a></p>
 		</section>
 
 		<section id="emergency" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
@@ -207,6 +208,14 @@ const failureReasons = [
 			<ul class="mt-6 max-w-3xl grid gap-2 sm:grid-cols-2 text-sm leading-6 text-secondary">
 				{failureReasons.map((item) => (<li class="flex gap-2 rounded-[1.25rem] bg-surface/70 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]"><span class="shrink-0 text-accent" aria-hidden="true">&rarr;</span>{item}</li>))}
 			</ul>
+			<div class="mt-8 max-w-3xl grid gap-4 sm:grid-cols-2">
+				<a href="/custody-schedule-generator/" class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:shadow-md transition-shadow"><p class="font-semibold text-accent">Custody Schedule Generator</p><p class="mt-2 text-sm leading-6 text-secondary">Build the exact replacement calendar to present to the court.</p></a>
+				<a href="/custody-percentage-calculator/" class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:shadow-md transition-shadow"><p class="font-semibold text-accent">Custody Percentage Calculator</p><p class="mt-2 text-sm leading-6 text-secondary">Measure overnights under the current order and the proposal.</p></a>
+				<a href="/parenting-plan-template/" class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:shadow-md transition-shadow"><p class="font-semibold text-accent">Parenting Plan Template</p><p class="mt-2 text-sm leading-6 text-secondary">Draft the full replacement terms, not just the calendar.</p></a>
+				<a href="/military-custody-schedule/" class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:shadow-md transition-shadow"><p class="font-semibold text-accent">Military Custody Schedule</p><p class="mt-2 text-sm leading-6 text-secondary">When deployment is the changed circumstance.</p></a>
+				<a href="/fathers-custody-rights/" class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:shadow-md transition-shadow"><p class="font-semibold text-accent">Fathers' Custody Rights</p><p class="mt-2 text-sm leading-6 text-secondary">If the modification follows a parentage or denied-time dispute.</p></a>
+				<a href="/joint-custody-vs-sole-custody/" class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:shadow-md transition-shadow"><p class="font-semibold text-accent">Joint Custody vs. Sole Custody</p><p class="mt-2 text-sm leading-6 text-secondary">If the modification changes decision-making, not just time.</p></a>
+			</div>
 			<div class="mt-8"><BackToGeneratorCta headline="Ready to build the replacement calendar?" body="Use the generator to create the exact dated calendar you're proposing to the court — set start date, preview months, and download a PDF." /></div>
 		</section>
 

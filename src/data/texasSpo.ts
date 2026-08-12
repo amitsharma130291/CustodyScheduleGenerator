@@ -340,6 +340,14 @@ export const faqSection = {
 // Related links for internal linking
 export const relatedLinks = [
 	{
+		label: "Fathers' Custody Rights",
+		href: '/fathers-custody-rights/',
+	},
+	{
+		label: 'How to Modify a Custody Order',
+		href: '/how-to-modify-custody-order/',
+	},
+	{
 		label: 'Texas Parenting Plan Template',
 		href: '/texas-parenting-plan-template/',
 	},

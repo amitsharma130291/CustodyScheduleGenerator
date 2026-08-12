@@ -77,11 +77,11 @@ const planRequirements = [
 ];
 
 const patternTable = [
-	{ pattern: "2-2-3", logic: "Alternating two-, two-, and three-day blocks", fit: "Young children; nearby homes", drawback: "Frequent exchanges" },
-	{ pattern: "2-2-5-5", logic: "Fixed weekdays plus alternating weekends", fit: "Predictable school/activity ownership", drawback: "Five-day separation blocks" },
-	{ pattern: "Week-on/week-off", logic: "Seven days per parent", fit: "Older children; low-conflict logistics", drawback: "Long separation for young children" },
-	{ pattern: "Primary weekdays + alternating weekends", logic: "One home anchors school; other parent receives scheduled weekends and often midweek time", fit: "Distance or work constraints", drawback: "Must prevent long parent-child gaps" },
-	{ pattern: "Custom shift-work rotation", logic: "Calendar follows recurring duty periods", fit: "Nurses, first responders, rotating shifts", drawback: "Hard to administer unless dates are generated in advance" },
+	{ pattern: "2-2-3", href: "/2-2-3-custody-schedule/", logic: "Alternating two-, two-, and three-day blocks", fit: "Young children; nearby homes", drawback: "Frequent exchanges" },
+	{ pattern: "2-2-5-5", href: "/2-2-5-5-custody-schedule/", logic: "Fixed weekdays plus alternating weekends", fit: "Predictable school/activity ownership", drawback: "Five-day separation blocks" },
+	{ pattern: "Week-on/week-off", href: "/week-on-week-off-custody-schedule/", logic: "Seven days per parent", fit: "Older children; low-conflict logistics", drawback: "Long separation for young children" },
+	{ pattern: "Primary weekdays + alternating weekends", href: "/every-other-weekend-custody-schedule/", logic: "One home anchors school; other parent receives scheduled weekends and often midweek time", fit: "Distance or work constraints", drawback: "Must prevent long parent-child gaps" },
+	{ pattern: "Custom shift-work rotation", href: "/3-4-4-3-custody-schedule/", logic: "Calendar follows recurring duty periods", fit: "Nurses, first responders, rotating shifts", drawback: "Hard to administer unless dates are generated in advance" },
 ];
 
 const buildSteps = [
@@ -161,10 +161,11 @@ const buildSteps = [
 			<div class="mt-6 max-w-3xl overflow-x-auto rounded-[1.5rem] ring-1 ring-line-subtle">
 				<table class="w-full min-w-[640px] text-left text-sm">
 					<thead class="bg-surface-elevated text-primary"><tr><th class="px-4 py-3 font-semibold">Pattern</th><th class="px-4 py-3 font-semibold">Calendar logic</th><th class="px-4 py-3 font-semibold">Strong fit</th><th class="px-4 py-3 font-semibold">Main drawback</th></tr></thead>
-					<tbody class="divide-y divide-line-subtle text-secondary">{patternTable.map((row) => (<tr><td class="px-4 py-3 font-semibold text-primary">{row.pattern}</td><td class="px-4 py-3">{row.logic}</td><td class="px-4 py-3">{row.fit}</td><td class="px-4 py-3">{row.drawback}</td></tr>))}</tbody>
+					<tbody class="divide-y divide-line-subtle text-secondary">{patternTable.map((row) => (<tr><td class="px-4 py-3 font-semibold text-primary"><a href={row.href} class="underline decoration-line underline-offset-4 hover:text-accent">{row.pattern}</a></td><td class="px-4 py-3">{row.logic}</td><td class="px-4 py-3">{row.fit}</td><td class="px-4 py-3">{row.drawback}</td></tr>))}</tbody>
 				</table>
 			</div>
-			<p class="mt-4 max-w-3xl text-sm text-secondary">The <a href="/custody-schedule-generator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule generator</a> can expose collisions before an agreement is signed. Generate at least a full school semester, add holidays, and examine transportation, not merely the overnight percentage.</p>
+			<p class="mt-4 max-w-3xl text-sm text-secondary">The <a href="/custody-schedule-generator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule generator</a> can expose collisions before an agreement is signed. Generate at least a full school semester, add holidays, and examine transportation, not merely the <a href="/custody-percentage-calculator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">overnight percentage</a>. For age-specific recommendations, see the <a href="/custody-schedule-by-age/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule by age guide</a>.</p>
+			<p class="mt-3 max-w-3xl text-xs text-muted"><a href="#schedule-generator" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">&uarr; Build any of these in the schedule generator above</a></p>
 		</section>
 
 		<section id="factors" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
@@ -189,7 +190,7 @@ const buildSteps = [
 			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Example: Why the Exchange Location Changes the Result</h2>
 			<div class="mt-4 max-w-3xl rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
 				<p class="text-secondary">Two parents propose week-on/week-off with a Sunday 6 p.m. home exchange. Conflict occurs almost every Sunday, and the child carries school materials between homes manually. Changing the exchange to Monday school drop-off/dismissal reduces direct contact and makes the school backpack the natural transfer point. The overnight split barely changes; the friction does.</p>
-				<p class="mt-3 text-sm leading-6 text-secondary">That is the difference between percentage planning and schedule design.</p>
+				<p class="mt-3 text-sm leading-6 text-secondary">That is the difference between percentage planning and schedule design. Build this exact swap in the <a href="/custody-schedule-generator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule generator</a> before proposing it &mdash; a full-year preview surfaces school-break collisions a single week doesn't.</p>
 			</div>
 			<div class="mt-6 max-w-3xl rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
 				<p class="font-semibold text-primary">Before-and-after modification example</p>
@@ -207,6 +208,7 @@ const buildSteps = [
 				<li class="rounded-[1.25rem] bg-surface/70 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]"><strong class="text-primary">Child's needs materially changed:</strong> broader <a href="/how-to-modify-custody-order/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">modification</a> may be appropriate.</li>
 				<li class="rounded-[1.25rem] bg-surface/70 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]"><strong class="text-primary">Immediate safety risk:</strong> ordinary scheduling negotiation may be inadequate; seek prompt legal help.</li>
 			</ul>
+			<p class="mt-4 max-w-3xl text-sm text-secondary">Comparing states? See how <a href="/new-york-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">New York</a> handles the same modification question, or read the full <a href="/how-to-modify-custody-order/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">how-to-modify-a-custody-order guide</a> for the evidence-building process and a multi-state threshold table.</p>
 		</section>
 
 		<section id="checklist" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
@@ -214,6 +216,14 @@ const buildSteps = [
 			<ul class="mt-6 max-w-3xl grid gap-2 sm:grid-cols-2 text-sm leading-6 text-secondary">
 				{["Decision-making subjects are allocated","Regular days and exact exchange times are stated","School-closed fallback is defined","Transportation responsibility is allocated","Holiday and summer terms override the base schedule clearly","Child-care/right-of-first-refusal language is measurable","Parent-child communication is age-appropriate","Records and emergency information are shared directly","Relocation notice complies with Illinois law","Dispute-resolution and written-swap procedures are included"].map((item) => (<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">&#9744;</span>{item}</li>))}
 			</ul>
+			<div class="mt-8 max-w-3xl grid gap-4 sm:grid-cols-2">
+				<a href="/custody-schedule-generator/" class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:shadow-md transition-shadow"><p class="font-semibold text-accent">Custody Schedule Generator</p><p class="mt-2 text-sm leading-6 text-secondary">Build your Illinois schedule visually and download as PDF, free.</p></a>
+				<a href="/parenting-plan-template/" class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:shadow-md transition-shadow"><p class="font-semibold text-accent">Parenting Plan Template</p><p class="mt-2 text-sm leading-6 text-secondary">Document decision-making, transportation, and holiday terms.</p></a>
+				<a href="/holiday-custody-schedule/" class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:shadow-md transition-shadow"><p class="font-semibold text-accent">Holiday Custody Schedule</p><p class="mt-2 text-sm leading-6 text-secondary">Define holiday overrides before Thanksgiving becomes a dispute.</p></a>
+				<a href="/new-york-custody-schedule/" class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:shadow-md transition-shadow"><p class="font-semibold text-accent">New York Custody Schedule</p><p class="mt-2 text-sm leading-6 text-secondary">Compare how New York handles the same planning questions.</p></a>
+				<a href="/legal-custody-vs-physical-custody/" class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:shadow-md transition-shadow"><p class="font-semibold text-accent">Legal vs. Physical Custody</p><p class="mt-2 text-sm leading-6 text-secondary">The difference between decision-making and parenting time.</p></a>
+				<a href="/how-to-modify-custody-order/" class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:shadow-md transition-shadow"><p class="font-semibold text-accent">How to Modify a Custody Order</p><p class="mt-2 text-sm leading-6 text-secondary">The evidence and process for changing an Illinois order.</p></a>
+			</div>
 			<div class="mt-8"><BackToGeneratorCta /></div>
 		</section>
 

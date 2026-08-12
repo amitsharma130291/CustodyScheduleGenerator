@@ -68,10 +68,10 @@ const parentagePaths = [
 ];
 
 const stateTable = [
-	{ state: "New York", voluntary: "Eligible unmarried parents may sign an Acknowledgment of Paternity", disputed: "Family Court can enter an Order of Filiation", implication: "Either route can establish the basis to seek custody or visitation" },
-	{ state: "Illinois", voluntary: "Both parents may sign a Voluntary Acknowledgment of Parentage (VAP)", disputed: "A parentage case can adjudicate the legal relationship", implication: "Established parentage supports requests for parenting time and decision-making; a signed VAP is difficult to undo" },
-	{ state: "California", voluntary: "Eligible parents may sign and file a Voluntary Declaration of Parentage (VDOP)", disputed: "A court parentage case uses a petition and summons, with testing where appropriate", implication: "A filed VDOP has the effect described by California law; custody terms may still need a separate request" },
-	{ state: "Texas", voluntary: "Eligible unmarried parents may use an Acknowledgment of Paternity (AOP)", disputed: "Court-ordered paternity, including testing where needed", implication: "Texas OAG says an unmarried biological father lacks legal rights until paternity is established" },
+	{ state: "New York", href: "/new-york-custody-schedule/", voluntary: "Eligible unmarried parents may sign an Acknowledgment of Paternity", disputed: "Family Court can enter an Order of Filiation", implication: "Either route can establish the basis to seek custody or visitation" },
+	{ state: "Illinois", href: "/illinois-custody-schedule/", voluntary: "Both parents may sign a Voluntary Acknowledgment of Parentage (VAP)", disputed: "A parentage case can adjudicate the legal relationship", implication: "Established parentage supports requests for parenting time and decision-making; a signed VAP is difficult to undo" },
+	{ state: "California", href: "/california-custody-schedule/", voluntary: "Eligible parents may sign and file a Voluntary Declaration of Parentage (VDOP)", disputed: "A court parentage case uses a petition and summons, with testing where appropriate", implication: "A filed VDOP has the effect described by California law; custody terms may still need a separate request" },
+	{ state: "Texas", href: "/texas-standard-possession-order/", voluntary: "Eligible unmarried parents may use an Acknowledgment of Paternity (AOP)", disputed: "Court-ordered paternity, including testing where needed", implication: "Texas OAG says an unmarried biological father lacks legal rights until paternity is established" },
 ];
 
 const prepSteps = [
@@ -161,10 +161,10 @@ const checklist = [
 			<div class="mt-6 max-w-3xl overflow-x-auto rounded-[1.5rem] ring-1 ring-line-subtle">
 				<table class="w-full min-w-[680px] text-left text-sm">
 					<thead class="bg-surface-elevated text-primary"><tr><th class="px-4 py-3 font-semibold">State</th><th class="px-4 py-3 font-semibold">Voluntary route</th><th class="px-4 py-3 font-semibold">If disputed</th><th class="px-4 py-3 font-semibold">Custody implication</th></tr></thead>
-					<tbody class="divide-y divide-line-subtle text-secondary">{stateTable.map((row) => (<tr><td class="px-4 py-3 font-semibold text-primary">{row.state}</td><td class="px-4 py-3">{row.voluntary}</td><td class="px-4 py-3">{row.disputed}</td><td class="px-4 py-3">{row.implication}</td></tr>))}</tbody>
+					<tbody class="divide-y divide-line-subtle text-secondary">{stateTable.map((row) => (<tr><td class="px-4 py-3 font-semibold text-primary"><a href={row.href} class="underline decoration-line underline-offset-4 hover:text-accent">{row.state}</a></td><td class="px-4 py-3">{row.voluntary}</td><td class="px-4 py-3">{row.disputed}</td><td class="px-4 py-3">{row.implication}</td></tr>))}</tbody>
 				</table>
 			</div>
-			<p class="mt-4 max-w-3xl text-sm text-secondary">Eligibility exceptions, presumed-parent issues, rescission deadlines, and challenges are state-specific. A voluntary form signed merely to avoid conflict can be difficult to unwind when biological or legal parentage is uncertain.</p>
+			<p class="mt-4 max-w-3xl text-sm text-secondary">Eligibility exceptions, presumed-parent issues, rescission deadlines, and challenges are state-specific. A voluntary form signed merely to avoid conflict can be difficult to unwind when biological or legal parentage is uncertain. Each state name above links to that state's full custody-schedule guide.</p>
 		</section>
 
 		<section id="prepare" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
@@ -183,6 +183,7 @@ const checklist = [
 				<p><strong class="text-primary">Final-plan stage:</strong> He proposes alternating weekends, a fixed Wednesday visit, holiday terms, direct school and medical access, and a six-month review point. His evidence covers completed care, punctual exchanges, housing, work availability, and the calendar &mdash; not which parent "deserves" the child.</p>
 				<p>This is a procedural illustration, not a promised timeline. Service, testing, local dockets, disagreement, and safety issues change the duration. Legal parentage creates the basis to seek relief; an administrable order turns that status into defined responsibilities and time.</p>
 			</div>
+			<p class="mt-3 max-w-3xl text-xs text-muted"><a href="#schedule-generator" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">&uarr; Build Marcus's step-up schedule in the generator above</a></p>
 		</section>
 
 		<section id="5050" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
@@ -210,6 +211,14 @@ const checklist = [
 			<ul class="mt-6 max-w-3xl grid gap-2 sm:grid-cols-2 text-sm leading-6 text-secondary">
 				{checklist.map((item) => (<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">&#9744;</span>{item}</li>))}
 			</ul>
+			<div class="mt-8 max-w-3xl grid gap-4 sm:grid-cols-2">
+				<a href="/custody-schedule-generator/" class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:shadow-md transition-shadow"><p class="font-semibold text-accent">Custody Schedule Generator</p><p class="mt-2 text-sm leading-6 text-secondary">Build a child-focused proposed calendar, free.</p></a>
+				<a href="/custody-percentage-calculator/" class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:shadow-md transition-shadow"><p class="font-semibold text-accent">Custody Percentage Calculator</p><p class="mt-2 text-sm leading-6 text-secondary">Measure overnights across the schedule you're proposing.</p></a>
+				<a href="/parenting-plan-template/" class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:shadow-md transition-shadow"><p class="font-semibold text-accent">Parenting Plan Template</p><p class="mt-2 text-sm leading-6 text-secondary">Document decisions, time, and transportation in one plan.</p></a>
+				<a href="/how-to-modify-custody-order/" class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:shadow-md transition-shadow"><p class="font-semibold text-accent">How to Modify a Custody Order</p><p class="mt-2 text-sm leading-6 text-secondary">The evidence-map process if time is being denied.</p></a>
+				<a href="/military-custody-schedule/" class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:shadow-md transition-shadow"><p class="font-semibold text-accent">Military Custody Schedule</p><p class="mt-2 text-sm leading-6 text-secondary">Deployment planning for fathers with a military schedule.</p></a>
+				<a href="/legal-custody-vs-physical-custody/" class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:shadow-md transition-shadow"><p class="font-semibold text-accent">Legal vs. Physical Custody</p><p class="mt-2 text-sm leading-6 text-secondary">Know exactly which authority you're requesting.</p></a>
+			</div>
 			<div class="mt-8"><BackToGeneratorCta /></div>
 		</section>
 
