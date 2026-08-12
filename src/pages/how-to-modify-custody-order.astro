@@ -1,0 +1,229 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import { buildArticleSchema, buildBreadcrumbSchema, buildFAQSchema, buildWebPageSchema } from '../lib/seo/schema';
+
+import ScheduleHeroGeneratorPanel from '../components/schedules/ScheduleHeroGeneratorPanel.astro';
+import { generateSchedule } from '../lib/schedules/generateSchedule';
+import { getDefaultStartDate } from '../lib/schedules/format';
+
+const title = "How to Modify a Custody Order: Evidence, Forms & Process";
+const description = "Learn how to modify a custody order, distinguish modification from enforcement, organize evidence, propose workable terms, and avoid common filing mistakes.";
+const canonical = "/how-to-modify-custody-order/";
+const canonicalUrl = getCanonicalUrl(canonical);
+const datePublished = "2026-08-13";
+const dateModified = "2026-08-13";
+const editorialReview = {
+	reviewer: "CustodyBuilder Editorial Team",
+	reviewerHref: "/about/",
+	methodologyLabel: "How CustodyBuilder Works",
+	methodologyHref: "/how-custodybuilder-works/",
+	lastUpdatedLabel: "Last updated August 2026",
+	disclaimer: "Educational information only. Not legal advice.",
+	reviewedFor: [
+		"Modification-vs-enforcement distinction against state self-help portals",
+		"State threshold citations (New York, Illinois 750 ILCS 5/610.5, Florida Form 12.905(a), California RFO process) verified against primary sources",
+		"Consistency with CustodyBuilder's schedule-generator patterns",
+	],
+};
+const notAttorneyReviewed = "This page has not yet been reviewed by a licensed attorney. It reflects research against state judiciary self-help portals and official forms but should not be relied on as a substitute for legal advice.";
+const breadcrumbs = [
+	{ name: "Home", url: getCanonicalUrl("/") },
+	{ name: "How to Modify a Custody Order", url: canonicalUrl },
+];
+const faqItems = [
+	{ question: "Can parents change a custody order without going to court?", answer: "Parents can often agree to temporary adjustments, but a private agreement may not replace the enforceable order. Permanent changes should generally be submitted for court approval using the jurisdiction's required process." },
+	{ question: "How long does custody modification take?", answer: "There is no reliable national timeline. Agreed changes may move faster; contested cases involving evaluations, discovery, jurisdiction, or safety allegations can take substantially longer. Local dockets matter." },
+	{ question: "Can a child request a schedule change?", answer: "A child's preference may be relevant depending on age, maturity, independence, and state law, but children generally do not unilaterally rewrite custody orders." },
+	{ question: "Do I need an attorney?", answer: "Self-help processes exist in many courts, but legal help is especially valuable for interstate jurisdiction, relocation, domestic violence, allegations of abuse, restrictions, military deployment, or major decision-making changes." },
+];
+
+const startDate = getDefaultStartDate();
+const generatedSchedule = generateSchedule({
+	scheduleId: '223',
+	startDate,
+	parentNames: { parentA: 'Parent A', parentB: 'Parent B' },
+});
+const heroTrustSignals = ['Free — no account needed', 'Replacement-calendar builder', 'Download as PDF'];
+
+const schema = [
+	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+	buildArticleSchema({ headline: title, description, url: canonicalUrl, datePublished, dateModified, authorName: editorialReview.reviewer }),
+	buildFAQSchema(faqItems),
+	buildBreadcrumbSchema(breadcrumbs),
+];
+
+const diagnosticTable = [
+	{ problem: "Existing schedule no longer fits the child's life", pointsTo: "Modification", example: "New school makes the exchange impossible" },
+	{ problem: "Other parent repeatedly ignores an otherwise workable order", pointsTo: "Enforcement", example: "Ordered Friday pickup is denied" },
+	{ problem: "Both parents want a one-time adjustment", pointsTo: "Written temporary agreement", example: "Swap one weekend for a wedding" },
+	{ problem: "Immediate, serious safety concern", pointsTo: "Emergency or expedited relief", example: "Credible threat, abuse, abandonment, or urgent medical risk" },
+];
+
+const jurisdictionTable = [
+	{ state: "New York", formulation: "A post-order change in circumstances must justify renewed review; modification must then serve best interests", why: "A new fact opens the door; best interests decides the requested change" },
+	{ state: "Illinois", formulation: "§610.5 uses changed/substantial-change rules and exceptions; parenting time and decision-making are treated differently", why: "Changing Tuesdays is legally different from reallocating major decisions" },
+	{ state: "Florida", formulation: "Supreme Court form 12.905(a) directs the filer to allege a substantial, material, and unanticipated change plus best interests", why: "A preferred calendar alone does not plead the threshold" },
+	{ state: "California", formulation: "Official self-help directs a parent to use the existing case and Request for Order process", why: "The statewide form is the procedural vehicle, not the merits test" },
+];
+
+const steps = [
+	{ title: "Step 1: Read the entire current order", body: "Collect the original order, every amendment, incorporated parenting plan, and later stipulation. Mark exact parenting-time provisions, decision-making allocation, holiday priority, relocation clauses, and dispute-resolution requirements. Building a request from memory risks attacking a provision the order does not contain." },
+	{ title: "Step 2: Identify the changed circumstance and legal threshold", body: "Many states require a material, substantial, or significant change after the prior order, followed by a best-interests analysis. Translate life events into child-specific consequences: “My shift now ends at 7 p.m., after the ordered 5:30 pickup” is stronger than “my work schedule changed.”" },
+	{ title: "Step 3: Check jurisdiction before filing", body: "Usually the court that entered the order remains involved, but interstate moves raise jurisdiction questions under state versions of the UCCJEA. A new state's residency does not automatically authorize that state to rewrite the old order." },
+	{ title: "Step 4: Design the replacement before criticizing the old schedule", body: "A court needs administrable terms, not only a description of conflict. Test the proposal in the custody schedule generator across school breaks and holidays. Compare overnights with the percentage calculator, but explain the child's routine rather than treating the percentage as proof." },
+	{ title: "Step 5: Build an evidence map", body: "Organize evidence by proposition, not chronologically. Keep messages in full context. Unlawful account access, coaching a child, prohibited recordings, or violations of privacy orders can make evidence unusable and create new legal problems." },
+	{ title: "Step 6: Use the correct forms and service procedure", body: "Court systems commonly require a petition or motion, proposed order, hearing notice, filing fee or waiver request, and legally valid service. Never assume sending the motion by text satisfies service." },
+	{ title: "Step 7: Present the case around the child", body: "What the current order requires → what changed → how it affects the child → what evidence proves it → what exact replacement is requested → why it is workable. Avoid exaggeration; precision builds credibility." },
+];
+
+const evidenceMap = [
+	{ point: "Current exchange repeatedly fails", evidence: "Neutral message log, calendar, school record", weakness: "Selective screenshots without dates or context" },
+	{ point: "Child's needs changed", evidence: "Medical/school records and qualified testimony", weakness: "Parent's diagnosis or speculation" },
+	{ point: "New schedule is workable", evidence: "Proposed calendar, commute data, work records", weakness: "No holiday or transport plan" },
+	{ point: "Other parent is unavailable", evidence: "Reliable employment/deployment records", weakness: "Rumor or isolated event" },
+	{ point: "Safety restriction is needed", evidence: "Police, medical, agency records; admissible testimony", weakness: "Labels such as “narcissist” without relevant facts" },
+];
+
+const failureReasons = [
+	"No legally sufficient change since the prior order",
+	"Complaint is really an enforcement issue",
+	"Requested terms are vague or impractical",
+	"Evidence consists mainly of conclusions and insults",
+	"Parent proposes less contact without explaining child-specific need",
+	"Filing occurs in the wrong state or court",
+	"Service or local procedural rules are ignored",
+	"Requested restriction is broader than the evidence supports",
+	"Parent violates the current order while asking the court to enforce rules against the other side",
+];
+---
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article">
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<Breadcrumbs items={breadcrumbs} />
+	<main class="overflow-x-clip">
+		<section class="container-shell grid grid-cols-1 gap-5 py-4 sm:py-5 lg:grid-cols-[minmax(0,0.88fr)_minmax(704px,1.12fr)] lg:items-start lg:gap-7 lg:py-6 xl:w-[min(100%,1360px)]" id="schedule-generator">
+			<div class="order-1 min-w-0 lg:col-start-1 lg:row-start-1 lg:pt-1">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Custody modification guide</p>
+				<h1 class="mt-2.5 max-w-3xl text-[1.7rem] font-semibold leading-[1.06] tracking-[-0.05em] text-primary sm:text-4xl lg:text-5xl">How to Modify a Custody Order: A Practical, Evidence-Based Process</h1>
+				<div class="mt-4 max-w-3xl rounded-[1.25rem] border border-line bg-accent/10 p-5">
+					<p class="text-sm font-semibold text-primary">Featured answer</p>
+					<p class="mt-2 text-sm leading-6 text-secondary">To modify a custody order, a parent generally files a request in the court with authority over the existing case, identifies the legally significant change, explains why the proposed terms serve the child's best interests, serves the other party, and presents admissible evidence. <strong class="text-primary">Modification changes the order. Enforcement asks the court to make someone follow the order already in place.</strong> Filing the wrong request wastes time and may leave the real problem unresolved.</p>
+				</div>
+				<div class="mt-6 max-w-2xl text-xs leading-5 text-muted">
+					<p class="font-semibold text-secondary">Reviewed for:</p>
+					<ul class="mt-1 list-inside list-disc">{editorialReview.reviewedFor.map((i) => <li>{i}</li>)}</ul>
+					<p class="mt-2">Reviewed by <a href={editorialReview.reviewerHref} class="font-semibold text-secondary underline">{editorialReview.reviewer}</a>{' · '}<a href={editorialReview.methodologyHref} class="font-semibold text-secondary underline">{editorialReview.methodologyLabel}</a>{' · '}<span class="font-semibold text-secondary">{editorialReview.lastUpdatedLabel}</span>{' · '}{editorialReview.disclaimer}</p>
+				</div>
+				<div class="mt-4 max-w-2xl rounded-2xl bg-amber-50 border border-amber-300 px-4 py-3 text-xs leading-5 text-secondary dark:bg-amber-900/20 dark:border-amber-700"><strong class="text-primary">Attorney review notice:</strong> {notAttorneyReviewed}</div>
+				<div class="mt-6 flex flex-wrap gap-3">
+					<a href="/custody-schedule-generator/" class="inline-flex rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:opacity-90" style="color: #ffffff">Build a replacement calendar &rarr;</a>
+					<a href="/custody-percentage-calculator/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Percentage calculator</a>
+					<a href="/parenting-plan-template/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Parenting plan template</a>
+				</div>
+			</div>
+
+			<ScheduleHeroGeneratorPanel selectedScheduleId="223" generatedSchedule={generatedSchedule} heroTrustSignals={heroTrustSignals} />
+		</section>
+
+		<nav class="container-shell border-y border-line-subtle py-3 lg:max-w-5xl" aria-label="On this page">
+			<ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">
+				<li><a href="#diagnostic" class="hover:text-accent">Modification vs. enforcement</a></li>
+				<li><a href="#threshold" class="hover:text-accent">State thresholds</a></li>
+				<li><a href="#steps" class="hover:text-accent">7-step process</a></li>
+				<li><a href="#evidence" class="hover:text-accent">Evidence map</a></li>
+				<li><a href="#example" class="hover:text-accent">Worked example</a></li>
+				<li><a href="#emergency" class="hover:text-accent">Emergency modification</a></li>
+				<li><a href="#fails" class="hover:text-accent">Why requests fail</a></li>
+				<li><a href="#faq" class="hover:text-accent">FAQ</a></li>
+			</ul>
+		</nav>
+
+		<section id="diagnostic" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Start With a Four-Way Diagnostic</h2>
+			<div class="mt-6 max-w-3xl overflow-x-auto rounded-[1.5rem] ring-1 ring-line-subtle">
+				<table class="w-full min-w-[600px] text-left text-sm">
+					<thead class="bg-surface-elevated text-primary"><tr><th class="px-4 py-3 font-semibold">Problem</th><th class="px-4 py-3 font-semibold">Usually points toward</th><th class="px-4 py-3 font-semibold">Example</th></tr></thead>
+					<tbody class="divide-y divide-line-subtle text-secondary">{diagnosticTable.map((row) => (<tr><td class="px-4 py-3">{row.problem}</td><td class="px-4 py-3 font-semibold text-primary">{row.pointsTo}</td><td class="px-4 py-3">{row.example}</td></tr>))}</tbody>
+				</table>
+			</div>
+			<p class="mt-4 max-w-3xl text-sm text-secondary">An informal permanent change does not necessarily replace the signed order. If cooperation later ends, the original order may remain enforceable unless the court has approved the modification.</p>
+		</section>
+
+		<section id="threshold" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">The Threshold Is Not Nationally Uniform</h2>
+			<div class="mt-6 max-w-3xl overflow-x-auto rounded-[1.5rem] ring-1 ring-line-subtle">
+				<table class="w-full min-w-[640px] text-left text-sm">
+					<thead class="bg-surface-elevated text-primary"><tr><th class="px-4 py-3 font-semibold">Jurisdiction</th><th class="px-4 py-3 font-semibold">Current formulation or procedural emphasis</th><th class="px-4 py-3 font-semibold">Why it matters</th></tr></thead>
+					<tbody class="divide-y divide-line-subtle text-secondary">{jurisdictionTable.map((row) => (<tr><td class="px-4 py-3 font-semibold text-primary">{row.state}</td><td class="px-4 py-3">{row.formulation}</td><td class="px-4 py-3">{row.why}</td></tr>))}</tbody>
+				</table>
+			</div>
+			<p class="mt-4 max-w-3xl text-sm text-secondary">This is a research map, not a substitute for the current statute, controlling cases, local rules, and exact order in the filing state.</p>
+		</section>
+
+		<section id="steps" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">The Seven-Step Process</h2>
+			<div class="mt-6 max-w-3xl space-y-4">
+				{steps.map((step) => (<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]"><p class="font-semibold text-primary">{step.title}</p><p class="mt-2 text-sm leading-6 text-secondary">{step.body}</p></div>))}
+			</div>
+		</section>
+
+		<section id="evidence" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Build an Evidence Map</h2>
+			<p class="mt-3 max-w-3xl text-secondary">Organize evidence by proposition. A chronological document dump forces the judge to find your argument.</p>
+			<div class="mt-6 max-w-3xl overflow-x-auto rounded-[1.5rem] ring-1 ring-line-subtle">
+				<table class="w-full min-w-[640px] text-left text-sm">
+					<thead class="bg-surface-elevated text-primary"><tr><th class="px-4 py-3 font-semibold">Point to prove</th><th class="px-4 py-3 font-semibold">Potential evidence</th><th class="px-4 py-3 font-semibold">Common weakness</th></tr></thead>
+					<tbody class="divide-y divide-line-subtle text-secondary">{evidenceMap.map((row) => (<tr><td class="px-4 py-3 font-semibold text-primary">{row.point}</td><td class="px-4 py-3">{row.evidence}</td><td class="px-4 py-3">{row.weakness}</td></tr>))}</tbody>
+				</table>
+			</div>
+		</section>
+
+		<section id="example" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Worked Example: From a Failed Wednesday Visit to an Administrable Order</h2>
+			<div class="mt-4 max-w-3xl rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)] space-y-3 text-sm leading-6 text-secondary">
+				<p><strong class="text-primary">Existing order:</strong> Parent B has Wednesday 3&ndash;7 p.m. and alternating weekends, with exchange at Parent A's home.</p>
+				<p><strong class="text-primary">Changed facts:</strong> The child entered middle school and now has required academic support until 4:15. Parent B moved 35 minutes farther away. During the last 12 Wednesdays, seven visits began after 5:30 and three were cancelled.</p>
+				<p><strong class="text-primary">Evidence map:</strong> The school notice establishes the new obligation; complete messages and an exchange calendar establish the pattern; route estimates explain the transportation problem.</p>
+				<p><strong class="text-primary">Proposed order:</strong> Replace Wednesday evening with Thursday school dismissal through Friday school drop-off, preserving alternating weekends. On school-closed Thursdays, pickup occurs at 4:30 p.m. at the library.</p>
+				<p>This proposal preserves tutoring, replaces an unreliable four-hour window with a predictable overnight, and gives the court exact language to order. Whether it satisfies the threshold still depends on the jurisdiction and evidence.</p>
+			</div>
+		</section>
+
+		<section id="emergency" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Emergency Modification Is for Urgency, Not Ordinary Disagreement</h2>
+			<p class="mt-3 max-w-3xl text-secondary">Emergency procedures are designed for immediate risks, and standards vary. A disliked parenting choice, occasional lateness, or ordinary communication conflict may not qualify. If a child faces imminent danger, contact emergency services or the appropriate child-protection agency when necessary and obtain prompt legal advice about emergency court relief.</p>
+			<div class="mt-4 max-w-3xl rounded-2xl bg-surface/70 px-4 py-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">Withholding a child contrary to an order based only on internet guidance can create enforcement and credibility problems. Immediate safety concerns require prompt, jurisdiction-specific help.</div>
+		</section>
+
+		<section id="fails" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Common Reasons Modification Requests Fail</h2>
+			<ul class="mt-6 max-w-3xl grid gap-2 sm:grid-cols-2 text-sm leading-6 text-secondary">
+				{failureReasons.map((item) => (<li class="flex gap-2 rounded-[1.25rem] bg-surface/70 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]"><span class="shrink-0 text-accent" aria-hidden="true">&rarr;</span>{item}</li>))}
+			</ul>
+			<div class="mt-8"><BackToGeneratorCta headline="Ready to build the replacement calendar?" body="Use the generator to create the exact dated calendar you're proposing to the court — set start date, preview months, and download a PDF." /></div>
+		</section>
+
+		<FAQ items={faqItems} title="Custody Modification — Frequently Asked Questions" description="Common questions about modifying a custody order, timelines, and when an attorney is worth it." />
+
+		<section class="container-shell border-t border-line-subtle py-8 lg:max-w-5xl">
+			<h2 class="text-lg font-semibold text-primary">Sources</h2>
+			<ol class="mt-3 space-y-2 text-xs text-muted">
+				<li>[1] New York Courts: Custody & Visitation Orders &mdash; nycourts.gov &mdash; last verified August 13, 2026</li>
+				<li>[2] California Courts: Child Custody and Parenting Time &mdash; selfhelp.courts.ca.gov &mdash; last verified August 13, 2026</li>
+				<li>[3] Illinois statute 750 ILCS 5/610.5 &mdash; ilga.gov &mdash; last verified August 13, 2026</li>
+				<li>[4] Florida Courts: Supplemental Modification Petition 12.905(a) &mdash; flcourts.gov &mdash; last verified August 13, 2026</li>
+			</ol>
+		</section>
+		<section class="container-shell border-t border-line-subtle py-8 lg:max-w-5xl">
+			<p class="max-w-3xl text-xs leading-5 text-muted">This national overview is educational, not legal advice. Modification standards and procedures vary by state and case. This page has not been reviewed by a licensed attorney. Consult a qualified attorney in the state with jurisdiction.</p>
+		</section>
+	</main>
+	<Footer />
+</BaseLayout>

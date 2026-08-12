@@ -1,0 +1,233 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import { buildArticleSchema, buildBreadcrumbSchema, buildFAQSchema, buildWebPageSchema } from '../lib/seo/schema';
+
+import ScheduleHeroGeneratorPanel from '../components/schedules/ScheduleHeroGeneratorPanel.astro';
+import { generateSchedule } from '../lib/schedules/generateSchedule';
+import { getDefaultStartDate } from '../lib/schedules/format';
+
+const title = "Fathers' Custody Rights: Paternity, Parenting Time & Evidence";
+const description = "Understand fathers' custody rights, why paternity matters, how courts assess parenting time, what evidence helps, and which common myths can damage a case.";
+const canonical = "/fathers-custody-rights/";
+const canonicalUrl = getCanonicalUrl(canonical);
+const datePublished = "2026-08-13";
+const dateModified = "2026-08-13";
+const editorialReview = {
+	reviewer: "CustodyBuilder Editorial Team",
+	reviewerHref: "/about/",
+	methodologyLabel: "How CustodyBuilder Works",
+	methodologyHref: "/how-custodybuilder-works/",
+	lastUpdatedLabel: "Last updated August 2026",
+	disclaimer: "Educational information only. Not legal advice.",
+	reviewedFor: [
+		"State parentage-pathway terminology (NY Acknowledgment of Paternity, IL VAP, CA VDOP, TX AOP) verified against each state's official source",
+		"Non-advocacy, child-focused framing consistent with best-interest standards",
+		"Consistency with CustodyBuilder's schedule-generator patterns",
+	],
+};
+const notAttorneyReviewed = "This page has not yet been reviewed by a licensed attorney. It reflects research against state official parentage-agency sources but should not be relied on as a substitute for legal advice.";
+const breadcrumbs = [
+	{ name: "Home", url: getCanonicalUrl("/") },
+	{ name: "Fathers' Custody Rights", url: canonicalUrl },
+];
+const faqItems = [
+	{ question: "Do fathers have equal custody rights?", answer: "Courts generally may not decide custody simply by preferring mothers over fathers. Legal parentage, state best-interest factors, safety, and the evidence determine the actual order. Equal legal standing does not automatically mean equal parenting time." },
+	{ question: "Can an unmarried father take the child without a custody order?", answer: "The answer depends on established parentage and state law, and interstate removal can create serious legal consequences. Obtain local advice and an enforceable order rather than relying on assumptions." },
+	{ question: "Does being on the birth certificate give a father custody?", answer: "Not necessarily. A birth-certificate listing may relate to parentage, but custody and parenting time may still require a court order. The effect varies by state." },
+	{ question: "Can a father get sole custody?", answer: "Yes, where sole decision-making or primary residence is supported under the state's best-interest and safety standards. Gender alone should not decide the result." },
+];
+
+const startDate = getDefaultStartDate();
+const generatedSchedule = generateSchedule({
+	scheduleId: '223',
+	startDate,
+	parentNames: { parentA: 'Parent A', parentB: 'Parent B' },
+});
+const heroTrustSignals = ['Free — no account needed', 'Parenting schedule builder', 'Download as PDF'];
+
+const schema = [
+	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+	buildArticleSchema({ headline: title, description, url: canonicalUrl, datePublished, dateModified, authorName: editorialReview.reviewer }),
+	buildFAQSchema(faqItems),
+	buildBreadcrumbSchema(breadcrumbs),
+];
+
+const parentagePaths = [
+	{ status: "Married father", desc: "Parentage is often presumed under state law, subject to exceptions and procedures." },
+	{ status: "Unmarried father who signed an acknowledgment", desc: "The document may establish legal parentage, but may not itself create a custody schedule." },
+	{ status: "Unmarried father without established parentage", desc: "May need an acknowledgment or court parentage action before enforceable custody relief." },
+	{ status: "Alleged father with disputed parentage", desc: "Genetic testing and adjudication may be required." },
+	{ status: "Non-biological intended, presumed, or de facto parent", desc: "Rights depend heavily on state statutes and facts; get jurisdiction-specific advice." },
+];
+
+const stateTable = [
+	{ state: "New York", voluntary: "Eligible unmarried parents may sign an Acknowledgment of Paternity", disputed: "Family Court can enter an Order of Filiation", implication: "Either route can establish the basis to seek custody or visitation" },
+	{ state: "Illinois", voluntary: "Both parents may sign a Voluntary Acknowledgment of Parentage (VAP)", disputed: "A parentage case can adjudicate the legal relationship", implication: "Established parentage supports requests for parenting time and decision-making; a signed VAP is difficult to undo" },
+	{ state: "California", voluntary: "Eligible parents may sign and file a Voluntary Declaration of Parentage (VDOP)", disputed: "A court parentage case uses a petition and summons, with testing where appropriate", implication: "A filed VDOP has the effect described by California law; custody terms may still need a separate request" },
+	{ state: "Texas", voluntary: "Eligible unmarried parents may use an Acknowledgment of Paternity (AOP)", disputed: "Court-ordered paternity, including testing where needed", implication: "Texas OAG says an unmarried biological father lacks legal rights until paternity is established" },
+];
+
+const prepSteps = [
+	{ title: "Establish legal parentage early", body: "Use the state's official process. Understand the consequences before signing an acknowledgment, particularly where parentage is uncertain. Deadlines for rescission or challenge can be strict." },
+	{ title: "Ask for a specific schedule", body: "“Joint custody” is incomplete. Propose days, exchange times, school-closed rules, holidays, transportation, calls, and decision-making." },
+	{ title: "Document caregiving, not surveillance", body: "Maintain an accurate calendar of your own parenting: school participation, appointments, activities, overnights, requested time, completed exchanges. Obsessive monitoring and manufactured conflict create noise rather than useful evidence." },
+	{ title: "Make your home and logistics child-ready", body: "The child needs safe sleeping arrangements, age-appropriate supervision, transportation, medication handling, and a plan compatible with school and work." },
+	{ title: "Communicate as if a neutral reader will see it", body: "Keep messages brief, factual, and child-focused. Threats, insults, armchair diagnoses, and repeated off-topic messages can undermine credibility." },
+	{ title: "Follow temporary and final orders", body: "Pay support as ordered, appear on time, use allocated parenting time, and follow restrictions. Withheld support does not authorize denying ordered contact, and denied contact does not authorize stopping support." },
+];
+
+const checklist = [
+	"Legal parentage documents",
+	"Current orders and amendments",
+	"Proposed 12-month parenting calendar",
+	"Work and transportation plan",
+	"Accurate caregiving and exchange record",
+	"School and medical participation records obtained lawfully",
+	"Complete relevant communications",
+	"Child-care and emergency plan",
+	"Specific response to any safety allegation",
+	"State official forms and deadlines",
+];
+---
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article">
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<Breadcrumbs items={breadcrumbs} />
+	<main class="overflow-x-clip">
+		<section class="container-shell grid grid-cols-1 gap-5 py-4 sm:py-5 lg:grid-cols-[minmax(0,0.88fr)_minmax(704px,1.12fr)] lg:items-start lg:gap-7 lg:py-6 xl:w-[min(100%,1360px)]" id="schedule-generator">
+			<div class="order-1 min-w-0 lg:col-start-1 lg:row-start-1 lg:pt-1">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Fathers' custody rights guide</p>
+				<h1 class="mt-2.5 max-w-3xl text-[1.7rem] font-semibold leading-[1.06] tracking-[-0.05em] text-primary sm:text-4xl lg:text-5xl">Fathers' Custody Rights: What Matters in Court and What Does Not</h1>
+				<div class="mt-4 max-w-3xl rounded-[1.25rem] border border-line bg-accent/10 p-5">
+					<p class="text-sm font-semibold text-primary">Featured answer</p>
+					<p class="mt-2 text-sm leading-6 text-secondary">In the United States, a father does not automatically receive fewer custody rights because he is male. Courts generally decide custody and parenting time under state child-best-interest law, not a maternal preference. But an unmarried biological father may need to establish legal parentage before he can obtain an enforceable custody or parenting-time order. That produces two separate questions: <strong class="text-primary">Are you legally recognized as the parent?</strong> And <strong class="text-primary">what arrangement serves this child's best interests?</strong></p>
+				</div>
+				<div class="mt-6 max-w-2xl text-xs leading-5 text-muted">
+					<p class="font-semibold text-secondary">Reviewed for:</p>
+					<ul class="mt-1 list-inside list-disc">{editorialReview.reviewedFor.map((i) => <li>{i}</li>)}</ul>
+					<p class="mt-2">Reviewed by <a href={editorialReview.reviewerHref} class="font-semibold text-secondary underline">{editorialReview.reviewer}</a>{' · '}<a href={editorialReview.methodologyHref} class="font-semibold text-secondary underline">{editorialReview.methodologyLabel}</a>{' · '}<span class="font-semibold text-secondary">{editorialReview.lastUpdatedLabel}</span>{' · '}{editorialReview.disclaimer}</p>
+				</div>
+				<div class="mt-4 max-w-2xl rounded-2xl bg-amber-50 border border-amber-300 px-4 py-3 text-xs leading-5 text-secondary dark:bg-amber-900/20 dark:border-amber-700"><strong class="text-primary">Attorney review notice:</strong> {notAttorneyReviewed}</div>
+				<div class="mt-6 flex flex-wrap gap-3">
+					<a href="/custody-schedule-generator/" class="inline-flex rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:opacity-90" style="color: #ffffff">Build your parenting schedule free &rarr;</a>
+					<a href="/unmarried-parents-custody/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Unmarried parents custody</a>
+					<a href="/50-50-custody-schedule/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">50/50 custody schedule</a>
+				</div>
+			</div>
+
+			<ScheduleHeroGeneratorPanel selectedScheduleId="223" generatedSchedule={generatedSchedule} heroTrustSignals={heroTrustSignals} />
+		</section>
+
+		<nav class="container-shell border-y border-line-subtle py-3 lg:max-w-5xl" aria-label="On this page">
+			<ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">
+				<li><a href="#paths" class="hover:text-accent">Where fathers start</a></li>
+				<li><a href="#rights" class="hover:text-accent">What rights to request</a></li>
+				<li><a href="#states" class="hover:text-accent">Parentage by state</a></li>
+				<li><a href="#prepare" class="hover:text-accent">Prepare a stronger proposal</a></li>
+				<li><a href="#example" class="hover:text-accent">Worked scenario</a></li>
+				<li><a href="#5050" class="hover:text-accent">50/50 for fathers</a></li>
+				<li><a href="#safety" class="hover:text-accent">Safety allegations</a></li>
+				<li><a href="#checklist" class="hover:text-accent">Evidence checklist</a></li>
+				<li><a href="#faq" class="hover:text-accent">FAQ</a></li>
+			</ul>
+		</nav>
+
+		<section id="paths" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Married, Unmarried, and Adjudicated Fathers May Start Differently</h2>
+			<div class="mt-6 max-w-3xl space-y-3">
+				{parentagePaths.map((item) => (<div class="rounded-[1.25rem] bg-surface/70 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]"><p class="font-semibold text-primary">{item.status}</p><p class="mt-1 text-sm leading-6 text-secondary">{item.desc}</p></div>))}
+			</div>
+			<p class="mt-4 max-w-3xl text-sm text-secondary">A birth-certificate entry, child-support order, acknowledgment of parentage, and custody order can have different legal effects. Treating them as interchangeable can delay a parenting-time request.</p>
+		</section>
+
+		<section id="rights" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">What Rights Can a Legally Recognized Father Request?</h2>
+			<ul class="mt-4 max-w-3xl grid gap-2 sm:grid-cols-2 text-sm leading-6 text-secondary">
+				{["Parenting time, including overnights","Shared or sole authority over major decisions","Access to school and medical information","A defined holiday and vacation schedule","Temporary orders while the case is pending","Enforcement of an existing order","Modification when the legal standard is met","Protection against unauthorized relocation"].map((item) => (<li class="flex gap-2 rounded-[1.25rem] bg-surface/70 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]"><span class="shrink-0 text-accent" aria-hidden="true">&rarr;</span>{item}</li>))}
+			</ul>
+			<p class="mt-4 max-w-3xl text-sm text-secondary">The right to ask is not a guarantee of the requested outcome. Courts can restrict either parent's time when the evidence and applicable safety standard justify it.</p>
+		</section>
+
+		<section id="states" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Parentage First: Four States, Four Official Pathways</h2>
+			<p class="mt-3 max-w-3xl text-secondary">National "father's rights" advice becomes unreliable when it skips state parentage law.</p>
+			<div class="mt-6 max-w-3xl overflow-x-auto rounded-[1.5rem] ring-1 ring-line-subtle">
+				<table class="w-full min-w-[680px] text-left text-sm">
+					<thead class="bg-surface-elevated text-primary"><tr><th class="px-4 py-3 font-semibold">State</th><th class="px-4 py-3 font-semibold">Voluntary route</th><th class="px-4 py-3 font-semibold">If disputed</th><th class="px-4 py-3 font-semibold">Custody implication</th></tr></thead>
+					<tbody class="divide-y divide-line-subtle text-secondary">{stateTable.map((row) => (<tr><td class="px-4 py-3 font-semibold text-primary">{row.state}</td><td class="px-4 py-3">{row.voluntary}</td><td class="px-4 py-3">{row.disputed}</td><td class="px-4 py-3">{row.implication}</td></tr>))}</tbody>
+				</table>
+			</div>
+			<p class="mt-4 max-w-3xl text-sm text-secondary">Eligibility exceptions, presumed-parent issues, rescission deadlines, and challenges are state-specific. A voluntary form signed merely to avoid conflict can be difficult to unwind when biological or legal parentage is uncertain.</p>
+		</section>
+
+		<section id="prepare" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">How a Father Can Prepare a Stronger Custody Proposal</h2>
+			<div class="mt-6 max-w-3xl space-y-4">
+				{prepSteps.map((step) => (<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]"><p class="font-semibold text-primary">{step.title}</p><p class="mt-2 text-sm leading-6 text-secondary">{step.body}</p></div>))}
+			</div>
+		</section>
+
+		<section id="example" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Worked Scenario: Parentage Is Not the Same as a Parenting Schedule</h2>
+			<div class="mt-4 max-w-3xl rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)] space-y-3 text-sm leading-6 text-secondary">
+				<p>Marcus and Elena are unmarried. Their daughter is four. Marcus appears on a birth record, but he cannot locate a valid acknowledgment or parentage order. He sees his daughter informally on Saturdays; when a disagreement arises, the arrangement stops.</p>
+				<p><strong class="text-primary">Record stage:</strong> Marcus obtains the birth and parentage records instead of assuming the certificate answers every legal question. Because parentage is disputed, he uses the applicable court process rather than demanding a backdated voluntary form.</p>
+				<p><strong class="text-primary">Temporary-order stage:</strong> Once parentage is properly before the court, Marcus requests a child-focused step-up: Saturday daytime visits for four weeks, then a Saturday overnight plus one short midweek dinner if exchanges succeed. His proposal identifies preschool, transport, and bedtime.</p>
+				<p><strong class="text-primary">Final-plan stage:</strong> He proposes alternating weekends, a fixed Wednesday visit, holiday terms, direct school and medical access, and a six-month review point. His evidence covers completed care, punctual exchanges, housing, work availability, and the calendar &mdash; not which parent "deserves" the child.</p>
+				<p>This is a procedural illustration, not a promised timeline. Service, testing, local dockets, disagreement, and safety issues change the duration. Legal parentage creates the basis to seek relief; an administrable order turns that status into defined responsibilities and time.</p>
+			</div>
+		</section>
+
+		<section id="5050" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">50/50 Custody for Fathers</h2>
+			<p class="mt-3 max-w-3xl text-secondary">Equal parenting time is possible in many jurisdictions, but no national rule guarantees it. A credible equal-time plan usually needs nearby homes, workable school transportation, adequate caregiving from both parents, and enough communication or parallel structure to handle decisions.</p>
+			<ul class="mt-4 max-w-3xl space-y-2 text-sm leading-6 text-secondary">
+				<li class="rounded-[1.25rem] bg-surface/70 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]"><a href="/2-2-3-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-3</a> offers frequent contact but many exchanges.</li>
+				<li class="rounded-[1.25rem] bg-surface/70 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]"><a href="/2-2-5-5-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">2-2-5-5</a> stabilizes weekdays.</li>
+				<li class="rounded-[1.25rem] bg-surface/70 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]"><a href="/week-on-week-off-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Week-on/week-off</a> reduces transitions but creates longer separations.</li>
+			</ul>
+			<p class="mt-4 max-w-3xl text-sm text-secondary">Centering the case on "winning half" leaves the court without a child-focused reason for the pattern. A stronger proposal explains how the rotation protects sleep, school, relationships, activities, and medical care.</p>
+		</section>
+
+		<section id="safety" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">When Safety Allegations Arise</h2>
+			<p class="mt-3 max-w-3xl text-secondary">Courts must take credible domestic violence, abuse, neglect, and substance-related risks seriously. Fathers can be victims, accused persons, or parents protecting a child. Respond with evidence and appropriate legal process rather than retaliation.</p>
+			<ul class="mt-4 max-w-3xl space-y-2 text-sm leading-6 text-secondary">
+				{["If immediate danger exists, contact emergency services or the relevant protection agency.","Preserve complete records and comply with protective orders.","Request tailored protections rather than minimizing genuine risk or demanding unnecessary restrictions.","Obtain counsel where criminal, protection-order, or child-protection proceedings overlap."].map((item) => (<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">&rarr;</span>{item}</li>))}
+			</ul>
+			<p class="mt-4 max-w-3xl text-sm text-secondary">If parenting time is being denied, document each denial factually and use the jurisdiction's enforcement process. If the order is vague or no longer workable, enforcement alone may not solve the problem; <a href="/how-to-modify-custody-order/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">modification</a> may be appropriate.</p>
+		</section>
+
+		<section id="checklist" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Evidence Checklist for Fathers Seeking Custody or Parenting Time</h2>
+			<ul class="mt-6 max-w-3xl grid gap-2 sm:grid-cols-2 text-sm leading-6 text-secondary">
+				{checklist.map((item) => (<li class="flex gap-2"><span class="shrink-0 text-accent" aria-hidden="true">&#9744;</span>{item}</li>))}
+			</ul>
+			<div class="mt-8"><BackToGeneratorCta /></div>
+		</section>
+
+		<FAQ items={faqItems} title="Fathers' Custody Rights — Frequently Asked Questions" description="Common questions about paternity, custody rights, and evidence for fathers." />
+
+		<section class="container-shell border-t border-line-subtle py-8 lg:max-w-5xl">
+			<h2 class="text-lg font-semibold text-primary">Sources</h2>
+			<ol class="mt-3 space-y-2 text-xs text-muted">
+				<li>[1] New York Courts: Acknowledgment of Paternity / Order of Filiation &mdash; nycourts.gov &mdash; last verified August 13, 2026</li>
+				<li>[2] Illinois Legal Aid: VAP basics &mdash; illinoislegalaid.org &mdash; last verified August 13, 2026</li>
+				<li>[3] California Courts: Voluntary Declaration of Parentage &mdash; selfhelp.courts.ca.gov &mdash; last verified August 13, 2026</li>
+				<li>[4] Texas Attorney General: Paternity &mdash; texasattorneygeneral.gov &mdash; last verified August 13, 2026</li>
+				<li>[5] Justia: Father's Rights Under Child Custody Law &mdash; justia.com &mdash; last verified August 13, 2026</li>
+			</ol>
+		</section>
+		<section class="container-shell border-t border-line-subtle py-8 lg:max-w-5xl">
+			<p class="max-w-3xl text-xs leading-5 text-muted">This is a national educational overview, not legal advice. Parentage, custody presumptions, forms, and remedies differ by state. This page has not been reviewed by a licensed attorney. Consult a qualified family-law attorney where the child lives or where an existing order was entered.</p>
+		</section>
+	</main>
+	<Footer />
+</BaseLayout>
