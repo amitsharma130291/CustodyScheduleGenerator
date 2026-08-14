@@ -355,6 +355,17 @@ export const schedulePatterns: Record<ScheduleType, SchedulePattern> = {
 			{ parent: 'B', days: 1 },
 		],
 	},
+	'90-10': {
+		id: '90-10',
+		slug: '90-10-custody-schedule',
+		name: '90/10 custody schedule',
+		shortName: '90/10',
+		description: 'A 90/10-style custody schedule where Parent A has the large majority of overnights and Parent B has a recurring, limited overnight block.',
+		pattern: [
+			{ parent: 'A', days: 9 },
+			{ parent: 'B', days: 1 },
+		],
+	},
 };
 
 export const legacyScheduleTypeMap: Record<LegacyScheduleType, ScheduleType> = {
@@ -370,6 +381,7 @@ export const legacyScheduleTypeMap: Record<LegacyScheduleType, ScheduleType> = {
 	'70/30': '70-30',
 	'80-20': '80-20',
 	'80/20': '80-20',
+	'90/10': '90-10',
 };
 
 export function normalizeScheduleType(scheduleType: ScheduleInputType): ScheduleType {

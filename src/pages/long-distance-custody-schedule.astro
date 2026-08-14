@@ -23,7 +23,7 @@ const faqItems = [{ question: "Can a long-distance parent get equal custody?", a
 
 const startDate = getDefaultStartDate();
 const generatedSchedule = generateSchedule({
-	scheduleId: 'week-on-week-off',
+	scheduleId: 'every-other-weekend',
 	startDate,
 	parentNames: { parentA: 'Parent A', parentB: 'Parent B' },
 });
@@ -58,7 +58,7 @@ const commonMistakes = [{ title: "Not writing in flight logistics", body: "Plans
 		</div>
 
 		<ScheduleHeroGeneratorPanel
-			selectedScheduleId="week-on-week-off"
+			selectedScheduleId="every-other-weekend"
 			generatedSchedule={generatedSchedule}
 			heroTrustSignals={heroTrustSignals}
 		/>
@@ -187,15 +187,9 @@ const commonMistakes = [{ title: "Not writing in flight logistics", body: "Plans
       </div>
     </section>
     <section id="relocation" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
-      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">Relocation Law Basics</h2>
-      <p class="mt-3 max-w-3xl text-secondary">Many states require advance written notice before a parent can relocate with the child. Courts weigh the child's established life, the relocation's reason, and the impact on the other parent.</p>
-      <p class="mt-3 max-w-3xl text-secondary"><strong class="text-primary">Notice requirements:</strong> Some states require 30 days, others 60 or more, and some have different rules depending on move distance. Some states require court approval if the other parent objects. Violating applicable notice requirements can result in the court ordering the child returned.</p>
-      <p class="mt-3 max-w-3xl font-semibold text-primary">What courts weigh in relocation cases:</p>
-      <ol class="mt-3 max-w-3xl space-y-2">
-        {["The reason for the move (a genuine job opportunity vs. moving to make contact harder)","The child's relationship with each parent and with their current community (school, friends, activities)","Whether the relocation will harm the non-moving parent's relationship with the child","The child's preference (weighted by age)","Whether a modified custody arrangement can preserve the relationship"].map((item, i) => (
-          <li class="flex gap-3"><span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/15 text-xs font-bold text-accent">{i + 1}</span><p class="text-sm leading-6 text-secondary">{item}</p></li>
-        ))}
-      </ol>
+      <h2 class="text-2xl font-semibold text-primary sm:text-3xl">Becoming Long-Distance Is Often a Legal Event, Not Just a Logistics One</h2>
+      <p class="mt-3 max-w-3xl text-secondary">If the distance in this guide exists because a parent is about to move — rather than because parents already live apart — scheduling is only half the issue. A parent may need notice, consent, court approval, or a custody-order modification before relocating with a child, and the rules vary sharply by state.</p>
+      <p class="mt-3 max-w-3xl text-secondary">For the legal requirements, what courts weigh in a relocation dispute, and a worked example of one state's specific notice statute, see the <a href="/relocation-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">relocation custody schedule guide</a>. This page assumes the long-distance arrangement is already in place and focuses on the ongoing calendar, not the legal right to create it.</p>
       <p class="mt-4 max-w-3xl text-sm text-secondary">For Georgia families relocating, see the <a href="/georgia-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Georgia custody schedule guide</a> which covers Georgia's material-change standard for relocation cases.</p>
     </section>
     <section id="transportation" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">

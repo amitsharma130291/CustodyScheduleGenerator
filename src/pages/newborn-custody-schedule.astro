@@ -23,7 +23,7 @@ const canonical = '/newborn-custody-schedule/';
 const canonicalUrl = getCanonicalUrl(canonical);
 const startDate = getDefaultStartDate();
 const generatedSchedule = generateSchedule({
-	scheduleId: 'every-other-weekend',
+	scheduleId: '90-10',
 	startDate,
 	parentNames: { parentA: 'Parent A', parentB: 'Parent B' },
 });
@@ -160,7 +160,7 @@ const stepUpTable = [
 			</div>
 
 			<ScheduleHeroGeneratorPanel
-				selectedScheduleId="every-other-weekend"
+				selectedScheduleId="90-10"
 				generatedSchedule={generatedSchedule}
 				heroTrustSignals={heroTrustSignals}
 			/>
@@ -210,7 +210,7 @@ const stepUpTable = [
 				<p>Most custody resources focus on school-age children. For them, the tradeoffs between 50/50 schedules are relatively clear: proximity to school, work schedule logistics, the child's preference. The frameworks are mature. Newborn custody is genuinely harder. The developmental stakes are higher, the research is more contested, and the emotional intensity — on both sides — is as high as it gets. Both parents often feel they are fighting for something irreplaceable: time with their baby in the first weeks and months of life that they can never get back.</p>
 
 				<p class="rounded-2xl bg-accent/10 px-4 py-4 text-sm leading-6 text-secondary">
-					<strong class="text-primary">What makes it tractable:</strong> the right newborn custody arrangement is not permanent. It is a starting point designed to serve the baby's needs at this specific developmental stage, with a built-in plan to evolve as the baby grows.
+					<strong class="text-primary">What makes it tractable:</strong> the arrangement doesn't have to get everything right on day one — a written step-up plan with age-tied milestones gives both parents a predictable path forward instead of an open-ended negotiation.
 				</p>
 			</div>
 		</section>

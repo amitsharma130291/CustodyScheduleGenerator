@@ -66,7 +66,7 @@ export const gapBetweenVisits = {
 		},
 		{
 			heading: 'Overnight math lives elsewhere',
-			body: 'How many nights each parent receives belongs on the <a href="/80-20-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">80/20 custody schedule</a> page. This page owns what happens between weekends.',
+			body: 'A plain every-other-weekend pattern gives the weekend parent roughly 52 overnights a year — about 14% — before any midweek dinner or holiday additions. For the full breakdown by variant, see the <a href="/80-20-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">80/20 custody schedule</a> page. This page owns what happens between weekends.',
 		},
 	],
 };

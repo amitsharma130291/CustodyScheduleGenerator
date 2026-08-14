@@ -266,11 +266,6 @@ export const faqItems = [
 			'Legal custody is the right to make major decisions about the child, such as school, healthcare, and religion. Physical custody is where the child lives and sleeps. They are decided separately, so you can have one type of each at the same time.',
 	},
 	{
-		question: 'Can you have joint legal custody but sole physical custody?',
-		answer:
-			'Yes, and it is one of the most common arrangements. Both parents share the big decisions while the child lives mainly with one parent, and the other parent has scheduled parenting time.',
-	},
-	{
 		question: 'Does legal custody affect the parenting schedule?',
 		answer:
 			'No. Legal custody is about decisions, not the calendar. Only physical custody determines which nights the child spends with each parent.',
@@ -284,11 +279,6 @@ export const faqItems = [
 		question: 'What is primary physical custody?',
 		answer:
 			'It describes an arrangement where the child lives with one parent most of the time (the primary residential parent) while the other has meaningful but minority parenting time. The exact term varies by state.',
-	},
-	{
-		question: 'What is the difference between joint and sole custody?',
-		answer:
-			'"Joint" means shared, either shared decisions (joint legal) or shared living time (joint physical). "Sole" means one parent holds that right. Because legal and physical custody are separate, "joint" and "sole" can each apply to a different half.',
 	},
 	{
 		question: 'Which type of custody decides where the child goes to school?',

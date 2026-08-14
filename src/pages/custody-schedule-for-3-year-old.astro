@@ -1,0 +1,294 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import ScheduleHeroGeneratorPanel from '../components/schedules/ScheduleHeroGeneratorPanel.astro';
+import { generateSchedule } from '../lib/schedules/generateSchedule';
+import { getDefaultStartDate } from '../lib/schedules/format';
+import {
+	buildArticleSchema,
+	buildBreadcrumbSchema,
+	buildFAQSchema,
+	buildWebPageSchema,
+} from '../lib/seo/schema';
+
+const title = "Custody Schedule for a 3-Year-Old: Practical Examples";
+const description = "Compare custody schedules for a 3-year-old, including 2-2-3, 2-2-5-5, 3-4-4-3 and primary-home options, with transition and preschool considerations.";
+const canonical = '/custody-schedule-for-3-year-old/';
+const canonicalUrl = getCanonicalUrl(canonical);
+const datePublished = '2026-08-14';
+const dateModified = '2026-08-14';
+const startDate = getDefaultStartDate();
+const generatedSchedule = generateSchedule({
+	scheduleId: '223',
+	startDate,
+	parentNames: { parentA: 'Parent A', parentB: 'Parent B' },
+});
+const heroTrustSignals = ["Free — no account needed", "Visual schedule builder", "Download as PDF"];
+
+const editorialReview = {
+	reviewer: 'CustodyBuilder Editorial Team',
+	reviewerHref: '/about/',
+	methodologyLabel: 'How CustodyBuilder Works',
+	methodologyHref: '/how-custodybuilder-works/',
+	lastUpdatedLabel: 'Last updated August 2026',
+	disclaimer: 'Educational information only. Not developmental, medical or legal advice.',
+	reviewedFor: [
+		'Warshak (2014) consensus-report citation accuracy',
+		'Developmental appropriateness for age 3',
+		'Practical transition and routine guidance',
+	],
+};
+
+const breadcrumbs = [
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: 'Custody Schedule by Age', url: getCanonicalUrl('/custody-schedule-by-age/') },
+	{ name: 'Custody Schedule for a 3-Year-Old', url: canonicalUrl },
+];
+
+const patternTable = [
+	{ schedule: '2-2-3', block: '3 nights', pro: 'Frequent contact', con: 'Frequent exchanges' },
+	{ schedule: '2-2-5-5', block: '5 nights', pro: 'Fixed weekdays', con: 'Longer separation' },
+	{ schedule: '3-4-4-3', block: '4 nights', pro: 'Near-equal blocks', con: 'Rotation can feel complex' },
+	{ schedule: 'Primary home + frequent visits/overnights', block: 'Varies', pro: 'Strong home base', con: 'Less equal time' },
+];
+
+const transitionChecks = ['Bedtime and waking', 'Preschool drop-off', 'Comfort at handoff', 'Toileting routines', 'Naps', 'Behavior immediately before and after transitions', 'Forgotten comfort items or medication', "Whether either home repeatedly misses the child's routine"];
+const portableRoutines = ['Similar bedtime windows where practical', 'Duplicate basic toiletries and clothing', 'A plan for comfort objects', 'Consistent medication instructions', 'Shared preschool information', 'Clear handoff of time-sensitive information'];
+
+const faqItems = [
+	{
+		question: 'What is the best custody schedule for a 3-year-old?',
+		answer: "There is no universally best pattern. 2-2-3, 2-2-5-5, 3-4-4-3 and primary-home arrangements are all possibilities. The child's established care, transitions, distance and routine matter.",
+	},
+	{
+		question: 'Is 50/50 custody appropriate for a 3-year-old?',
+		answer: "It can be workable in some families, but age alone cannot answer the question. Consider the child's relationships, history of overnights, distance, safety and ability to handle transitions.",
+	},
+	{
+		question: 'Is week-on/week-off good for a 3-year-old?',
+		answer: 'Alternating weeks reduce exchanges but create seven-night separations. Families considering it should compare that trade-off with shorter-block schedules.',
+	},
+	{
+		question: 'How often should a 3-year-old switch homes?',
+		answer: 'There is no universal frequency. More exchanges shorten separation but increase transitions; fewer exchanges do the opposite.',
+	},
+	{
+		question: 'Does research say overnights are bad for toddlers?',
+		answer: 'Not in normal circumstances. A 2014 peer-reviewed consensus report (Warshak, Psychology, Public Policy, and Law, endorsed by roughly 110 researchers) concluded that shared residential arrangements, including overnights, are supported by the evidence for children under four in ordinary, low-conflict situations. It does not apply where abuse, neglect or unsafe conflict is present, and it does not prescribe one specific schedule.',
+	},
+];
+
+const schema = [
+	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+	buildArticleSchema({
+		headline: title,
+		description,
+		url: canonicalUrl,
+		datePublished,
+		dateModified,
+		authorName: editorialReview.reviewer,
+	}),
+	buildFAQSchema(faqItems),
+	buildBreadcrumbSchema(breadcrumbs),
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article">
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<Breadcrumbs items={breadcrumbs} />
+	<main class="overflow-x-clip">
+
+		<!-- Hero -->
+		<section class="container-shell grid grid-cols-1 gap-5 py-4 sm:py-5 lg:grid-cols-[minmax(0,0.88fr)_minmax(704px,1.12fr)] lg:items-start lg:gap-7 lg:py-6 xl:w-[min(100%,1360px)]" id="schedule-generator">
+			<div class="order-1 min-w-0 lg:col-start-1 lg:row-start-1 lg:pt-1">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Custody schedule for a 3-year-old</p>
+				<h1 class="mt-2.5 max-w-3xl text-[1.7rem] font-semibold leading-[1.06] tracking-[-0.05em] text-primary sm:text-4xl lg:text-5xl">
+					Custody Schedule for a 3-Year-Old: Practical Examples
+				</h1>
+
+				<ul class="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-secondary">
+					{['No universally "best" pattern', 'Research-backed overnight discussion', '4 patterns compared', 'Transition test included'].map((chip) => (
+						<li class="rounded-full bg-surface/70 px-3 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">{chip}</li>
+					))}
+				</ul>
+
+				<p class="mt-5 max-w-2xl text-base leading-7 text-secondary">
+					There is no single "best" custody schedule for every 3-year-old. At age three, a useful plan usually needs to balance <strong class="text-primary">frequent, predictable contact with both safe caregivers</strong> against the stress and logistics of too many transitions. The right pattern depends on the child's established relationships, preschool/daycare routine, distance between homes, each parent's caregiving history and availability, conflict/safety issues, and how the child actually handles separations and exchanges.
+				</p>
+
+				<p class="mt-3 max-w-2xl text-sm leading-6 text-secondary">
+					This page focuses on the research behind overnights at this age and how the main patterns compare for a specific 2–4-year-old. For toddler-specific transition tolerance and exchange-frequency guidance, see the <a href="/best-custody-schedule-for-toddler/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">toddler custody schedule guide</a>; for 50/50 block-length mechanics at this age, see <a href="/50-50-custody-schedule-for-toddlers/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 for toddlers</a>.
+				</p>
+
+				<div class="mt-6 max-w-2xl text-xs leading-5 text-muted">
+					<p class="font-semibold text-secondary">Reviewed for:</p>
+					<ul class="mt-1 list-inside list-disc">{editorialReview.reviewedFor.map((i) => <li>{i}</li>)}</ul>
+					<p class="mt-2">
+						Reviewed by <a href={editorialReview.reviewerHref} class="font-semibold text-secondary underline">{editorialReview.reviewer}</a>
+						{' · '}<a href={editorialReview.methodologyHref} class="font-semibold text-secondary underline">{editorialReview.methodologyLabel}</a>
+						{' · '}<span class="font-semibold text-secondary">{editorialReview.lastUpdatedLabel}</span>
+						{' · '}{editorialReview.disclaimer}
+					</p>
+				</div>
+
+				<div class="mt-6 flex flex-wrap gap-3">
+					<a href="/custody-schedule-generator/" class="inline-flex rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:opacity-90" style="color: #ffffff">Build and compare a schedule &rarr;</a>
+					<a href="/custody-schedule-by-age/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Schedules by age</a>
+				</div>
+
+				<p class="mt-5 max-w-2xl text-xs leading-5 text-muted">
+					This is general parenting-plan information, not developmental, medical or legal advice. A court order and jurisdiction-specific law control where applicable.
+					<a href="/disclaimer/" class="ml-1 font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Read disclaimer</a>
+				</p>
+			</div>
+
+			<ScheduleHeroGeneratorPanel
+				selectedScheduleId="223"
+				generatedSchedule={generatedSchedule}
+				heroTrustSignals={heroTrustSignals}
+			/>
+		</section>
+
+		<!-- On-this-page nav -->
+		<nav class="container-shell border-y border-line-subtle py-3 lg:max-w-5xl" aria-label="On this page">
+			<ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">
+				<li><a href="#patterns" class="hover:text-accent">Compare patterns</a></li>
+				<li><a href="#research" class="hover:text-accent">What research says</a></li>
+				<li><a href="#transition-test" class="hover:text-accent">Transition test</a></li>
+				<li><a href="#portable" class="hover:text-accent">Keep routines portable</a></li>
+				<li><a href="#framework" class="hover:text-accent">Decision framework</a></li>
+				<li><a href="#faq" class="hover:text-accent">FAQ</a></li>
+			</ul>
+		</nav>
+
+		<!-- Patterns -->
+		<section id="patterns" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Four Schedule Patterns to Compare</h2>
+			<div class="mt-6 overflow-x-auto rounded-[1.5rem] ring-1 ring-line-subtle">
+				<table class="w-full min-w-[560px] text-left text-sm">
+					<thead class="bg-surface-elevated text-primary">
+						<tr>
+							<th class="px-4 py-3 font-semibold">Schedule</th>
+							<th class="px-4 py-3 font-semibold">Longest common block</th>
+							<th class="px-4 py-3 font-semibold">Main advantage</th>
+							<th class="px-4 py-3 font-semibold">Main drawback</th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-line-subtle text-secondary">
+						{patternTable.map((row) => (
+							<tr>
+								<td class="px-4 py-3 font-medium text-primary">{row.schedule}</td>
+								<td class="px-4 py-3">{row.block}</td>
+								<td class="px-4 py-3">{row.pro}</td>
+								<td class="px-4 py-3">{row.con}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+			<p class="mt-4 max-w-3xl text-secondary">Age alone should not decide the schedule. A three-year-old already accustomed to overnights in both homes is in a different position from a child who has rarely been cared for overnight by one parent.</p>
+
+			<div class="mt-8 space-y-6">
+				<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<h3 class="font-semibold text-primary">2-2-3 for a 3-year-old</h3>
+					<p class="mt-2 text-sm leading-6 text-secondary"><strong class="text-primary">Mon–Tue:</strong> Parent A · <strong class="text-primary">Wed–Thu:</strong> Parent B · <strong class="text-primary">Fri–Sun:</strong> Parent A, then the next week reverses. Why families consider it: neither parent is absent for long, and equal time is possible. What to watch: the child changes homes frequently — if every handoff is tense, late or disruptive to sleep, the benefit of frequent contact can be undermined by the transitions themselves. <a href="/2-2-3-custody-schedule/" class="font-semibold text-accent underline">See the full 2-2-3 guide</a>.</p>
+				</div>
+				<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<h3 class="font-semibold text-primary">2-2-5-5 for a 3-year-old</h3>
+					<p class="mt-2 text-sm leading-6 text-secondary">Fixed weekdays and alternating five-day blocks can be easier for adults to manage, but five nights away from a parent is longer than in a 2-2-3 rotation. A practical question is more useful than an age rule: has this child already shown that five-night separations and overnights in both homes are comfortable and routine? <a href="/2-2-5-5-custody-schedule/" class="font-semibold text-accent underline">See 2-2-5-5 examples</a>.</p>
+				</div>
+				<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<h3 class="font-semibold text-primary">3-4-4-3 schedule</h3>
+					<p class="mt-2 text-sm leading-6 text-secondary">Uses blocks of three and four days, reducing transitions compared with 2-2-3 while keeping separations shorter than alternating full weeks. Can work when both homes are close to preschool/daycare and both parents can handle weekday routines. <a href="/3-4-4-3-custody-schedule/" class="font-semibold text-accent underline">See the 3-4-4-3 schedule</a>.</p>
+				</div>
+				<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<h3 class="font-semibold text-primary">When a primary-home schedule may fit better</h3>
+					<p class="mt-2 text-sm leading-6 text-secondary">Equal time is not the only way to maintain a strong relationship with both parents. A primary-home arrangement with frequent shorter visits and gradually increasing overnights may be easier when one parent has not previously handled much solo care, the child is struggling substantially with overnights or transitions, the homes are far apart, work schedules make equal weekday care unrealistic, or safety concerns require a different arrangement. This is not a rule that toddlers "should" have one primary home — it is one option to compare.</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- Research -->
+		<section id="research" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">What Research Can — and Cannot — Tell You About Overnights at Age Three</h2>
+			<div class="mt-4 max-w-3xl space-y-4 text-secondary">
+				<p>A frequently cited source in parenting-plan literature is Richard Warshak's 2014 consensus report, <em>Social Science and Parenting Plans for Young Children: A Consensus Report</em>, published in <em>Psychology, Public Policy, and Law</em>. The published report states that its conclusions were endorsed by <strong class="text-primary">110 researchers and practitioners</strong>. It argued against blanket restrictions on young children's overnights with a parent solely because of age and supported maintaining meaningful relationships with both parents under <strong class="text-primary">normal circumstances</strong>.</p>
+				<p class="rounded-2xl bg-accent/10 px-4 py-3 text-sm leading-6 shadow-[inset_0_0_0_1px_var(--border-subtle)]">That is <strong class="text-primary">not</strong> evidence that one rotation — 2-2-3, alternating weeks, or 50/50 — is best for every three-year-old. Research findings do not replace case-specific assessment of safety, established caregiving relationships, the child's adjustment, distance between homes, parental conflict, or professional judgment. Use the research to reject simplistic age cutoffs, not to manufacture a universal schedule rule.</p>
+				<p class="text-sm text-muted">Reference: <a href="https://doi.org/10.1037/law0000005" class="font-semibold text-accent underline">Warshak, R. A. (2014), Psychology, Public Policy, and Law, 20(1), 46–67</a>.</p>
+			</div>
+		</section>
+
+		<!-- Transition test -->
+		<section id="transition-test" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">The Transition Test</h2>
+			<p class="mt-3 max-w-3xl text-secondary">Instead of asking only "Is 2-2-3 best?", track what happens around transitions for several weeks:</p>
+			<ul class="mt-4 max-w-3xl grid gap-2 sm:grid-cols-2 text-sm text-secondary">
+				{transitionChecks.map((item) => (
+					<li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span>{item}</li>
+				))}
+			</ul>
+			<p class="mt-4 max-w-3xl text-secondary">Do not interpret ordinary preschool behavior as a diagnosis. The purpose is to identify practical friction in the schedule. Preschool and daycare can be useful exchange points when appropriate — one parent drops off and the other picks up, reducing direct handoffs — but only if both parents are authorized for pickup and the arrangement fits the childcare provider's rules and any court order.</p>
+		</section>
+
+		<!-- Portable routines -->
+		<section id="portable" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Keep Routines Portable</h2>
+			<p class="mt-3 max-w-3xl text-secondary">A three-year-old cannot manage two households' logistics. Adults can reduce friction by keeping essential routines compatible:</p>
+			<ul class="mt-4 max-w-3xl grid gap-2 sm:grid-cols-2 text-sm text-secondary">
+				{portableRoutines.map((item) => (
+					<li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span>{item}</li>
+				))}
+			</ul>
+			<p class="mt-4 max-w-3xl text-secondary">The goal is not identical households. It is avoiding preventable disruption. Holidays should not create accidental long separations — a regular 2-2-3 schedule can turn into a much longer absence when a holiday block is added on top. Test Thanksgiving, winter break and vacations on a real calendar before finalizing the plan with the <a href="/holiday-custody-planner/" class="font-semibold text-accent underline">holiday custody planner</a>.</p>
+		</section>
+
+		<!-- Decision framework -->
+		<section id="framework" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">A Simple Decision Framework</h2>
+			<div class="mt-4 max-w-3xl space-y-3 text-secondary">
+				<p>Choose a <strong class="text-primary">short-block schedule</strong> such as 2-2-3 when frequent contact is the priority and transitions are manageable.</p>
+				<p>Consider <strong class="text-primary">2-2-5-5 or 3-4-4-3</strong> when fixed weekdays or fewer exchanges matter and the child handles longer blocks well.</p>
+				<p>Consider a <strong class="text-primary">primary-home/frequent-contact plan</strong> when equal overnights are not currently practical.</p>
+				<p>Then revisit the schedule as the child's preschool/school routine and needs change. There is no universal number of nights right for every three-year-old — if a proposed plan repeatedly produces distress or practical failure, consider professional guidance rather than assuming the percentage must be preserved.</p>
+			</div>
+			<div class="mt-8"><BackToGeneratorCta /></div>
+		</section>
+
+		<!-- Related links -->
+		<section class="container-shell border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-xl font-semibold text-primary">Related Tools and Resources</h2>
+			<ul class="mt-4 grid gap-2 text-sm sm:grid-cols-2">
+				{[
+					{ label: 'Custody Schedule by Age', href: '/custody-schedule-by-age/' },
+					{ label: 'Best Custody Schedule for a Toddler', href: '/best-custody-schedule-for-toddler/' },
+					{ label: '50/50 Custody Schedule for Toddlers', href: '/50-50-custody-schedule-for-toddlers/' },
+					{ label: '2-2-3 Custody Schedule', href: '/2-2-3-custody-schedule/' },
+					{ label: '2-2-5-5 Custody Schedule', href: '/2-2-5-5-custody-schedule/' },
+					{ label: '3-4-4-3 Custody Schedule', href: '/3-4-4-3-custody-schedule/' },
+					{ label: '50/50 Custody Schedule', href: '/50-50-custody-schedule/' },
+					{ label: 'Parenting Plan Template', href: '/parenting-plan-template/' },
+				].map((link) => (
+					<li><a href={link.href} class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">{link.label}</a></li>
+				))}
+			</ul>
+		</section>
+
+		<FAQ items={faqItems} title="Custody Schedule for a 3-Year-Old — FAQ" description="Common questions about custody schedules, overnights, and transitions for 3-year-olds." />
+
+		<!-- Legal disclaimer -->
+		<section class="container-shell border-t border-line-subtle py-8 lg:max-w-5xl">
+			<p class="max-w-3xl text-xs leading-5 text-muted">
+				This page provides general parenting-plan information for educational purposes only. It is not developmental, medical or legal advice. A court order and jurisdiction-specific law control where applicable — consult a licensed family law attorney or child development professional for guidance on your specific situation.
+			</p>
+		</section>
+
+	</main>
+	<Footer />
+</BaseLayout>

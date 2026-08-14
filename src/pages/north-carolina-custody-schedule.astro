@@ -1,0 +1,335 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import ScheduleHeroGeneratorPanel from '../components/schedules/ScheduleHeroGeneratorPanel.astro';
+import { generateSchedule } from '../lib/schedules/generateSchedule';
+import { getDefaultStartDate } from '../lib/schedules/format';
+import {
+	buildArticleSchema,
+	buildBreadcrumbSchema,
+	buildFAQSchema,
+	buildWebPageSchema,
+} from '../lib/seo/schema';
+
+const title = "North Carolina Custody Schedule: Examples & NC Rules";
+const description = "Compare North Carolina custody schedule examples, 50/50 options, holidays, exchanges, and the best-interest rules that affect parenting plans.";
+const canonical = '/north-carolina-custody-schedule/';
+const canonicalUrl = getCanonicalUrl(canonical);
+const datePublished = '2026-08-14';
+const dateModified = '2026-08-14';
+const startDate = getDefaultStartDate();
+const generatedSchedule = generateSchedule({
+	scheduleId: '223',
+	startDate,
+	parentNames: { parentA: 'Parent A', parentB: 'Parent B' },
+});
+const heroTrustSignals = ["Free — no account needed", "Visual NC schedule builder", "Download as PDF"];
+
+const editorialReview = {
+	reviewer: 'CustodyBuilder Editorial Team',
+	reviewerHref: '/about/',
+	methodologyLabel: 'How CustodyBuilder Works',
+	methodologyHref: '/how-custodybuilder-works/',
+	lastUpdatedLabel: 'Last updated August 2026',
+	disclaimer: 'Educational information only. Not legal advice.',
+	reviewedFor: [
+		'N.C. Gen. Stat. § 50-13.2 citation accuracy',
+		'NC child-support Worksheet A/B overnight thresholds',
+		'Practical guidance for NC custody schedules',
+	],
+};
+
+const breadcrumbs = [
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: 'North Carolina Custody Schedule', url: canonicalUrl },
+];
+
+const patternTable = [
+	{ schedule: 'Alternating weeks', pattern: '7 nights / 7 nights', split: '50/50', tradeoff: 'Few exchanges; long separation' },
+	{ schedule: '2-2-3', pattern: '2 / 2 / 3 days, then reverse', split: '50/50', tradeoff: 'Frequent contact; many exchanges' },
+	{ schedule: '2-2-5-5', pattern: 'Fixed weekdays + alternating 5-day blocks', split: '50/50', tradeoff: 'Predictable weekdays; longer blocks' },
+	{ schedule: '4-3', pattern: 'Parent A has 4 fixed days, Parent B has 3', split: '~57/43 (grouped as 60/40)', tradeoff: 'Simple, but not equal time unless it alternates weekly' },
+	{ schedule: 'Primary + alternating weekends', pattern: 'Primary home plus recurring parenting time', split: 'Often ~70/30 to ~80/20; varies', tradeoff: 'Stable school base; less equal time' },
+	{ schedule: 'Long-distance blocks', pattern: 'Fewer, longer periods', split: 'Varies', tradeoff: 'Fewer exchanges; longer separation' },
+];
+
+const chooseSteps = [
+	'Anchor school, daycare and recurring appointments.',
+	"Map each parent's real work and commute constraints.",
+	'Decide how many exchanges are practical.',
+	'Choose the repeating pattern.',
+	'Overlay holidays and vacations.',
+	'Test a full month on a calendar.',
+	'Count overnights only after the schedule works.',
+];
+
+const faqItems = [
+	{
+		question: 'Does North Carolina require 50/50 custody?',
+		answer: "No. North Carolina courts decide custody based on the child's best interests under N.C. Gen. Stat. § 50-13.2 and may order different physical- and legal-custody arrangements. There is no presumption favoring equal time.",
+	},
+	{
+		question: 'What is the standard custody schedule in North Carolina?',
+		answer: 'There is no single statewide schedule every family must use. Alternating weeks, 2-2-3, 2-2-5-5 and primary-home arrangements are examples, not requirements.',
+	},
+	{
+		question: 'Does joint custody mean equal time?',
+		answer: 'Not necessarily. Legal decision-making and physical parenting time are distinct issues — parents can share legal custody without splitting overnights evenly.',
+	},
+	{
+		question: 'Can overnight count affect which North Carolina child-support worksheet is used?',
+		answer: 'Yes. Worksheet A generally applies when one parent has 243 or more overnights a year, while Worksheet B generally applies when each parent has at least 123 overnights and meets the guideline\'s financial-responsibility condition. These are support-calculation thresholds, not rules that decide custody.',
+	},
+	{
+		question: 'Can parents create their own schedule?',
+		answer: 'Yes — parents can agree on parenting arrangements themselves. If a court case or custody order is involved, use official court information or a family law attorney to understand the proper procedure for making it enforceable.',
+	},
+];
+
+const schema = [
+	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+	buildArticleSchema({
+		headline: title,
+		description,
+		url: canonicalUrl,
+		datePublished,
+		dateModified,
+		authorName: editorialReview.reviewer,
+	}),
+	buildFAQSchema(faqItems),
+	buildBreadcrumbSchema(breadcrumbs),
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article">
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<Breadcrumbs items={breadcrumbs} />
+	<main class="overflow-x-clip">
+
+		<!-- Hero -->
+		<section class="container-shell grid grid-cols-1 gap-5 py-4 sm:py-5 lg:grid-cols-[minmax(0,0.88fr)_minmax(704px,1.12fr)] lg:items-start lg:gap-7 lg:py-6 xl:w-[min(100%,1360px)]" id="schedule-generator">
+			<div class="order-1 min-w-0 lg:col-start-1 lg:row-start-1 lg:pt-1">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">North Carolina custody schedule builder</p>
+				<h1 class="mt-2.5 max-w-3xl text-[1.7rem] font-semibold leading-[1.06] tracking-[-0.05em] text-primary sm:text-4xl lg:text-5xl">
+					North Carolina Custody Schedules: Examples and Planning Guide
+				</h1>
+
+				<ul class="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-secondary">
+					{['No 50/50 requirement in NC', 'Best-interest standard (N.C. Gen. Stat. § 50-13.2)', 'Common arrangements explained', 'Child-support worksheet thresholds'].map((chip) => (
+						<li class="rounded-full bg-surface/70 px-3 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">{chip}</li>
+					))}
+				</ul>
+
+				<p class="mt-5 max-w-2xl text-base leading-7 text-secondary">
+					A North Carolina custody schedule can provide equal time, a primary home with scheduled parenting time, or another arrangement tailored to the child. <strong class="text-primary">North Carolina does not require one standard 50/50 physical-custody schedule.</strong> When parents cannot agree, the court decides custody according to the child's welfare and best interests under N.C. Gen. Stat. § 50-13.2.
+				</p>
+
+				<div class="mt-6 max-w-2xl text-xs leading-5 text-muted">
+					<p class="font-semibold text-secondary">Reviewed for:</p>
+					<ul class="mt-1 list-inside list-disc">{editorialReview.reviewedFor.map((i) => <li>{i}</li>)}</ul>
+					<p class="mt-2">
+						Reviewed by <a href={editorialReview.reviewerHref} class="font-semibold text-secondary underline">{editorialReview.reviewer}</a>
+						{' · '}<a href={editorialReview.methodologyHref} class="font-semibold text-secondary underline">{editorialReview.methodologyLabel}</a>
+						{' · '}<span class="font-semibold text-secondary">{editorialReview.lastUpdatedLabel}</span>
+						{' · '}{editorialReview.disclaimer}
+					</p>
+				</div>
+
+				<div class="mt-6 flex flex-wrap gap-3">
+					<a href="/custody-schedule-generator/" class="inline-flex rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:opacity-90" style="color: #ffffff">Build your NC schedule free &rarr;</a>
+					<a href="/custody-percentage-calculator/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Custody percentage calculator</a>
+				</div>
+
+				<p class="mt-5 max-w-2xl text-xs leading-5 text-muted">
+					General information, not legal advice. For official information, see the <a href="https://www.nccourts.gov/help-topics/family-and-children/child-custody" class="underline">North Carolina Judicial Branch child custody guide</a>.
+					<a href="/disclaimer/" class="ml-1 font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Read disclaimer</a>
+				</p>
+			</div>
+
+			<ScheduleHeroGeneratorPanel
+				selectedScheduleId="223"
+				generatedSchedule={generatedSchedule}
+				heroTrustSignals={heroTrustSignals}
+			/>
+		</section>
+
+		<!-- On-this-page nav -->
+		<nav class="container-shell border-y border-line-subtle py-3 lg:max-w-5xl" aria-label="On this page">
+			<ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">
+				<li><a href="#patterns" class="hover:text-accent">Common patterns</a></li>
+				<li><a href="#is-5050" class="hover:text-accent">Is NC 50/50?</a></li>
+				<li><a href="#workable" class="hover:text-accent">What makes it workable</a></li>
+				<li><a href="#child-support" class="hover:text-accent">Child support</a></li>
+				<li><a href="#holidays" class="hover:text-accent">Holidays</a></li>
+				<li><a href="#choose" class="hover:text-accent">How to choose</a></li>
+				<li><a href="#faq" class="hover:text-accent">FAQ</a></li>
+			</ul>
+		</nav>
+
+		<!-- Common patterns -->
+		<section id="patterns" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Common North Carolina Custody Schedule Patterns</h2>
+			<p class="mt-3 max-w-3xl text-secondary">These are planning examples, not presumptions about what a judge will order. Percentages are arithmetic approximations of the base rotation only — holidays, vacations and exceptions will shift the real annual number.</p>
+
+			<div class="mt-6 overflow-x-auto rounded-[1.5rem] ring-1 ring-line-subtle">
+				<table class="w-full min-w-[640px] text-left text-sm">
+					<thead class="bg-surface-elevated text-primary">
+						<tr>
+							<th class="px-4 py-3 font-semibold">Schedule</th>
+							<th class="px-4 py-3 font-semibold">Basic pattern</th>
+							<th class="px-4 py-3 font-semibold">Approx. split</th>
+							<th class="px-4 py-3 font-semibold">Main trade-off</th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-line-subtle text-secondary">
+						{patternTable.map((row) => (
+							<tr>
+								<td class="px-4 py-3 font-medium text-primary">{row.schedule}</td>
+								<td class="px-4 py-3">{row.pattern}</td>
+								<td class="px-4 py-3">{row.split}</td>
+								<td class="px-4 py-3">{row.tradeoff}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+			<p class="mt-3 max-w-3xl text-xs text-muted">Confirm any schedule's real annual split with the <a href="/custody-percentage-calculator/" class="underline">custody percentage calculator</a> — a fixed weekly "4 days on/3 days off" pattern that never alternates lands close to 57/43, not 50/50, unless the longer block switches parents every other week.</p>
+
+			<div class="mt-8 grid gap-4 sm:grid-cols-3">
+				<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<p class="font-semibold text-primary">Alternating weeks</p>
+					<p class="mt-2 text-sm leading-6 text-secondary">Week 1 with Parent A, Week 2 with Parent B. Only one routine exchange per week, but seven nights away from either parent can be a long interval for younger children. <a href="/week-on-week-off-custody-schedule/" class="font-semibold text-accent underline">See the schedule</a>.</p>
+				</div>
+				<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<p class="font-semibold text-primary">2-2-3</p>
+					<p class="mt-2 text-sm leading-6 text-secondary">Parent A has Monday–Tuesday, Parent B has Wednesday–Thursday, and the weekend alternates. Contact is frequent, but so are transitions. <a href="/2-2-3-custody-schedule/" class="font-semibold text-accent underline">See the schedule</a>.</p>
+				</div>
+				<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<p class="font-semibold text-primary">2-2-5-5</p>
+					<p class="mt-2 text-sm leading-6 text-secondary">Each parent gets fixed weekdays plus alternating five-day blocks. Its strongest feature is weekday predictability. <a href="/2-2-5-5-custody-schedule/" class="font-semibold text-accent underline">See the schedule</a>.</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- Is NC 50/50 -->
+		<section id="is-5050" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Is North Carolina a 50/50 Custody State?</h2>
+			<div class="mt-4 max-w-3xl space-y-4 text-secondary">
+				<p>North Carolina does not make one automatic 50/50 schedule the answer in every case. Under <a href="https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_50/GS_50-13.2.html" class="font-semibold text-accent underline">N.C. Gen. Stat. § 50-13.2</a>, the court awards custody based on what will best promote the child's "interest and welfare," with no presumption favoring either parent — and it must consider factors including domestic violence and child safety. Courts can order different legal- and physical-custody arrangements according to that standard.</p>
+				<div class="grid gap-4 sm:grid-cols-2">
+					<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<p class="font-semibold text-primary">Legal custody</p>
+						<p class="mt-2 text-sm leading-6 text-secondary">Authority over important decisions — schooling, medical care, religion, extracurriculars.</p>
+					</div>
+					<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<p class="font-semibold text-primary">Physical custody</p>
+						<p class="mt-2 text-sm leading-6 text-secondary">When the child is actually in each parent's care, day to day.</p>
+					</div>
+				</div>
+				<p>Parents can share decision-making without having exactly equal overnights.</p>
+			</div>
+		</section>
+
+		<!-- Workable -->
+		<section id="workable" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">What Makes a Schedule Workable?</h2>
+			<p class="mt-3 max-w-3xl text-secondary">The percentage is only the arithmetic. A usable plan must also fit:</p>
+			<ul class="mt-4 max-w-3xl grid gap-2 sm:grid-cols-2 text-sm text-secondary">
+				{['School and daycare', 'Distance between homes', "Each parent's actual work availability", 'Transportation', "The child's age and developmental needs", 'Activities and appointments', 'Safety concerns', "The family's ability to manage exchanges"].map((item) => (
+					<li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span>{item}</li>
+				))}
+			</ul>
+			<p class="mt-4 max-w-3xl text-secondary">A schedule that needs constant exceptions is usually a sign that the base rotation needs work. "50/50" does not tell you exchange times, transportation, Thanksgiving, winter break, summer vacation, school closures, sick days, or how swaps affect the rotation — design the calendar first, then use the <a href="/custody-percentage-calculator/" class="font-semibold text-accent underline">custody percentage calculator</a> to verify the resulting overnight share.</p>
+		</section>
+
+		<!-- Child support -->
+		<section id="child-support" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">How Overnight Counts Affect North Carolina Child Support</h2>
+			<div class="mt-4 max-w-3xl space-y-4 text-secondary">
+				<p>North Carolina's child-support guidelines use different worksheets depending in part on the overnight pattern.</p>
+				<div class="grid gap-4 sm:grid-cols-2">
+					<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<p class="font-semibold text-primary">Worksheet A (primary custody)</p>
+						<p class="mt-2 text-sm leading-6 text-secondary">Generally applies when one parent has the child for <strong class="text-primary">243 or more overnights</strong> in the year — equivalently, the other parent has fewer than 123.</p>
+					</div>
+					<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<p class="font-semibold text-primary">Worksheet B (shared custody)</p>
+						<p class="mt-2 text-sm leading-6 text-secondary">Generally applies when <strong class="text-primary">each parent has at least 123 overnights</strong> during the year and each parent assumes financial responsibility for the child during that parent's time.</p>
+					</div>
+				</div>
+				<p class="rounded-2xl bg-accent/10 px-4 py-3 text-sm leading-6 shadow-[inset_0_0_0_1px_var(--border-subtle)]">Those numbers are not custody-award rules. They are child-support guideline thresholds. A court can order a custody arrangement for other reasons, and support can involve additional facts or deviations.</p>
+				<p>See the <a href="https://www.nccourts.gov/help-topics/family-and-children/child-support" class="font-semibold text-accent underline">North Carolina Judicial Branch child-support resources</a> and use the <a href="/child-support-calculator/" class="font-semibold text-accent underline">child support calculator</a> only as an estimate, not a substitute for the current guidelines or legal advice.</p>
+			</div>
+		</section>
+
+		<!-- Holidays and exchanges -->
+		<section id="holidays" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Holidays Should Explicitly Override the Regular Rotation</h2>
+			<p class="mt-3 max-w-3xl text-secondary">A clear holiday section identifies:</p>
+			<ol class="mt-4 max-w-3xl space-y-2">
+				{['The holiday', 'Exact start and end times', 'Odd/even-year rotation if used', 'Whether it overrides the normal schedule', 'Transportation', 'When the regular schedule resumes'].map((item, i) => (
+					<li class="flex gap-3"><span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/15 text-xs font-bold text-accent">{i + 1}</span><p class="text-sm leading-6 text-secondary">{item}</p></li>
+				))}
+			</ol>
+			<p class="mt-4 max-w-3xl text-secondary"><a href="/holiday-custody-planner/" class="font-semibold text-accent underline">Plan holiday custody time</a>.</p>
+
+			<div class="mt-8 max-w-3xl rounded-2xl bg-surface/70 px-4 py-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+				<strong class="text-primary">Exchanges can change how a schedule feels.</strong> Two plans can produce the same percentage but very different routines. School or daycare exchanges can reduce direct handoffs. A mathematically elegant schedule with six weekly exchanges may be a poor operational fit for parents living 45 minutes apart.
+			</div>
+		</section>
+
+		<!-- How to choose -->
+		<section id="choose" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">How to Choose a North Carolina Schedule</h2>
+			<ol class="mt-6 max-w-3xl space-y-0">
+				{chooseSteps.map((item, index) => (
+					<li class="relative flex gap-4 pb-6 last:pb-0">
+						{index < chooseSteps.length - 1 && (
+							<span class="absolute left-[0.6875rem] top-8 h-[calc(100%-1.5rem)] w-px bg-line" aria-hidden="true"></span>
+						)}
+						<span class="relative z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/15 text-xs font-bold text-accent ring-1 ring-accent/30">{index + 1}</span>
+						<p class="min-w-0 pt-0.5 text-sm leading-6 text-secondary">{item}</p>
+					</li>
+				))}
+			</ol>
+			<div class="mt-8"><BackToGeneratorCta /></div>
+		</section>
+
+		<!-- Related links -->
+		<section class="container-shell border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-xl font-semibold text-primary">Related Tools and Resources</h2>
+			<ul class="mt-4 grid gap-2 text-sm sm:grid-cols-2">
+				{[
+					{ label: 'Custody Percentage Calculator', href: '/custody-percentage-calculator/' },
+					{ label: 'Child Support Calculator', href: '/child-support-calculator/' },
+					{ label: '50/50 Custody Schedule', href: '/50-50-custody-schedule/' },
+					{ label: 'Week On, Week Off Schedule', href: '/week-on-week-off-custody-schedule/' },
+					{ label: 'Holiday Custody Planner', href: '/holiday-custody-planner/' },
+					{ label: 'Custody Schedule by Age', href: '/custody-schedule-by-age/' },
+					{ label: 'Joint Custody vs Sole Custody', href: '/joint-custody-vs-sole-custody/' },
+					{ label: 'Legal Custody vs Physical Custody', href: '/legal-custody-vs-physical-custody/' },
+				].map((link) => (
+					<li><a href={link.href} class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">{link.label}</a></li>
+				))}
+			</ul>
+		</section>
+
+		<FAQ items={faqItems} title="North Carolina Custody Schedule — FAQ" description="Common questions about North Carolina custody schedules and how they affect child support." />
+
+		<!-- Legal disclaimer -->
+		<section class="container-shell border-t border-line-subtle py-8 lg:max-w-5xl">
+			<p class="max-w-3xl text-xs leading-5 text-muted">
+				This page provides general information about North Carolina custody schedules for educational purposes only. It is not legal advice and does not create an attorney-client relationship. Consult a licensed North Carolina family law attorney before making decisions about your custody arrangement.
+			</p>
+		</section>
+
+	</main>
+	<Footer />
+</BaseLayout>

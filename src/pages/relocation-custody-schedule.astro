@@ -1,0 +1,277 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import ScheduleHeroGeneratorPanel from '../components/schedules/ScheduleHeroGeneratorPanel.astro';
+import { generateSchedule } from '../lib/schedules/generateSchedule';
+import { getDefaultStartDate } from '../lib/schedules/format';
+import {
+	buildArticleSchema,
+	buildBreadcrumbSchema,
+	buildFAQSchema,
+	buildWebPageSchema,
+} from '../lib/seo/schema';
+
+const title = "Relocation Custody Schedule: Long-Distance Parenting Plan";
+const description = "Build a relocation custody schedule with school-year, summer, holiday, travel and communication provisions. Includes practical long-distance examples.";
+const canonical = '/relocation-custody-schedule/';
+const canonicalUrl = getCanonicalUrl(canonical);
+const datePublished = '2026-08-14';
+const dateModified = '2026-08-14';
+const startDate = getDefaultStartDate();
+const generatedSchedule = generateSchedule({
+	scheduleId: 'every-other-weekend',
+	startDate,
+	parentNames: { parentA: 'Parent A', parentB: 'Parent B' },
+});
+const heroTrustSignals = ["Free — no account needed", "Long-distance schedule builder", "Download as PDF"];
+
+const editorialReview = {
+	reviewer: 'CustodyBuilder Editorial Team',
+	reviewerHref: '/about/',
+	methodologyLabel: 'How CustodyBuilder Works',
+	methodologyHref: '/how-custodybuilder-works/',
+	lastUpdatedLabel: 'Last updated August 2026',
+	disclaimer: 'Educational information only. Not legal advice.',
+	reviewedFor: [
+		'Fla. Stat. § 61.13001 citation accuracy',
+		'CA and UT court self-help guidance links',
+		'Practical transportation and holiday logistics',
+	],
+};
+
+const breadcrumbs = [
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: 'Relocation Custody Schedule', url: canonicalUrl },
+];
+
+const distanceChanges = ['One primary school-year home', 'Longer summer blocks with the distant parent', 'Alternating or divided school breaks', 'Carefully allocated major holidays', 'Fewer but longer visits', 'Scheduled phone/video contact', 'Detailed transportation rules'];
+const courtFactors = ['The reason for the proposed move (job, family support, remarriage, cost of living, safety)', 'The relationship and involvement of the parent who is not moving', 'Whether a workable long-distance parenting plan can preserve a meaningful relationship with the non-relocating parent', "The child's ties to school, community and extended family in both locations", "Each parent's history of complying with the existing custody order", "The child's own preference, depending on age and the applicable state law"];
+const transportQuestions = ['Who books travel?', 'Who pays or how are costs allocated?', 'Who transports the child to the airport/station?', 'Can the child travel unaccompanied, and under what conditions?', 'How far in advance are tickets purchased?', 'What happens after cancellation or severe delay?', 'What travel information must be shared?', 'Who keeps identification or travel documents?', 'What happens if the child is too young for the planned travel method?'];
+const checklist = ['School-year residence', 'Regular long-distance visits', 'Thanksgiving', 'Winter break', 'Spring/fall breaks', 'Summer', 'Birthdays and special days', 'Travel booking and costs', 'Delays/cancellations', 'Communication', 'Time zones', 'Schedule-change procedure', 'Exact resumption of the normal rotation'];
+
+const faqItems = [
+	{
+		question: 'What is a relocation custody schedule?',
+		answer: 'It is a parenting schedule adapted for parents who live far enough apart that the former local rotation no longer works. It commonly uses fewer, longer parenting blocks.',
+	},
+	{
+		question: 'Can a parent move out of state with a child?',
+		answer: 'The answer depends on jurisdiction, the existing custody order and the facts. Notice, consent, court approval or modification may be required. For a sense of how specific these rules get: Florida Statute § 61.13001 requires written notice at least 60 days before relocating the child\'s residence more than 50 miles for 60 or more consecutive days, and sets a 20-day window for the other parent to object. That is one state\'s rule, not a national standard — check the applicable law before moving.',
+	},
+	{
+		question: 'Who pays travel costs after relocation?',
+		answer: 'There is no universal answer. The agreement, court order and applicable law may allocate costs differently.',
+	},
+	{
+		question: 'Can 50/50 custody work long distance?',
+		answer: "Sometimes geography and school make equal physical time impractical. Do not preserve a percentage by creating excessive travel that disrupts school or the child's routine.",
+	},
+	{
+		question: 'What are my chances of winning a relocation case?',
+		answer: "There is no reliable general percentage — it depends on your state's specific legal test, the existing order, and the facts of your case. Courts commonly weigh the reason for the move, the non-relocating parent's involvement, whether a workable long-distance plan is possible, and the child's ties to each location. An attorney licensed in your state can assess your specific situation; a generic online estimate cannot.",
+	},
+];
+
+const schema = [
+	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+	buildArticleSchema({
+		headline: title,
+		description,
+		url: canonicalUrl,
+		datePublished,
+		dateModified,
+		authorName: editorialReview.reviewer,
+	}),
+	buildFAQSchema(faqItems),
+	buildBreadcrumbSchema(breadcrumbs),
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article">
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<Breadcrumbs items={breadcrumbs} />
+	<main class="overflow-x-clip">
+
+		<!-- Hero -->
+		<section class="container-shell grid grid-cols-1 gap-5 py-4 sm:py-5 lg:grid-cols-[minmax(0,0.88fr)_minmax(704px,1.12fr)] lg:items-start lg:gap-7 lg:py-6 xl:w-[min(100%,1360px)]" id="schedule-generator">
+			<div class="order-1 min-w-0 lg:col-start-1 lg:row-start-1 lg:pt-1">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Relocation custody schedule guide</p>
+				<h1 class="mt-2.5 max-w-3xl text-[1.7rem] font-semibold leading-[1.06] tracking-[-0.05em] text-primary sm:text-4xl lg:text-5xl">
+					Relocation Custody Schedule: How to Build a Workable Long-Distance Plan
+				</h1>
+
+				<ul class="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-secondary">
+					{['Legal right to move ≠ schedule design', 'Notice/approval rules vary by state', '3 relocation models', 'Transportation checklist'].map((chip) => (
+						<li class="rounded-full bg-surface/70 px-3 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">{chip}</li>
+					))}
+				</ul>
+
+				<p class="mt-5 max-w-2xl text-base leading-7 text-secondary">
+					A relocation custody schedule usually replaces <strong class="text-primary">frequent short visits with fewer, longer parenting blocks</strong>. But scheduling is only half the issue: <strong class="text-primary">a parent may need notice, consent, court approval, or a custody-order modification before relocating with a child.</strong> Rules vary sharply by state and by the existing order — do not move first and assume the calendar can be fixed afterward.
+				</p>
+
+				<div class="mt-6 max-w-2xl text-xs leading-5 text-muted">
+					<p class="font-semibold text-secondary">Reviewed for:</p>
+					<ul class="mt-1 list-inside list-disc">{editorialReview.reviewedFor.map((i) => <li>{i}</li>)}</ul>
+					<p class="mt-2">
+						Reviewed by <a href={editorialReview.reviewerHref} class="font-semibold text-secondary underline">{editorialReview.reviewer}</a>
+						{' · '}<a href={editorialReview.methodologyHref} class="font-semibold text-secondary underline">{editorialReview.methodologyLabel}</a>
+						{' · '}<span class="font-semibold text-secondary">{editorialReview.lastUpdatedLabel}</span>
+						{' · '}{editorialReview.disclaimer}
+					</p>
+				</div>
+
+				<div class="mt-6 flex flex-wrap gap-3">
+					<a href="/custody-schedule-generator/" class="inline-flex rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:opacity-90" style="color: #ffffff">Build a long-distance schedule &rarr;</a>
+					<a href="/holiday-custody-planner/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Holiday custody planner</a>
+				</div>
+
+				<p class="mt-5 max-w-2xl text-xs leading-5 text-muted">
+					Relocation is highly jurisdiction-specific. This page is planning information, not legal advice. See <a href="https://selfhelp.courts.ca.gov/relocating-moving-away-your-child" class="underline">California Courts' move-away guidance</a> and <a href="https://www.utcourts.gov/en/self-help/case-categories/family/divorce/relocation.html" class="underline">Utah Courts' relocation information</a> for examples of how state procedures differ.
+					<a href="/disclaimer/" class="ml-1 font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Read disclaimer</a>
+				</p>
+			</div>
+
+			<ScheduleHeroGeneratorPanel
+				selectedScheduleId="every-other-weekend"
+				generatedSchedule={generatedSchedule}
+				heroTrustSignals={heroTrustSignals}
+			/>
+		</section>
+
+		<!-- On-this-page nav -->
+		<nav class="container-shell border-y border-line-subtle py-3 lg:max-w-5xl" aria-label="On this page">
+			<ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">
+				<li><a href="#changes" class="hover:text-accent">What changes</a></li>
+				<li><a href="#court-factors" class="hover:text-accent">What courts consider</a></li>
+				<li><a href="#florida" class="hover:text-accent">A real state example</a></li>
+				<li><a href="#models" class="hover:text-accent">Schedule shapes</a></li>
+				<li><a href="#transportation" class="hover:text-accent">Transportation</a></li>
+				<li><a href="#holidays" class="hover:text-accent">Holidays</a></li>
+				<li><a href="#checklist" class="hover:text-accent">Checklist</a></li>
+				<li><a href="#faq" class="hover:text-accent">FAQ</a></li>
+			</ul>
+		</nav>
+
+		<!-- What changes -->
+		<section id="changes" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">What Changes After a Parent Relocates?</h2>
+			<div class="mt-4 max-w-3xl space-y-4 text-secondary">
+				<p>A local 2-2-3 or alternating-week schedule depends on short travel. At long distance, repeated school-week exchanges may become impossible. The schedule often shifts toward:</p>
+				<ul class="grid gap-2 sm:grid-cols-2 text-sm">
+					{distanceChanges.map((item) => (
+						<li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span>{item}</li>
+					))}
+				</ul>
+				<p class="rounded-2xl bg-accent/10 px-4 py-3 text-sm leading-6 shadow-[inset_0_0_0_1px_var(--border-subtle)]">The goal is not to preserve the old percentage at any cost. It is to create a calendar the child can actually live.</p>
+			</div>
+		</section>
+
+		<!-- Court factors -->
+		<section id="court-factors" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">What Do Courts Consider in Relocation Disputes?</h2>
+			<div class="mt-4 max-w-3xl space-y-4 text-secondary">
+				<p>There is no reliable universal "chance of winning" a relocation case. The governing test varies by state, and the facts matter. Depending on the jurisdiction, relevant considerations can include:</p>
+				<ol class="space-y-2">
+					{courtFactors.map((item, i) => (
+						<li class="flex gap-3"><span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/15 text-xs font-bold text-accent">{i + 1}</span><p class="text-sm leading-6 text-secondary">{item}</p></li>
+					))}
+				</ol>
+				<p>Those are <strong class="text-primary">general themes, not a nationwide legal test</strong>. Some states prescribe specific statutory factors, notice procedures or burdens of proof. The existing custody order can also matter. A useful relocation proposal therefore does two things separately: it addresses the jurisdiction's legal requirements and presents a concrete post-move calendar showing how the child's relationship with both parents would function.</p>
+			</div>
+		</section>
+
+		<!-- Florida example -->
+		<section id="florida" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">One State Example Shows Why Relocation Rules Must Be Checked Locally</h2>
+			<div class="mt-4 max-w-3xl space-y-4 text-secondary">
+				<p>Florida illustrates how specific these statutes can be. Under <strong class="text-primary">Fla. Stat. § 61.13001</strong>, "relocation" generally means moving the child's principal residence <strong class="text-primary">at least 50 miles</strong> from the relevant prior residence <strong class="text-primary">for at least 60 consecutive days</strong>, excluding certain temporary absences. If the required parties do not agree, the relocating parent generally must file and serve a petition containing a proposed post-relocation time-sharing and transportation plan; an objection to that petition is generally due within <strong class="text-primary">20 days after service</strong>.</p>
+				<p class="rounded-2xl bg-accent/10 px-4 py-3 text-sm leading-6 shadow-[inset_0_0_0_1px_var(--border-subtle)]">That is <strong class="text-primary">Florida's framework, not a nationwide rule</strong>. The 60-day figure describes the duration component of Florida's statutory definition of relocation — it is not a universal "60-day notice" rule. Other states use different distances, notice periods, procedures and burdens.</p>
+				<p class="text-sm text-muted">Official source: <a href="https://www.leg.state.fl.us/Statutes/index.cfm?App_mode=Display_Statute&URL=0000-0099%2F0061%2FSections%2F0061.13001.html" class="font-semibold text-accent underline">Fla. Stat. § 61.13001</a>.</p>
+			</div>
+		</section>
+
+		<!-- Models -->
+		<section id="models" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Common Relocation Schedule Shapes</h2>
+			<p class="mt-3 max-w-3xl text-secondary">Most relocation calendars fall into one of a few shapes: a school-year/summer split (distant parent gets a large summer block), one long weekend per month plus school breaks, or school breaks concentrated with the distant parent while the other handles school weeks. The right choice depends on exact distance, travel cost, and the child's school calendar — for the full breakdown with distance bands and worked examples, see the <a href="/long-distance-custody-schedule/" class="font-semibold text-accent underline">long-distance custody schedule guide</a>.</p>
+			<p class="mt-4 max-w-3xl text-secondary">A "three-day weekend" is not really three days if six hours are spent traveling. When comparing plans, calculate: <code class="rounded bg-page px-1.5 py-0.5 text-sm">usable time = scheduled block − realistic travel time</code>. This simple check exposes schedules that look generous on paper but provide little relaxed parent-child time.</p>
+		</section>
+
+		<!-- Transportation -->
+		<section id="transportation" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Transportation Must Be Part of the Schedule</h2>
+			<p class="mt-3 max-w-3xl text-secondary">A relocation plan should answer:</p>
+			<ul class="mt-4 max-w-3xl grid gap-2 sm:grid-cols-2 text-sm text-secondary">
+				{transportQuestions.map((item) => (
+					<li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span>{item}</li>
+				))}
+			</ul>
+			<p class="mt-4 max-w-3xl text-secondary">Do not invent a generic legal rule for cost allocation. The order, agreement and jurisdiction control.</p>
+		</section>
+
+		<!-- Holidays and summer -->
+		<section id="holidays" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Holidays Require Precision</h2>
+			<p class="mt-3 max-w-3xl text-secondary">"Alternate Christmas" is not precise enough for a long-distance family. Define: exact beginning and ending date/time; whether the block includes travel time; odd/even-year allocation; which airport or exchange point applies; whether winter break is divided or awarded as one block; and when the school-year schedule resumes. Use the <a href="/holiday-custody-planner/" class="font-semibold text-accent underline">holiday custody planner</a> to test the calendar.</p>
+
+			<div class="mt-6 max-w-3xl rounded-2xl bg-surface/70 px-4 py-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+				<strong class="text-primary">Summer is usually the biggest scheduling lever.</strong> Instead of writing "four weeks in summer," specify consecutive or split blocks, a selection deadline, priority in odd/even years, conflicts with camps or activities, travel dates, whether the regular schedule pauses, and birthday treatment. A selection deadline prevents both parents from making incompatible summer plans first.
+			</div>
+
+			<div class="mt-6 max-w-3xl space-y-3 text-secondary">
+				<p><strong class="text-primary">Communication between visits:</strong> video calls cannot replace in-person parenting time, but predictable communication can reduce long gaps. Avoid both extremes — "reasonable contact" may be too vague, while a rigid daily call at one exact minute may fail around activities and time zones. Consider a defined window, frequency and responsibility for making the child reasonably available.</p>
+				<p><strong class="text-primary">Do not silently convert a local schedule into long distance.</strong> If an existing order says every other weekend and one parent moves hundreds of miles away, keeping the same words may create an impossible order. Show the replacement calendar explicitly — old: alternating weekends + Wednesday evening; proposed: one long weekend monthly + spring break + extended summer + defined virtual contact — so everyone evaluates the actual trade rather than debating abstract percentages.</p>
+			</div>
+		</section>
+
+		<!-- Checklist -->
+		<section id="checklist" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Relocation Schedule Checklist</h2>
+			<p class="mt-3 max-w-3xl text-secondary">Before treating a plan as complete, verify:</p>
+			<ol class="mt-6 max-w-3xl grid gap-3 sm:grid-cols-2">
+				{checklist.map((item, i) => (
+					<li class="flex gap-3"><span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/15 text-xs font-bold text-accent">{i + 1}</span><p class="text-sm leading-6 text-secondary">{item}</p></li>
+				))}
+			</ol>
+			<div class="mt-8"><BackToGeneratorCta /></div>
+		</section>
+
+		<!-- Related links -->
+		<section class="container-shell border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-xl font-semibold text-primary">Related Tools and Resources</h2>
+			<ul class="mt-4 grid gap-2 text-sm sm:grid-cols-2">
+				{[
+					{ label: 'Long-Distance Custody Schedule', href: '/long-distance-custody-schedule/' },
+					{ label: 'Holiday Custody Planner', href: '/holiday-custody-planner/' },
+					{ label: 'Custody Schedule by Age', href: '/custody-schedule-by-age/' },
+					{ label: 'Overnight Custody Calculator', href: '/overnight-custody-calculator/' },
+					{ label: 'Parenting Plan Template', href: '/parenting-plan-template/' },
+					{ label: 'Custody Calendar Template', href: '/custody-calendar-template/' },
+					{ label: 'Florida Custody Schedule', href: '/florida-custody-schedule/' },
+					{ label: 'California Custody Schedule', href: '/california-custody-schedule/' },
+				].map((link) => (
+					<li><a href={link.href} class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">{link.label}</a></li>
+				))}
+			</ul>
+		</section>
+
+		<FAQ items={faqItems} title="Relocation Custody Schedule — FAQ" description="Common questions about relocation, notice requirements, and long-distance custody schedules." />
+
+		<!-- Legal disclaimer -->
+		<section class="container-shell border-t border-line-subtle py-8 lg:max-w-5xl">
+			<p class="max-w-3xl text-xs leading-5 text-muted">
+				This page is for informational and educational purposes only and does not constitute legal advice. Relocation and long-distance custody involve state-specific laws, jurisdictional questions, and judicial discretion that vary significantly. Consult a licensed family law attorney in your jurisdiction before making decisions about relocation or long-distance custody arrangements.
+			</p>
+		</section>
+
+	</main>
+	<Footer />
+</BaseLayout>

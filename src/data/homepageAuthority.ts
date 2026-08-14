@@ -96,7 +96,7 @@ export const exploreByChildStage = {
 
 export const popularGuides = {
 	title: 'Popular Schedule Guides',
-	intro: 'Six rotation starting points — each guide owns one pattern ID. No rankings on this page.',
+	intro: 'Seven rotation starting points — each guide owns one pattern ID. No rankings on this page.',
 	guides: [
 		{ label: '2-2-3', href: '/2-2-3-custody-schedule/', tag: '4 exchanges / fortnight' },
 		{ label: '2-2-5-5', href: '/2-2-5-5-custody-schedule/', tag: 'Fixed weekdays' },
@@ -104,6 +104,7 @@ export const popularGuides = {
 		{ label: 'Every other weekend', href: '/every-other-weekend-custody-schedule/', tag: 'Visitation blocks' },
 		{ label: '60/40', href: '/60-40-custody-schedule/', tag: 'Primary + extended time' },
 		{ label: '80/20', href: '/80-20-custody-schedule/', tag: 'Primary residence model' },
+		{ label: '90/10', href: '/90-10-custody-schedule/', tag: 'Highly unequal split' },
 	],
 };
 

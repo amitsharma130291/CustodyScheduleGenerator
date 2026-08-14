@@ -25,7 +25,7 @@ export const editorialReview = {
 export const hero = {
 	headline: 'How to Choose Between Two 50/50 Custody Schedules',
 	intro:
-		'You already narrowed equal time to two finalists — maybe 2-2-3 vs 2-2-5-5, or 2-2-5-5 vs week-on/week-off. This page eliminates one. Print both rotations with the same start date and count conflict days, not parenting percentages.',
+		'There is no single best 50/50 schedule for every family — the right pick depends mainly on the child\'s age and how far apart the homes are: younger children and closer homes tend to do better with shorter blocks (2-2-3), older children or families wanting fewer exchanges do better with longer ones (2-2-5-5, week-on/week-off). Most families land on two realistic finalists — maybe 2-2-3 vs 2-2-5-5, or 2-2-5-5 vs week-on/week-off. This page eliminates one. Print both rotations with the same start date and count conflict days, not parenting percentages.',
 	boundary:
 		'First-round branching lives on the <a href="/50-50-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 custody schedule</a> hub. Pattern mechanics live on individual pattern guides. Real-world breakdown stories live on the <a href="/50-50-custody-schedule-examples/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">50/50 schedule examples</a> page.',
 };

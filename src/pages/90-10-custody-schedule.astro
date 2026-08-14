@@ -1,0 +1,369 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import ScheduleHeroGeneratorPanel from '../components/schedules/ScheduleHeroGeneratorPanel.astro';
+import { generateSchedule } from '../lib/schedules/generateSchedule';
+import { getDefaultStartDate } from '../lib/schedules/format';
+import {
+	buildArticleSchema,
+	buildBreadcrumbSchema,
+	buildFAQSchema,
+	buildWebPageSchema,
+} from '../lib/seo/schema';
+
+const title = "90/10 Custody Schedule: Examples, Overnights & Trade-Offs";
+const description = "See what a 90/10 custody schedule can look like, how many overnights it represents, example calendars, trade-offs, and when another schedule may fit better.";
+const canonical = '/90-10-custody-schedule/';
+const canonicalUrl = getCanonicalUrl(canonical);
+const datePublished = '2026-08-14';
+const dateModified = '2026-08-14';
+const startDate = getDefaultStartDate();
+const generatedSchedule = generateSchedule({
+	scheduleId: '90-10',
+	startDate,
+	parentNames: { parentA: 'Parent A', parentB: 'Parent B' },
+});
+const heroTrustSignals = ["Free — no account needed", "Visual 90/10 schedule builder", "Download as PDF"];
+
+const editorialReview = {
+	reviewer: 'CustodyBuilder Editorial Team',
+	reviewerHref: '/about/',
+	methodologyLabel: 'How CustodyBuilder Works',
+	methodologyHref: '/how-custodybuilder-works/',
+	lastUpdatedLabel: 'Last updated August 2026',
+	disclaimer: 'Educational information only. Not legal advice.',
+	reviewedFor: [
+		'Overnight-count arithmetic (365-day and leap-year math)',
+		'NC and PA child-support threshold cross-references',
+		'Practical guidance for highly unequal schedules',
+	],
+};
+
+const breadcrumbs = [
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: 'Schedules', url: getCanonicalUrl('/custody-schedule-generator/') },
+	{ name: '90/10 Custody Schedule', url: canonicalUrl },
+];
+
+const modelTable = [
+	{ model: 'Daytime-only', example: 'Several visits, no overnights', best: 'Contact without overnight allocation' },
+	{ model: 'One overnight most weeks', example: 'About 36–52 nights depending on exceptions', best: 'Near the target but must be counted' },
+	{ model: 'Two overnights every third weekend', example: '~34–36 nights/year', best: 'Concentrated weekend time' },
+	{ model: 'Vacation blocks', example: 'Fewer visits plus longer school-break periods', best: 'Useful with distance' },
+	{ model: 'Custom', example: 'Weekends + holidays + summer', best: 'Percentage varies by calendar' },
+];
+
+const compareTable = [
+	{ split: '90/10', nights: '36–37', diff: 'Limited overnights' },
+	{ split: '80/20', nights: '~73', diff: 'Roughly double 90/10' },
+	{ split: '70/30', nights: '~109–110', diff: 'More regular parenting time' },
+];
+
+const buildSteps = [
+	'Place regular weekends/visits.',
+	'Add school holidays.',
+	'Add summer and vacation blocks.',
+	'Resolve birthday and special-day rules.',
+	'Count actual overnights.',
+	'Check the longest separation from each parent.',
+	'Adjust the rotation if the lived schedule does not match the intended arrangement.',
+];
+
+const faqItems = [
+	{
+		question: 'How many days is 90/10 custody?',
+		answer: 'If measured by overnights, 10% of a 365-day year is 36.5, so a real schedule is usually around 36–37 overnights before adjustments.',
+	},
+	{
+		question: 'Is one night a week 90/10?',
+		answer: 'No. Fifty-two overnights is about 14.2% of a 365-night year — closer to an 86/14 split before other adjustments.',
+	},
+	{
+		question: 'Does 90/10 mean no overnights?',
+		answer: 'Not necessarily. Some examples use daytime-only visits, while others use a small number of overnights. The actual calendar defines the split.',
+	},
+	{
+		question: 'Is 90/10 the same everywhere for child support?',
+		answer: 'No. Jurisdictions can count parenting time differently. Use the applicable rules rather than assuming a generic percentage controls support.',
+	},
+	{
+		question: 'Does the exact split matter more once you\'re near 80/20 or 70/30 instead of 90/10?',
+		answer: 'Often, yes. Some states switch to a different child-support formula once a parent crosses a specific overnight threshold rather than scaling continuously. A 90/10 split rarely sits near those thresholds, but a slightly less unequal split might — confirm the applicable rule before assuming a few extra nights only affects the calendar.',
+	},
+];
+
+const schema = [
+	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+	buildArticleSchema({
+		headline: title,
+		description,
+		url: canonicalUrl,
+		datePublished,
+		dateModified,
+		authorName: editorialReview.reviewer,
+	}),
+	buildFAQSchema(faqItems),
+	buildBreadcrumbSchema(breadcrumbs),
+	{
+		'@context': 'https://schema.org',
+		'@type': 'WebApplication',
+		name: '90/10 Custody Schedule Calendar Generator',
+		description,
+		url: canonicalUrl,
+		inLanguage: 'en-US',
+		areaServed: 'US',
+		applicationCategory: 'LegalApplication',
+		operatingSystem: 'Web',
+		offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+	},
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article">
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<Breadcrumbs items={breadcrumbs} />
+	<main class="overflow-x-clip">
+
+		<!-- Hero -->
+		<section class="container-shell grid grid-cols-1 gap-5 py-4 sm:py-5 lg:grid-cols-[minmax(0,0.88fr)_minmax(704px,1.12fr)] lg:items-start lg:gap-7 lg:py-6 xl:w-[min(100%,1360px)]" id="schedule-generator">
+			<div class="order-1 min-w-0 lg:col-start-1 lg:row-start-1 lg:pt-1">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">90/10 custody schedule builder</p>
+				<h1 class="mt-2.5 max-w-3xl text-[1.7rem] font-semibold leading-[1.06] tracking-[-0.05em] text-primary sm:text-4xl lg:text-5xl">
+					90/10 Custody Schedule: Examples and Trade-Offs
+				</h1>
+
+				<ul class="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-secondary">
+					{['~36–37 overnights/year', 'No single "90/10" rotation', 'Overnights vs. hours matters', 'State support thresholds vary'].map((chip) => (
+						<li class="rounded-full bg-surface/70 px-3 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">{chip}</li>
+					))}
+				</ul>
+
+				<p class="mt-5 max-w-2xl text-base leading-7 text-secondary">
+					A <strong class="text-primary">90/10 custody schedule</strong> gives one parent roughly 90% of parenting time and the other roughly 10%. If measured by overnights across a 365-day year, 10% is about <strong class="text-primary">36–37 overnights</strong> and 90% about <strong class="text-primary">328–329</strong>. The exact count depends on the calendar, holidays and how the family measures parenting time. A 90/10 label does not describe one universal rotation — the smaller share might be daytime visits, roughly one overnight most weeks, selected weekends, or fewer but longer blocks.
+				</p>
+
+				<div class="mt-6 max-w-2xl text-xs leading-5 text-muted">
+					<p class="font-semibold text-secondary">Reviewed for:</p>
+					<ul class="mt-1 list-inside list-disc">{editorialReview.reviewedFor.map((i) => <li>{i}</li>)}</ul>
+					<p class="mt-2">
+						Reviewed by <a href={editorialReview.reviewerHref} class="font-semibold text-secondary underline">{editorialReview.reviewer}</a>
+						{' · '}<a href={editorialReview.methodologyHref} class="font-semibold text-secondary underline">{editorialReview.methodologyLabel}</a>
+						{' · '}<span class="font-semibold text-secondary">{editorialReview.lastUpdatedLabel}</span>
+						{' · '}{editorialReview.disclaimer}
+					</p>
+				</div>
+
+				<div class="mt-6 flex flex-wrap gap-3">
+					<a href="/custody-schedule-generator/" class="inline-flex rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:opacity-90" style="color: #ffffff">Build a 90/10 schedule free &rarr;</a>
+					<a href="/custody-percentage-calculator/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Custody percentage calculator</a>
+				</div>
+
+				<p class="mt-5 max-w-2xl text-xs leading-5 text-muted">
+					This is planning information, not legal advice. Courts and child-support systems may define or count parenting time differently.
+					<a href="/disclaimer/" class="ml-1 font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Read disclaimer</a>
+				</p>
+			</div>
+
+			<ScheduleHeroGeneratorPanel
+				selectedScheduleId="90-10"
+				generatedSchedule={generatedSchedule}
+				heroTrustSignals={heroTrustSignals}
+			/>
+		</section>
+
+		<!-- On-this-page nav -->
+		<nav class="container-shell border-y border-line-subtle py-3 lg:max-w-5xl" aria-label="On this page">
+			<ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">
+				<li><a href="#models" class="hover:text-accent">What it looks like</a></li>
+				<li><a href="#overnights" class="hover:text-accent">Overnight math</a></li>
+				<li><a href="#metric" class="hover:text-accent">Overnights vs. hours</a></li>
+				<li><a href="#support" class="hover:text-accent">Child support</a></li>
+				<li><a href="#tradeoffs" class="hover:text-accent">Trade-offs</a></li>
+				<li><a href="#compare" class="hover:text-accent">vs. 80/20 &amp; 70/30</a></li>
+				<li><a href="#build" class="hover:text-accent">Build the calendar</a></li>
+				<li><a href="#faq" class="hover:text-accent">FAQ</a></li>
+			</ul>
+		</nav>
+
+		<!-- Models -->
+		<section id="models" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">What Does 90/10 Look Like?</h2>
+			<p class="mt-3 max-w-3xl text-secondary">Do not trust the name of a rotation to guarantee exactly 10%. Count the actual overnights.</p>
+			<div class="mt-6 overflow-x-auto rounded-[1.5rem] ring-1 ring-line-subtle">
+				<table class="w-full min-w-[560px] text-left text-sm">
+					<thead class="bg-surface-elevated text-primary">
+						<tr>
+							<th class="px-4 py-3 font-semibold">Model</th>
+							<th class="px-4 py-3 font-semibold">Example</th>
+							<th class="px-4 py-3 font-semibold">Best understood as</th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-line-subtle text-secondary">
+						{modelTable.map((row) => (
+							<tr>
+								<td class="px-4 py-3 font-medium text-primary">{row.model}</td>
+								<td class="px-4 py-3">{row.example}</td>
+								<td class="px-4 py-3">{row.best}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+		</section>
+
+		<!-- Overnight math -->
+		<section id="overnights" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">How Many Overnights Is 90/10 Custody?</h2>
+			<div class="mt-4 max-w-3xl space-y-4 text-secondary">
+				<p>Ten percent of 365 is <strong class="text-primary">36.5 nights</strong>. Since an overnight cannot be split, a real calendar will generally land around 36 or 37 nights before holiday adjustments. A leap year changes the arithmetic slightly. More importantly, holiday and vacation overrides can move the final percentage by several nights.</p>
+
+				<div class="grid gap-4 sm:grid-cols-2">
+					<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<p class="font-semibold text-primary">Example: two overnights every third weekend</p>
+						<p class="mt-2 text-sm leading-6 text-secondary">Over 52 weeks, there are about 17 such weekends: <code class="rounded bg-page px-1.5 py-0.5">17 × 2 = 34 overnights</code> — approximately 9.3% of 365 nights before holidays or vacations. This demonstrates why calendar math is more reliable than labels.</p>
+					</div>
+					<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<p class="font-semibold text-primary">Example: one overnight per week</p>
+						<p class="mt-2 text-sm leading-6 text-secondary">Produces roughly <code class="rounded bg-page px-1.5 py-0.5">52 ÷ 365 ≈ 14.2%</code> — <strong class="text-primary">not</strong> a true 90/10 split. "One night a week" sounds limited, but it's closer to 86/14.</p>
+					</div>
+				</div>
+
+				<p>Use the <a href="/custody-percentage-calculator/" class="font-semibold text-accent underline">custody percentage calculator</a> after laying out the complete year.</p>
+			</div>
+		</section>
+
+		<!-- Overnights vs hours -->
+		<section id="metric" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Daytime Visits Can Produce a Different Percentage Depending on the Metric</h2>
+			<div class="mt-4 max-w-3xl space-y-4 text-secondary">
+				<p>Some 90/10 examples online use daytime visits with no overnights for the parent with less time. If a calculator measures only overnights, those visits may produce <strong class="text-primary">0% of overnights</strong> even though the parent has meaningful daytime parenting time.</p>
+				<p class="rounded-2xl bg-accent/10 px-4 py-3 text-sm font-semibold leading-6 shadow-[inset_0_0_0_1px_var(--border-subtle)]">Always ask: are we measuring overnights, hours, or another legal/administrative definition? For court orders and child support, use the definition applicable in the relevant jurisdiction rather than a generic web percentage.</p>
+				<p><strong class="text-primary">When might a highly unequal schedule be considered?</strong> Families may explore a 90/10-type arrangement when frequent transitions are impractical, parents live far apart, one parent has limited availability, the child needs one dominant school-week base, or circumstances temporarily limit overnight parenting time. Those facts do not mean 90/10 is legally appropriate — safety concerns, restrictions, relocation and disputed custody require individualized legal analysis.</p>
+			</div>
+		</section>
+
+		<!-- Child support -->
+		<section id="support" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Why the Exact Overnight Count Can Matter</h2>
+			<div class="mt-4 max-w-3xl space-y-4 text-secondary">
+				<p>The difference between "about 10%" and the actual annual count can matter because some states use overnight thresholds in child-support formulas rather than scaling smoothly with the percentage. Two concrete examples:</p>
+				<div class="grid gap-4 sm:grid-cols-2">
+					<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<p class="font-semibold text-primary">North Carolina</p>
+						<p class="mt-2 text-sm leading-6 text-secondary">Worksheet B generally requires at least <strong class="text-primary">123 overnights for each parent</strong>; a 90/10 split is far below that threshold for the lower-time parent. <a href="/north-carolina-custody-schedule/" class="font-semibold text-accent underline">See the NC guide</a>.</p>
+					</div>
+					<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+						<p class="font-semibold text-primary">Pennsylvania</p>
+						<p class="mt-2 text-sm leading-6 text-secondary">Pa.R.C.P. 1910.16-4(c) uses <strong class="text-primary">40% of annual overnights</strong> — roughly 146 nights — as the point where a rebuttable support-reduction presumption applies. <a href="/pennsylvania-custody-schedule/" class="font-semibold text-accent underline">See the PA guide</a>.</p>
+					</div>
+				</div>
+				<p>These are illustrations, not nationwide rules. A 90/10 overnight split is far below either threshold for the lower-time parent — this only becomes relevant if you're negotiating toward a less unequal split. Check the child-support rules that apply to your case, or start with the <a href="/child-support-calculator/" class="font-semibold text-accent underline">child support calculator</a>.</p>
+			</div>
+		</section>
+
+		<!-- Trade-offs -->
+		<section id="tradeoffs" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Trade-Offs</h2>
+			<div class="mt-6 grid gap-4 sm:grid-cols-2">
+				<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<p class="font-semibold text-primary">Potential advantages</p>
+					<ul class="mt-2 space-y-1 text-sm leading-6 text-secondary list-inside list-disc">
+						<li>Very stable primary residence</li>
+						<li>Fewer routine exchanges</li>
+						<li>Easier school-week logistics</li>
+						<li>Can accommodate substantial distance</li>
+					</ul>
+				</div>
+				<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<p class="font-semibold text-primary">Potential disadvantages</p>
+					<ul class="mt-2 space-y-1 text-sm leading-6 text-secondary list-inside list-disc">
+						<li>Limited ordinary weekday life with one parent</li>
+						<li>Long gaps between contact if blocks are poorly spaced</li>
+						<li>Holidays can distort the intended percentage</li>
+						<li>A small number of cancellations can eliminate a large share of the lower-time parent's annual contact</li>
+					</ul>
+				</div>
+			</div>
+		</section>
+
+		<!-- Compare -->
+		<section id="compare" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">90/10 vs 80/20 vs 70/30</h2>
+			<div class="mt-6 overflow-x-auto rounded-[1.5rem] ring-1 ring-line-subtle">
+				<table class="w-full min-w-[480px] text-left text-sm">
+					<thead class="bg-surface-elevated text-primary">
+						<tr>
+							<th class="px-4 py-3 font-semibold">Split</th>
+							<th class="px-4 py-3 font-semibold">Approx. nights for lower-time parent</th>
+							<th class="px-4 py-3 font-semibold">General difference</th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-line-subtle text-secondary">
+						{compareTable.map((row) => (
+							<tr>
+								<td class="px-4 py-3 font-medium text-primary">{row.split}</td>
+								<td class="px-4 py-3">{row.nights}</td>
+								<td class="px-4 py-3">{row.diff}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+			<p class="mt-3 max-w-3xl text-xs text-muted">These are arithmetic approximations, not legal definitions. See <a href="/80-20-custody-schedule/" class="underline">80/20 schedules</a> and <a href="/70-30-custody-schedule/" class="underline">70/30 schedules</a>.</p>
+		</section>
+
+		<!-- Build the calendar -->
+		<section id="build" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Build the Calendar Before Arguing About the Percentage</h2>
+			<ol class="mt-6 max-w-3xl space-y-0">
+				{buildSteps.map((item, index) => (
+					<li class="relative flex gap-4 pb-6 last:pb-0">
+						{index < buildSteps.length - 1 && (
+							<span class="absolute left-[0.6875rem] top-8 h-[calc(100%-1.5rem)] w-px bg-line" aria-hidden="true"></span>
+						)}
+						<span class="relative z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/15 text-xs font-bold text-accent ring-1 ring-accent/30">{index + 1}</span>
+						<p class="min-w-0 pt-0.5 text-sm leading-6 text-secondary">{item}</p>
+					</li>
+				))}
+			</ol>
+			<div class="mt-8"><BackToGeneratorCta /></div>
+		</section>
+
+		<!-- Related links -->
+		<section class="container-shell border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-xl font-semibold text-primary">Related Tools and Resources</h2>
+			<ul class="mt-4 grid gap-2 text-sm sm:grid-cols-2">
+				{[
+					{ label: 'Custody Percentage Calculator', href: '/custody-percentage-calculator/' },
+					{ label: 'Child Support Calculator', href: '/child-support-calculator/' },
+					{ label: '80/20 Custody Schedule', href: '/80-20-custody-schedule/' },
+					{ label: '70/30 Custody Schedule', href: '/70-30-custody-schedule/' },
+					{ label: 'North Carolina Custody Schedule', href: '/north-carolina-custody-schedule/' },
+					{ label: 'Pennsylvania Custody Schedule', href: '/pennsylvania-custody-schedule/' },
+					{ label: 'Overnight Custody Calculator', href: '/overnight-custody-calculator/' },
+					{ label: 'Long-Distance Custody Schedule', href: '/long-distance-custody-schedule/' },
+				].map((link) => (
+					<li><a href={link.href} class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">{link.label}</a></li>
+				))}
+			</ul>
+		</section>
+
+		<FAQ items={faqItems} title="90/10 Custody Schedule — FAQ" description="Common questions about 90/10 custody schedules, overnight counts, and child support." />
+
+		<!-- Legal disclaimer -->
+		<section class="container-shell border-t border-line-subtle py-8 lg:max-w-5xl">
+			<p class="max-w-3xl text-xs leading-5 text-muted">
+				This page provides general information about 90/10 custody schedules for educational purposes only. It is not legal advice. Courts and child-support systems may count parenting time differently — consult a licensed family law attorney in your jurisdiction before finalizing a schedule.
+			</p>
+		</section>
+
+	</main>
+	<Footer />
+</BaseLayout>

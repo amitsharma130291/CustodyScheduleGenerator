@@ -2,7 +2,7 @@ export type Parent = 'A' | 'B';
 
 export type ParentKey = 'parentA' | 'parentB';
 
-export type ScheduleType = '223' | '2255' | '5225' | '3443' | 'week-on-week-off' | 'every-other-weekend' | '60-40' | '70-30' | '80-20';
+export type ScheduleType = '223' | '2255' | '5225' | '3443' | 'week-on-week-off' | 'every-other-weekend' | '60-40' | '70-30' | '80-20' | '90-10';
 
 export type LegacyScheduleType =
 	| '2-2-3'
@@ -16,7 +16,8 @@ export type LegacyScheduleType =
 	| '70-30'
 	| '70/30'
 	| '80-20'
-	| '80/20';
+	| '80/20'
+	| '90/10';
 
 export type ScheduleId = ScheduleType;
 

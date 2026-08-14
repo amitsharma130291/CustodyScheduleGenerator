@@ -24,13 +24,13 @@ export const editorialReview = {
 export const hero = {
 	headline: '80/20 Custody Schedule',
 	intro:
-		'An 80/20 custody schedule often gives one parent most school nights while the other parent has limited time. The challenge is rarely the percentage itself. The challenge is staying involved when most homework, teacher communication, practices, appointments, and weekday routines happen somewhere else. This page explains how 20% parenting time succeeds, where it breaks down, and what families usually put in writing before conflict starts.',
+		'An 80/20 custody schedule gives one parent about 292 overnights a year and the other about 73 — 20% of 365 days, before holidays shift the exact count. The challenge is rarely the percentage itself. The challenge is staying involved when most homework, teacher communication, practices, appointments, and weekday routines happen somewhere else. This page explains how 20% parenting time succeeds, where it breaks down, and what families usually put in writing before conflict starts.',
 	boundary:
 		'At 70/30, the lower-time parent often still has recurring school-night involvement. At 80/20, involvement usually follows information access rather than possession.',
 };
 
 export const heroKeyStats = [
-	{ value: '20%', label: 'parenting time' },
+	{ value: '~73', label: 'overnights/year (20%)' },
 	{ value: 'Daily', label: 'school life continues' },
 	{ value: 'Access', label: 'can exceed possession' },
 ];

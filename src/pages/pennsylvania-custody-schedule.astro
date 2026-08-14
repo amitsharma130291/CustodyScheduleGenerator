@@ -1,0 +1,291 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
+import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import FAQ from '../components/FAQ.astro';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import ScheduleHeroGeneratorPanel from '../components/schedules/ScheduleHeroGeneratorPanel.astro';
+import { generateSchedule } from '../lib/schedules/generateSchedule';
+import { getDefaultStartDate } from '../lib/schedules/format';
+import {
+	buildArticleSchema,
+	buildBreadcrumbSchema,
+	buildFAQSchema,
+	buildWebPageSchema,
+} from '../lib/seo/schema';
+
+const title = "Pennsylvania Custody Schedule: Examples & PA Rules";
+const description = "Compare Pennsylvania custody schedules, 50/50 options, holidays, and practical parenting-plan details under Pennsylvania's custody framework.";
+const canonical = '/pennsylvania-custody-schedule/';
+const canonicalUrl = getCanonicalUrl(canonical);
+const datePublished = '2026-08-14';
+const dateModified = '2026-08-14';
+const startDate = getDefaultStartDate();
+const generatedSchedule = generateSchedule({
+	scheduleId: '223',
+	startDate,
+	parentNames: { parentA: 'Parent A', parentB: 'Parent B' },
+});
+const heroTrustSignals = ["Free — no account needed", "Visual PA schedule builder", "Download as PDF"];
+
+const editorialReview = {
+	reviewer: 'CustodyBuilder Editorial Team',
+	reviewerHref: '/about/',
+	methodologyLabel: 'How CustodyBuilder Works',
+	methodologyHref: '/how-custodybuilder-works/',
+	lastUpdatedLabel: 'Last updated August 2026',
+	disclaimer: 'Educational information only. Not legal advice.',
+	reviewedFor: [
+		'23 Pa.C.S. § 5328 custody-factor accuracy',
+		'Pa.R.C.P. 1910.16-4(c) support-threshold accuracy',
+		'Practical guidance for PA custody schedules',
+	],
+};
+
+const breadcrumbs = [
+	{ name: 'Home', url: getCanonicalUrl('/') },
+	{ name: 'Pennsylvania Custody Schedule', url: canonicalUrl },
+];
+
+const patternTable = [
+	{ schedule: 'Alternating weeks', pattern: '7 nights / 7 nights', split: '50/50', tradeoff: 'Few exchanges; longer separation' },
+	{ schedule: '2-2-3', pattern: '2 / 2 / 3, then reverse', split: '50/50', tradeoff: 'Frequent contact; many handoffs' },
+	{ schedule: '2-2-5-5', pattern: 'Fixed weekdays + alternating blocks', split: '50/50', tradeoff: 'Predictable weekdays' },
+	{ schedule: '4-3', pattern: 'Parent A has 4 fixed days, Parent B has 3', split: '~57/43 (grouped as 60/40)', tradeoff: 'Simple, but not equal time unless it alternates weekly' },
+	{ schedule: 'Primary + alternating weekends', pattern: 'Primary home + recurring partial custody', split: 'Often ~70/30 to ~80/20; varies', tradeoff: 'Stable base; less equal time' },
+	{ schedule: 'Long-distance blocks', pattern: 'Fewer, longer periods', split: 'Varies', tradeoff: 'Travel efficiency; longer separation' },
+];
+
+const testSteps = [
+	'Put the regular rotation on a four-week calendar.',
+	'Add school closures and recurring activities.',
+	'Overlay holidays.',
+	'Add transportation time.',
+	"Check both parents' work constraints.",
+	'Identify unusually long separations.',
+	'Count overnights.',
+	'Write rules for exceptions.',
+];
+
+const faqItems = [
+	{
+		question: 'Is Pennsylvania a 50/50 custody state?',
+		answer: 'Pennsylvania does not simply impose 50/50 physical custody in every case. Courts apply the statutory custody framework in 23 Pa.C.S. § 5328 and may order different arrangements.',
+	},
+	{
+		question: 'Is Pennsylvania a "mother state" for custody?',
+		answer: 'No. Section 5328 does not list a parent\'s sex as a factor, and Pennsylvania has had no maternal preference in law for decades. Outcomes depend on caregiving history, each parent\'s involvement, safety considerations and the statutory factors — not which parent is the mother or father.',
+	},
+	{
+		question: 'What is a common 50/50 schedule?',
+		answer: 'Alternating weeks, 2-2-3 and 2-2-5-5 are common planning patterns, but no one pattern is mandatory.',
+	},
+	{
+		question: 'Does shared physical custody always mean exactly half the overnights?',
+		answer: 'Do not assume the legal term necessarily means an exact 182.5/182.5-night mathematical split. Consult current Pennsylvania law for definitions applicable to your case.',
+	},
+	{
+		question: 'Does 50/50 custody automatically lower child support in Pennsylvania?',
+		answer: 'Not automatically, but it\'s a factor. Once the lower-time parent reaches 40% of annual overnights, Pa.R.C.P. 1910.16-4(c) creates a rebuttable presumption of a reduced support obligation, scaling from roughly 10% at 40% custody to 20% at 50/50. Income differences between parents still matter — the overnight threshold changes the formula, not the whole outcome.',
+	},
+];
+
+const schema = [
+	buildWebPageSchema({ name: title, description, url: canonicalUrl }),
+	buildArticleSchema({
+		headline: title,
+		description,
+		url: canonicalUrl,
+		datePublished,
+		dateModified,
+		authorName: editorialReview.reviewer,
+	}),
+	buildFAQSchema(faqItems),
+	buildBreadcrumbSchema(breadcrumbs),
+];
+---
+
+<BaseLayout title={title} description={description} canonical={canonical} ogType="article">
+	<JsonLd slot="head" data={schema} />
+	<Navbar />
+	<Breadcrumbs items={breadcrumbs} />
+	<main class="overflow-x-clip">
+
+		<!-- Hero -->
+		<section class="container-shell grid grid-cols-1 gap-5 py-4 sm:py-5 lg:grid-cols-[minmax(0,0.88fr)_minmax(704px,1.12fr)] lg:items-start lg:gap-7 lg:py-6 xl:w-[min(100%,1360px)]" id="schedule-generator">
+			<div class="order-1 min-w-0 lg:col-start-1 lg:row-start-1 lg:pt-1">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Pennsylvania custody schedule builder</p>
+				<h1 class="mt-2.5 max-w-3xl text-[1.7rem] font-semibold leading-[1.06] tracking-[-0.05em] text-primary sm:text-4xl lg:text-5xl">
+					Pennsylvania Custody Schedules: Examples and Planning Guide
+				</h1>
+
+				<ul class="mt-4 flex flex-wrap gap-2 text-xs font-semibold text-secondary">
+					{['No universal PA schedule', 'Best-interest factors (23 Pa.C.S. § 5328)', 'Common arrangements explained', '40% overnight support threshold'].map((chip) => (
+						<li class="rounded-full bg-surface/70 px-3 py-1.5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">{chip}</li>
+					))}
+				</ul>
+
+				<p class="mt-5 max-w-2xl text-base leading-7 text-secondary">
+					Pennsylvania does <strong class="text-primary">not</strong> impose one universal custody schedule. A schedule may provide shared physical custody, primary physical custody with partial physical custody, or another arrangement tailored to the family. In a contested case, courts apply the 16 factors in 23 Pa.C.S. § 5328 rather than choosing a schedule solely because it produces a particular percentage.
+				</p>
+
+				<div class="mt-6 max-w-2xl text-xs leading-5 text-muted">
+					<p class="font-semibold text-secondary">Reviewed for:</p>
+					<ul class="mt-1 list-inside list-disc">{editorialReview.reviewedFor.map((i) => <li>{i}</li>)}</ul>
+					<p class="mt-2">
+						Reviewed by <a href={editorialReview.reviewerHref} class="font-semibold text-secondary underline">{editorialReview.reviewer}</a>
+						{' · '}<a href={editorialReview.methodologyHref} class="font-semibold text-secondary underline">{editorialReview.methodologyLabel}</a>
+						{' · '}<span class="font-semibold text-secondary">{editorialReview.lastUpdatedLabel}</span>
+						{' · '}{editorialReview.disclaimer}
+					</p>
+				</div>
+
+				<div class="mt-6 flex flex-wrap gap-3">
+					<a href="/custody-schedule-generator/" class="inline-flex rounded-full bg-accent px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:opacity-90" style="color: #ffffff">Build your PA schedule free &rarr;</a>
+					<a href="/custody-percentage-calculator/" class="inline-flex rounded-full bg-surface px-5 py-2.5 text-sm font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:text-primary">Custody percentage calculator</a>
+				</div>
+
+				<p class="mt-5 max-w-2xl text-xs leading-5 text-muted">
+					General information only. Review the current <a href="https://www.palegis.us/statutes/consolidated/view-statute?txtType=HTM&ttl=23&div=0&chpt=53" class="underline">Pennsylvania Title 23, Chapter 53</a> for controlling law.
+					<a href="/disclaimer/" class="ml-1 font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Read disclaimer</a>
+				</p>
+			</div>
+
+			<ScheduleHeroGeneratorPanel
+				selectedScheduleId="223"
+				generatedSchedule={generatedSchedule}
+				heroTrustSignals={heroTrustSignals}
+			/>
+		</section>
+
+		<!-- On-this-page nav -->
+		<nav class="container-shell border-y border-line-subtle py-3 lg:max-w-5xl" aria-label="On this page">
+			<ul class="flex flex-wrap gap-x-4 gap-y-1 text-xs font-semibold text-secondary">
+				<li><a href="#patterns" class="hover:text-accent">Common patterns</a></li>
+				<li><a href="#is-5050" class="hover:text-accent">Is PA 50/50?</a></li>
+				<li><a href="#child-support" class="hover:text-accent">Child support</a></li>
+				<li><a href="#test" class="hover:text-accent">Test a schedule</a></li>
+				<li><a href="#faq" class="hover:text-accent">FAQ</a></li>
+			</ul>
+		</nav>
+
+		<!-- Common patterns -->
+		<section id="patterns" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Common Pennsylvania Schedule Patterns</h2>
+			<p class="mt-3 max-w-3xl text-secondary">These are examples, not court presumptions. Percentages are arithmetic approximations of the base rotation only — holidays, vacations and exceptions will shift the real annual number.</p>
+
+			<div class="mt-6 overflow-x-auto rounded-[1.5rem] ring-1 ring-line-subtle">
+				<table class="w-full min-w-[640px] text-left text-sm">
+					<thead class="bg-surface-elevated text-primary">
+						<tr>
+							<th class="px-4 py-3 font-semibold">Pattern</th>
+							<th class="px-4 py-3 font-semibold">Structure</th>
+							<th class="px-4 py-3 font-semibold">Approx. split</th>
+							<th class="px-4 py-3 font-semibold">Trade-off</th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-line-subtle text-secondary">
+						{patternTable.map((row) => (
+							<tr>
+								<td class="px-4 py-3 font-medium text-primary">{row.schedule}</td>
+								<td class="px-4 py-3">{row.pattern}</td>
+								<td class="px-4 py-3">{row.split}</td>
+								<td class="px-4 py-3">{row.tradeoff}</td>
+							</tr>
+						))}
+					</tbody>
+				</table>
+			</div>
+			<p class="mt-3 max-w-3xl text-xs text-muted">Confirm with the <a href="/custody-percentage-calculator/" class="underline">custody percentage calculator</a> — a fixed weekly "4 days on/3 days off" pattern that never alternates lands close to 57/43, not 50/50.</p>
+
+			<div class="mt-8 grid gap-4 sm:grid-cols-3">
+				<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<p class="font-semibold text-primary">Alternating weeks</p>
+					<p class="mt-2 text-sm leading-6 text-secondary">Simple and low-transition, but creates seven-night separations. <a href="/week-on-week-off-custody-schedule/" class="font-semibold text-accent underline">See the schedule</a>.</p>
+				</div>
+				<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<p class="font-semibold text-primary">2-2-3</p>
+					<p class="mt-2 text-sm leading-6 text-secondary">Short separations and frequent contact, but frequent transitions. <a href="/2-2-3-custody-schedule/" class="font-semibold text-accent underline">See the schedule</a>.</p>
+				</div>
+				<div class="rounded-[1.25rem] bg-surface/70 p-5 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+					<p class="font-semibold text-primary">2-2-5-5</p>
+					<p class="mt-2 text-sm leading-6 text-secondary">Fixed weekdays can simplify school and activities, while five-day blocks reduce exchanges. <a href="/2-2-5-5-custody-schedule/" class="font-semibold text-accent underline">See the schedule</a>.</p>
+				</div>
+			</div>
+
+			<div class="mt-6 max-w-3xl rounded-2xl bg-surface/70 px-4 py-3 text-sm leading-6 text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+				<strong class="text-primary">Primary custody with partial physical custody</strong> — not every useful plan is equal time. One parent may have most school nights while the other has alternating weekends, weekday time, holidays and vacation periods. Build the routine first, then calculate the percentage — forcing a child calendar to hit a predetermined 70/30 or 80/20 number can produce awkward exchanges. Compare a <a href="/70-30-custody-schedule/" class="font-semibold text-accent underline">70/30 schedule</a> or <a href="/80-20-custody-schedule/" class="font-semibold text-accent underline">80/20 schedule</a>.
+			</div>
+		</section>
+
+		<!-- Is PA 50/50 -->
+		<section id="is-5050" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Is Pennsylvania Automatically 50/50?</h2>
+			<div class="mt-4 max-w-3xl space-y-4 text-secondary">
+				<p>Do not assume "shared custody" means an automatic equal split of overnights. Pennsylvania law recognizes different forms of physical custody, and courts deciding disputed custody apply the statutory best-interest factors in <a href="https://www.legis.state.pa.us/WU01/LI/LI/CT/HTM/23/00.053.028.000..HTM" class="font-semibold text-accent underline">23 Pa.C.S. § 5328</a>. The section lists 16 numbered factors, including safety, parental duties, stability, sibling relationships, proximity of residences and other circumstances relevant to the child's best interest — with "substantial weighted consideration" given to the factors bearing on the child's safety over the others. No single factor controls on its own.</p>
+				<p>A 50/50 arrangement can work for some families, but equal nights alone do not resolve school transportation, activities, holidays or exchanges. The legal best-interest analysis is broader than any planning checklist — for an actual dispute, consult the statute and qualified counsel.</p>
+			</div>
+		</section>
+
+		<!-- Child support -->
+		<section id="child-support" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">Pennsylvania's 40% Overnight Threshold Can Affect Child Support</h2>
+			<div class="mt-4 max-w-3xl space-y-4 text-secondary">
+				<p>Pennsylvania's support rules contain a specific shared-custody adjustment. Under <a href="https://www.pacodeandbulletin.gov/Display/pacode?file=%2Fsecure%2Fpacode%2Fdata%2F231%2Fchapter1910%2Fs1910.16-4.html" class="font-semibold text-accent underline">Pa.R.C.P. 1910.16-4(c)</a>, when the obligor has the children for <strong class="text-primary">40% or more of annual overnights</strong> — roughly <strong class="text-primary">146 nights in a 365-day year</strong> — a rebuttable presumption arises that the basic support obligation should be reduced to reflect that custodial time.</p>
+				<p class="rounded-2xl bg-accent/10 px-4 py-3 text-sm leading-6 shadow-[inset_0_0_0_1px_var(--border-subtle)]">The rule's adjustment starts at <strong class="text-primary">10% at 40% parenting time</strong> and increases incrementally to <strong class="text-primary">20% at 50% parenting time</strong> under the guideline formula. That does <strong class="text-primary">not</strong> mean crossing 40% automatically decides custody or produces one guaranteed support number; income, expenses, deviations and case-specific facts still matter.</p>
+				<p>Use the <a href="/custody-percentage-calculator/" class="font-semibold text-accent underline">custody percentage calculator</a> to count actual overnights, and the <a href="/child-support-calculator/" class="font-semibold text-accent underline">child support calculator</a> as an estimate rather than legal advice.</p>
+			</div>
+		</section>
+
+		<!-- Test a schedule -->
+		<section id="test" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">How to Test a Proposed Schedule</h2>
+			<p class="mt-3 max-w-3xl text-secondary">Two plans may both produce roughly 50/50 overnights — one may require six weekly handoffs, another may use school exchanges and fixed weekdays. The annual percentage is nearly identical, but the child's routine is not. Use the <a href="/custody-percentage-calculator/" class="font-semibold text-accent underline">custody percentage calculator</a> to verify a schedule, not to design it backwards.</p>
+			<ol class="mt-6 max-w-3xl space-y-0">
+				{testSteps.map((item, index) => (
+					<li class="relative flex gap-4 pb-6 last:pb-0">
+						{index < testSteps.length - 1 && (
+							<span class="absolute left-[0.6875rem] top-8 h-[calc(100%-1.5rem)] w-px bg-line" aria-hidden="true"></span>
+						)}
+						<span class="relative z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/15 text-xs font-bold text-accent ring-1 ring-accent/30">{index + 1}</span>
+						<p class="min-w-0 pt-0.5 text-sm leading-6 text-secondary">{item}</p>
+					</li>
+				))}
+			</ol>
+			<div class="mt-8"><BackToGeneratorCta /></div>
+		</section>
+
+		<!-- Related links -->
+		<section class="container-shell border-t border-line-subtle py-10 lg:max-w-5xl lg:py-12">
+			<h2 class="text-xl font-semibold text-primary">Related Tools and Resources</h2>
+			<ul class="mt-4 grid gap-2 text-sm sm:grid-cols-2">
+				{[
+					{ label: 'Custody Percentage Calculator', href: '/custody-percentage-calculator/' },
+					{ label: 'Child Support Calculator', href: '/child-support-calculator/' },
+					{ label: 'Parenting Plan Template', href: '/parenting-plan-template/' },
+					{ label: '70/30 Custody Schedule', href: '/70-30-custody-schedule/' },
+					{ label: '80/20 Custody Schedule', href: '/80-20-custody-schedule/' },
+					{ label: 'Week On, Week Off Schedule', href: '/week-on-week-off-custody-schedule/' },
+					{ label: "Fathers' Custody Rights", href: '/fathers-custody-rights/' },
+					{ label: 'Legal Custody vs Physical Custody', href: '/legal-custody-vs-physical-custody/' },
+				].map((link) => (
+					<li><a href={link.href} class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">{link.label}</a></li>
+				))}
+			</ul>
+		</section>
+
+		<FAQ items={faqItems} title="Pennsylvania Custody Schedule — FAQ" description="Common questions about Pennsylvania custody schedules and how they affect child support." />
+
+		<!-- Legal disclaimer -->
+		<section class="container-shell border-t border-line-subtle py-8 lg:max-w-5xl">
+			<p class="max-w-3xl text-xs leading-5 text-muted">
+				This page provides general information about Pennsylvania custody schedules for educational purposes only. It is not legal advice and does not create an attorney-client relationship. Consult a licensed Pennsylvania family law attorney before making decisions about your custody arrangement.
+			</p>
+		</section>
+
+	</main>
+	<Footer />
+</BaseLayout>
