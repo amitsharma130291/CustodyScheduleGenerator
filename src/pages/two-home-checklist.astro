@@ -36,7 +36,7 @@ const schema = [buildWebPageSchema({ name: title, description, url: canonicalUrl
 		<section class="container-shell py-8 lg:py-10">
 			<div class="flex flex-wrap items-center gap-2">
 				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Two-Home Transition Checklist</p>
-				<span class="rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em]" style="background: var(--cal-parent-b-soft); color: var(--cal-parent-b)">$7 once · yours for life</span>
+				<span class="rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em]" style="background: var(--cal-parent-b-soft); color: var(--cal-parent-b)">$7 pay once</span>
 			</div>
 			<h1 class="mt-2 max-w-2xl text-4xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary sm:text-5xl">
 				Never forget what travels between homes
@@ -63,7 +63,7 @@ const schema = [buildWebPageSchema({ name: title, description, url: canonicalUrl
 		<section class="container-shell pb-12">
 			<div class="mx-auto max-w-xl">
 
-				<!-- State: questionnaire + checkout (calendar entitlement present, two-home not yet purchased). -->
+				<!-- State: questionnaire + checkout (two-home not yet purchased in this browser). -->
 				<div class="soft-card hidden rounded-[1.5rem] p-5 sm:p-6" data-two-home-form-state>
 					<form class="grid gap-5" data-two-home-form>
 						<label class="grid min-w-0 gap-2">
@@ -173,7 +173,7 @@ const schema = [buildWebPageSchema({ name: title, description, url: canonicalUrl
 							class="btn-primary btn-primary--wrap flex min-h-14 w-full min-w-0 cursor-pointer items-center justify-center gap-2.5 sm:whitespace-nowrap rounded-full px-5 text-center text-[15px] font-semibold leading-none transition-all duration-150 ease-out hover:-translate-y-px active:translate-y-0 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
 							data-two-home-checkout-button
 						>
-							Add for $7 once — Get my Checklist
+							Get my Checklist — $7 pay once
 						</button>
 						<p class="text-center text-[11px] leading-4 text-muted">One-time $7 payment · no subscription. Every question is optional — answer what you know.</p>
 					</form>
@@ -384,7 +384,7 @@ const schema = [buildWebPageSchema({ name: title, description, url: canonicalUrl
 			if (typeof window.gtag === 'function') window.gtag('event', 'two_home_addon_purchase_failed', { reason: 'checkout_start_failed' });
 			setStatus('We could not start checkout. Please try again.');
 			checkoutButton.disabled = false;
-			checkoutButton.textContent = 'Add for $7 once — Get my Checklist';
+			checkoutButton.textContent = 'Get my Checklist — $7 pay once';
 		}
 	}
 
@@ -501,7 +501,7 @@ const schema = [buildWebPageSchema({ name: title, description, url: canonicalUrl
 	window.addEventListener('pageshow', (event) => {
 		if (!event.persisted || !(checkoutButton instanceof HTMLButtonElement)) return;
 		checkoutButton.disabled = false;
-		checkoutButton.textContent = 'Add for $7 once — Get my Checklist';
+		checkoutButton.textContent = 'Get my Checklist — $7 pay once';
 	});
 	window.addEventListener(ENTITLEMENT_UPDATED_EVENT, render);
 	render();
