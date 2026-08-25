@@ -46,6 +46,13 @@ export const startWithTool = {
 			detail: 'Gross income → net resources → guideline percentage — separate from custody %',
 			accent: 'texas',
 		},
+		{
+			label: 'Get your personalized 12-month calendar',
+			question: 'What does my actual schedule look like for the whole year?',
+			href: '/my-custody-calendar/#build-your-schedule',
+			detail: 'Cover page, year overview, 12 monthly pages, important dates, kid-friendly page — $14.99 once, yours for life',
+			accent: 'premium',
+		},
 	],
 };
 
@@ -110,8 +117,9 @@ export const popularGuides = {
 
 export const planningDocuments = {
 	title: 'Planning Documents And Templates',
-	intro: 'Four template pages — each owns a different document layer. Generator mechanics stay on the tool page.',
+	intro: 'Five document pages — each owns a different output. Generator mechanics stay on the tool page.',
 	documents: [
+		{ label: 'My Custody Calendar (full year PDF)', href: '/my-custody-calendar/#build-your-schedule', detail: 'Personalized 12-month calendar, important dates, kid-friendly page — $14.99 once, yours for life' },
 		{ label: 'Custody schedule template', href: '/custody-schedule-template/', detail: 'Rotation rules, exchanges, summer placeholders' },
 		{ label: 'Custody calendar template', href: '/custody-calendar-template/', detail: 'Printable month grid and parent color coding' },
 		{ label: 'Parenting plan template', href: '/parenting-plan-template/', detail: 'Agreement sections and clause hierarchy' },
@@ -172,7 +180,11 @@ export const faqItems = [
 	},
 	{
 		question: 'Do I need an account?',
-		answer: 'No. Tools run in the browser without signup or payment.',
+		answer: 'No. Free tools run in the browser without signup. The full 12-month calendar PDF is a one-time $14.99 purchase — still no account or subscription required.',
+	},
+	{
+		question: 'What is My Custody Calendar?',
+		answer: 'A one-time $14.99 purchase that turns the schedule you build into a personalized 12-month PDF — cover page, year-at-a-glance, all 12 monthly pages, your important dates, a schedule summary, and a kid-friendly version. The free generator stays free for previewing a schedule; My Custody Calendar is for a customer who wants the finished, printable product.',
 	},
 	{
 		question: 'Where are Texas-specific tools?',

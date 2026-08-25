@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import CalendarPromoBanner from '../components/tool/CalendarPromoBanner.astro';
+import YearCalendarPanel from '../components/tool/YearCalendarPanel.astro';
+import YearCalendarDisplay from '../components/tool/YearCalendarDisplay.astro';
+import { generateYearSchedule } from '../lib/schedules/yearSchedule';
+import { getDefaultStartDate } from '../lib/schedules/format';
+
+const startDate = getDefaultStartDate();
+const yearSchedule = generateYearSchedule({ scheduleId: '223', startDate });
+---
+
+<BaseLayout
+	title="My Custody Calendar — Build Your Full Year | CustodyBuilder"
+	description="Turn your parenting schedule into a personalized 12-month custody calendar. Preview the full year, then generate your printable calendar."
+	robots="noindex, follow"
+>
+	<Navbar />
+	<main class="pb-28 lg:pb-20">
+		<CalendarPromoBanner />
+
+		<section id="build-your-schedule" class="container-shell scroll-mt-24 pt-2">
+			<div class="flex flex-col gap-2.5 rounded-2xl border px-4 py-3.5 sm:flex-row sm:items-center sm:gap-4" style="border-color: var(--lavender-mid); background: var(--lavender-soft)">
+				<div class="flex items-center gap-2.5">
+					<span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style="background: var(--lavender)">1</span>
+					<p class="text-sm font-semibold leading-5 text-primary">Fill in your schedule below — free to build and preview</p>
+				</div>
+				<span class="hidden shrink-0 text-lg font-semibold sm:block" style="color: var(--lavender-text)" aria-hidden="true">→</span>
+				<div class="flex items-center gap-2.5">
+					<span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold text-white" style="background: var(--lavender)">2</span>
+					<p class="text-sm font-semibold leading-5 text-primary">Then click Buy below to generate your PDF — $14.99 once</p>
+				</div>
+			</div>
+		</section>
+
+		<section class="container-shell grid gap-6 pb-12 pt-3 lg:grid-cols-[minmax(460px,0.7fr)_minmax(0,1fr)] lg:gap-8" data-year-calendar-app>
+			<YearCalendarPanel selectedScheduleId="223" startDate={startDate} />
+			<YearCalendarDisplay yearSchedule={yearSchedule} />
+		</section>
+	</main>
+	<Footer />
+</BaseLayout>

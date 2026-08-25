@@ -5,6 +5,8 @@ import Footer from '../components/Footer.astro';
 import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import FAQ from '../components/FAQ.astro';
+import CalendarUpsellCard from '../components/CalendarUpsellCard.astro';
+import TwoHomeUpsellCard from '../components/TwoHomeUpsellCard.astro';
 import PercentageCalculatorCard from '../components/tool/PercentageCalculatorCard.astro';
 import OvernightPieGraphic from '../components/tools/custody-percentage-calculator/OvernightPieGraphic.astro';
 import AnnualCalculationGraphic from '../components/tools/custody-percentage-calculator/AnnualCalculationGraphic.astro';
@@ -173,6 +175,11 @@ const schema = [
 				<li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span><span>For a broader time breakdown, try the <a href="/parenting-time-calculator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting time calculator</a>.</span></li>
 				</ul>
 			</div>
+		</section>
+
+		<section class="container-shell">
+			<CalendarUpsellCard lead="You've got your overnight percentage." />
+			<TwoHomeUpsellCard />
 		</section>
 
 		<FAQ items={faqItems} title={faqSection.title} description={faqSection.description} />

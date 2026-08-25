@@ -5,6 +5,8 @@ import Footer from '../components/Footer.astro';
 import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import FAQ from '../components/FAQ.astro';
+import CalendarUpsellCard from '../components/CalendarUpsellCard.astro';
+import TwoHomeUpsellCard from '../components/TwoHomeUpsellCard.astro';
 import VisitationLogCalculator from '../components/tool/VisitationLogCalculator.astro';
 import LoggedVisitsTimelineGraphic from '../components/tools/visitation-calculator/LoggedVisitsTimelineGraphic.astro';
 import ActualVsPlannedGraphic from '../components/tools/visitation-calculator/ActualVsPlannedGraphic.astro';
@@ -165,6 +167,11 @@ const schema = [
 				<li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span><span>Document your arrangement in a <a href="/parenting-plan-template/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting plan template</a>.</span></li>
 				</ul>
 			</div>
+		</section>
+
+		<section class="container-shell">
+			<CalendarUpsellCard lead="You've logged how visitation actually played out against the plan." />
+			<TwoHomeUpsellCard />
 		</section>
 
 		<FAQ items={faqItems} title={faqSection.title} description={faqSection.description} />

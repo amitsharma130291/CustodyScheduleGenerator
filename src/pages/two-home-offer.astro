@@ -1,0 +1,956 @@
+---
+// Post-purchase upsell for the $7 "Personalized Two-Home Checklist" add-on.
+// Landed on directly after a fresh My Custody Calendar purchase (see the
+// redirect in YearCalendarPanel.astro's handlePendingCheckoutOnLoad). A
+// focused checkout-style page — not a normal site page — so it renders with
+// a fixed warm-ivory / navy / teal / coral palette regardless of the
+// visitor's light/dark theme choice, and skips the usual full nav + footer.
+//
+// Trust framing is load-bearing, not decoration: the calendar purchase is
+// already complete and already emailed by the time this page renders (the
+// PDF was built + downloaded locally, and email delivery was kicked off,
+// before the redirect that lands here — see deliverPendingCalendarEmail
+// below). That confirmation is its own visually distinct card, separate
+// from the add-on pitch, and stays visible even for a repeat visitor who
+// already bought the add-on (data-hide-if-owned wraps only the pitch
+// itself, not the calendar confirmation).
+//
+// One fixed headline/CTA this round, no A/B scaffolding — the brief here
+// specifies exact, single copy throughout rather than test variants, so the
+// earlier headline/CTA/label experiment machinery was removed rather than
+// carried forward unused.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { Search } from 'lucide-astro';
+---
+
+<BaseLayout
+	title="Personalized Two-Home Checklist — $7 Digital Add-On | CustodyBuilder"
+	description="Your calendar is ready. Add an optional, personalized, printable Two-Home Checklist for $7 — one-time, digital, no subscription."
+	robots="noindex, follow"
+>
+	<style>
+		.offer-page {
+			--offer-bg: #fdfaf6;
+			--offer-navy: #0f1f3d;
+			--offer-navy-soft: #3b4a63;
+			--offer-navy-muted: #5a6478;
+			--offer-teal: #0f766e;
+			--offer-teal-soft: #e6f6f3;
+			--offer-teal-border: #bfe6e0;
+			--offer-coral: #c64a38;
+			--offer-coral-hover: #ac3f2f;
+			--offer-border: #ece4d8;
+			background: var(--offer-bg);
+			color: var(--offer-navy);
+			min-height: 100vh;
+			overflow-x: hidden;
+			font-size: 16px;
+		}
+		.offer-container {
+			max-width: 680px;
+			margin: 0 auto;
+		}
+		.offer-h2 {
+			font-size: 1.375rem;
+			font-weight: 600;
+			letter-spacing: -0.02em;
+			line-height: 1.25;
+			color: var(--offer-navy);
+		}
+		.offer-eyebrow {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.4rem;
+			font-size: 0.75rem;
+			font-weight: 700;
+			letter-spacing: 0.09em;
+			text-transform: uppercase;
+			color: var(--offer-teal);
+		}
+		.offer-eyebrow::before {
+			content: '';
+			display: inline-block;
+			width: 6px;
+			height: 6px;
+			border-radius: 999px;
+			background: var(--offer-teal);
+			flex-shrink: 0;
+		}
+		.offer-confirm-card {
+			display: flex;
+			align-items: flex-start;
+			gap: 0.75rem;
+			background: var(--offer-teal-soft);
+			border: 1px solid var(--offer-teal-border);
+			border-radius: 1.25rem;
+			padding: 1rem 1.15rem;
+		}
+		.offer-confirm-icon {
+			display: flex;
+			height: 1.75rem;
+			width: 1.75rem;
+			flex-shrink: 0;
+			align-items: center;
+			justify-content: center;
+			border-radius: 999px;
+			background: var(--offer-teal);
+			color: #ffffff;
+			font-size: 0.9rem;
+			font-weight: 700;
+		}
+		.offer-cta {
+			display: flex;
+			min-height: 3.5rem;
+			width: 100%;
+			min-width: 0;
+			align-items: center;
+			justify-content: center;
+			gap: 0.5rem;
+			border-radius: 999px;
+			background: var(--offer-coral);
+			color: #ffffff;
+			font-size: 1rem;
+			font-weight: 700;
+			letter-spacing: -0.01em;
+			text-align: center;
+			padding: 0.5rem 1.25rem;
+			/* Restrained shadow — enough to read as the primary action, not a glowing halo. */
+			box-shadow: 0 4px 14px rgba(198, 74, 56, 0.22);
+			transition: background-color 150ms ease-out, box-shadow 150ms ease-out;
+		}
+		.offer-cta [data-cta-label] {
+			/* At narrow widths this label wraps to two lines — balance them
+			   instead of leaving a lone "$7" orphaned on its own line. */
+			text-wrap: balance;
+		}
+		@media (max-width: 350px) {
+			.offer-cta {
+				font-size: 0.9375rem;
+			}
+		}
+		@media (hover: hover) and (pointer: fine) {
+			.offer-cta:hover {
+				background: var(--offer-coral-hover);
+				box-shadow: 0 6px 18px rgba(198, 74, 56, 0.26);
+			}
+		}
+		@media (prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) {
+			.offer-cta {
+				transition: transform 150ms ease-out, background-color 150ms ease-out, box-shadow 150ms ease-out;
+			}
+			.offer-cta:hover {
+				transform: translateY(-1px);
+			}
+			.offer-cta:active {
+				transform: translateY(0);
+			}
+		}
+		.offer-cta:focus-visible {
+			outline: 2px solid var(--offer-coral);
+			outline-offset: 3px;
+		}
+		.offer-cta.is-loading {
+			/* A same-hue darker fill (the existing hover shade, not a new
+			   colour) rather than opacity — opacity blended against the
+			   page background dropped white-on-coral contrast to ~3.7:1,
+			   under the 4.5:1 AA minimum for this text size. This keeps
+			   contrast comfortably above 4.5:1 while still reading as a
+			   distinct "processing" state. */
+			background: var(--offer-coral-hover);
+			cursor: default;
+		}
+		.offer-cta-wrap {
+			max-width: 700px;
+			margin: 0 auto;
+		}
+		.offer-decline {
+			display: inline-flex;
+			align-items: center;
+			min-height: 44px;
+			padding: 0.4rem 0.5rem;
+			color: var(--offer-navy-muted);
+			text-decoration: underline;
+			text-underline-offset: 3px;
+			font-size: 0.875rem;
+			font-weight: 500;
+		}
+		.offer-decline:hover {
+			color: var(--offer-navy);
+		}
+		.offer-check {
+			display: flex;
+			height: 1.375rem;
+			width: 1.375rem;
+			flex-shrink: 0;
+			align-items: center;
+			justify-content: center;
+			border-radius: 999px;
+			background: var(--offer-teal-soft);
+			color: var(--offer-teal);
+			font-size: 0.75rem;
+			font-weight: 700;
+		}
+		.offer-step-num {
+			display: flex;
+			height: 2rem;
+			width: 2rem;
+			flex-shrink: 0;
+			align-items: center;
+			justify-content: center;
+			border-radius: 999px;
+			background: var(--offer-teal);
+			color: #ffffff;
+			font-size: 0.875rem;
+			font-weight: 700;
+		}
+		.offer-reassurance {
+			background: var(--offer-teal-soft);
+			border: 1px solid var(--offer-teal-border);
+			border-radius: 1.25rem;
+			padding: 1rem 1.25rem;
+			color: var(--offer-navy-soft);
+			font-size: 1rem;
+			line-height: 1.55;
+		}
+
+		/* --- Printable document preview ----------------------------------
+		   A three-page composition (one larger centered page, two smaller
+		   supporting pages) styled to read as genuine printable sheets —
+		   ruled title, dashed checklist rows, paper shadow — rather than
+		   dashboard/web cards. Only a few representative rows per page are
+		   shown; the full checklist is never revealed here. */
+		.doc-preview {
+			display: flex;
+			align-items: flex-end;
+			justify-content: center;
+			padding: 0.25rem 0.25rem 0.25rem;
+		}
+		@media (min-width: 640px) {
+			.doc-preview {
+				padding: 0.5rem 0.5rem 0.5rem;
+			}
+		}
+		.doc-page {
+			background: #ffffff;
+			border: 1px solid var(--offer-border);
+			border-radius: 0.6rem;
+			box-shadow: 0 6px 16px rgba(15, 31, 61, 0.1);
+			overflow: hidden;
+			flex-shrink: 0;
+			position: relative;
+		}
+		.doc-page-inner {
+			padding: 0.55rem 0.5rem 0.6rem;
+		}
+		.doc-page-title {
+			font-size: 0.6875rem;
+			font-weight: 700;
+			letter-spacing: 0.02em;
+			color: var(--offer-navy);
+			padding-bottom: 0.3rem;
+			margin-bottom: 0.4rem;
+			border-bottom: 1.5px solid var(--offer-navy);
+			white-space: nowrap;
+		}
+		.doc-page-rows {
+			display: grid;
+			gap: 0.32rem;
+		}
+		.doc-page-rows li {
+			display: flex;
+			align-items: center;
+			gap: 0.32rem;
+			font-size: 0.6875rem;
+			line-height: 1.2;
+			color: var(--offer-navy-soft);
+			padding-bottom: 0.28rem;
+			border-bottom: 1px dashed var(--offer-border);
+			white-space: nowrap;
+		}
+		.doc-page-rows li:last-child {
+			border-bottom: none;
+			padding-bottom: 0;
+		}
+		.doc-checkbox {
+			width: 0.55rem;
+			height: 0.55rem;
+			flex-shrink: 0;
+			border: 1.3px solid var(--offer-navy-soft);
+			border-radius: 0.15rem;
+		}
+		/* Fluid sizing (clamp, not fixed breakpoint jumps) so the composition
+		   scales continuously with viewport width — ~15-20% larger overall
+		   than the previous fixed sizes, with the centre page consistently
+		   ~10% wider than the side pages at every width. The linear term is
+		   calibrated so the minimum (320px viewport) fits with room to
+		   spare and the maximum is reached once the page has grown past the
+		   680px container, holding steady beyond that rather than growing
+		   unbounded on very wide screens. */
+		.doc-page-side {
+			width: clamp(88px, 21vw + 20px, 164px);
+			transform: translateY(9px);
+		}
+		.doc-page-side .doc-page-title,
+		.doc-page-side .doc-page-rows li {
+			font-size: clamp(0.75rem, 1vw + 0.55rem, 0.875rem);
+		}
+		.doc-page-left {
+			margin-right: -16px;
+		}
+		.doc-page-right {
+			margin-left: -16px;
+		}
+		.doc-page-center {
+			width: clamp(97px, 23vw + 23px, 180px);
+			z-index: 2;
+			box-shadow: 0 10px 24px rgba(15, 31, 61, 0.15);
+		}
+		.doc-page-center .doc-page-title,
+		.doc-page-center .doc-page-rows li {
+			font-size: clamp(0.8125rem, 1vw + 0.6rem, 0.9375rem);
+		}
+		/* Larger, flat, equal-size pages for the "preview the printable
+		   pages" dialog — width comes from the grid column, not a fixed
+		   value, and text is a size up from the compact hero composition. */
+		.doc-page-modal {
+			width: auto;
+		}
+		.doc-page-modal .doc-page-title,
+		.doc-page-modal .doc-page-rows li {
+			font-size: 0.8125rem;
+			white-space: normal;
+		}
+		@media (min-width: 640px) {
+			.doc-page-left {
+				transform: rotate(-5deg) translateY(11px);
+			}
+			.doc-page-right {
+				transform: rotate(5deg) translateY(11px);
+			}
+		}
+		/* A real button silhouette (bordered pill, no underline) so the icon
+		   and label read as one unified control rather than a text link —
+		   but kept visually quiet (white fill, thin border) so it never
+		   competes with the solid coral primary CTA below it. */
+		.preview-open-button {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			gap: 0.45rem;
+			min-height: 44px;
+			padding: 0.55rem 1rem;
+			border-radius: 999px;
+			border: 1.5px solid var(--offer-teal-border);
+			background: #ffffff;
+			color: var(--offer-teal);
+			font-size: 0.9375rem;
+			font-weight: 600;
+			line-height: 1.2;
+			transition: background-color 150ms ease-out, border-color 150ms ease-out, color 150ms ease-out;
+		}
+		.preview-open-button svg {
+			flex-shrink: 0;
+		}
+		@media (hover: hover) and (pointer: fine) {
+			.preview-open-button:hover {
+				background: var(--offer-teal-soft);
+				border-color: var(--offer-teal);
+				color: var(--offer-navy);
+			}
+		}
+		.preview-open-button:active {
+			background: var(--offer-teal-soft);
+			border-color: var(--offer-teal);
+		}
+		.preview-open-button:focus-visible {
+			outline: 2px solid var(--offer-teal);
+			outline-offset: 2px;
+			border-radius: 999px;
+		}
+		.offer-decline:focus-visible {
+			outline: 2px solid var(--offer-teal);
+			outline-offset: 2px;
+			border-radius: 0.5rem;
+		}
+
+		/* --- Sample pages modal ------------------------------------------ */
+		.preview-modal-backdrop {
+			position: fixed;
+			inset: 0;
+			z-index: 70;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 1rem;
+			background: rgba(15, 31, 61, 0.5);
+		}
+		.preview-modal-backdrop.hidden {
+			display: none;
+		}
+		.preview-modal {
+			background: var(--offer-bg);
+			border-radius: 1.25rem;
+			max-width: 640px;
+			width: 100%;
+			max-height: 85vh;
+			overflow-y: auto;
+			padding: 1.5rem;
+			box-shadow: 0 24px 60px rgba(15, 31, 61, 0.28);
+			position: relative;
+		}
+		.preview-modal-close {
+			position: absolute;
+			top: 0.65rem;
+			right: 0.65rem;
+			display: flex;
+			height: 2.75rem;
+			width: 2.75rem;
+			align-items: center;
+			justify-content: center;
+			border-radius: 999px;
+			color: var(--offer-navy-muted);
+		}
+		.preview-modal-close:hover {
+			background: var(--offer-teal-soft);
+			color: var(--offer-navy);
+		}
+		.preview-modal-close:focus-visible {
+			outline: 2px solid var(--offer-teal);
+			outline-offset: 2px;
+		}
+
+		/* --- Sticky mobile CTA -------------------------------------------- */
+		.sticky-cta-bar {
+			position: fixed;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			z-index: 60;
+			padding: 0.625rem 1.25rem calc(0.625rem + env(safe-area-inset-bottom));
+			background: rgba(253, 250, 246, 0.97);
+			backdrop-filter: blur(8px);
+			border-top: 1px solid var(--offer-border);
+			box-shadow: 0 -6px 18px rgba(15, 31, 61, 0.08);
+		}
+		.sticky-cta-bar.is-hidden {
+			display: none;
+		}
+		@media (min-width: 900px) {
+			.sticky-cta-bar {
+				display: none !important;
+			}
+		}
+		:global(body.has-offer-sticky-cta) {
+			padding-bottom: 4.75rem;
+		}
+
+		/* Already-owns override — a class on the page root (not per-element
+		   .hidden toggling) so it isn't at risk of losing a specificity tie
+		   with any other display rule in this stylesheet. */
+		.offer-page.owns-checklist [data-hide-if-owned] {
+			display: none !important;
+		}
+
+		/* --- Three-step process: connected sequence, not just a list -----
+		   A single line (behind the numbered circles, which are opaque and
+		   sit at a higher stacking order) connects step 1 through step 3 —
+		   vertical timeline on mobile, horizontal row on desktop. Because
+		   the circles are solid and layered above the line, the line never
+		   visibly passes through a circle's number. */
+		.steps-list {
+			position: relative;
+		}
+		.steps-list::before {
+			content: '';
+			position: absolute;
+			background: var(--offer-teal-border);
+			z-index: 0;
+		}
+		.steps-list li {
+			position: relative;
+			z-index: 1;
+		}
+		@media (max-width: 639px) {
+			.steps-list::before {
+				top: 1rem;
+				bottom: 1rem;
+				left: 1rem;
+				width: 2px;
+			}
+		}
+		@media (min-width: 640px) {
+			.steps-list::before {
+				top: 1rem;
+				left: calc(100% / 6);
+				right: calc(100% / 6);
+				height: 2px;
+			}
+			.steps-list li {
+				align-items: center;
+				text-align: center;
+			}
+		}
+	</style>
+
+	<div class="offer-page">
+		<!-- Minimal header: centered brand mark only, no navigation. -->
+		<header class="border-b" style="border-color: var(--offer-border)">
+			<div class="mx-auto flex max-w-[700px] items-center justify-center px-5 py-2.5">
+				<a href="/" class="inline-flex items-center gap-2" aria-label="CustodyBuilder home">
+					<img src="/logo/custodybuilder-logo-light.svg" alt="CustodyBuilder" width="498" height="120" class="h-6 w-auto" decoding="async" />
+				</a>
+			</div>
+		</header>
+
+		<main class="px-5 pb-14 pt-5 sm:px-6">
+			<div class="offer-container">
+				<!-- Purchase confirmation — visually distinct from the add-on pitch below, and stays visible regardless of whether the add-on is accepted. -->
+				<div class="offer-confirm-card" role="status">
+					<span class="offer-confirm-icon" aria-hidden="true">✓</span>
+					<div>
+						<p class="font-semibold leading-5">Your 12-month calendar is ready</p>
+						<p class="mt-0.5 text-sm leading-5" style="color: var(--offer-navy-soft)">
+							Your purchase is complete, and we've emailed your calendar to you.
+						</p>
+					</div>
+				</div>
+
+				<!-- Hero offer -->
+				<section class="mt-5" data-hide-if-owned aria-labelledby="offer-heading">
+					<p class="offer-eyebrow">Optional $7 digital add-on</p>
+					<h1 id="offer-heading" class="mt-2 text-[1.9rem] font-semibold leading-[1.12] tracking-[-0.03em] sm:text-[2.1rem]">
+						Make two-home transition days calmer
+					</h1>
+					<p class="mt-2 text-base leading-7" style="color: var(--offer-navy-soft)">
+						Get a personalized, printable checklist showing what stays at each home, what travels, and what your
+						child needs to pack.
+					</p>
+					<ul class="mt-3 grid gap-1.5">
+						<li class="flex items-center gap-2.5 text-sm font-medium leading-5">
+							<span class="offer-check" aria-hidden="true">✓</span>
+							Built around your child's routine
+						</li>
+						<li class="flex items-center gap-2.5 text-sm font-medium leading-5">
+							<span class="offer-check" aria-hidden="true">✓</span>
+							Ready in about 2 minutes
+						</li>
+						<li class="flex items-center gap-2.5 text-sm font-medium leading-5">
+							<span class="offer-check" aria-hidden="true">✓</span>
+							One-time purchase—no subscription
+						</li>
+					</ul>
+
+					<!-- Product preview: three printable pages, styled as genuine paper sheets (ruled title, dashed checklist rows, page shadow) with a few real sample rows from the checklist itself — not the full paid content, and not a marketing graphic with embedded promotional text. -->
+					<div class="doc-preview mt-2" aria-hidden="true">
+						<div class="doc-page doc-page-side doc-page-left">
+							<div class="doc-page-inner">
+								<p class="doc-page-title">What Travels</p>
+								<ul class="doc-page-rows">
+									<li><span class="doc-checkbox"></span>Backpack</li>
+									<li><span class="doc-checkbox"></span>Water bottle</li>
+									<li><span class="doc-checkbox"></span>Medication</li>
+								</ul>
+							</div>
+						</div>
+						<div class="doc-page doc-page-center">
+							<div class="doc-page-inner">
+								<p class="doc-page-title">What Stays</p>
+								<ul class="doc-page-rows">
+									<li><span class="doc-checkbox"></span>Toothbrush &amp; toothpaste</li>
+									<li><span class="doc-checkbox"></span>Pajamas</li>
+									<li><span class="doc-checkbox"></span>Everyday outfit</li>
+									<li><span class="doc-checkbox"></span>Basic toiletries</li>
+								</ul>
+							</div>
+						</div>
+						<div class="doc-page doc-page-side doc-page-right">
+							<div class="doc-page-inner">
+								<p class="doc-page-title">Activity Bags</p>
+								<ul class="doc-page-rows">
+									<li><span class="doc-checkbox"></span>Soccer gear</li>
+									<li><span class="doc-checkbox"></span>Lunch box</li>
+									<li><span class="doc-checkbox"></span>Homework</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="mt-1 flex justify-center">
+						<button type="button" class="preview-open-button" data-open-preview>
+							<Search class="h-4 w-4" aria-hidden="true" />
+							Preview the printable pages
+						</button>
+					</div>
+
+					<div class="offer-cta-wrap mt-4">
+						<a href="/two-home-checklist/" class="offer-cta" data-cta="hero">
+							<span data-cta-label>Add My Personalized Checklist — $7 once</span>
+						</a>
+						<p class="mt-2 text-center text-[13px] leading-4" style="color: var(--offer-navy-muted)">
+							Digital printable • Instant access • One-time $7 payment
+						</p>
+						<p class="mt-1 text-center">
+							<a href="/my-custody-calendar/#build-your-schedule" class="offer-decline" data-decline="top">No thanks—continue to my calendar</a>
+						</p>
+					</div>
+				</section>
+
+				<!-- Outcome-focused benefits -->
+				<section class="mt-6" data-hide-if-owned>
+					<h2 class="offer-h2">Why this helps</h2>
+					<ul class="mt-3.5 grid gap-3">
+						<li class="flex items-start gap-3">
+							<span class="offer-check mt-0.5" aria-hidden="true">✓</span>
+							<div>
+								<p class="font-semibold leading-5">Fewer forgotten items</p>
+								<p class="mt-0.5 text-sm leading-5" style="color: var(--offer-navy-soft)">
+									Keep school, activity and comfort essentials accounted for.
+								</p>
+							</div>
+						</li>
+						<li class="flex items-start gap-3">
+							<span class="offer-check mt-0.5" aria-hidden="true">✓</span>
+							<div>
+								<p class="font-semibold leading-5">Less unnecessary duplication</p>
+								<p class="mt-0.5 text-sm leading-5" style="color: var(--offer-navy-soft)">
+									Decide what stays at each home and what should travel.
+								</p>
+							</div>
+						</li>
+						<li class="flex items-start gap-3">
+							<span class="offer-check mt-0.5" aria-hidden="true">✓</span>
+							<div>
+								<p class="font-semibold leading-5">Easier routines for your child</p>
+								<p class="mt-0.5 text-sm leading-5" style="color: var(--offer-navy-soft)">
+									Use a simple checklist your child can follow.
+								</p>
+							</div>
+						</li>
+					</ul>
+				</section>
+
+				<!-- What's included -->
+				<section class="mt-8" data-hide-if-owned>
+					<h2 class="offer-h2">Your personalized printable includes</h2>
+					<ul class="mt-3.5 grid gap-1.5">
+						<li class="flex items-center gap-2.5 text-sm leading-5">
+							<span class="offer-check" aria-hidden="true">✓</span>
+							Checklists for what stays at each home
+						</li>
+						<li class="flex items-center gap-2.5 text-sm leading-5">
+							<span class="offer-check" aria-hidden="true">✓</span>
+							A travel-between-homes packing checklist
+						</li>
+						<li class="flex items-center gap-2.5 text-sm leading-5">
+							<span class="offer-check" aria-hidden="true">✓</span>
+							School, clothing and everyday essentials
+						</li>
+						<li class="flex items-center gap-2.5 text-sm leading-5">
+							<span class="offer-check" aria-hidden="true">✓</span>
+							Electronics, chargers and comfort items
+						</li>
+						<li class="flex items-center gap-2.5 text-sm leading-5">
+							<span class="offer-check" aria-hidden="true">✓</span>
+							Activity checklists for sports, swimming and lessons
+						</li>
+						<li class="flex items-center gap-2.5 text-sm leading-5">
+							<span class="offer-check" aria-hidden="true">✓</span>
+							A child-friendly packing routine
+						</li>
+					</ul>
+				</section>
+
+				<!-- How it works -->
+				<section class="mt-7" data-hide-if-owned>
+					<h2 class="offer-h2">How it works</h2>
+					<ol class="steps-list mt-3.5 grid gap-4 sm:grid-cols-3 sm:gap-3">
+						<li class="flex items-start gap-3 sm:flex-col sm:items-start sm:gap-2">
+							<span class="offer-step-num" aria-hidden="true">1</span>
+							<p class="pt-1 text-sm font-medium leading-5 sm:pt-0">Answer a few questions</p>
+						</li>
+						<li class="flex items-start gap-3 sm:flex-col sm:items-start sm:gap-2">
+							<span class="offer-step-num" aria-hidden="true">2</span>
+							<p class="pt-1 text-sm font-medium leading-5 sm:pt-0">Get your checklist</p>
+						</li>
+						<li class="flex items-start gap-3 sm:flex-col sm:items-start sm:gap-2">
+							<span class="offer-step-num" aria-hidden="true">3</span>
+							<p class="pt-1 text-sm font-medium leading-5 sm:pt-0">Print, check and go</p>
+						</li>
+					</ol>
+					<p class="mt-3 text-sm leading-5" style="color: var(--offer-navy-muted)">No app to install. No shared account required.</p>
+				</section>
+
+				<!-- Reassurance -->
+				<div class="offer-reassurance mt-9" data-hide-if-owned>
+					<p><strong class="font-semibold" style="color: var(--offer-navy)">Your calendar purchase is already complete.</strong></p>
+					<p class="mt-1.5">This is an optional $7 digital add-on. Nothing will be shipped, and there are no recurring charges.</p>
+					<p class="mt-1.5">Print as many copies as your household needs.</p>
+				</div>
+
+				<!-- Final CTA -->
+				<section class="mt-8 text-center" data-hide-if-owned>
+					<h2 class="offer-h2">Create your checklist in about 2 minutes</h2>
+					<div class="offer-cta-wrap mt-4">
+						<a href="/two-home-checklist/" class="offer-cta" data-cta="final">
+							<span data-cta-label>Add My Personalized Checklist — $7 once</span>
+						</a>
+						<p class="mt-2 text-[13px] leading-4" style="color: var(--offer-navy-muted)">Digital printable • Instant access • One-time $7 payment</p>
+						<p class="mt-1">
+							<a href="/my-custody-calendar/#build-your-schedule" class="offer-decline" data-decline="final">No thanks—continue to my calendar</a>
+						</p>
+					</div>
+				</section>
+
+				<!-- Already-owned state -->
+				<div class="hidden rounded-2xl border p-5 text-sm leading-6" style="border-color: var(--offer-teal-border); background: var(--offer-teal-soft); color: var(--offer-navy)" data-show-if-owned>
+					You've already got the Personalized Two-Home Checklist — no need to buy it again.
+					<a href="/two-home-checklist/" class="font-semibold underline underline-offset-2">Go download it</a>.
+				</div>
+			</div>
+		</main>
+
+		<!-- Minimal legal footer. -->
+		<footer class="border-t px-5 py-6" style="border-color: var(--offer-border)">
+			<p class="mx-auto max-w-[680px] text-center text-xs leading-6" style="color: var(--offer-navy-muted)">
+				© 2026 CustodyBuilder ·
+				<a href="/privacy/" class="inline-block min-h-11 px-1.5 py-2 underline underline-offset-2 hover:no-underline">Privacy</a>
+				·
+				<a href="/terms/" class="inline-block min-h-11 px-1.5 py-2 underline underline-offset-2 hover:no-underline">Terms</a>
+				·
+				<a href="/disclaimer/" class="inline-block min-h-11 px-1.5 py-2 underline underline-offset-2 hover:no-underline">Disclaimer</a>
+			</p>
+		</footer>
+	</div>
+
+	<!-- Sample pages modal -->
+	<div class="preview-modal-backdrop hidden" data-preview-modal-backdrop>
+		<div class="preview-modal" role="dialog" aria-modal="true" aria-labelledby="preview-modal-title" data-preview-modal>
+			<button type="button" class="preview-modal-close" aria-label="Close sample pages" data-preview-modal-close>✕</button>
+			<h2 id="preview-modal-title" class="text-lg font-semibold tracking-[-0.02em]">Sample checklist pages</h2>
+			<p class="mt-1.5 text-sm leading-5" style="color: var(--offer-navy-soft)">
+				A closer look at what your personalized printable includes — built from your own answers, so your child's
+				checklist will reflect their actual routine.
+			</p>
+			<div class="mt-4 grid gap-3 sm:grid-cols-3">
+				<div class="doc-page doc-page-modal">
+					<div class="doc-page-inner">
+						<p class="doc-page-title">What Stays</p>
+						<ul class="doc-page-rows">
+							<li><span class="doc-checkbox" aria-hidden="true"></span>Toothbrush &amp; toothpaste</li>
+							<li><span class="doc-checkbox" aria-hidden="true"></span>Pajamas</li>
+							<li><span class="doc-checkbox" aria-hidden="true"></span>Underwear &amp; socks</li>
+							<li><span class="doc-checkbox" aria-hidden="true"></span>Everyday outfit</li>
+							<li><span class="doc-checkbox" aria-hidden="true"></span>Basic toiletries</li>
+						</ul>
+					</div>
+				</div>
+				<div class="doc-page doc-page-modal">
+					<div class="doc-page-inner">
+						<p class="doc-page-title">What Travels</p>
+						<ul class="doc-page-rows">
+							<li><span class="doc-checkbox" aria-hidden="true"></span>School backpack</li>
+							<li><span class="doc-checkbox" aria-hidden="true"></span>Water bottle</li>
+							<li><span class="doc-checkbox" aria-hidden="true"></span>Daily medication</li>
+							<li><span class="doc-checkbox" aria-hidden="true"></span>Glasses, if worn</li>
+							<li><span class="doc-checkbox" aria-hidden="true"></span>Comfort item</li>
+						</ul>
+					</div>
+				</div>
+				<div class="doc-page doc-page-modal">
+					<div class="doc-page-inner">
+						<p class="doc-page-title">Activity Bags</p>
+						<ul class="doc-page-rows">
+							<li><span class="doc-checkbox" aria-hidden="true"></span>Soccer or activity gear</li>
+							<li><span class="doc-checkbox" aria-hidden="true"></span>Lunch box or snacks</li>
+							<li><span class="doc-checkbox" aria-hidden="true"></span>Homework for the week</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Mobile sticky CTA — shown once the visitor scrolls past the hero CTA, hidden again whenever the hero or final CTA is back in view. -->
+	<div class="sticky-cta-bar is-hidden" data-sticky-cta>
+		<a href="/two-home-checklist/" class="offer-cta" style="min-height: 3.25rem; font-size: 0.9rem" data-cta="sticky">
+			<span data-cta-label>Add My Personalized Checklist — $7 once</span>
+		</a>
+	</div>
+</BaseLayout>
+
+<script>
+	import { deliverPdfByEmail, getEntitlement, base64ToUint8Array } from '../lib/payments/dodoCheckout';
+
+	function track(eventName, extra = {}) {
+		if (typeof window.gtag === 'function') {
+			window.gtag('event', eventName, extra);
+		}
+	}
+
+	const offerPageRoot = document.querySelector('.offer-page');
+	const showIfOwned = document.querySelectorAll('[data-show-if-owned]');
+	const stickyBar = document.querySelector('[data-sticky-cta]');
+	const alreadyOwnsChecklist = Boolean(getEntitlement('two-home'));
+
+	// A visitor could land here again later (bookmark, back button) after
+	// already buying the add-on — swap the pitch for a plain "you own this"
+	// notice instead of asking them to buy twice. The calendar-ready
+	// confirmation card is NOT part of [data-hide-if-owned] — it stays
+	// visible either way, since it's true regardless of the add-on decision.
+	if (alreadyOwnsChecklist) {
+		offerPageRoot?.classList.add('owns-checklist');
+		showIfOwned.forEach((el) => el.classList.remove('hidden'));
+		stickyBar?.remove();
+	} else {
+		track('two_home_upsell_viewed');
+	}
+
+	// --- CTA click tracking + duplicate-click guard -----------------------
+	document.querySelectorAll('[data-cta]').forEach((el) => {
+		if (!(el instanceof HTMLElement)) return;
+		const position = el.dataset.cta ?? '';
+		const label = el.querySelector('[data-cta-label]');
+		let clicked = false;
+		el.addEventListener('click', (event) => {
+			if (clicked) {
+				event.preventDefault();
+				return;
+			}
+			clicked = true;
+			el.classList.add('is-loading');
+			el.setAttribute('aria-busy', 'true');
+			el.setAttribute('aria-disabled', 'true');
+			if (label) label.textContent = 'Adding your checklist…';
+			track(position === 'final' ? 'two_home_final_cta_click' : 'two_home_hero_cta_click', { source: position });
+		});
+	});
+
+	// Both decline links go straight back to the calendar.
+	document.querySelectorAll('[data-decline]').forEach((el) => {
+		el.addEventListener('click', () => {
+			track('two_home_decline_click', { position: el.getAttribute('data-decline') ?? '' });
+		});
+	});
+
+	// --- Sample pages modal: accessible dialog with a real focus trap ------
+	const modalBackdrop = document.querySelector('[data-preview-modal-backdrop]');
+	const modal = document.querySelector('[data-preview-modal]');
+	const modalCloseButton = document.querySelector('[data-preview-modal-close]');
+	const openPreviewButtons = document.querySelectorAll('[data-open-preview]');
+	let modalTrigger = null;
+
+	function getFocusableInModal() {
+		if (!(modal instanceof HTMLElement)) return [];
+		return Array.from(modal.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'));
+	}
+
+	function openPreviewModal(trigger) {
+		if (!(modalBackdrop instanceof HTMLElement)) return;
+		modalTrigger = trigger ?? null;
+		modalBackdrop.classList.remove('hidden');
+		document.body.style.overflow = 'hidden';
+		track('two_home_printable_preview_opened');
+		window.setTimeout(() => {
+			if (modalCloseButton instanceof HTMLElement) modalCloseButton.focus();
+		}, 0);
+		document.addEventListener('keydown', handleModalKeydown);
+	}
+
+	function closePreviewModal() {
+		if (!(modalBackdrop instanceof HTMLElement) || modalBackdrop.classList.contains('hidden')) return;
+		modalBackdrop.classList.add('hidden');
+		document.body.style.overflow = '';
+		document.removeEventListener('keydown', handleModalKeydown);
+		track('two_home_printable_preview_closed');
+		if (modalTrigger instanceof HTMLElement) modalTrigger.focus();
+		modalTrigger = null;
+	}
+
+	function handleModalKeydown(event) {
+		if (event.key === 'Escape') {
+			event.preventDefault();
+			closePreviewModal();
+			return;
+		}
+		if (event.key !== 'Tab') return;
+		const focusable = getFocusableInModal();
+		if (!focusable.length) return;
+		const first = focusable[0];
+		const last = focusable[focusable.length - 1];
+		if (event.shiftKey && document.activeElement === first) {
+			event.preventDefault();
+			last.focus();
+		} else if (!event.shiftKey && document.activeElement === last) {
+			event.preventDefault();
+			first.focus();
+		}
+	}
+
+	openPreviewButtons.forEach((button) => {
+		button.addEventListener('click', () => openPreviewModal(button));
+	});
+	modalCloseButton?.addEventListener('click', closePreviewModal);
+	modalBackdrop?.addEventListener('click', (event) => {
+		if (event.target === modalBackdrop) closePreviewModal();
+	});
+
+	// --- Mobile sticky CTA -------------------------------------------------
+	// Visible only below 900px, only once the hero CTA has scrolled out of
+	// view, and hidden again whenever either the hero or the final CTA is
+	// back in view — so it never sits redundantly beside a CTA the visitor
+	// can already see, and never covers the decline link below it.
+	if (stickyBar instanceof HTMLElement && !alreadyOwnsChecklist) {
+		const heroCta = document.querySelector('[data-cta="hero"]');
+		const finalCta = document.querySelector('[data-cta="final"]');
+		let heroVisible = true;
+		let finalVisible = false;
+
+		function isMobileViewport() {
+			return window.matchMedia('(max-width: 899px)').matches;
+		}
+		function updateStickyVisibility() {
+			const shouldShow = isMobileViewport() && !heroVisible && !finalVisible;
+			stickyBar.classList.toggle('is-hidden', !shouldShow);
+			document.body.classList.toggle('has-offer-sticky-cta', shouldShow);
+		}
+
+		if (heroCta && finalCta && 'IntersectionObserver' in window) {
+			const observer = new IntersectionObserver(
+				(entries) => {
+					for (const entry of entries) {
+						if (entry.target === heroCta) heroVisible = entry.isIntersecting;
+						if (entry.target === finalCta) finalVisible = entry.isIntersecting;
+					}
+					updateStickyVisibility();
+				},
+				{ threshold: 0 },
+			);
+			observer.observe(heroCta);
+			observer.observe(finalCta);
+		}
+		window.addEventListener('resize', updateStickyVisibility, { passive: true });
+	}
+
+	/** Finishes emailing the calendar PDF that YearCalendarPanel.astro already built and downloaded locally before redirecting here — deferred so that redirect wasn't blocked on a network round trip. This page states the calendar has already been emailed as settled fact (the send is kicked off immediately below); this call is what actually makes that true. */
+	async function deliverPendingCalendarEmail() {
+		const raw = window.sessionStorage.getItem('cb_pending_calendar_email');
+		if (!raw) return;
+		window.sessionStorage.removeItem('cb_pending_calendar_email');
+
+		let pending;
+		try {
+			pending = JSON.parse(raw);
+		} catch {
+			return;
+		}
+		if (!pending?.paymentId || !pending?.pdfBase64) return;
+
+		try {
+			const bytes = base64ToUint8Array(pending.pdfBase64);
+			await deliverPdfByEmail(pending.paymentId, bytes, pending.scheduleName);
+		} catch (error) {
+			console.error('Failed to email the calendar PDF from the offer page:', error);
+		}
+	}
+
+	deliverPendingCalendarEmail();
+</script>

@@ -1,6 +1,8 @@
 ---
 import Footer from '../components/Footer.astro';
 import Navbar from '../components/Navbar.astro';
+import CalendarUpsellCard from '../components/CalendarUpsellCard.astro';
+import TwoHomeUpsellCard from '../components/TwoHomeUpsellCard.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCanonicalUrl } from '../lib/seo/metadata';
@@ -64,6 +66,11 @@ const LINK_CLASS = 'font-semibold text-accent underline decoration-line underlin
 		</section>
 			<section class="container-shell border-t border-line-subtle py-8">
 			<p class="max-w-3xl text-sm text-secondary">For families separated by significant distance, holiday planning involves travel logistics on top of schedule design. See the <a href="/long-distance-custody-schedule/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">long-distance custody schedule guide</a> for holiday allocation in school-year/summer split arrangements.</p>
+		</section>
+
+		<section class="container-shell">
+			<CalendarUpsellCard lead="Holidays are easier to track on paper." />
+			<TwoHomeUpsellCard />
 		</section>
 	</main>
 	<Footer />

@@ -1,0 +1,153 @@
+---
+import { differenceInCalendarDays, format } from 'date-fns';
+import type { YearSchedule } from '../../lib/schedules/yearSchedule';
+
+interface Props {
+	yearSchedule: YearSchedule;
+	activeMonthIndex?: number;
+}
+
+const { yearSchedule, activeMonthIndex = 0 } = Astro.props;
+const activeMonth = yearSchedule.months[activeMonthIndex] ?? yearSchedule.months[0];
+const weekdayLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+const todayIso = format(new Date(), 'yyyy-MM-dd');
+
+function isTransitionDay(day: (typeof activeMonth.days)[number]) {
+	return Boolean(day.events?.some((event) => event.type === 'exchange'));
+}
+
+function isImportantDate(day: (typeof activeMonth.days)[number]) {
+	return Boolean(day.events?.some((event) => event.type === 'important-date'));
+}
+
+function dayCellColor(day: (typeof activeMonth.days)[number]) {
+	if (!day.isCurrentMonth) return 'text-muted opacity-30 shadow-[inset_0_0_0_1px_var(--border-subtle)]';
+	const base = day.parent === 'parentA'
+		? 'bg-[rgba(37,99,235,0.2)] text-accent shadow-[inset_0_0_0_1px_rgba(37,99,235,0.28)]'
+		: 'bg-[rgba(45,212,191,0.14)] text-parent-b shadow-[inset_0_0_0_1px_rgba(45,212,191,0.18)]';
+	return day.isHolidayOverride ? `${base} ring-2 ring-warning/70` : base;
+}
+
+function miniCellColor(day: (typeof activeMonth.days)[number]) {
+	if (!day.isCurrentMonth) return 'bg-page/40';
+	return day.parent === 'parentA' ? 'bg-accent' : 'bg-parent-b';
+}
+
+// "Today" context: only trust a day's assigned parent when it actually fell
+// inside the generated schedule (isCurrentMonth) — days before the start
+// date still exist as grid cells but default to parentA in the underlying
+// grid builder, which would misreport who has the child.
+const allDays = yearSchedule.months.flatMap((month) => month.days.filter((day) => !day.isPlaceholder));
+const allExchangeEvents = yearSchedule.months
+	.flatMap((month) => month.events ?? [])
+	.filter((event) => event.type === 'exchange')
+	.sort((a, b) => a.date.localeCompare(b.date));
+
+const todayEntry = allDays.find((day) => day.date === todayIso && day.isCurrentMonth);
+const nextExchange = allExchangeEvents.find((event) => event.date >= todayIso);
+const todayBeforeStart = todayIso < yearSchedule.startDate;
+const todayAfterEnd = todayIso > yearSchedule.endDate;
+const daysUntilNextExchange = nextExchange ? differenceInCalendarDays(new Date(nextExchange.date), new Date(todayIso)) : null;
+---
+
+<section class="grid min-w-0 gap-6" data-year-calendar-display>
+	<div class="soft-card rounded-[1.5rem] p-4 sm:p-5" data-today-card>
+		<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Right now</p>
+		{todayBeforeStart && (
+			<p class="mt-2 text-sm leading-6 text-secondary" data-today-status>Your calendar starts {yearSchedule.startDate}.</p>
+		)}
+		{todayAfterEnd && !todayBeforeStart && (
+			<p class="mt-2 text-sm leading-6 text-secondary" data-today-status>This preview covers {yearSchedule.startDate} – {yearSchedule.endDate}.</p>
+		)}
+		{!todayBeforeStart && !todayAfterEnd && (
+			<p class="mt-2 text-sm leading-6 text-secondary" data-today-status>
+				Today: <strong class="text-primary" data-today-parent>{todayEntry ? todayEntry.parentName : '—'}</strong>
+				{' · '}
+				<span data-today-next-switch>
+					{nextExchange
+						? `Next switch: ${nextExchange.date} (${daysUntilNextExchange === 0 ? 'today' : `${daysUntilNextExchange} day${daysUntilNextExchange === 1 ? '' : 's'}`}) → ${nextExchange.parentName}`
+						: `No more switches through ${yearSchedule.endDate}.`}
+				</span>
+			</p>
+		)}
+	</div>
+
+	<div class="soft-card rounded-[1.5rem] p-4 sm:p-5" data-year-summary>
+		<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Full-year schedule summary</p>
+		<p class="mt-1 text-sm text-secondary" data-year-range>{yearSchedule.startDate} – {yearSchedule.endDate}</p>
+		<div class="mt-4 grid grid-cols-2 gap-3">
+			<div class="min-w-0 rounded-2xl bg-surface/75 p-3 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+				<p class="inline-flex items-center gap-1.5 text-xs font-medium text-secondary">
+					<i class="h-2 w-2 shrink-0 rounded-full bg-accent" aria-hidden="true"></i>
+					<span data-year-parent-a-label>{yearSchedule.parentNames.parentA}</span>
+				</p>
+				<p class="mt-1 text-[28px] font-bold leading-none tracking-[-0.05em] text-accent" data-year-parent-a-percent>{yearSchedule.annualSummary.parentAPercentage}%</p>
+				<p class="mt-1 text-[11px] leading-none text-muted/90" data-year-parent-a-days>{yearSchedule.annualSummary.parentADays} overnights</p>
+			</div>
+			<div class="min-w-0 rounded-2xl bg-surface/75 p-3 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+				<p class="inline-flex items-center gap-1.5 text-xs font-medium text-secondary">
+					<i class="h-2 w-2 shrink-0 rounded-full bg-parent-b" aria-hidden="true"></i>
+					<span data-year-parent-b-label>{yearSchedule.parentNames.parentB}</span>
+				</p>
+				<p class="mt-1 text-[28px] font-bold leading-none tracking-[-0.05em] text-parent-b" data-year-parent-b-percent>{yearSchedule.annualSummary.parentBPercentage}%</p>
+				<p class="mt-1 text-[11px] leading-none text-muted/90" data-year-parent-b-days>{yearSchedule.annualSummary.parentBDays} overnights</p>
+			</div>
+		</div>
+		<p class="mt-3 text-[11px] leading-4 text-muted" data-year-total-days-note>{yearSchedule.annualSummary.totalDays}-day overnight estimate. Not legal advice.</p>
+	</div>
+
+	<div class="flex flex-wrap items-center gap-x-4 gap-y-1.5 text-xs text-secondary" data-calendar-legend>
+		<span class="inline-flex items-center gap-1.5"><i class="h-2.5 w-2.5 rounded-full bg-accent" aria-hidden="true"></i><span data-legend-parent-a-label>{yearSchedule.parentNames.parentA}</span></span>
+		<span class="inline-flex items-center gap-1.5"><i class="h-2.5 w-2.5 rounded-full bg-parent-b" aria-hidden="true"></i><span data-legend-parent-b-label>{yearSchedule.parentNames.parentB}</span></span>
+		<span class="inline-flex items-center gap-1.5"><i class="h-2.5 w-2.5 rounded-full ring-2 ring-inset ring-primary" aria-hidden="true"></i>Today</span>
+		<span class="inline-flex items-center gap-1.5"><i class="h-1.5 w-1.5 rounded-full bg-primary" aria-hidden="true"></i>Exchange day</span>
+		<span class="inline-flex items-center gap-1.5"><i class="h-1.5 w-1.5 rounded-full bg-warning" aria-hidden="true"></i>Important date</span>
+		<span class="inline-flex items-center gap-1.5"><i class="h-2.5 w-2.5 rounded-full ring-2 ring-warning/70" aria-hidden="true"></i>Home you chose</span>
+	</div>
+
+	<div data-year-at-a-glance>
+		<h3 class="text-lg font-semibold text-primary">Year at a glance</h3>
+		<p class="mt-1 text-xs text-secondary">Click a month to preview it below.</p>
+		<div class="mt-3 grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-4" data-mini-month-grid>
+			{yearSchedule.months.map((month, index) => (
+				<button
+					type="button"
+					class={`min-w-0 rounded-xl p-2 text-left shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-colors hover:bg-surface ${index === activeMonthIndex ? 'bg-surface ring-1 ring-accent' : 'bg-surface/60'}`}
+					data-mini-month
+					data-month-index={index}
+					aria-pressed={index === activeMonthIndex}
+				>
+					<p class="truncate text-[11px] font-semibold text-secondary" data-mini-month-label>{month.monthLabel}</p>
+					<div class="mt-1.5 grid grid-cols-7 gap-[2px]" data-mini-month-days>
+						{month.days.map((day) => (
+							<span class={`aspect-square rounded-[2px] ${miniCellColor(day)}`} aria-hidden="true"></span>
+						))}
+					</div>
+				</button>
+			))}
+		</div>
+	</div>
+
+	<div class="soft-card rounded-[1.5rem] p-4 sm:p-5" data-monthly-view>
+		<h3 class="text-lg font-semibold text-primary" data-monthly-view-label>{activeMonth.monthLabel}</h3>
+		<div class="mt-3 grid min-w-0 grid-cols-7 gap-1 text-center text-[10px] font-semibold uppercase tracking-[0.08em] text-muted sm:gap-1.5 sm:text-[11px]" aria-hidden="true">
+			{weekdayLabels.map((day) => <span>{day}</span>)}
+		</div>
+		<div class="mt-2 grid min-w-0 grid-cols-7 gap-1 sm:gap-1.5" data-monthly-view-days>
+			{activeMonth.days.map((day) => (
+				<span
+					class={`relative flex aspect-square min-h-0 items-center justify-center rounded-xl px-0.5 text-xs font-semibold sm:rounded-2xl sm:text-sm ${dayCellColor(day)} ${day.date === todayIso ? 'ring-2 ring-inset ring-primary' : ''}`}
+					title={day.events?.filter((event) => event.type === 'important-date').map((event) => event.label).join(', ') || (isTransitionDay(day) ? 'Exchange day' : undefined)}
+				>
+					{!day.isPlaceholder && <span class="leading-none">{day.dayOfMonth}</span>}
+					{isTransitionDay(day) && <span class="absolute bottom-0.5 right-0.5 h-1.5 w-1.5 rounded-full bg-primary" aria-hidden="true"></span>}
+					{isImportantDate(day) && <span class="absolute top-0.5 right-0.5 h-1.5 w-1.5 rounded-full bg-warning" aria-hidden="true"></span>}
+				</span>
+			))}
+		</div>
+		<p class="mt-3 text-xs text-secondary" data-monthly-view-summary>
+			{activeMonth.parentDayCounts.parentA} {yearSchedule.parentNames.parentA} overnights ·
+			{' '}{activeMonth.parentDayCounts.parentB} {yearSchedule.parentNames.parentB} overnights this month.
+		</p>
+	</div>
+</section>

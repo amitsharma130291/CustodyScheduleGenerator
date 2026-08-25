@@ -1,0 +1,46 @@
+---
+// Compact, static promo card for the $14.99 My Custody Calendar PDF —
+// dropped into pages that don't already embed the free schedule-builder
+// panel (which carries its own "Build your full 12-month calendar —
+// $14.99" CTA). No client-side state: just a link, safe to place on any
+// page. See CalendarPromoBanner.astro for the full, stateful hero version
+// used on the product page itself and the free generator page.
+interface Props {
+	/** Tailoring the lead-in line to the page it's dropped on (a calculator vs. a comparison page) reads less like a repeated ad unit. Keep to one sentence. */
+	lead?: string;
+}
+const { lead = "You've got the numbers — now get the full picture." } = Astro.props;
+---
+
+<aside class="calendar-upsell-card" aria-label="My Custody Calendar — $14.99 full-year PDF">
+	<div class="calendar-upsell-card__text">
+		<p class="text-[11px] font-bold uppercase tracking-[0.16em]" style="color: var(--lavender-text)">Complete 12-month PDF · Pay once, yours for life</p>
+		<p class="mt-1.5 text-base font-semibold leading-6 text-primary">{lead} Turn it into a personalized, print-ready 12-month calendar.</p>
+		<p class="mt-1 text-sm leading-6 text-secondary">Cover page, year overview, every monthly calendar, important dates, a schedule summary, and a child-friendly version — yours to print at home anytime.</p>
+	</div>
+	<a href="/my-custody-calendar/#build-your-schedule" class="btn-primary btn-primary--wrap flex min-h-12 w-full shrink-0 items-center justify-center gap-2 rounded-full px-6 text-center text-sm font-semibold sm:w-auto sm:whitespace-nowrap">
+		Build My 12-Month Calendar — $14.99 Once
+	</a>
+</aside>
+
+<style>
+	.calendar-upsell-card {
+		display: flex;
+		flex-direction: column;
+		gap: 16px;
+		align-items: flex-start;
+		border-radius: 1.25rem;
+		border: 1px solid var(--border-subtle);
+		background: var(--lavender-soft);
+		padding: 20px;
+		margin-block: 32px;
+	}
+	@media (min-width: 640px) {
+		.calendar-upsell-card {
+			flex-direction: row;
+			align-items: center;
+			justify-content: space-between;
+			padding: 24px 28px;
+		}
+	}
+</style>

@@ -32,6 +32,7 @@ describe('generateCustodySchedule', () => {
 		['60-40', [4, 3]],
 		['70-30', [5, 2]],
 		['80-20', [4, 1]],
+		['90-10', [9, 1]],
 	] satisfies Array<[ScheduleType, number[]]>)('maps %s to the correct pattern', (scheduleType, expectedPattern) => {
 		expect(getSchedulePattern(scheduleType).pattern.map((segment) => segment.days)).toEqual(expectedPattern);
 	});
@@ -769,6 +770,48 @@ describe('generateCustodySchedule', () => {
 			parentAPercentage: 86,
 			parentBPercentage: 14,
 			totalDays: 14,
+		});
+	});
+
+	it('generates correct first 10 days for 90-10', () => {
+		const parents = generateCustodySchedule({
+			scheduleType: '90-10',
+			startDate,
+			numberOfDays: 10,
+		}).days.map((day) => day.parent);
+
+		expect(parents).toEqual(['A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'B']);
+	});
+
+	it('calculates exact 90-10 summary over a 100-day span', () => {
+		const { summary } = generateCustodySchedule({
+			scheduleType: '90-10',
+			startDate,
+			numberOfDays: 100,
+		});
+
+		expect(summary).toEqual({
+			parentADays: 90,
+			parentBDays: 10,
+			parentAPercentage: 90,
+			parentBPercentage: 10,
+			totalDays: 100,
+		});
+	});
+
+	it('calculates 90-10 summary over 365 days', () => {
+		const { summary } = generateCustodySchedule({
+			scheduleType: '90-10',
+			startDate,
+			numberOfDays: 365,
+		});
+
+		expect(summary).toEqual({
+			parentADays: 329,
+			parentBDays: 36,
+			parentAPercentage: 90,
+			parentBPercentage: 10,
+			totalDays: 365,
 		});
 	});
 

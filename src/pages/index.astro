@@ -8,7 +8,7 @@ import ProductFlowGraphic from '../components/homepage/authority/ProductFlowGrap
 import SiteArchitectureMapGraphic from '../components/homepage/authority/SiteArchitectureMapGraphic.astro';
 import TrustMethodologyGraphic from '../components/homepage/authority/TrustMethodologyGraphic.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { BadgeCheck, BookOpen, CalendarCheck, CalendarDays, ClipboardList, Clock, Compass, FileText, Layers, Scale, Shield } from 'lucide-astro';
+import { BadgeCheck, BookOpen, CalendarCheck, CalendarDays, ClipboardList, Clock, Compass, FileText, Layers, Scale, Shield, Sparkles } from 'lucide-astro';
 import { getCanonicalUrl } from '../lib/seo/metadata';
 import {
 	buildBreadcrumbSchema,
@@ -49,6 +49,10 @@ const toolAccentStyles: Record<string, string> = {
 	log: 'border-l-parent-b bg-parent-b/5',
 	texas: 'border-l-amber-600/80 bg-amber-500/5',
 };
+// Lavender isn't a Tailwind-registered color (unlike accent/parent-a/parent-b), and its hex
+// value differs between light and dark mode — inline style with the CSS var keeps it theme-aware,
+// matching how the hero eyebrow chip already handles this same lavender/"premium" token.
+const premiumToolStyle = 'border-left-color: var(--lavender); background: var(--lavender-soft)';
 ---
 
 <BaseLayout title={meta.title} description={meta.description} canonical={canonical} ogType="website">
@@ -76,6 +80,25 @@ const toolAccentStyles: Record<string, string> = {
 			</div>
 		</section>
 
+		<!-- My Custody Calendar — primary paid-product CTA banner -->
+		<section class="container-shell scroll-mt-24 py-6 lg:py-8" aria-label="My Custody Calendar">
+			<div class="premium-card rounded-[1.75rem] p-3">
+				<div class="flex flex-col gap-5 rounded-[1.5rem] p-6 sm:flex-row sm:items-center sm:justify-between sm:p-8" style="background: var(--lavender-soft)">
+					<div class="flex items-start gap-4">
+						<span class="mt-1 flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl" style="background: var(--lavender-mid); color: var(--lavender-text)" aria-hidden="true">
+							<Sparkles class="h-5 w-5" />
+						</span>
+						<div>
+							<p class="text-[11px] font-bold uppercase tracking-[0.18em]" style="color: var(--lavender-text)">New · pay once, yours for life — no subscription</p>
+							<h2 class="mt-1 text-2xl font-semibold tracking-[-0.03em] text-primary sm:text-3xl">My Custody Calendar — your full year, ready to print</h2>
+							<p class="mt-2 max-w-xl text-secondary">Turn the schedule you build into a personalized 12-month PDF — cover page, year overview, every month, your important dates, a schedule summary, and a kid-friendly version.</p>
+						</div>
+					</div>
+					<a href="/my-custody-calendar/#build-your-schedule" class="btn-primary btn-primary--wrap inline-flex min-h-12 w-full shrink-0 items-center justify-center rounded-full px-6 text-center text-sm font-semibold sm:w-auto sm:whitespace-nowrap">Build my calendar — $14.99 once</a>
+				</div>
+			</div>
+		</section>
+
 		<!-- Start With The Right Tool -->
 		<section id="tools" class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-14">
 			<div class="max-w-2xl">
@@ -87,7 +110,8 @@ const toolAccentStyles: Record<string, string> = {
 					<li>
 						<a
 							href={tool.href}
-							class={`soft-card block rounded-[1.35rem] border-l-4 p-5 transition-colors hover:border-accent/40 ${toolAccentStyles[tool.accent] ?? 'border-l-line'}`}
+							class={`soft-card block rounded-[1.35rem] border-l-4 p-5 transition-colors hover:border-accent/40 ${tool.accent === 'premium' ? '' : (toolAccentStyles[tool.accent] ?? 'border-l-line')}`}
+							style={tool.accent === 'premium' ? premiumToolStyle : undefined}
 						>
 							<p class="text-[11px] font-bold uppercase tracking-[0.1em] text-muted">Answers</p>
 							<p class="mt-1 text-sm font-medium italic text-secondary">"{tool.question}"</p>
@@ -266,6 +290,17 @@ const toolAccentStyles: Record<string, string> = {
 						</div>
 						<TrustMethodologyGraphic />
 					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- My Custody Calendar — closing CTA banner -->
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-14" aria-label="Get your personalized calendar">
+			<div class="premium-card rounded-[1.75rem] p-3">
+				<div class="flex flex-col items-center gap-4 rounded-[1.5rem] p-6 text-center sm:p-10" style="background: var(--lavender-soft)">
+					<h2 class="text-2xl font-semibold tracking-[-0.03em] text-primary sm:text-3xl">Ready to see your actual year?</h2>
+					<p class="max-w-xl text-secondary">Skip the mental math. My Custody Calendar turns the schedule you just built into a personalized, print-ready 12-month PDF — $14.99 once, yours for life.</p>
+					<a href="/my-custody-calendar/#build-your-schedule" class="btn-primary btn-primary--wrap inline-flex min-h-12 items-center justify-center rounded-full px-8 text-sm font-semibold">Build my calendar — $14.99 once</a>
 				</div>
 			</div>
 		</section>

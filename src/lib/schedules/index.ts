@@ -9,6 +9,11 @@ export {
 	normalizeSeventyThirtyPattern,
 	normalizeSixtyFortyPattern,
 } from './engine';
+export { generateSchedule } from './generateSchedule';
+export { generateYearSchedule } from './yearSchedule';
+export type { YearSchedule, YearScheduleOptions } from './yearSchedule';
+export { applyImportantDates, MAX_IMPORTANT_DATES } from './personalization';
+export type { ImportantDateInput } from './personalization';
 export { defaultEightyTwentyPattern, defaultRatioSchedulePatterns, defaultSeventyThirtyPattern, defaultSixtyFortyPattern, eightyTwentyPatternOptions, legacyScheduleTypeMap, normalizeScheduleType, ratioSchedulePatternOptions, schedulePatterns, seventyThirtyPatternOptions, sixtyFortyPatternOptions } from './patterns';
 export type {
 	GenerateCustodyScheduleOptions,
@@ -24,4 +29,6 @@ export type {
 	EightyTwentyPatternId,
 	SeventyThirtyPatternId,
 	SixtyFortyPatternId,
+	GeneratedSchedule,
+	ParentNames,
 } from './types';

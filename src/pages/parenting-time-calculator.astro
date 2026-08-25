@@ -1,5 +1,7 @@
 ---
 import CalculatorPageTemplate from '../components/pages/CalculatorPageTemplate.astro';
+import CalendarUpsellCard from '../components/CalendarUpsellCard.astro';
+import TwoHomeUpsellCard from '../components/TwoHomeUpsellCard.astro';
 ---
 
 <CalculatorPageTemplate
@@ -21,4 +23,9 @@ import CalculatorPageTemplate from '../components/pages/CalculatorPageTemplate.a
 			answer: `Use a <a href="/parenting-plan-template/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">parenting plan template</a> to formalise your agreed split into a court-ready document, or start with the <a href="/custody-agreement-builder/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody agreement builder</a> to draft the schedule section.`,
 		},
 	]}
-/>
+>
+	<section class="container-shell">
+		<CalendarUpsellCard lead="You're comparing how parenting time splits across custody schedules." />
+		<TwoHomeUpsellCard />
+	</section>
+</CalculatorPageTemplate>

@@ -1,0 +1,886 @@
+---
+import { scheduleDefinitionList } from '../../lib/schedules/definitions';
+import { defaultRatioSchedulePatterns, normalizeScheduleType, ratioSchedulePatternOptions } from '../../lib/schedules/patterns';
+import type { ScheduleInputType } from '../../lib/schedules/types';
+
+interface Props {
+	selectedScheduleId: ScheduleInputType;
+	startDate: string;
+	parentA?: string;
+	parentB?: string;
+}
+
+const { selectedScheduleId, startDate, parentA = 'Parent A', parentB = 'Parent B' } = Astro.props;
+const normalizedSelectedScheduleId = normalizeScheduleType(selectedScheduleId);
+const isRatioSchedule = normalizedSelectedScheduleId === '60-40' || normalizedSelectedScheduleId === '70-30' || normalizedSelectedScheduleId === '80-20';
+const initialPatternOptions = isRatioSchedule ? ratioSchedulePatternOptions[normalizedSelectedScheduleId as keyof typeof ratioSchedulePatternOptions] : [];
+const initialDefaultPattern = isRatioSchedule ? defaultRatioSchedulePatterns[normalizedSelectedScheduleId as keyof typeof defaultRatioSchedulePatterns] : '';
+---
+
+<section class="soft-card rounded-[1.5rem] p-5 sm:p-6" data-year-calendar-panel>
+	<div class="flex flex-wrap items-center gap-2">
+		<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">My Custody Calendar</p>
+		<span class="rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em]" style="background: var(--lavender-soft); color: var(--lavender-text)">$14.99 once · yours for life</span>
+	</div>
+	<h2 class="mt-2 text-xl font-semibold tracking-[-0.04em] text-primary">Build your 12-month calendar</h2>
+	<p class="mt-2 text-sm leading-6 text-secondary">
+		This preview updates instantly. Nothing is saved until you generate the full product.
+	</p>
+
+	<form class="mt-5 grid gap-5" data-year-calendar-form>
+		<label class="grid min-w-0 gap-2">
+			<span class="text-sm font-medium text-secondary">Parenting schedule</span>
+			<select name="scheduleId" aria-label="Parenting schedule" class="w-full min-w-0 truncate rounded-2xl bg-page px-4 py-2.5 pr-9 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" data-schedule-select>
+				{scheduleDefinitionList.map((definition) => (
+					<option value={definition.id} selected={definition.id === normalizedSelectedScheduleId}>{definition.name}</option>
+				))}
+			</select>
+		</label>
+
+		<div class={`${isRatioSchedule ? 'grid' : 'hidden'} min-w-0 gap-1.5`} data-ratio-pattern-field>
+			<label class="grid min-w-0 gap-2">
+				<span class="text-sm font-medium text-secondary" data-ratio-pattern-label>Pattern</span>
+				<select name="pattern" aria-label="Schedule pattern" class="w-full min-w-0 truncate rounded-2xl bg-page px-4 py-2.5 pr-9 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" data-ratio-pattern-select>
+					{initialPatternOptions.map((option) => (
+						<option value={option.id} selected={option.id === initialDefaultPattern}>{option.label}</option>
+					))}
+				</select>
+			</label>
+		</div>
+
+		<label class="grid min-w-0 gap-2">
+			<span class="text-sm font-medium text-secondary">Start date</span>
+			<input name="startDate" type="date" value={startDate} aria-label="Schedule start date" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+		</label>
+
+		<div class="grid gap-2.5">
+			<div class="flex flex-wrap items-center gap-1.5" data-parent-label-presets>
+				<span class="text-xs font-medium text-muted">Labels:</span>
+				<button type="button" class="rounded-full bg-page px-3 py-1 text-xs font-medium text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:bg-surface" data-label-preset data-preset-a="Mom" data-preset-b="Dad">Mom / Dad</button>
+				<button type="button" class="rounded-full bg-page px-3 py-1 text-xs font-medium text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:bg-surface" data-label-preset data-preset-a="Home A" data-preset-b="Home B">Home A / Home B</button>
+				<button type="button" class="rounded-full bg-page px-3 py-1 text-xs font-medium text-secondary shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:bg-surface" data-label-preset data-preset-a="Parent A" data-preset-b="Parent B">Parent A / Parent B</button>
+			</div>
+			<div class="grid grid-cols-2 gap-2.5">
+				<label class="grid min-w-0 gap-1.5">
+					<span class="text-sm font-medium text-secondary">First parent</span>
+					<input name="parentA" value={parentA} aria-label="First parent label" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+				</label>
+				<label class="grid min-w-0 gap-1.5">
+					<span class="text-sm font-medium text-secondary">Second parent</span>
+					<input name="parentB" value={parentB} aria-label="Second parent label" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+				</label>
+			</div>
+			<p class="text-xs leading-5 text-muted">First parent gets day one of the schedule.</p>
+		</div>
+
+		<label class="grid min-w-0 gap-1.5">
+			<span class="text-sm font-medium text-secondary">Child's first name <span class="font-normal text-muted">(optional)</span></span>
+			<input name="childName" maxlength="40" placeholder="e.g. Emma" aria-label="Child's first name or nickname" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+			<span class="text-xs leading-5 text-muted">Shown on the cover — no legal name needed.</span>
+		</label>
+
+		<div class="grid gap-2" data-important-dates-section>
+			<div class="flex items-center justify-between">
+				<span class="text-sm font-medium text-secondary">Important dates <span class="font-normal text-muted">(up to 10)</span></span>
+				<button type="button" class="rounded-full bg-page px-3 py-1 text-xs font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:bg-surface disabled:cursor-not-allowed disabled:opacity-50" data-add-important-date>+ Add</button>
+			</div>
+			<div class="grid gap-2" data-important-dates-list></div>
+			<p class="text-xs leading-5 text-muted">Birthdays, school days, vacations. A chosen home is your input, not legal advice.</p>
+		</div>
+
+		<p class="hidden rounded-2xl bg-warning/15 p-3 text-sm leading-6 text-primary" role="status" aria-live="polite" data-form-status></p>
+
+		<div class="mt-1 grid gap-1.5">
+			<div class="hidden items-start gap-2.5 rounded-2xl border p-3 text-sm leading-6" role="status" aria-live="polite" data-payment-status>
+				<span class="mt-0.5 shrink-0" data-payment-status-icon aria-hidden="true"></span>
+				<span data-payment-status-text></span>
+			</div>
+			<button type="button" class="btn-primary btn-primary--wrap flex min-h-14 w-full min-w-0 cursor-pointer items-center justify-center gap-2.5 sm:whitespace-nowrap rounded-full px-5 text-center text-[15px] font-semibold leading-none transition-all duration-150 ease-out hover:-translate-y-px active:translate-y-0 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-checkout-button>
+				<span class="leading-none" data-checkout-button-label>Buy — Generate my calendar ($14.99 once, lifetime)</span>
+			</button>
+			<p class="text-center text-[11px] leading-4 text-muted">12-month PDF · your dates · pay once, lifetime access.</p>
+
+			<div class="grid gap-2" data-license-section>
+				<button type="button" class="text-center text-[11px] font-semibold text-accent underline underline-offset-2" data-license-toggle>Already purchased? Enter your license key</button>
+				<div class="hidden grid-cols-[1fr_auto] gap-2" data-license-form>
+					<input type="text" placeholder="CB-CAL-..." aria-label="License key" class="w-full min-w-0 rounded-xl bg-page px-3 py-2 text-xs text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" data-license-input />
+					<button type="button" class="rounded-xl bg-page px-3 py-2 text-xs font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:bg-surface disabled:cursor-not-allowed disabled:opacity-50" data-license-activate-button>Activate</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</section>
+
+<!-- CTA stays pinned to the viewport bottom at every screen size — it should never require scrolling to find. -->
+<div class="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-surface-elevated/95 backdrop-blur" data-checkout-bar>
+	<div class="container-shell flex flex-col gap-2 py-3 lg:flex-row lg:items-center lg:justify-end lg:gap-4 lg:py-3">
+		<div class="hidden items-start gap-2 rounded-xl border p-2.5 text-xs leading-5 lg:max-w-sm" role="status" aria-live="polite" data-payment-status>
+			<span class="mt-0.5 shrink-0" data-payment-status-icon aria-hidden="true"></span>
+			<span data-payment-status-text></span>
+		</div>
+		<div class="flex items-center gap-3 lg:gap-4">
+			<p class="hidden shrink-0 text-xs leading-4 text-muted lg:block">12-month PDF · your dates · pay once, lifetime access.</p>
+			<button type="button" class="btn-primary btn-primary--wrap flex min-h-14 w-full min-w-0 cursor-pointer items-center justify-center gap-2.5 sm:whitespace-nowrap rounded-full px-6 text-center text-[15px] font-semibold leading-none transition-all duration-150 ease-out hover:-translate-y-px active:translate-y-0 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent lg:w-auto lg:min-w-[280px] lg:px-8" data-checkout-button>
+				<span class="leading-none" data-checkout-button-label>Buy — Generate my calendar ($14.99 once, lifetime)</span>
+			</button>
+		</div>
+		<p class="text-center text-[11px] leading-4 text-muted lg:hidden">12-month PDF · your dates · pay once, lifetime access.</p>
+	</div>
+</div>
+
+<script>
+	import { normalizeScheduleType, normalizeSixtyFortyPattern, normalizeSeventyThirtyPattern, normalizeEightyTwentyPattern, defaultRatioSchedulePatterns, ratioSchedulePatternOptions, getAllSchedules, MAX_IMPORTANT_DATES } from '../../lib/schedules';
+	import { generateYearSchedule } from '../../lib/schedules/yearSchedule';
+	import { applyImportantDates } from '../../lib/schedules/personalization';
+	import { buildCalendarFilename, buildPremiumCalendarPdf, downloadBytes } from '../../lib/schedules/premiumPdfExport';
+	import { activateWithLicenseKey, deliverPdfByEmail, getEntitlement, resolvePendingCheckout, startCheckout, uint8ArrayToBase64 } from '../../lib/payments/dodoCheckout';
+	import { differenceInCalendarDays, format, isValid, parseISO } from 'date-fns';
+
+	const definitions = getAllSchedules();
+	const form = document.querySelector('[data-year-calendar-form]');
+	const formStatus = document.querySelector('[data-form-status]');
+	const ratioPatternField = document.querySelector('[data-ratio-pattern-field]');
+	const ratioPatternLabel = document.querySelector('[data-ratio-pattern-label]');
+	const ratioPatternSelect = document.querySelector('[data-ratio-pattern-select]');
+	const labelPresets = document.querySelector('[data-parent-label-presets]');
+	const parentAInput = document.querySelector('input[name="parentA"]');
+	const parentBInput = document.querySelector('input[name="parentB"]');
+	const childNameInput = document.querySelector('input[name="childName"]');
+	const importantDatesList = document.querySelector('[data-important-dates-list]');
+	const addImportantDateButton = document.querySelector('[data-add-important-date]');
+	const licenseToggle = document.querySelector('[data-license-toggle]');
+	const licenseForm = document.querySelector('[data-license-form]');
+	const licenseInput = document.querySelector('[data-license-input]');
+	const licenseActivateButton = document.querySelector('[data-license-activate-button]');
+
+	const todayStatus = document.querySelector('[data-today-status]');
+	const yearSummary = document.querySelector('[data-year-summary]');
+	const yearRange = document.querySelector('[data-year-range]');
+	const yearParentALabel = document.querySelector('[data-year-parent-a-label]');
+	const yearParentBLabel = document.querySelector('[data-year-parent-b-label]');
+	const yearParentAPercent = document.querySelector('[data-year-parent-a-percent]');
+	const yearParentBPercent = document.querySelector('[data-year-parent-b-percent]');
+	const yearParentADays = document.querySelector('[data-year-parent-a-days]');
+	const yearParentBDays = document.querySelector('[data-year-parent-b-days]');
+	const yearTotalDaysNote = document.querySelector('[data-year-total-days-note]');
+	const legendParentALabel = document.querySelector('[data-legend-parent-a-label]');
+	const legendParentBLabel = document.querySelector('[data-legend-parent-b-label]');
+	const miniMonthGrid = document.querySelector('[data-mini-month-grid]');
+	const monthlyViewLabel = document.querySelector('[data-monthly-view-label]');
+	const monthlyViewDays = document.querySelector('[data-monthly-view-days]');
+	const monthlyViewSummary = document.querySelector('[data-monthly-view-summary]');
+
+	// The buy/download CTA and its status banner are duplicated (an inline
+	// desktop version plus a bar pinned to the mobile viewport bottom) so the
+	// action is never scrolled out of view. Every reference below operates on
+	// all copies at once so the two stay in sync.
+	const checkoutButtons = Array.from(document.querySelectorAll('[data-checkout-button]'));
+	const paymentStatusEls = Array.from(document.querySelectorAll('[data-payment-status]'));
+
+	let currentYearSchedule = null;
+	let currentScheduleMeta = null;
+	let activeMonthIndex = 0;
+
+	function getBrowserTodayIso() {
+		return format(new Date(), 'yyyy-MM-dd');
+	}
+
+	function applyQueryParamsToForm() {
+		if (!(form instanceof HTMLFormElement)) return;
+
+		const params = new URLSearchParams(window.location.search);
+		const schedule = params.get('schedule');
+		const pattern = params.get('pattern');
+		const start = params.get('start');
+		const parentA = params.get('a');
+		const parentB = params.get('b');
+		const scheduleInput = form.elements.namedItem('scheduleId');
+		const patternInput = form.elements.namedItem('pattern');
+		const startInput = form.elements.namedItem('startDate');
+
+		if (scheduleInput instanceof HTMLSelectElement && schedule) {
+			try {
+				scheduleInput.value = normalizeScheduleType(schedule);
+			} catch {}
+		}
+		if (patternInput instanceof HTMLSelectElement) {
+			const normalizedSchedule = scheduleInput instanceof HTMLSelectElement ? scheduleInput.value : '';
+			updateRatioPatternField(normalizedSchedule, pattern);
+		}
+		if (startInput instanceof HTMLInputElement && start) startInput.value = start;
+		if (parentAInput instanceof HTMLInputElement && parentA) parentAInput.value = parentA;
+		if (parentBInput instanceof HTMLInputElement && parentB) parentBInput.value = parentB;
+	}
+
+	function setFormStatus(message) {
+		if (!(formStatus instanceof HTMLElement)) return;
+		formStatus.textContent = message || '';
+		formStatus.classList.toggle('hidden', !message);
+	}
+
+	function getRatioPatternOptions(scheduleId) {
+		return ratioSchedulePatternOptions[String(scheduleId)] || [];
+	}
+
+	function getDefaultRatioPattern(scheduleId) {
+		return defaultRatioSchedulePatterns[String(scheduleId)] || '';
+	}
+
+	function normalizeRatioPattern(scheduleId, patternId) {
+		if (String(scheduleId) === '80-20') return normalizeEightyTwentyPattern(patternId);
+		if (String(scheduleId) === '70-30') return normalizeSeventyThirtyPattern(patternId);
+		if (String(scheduleId) === '60-40') return normalizeSixtyFortyPattern(patternId);
+		return '';
+	}
+
+	function updateRatioPatternField(scheduleId, patternId) {
+		const isRatioSchedule = String(scheduleId) === '60-40' || String(scheduleId) === '70-30' || String(scheduleId) === '80-20';
+		const normalizedPattern = normalizeRatioPattern(scheduleId, patternId || getDefaultRatioPattern(scheduleId));
+		const options = getRatioPatternOptions(scheduleId);
+
+		ratioPatternField?.classList.toggle('hidden', !isRatioSchedule);
+		ratioPatternField?.classList.toggle('grid', isRatioSchedule);
+
+		if (ratioPatternLabel) {
+			ratioPatternLabel.textContent = String(scheduleId) === '80-20' ? '80/20 pattern' : String(scheduleId) === '70-30' ? '70/30 pattern' : '60/40 pattern';
+		}
+		if (ratioPatternSelect instanceof HTMLSelectElement) {
+			ratioPatternSelect.innerHTML = options.map((option) => `<option value="${option.id}">${option.label}</option>`).join('');
+			ratioPatternSelect.value = normalizedPattern || getDefaultRatioPattern(scheduleId);
+		}
+
+		return normalizedPattern;
+	}
+
+	function miniCellClass(day) {
+		if (!day.isCurrentMonth) return 'bg-page/40';
+		return day.parent === 'parentA' ? 'bg-accent' : 'bg-parent-b';
+	}
+
+	function dayCellClass(day) {
+		if (!day.isCurrentMonth) return 'text-muted opacity-30 shadow-[inset_0_0_0_1px_var(--border-subtle)]';
+		const base = day.parent === 'parentA'
+			? 'bg-[rgba(37,99,235,0.2)] text-accent shadow-[inset_0_0_0_1px_rgba(37,99,235,0.28)]'
+			: 'bg-[rgba(45,212,191,0.14)] text-parent-b shadow-[inset_0_0_0_1px_rgba(45,212,191,0.18)]';
+		return day.isHolidayOverride ? `${base} ring-2 ring-warning/70` : base;
+	}
+
+	function isTransitionDay(day) {
+		return Boolean(day.events?.some((event) => event.type === 'exchange'));
+	}
+
+	function isImportantDate(day) {
+		return Boolean(day.events?.some((event) => event.type === 'important-date'));
+	}
+
+	function importantDateTitle(day) {
+		return day.events?.filter((event) => event.type === 'important-date').map((event) => event.label).join(', ') || undefined;
+	}
+
+	function createImportantDateRow() {
+		// Two lines, not four columns crammed in one row: the label needs room
+		// for real text ("Emma's birthday"), and a narrow sidebar column left
+		// the date/dropdown fields clipped when all four fields shared one row.
+		const row = document.createElement('div');
+		row.className = 'grid gap-2 rounded-xl bg-page/60 p-3 shadow-[inset_0_0_0_1px_var(--border-subtle)]';
+		row.setAttribute('data-important-date-row', '');
+
+		const labelInput = document.createElement('input');
+		labelInput.type = 'text';
+		labelInput.placeholder = 'Label (e.g. Birthday)';
+		labelInput.maxLength = 40;
+		labelInput.className = 'w-full min-w-0 rounded-xl bg-surface px-3 py-2.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]';
+		labelInput.setAttribute('data-field', 'label');
+		labelInput.setAttribute('aria-label', 'Date label');
+
+		const controlsRow = document.createElement('div');
+		controlsRow.className = 'grid grid-cols-[1fr_1fr_auto] items-center gap-2';
+
+		const dateInput = document.createElement('input');
+		dateInput.type = 'date';
+		dateInput.className = 'w-full min-w-0 rounded-xl bg-surface px-2.5 py-2 text-xs text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]';
+		dateInput.setAttribute('data-field', 'date');
+		dateInput.setAttribute('aria-label', 'Date');
+
+		const homeSelect = document.createElement('select');
+		homeSelect.className = 'w-full min-w-0 rounded-xl bg-surface px-2.5 py-2 text-xs text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]';
+		homeSelect.setAttribute('data-field', 'homeOverride');
+		homeSelect.setAttribute('aria-label', 'Home for this date');
+		const noChangeOption = document.createElement('option');
+		noChangeOption.value = '';
+		noChangeOption.textContent = 'No change';
+		const optionA = document.createElement('option');
+		optionA.value = 'A';
+		const optionB = document.createElement('option');
+		optionB.value = 'B';
+		homeSelect.append(noChangeOption, optionA, optionB);
+
+		const removeButton = document.createElement('button');
+		removeButton.type = 'button';
+		removeButton.className = 'shrink-0 rounded-full p-2 text-muted hover:bg-surface hover:text-primary';
+		removeButton.setAttribute('data-remove-date', '');
+		removeButton.setAttribute('aria-label', 'Remove this date');
+		removeButton.textContent = '✕';
+
+		controlsRow.append(dateInput, homeSelect, removeButton);
+		row.append(labelInput, controlsRow);
+		return row;
+	}
+
+	function restoreImportantDates(entries) {
+		if (!importantDatesList) return;
+		importantDatesList.innerHTML = '';
+		for (const entry of entries || []) {
+			const row = createImportantDateRow();
+			importantDatesList.appendChild(row);
+			const labelField = row.querySelector('[data-field="label"]');
+			const dateField = row.querySelector('[data-field="date"]');
+			const homeField = row.querySelector('[data-field="homeOverride"]');
+			if (labelField) labelField.value = entry.label || '';
+			if (dateField) dateField.value = entry.date || '';
+			if (homeField) homeField.value = entry.homeOverride || '';
+		}
+		updateAddImportantDateButtonState();
+	}
+
+	function updateImportantDateOptionLabels(parentAName, parentBName) {
+		document.querySelectorAll('[data-important-date-row] [data-field="homeOverride"]').forEach((select) => {
+			if (!(select instanceof HTMLSelectElement)) return;
+			const current = select.value;
+			const optionA = select.querySelector('option[value="A"]');
+			const optionB = select.querySelector('option[value="B"]');
+			if (optionA) optionA.textContent = parentAName;
+			if (optionB) optionB.textContent = parentBName;
+			select.value = current;
+		});
+	}
+
+	function updateAddImportantDateButtonState() {
+		if (!(addImportantDateButton instanceof HTMLButtonElement) || !importantDatesList) return;
+		const count = importantDatesList.querySelectorAll('[data-important-date-row]').length;
+		addImportantDateButton.disabled = count >= MAX_IMPORTANT_DATES;
+		addImportantDateButton.textContent = count >= MAX_IMPORTANT_DATES ? `Up to ${MAX_IMPORTANT_DATES} dates` : '+ Add a date';
+	}
+
+	function readImportantDates() {
+		return Array.from(document.querySelectorAll('[data-important-date-row]'))
+			.map((row, index) => ({
+				id: String(index),
+				label: row.querySelector('[data-field="label"]')?.value?.trim() ?? '',
+				date: row.querySelector('[data-field="date"]')?.value ?? '',
+				homeOverride: row.querySelector('[data-field="homeOverride"]')?.value || undefined,
+			}))
+			.filter((entry) => entry.label && entry.date);
+	}
+
+	function handleAddImportantDateClick() {
+		if (!importantDatesList) return;
+		if (importantDatesList.querySelectorAll('[data-important-date-row]').length >= MAX_IMPORTANT_DATES) return;
+
+		const row = createImportantDateRow();
+		importantDatesList.appendChild(row);
+		const data = form instanceof HTMLFormElement ? new FormData(form) : null;
+		updateImportantDateOptionLabels(String(data?.get('parentA') || 'Parent A'), String(data?.get('parentB') || 'Parent B'));
+		updateAddImportantDateButtonState();
+		row.querySelector('[data-field="label"]')?.focus();
+	}
+
+	function handleImportantDatesListClick(event) {
+		const target = event.target;
+		const button = target instanceof Element ? target.closest('[data-remove-date]') : null;
+		if (!button) return;
+
+		button.closest('[data-important-date-row]')?.remove();
+		updateAddImportantDateButtonState();
+		renderYear();
+	}
+
+	function renderMiniMonthGrid(yearSchedule) {
+		if (!miniMonthGrid) return;
+		miniMonthGrid.innerHTML = yearSchedule.months
+			.map((month, index) => {
+				const days = month.days
+					.map((day) => `<span class="aspect-square rounded-[2px] ${miniCellClass(day)}" aria-hidden="true"></span>`)
+					.join('');
+				const active = index === activeMonthIndex;
+				return `<button type="button" class="min-w-0 rounded-xl p-2 text-left shadow-[inset_0_0_0_1px_var(--border-subtle)] transition-colors hover:bg-surface ${active ? 'bg-surface ring-1 ring-accent' : 'bg-surface/60'}" data-mini-month data-month-index="${index}" aria-pressed="${active}">
+					<p class="truncate text-[11px] font-semibold text-secondary" data-mini-month-label>${month.monthLabel}</p>
+					<div class="mt-1.5 grid grid-cols-7 gap-[2px]" data-mini-month-days>${days}</div>
+				</button>`;
+			})
+			.join('');
+	}
+
+	function renderMonthlyView(yearSchedule) {
+		const month = yearSchedule.months[activeMonthIndex] ?? yearSchedule.months[0];
+		if (!month) return;
+
+		const todayIso = getBrowserTodayIso();
+
+		if (monthlyViewLabel) monthlyViewLabel.textContent = month.monthLabel;
+		if (monthlyViewDays) {
+			monthlyViewDays.innerHTML = month.days
+				.map((day) => {
+					const label = day.isPlaceholder ? '' : `<span class="leading-none">${day.dayOfMonth}</span>`;
+					const todayRing = day.date === todayIso ? ' ring-2 ring-inset ring-primary' : '';
+					const exchangeMarker = isTransitionDay(day) ? '<span class="absolute bottom-0.5 right-0.5 h-1.5 w-1.5 rounded-full bg-primary" aria-hidden="true"></span>' : '';
+					const importantMarker = isImportantDate(day) ? '<span class="absolute top-0.5 right-0.5 h-1.5 w-1.5 rounded-full bg-warning" aria-hidden="true"></span>' : '';
+					const titleText = importantDateTitle(day) || (isTransitionDay(day) ? 'Exchange day' : undefined);
+					const title = titleText ? ` title="${titleText.replace(/"/g, '&quot;')}"` : '';
+					return `<span class="relative flex aspect-square min-h-0 items-center justify-center rounded-xl px-0.5 text-xs font-semibold sm:rounded-2xl sm:text-sm ${dayCellClass(day)}${todayRing}"${title}>${label}${exchangeMarker}${importantMarker}</span>`;
+				})
+				.join('');
+		}
+		if (monthlyViewSummary) {
+			monthlyViewSummary.textContent = `${month.parentDayCounts.parentA} ${yearSchedule.parentNames.parentA} overnights · ${month.parentDayCounts.parentB} ${yearSchedule.parentNames.parentB} overnights this month.`;
+		}
+	}
+
+	function renderYearSummary(yearSchedule) {
+		if (yearRange) yearRange.textContent = `${yearSchedule.startDate} – ${yearSchedule.endDate}`;
+		if (yearParentALabel) yearParentALabel.textContent = yearSchedule.parentNames.parentA;
+		if (yearParentBLabel) yearParentBLabel.textContent = yearSchedule.parentNames.parentB;
+		if (yearParentAPercent) yearParentAPercent.textContent = `${yearSchedule.annualSummary.parentAPercentage}%`;
+		if (yearParentBPercent) yearParentBPercent.textContent = `${yearSchedule.annualSummary.parentBPercentage}%`;
+		if (yearParentADays) yearParentADays.textContent = `${yearSchedule.annualSummary.parentADays} overnights`;
+		if (yearParentBDays) yearParentBDays.textContent = `${yearSchedule.annualSummary.parentBDays} overnights`;
+		if (yearTotalDaysNote) yearTotalDaysNote.textContent = `${yearSchedule.annualSummary.totalDays}-day overnight estimate. Not legal advice.`;
+		if (legendParentALabel) legendParentALabel.textContent = yearSchedule.parentNames.parentA;
+		if (legendParentBLabel) legendParentBLabel.textContent = yearSchedule.parentNames.parentB;
+	}
+
+	function renderTodayCard(yearSchedule) {
+		if (!todayStatus) return;
+		const todayIso = getBrowserTodayIso();
+
+		if (todayIso < yearSchedule.startDate) {
+			todayStatus.textContent = `Your calendar starts ${yearSchedule.startDate}.`;
+			return;
+		}
+		if (todayIso > yearSchedule.endDate) {
+			todayStatus.textContent = `This preview covers ${yearSchedule.startDate} – ${yearSchedule.endDate}.`;
+			return;
+		}
+
+		// Only trust a day's parent when it actually fell inside the generated
+		// schedule — days before the start date still exist as grid cells but
+		// default to parentA in the underlying grid builder.
+		const allDays = yearSchedule.months.flatMap((month) => month.days.filter((day) => !day.isPlaceholder));
+		const allExchangeEvents = yearSchedule.months
+			.flatMap((month) => month.events ?? [])
+			.filter((event) => event.type === 'exchange')
+			.sort((a, b) => a.date.localeCompare(b.date));
+
+		const todayEntry = allDays.find((day) => day.date === todayIso && day.isCurrentMonth);
+		const nextExchange = allExchangeEvents.find((event) => event.date >= todayIso);
+		const todayParent = todayEntry ? todayEntry.parentName : '—';
+		const nextSwitchText = nextExchange
+			? (() => {
+				const days = differenceInCalendarDays(parseISO(nextExchange.date), parseISO(todayIso));
+				const daysText = days === 0 ? 'today' : `${days} day${days === 1 ? '' : 's'}`;
+				return `Next switch: ${nextExchange.date} (${daysText}) → ${nextExchange.parentName}`;
+			})()
+			: `No more switches through ${yearSchedule.endDate}.`;
+
+		todayStatus.innerHTML = `Today: <strong class="text-primary">${todayParent}</strong> · <span>${nextSwitchText}</span>`;
+	}
+
+	function renderYear() {
+		if (!(form instanceof HTMLFormElement)) return;
+
+		const data = new FormData(form);
+		const scheduleIdRaw = data.get('scheduleId');
+		const startDateValue = data.get('startDate');
+		const parentA = String(data.get('parentA') || 'Parent A');
+		const parentB = String(data.get('parentB') || 'Parent B');
+		const definition = definitions.find((item) => item.id === scheduleIdRaw) || definitions[0];
+		const selectedPattern = updateRatioPatternField(definition.id, String(data.get('pattern') || getDefaultRatioPattern(definition.id)));
+
+		const parsedStartDate = parseISO(String(startDateValue));
+		if (!isValid(parsedStartDate)) {
+			setFormStatus('Enter a valid start date to preview the full year.');
+			return;
+		}
+		setFormStatus('');
+
+		let yearSchedule;
+		try {
+			yearSchedule = generateYearSchedule({
+				scheduleId: definition.id,
+				startDate: String(startDateValue),
+				parentNames: { parentA, parentB },
+				sixtyFortyPattern: definition.id === '60-40' ? selectedPattern : undefined,
+				seventyThirtyPattern: definition.id === '70-30' ? selectedPattern : undefined,
+				eightyTwentyPattern: definition.id === '80-20' ? selectedPattern : undefined,
+			});
+		} catch {
+			setFormStatus('We could not build that calendar. Check the schedule and date, then try again.');
+			return;
+		}
+
+		updateImportantDateOptionLabels(parentA, parentB);
+		const importantDates = readImportantDates();
+		yearSchedule = applyImportantDates(yearSchedule, importantDates);
+
+		currentYearSchedule = yearSchedule;
+		currentScheduleMeta = {
+			scheduleId: definition.id,
+			startDate: String(startDateValue),
+			parentA,
+			parentB,
+			pattern: selectedPattern,
+			name: definition.name,
+			description: definition.description,
+			patternLabel: getRatioPatternOptions(definition.id).find((option) => option.id === selectedPattern)?.label,
+			childName: String(data.get('childName') || '').trim(),
+			importantDates,
+		};
+		activeMonthIndex = Math.min(activeMonthIndex, yearSchedule.months.length - 1);
+		renderYearSummary(yearSchedule);
+		renderTodayCard(yearSchedule);
+		renderMiniMonthGrid(yearSchedule);
+		renderMonthlyView(yearSchedule);
+	}
+
+	function handleMiniMonthClick(event) {
+		const target = event.target;
+		const button = target instanceof Element ? target.closest('[data-mini-month]') : null;
+		if (!(button instanceof HTMLElement) || !currentYearSchedule) return;
+
+		const index = Number(button.dataset.monthIndex);
+		if (Number.isNaN(index)) return;
+
+		activeMonthIndex = index;
+		renderMiniMonthGrid(currentYearSchedule);
+		renderMonthlyView(currentYearSchedule);
+	}
+
+	function handleLabelPresetClick(event) {
+		const target = event.target;
+		const button = target instanceof Element ? target.closest('[data-label-preset]') : null;
+		if (!(button instanceof HTMLElement)) return;
+
+		if (parentAInput instanceof HTMLInputElement) parentAInput.value = button.dataset.presetA || '';
+		if (parentBInput instanceof HTMLInputElement) parentBInput.value = button.dataset.presetB || '';
+		renderYear();
+	}
+
+	const PAYMENT_STATUS_ICONS = {
+		error: '<svg viewBox="0 0 24 24" fill="none" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 7.5v6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="16.5" r="1" fill="currentColor"/></svg>',
+		success: '<svg viewBox="0 0 24 24" fill="none" width="18" height="18" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M8 12.5l2.5 2.5L16 9.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+	};
+
+	function setPaymentStatus(message, tone) {
+		const isError = tone === 'error';
+		for (const statusEl of paymentStatusEls) {
+			statusEl.classList.toggle('hidden', !message);
+			if (!message) continue;
+
+			const text = statusEl.querySelector('[data-payment-status-text]');
+			const icon = statusEl.querySelector('[data-payment-status-icon]');
+			if (text) text.textContent = message;
+			statusEl.classList.toggle('border-danger/30', isError);
+			statusEl.classList.toggle('bg-danger/10', isError);
+			statusEl.classList.toggle('border-success/30', !isError);
+			statusEl.classList.toggle('bg-success/10', !isError);
+
+			if (icon) {
+				icon.className = `mt-0.5 shrink-0 ${isError ? 'text-danger' : 'text-success'}`;
+				icon.innerHTML = isError ? PAYMENT_STATUS_ICONS.error : PAYMENT_STATUS_ICONS.success;
+			}
+		}
+	}
+
+	function updateCheckoutButtonLabel() {
+		const text = getEntitlement() ? 'Download my full calendar PDF' : 'Buy — Generate my calendar ($14.99 once, lifetime)';
+		for (const button of checkoutButtons) {
+			const label = button.querySelector('[data-checkout-button-label]');
+			if (label) label.textContent = text;
+		}
+	}
+
+	function setCheckoutButtonsBusy(busy) {
+		for (const button of checkoutButtons) {
+			button.disabled = busy;
+			if (busy) button.setAttribute('aria-busy', 'true');
+			else button.removeAttribute('aria-busy');
+		}
+	}
+
+	function setCheckoutButtonsLabel(text) {
+		for (const button of checkoutButtons) {
+			const label = button.querySelector('[data-checkout-button-label]');
+			if (label) label.textContent = text;
+		}
+	}
+
+	function applyConfigToForm(config) {
+		if (!(form instanceof HTMLFormElement) || !config) return;
+
+		const scheduleInput = form.elements.namedItem('scheduleId');
+		if (scheduleInput instanceof HTMLSelectElement && config.scheduleId) {
+			try {
+				scheduleInput.value = normalizeScheduleType(config.scheduleId);
+			} catch {}
+		}
+		updateRatioPatternField(scheduleInput instanceof HTMLSelectElement ? scheduleInput.value : '', config.pattern);
+
+		const startInput = form.elements.namedItem('startDate');
+		if (startInput instanceof HTMLInputElement && config.startDate) startInput.value = config.startDate;
+		if (parentAInput instanceof HTMLInputElement && config.parentA) parentAInput.value = config.parentA;
+		if (parentBInput instanceof HTMLInputElement && config.parentB) parentBInput.value = config.parentB;
+		if (childNameInput instanceof HTMLInputElement) childNameInput.value = config.childName || '';
+		restoreImportantDates(config.importantDates);
+	}
+
+	async function downloadCurrentPdf() {
+		if (!checkoutButtons.length || !currentYearSchedule || !currentScheduleMeta) return;
+
+		setCheckoutButtonsBusy(true);
+		setCheckoutButtonsLabel('Preparing your PDF...');
+
+		try {
+			const pdfOptions = {
+				yearSchedule: currentYearSchedule,
+				scheduleName: currentScheduleMeta.name,
+				scheduleDescription: currentScheduleMeta.description,
+				patternLabel: currentScheduleMeta.patternLabel,
+				childName: currentScheduleMeta.childName || undefined,
+				importantDates: currentScheduleMeta.importantDates,
+			};
+			const bytes = await buildPremiumCalendarPdf(pdfOptions);
+			downloadBytes(bytes, buildCalendarFilename(pdfOptions));
+			setCheckoutButtonsLabel('PDF downloaded');
+			window.setTimeout(() => {
+				setCheckoutButtonsBusy(false);
+				updateCheckoutButtonLabel();
+			}, 2000);
+			return bytes;
+		} catch (error) {
+			setCheckoutButtonsLabel('PDF could not be created — try again');
+			setCheckoutButtonsBusy(false);
+			throw error;
+		}
+	}
+
+	// The sticky bottom bar duplicates this same button so it's always on
+	// screen — including before a visitor has touched the form above it. Without
+	// this check, that sticky copy lets someone fire a real $14.99 checkout on
+	// nothing but the untouched "Parent A" / "Parent B" defaults. Gating on
+	// actual personalization (not just "which button did they click") means
+	// checkout only proceeds once there's something of theirs to sell them —
+	// the same standard the promo banner's CTA already applies above the form.
+	function hasPersonalizedForm() {
+		const changedParentA = parentAInput instanceof HTMLInputElement && parentAInput.value.trim() && parentAInput.value.trim() !== 'Parent A';
+		const changedParentB = parentBInput instanceof HTMLInputElement && parentBInput.value.trim() && parentBInput.value.trim() !== 'Parent B';
+		const hasChildName = childNameInput instanceof HTMLInputElement && childNameInput.value.trim().length > 0;
+		const hasImportantDate = Boolean(document.querySelector('[data-important-date-row]'));
+		return Boolean(changedParentA || changedParentB || hasChildName || hasImportantDate);
+	}
+
+	function focusFormForPersonalization() {
+		if (form instanceof HTMLElement) {
+			form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		}
+		setPaymentStatus('Add your names (or a child\'s name) below so your calendar is actually personalized before you buy.', 'error');
+		window.setTimeout(() => {
+			if (parentAInput instanceof HTMLInputElement) parentAInput.focus();
+		}, 450);
+	}
+
+	async function handleCheckoutButtonClick() {
+		if (!checkoutButtons.length || !currentScheduleMeta) return;
+
+		if (getEntitlement()) {
+			try {
+				await downloadCurrentPdf();
+			} catch (error) {
+				console.error('Failed to generate the premium custody calendar PDF:', error);
+			}
+			return;
+		}
+
+		if (!hasPersonalizedForm()) {
+			focusFormForPersonalization();
+			return;
+		}
+
+		setCheckoutButtonsBusy(true);
+		setCheckoutButtonsLabel('Redirecting to checkout...');
+		setPaymentStatus('');
+
+		try {
+			await startCheckout({
+				scheduleId: currentScheduleMeta.scheduleId,
+				startDate: currentScheduleMeta.startDate,
+				parentA: currentScheduleMeta.parentA,
+				parentB: currentScheduleMeta.parentB,
+				pattern: currentScheduleMeta.pattern,
+				childName: currentScheduleMeta.childName,
+				importantDates: currentScheduleMeta.importantDates,
+			});
+			// startCheckout navigates the browser away on success — nothing else runs.
+		} catch (error) {
+			console.error('Failed to start checkout:', error);
+			setPaymentStatus('We could not start checkout. Please try again.', 'error');
+			setCheckoutButtonsBusy(false);
+			updateCheckoutButtonLabel();
+		}
+	}
+
+	async function handlePendingCheckoutOnLoad() {
+		const result = await resolvePendingCheckout();
+
+		if (result.status === 'paid') {
+			applyConfigToForm(result.config);
+			renderYear();
+			updateCheckoutButtonLabel();
+			setPaymentStatus('Payment successful! Generating your calendar…', 'success');
+
+			let bytes = null;
+			try {
+				bytes = await downloadCurrentPdf();
+			} catch (error) {
+				console.error('Payment succeeded but PDF generation failed:', error);
+				setPaymentStatus('Payment successful, but we could not generate your PDF just now. Click the button below to try again.', 'error');
+			}
+
+			// Offer the $7 Two-Home add-on right after a fresh purchase — the
+			// customer has just crossed the "yes I'll pay" threshold, which is
+			// when this converts best. Its own page rather than a modal, so the
+			// product photo can render at full size instead of being squeezed
+			// into a dialog. Redirect immediately rather than making the
+			// customer sit on this page through an email round-trip first —
+			// the PDF is already downloading locally by this point, and the
+			// email delivery finishes in the background once the offer page
+			// lands (see two-home-offer.astro). Skipped for a customer who
+			// already owns the pack — nothing to upsell, so finish here instead.
+			if (!getEntitlement('two-home')) {
+				if (bytes) {
+					window.sessionStorage.setItem(
+						'cb_pending_calendar_email',
+						JSON.stringify({ paymentId: result.entitlement.paymentId, pdfBase64: uint8ArrayToBase64(bytes), scheduleName: currentScheduleMeta?.name }),
+					);
+				}
+				const offerUrl = new URL('/two-home-offer/', window.location.origin);
+				const childName = currentScheduleMeta?.childName?.trim();
+				if (childName) offerUrl.searchParams.set('childName', childName);
+				window.location.href = offerUrl.toString();
+				return;
+			}
+
+			if (bytes) {
+				setPaymentStatus('Payment successful — your calendar downloaded. Emailing you a copy now…', 'success');
+				const delivery = await deliverPdfByEmail(result.entitlement.paymentId, bytes, currentScheduleMeta?.name);
+				setPaymentStatus(
+					delivery.customerEmailSent
+						? 'Payment successful — your calendar downloaded and emailed to you. You can download it again anytime from this browser.'
+						: 'Payment successful — your calendar downloaded. You can download it again anytime from this browser.',
+					'success',
+				);
+			}
+			return;
+		}
+
+		if (result.status === 'not-completed') {
+			setPaymentStatus('Checkout was not completed — no payment was made.', 'error');
+			return;
+		}
+
+		if (result.status === 'error') {
+			setPaymentStatus('We could not confirm your payment. If you completed checkout, refresh this page to try again.', 'error');
+		}
+	}
+
+	function toggleLicenseForm() {
+		if (!(licenseForm instanceof HTMLElement)) return;
+		const nowHidden = licenseForm.classList.toggle('hidden');
+		licenseForm.classList.toggle('grid', !nowHidden);
+		if (!nowHidden) licenseInput?.focus();
+	}
+
+	async function activateLicenseKey(rawKey) {
+		const licenseKey = rawKey.trim();
+		if (!licenseKey) return;
+
+		if (licenseActivateButton instanceof HTMLButtonElement) {
+			licenseActivateButton.disabled = true;
+			licenseActivateButton.textContent = 'Activating…';
+		}
+
+		const result = await activateWithLicenseKey(licenseKey);
+
+		if (licenseActivateButton instanceof HTMLButtonElement) {
+			licenseActivateButton.disabled = false;
+			licenseActivateButton.textContent = 'Activate';
+		}
+
+		if (result.ok) {
+			updateCheckoutButtonLabel();
+			setPaymentStatus(
+				result.product === 'calendar'
+					? 'License activated — build your schedule below, then click Download to get your PDF.'
+					: 'License activated — your Two-Home Transition Pack is unlocked below.',
+				'success',
+			);
+			licenseForm?.classList.add('hidden');
+			licenseForm?.classList.remove('grid');
+		} else {
+			setPaymentStatus(result.error, 'error');
+		}
+	}
+
+	function handleLicenseActivateButtonClick() {
+		activateLicenseKey(licenseInput instanceof HTMLInputElement ? licenseInput.value : '');
+	}
+
+	function handleLicenseInputKeydown(event) {
+		if (event.key === 'Enter') {
+			event.preventDefault();
+			handleLicenseActivateButtonClick();
+		}
+	}
+
+	/** A "Reactivate my calendar" email link lands here as ?license=CB-CAL-... — activate it automatically. */
+	async function handleLicenseQueryParamOnLoad() {
+		const params = new URLSearchParams(window.location.search);
+		const licenseKey = params.get('license');
+		if (!licenseKey) return;
+
+		await activateLicenseKey(licenseKey);
+
+		// Strip the key from the URL so it isn't left sitting in browser history
+		// or accidentally re-shared.
+		params.delete('license');
+		const query = params.toString();
+		window.history.replaceState({}, '', `${window.location.pathname}${query ? `?${query}` : ''}`);
+	}
+
+	form?.addEventListener('input', () => renderYear());
+	form?.addEventListener('change', () => renderYear());
+	miniMonthGrid?.addEventListener('click', handleMiniMonthClick);
+	labelPresets?.addEventListener('click', handleLabelPresetClick);
+	checkoutButtons.forEach((button) => button.addEventListener('click', handleCheckoutButtonClick));
+	// If a customer clicks "Buy", gets redirected to Dodo, then hits the
+	// browser Back button before finishing, the browser often restores this
+	// page from bfcache instead of reloading it — so the button stays stuck
+	// disabled with "Redirecting to checkout..." from the moment they left.
+	// pageshow with persisted:true is the signal a bfcache restore happened;
+	// reset the buttons so they're immediately usable again.
+	window.addEventListener('pageshow', (event) => {
+		if (!event.persisted) return;
+		setCheckoutButtonsBusy(false);
+		updateCheckoutButtonLabel();
+	});
+	addImportantDateButton?.addEventListener('click', handleAddImportantDateClick);
+	importantDatesList?.addEventListener('click', handleImportantDatesListClick);
+	licenseToggle?.addEventListener('click', toggleLicenseForm);
+	licenseActivateButton?.addEventListener('click', handleLicenseActivateButtonClick);
+	licenseInput?.addEventListener('keydown', handleLicenseInputKeydown);
+	applyQueryParamsToForm();
+	updateAddImportantDateButtonState();
+	renderYear();
+	updateCheckoutButtonLabel();
+	handlePendingCheckoutOnLoad();
+	handleLicenseQueryParamOnLoad();
+</script>

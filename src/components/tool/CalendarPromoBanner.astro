@@ -1,0 +1,779 @@
+---
+// Premium sales banner for the $14.99 personalized 12-month calendar PDF —
+// sits above the free schedule-builder tool on my-custody-calendar.astro.
+// Deliberately reuses the EXISTING checkout button in YearCalendarPanel
+// rather than re-implementing checkout: this banner's CTA forwards a click
+// to [data-checkout-button], which already handles starting checkout,
+// downloading (once entitled), disabled/error states, and duplicate-click
+// prevention. That's the only way to guarantee this banner can't cause a
+// duplicate charge or diverge from the proven purchase flow.
+//
+// The right-side preview is a faithful CSS/HTML reproduction of the real
+// PDF pages' actual layout and colors (verified against
+// src/lib/schedules/premiumPdfExport.ts — cover page banner treatment,
+// monthly-grid color coding, parent legend, important-date marker), built
+// with neutral sample data ("Alex", generic parent labels) rather than a
+// screenshot of a real customer's calendar or a generic stock graphic.
+---
+
+<section class="promo-banner-shell py-8 lg:py-10" aria-label="My Custody Calendar — 12-month PDF">
+	<div class="promo-banner mx-auto rounded-[1.75rem] border border-line-subtle" style="background: var(--surface-warm); box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 12px 32px -16px rgba(76, 29, 149, 0.14);" data-promo-banner>
+		<div class="promo-grid">
+			<p class="promo-area-eyebrow text-[11px] font-bold uppercase tracking-[0.18em]" style="color: var(--lavender-text)" data-promo-eyebrow>
+				Complete 12-month PDF · Pay once, yours for life
+			</p>
+
+			<h1 class="promo-area-headline promo-headline font-bold tracking-[-0.02em] text-primary" data-promo-headline>
+				Turn your schedule into a full-year calendar
+			</h1>
+
+			<p class="promo-area-desc max-w-[46ch] text-[15px] leading-7 text-secondary" data-promo-desc>
+				Get a personalized, print-ready PDF with a year overview, every monthly calendar, important dates, a schedule summary, and a child-friendly version.
+			</p>
+
+			<ul class="promo-area-benefits grid gap-2.5" data-promo-benefits>
+				<li class="flex items-start gap-2.5 text-sm leading-6 text-primary">
+					<svg class="mt-0.5 h-[18px] w-[18px] shrink-0" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="10" fill="var(--parent-b)" opacity="0.14" /><path d="M6 10.2 8.6 13 14 7" stroke="var(--parent-b)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+					<span>Your complete year in one PDF</span>
+				</li>
+				<li class="flex items-start gap-2.5 text-sm leading-6 text-primary">
+					<svg class="mt-0.5 h-[18px] w-[18px] shrink-0" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="10" fill="var(--parent-b)" opacity="0.14" /><path d="M6 10.2 8.6 13 14 7" stroke="var(--parent-b)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+					<span>Personalized with your schedule and important dates</span>
+				</li>
+				<li class="flex items-start gap-2.5 text-sm leading-6 text-primary">
+					<svg class="mt-0.5 h-[18px] w-[18px] shrink-0" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="10" fill="var(--parent-b)" opacity="0.14" /><path d="M6 10.2 8.6 13 14 7" stroke="var(--parent-b)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+					<span>Print at home whenever you need another copy</span>
+				</li>
+			</ul>
+
+			<div class="promo-area-cta">
+				<button
+					type="button"
+					class="btn-primary btn-primary--wrap flex min-h-[52px] w-full items-center justify-center rounded-full px-6 text-center text-[15px] font-semibold sm:w-auto sm:px-7"
+					data-promo-cta
+					aria-describedby="promo-cta-reassurance"
+				>
+					<span data-promo-cta-label>Get Started — $14.99 Once, Yours for Life</span>
+				</button>
+			</div>
+
+			<p class="promo-area-reassure text-center text-xs leading-5 text-muted sm:text-left" id="promo-cta-reassurance" data-promo-reassurance>
+				Pay once, keep it forever · no subscription, no per-calendar fees
+			</p>
+
+			<p class="promo-area-clarify text-xs leading-5 text-muted" data-promo-clarify>
+				Fill in your schedule below for free. A single $14.99 payment unlocks unlimited downloads of your calendar pack, for good.
+			</p>
+
+			<div class="promo-area-preview" data-promo-preview-wrap>
+				<div class="promo-preview-stack" aria-hidden="true">
+					<!-- Cover page — back-most layer -->
+					<div class="promo-page promo-page--cover">
+						<div class="promo-page__band" style="background: var(--parent-a); opacity: 0.16"></div>
+						<div class="promo-page__cover-title">Alex's Parenting Calendar</div>
+						<div class="promo-page__cover-line"></div>
+						<div class="promo-page__cover-line" style="width: 60%"></div>
+					</div>
+
+					<!-- Year-at-a-glance — middle layer -->
+					<div class="promo-page promo-page--year">
+						<div class="promo-page__label">Year at a Glance</div>
+						<div class="promo-year-grid">
+							{Array.from({ length: 12 }).map((_, month) => (
+								<div class="promo-year-month">
+									{Array.from({ length: 9 }).map((__, day) => <span class:list={['promo-year-dot', (day + month) % 3 === 0 ? 'is-b' : 'is-a']} />)}
+								</div>
+							))}
+						</div>
+					</div>
+
+					<!-- Kid-friendly page — small corner peek -->
+					<div class="promo-page promo-page--kid" role="img" aria-label="Child-friendly calendar page">
+						<span class="promo-page__kid-star">★</span>
+					</div>
+
+					<!-- Monthly page — front, most detailed -->
+					<div class="promo-page promo-page--month" role="img" aria-label="Sample monthly calendar page showing color-coded parenting days, a two-parent legend, and an important-date marker">
+						<div class="promo-month-head">
+							<span class="promo-month-name">March</span>
+							<span class="promo-month-legend">
+								<span class="promo-legend-dot" style="background: var(--parent-a)"></span>Home 1
+								<span class="promo-legend-dot" style="background: var(--parent-b)"></span>Home 2
+							</span>
+						</div>
+						<div class="promo-month-grid">
+							{[0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1].map((isB, index) => (
+								<div class:list={['promo-day', isB ? 'is-b' : 'is-a']}>
+									<span class="promo-day__num">{index + 1}</span>
+									{index === 10 && <span class="promo-day__marker" title="Important date" />}
+								</div>
+							))}
+						</div>
+					</div>
+
+					<span class="promo-badge promo-badge--pdf">12-Month PDF</span>
+					<span class="promo-badge promo-badge--personalized hidden" data-promo-personalized-badge>✓ Personalized</span>
+				</div>
+
+				<p class="mt-3 text-center text-xs font-medium text-muted">Your complete calendar pack</p>
+
+				<button type="button" class="mx-auto mt-2 flex items-center gap-1.5 text-xs font-semibold text-accent underline underline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-promo-preview-open>
+					Preview what's included
+				</button>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!-- Larger sample-page modal — native <dialog> gives us a correct focus trap, Escape-to-close, and focus restoration for free. -->
+<dialog class="promo-modal" data-promo-modal aria-labelledby="promo-modal-title">
+	<div class="promo-modal__inner">
+		<div class="flex items-start justify-between gap-4">
+			<div>
+				<h3 id="promo-modal-title" class="text-lg font-semibold tracking-[-0.02em] text-primary">What's inside your calendar pack</h3>
+				<p class="mt-1 text-sm leading-6 text-secondary">Six pages, built from your own schedule — shown here with sample names and dates.</p>
+			</div>
+			<button type="button" class="rounded-full p-2 text-muted hover:bg-page focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-promo-modal-close aria-label="Close preview">
+				<svg class="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 5l10 10M15 5 5 15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" /></svg>
+			</button>
+		</div>
+		<div class="promo-modal__grid">
+			<div class="promo-modal__page">
+				<div class="promo-page__band" style="background: var(--parent-a); opacity: 0.16"></div>
+				<p class="promo-modal__page-label">Cover page</p>
+				<div class="promo-page__cover-title" style="font-size: 13px">Alex's Parenting Calendar</div>
+			</div>
+			<div class="promo-modal__page">
+				<p class="promo-modal__page-label">Year overview</p>
+				<div class="promo-year-grid promo-year-grid--modal">
+					{Array.from({ length: 12 }).map((_, month) => (
+						<div class="promo-year-month">
+							{Array.from({ length: 9 }).map((__, day) => <span class:list={['promo-year-dot', (day + month) % 3 === 0 ? 'is-b' : 'is-a']} />)}
+						</div>
+					))}
+				</div>
+			</div>
+			<div class="promo-modal__page">
+				<p class="promo-modal__page-label">Every monthly page</p>
+				<div class="promo-month-grid promo-month-grid--modal">
+					{[0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1].map((isB, index) => (
+						<div class:list={['promo-day', isB ? 'is-b' : 'is-a']}>
+							<span class="promo-day__num">{index + 1}</span>
+						</div>
+					))}
+				</div>
+			</div>
+			<div class="promo-modal__page">
+				<p class="promo-modal__page-label">Important dates &amp; schedule summary</p>
+				<div class="promo-modal__lines">
+					<span></span><span style="width: 70%"></span><span style="width: 85%"></span>
+				</div>
+			</div>
+			<div class="promo-modal__page promo-modal__page--kid">
+				<p class="promo-modal__page-label">Child-friendly page</p>
+				<span class="promo-page__kid-star promo-page__kid-star--modal">★</span>
+			</div>
+		</div>
+	</div>
+</dialog>
+
+<style>
+	.promo-banner {
+		max-width: 1450px;
+		padding: 40px 20px;
+	}
+	@media (min-width: 640px) {
+		.promo-banner {
+			padding: 44px 40px;
+		}
+	}
+	@media (min-width: 1024px) {
+		.promo-banner {
+			padding: 48px;
+		}
+	}
+
+	.promo-grid {
+		display: grid;
+		row-gap: 16px;
+		grid-template-columns: 1fr;
+		grid-template-areas:
+			'eyebrow'
+			'headline'
+			'desc'
+			'preview'
+			'benefits'
+			'cta'
+			'reassure'
+			'clarify';
+	}
+	@media (min-width: 1024px) {
+		.promo-grid {
+			column-gap: 48px;
+			row-gap: 14px;
+			grid-template-columns: 1.22fr 1fr; /* ≈55/45 once column-gap is accounted for */
+			grid-template-areas:
+				'eyebrow  preview'
+				'headline preview'
+				'desc     preview'
+				'benefits preview'
+				'cta      preview'
+				'reassure preview'
+				'clarify  preview';
+		}
+	}
+
+	.promo-area-eyebrow {
+		grid-area: eyebrow;
+	}
+	.promo-area-headline {
+		grid-area: headline;
+	}
+	.promo-area-desc {
+		grid-area: desc;
+	}
+	.promo-area-benefits {
+		grid-area: benefits;
+	}
+	.promo-area-cta {
+		grid-area: cta;
+	}
+	.promo-area-reassure {
+		grid-area: reassure;
+	}
+	.promo-area-clarify {
+		grid-area: clarify;
+	}
+	.promo-area-preview {
+		grid-area: preview;
+		align-self: center;
+	}
+
+	.promo-headline {
+		font-size: 28px;
+		line-height: 1.15;
+	}
+	@media (min-width: 480px) {
+		.promo-headline {
+			font-size: 32px;
+		}
+	}
+	@media (min-width: 1024px) {
+		.promo-headline {
+			font-size: 40px;
+			line-height: 1.1;
+			max-width: 16ch;
+		}
+	}
+
+	/* The shared .btn-primary component class sets an unlayered min-height:48px
+	   that wins over any Tailwind min-h-* utility (Tailwind v4 utilities sit in
+	   @layer utilities, which loses to unlayered rules regardless of source
+	   order) — this banner's CTA needs a verified ≥52px, so it gets its own
+	   explicit, scoped override rather than changing the shared button height
+	   used by other CTAs across the site. */
+	[data-promo-cta] {
+		min-height: 52px;
+	}
+
+	/* ---- Preview stack ---- */
+	.promo-preview-stack {
+		position: relative;
+		height: 300px;
+		max-width: 360px;
+		margin: 0 auto;
+	}
+	@media (min-width: 480px) {
+		.promo-preview-stack {
+			height: 340px;
+		}
+	}
+	@media (min-width: 1024px) {
+		.promo-preview-stack {
+			height: 380px;
+			max-width: 100%;
+		}
+	}
+
+	.promo-page {
+		position: absolute;
+		border-radius: 10px;
+		background: var(--surface-elevated, #fff);
+		border: 1px solid var(--border-subtle);
+		box-shadow: 0 8px 20px -10px rgba(15, 23, 42, 0.25);
+		overflow: hidden;
+	}
+
+	.promo-page--cover {
+		top: 6%;
+		left: 2%;
+		width: 62%;
+		height: 78%;
+		transform: rotate(-6deg);
+		padding: 14px;
+	}
+	.promo-page__band {
+		position: absolute;
+		inset: 0 0 auto 0;
+		height: 34%;
+	}
+	.promo-page__cover-title {
+		position: relative;
+		margin-top: 22%;
+		font-size: 11px;
+		font-weight: 700;
+		color: var(--text-primary, #0f1f3d);
+		line-height: 1.3;
+	}
+	.promo-page__cover-line {
+		height: 4px;
+		border-radius: 2px;
+		background: var(--border-subtle);
+		margin-top: 8px;
+		width: 80%;
+	}
+
+	.promo-page--year {
+		top: 0;
+		right: 0;
+		width: 68%;
+		height: 62%;
+		transform: rotate(4deg);
+		padding: 10px 12px;
+	}
+	.promo-page__label {
+		font-size: 9px;
+		font-weight: 700;
+		color: var(--text-muted, #5a6478);
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		margin-bottom: 6px;
+	}
+	.promo-year-grid {
+		display: grid;
+		grid-template-columns: repeat(4, 1fr);
+		gap: 5px;
+	}
+	.promo-year-month {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 1.5px;
+	}
+	.promo-year-dot {
+		width: 100%;
+		aspect-ratio: 1;
+		border-radius: 1px;
+		background: var(--parent-a);
+		opacity: 0.45;
+	}
+	.promo-year-dot.is-b {
+		background: var(--parent-b);
+	}
+
+	.promo-page--kid {
+		bottom: 4%;
+		right: 4%;
+		width: 30%;
+		height: 30%;
+		display: grid;
+		place-items: center;
+		background: var(--lavender-soft);
+		transform: rotate(-3deg);
+	}
+	.promo-page__kid-star {
+		font-size: 28px;
+		color: var(--lavender);
+	}
+	.promo-page__kid-star--modal {
+		font-size: 44px;
+	}
+
+	.promo-page--month {
+		bottom: 0;
+		left: 8%;
+		width: 78%;
+		height: 68%;
+		padding: 12px 14px;
+	}
+	.promo-month-head {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 6px;
+		margin-bottom: 8px;
+	}
+	.promo-month-name {
+		font-size: 15px;
+		font-weight: 700;
+		color: var(--text-primary, #0f1f3d);
+	}
+	.promo-month-legend {
+		display: flex;
+		align-items: center;
+		gap: 4px;
+		font-size: 8px;
+		color: var(--text-muted, #5a6478);
+	}
+	.promo-legend-dot {
+		width: 6px;
+		height: 6px;
+		border-radius: 1px;
+		margin-left: 4px;
+	}
+	.promo-legend-dot:first-child {
+		margin-left: 0;
+	}
+	.promo-month-grid {
+		display: grid;
+		grid-template-columns: repeat(7, 1fr);
+		gap: 3px;
+	}
+	.promo-day {
+		position: relative;
+		aspect-ratio: 1;
+		border-radius: 4px;
+		background: color-mix(in srgb, var(--parent-a) 16%, transparent);
+	}
+	.promo-day.is-b {
+		background: color-mix(in srgb, var(--parent-b) 16%, transparent);
+	}
+	.promo-day__num {
+		position: absolute;
+		top: 2px;
+		left: 3px;
+		font-size: 7px;
+		font-weight: 700;
+		color: var(--parent-a);
+	}
+	.promo-day.is-b .promo-day__num {
+		color: var(--parent-b);
+	}
+	.promo-day__marker {
+		position: absolute;
+		bottom: 2px;
+		right: 2px;
+		width: 5px;
+		height: 5px;
+		border-radius: 50%;
+		background: #f59e0b;
+	}
+
+	.promo-badge {
+		position: absolute;
+		border-radius: 999px;
+		padding: 5px 11px;
+		font-size: 10.5px;
+		font-weight: 700;
+		white-space: nowrap;
+		box-shadow: 0 4px 10px -4px rgba(15, 23, 42, 0.3);
+	}
+	.promo-badge--pdf {
+		top: -4px;
+		left: -6px;
+		background: var(--surface-elevated, #fff);
+		border: 1px solid var(--border-subtle);
+		color: var(--text-primary, #0f1f3d);
+	}
+	.promo-badge--personalized {
+		bottom: 30%;
+		left: -8px;
+		background: var(--parent-b);
+		color: #fff;
+	}
+
+	/* ---- Modal ---- */
+	.promo-modal {
+		border: none;
+		border-radius: 1.5rem;
+		padding: 0;
+		max-width: min(680px, calc(100vw - 32px));
+		width: 100%;
+		background: var(--surface-warm);
+		box-shadow: 0 24px 60px -20px rgba(15, 23, 42, 0.35);
+	}
+	.promo-modal::backdrop {
+		background: rgba(15, 23, 42, 0.45);
+	}
+	.promo-modal__inner {
+		padding: 24px;
+		max-height: 85vh;
+		overflow-y: auto;
+	}
+	.promo-modal__grid {
+		margin-top: 20px;
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 14px;
+	}
+	@media (min-width: 640px) {
+		.promo-modal__grid {
+			grid-template-columns: repeat(3, 1fr);
+		}
+	}
+	.promo-modal__page {
+		position: relative;
+		border-radius: 12px;
+		border: 1px solid var(--border-subtle);
+		background: var(--surface-elevated, #fff);
+		padding: 12px;
+		min-height: 130px;
+		overflow: hidden;
+	}
+	.promo-modal__page-label {
+		font-size: 10px;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		color: var(--text-muted, #5a6478);
+		margin-bottom: 8px;
+	}
+	.promo-modal__page--kid {
+		display: grid;
+		place-items: center;
+		background: var(--lavender-soft);
+	}
+	.promo-year-grid--modal {
+		gap: 4px;
+	}
+	.promo-month-grid--modal {
+		grid-template-columns: repeat(4, 1fr);
+	}
+	.promo-modal__lines span {
+		display: block;
+		height: 5px;
+		border-radius: 2px;
+		background: var(--border-subtle);
+		margin-top: 8px;
+		width: 100%;
+	}
+	.promo-modal__lines span:first-child {
+		margin-top: 0;
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.promo-modal[open] {
+			animation: promo-modal-in 160ms ease-out;
+		}
+	}
+	@keyframes promo-modal-in {
+		from {
+			opacity: 0;
+			transform: translateY(8px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+</style>
+
+<script>
+	import { ENTITLEMENT_UPDATED_EVENT, getEntitlement } from '../../lib/payments/dodoCheckout';
+
+	const PRODUCT_ID = 'calendar_12mo';
+	const BANNER_LOCATION = 'my_custody_calendar_hero';
+
+	function track(event: string, extra: Record<string, unknown> = {}) {
+		if (typeof window.gtag === 'function') {
+			window.gtag('event', event, { banner_location: BANNER_LOCATION, product_id: PRODUCT_ID, ...extra });
+		}
+	}
+
+	const banner = document.querySelector('[data-promo-banner]');
+	const ctaButton = document.querySelector('[data-promo-cta]');
+	const ctaLabel = document.querySelector('[data-promo-cta-label]');
+	const reassuranceEl = document.querySelector('[data-promo-reassurance]');
+	const personalizedBadge = document.querySelector('[data-promo-personalized-badge]');
+	const previewOpenButton = document.querySelector('[data-promo-preview-open]');
+	const modal = document.querySelector('[data-promo-modal]');
+	const modalCloseButton = document.querySelector('[data-promo-modal-close]');
+
+	// The real checkout button this banner's CTA forwards to — rendered by
+	// YearCalendarPanel further down the same page. Reusing it (rather than
+	// re-implementing checkout here) is what guarantees this banner can't
+	// diverge from the proven start-checkout / download / error-handling /
+	// duplicate-submission-prevention logic already in place there.
+	function realCheckoutButton(): HTMLButtonElement | null {
+		return document.querySelector('[data-checkout-button]');
+	}
+
+	function isEntitled(): boolean {
+		return Boolean(getEntitlement('calendar'));
+	}
+
+	function syncPurchasedState() {
+		if (!(ctaLabel instanceof HTMLElement) || !(reassuranceEl instanceof HTMLElement)) return;
+		if (isEntitled()) {
+			ctaLabel.textContent = 'Open My Calendar';
+			reassuranceEl.textContent = 'Your calendar is ready to download anytime from this browser.';
+		} else {
+			ctaLabel.textContent = 'Get Started — $14.99 Once, Yours for Life';
+			reassuranceEl.textContent = 'Pay once, keep it forever · no subscription, no per-calendar fees';
+		}
+	}
+
+	// Scrolls to (and focuses) the free schedule-builder form further down the
+	// page. Used when the customer isn't entitled yet — sending them straight
+	// to checkout from here would charge them for whatever default/unfilled
+	// values happen to be in the form, so this button's job is to get them
+	// filling in their own info first; the real checkout button lives right
+	// below that form and is the only one that should fire checkout directly.
+	function scrollToForm() {
+		track('calendar_banner_scroll_to_form');
+		const formSection = document.getElementById('build-your-schedule') ?? document.querySelector('[data-year-calendar-app]');
+		if (formSection instanceof HTMLElement) {
+			formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		}
+		const firstField = document.querySelector('input[name="parentA"]');
+		if (firstField instanceof HTMLInputElement) {
+			window.setTimeout(() => firstField.focus(), 450);
+		}
+	}
+
+	// "Personalized" only once the customer has actually changed something
+	// from the free tool's defaults — never claimed for an untouched form.
+	function computePersonalized(): boolean {
+		const parentA = document.querySelector('input[name="parentA"]');
+		const parentB = document.querySelector('input[name="parentB"]');
+		const childName = document.querySelector('input[name="childName"]');
+		const hasImportantDate = Boolean(document.querySelector('[data-important-date-row]'));
+		const changedParentA = parentA instanceof HTMLInputElement && parentA.value.trim() && parentA.value.trim() !== 'Parent A';
+		const changedParentB = parentB instanceof HTMLInputElement && parentB.value.trim() && parentB.value.trim() !== 'Parent B';
+		const hasChildName = childName instanceof HTMLInputElement && childName.value.trim().length > 0;
+		return Boolean(changedParentA || changedParentB || hasChildName || hasImportantDate);
+	}
+
+	function syncPersonalizedBadge() {
+		if (!(personalizedBadge instanceof HTMLElement)) return;
+		personalizedBadge.classList.toggle('hidden', !computePersonalized());
+	}
+
+	// Forwards to the real checkout/download button rather than duplicating
+	// its logic — see the module comment above. Disables itself synchronously
+	// (rather than waiting on the MutationObserver below, which runs as a
+	// microtask) so a rapid double-click can't forward twice before the real
+	// button's own disabled state has propagated back to this one.
+	async function handleCtaClick() {
+		track('calendar_banner_cta_clicked');
+
+		// Not entitled yet: this button's job is to get the customer filling in
+		// their own info, not to fire checkout on whatever default/unfilled
+		// values are currently sitting in the form. Only the real checkout
+		// button attached to the form itself (further down the page) should
+		// ever start checkout directly.
+		if (!isEntitled()) {
+			scrollToForm();
+			return;
+		}
+
+		const target = realCheckoutButton();
+		if (!(target instanceof HTMLButtonElement) || target.disabled) return;
+		if (ctaButton instanceof HTMLButtonElement) ctaButton.disabled = true;
+		target.click();
+	}
+
+	// Mirrors the real button's disabled state and label onto this banner's
+	// own CTA — clicking either button is otherwise safe from a duplicate
+	// submission (a disabled button doesn't dispatch click events, so
+	// forwarding to an already-disabled target is a no-op), but a customer
+	// looking at THIS button specifically should still see it go
+	// disabled/"Redirecting…"/etc. rather than sitting there looking idle
+	// while the real button below has already started processing. Syncing
+	// to the real button's own wording (rather than inventing a second,
+	// slightly-different loading phrase here) keeps every status message
+	// the customer sees accurate to what's actually happening.
+	function syncCtaBusyState() {
+		const target = realCheckoutButton();
+		if (!(target instanceof HTMLButtonElement) || !(ctaButton instanceof HTMLButtonElement) || !(ctaLabel instanceof HTMLElement)) return;
+		ctaButton.disabled = target.disabled;
+		const targetLabelEl = target.querySelector('[data-checkout-button-label]');
+		if (target.disabled && targetLabelEl) ctaLabel.textContent = targetLabelEl.textContent;
+		else syncPurchasedState();
+	}
+
+	function openPreviewModal() {
+		if (!(modal instanceof HTMLDialogElement)) return;
+		track('calendar_banner_preview_opened');
+		modal.showModal();
+	}
+
+	function closePreviewModal() {
+		if (modal instanceof HTMLDialogElement) modal.close();
+	}
+
+	ctaButton?.addEventListener('click', handleCtaClick);
+	previewOpenButton?.addEventListener('click', openPreviewModal);
+	modalCloseButton?.addEventListener('click', closePreviewModal);
+	modal?.addEventListener('click', (event) => {
+		// Click on the backdrop (the ::backdrop pseudo-element registers as a
+		// click on the dialog itself, outside .promo-modal__inner) closes it.
+		if (event.target === modal) closePreviewModal();
+	});
+
+	document.addEventListener('input', (event) => {
+		const target = event.target;
+		if (target instanceof HTMLInputElement && ['parentA', 'parentB', 'childName'].includes(target.name)) {
+			syncPersonalizedBadge();
+		}
+	});
+	document.addEventListener('click', () => {
+		// Adding/removing an important-date row doesn't fire an 'input' event
+		// on those specific fields — a light delay after any click covers the
+		// "+ Add a date" / remove-row buttons without needing their exact selectors.
+		window.setTimeout(syncPersonalizedBadge, 50);
+	});
+
+	window.addEventListener(ENTITLEMENT_UPDATED_EVENT, ((event: CustomEvent) => {
+		if (event.detail?.product === 'calendar') {
+			track('calendar_banner_purchase_completed');
+			syncPurchasedState();
+		}
+	}) as EventListener);
+
+	// Purchase-failure detection: mirrors YearCalendarPanel's own status
+	// element rather than duplicating its checkout error handling — when it
+	// applies its error-tone class, that's a failed/cancelled checkout.
+	const statusEls = document.querySelectorAll('[data-payment-status]');
+	statusEls.forEach((el) => {
+		const observer = new MutationObserver(() => {
+			if (el.classList.contains('border-danger/30')) track('calendar_banner_purchase_failed');
+		});
+		observer.observe(el, { attributes: true, attributeFilter: ['class'] });
+	});
+
+	// Keeps this banner's own CTA visually in sync (disabled state + label)
+	// with the real checkout button it forwards clicks to — see
+	// syncCtaBusyState's comment for why this mirrors rather than invents
+	// its own loading copy.
+	const realTarget = realCheckoutButton();
+	if (realTarget) {
+		const busyObserver = new MutationObserver(syncCtaBusyState);
+		busyObserver.observe(realTarget, { attributes: true, attributeFilter: ['disabled'] });
+		const realLabelEl = realTarget.querySelector('[data-checkout-button-label]');
+		if (realLabelEl) {
+			const labelObserver = new MutationObserver(syncCtaBusyState);
+			labelObserver.observe(realLabelEl, { characterData: true, childList: true, subtree: true });
+		}
+	}
+
+	if (banner instanceof HTMLElement && 'IntersectionObserver' in window) {
+		const seen = { fired: false };
+		const io = new IntersectionObserver(
+			(entries) => {
+				if (seen.fired) return;
+				for (const entry of entries) {
+					if (entry.isIntersecting) {
+						seen.fired = true;
+						track('calendar_banner_viewed');
+						io.disconnect();
+					}
+				}
+			},
+			{ threshold: 0.4 },
+		);
+		io.observe(banner);
+	}
+
+	syncPurchasedState();
+	syncPersonalizedBadge();
+</script>

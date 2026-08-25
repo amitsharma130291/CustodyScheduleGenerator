@@ -3,6 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
+import CalendarUpsellCard from '../components/CalendarUpsellCard.astro';
+import TwoHomeUpsellCard from '../components/TwoHomeUpsellCard.astro';
 import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import FAQ from '../components/FAQ.astro';
@@ -169,7 +171,7 @@ const schema = [
 							<tr>
 								<td class="py-3 pr-4 font-medium text-primary">PDF calendar export</td>
 								<td class="py-3 pr-4">No dedicated export</td>
-								<td class="py-3">Yes — monthly and yearly PDF</td>
+								<td class="py-3">Yes — monthly PDF free, full 12-month calendar as a paid product</td>
 							</tr>
 							<tr>
 								<td class="py-3 pr-4 font-medium text-primary">Overnight count calculator</td>
@@ -274,7 +276,7 @@ const schema = [
 					</article>
 					<article class="rounded-xl border border-line bg-surface/40 p-5">
 						<h3 class="text-base font-semibold text-primary">Scenario 3 — Showing a judge a clear schedule</h3>
-						<p class="mt-2 text-sm leading-6 text-secondary">Tom is representing himself in a custody modification. The judge asks for a proposed schedule in writing. Tom builds a week-on/week-off schedule in CustodyBuilder, downloads the monthly and yearly PDF calendars, and brings them to court.</p>
+						<p class="mt-2 text-sm leading-6 text-secondary">Tom is representing himself in a custody modification. The judge asks for a proposed schedule in writing. Tom builds a week-on/week-off schedule in CustodyBuilder, downloads the monthly PDF calendar, and brings it to court.</p>
 					</article>
 				</div>
 			</div>
@@ -303,6 +305,11 @@ const schema = [
 				<li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span><span>Also see: <a href="/talkingparents-alternative/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">TalkingParents alternative</a> and <a href="/custody-x-change-alternative/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Custody X Change alternative</a> comparisons.</span></li>
 				</ul>
 			</div>
+		</section>
+
+		<section class="container-shell">
+			<CalendarUpsellCard lead="No $110–$300/year OurFamilyWizard subscription — just your calendar." />
+			<TwoHomeUpsellCard />
 		</section>
 
 		<FAQ items={faqItems} title="OurFamilyWizard alternative FAQ" description="Common questions about using CustodyBuilder instead of OurFamilyWizard for custody scheduling." />

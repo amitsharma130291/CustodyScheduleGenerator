@@ -3,6 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
+import CalendarUpsellCard from '../components/CalendarUpsellCard.astro';
+import TwoHomeUpsellCard from '../components/TwoHomeUpsellCard.astro';
 import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import FAQ from '../components/FAQ.astro';
@@ -345,6 +347,11 @@ const schema = [
 				<li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span><span>For Texas families, the <a href="/texas-standard-possession-order/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Texas standard possession order</a> is the default physical-custody arrangement.</span></li>
 				</ul>
 			</div>
+		</section>
+
+		<section class="container-shell">
+			<CalendarUpsellCard lead="Once physical custody is settled, that arrangement still needs to become a schedule you can actually use day to day." />
+			<TwoHomeUpsellCard />
 		</section>
 
 		<FAQ items={faqItems} title={faqSection.title} description={faqSection.description} />

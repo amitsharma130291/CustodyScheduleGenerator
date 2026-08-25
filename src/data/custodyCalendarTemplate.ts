@@ -78,7 +78,7 @@ export const schoolSummer = {
 
 export const printExport = {
 	title: 'Print Or Save The Monthly PDF',
-	body: 'Use monthly PDF export for mediation binders. Use yearly PDF when the court wants a single attachment covering all school months.',
+	body: 'Use monthly PDF export for mediation binders. For a single attachment covering all school months, build a full 12-month calendar with My Custody Calendar.',
 	primaryHref: '/custody-schedule-template/',
 	primaryLabel: 'View rotation rules',
 	secondaryHref: '/custody-schedule-generator/',
@@ -90,7 +90,7 @@ export const faqSection = { title: 'Custody calendar template FAQ', description:
 export const faqItems = [
 	{ question: 'What is a custody calendar template for?', answer: 'Rendering the recurring rotation as a color-coded month grid for printing, mediation, and school-office reference — not writing legal clauses.' },
 	{ question: 'How is this different from the schedule template?', answer: 'The schedule template documents rotation rules in text. The calendar template shows the same rules as dated cells parents can hang on a wall.' },
-	{ question: 'Can I print a full school year?', answer: 'Yes. Export monthly or yearly PDF from the generator after setting your start date and parent labels.' },
+	{ question: 'Can I print a full school year?', answer: 'Yes. Export a monthly PDF from the generator for one month at a time, or build a full 12-month printable calendar with My Custody Calendar.' },
 	{ question: 'How do holidays appear on the calendar?', answer: 'Override days replace base cell colors for the holiday block start through end time. Build the override table on the holiday custody page first.' },
 	{ question: 'Should summer use the same grid as the school year?', answer: 'Only if summer follows the same pattern. Many orders switch to continuous summer blocks — print separate June–August pages.' },
 	{ question: 'Does the calendar include decision-making sections?', answer: 'No. Medical, school, and dispute clauses belong on the parenting plan template.' },

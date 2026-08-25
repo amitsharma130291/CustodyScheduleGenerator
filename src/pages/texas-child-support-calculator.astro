@@ -5,6 +5,8 @@ import Footer from '../components/Footer.astro';
 import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import FAQ from '../components/FAQ.astro';
+import CalendarUpsellCard from '../components/CalendarUpsellCard.astro';
+import TwoHomeUpsellCard from '../components/TwoHomeUpsellCard.astro';
 import TexasChildSupportCalculator from '../components/tool/TexasChildSupportCalculator.astro';
 import TexasIncomeFlowGraphic from '../components/tools/texas-child-support-calculator/TexasIncomeFlowGraphic.astro';
 import SupportWorksheetGraphic from '../components/tools/texas-child-support-calculator/SupportWorksheetGraphic.astro';
@@ -209,6 +211,11 @@ const schema = [
 				<li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span><span>Understand the <a href="/texas-standard-possession-order/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Texas standard possession order</a> — the default schedule that determines the baseline parenting-time split.</span></li>
 				</ul>
 			</div>
+		</section>
+
+		<section class="container-shell">
+			<CalendarUpsellCard lead="You've worked through your Texas guideline percentage of net resources." />
+			<TwoHomeUpsellCard />
 		</section>
 
 		<FAQ items={faqItems} title={faqSection.title} description={faqSection.description} />

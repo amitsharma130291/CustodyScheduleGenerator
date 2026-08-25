@@ -6,6 +6,8 @@ import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import FAQ from '../components/FAQ.astro';
 import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
+import CalendarUpsellCard from '../components/CalendarUpsellCard.astro';
+import TwoHomeUpsellCard from '../components/TwoHomeUpsellCard.astro';
 import CaliforniaChildSupportCalculator from '../components/tool/CaliforniaChildSupportCalculator.astro';
 import { getCanonicalUrl } from '../lib/seo/metadata';
 import { buildArticleSchema, buildBreadcrumbSchema, buildFAQSchema, buildWebPageSchema, buildSoftwareApplicationSchema, buildOrganizationSchema } from '../lib/seo/schema';const title = "California Child Support Calculator 2026";
@@ -217,6 +219,10 @@ const commonMistakes = [{ title: "Not accounting for add-ons when evaluating an 
         ))}
       </div>
       <div class="mt-8"><BackToGeneratorCta /></div>
+    </section>
+    <section class="container-shell">
+      <CalendarUpsellCard lead="You've seen how timeshare percentage moves your California support estimate." />
+      <TwoHomeUpsellCard />
     </section>
     <FAQ items={faqItems} title="California Child Support — Frequently Asked Questions" description="Common questions about California's Statewide Uniform Guideline, timeshare percentage, and add-on expenses." />
     <section class="container-shell border-t border-line-subtle py-8 lg:max-w-5xl">

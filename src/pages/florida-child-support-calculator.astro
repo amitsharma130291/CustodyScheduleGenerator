@@ -6,6 +6,8 @@ import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import FAQ from '../components/FAQ.astro';
 import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
+import CalendarUpsellCard from '../components/CalendarUpsellCard.astro';
+import TwoHomeUpsellCard from '../components/TwoHomeUpsellCard.astro';
 import FloridaChildSupportCalculator from '../components/tool/FloridaChildSupportCalculator.astro';
 import { getCanonicalUrl } from '../lib/seo/metadata';
 import { buildArticleSchema, buildBreadcrumbSchema, buildFAQSchema, buildWebPageSchema, buildSoftwareApplicationSchema, buildOrganizationSchema } from '../lib/seo/schema';const title = "Florida Child Support Calculator 2026";
@@ -191,6 +193,10 @@ const commonMistakes = [{ title: "Not documenting the children's health insuranc
         ))}
       </div>
       <div class="mt-8"><BackToGeneratorCta /></div>
+    </section>
+    <section class="container-shell">
+      <CalendarUpsellCard lead="You've seen how the 73-overnight threshold changes your Florida support estimate." />
+      <TwoHomeUpsellCard />
     </section>
     <FAQ items={faqItems} title="Florida Child Support \u2014 Frequently Asked Questions" description="Common questions about Florida's Income Shares model, the 73-overnight threshold, and how courts apply the guidelines." />
     <section class="container-shell border-t border-line-subtle py-8 lg:max-w-5xl">

@@ -66,7 +66,7 @@ export interface ScheduleDay {
 	patternIndex: number;
 }
 
-export type ScheduleEventType = 'dinner' | 'day-visit' | 'school-pickup' | 'exchange';
+export type ScheduleEventType = 'dinner' | 'day-visit' | 'school-pickup' | 'exchange' | 'important-date';
 
 export interface ScheduleEvent {
 	date: string;

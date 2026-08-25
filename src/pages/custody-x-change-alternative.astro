@@ -3,6 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
+import CalendarUpsellCard from '../components/CalendarUpsellCard.astro';
+import TwoHomeUpsellCard from '../components/TwoHomeUpsellCard.astro';
 import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import FAQ from '../components/FAQ.astro';
@@ -52,7 +54,7 @@ const faqItems = [
 	{
 		question: 'What format does CustodyBuilder export in?',
 		answer:
-			'PDF — monthly and yearly calendar views. These can be attached to a parenting plan as a schedule exhibit.',
+			'PDF — a free monthly calendar view, or a full 12-month calendar as a paid product. These can be attached to a parenting plan as a schedule exhibit.',
 	},
 ];
 
@@ -111,7 +113,7 @@ const schema = [
 						Custody X Change is a parenting plan software. It generates a complete written document: schedule provisions, legal language, holiday schedules, dispute resolution clauses, and a visual calendar — all formatted as a court-ready document you can file without an attorney writing it from scratch.
 					</p>
 					<p>
-						CustodyBuilder generates the schedule and calendar component: the rotation pattern, which parent has the child on which days, monthly and yearly PDF calendars, and overnight counts. It doesn't generate legal plan language or holiday provisions. What it produces is the schedule exhibit — the visual calendar and overnight breakdown that typically gets attached to a parenting plan.
+						CustodyBuilder generates the schedule and calendar component: the rotation pattern, which parent has the child on which days, monthly PDF calendars, and overnight counts. It doesn't generate legal plan language or holiday provisions. What it produces is the schedule exhibit — the visual calendar and overnight breakdown that typically gets attached to a parenting plan.
 					</p>
 					<p>
 						CustodyBuilder is free. CXC is paid (historically in the $50–$180 range depending on tier — verify current pricing on their site before purchasing).
@@ -243,6 +245,11 @@ const schema = [
 				<li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span><span>Also compare the <a href="/free-ourfamilywizard-alternative/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">free OurFamilyWizard alternative</a> for a browser-based option.</span></li>
 				</ul>
 			</div>
+		</section>
+
+		<section class="container-shell">
+			<CalendarUpsellCard lead="No $50–$180 Custody X Change subscription — just a one-time $14.99." />
+			<TwoHomeUpsellCard />
 		</section>
 
 		<FAQ items={faqItems} title="Custody X Change alternative FAQ" description="Common questions about using CustodyBuilder instead of Custody X Change." />

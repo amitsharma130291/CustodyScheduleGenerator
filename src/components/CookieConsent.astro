@@ -49,6 +49,18 @@
 		box-shadow: 0 20px 50px rgba(15, 23, 42, 0.18);
 		padding: 1rem 1.15rem;
 	}
+
+	/* Pages with a pinned bottom checkout bar (e.g. My Custody Calendar) need this
+	   banner to sit above that bar instead of covering it — otherwise a first-time
+	   visitor can't see the buy button until they dismiss the cookie prompt. */
+	body:has([data-checkout-bar]) .cb-cookie-consent {
+		bottom: 7.5rem;
+	}
+	@media (min-width: 1024px) {
+		body:has([data-checkout-bar]) .cb-cookie-consent {
+			bottom: 6rem;
+		}
+	}
 	.cb-cookie-consent[hidden] {
 		display: none;
 	}

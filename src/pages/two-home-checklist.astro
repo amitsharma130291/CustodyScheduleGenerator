@@ -1,0 +1,502 @@
+---
+// Dedicated page for the $7 Two-Home Transition Pack: the questionnaire,
+// checkout, and post-payment download/email all live here now, as their
+// own destination rather than a section embedded (and entitlement-hidden)
+// inside my-custody-calendar.astro. That embedding was the root cause of a
+// real bug: Dodo's return_url landed the customer back on the calendar
+// page, and if THIS browser didn't currently have a 'calendar' entitlement
+// in localStorage (a different device/browser than the original calendar
+// purchase, cleared storage, etc.), the whole section — form AND the
+// post-payment success/download state — was hidden, so a customer who had
+// genuinely just paid saw nothing and got no PDF.
+//
+// Fix: this page resolves a pending checkout FIRST, unconditionally, before
+// checking anything about calendar entitlement — a successful payment
+// always produces a visible success state and a download, no matter what
+// else is or isn't in this browser's storage. The calendar-entitlement
+// check only gates whether the QUESTIONNAIRE FORM (for a new purchase) is
+// shown; it never gates the post-payment result.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout
+	title="Your Two-Home Transition Checklist | CustodyBuilder"
+	description="Answer a few quick questions and get your personalized, printable Two-Home Transition Checklist."
+	robots="noindex, follow"
+>
+	<Navbar />
+	<main class="pb-28 lg:pb-20">
+		<section class="container-shell py-8 lg:py-10">
+			<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Two-Home Transition Checklist</p>
+			<h1 class="mt-2 max-w-2xl text-4xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary sm:text-5xl">
+				Your personalized checklist
+			</h1>
+			<p class="mt-4 max-w-xl text-base leading-7 text-secondary">
+				What stays at each home, what travels, and what to pack — built from your own answers.
+			</p>
+		</section>
+
+		<section class="container-shell pb-12">
+			<div class="mx-auto max-w-xl">
+				<!-- State: no calendar entitlement in this browser. The $7 add-on is billed as an extra on top of the calendar, so a customer landing here without one probably purchased on a different device/browser (or cleared storage) — send them to buy/recover the calendar rather than showing a dead-end. -->
+				<div class="soft-card hidden rounded-[1.5rem] p-5 sm:p-6" data-needs-calendar-state>
+					<h2 class="text-xl font-semibold tracking-[-0.04em] text-primary">You'll need your custody calendar first</h2>
+					<p class="mt-2 text-sm leading-6 text-secondary">
+						The Two-Home Transition Checklist is an add-on to My Custody Calendar. We didn't find a calendar
+						purchase in this browser — if you bought it on a different device or browser, activate your license key
+						below. Otherwise, build your calendar first.
+					</p>
+					<a
+						href="/my-custody-calendar/#build-your-schedule"
+						class="btn-primary mt-4 flex h-14 w-full min-w-0 items-center justify-center gap-2.5 whitespace-nowrap rounded-full px-5 text-center text-[15px] font-semibold leading-none transition-all duration-150 ease-out hover:-translate-y-px active:translate-y-0 active:scale-[0.99]"
+					>
+						Go to My Custody Calendar
+					</a>
+				</div>
+
+				<!-- State: questionnaire + checkout (calendar entitlement present, two-home not yet purchased). -->
+				<div class="soft-card hidden rounded-[1.5rem] p-5 sm:p-6" data-two-home-form-state>
+					<form class="grid gap-5" data-two-home-form>
+						<label class="grid min-w-0 gap-2">
+							<span class="text-sm font-medium text-secondary">Child's first name <span class="font-normal text-muted">(optional)</span></span>
+							<input name="childName" maxlength="40" placeholder="e.g. Jamie" aria-label="Child's first name" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+							<span class="text-xs text-muted">Shown on the cover and the kid-friendly page — no legal name needed.</span>
+						</label>
+
+						<label class="grid min-w-0 gap-2">
+							<span class="text-sm font-medium text-secondary">Child's age range</span>
+							<select name="childAgeRange" aria-label="Child's age range" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2.5 pr-9 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+								<option value="">Prefer not to say</option>
+								<option value="Under 3">Under 3</option>
+								<option value="3-5">3–5</option>
+								<option value="6-8">6–8</option>
+								<option value="9-12">9–12</option>
+								<option value="13+">13+</option>
+							</select>
+						</label>
+
+						<div class="grid min-w-0 grid-cols-2 gap-3">
+							<label class="grid min-w-0 gap-2">
+								<span class="text-sm font-medium text-secondary">Home 1 label <span class="font-normal text-muted">(optional)</span></span>
+								<input name="homeOneLabel" maxlength="30" placeholder="e.g. Mum's home" aria-label="Home 1 label" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+							</label>
+							<label class="grid min-w-0 gap-2">
+								<span class="text-sm font-medium text-secondary">Home 2 label <span class="font-normal text-muted">(optional)</span></span>
+								<input name="homeTwoLabel" maxlength="30" placeholder="e.g. Dad's home" aria-label="Home 2 label" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+							</label>
+						</div>
+						<p class="-mt-3 text-xs text-muted">Leave blank to use neutral "Home 1" / "Home 2" labels instead.</p>
+
+						<label class="grid min-w-0 gap-2">
+							<span class="text-sm font-medium text-secondary">How often does your child switch homes? <span class="font-normal text-muted">(optional)</span></span>
+							<input name="transitionFrequency" maxlength="80" placeholder="e.g. Every other week" aria-label="Transition frequency" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+						</label>
+
+						<label class="grid min-w-0 gap-2">
+							<span class="text-sm font-medium text-secondary">School or daycare days <span class="font-normal text-muted">(optional)</span></span>
+							<input name="schoolDays" maxlength="40" placeholder="e.g. Mon–Fri" aria-label="School or daycare days" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+						</label>
+
+						<label class="grid min-w-0 gap-2">
+							<span class="text-sm font-medium text-secondary">Does school require a uniform?</span>
+							<select name="schoolUniform" aria-label="Does school require a uniform?" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2.5 pr-9 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+								<option value="">Not sure / not applicable</option>
+								<option value="yes">Yes</option>
+								<option value="no">No</option>
+							</select>
+						</label>
+
+						<label class="grid min-w-0 gap-2">
+							<span class="text-sm font-medium text-secondary">School device <span class="font-normal text-muted">(optional)</span></span>
+							<input name="schoolDevice" maxlength="80" placeholder="e.g. Chromebook, iPad, none" aria-label="School device" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+						</label>
+
+						<label class="grid min-w-0 gap-2">
+							<span class="text-sm font-medium text-secondary">Activities or sports <span class="font-normal text-muted">(optional)</span></span>
+							<input name="activities" maxlength="160" placeholder="e.g. Swimming (Tuesday), Soccer (Saturday)" aria-label="Activities or sports" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+							<span class="text-xs text-muted">Add the day in parentheses to get a labeled mini-checklist for each one.</span>
+						</label>
+
+						<label class="grid min-w-0 gap-2">
+							<span class="text-sm font-medium text-secondary">Electronics that travel with them <span class="font-normal text-muted">(optional)</span></span>
+							<input name="electronics" maxlength="80" placeholder="e.g. Tablet, headphones, charger" aria-label="Electronics that travel with them" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+						</label>
+
+						<label class="grid min-w-0 gap-2">
+							<span class="text-sm font-medium text-secondary">Does your child wear glasses?</span>
+							<select name="glasses" aria-label="Does your child wear glasses?" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2.5 pr-9 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+								<option value="">Not sure / not applicable</option>
+								<option value="yes">Yes</option>
+								<option value="no">No</option>
+							</select>
+						</label>
+
+						<label class="grid min-w-0 gap-2">
+							<span class="text-sm font-medium text-secondary">Comfort or favorite item <span class="font-normal text-muted">(optional)</span></span>
+							<input name="comfortItem" maxlength="80" placeholder="e.g. Stuffed rabbit, blanket" aria-label="Comfort or favorite item" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+						</label>
+
+						<label class="grid min-w-0 gap-2">
+							<span class="text-sm font-medium text-secondary">Clothing already stocked at both homes?</span>
+							<select name="clothingStocked" aria-label="Clothing already stocked at both homes?" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2.5 pr-9 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]">
+								<option value="">Not sure</option>
+								<option value="none">None yet</option>
+								<option value="some">Some</option>
+								<option value="most">Most</option>
+							</select>
+						</label>
+
+						<label class="grid min-w-0 gap-2">
+							<span class="text-sm font-medium text-secondary">Anything else to include? <span class="font-normal text-muted">(optional)</span></span>
+							<input name="customItems" maxlength="200" placeholder="e.g. Retainer case, inhaler, favorite hoodie" aria-label="Other items to include" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+							<span class="text-xs text-muted">Separate items with commas — they'll get their own "Other essentials" section.</span>
+						</label>
+
+						<label class="grid min-w-0 gap-2">
+							<span class="text-sm font-medium text-secondary">What's hardest to remember or pack? <span class="font-normal text-muted">(optional)</span></span>
+							<input name="packingDifficulty" maxlength="200" placeholder="e.g. Remembering the swim bag on Tuesdays" aria-label="Known packing difficulties" class="w-full min-w-0 rounded-2xl bg-page px-4 py-2.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" />
+						</label>
+
+						<p class="hidden rounded-2xl bg-danger/10 p-3 text-sm leading-6 text-danger" role="status" aria-live="polite" data-two-home-status></p>
+
+						<button
+							type="button"
+							class="btn-primary btn-primary--wrap flex min-h-14 w-full min-w-0 cursor-pointer items-center justify-center gap-2.5 sm:whitespace-nowrap rounded-full px-5 text-center text-[15px] font-semibold leading-none transition-all duration-150 ease-out hover:-translate-y-px active:translate-y-0 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+							data-two-home-checkout-button
+						>
+							Add for $7 once — Get my Checklist
+						</button>
+						<p class="text-center text-[11px] leading-4 text-muted">One-time $7 payment · no subscription. Every question is optional — answer what you know.</p>
+					</form>
+				</div>
+
+				<!-- State: paid (two-home entitlement present, or just resolved from a pending checkout). -->
+				<div class="soft-card hidden rounded-[1.5rem] p-5 sm:p-6" data-two-home-success-state>
+					<div class="grid gap-3">
+						<div class="hidden items-start gap-2.5 rounded-2xl border border-success/30 bg-success/10 p-3 text-sm leading-6 text-primary" role="status" aria-live="polite" data-two-home-success-status>
+							<span class="mt-0.5 shrink-0" data-two-home-success-status-icon aria-hidden="true"></span>
+							<span data-two-home-success-status-text></span>
+						</div>
+						<button
+							type="button"
+							class="btn-primary flex h-14 w-full min-w-0 cursor-pointer items-center justify-center gap-2.5 whitespace-nowrap rounded-full px-5 text-center text-[15px] font-semibold leading-none transition-all duration-150 ease-out hover:-translate-y-px active:translate-y-0 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
+							data-two-home-download-button
+						>
+							Download my Two-Home Checklist PDF
+						</button>
+						<p class="text-center text-[11px] leading-4 text-muted">You can download it again anytime from this browser.</p>
+					</div>
+				</div>
+
+				<!-- License key recovery — always available, regardless of which state above is showing. Directly recovers a purchase that isn't reflected in this browser's storage (different device, cleared storage), which is exactly the failure mode this page exists to fix. -->
+				<div class="mt-4 grid gap-2" data-license-section>
+					<button type="button" class="text-center text-[11px] font-semibold text-accent underline underline-offset-2" data-license-toggle>
+						Already purchased? Enter your license key
+					</button>
+					<div class="hidden grid-cols-[1fr_auto] gap-2" data-license-form>
+						<input type="text" placeholder="CB-CAL-... or CB-TWOHOME-..." aria-label="License key" class="w-full min-w-0 rounded-xl bg-page px-3 py-2 text-xs text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]" data-license-input />
+						<button type="button" class="rounded-xl bg-page px-3 py-2 text-xs font-semibold text-accent shadow-[inset_0_0_0_1px_var(--border-subtle)] hover:bg-surface disabled:cursor-not-allowed disabled:opacity-50" data-license-activate-button>
+							Activate
+						</button>
+					</div>
+					<p class="hidden text-center text-xs leading-5" role="status" aria-live="polite" data-license-status></p>
+				</div>
+			</div>
+		</section>
+	</main>
+	<Footer />
+</BaseLayout>
+
+<script>
+	import {
+		ENTITLEMENT_UPDATED_EVENT,
+		activateWithLicenseKey,
+		deliverTwoHomePdfByEmail,
+		getEntitlement,
+		resolvePendingTwoHomeCheckout,
+		startTwoHomeCheckout,
+	} from '../lib/payments/dodoCheckout';
+	import { generateTransitionPlan } from '../lib/twoHome/generatePlan';
+	import { buildTransitionFilename, buildTransitionPdf, downloadTransitionBytes } from '../lib/twoHome/transitionPdfExport';
+
+	const needsCalendarState = document.querySelector('[data-needs-calendar-state]');
+	const formState = document.querySelector('[data-two-home-form-state]');
+	const successState = document.querySelector('[data-two-home-success-state]');
+	const form = document.querySelector('[data-two-home-form]');
+	const statusEl = document.querySelector('[data-two-home-status]');
+	const checkoutButton = document.querySelector('[data-two-home-checkout-button]');
+	const downloadButton = document.querySelector('[data-two-home-download-button]');
+	const successStatusEl = document.querySelector('[data-two-home-success-status]');
+	const successStatusTextEl = document.querySelector('[data-two-home-success-status-text]');
+	const licenseToggle = document.querySelector('[data-license-toggle]');
+	const licenseForm = document.querySelector('[data-license-form]');
+	const licenseInput = document.querySelector('[data-license-input]');
+	const licenseActivateButton = document.querySelector('[data-license-activate-button]');
+	const licenseStatusEl = document.querySelector('[data-license-status]');
+
+	// A payment already resolved to 'paid' this page load takes priority over
+	// everything below — set once handlePendingCheckoutOnLoad confirms it, so
+	// render() never re-hides the success state behind a stale entitlement
+	// check race.
+	let justPaid = false;
+
+	function setStatus(message) {
+		if (!(statusEl instanceof HTMLElement)) return;
+		statusEl.textContent = message || '';
+		statusEl.classList.toggle('hidden', !message);
+	}
+
+	function readAnswers() {
+		if (!(form instanceof HTMLFormElement)) return {};
+		const data = new FormData(form);
+		const answers = {};
+		for (const [key, value] of data.entries()) {
+			const trimmed = String(value).trim();
+			if (trimmed) answers[key] = trimmed;
+		}
+		return answers;
+	}
+
+	/**
+	 * Writes recovered checkout-time answers back into the actual form
+	 * inputs. Needed because Dodo's redirect is a real navigation — the page
+	 * (and this form) reloads from scratch on return, so the questionnaire
+	 * the customer filled in before checkout is gone from the DOM by the
+	 * time payment resolves. `startTwoHomeCheckout` already saved a copy in
+	 * sessionStorage precisely so `resolvePendingTwoHomeCheckout` can hand it
+	 * back here — without this, downloadCurrentPdf() silently re-reads the
+	 * now-blank form and produces a generic PDF despite a fully answered
+	 * questionnaire. Same fix already applied on the calendar page's
+	 * equivalent flow (see applyConfigToForm in YearCalendarPanel.astro).
+	 */
+	function applyConfigToForm(config) {
+		if (!(form instanceof HTMLFormElement) || !config) return;
+		const fields = [
+			'childName',
+			'childAgeRange',
+			'homeOneLabel',
+			'homeTwoLabel',
+			'transitionFrequency',
+			'schoolDays',
+			'schoolUniform',
+			'schoolDevice',
+			'activities',
+			'electronics',
+			'glasses',
+			'comfortItem',
+			'clothingStocked',
+			'customItems',
+			'packingDifficulty',
+		];
+		for (const field of fields) {
+			const el = form.elements.namedItem(field);
+			if (el instanceof HTMLInputElement || el instanceof HTMLSelectElement) {
+				el.value = config[field] || '';
+			}
+		}
+	}
+
+	function getChildName() {
+		const childNameInput = document.querySelector('input[name="childName"]');
+		return childNameInput instanceof HTMLInputElement ? childNameInput.value.trim() : '';
+	}
+
+	function setSuccessStatus(message, tone) {
+		if (!(successStatusEl instanceof HTMLElement)) return;
+		successStatusEl.classList.toggle('hidden', !message);
+		if (successStatusTextEl) successStatusTextEl.textContent = message || '';
+		const isError = tone === 'error';
+		successStatusEl.classList.toggle('border-danger/30', isError);
+		successStatusEl.classList.toggle('bg-danger/10', isError);
+		successStatusEl.classList.toggle('border-success/30', !isError);
+		successStatusEl.classList.toggle('bg-success/10', !isError);
+	}
+
+	function setDownloadButtonBusy(busy, label) {
+		if (!(downloadButton instanceof HTMLButtonElement)) return;
+		downloadButton.disabled = busy;
+		if (label) downloadButton.textContent = label;
+	}
+
+	/** Always builds from the CURRENT form answers — same "browser is the source of truth" pattern as the calendar PDF, so re-downloads reflect any edits, not just what was originally purchased. */
+	async function downloadCurrentPdf() {
+		setDownloadButtonBusy(true, 'Preparing your PDF...');
+		try {
+			const plan = generateTransitionPlan({ childName: getChildName(), ...readAnswers() });
+			const bytes = await buildTransitionPdf(plan);
+			downloadTransitionBytes(bytes, buildTransitionFilename(plan));
+			setDownloadButtonBusy(false, 'Download my Two-Home Checklist PDF');
+			return bytes;
+		} catch (error) {
+			setDownloadButtonBusy(false, 'PDF could not be created — try again');
+			throw error;
+		}
+	}
+
+	function showState(state) {
+		needsCalendarState?.classList.toggle('hidden', state !== 'needs-calendar');
+		formState?.classList.toggle('hidden', state !== 'form');
+		successState?.classList.toggle('hidden', state !== 'success');
+	}
+
+	function render() {
+		// A just-confirmed payment always wins — never re-hide the success
+		// state behind a calendar-entitlement check that may be stale or
+		// simply doesn't apply in this browser (see the file-level comment).
+		if (justPaid || getEntitlement('two-home')) {
+			showState('success');
+			return;
+		}
+		if (!getEntitlement('calendar')) {
+			showState('needs-calendar');
+			return;
+		}
+		showState('form');
+	}
+
+	async function handleCheckoutClick() {
+		if (!(checkoutButton instanceof HTMLButtonElement)) return;
+
+		if (typeof window.gtag === 'function') {
+			window.gtag('event', 'two_home_personalization_completed');
+			window.gtag('event', 'two_home_addon_purchase_started');
+		}
+
+		const calendarEntitlement = getEntitlement('calendar');
+		checkoutButton.disabled = true;
+		checkoutButton.textContent = 'Redirecting to checkout…';
+		setStatus('');
+
+		try {
+			await startTwoHomeCheckout({ calendarPaymentId: calendarEntitlement?.paymentId, childName: getChildName(), ...readAnswers() });
+			// startTwoHomeCheckout navigates away on success — nothing else runs.
+		} catch (error) {
+			console.error('Failed to start Two-Home checkout:', error);
+			if (typeof window.gtag === 'function') window.gtag('event', 'two_home_addon_purchase_failed', { reason: 'checkout_start_failed' });
+			setStatus('We could not start checkout. Please try again.');
+			checkoutButton.disabled = false;
+			checkoutButton.textContent = 'Add for $7 once — Get my Checklist';
+		}
+	}
+
+	async function handlePendingCheckoutOnLoad() {
+		const result = await resolvePendingTwoHomeCheckout();
+
+		if (result.status === 'paid') {
+			justPaid = true;
+			applyConfigToForm(result.config);
+			render();
+			if (typeof window.gtag === 'function') window.gtag('event', 'two_home_addon_purchase_completed');
+			setSuccessStatus('Payment successful! Generating your checklist…', 'success');
+			try {
+				const bytes = await downloadCurrentPdf();
+				setSuccessStatus('Payment successful — your checklist downloaded. Emailing you a copy now…', 'success');
+				if (bytes) {
+					const delivery = await deliverTwoHomePdfByEmail(result.entitlement.paymentId, bytes, getChildName());
+					setSuccessStatus(
+						delivery.customerEmailSent
+							? 'Payment successful — your checklist downloaded and emailed to you. You can download it again anytime from this browser.'
+							: 'Payment successful — your checklist downloaded. You can download it again anytime from this browser.',
+						'success',
+					);
+				}
+			} catch (error) {
+				console.error('Payment succeeded but Two-Home PDF generation failed:', error);
+				setSuccessStatus('Payment successful, but we could not generate your PDF just now. Click the button below to try again.', 'error');
+			}
+			return;
+		}
+
+		if (result.status === 'not-completed') {
+			const TEN_MINUTES = 10 * 60 * 1000;
+			if (result.staleMs < TEN_MINUTES) {
+				setStatus('Checkout was not completed — no payment was made.');
+			}
+		} else if (result.status === 'error') {
+			setStatus('We could not confirm your payment. If you completed checkout, refresh this page to try again.');
+		}
+	}
+
+	function toggleLicenseForm() {
+		if (!(licenseForm instanceof HTMLElement)) return;
+		const nowHidden = licenseForm.classList.toggle('hidden');
+		licenseForm.classList.toggle('grid', !nowHidden);
+		if (!nowHidden) licenseInput?.focus();
+	}
+
+	function setLicenseStatus(message, tone) {
+		if (!(licenseStatusEl instanceof HTMLElement)) return;
+		licenseStatusEl.textContent = message || '';
+		licenseStatusEl.classList.toggle('hidden', !message);
+		licenseStatusEl.classList.toggle('text-danger', tone === 'error');
+		licenseStatusEl.classList.toggle('text-success', tone !== 'error');
+	}
+
+	async function activateLicenseKey(rawKey) {
+		const licenseKey = rawKey.trim();
+		if (!licenseKey) return;
+
+		if (licenseActivateButton instanceof HTMLButtonElement) {
+			licenseActivateButton.disabled = true;
+			licenseActivateButton.textContent = 'Activating…';
+		}
+
+		const result = await activateWithLicenseKey(licenseKey);
+
+		if (licenseActivateButton instanceof HTMLButtonElement) {
+			licenseActivateButton.disabled = false;
+			licenseActivateButton.textContent = 'Activate';
+		}
+
+		if (result.ok) {
+			setLicenseStatus(
+				result.product === 'two-home' ? 'License activated — your checklist is ready below.' : 'License activated — your calendar is recognized. Continue below.',
+				'success',
+			);
+			licenseForm?.classList.add('hidden');
+			licenseForm?.classList.remove('grid');
+			render();
+		} else {
+			setLicenseStatus(result.error, 'error');
+		}
+	}
+
+	form?.addEventListener(
+		'input',
+		() => {
+			if (typeof window.gtag === 'function') window.gtag('event', 'two_home_personalization_started');
+		},
+		{ once: true },
+	);
+	checkoutButton?.addEventListener('click', handleCheckoutClick);
+	downloadButton?.addEventListener('click', async () => {
+		try {
+			await downloadCurrentPdf();
+		} catch (error) {
+			console.error('Failed to generate the Two-Home PDF:', error);
+		}
+	});
+	licenseToggle?.addEventListener('click', toggleLicenseForm);
+	licenseActivateButton?.addEventListener('click', () => {
+		activateLicenseKey(licenseInput instanceof HTMLInputElement ? licenseInput.value : '');
+	});
+	licenseInput?.addEventListener('keydown', (event) => {
+		if (event.key === 'Enter') {
+			event.preventDefault();
+			activateLicenseKey(licenseInput instanceof HTMLInputElement ? licenseInput.value : '');
+		}
+	});
+	// Same bfcache-restore fix used elsewhere: a Back button press after being
+	// redirected to Dodo can restore this page with the button still stuck
+	// disabled and reading "Redirecting to checkout…".
+	window.addEventListener('pageshow', (event) => {
+		if (!event.persisted || !(checkoutButton instanceof HTMLButtonElement)) return;
+		checkoutButton.disabled = false;
+		checkoutButton.textContent = 'Add for $7 once — Get my Checklist';
+	});
+	window.addEventListener(ENTITLEMENT_UPDATED_EVENT, render);
+	render();
+	handlePendingCheckoutOnLoad();
+</script>

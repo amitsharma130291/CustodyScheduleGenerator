@@ -6,6 +6,8 @@ import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import FAQ from '../components/FAQ.astro';
 import CtaButton from '../components/CtaButton.astro';
+import CalendarUpsellCard from '../components/CalendarUpsellCard.astro';
+import TwoHomeUpsellCard from '../components/TwoHomeUpsellCard.astro';
 import TexasParentingFlowGraphic from '../components/schedules/texas-parenting-plan-template/TexasParentingFlowGraphic.astro';
 import SpoInteractionGraphic from '../components/schedules/texas-parenting-plan-template/SpoInteractionGraphic.astro';
 import TexasFilingSequenceGraphic from '../components/schedules/texas-parenting-plan-template/TexasFilingSequenceGraphic.astro';
@@ -346,6 +348,11 @@ const schema = [
 				<li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span><span>Read the <a href="/texas-standard-possession-order/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Texas standard possession order</a> to understand the default schedule your plan must work around.</span></li>
 				</ul>
 			</div>
+		</section>
+
+		<section class="container-shell">
+			<CalendarUpsellCard lead="You've got your Texas parenting plan template." />
+			<TwoHomeUpsellCard />
 		</section>
 
 		<FAQ items={faqItems} title={faqSection.title} description={faqSection.description} />

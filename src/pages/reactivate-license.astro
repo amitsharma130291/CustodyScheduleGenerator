@@ -1,0 +1,115 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<BaseLayout
+	title="Reactivate My Custody Calendar | CustodyBuilder"
+	description="Lost access to your purchased custody calendar? Enter the email you paid with to get your license key resent."
+	robots="noindex, follow"
+>
+	<Navbar />
+	<main>
+		<section class="container-shell py-10 lg:py-14">
+			<div class="mx-auto max-w-lg">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">My Custody Calendar</p>
+				<h1 class="mt-2 text-3xl font-semibold leading-[1.05] tracking-[-0.05em] text-primary sm:text-4xl">
+					Reactivate your calendar
+				</h1>
+				<p class="mt-4 text-sm leading-6 text-secondary">
+					Cleared your browser, switched devices, or lost your download? Enter the email address you used at
+					checkout and, if we find a purchase, we'll email your license key with a one-click reactivation link.
+				</p>
+
+				<form class="mt-8 grid gap-3" data-reactivate-form>
+					<label class="grid gap-1.5">
+						<span class="text-sm font-medium text-secondary">Email address</span>
+						<input
+							type="email"
+							name="email"
+							required
+							autocomplete="email"
+							maxlength="254"
+							placeholder="you@example.com"
+							aria-label="Email address used at checkout"
+							class="w-full min-w-0 rounded-2xl bg-page px-4 py-2.5 text-sm text-primary shadow-[inset_0_0_0_1px_var(--border-subtle)]"
+							data-reactivate-email
+						/>
+					</label>
+
+					<p class="hidden rounded-2xl p-3 text-sm leading-6" role="status" aria-live="polite" data-reactivate-status></p>
+
+					<button
+						type="submit"
+						class="btn-primary flex h-12 w-full min-w-0 cursor-pointer items-center justify-center rounded-full px-5 text-center text-sm font-semibold leading-none transition-all duration-150 ease-out hover:-translate-y-px active:translate-y-0 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70"
+						data-reactivate-submit
+					>
+						Send my license key
+					</button>
+				</form>
+
+				<p class="mt-6 text-xs leading-5 text-muted">
+					Already have your license key? Go to
+					<a href="/my-custody-calendar/" class="font-semibold text-accent underline underline-offset-2">My Custody Calendar</a>
+					and paste it into "Already purchased? Enter your license key" near the buy button.
+				</p>
+			</div>
+		</section>
+	</main>
+	<Footer />
+</BaseLayout>
+
+<script>
+	const form = document.querySelector('[data-reactivate-form]');
+	const emailInput = document.querySelector('[data-reactivate-email]');
+	const submitButton = document.querySelector('[data-reactivate-submit]');
+	const statusEl = document.querySelector('[data-reactivate-status]');
+
+	function setStatus(message, tone) {
+		if (!(statusEl instanceof HTMLElement)) return;
+		statusEl.textContent = message || '';
+		statusEl.classList.toggle('hidden', !message);
+		statusEl.classList.toggle('bg-danger/10', tone === 'error');
+		statusEl.classList.toggle('text-danger', tone === 'error');
+		statusEl.classList.toggle('bg-success/10', tone !== 'error');
+		statusEl.classList.toggle('text-success', tone !== 'error');
+	}
+
+	form?.addEventListener('submit', async (event) => {
+		event.preventDefault();
+		if (!(emailInput instanceof HTMLInputElement) || !(submitButton instanceof HTMLButtonElement)) return;
+
+		const email = emailInput.value.trim();
+		if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
+			setStatus('Enter a valid email address.', 'error');
+			emailInput.focus();
+			return;
+		}
+
+		submitButton.disabled = true;
+		submitButton.textContent = 'Sending…';
+		setStatus('', undefined);
+
+		try {
+			const response = await fetch('/api/checkout/reactivate', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ email }),
+			});
+			const data = await response.json().catch(() => ({ ok: false }));
+
+			if (data.ok) {
+				setStatus("If that email has a purchase on file, we've sent your license key — check your inbox (and spam folder).", 'success');
+				form.reset();
+			} else {
+				setStatus(data.error || 'Something went wrong. Please try again.', 'error');
+			}
+		} catch {
+			setStatus('Network error — please check your connection and try again.', 'error');
+		} finally {
+			submitButton.disabled = false;
+			submitButton.textContent = 'Send my license key';
+		}
+	});
+</script>

@@ -1,6 +1,8 @@
 ---
 import Footer from '../components/Footer.astro';
 import Navbar from '../components/Navbar.astro';
+import CalendarUpsellCard from '../components/CalendarUpsellCard.astro';
+import TwoHomeUpsellCard from '../components/TwoHomeUpsellCard.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCanonicalUrl } from '../lib/seo/metadata';
@@ -71,6 +73,11 @@ const schema = [
 				<li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span><span>Looking for a free alternative to paid tools? See <a href="/custody-x-change-alternative/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Custody X Change alternative</a> and <a href="/talkingparents-alternative/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">TalkingParents alternative</a> comparisons.</span></li>
 				</ul>
 			</div>
+		</section>
+
+		<section class="container-shell">
+			<CalendarUpsellCard lead="Once you've compared your options." />
+			<TwoHomeUpsellCard />
 		</section>
 
 	</main>

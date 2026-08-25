@@ -4,6 +4,8 @@ import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
+import CalendarUpsellCard from '../components/CalendarUpsellCard.astro';
+import TwoHomeUpsellCard from '../components/TwoHomeUpsellCard.astro';
 import { getCanonicalUrl } from '../lib/seo/metadata';
 import { buildArticleSchema, buildBreadcrumbSchema, buildWebPageSchema } from '../lib/seo/schema';
 import {
@@ -146,6 +148,11 @@ const schema = [
 				<li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span><span>Compare tools with the <a href="/schedule-comparison-tool/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">schedule comparison tool</a>.</span></li>
 				</ul>
 			</div>
+		</section>
+
+		<section class="container-shell">
+			<CalendarUpsellCard lead="Now you know exactly how it's built." />
+			<TwoHomeUpsellCard />
 		</section>
 
 	</main>

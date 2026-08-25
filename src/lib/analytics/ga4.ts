@@ -2,6 +2,7 @@ type Ga4EventName =
 	| 'generate_calendar'
 	| 'export_monthly_pdf'
 	| 'export_yearly_pdf'
+	| 'click_full_year_upsell'
 	| 'copy_calendar_link'
 	| 'view_schedule_recommendation'
 	| 'view_texas_child_support'

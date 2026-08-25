@@ -3,6 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import BackToGeneratorCta from '../components/BackToGeneratorCta.astro';
+import CalendarUpsellCard from '../components/CalendarUpsellCard.astro';
+import TwoHomeUpsellCard from '../components/TwoHomeUpsellCard.astro';
 import Breadcrumbs from '../components/seo/Breadcrumbs.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import FAQ from '../components/FAQ.astro';
@@ -338,6 +340,11 @@ const schema = [
 				<li class="flex gap-2"><span class="text-accent" aria-hidden="true">→</span><span>A <a href="/custody-schedule-template/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">custody schedule template</a> lets you formalise the rotation you build here.</span></li>
 				</ul>
 			</div>
+		</section>
+
+		<section class="container-shell">
+			<CalendarUpsellCard lead="Your agreement is taking shape." />
+			<TwoHomeUpsellCard />
 		</section>
 
 		<FAQ items={faqItems} title="Custody agreement builder FAQ" description="Common questions about custody agreements, what they contain, and how CustodyBuilder helps." />

@@ -98,17 +98,17 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 		<div class="mt-2 mb-2 grid w-full min-w-0 gap-3" data-pdf-export-actions>
 			<div class="grid gap-1">
 				<p class="mb-0 text-xs font-semibold uppercase tracking-[0.16em] text-muted">Save your calendar</p>
-				<p class="text-xs leading-5 text-muted">PDFs are for planning and discussion.</p>
+				<p class="text-xs leading-5 text-muted">Free PDF export covers one month at a time — for planning and discussion.</p>
 			</div>
 			<div class="grid w-full min-w-0 gap-3">
 				<button type="button" class="btn-primary flex h-14 w-full min-w-0 cursor-pointer items-center justify-center gap-2.5 whitespace-nowrap rounded-full px-5 text-center text-[15px] font-semibold leading-none transition-all duration-150 ease-out hover:-translate-y-px active:translate-y-0 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-download-monthly-pdf>
 					<svg class="btn-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 15V3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M7 11l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 19h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
 					<span class="leading-none" data-pdf-button-label>Download monthly PDF</span>
 				</button>
-				<button type="button" class="btn-primary flex h-14 w-full min-w-0 cursor-pointer items-center justify-center gap-2.5 whitespace-nowrap rounded-full px-5 text-center text-[15px] font-semibold leading-none transition-all duration-150 ease-out hover:-translate-y-px active:translate-y-0 active:scale-[0.99] disabled:cursor-not-allowed disabled:opacity-70 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-download-yearly-pdf>
-					<svg class="btn-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 15V3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M7 11l5 5 5-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 19h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-					<span class="leading-none" data-pdf-button-label>Download yearly PDF</span>
-				</button>
+				<a href="/my-custody-calendar/#build-your-schedule" class="btn-primary btn-primary--wrap flex min-h-14 w-full min-w-0 cursor-pointer items-center justify-center gap-2.5 sm:whitespace-nowrap rounded-full px-5 text-center text-[15px] font-semibold leading-none transition-all duration-150 ease-out hover:-translate-y-px active:translate-y-0 active:scale-[0.99] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent" data-year-calendar-cta>
+					<svg class="btn-icon shrink-0" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><path d="M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+					<span class="leading-none">Build your full 12-month calendar — $14.99 once</span>
+				</a>
 			</div>
 		</div>
 	</form>
@@ -156,6 +156,7 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 	const printParentAName = document.querySelector('[data-print-parent-a-name]');
 	const printParentBName = document.querySelector('[data-print-parent-b-name]');
 	const formStatus = document.querySelector('[data-form-status]');
+	const yearCalendarCta = document.querySelector('[data-year-calendar-cta]');
 	const scheduleCache = new Map();
 
 	// Calendar cell colours — use semantic cal-* tokens for richer, premium look
@@ -382,15 +383,14 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 
 	async function handlePdfExportClick(event) {
 		const target = event.target;
-		const button = target instanceof Element ? target.closest('[data-download-monthly-pdf], [data-download-yearly-pdf]') : null;
+		const button = target instanceof Element ? target.closest('[data-download-monthly-pdf]') : null;
 		if (!(button instanceof HTMLButtonElement)) return;
 
 		event.preventDefault();
 		event.stopPropagation();
 
-		const range = button.matches('[data-download-yearly-pdf]') ? 'yearly' : 'monthly';
 		const label = button.querySelector('[data-pdf-button-label]');
-		const defaultLabel = label?.textContent?.trim() || (range === 'yearly' ? 'Download yearly PDF' : 'Download monthly PDF');
+		const defaultLabel = label?.textContent?.trim() || 'Download monthly PDF';
 		const state = getCurrentPdfState();
 
 		button.disabled = true;
@@ -400,8 +400,8 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 
 		try {
 			if (!state) throw new Error('Schedule state is incomplete.');
-			await downloadSchedulePdf(range, state);
-			trackGa4Event(range === 'yearly' ? 'export_yearly_pdf' : 'export_monthly_pdf');
+			await downloadSchedulePdf(state);
+			trackGa4Event('export_monthly_pdf');
 			button.dataset.state = 'success';
 			if (label) label.textContent = 'PDF downloaded';
 		} catch (error) {
@@ -416,6 +416,22 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 			button.removeAttribute('data-state');
 			button.removeAttribute('aria-busy');
 		}, 2000);
+	}
+
+	function updateYearCalendarCtaHref(state) {
+		if (!(yearCalendarCta instanceof HTMLAnchorElement) || !state) return;
+
+		const params = new URLSearchParams();
+		params.set('schedule', state.schedule);
+		params.set('start', state.start);
+		params.set('a', state.parentAName);
+		params.set('b', state.parentBName);
+		if (state.pattern) params.set('pattern', state.pattern);
+		yearCalendarCta.href = `/my-custody-calendar/?${params.toString()}#build-your-schedule`;
+	}
+
+	function handleYearCalendarCtaClick() {
+		trackGa4Event('click_full_year_upsell');
 	}
 
 	function renderSchedule(updateUrl = true) {
@@ -543,6 +559,8 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 			printDescription.textContent = `${monthLabel} preview starting ${startDateValue}.${patternText} ${parentA}: ${parentADays} overnights (${parentAPercentage}%). ${parentB}: ${parentBDays} overnights (${parentBPercentage}%).${annualText}`;
 		}
 
+		updateYearCalendarCtaHref(getCurrentPdfState());
+
 		if (updateUrl) {
 			const params = new URLSearchParams(window.location.search);
 			params.set('schedule', definition.id);
@@ -561,6 +579,7 @@ const initialPatternOption = initialPatternOptions.find((option) => option.id ==
 
 	form?.addEventListener('input', () => renderSchedule());
 	form?.addEventListener('change', () => renderSchedule());
+	yearCalendarCta?.addEventListener('click', handleYearCalendarCtaClick);
 	form?.addEventListener('click', handlePdfExportClick);
 	window.addEventListener('popstate', () => {
 		applyQueryParamsToForm();

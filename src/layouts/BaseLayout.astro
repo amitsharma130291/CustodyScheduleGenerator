@@ -37,6 +37,31 @@ const shouldLoadAnalytics = import.meta.env.PROD;
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<meta http-equiv="content-language" content="en-US" />
 		<script is:inline>
+			// html has `scroll-behavior: smooth` sitewide (global.css). If the URL
+			// already has a #hash, the browser performs its own native
+			// scroll-to-anchor as the page loads — and that native jump inherits
+			// the smooth-scroll animation too. An animated jump that starts before
+			// the page (fonts, images, hydrating components) has finished laying
+			// out very often gets interrupted by the resulting layout shifts and
+			// never reaches the target, stranding the visitor near the top.
+			// Forcing 'auto' (instant) before that native jump runs — then
+			// restoring 'smooth' once the page has actually finished loading —
+			// keeps in-page smooth-scrolling (nav links, buttons) working exactly
+			// as before while making the initial landing reliable.
+			if (location.hash) {
+				document.documentElement.style.scrollBehavior = 'auto';
+				window.addEventListener(
+					'load',
+					function () {
+						window.setTimeout(function () {
+							document.documentElement.style.scrollBehavior = '';
+						}, 200);
+					},
+					{ once: true },
+				);
+			}
+		</script>
+		<script is:inline>
 			try {
 				const storedTheme = localStorage.getItem('theme');
 				const theme = storedTheme === 'light' || storedTheme === 'dark' ? storedTheme : 'light';
@@ -129,5 +154,33 @@ const shouldLoadAnalytics = import.meta.env.PROD;
 		<slot />
 		<ScrollToTop />
 		{shouldLoadAnalytics && <CookieConsent />}
+		<script is:inline>
+			// Backstop for the head-script fix above: if a client-hydrated
+			// component (the year-calendar form, the promo banner's preview
+			// stack) changes layout height above the anchor after the browser's
+			// native jump already landed, this re-applies the same instant jump
+			// once the page — and any late layout shifts — have settled.
+			(function () {
+				function scrollToHash() {
+					var hash = window.location.hash;
+					if (!hash || hash.length < 2) return;
+					var id = hash.slice(1);
+					try {
+						id = decodeURIComponent(id);
+					} catch (e) {}
+					var target = document.getElementById(id);
+					if (!target) return;
+					target.scrollIntoView({ behavior: 'auto', block: 'start' });
+				}
+				function runAfterLoad() {
+					window.setTimeout(scrollToHash, 150);
+				}
+				if (document.readyState === 'complete') {
+					runAfterLoad();
+				} else {
+					window.addEventListener('load', runAfterLoad);
+				}
+			})();
+		</script>
 	</body>
 </html>

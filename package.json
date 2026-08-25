@@ -17,11 +17,13 @@
     "@tailwindcss/vite": "^4.3.0",
     "astro": "^6.4.4",
     "date-fns": "^4.4.0",
+    "dodopayments": "^2.47.0",
     "lucide-astro": "^0.556.0",
     "pdf-lib": "^1.17.1",
     "tailwindcss": "^4.3.0"
   },
   "devDependencies": {
-    "vitest": "^4.1.8"
+    "vitest": "^4.1.8",
+    "wrangler": "^4.125.0"
   }
 }

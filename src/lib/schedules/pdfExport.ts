@@ -1,4 +1,4 @@
-import { addMonths, format, isValid, parseISO, startOfMonth } from 'date-fns';
+import { format, isValid, parseISO, startOfMonth } from 'date-fns';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import {
 	defaultRatioSchedulePatterns,
@@ -12,8 +12,6 @@ import {
 } from './index';
 import { buildMonthCalendarLayout } from './calendarGrid';
 import type { ScheduleInputType, ScheduleResult, ScheduleType } from './types';
-
-export type SchedulePdfRange = 'monthly' | 'yearly';
 
 export interface SchedulePdfState {
 	schedule: string;
@@ -240,7 +238,6 @@ function drawCalendar(page: ReturnType<PDFDocument['addPage']>, month: MonthExpo
 async function drawMonthPage(pdfDoc: PDFDocument, month: MonthExportData, state: SchedulePdfState, details: {
 	scheduleName: string;
 	patternLabel: string;
-	range: SchedulePdfRange;
 	fonts: {
 		bold: Awaited<ReturnType<PDFDocument['embedFont']>>;
 		regular: Awaited<ReturnType<PDFDocument['embedFont']>>;
@@ -257,7 +254,7 @@ async function drawMonthPage(pdfDoc: PDFDocument, month: MonthExportData, state:
 		font: fonts.bold,
 		color: rgb(0.06, 0.06, 0.06),
 	});
-	page.drawText(details.range === 'yearly' ? `${month.label} section` : month.label, {
+	page.drawText(month.label, {
 		x: margin,
 		y: 717,
 		size: 13,
@@ -347,7 +344,7 @@ function downloadBytes(bytes: Uint8Array, filename: string) {
 	window.setTimeout(() => URL.revokeObjectURL(url), 1000);
 }
 
-export async function downloadSchedulePdf(range: SchedulePdfRange, state: SchedulePdfState) {
+export async function downloadSchedulePdf(state: SchedulePdfState) {
 	const scheduleId = normalizeScheduleType(state.schedule) as ScheduleInputType;
 	const normalizedScheduleId = scheduleId as ScheduleType;
 	const startDate = parseISO(state.start);
@@ -367,25 +364,21 @@ export async function downloadSchedulePdf(range: SchedulePdfRange, state: Schedu
 		bold: await pdfDoc.embedFont(StandardFonts.HelveticaBold),
 	};
 	const patternLabel = getPatternLabel(normalizedScheduleId, state.pattern);
-	const monthCount = range === 'yearly' ? 12 : 1;
-	const months = Array.from({ length: monthCount }, (_, index) => getMonthExportData({
+	const month = getMonthExportData({
 		scheduleId: normalizedScheduleId,
 		startDate: state.start,
-		monthDate: addMonths(startDate, index),
+		monthDate: startDate,
 		parentAName: state.parentAName,
 		parentBName: state.parentBName,
 		pattern: state.pattern,
-	}));
+	});
 
-	for (const month of months) {
-		await drawMonthPage(pdfDoc, month, state, {
-			scheduleName: definition.name,
-			patternLabel,
-			range,
-			fonts,
-		});
-	}
+	await drawMonthPage(pdfDoc, month, state, {
+		scheduleName: definition.name,
+		patternLabel,
+		fonts,
+	});
 
 	const bytes = await pdfDoc.save();
-	downloadBytes(bytes, range === 'yearly' ? 'custody-schedule-yearly.pdf' : 'custody-schedule-monthly.pdf');
+	downloadBytes(bytes, 'custody-schedule-monthly.pdf');
 }

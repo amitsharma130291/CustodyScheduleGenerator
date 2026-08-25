@@ -3,6 +3,8 @@ import Footer from '../components/Footer.astro';
 import Navbar from '../components/Navbar.astro';
 import JsonLd from '../components/seo/JsonLd.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import CalendarUpsellCard from '../components/CalendarUpsellCard.astro';
+import TwoHomeUpsellCard from '../components/TwoHomeUpsellCard.astro';
 import { getCanonicalUrl } from '../lib/seo/metadata';
 import { buildBreadcrumbSchema, buildWebPageSchema } from '../lib/seo/schema';
 
@@ -67,6 +69,11 @@ const LINK_CLASS = 'font-semibold text-accent underline decoration-line underlin
 				<p>→ Calculate Florida child support using the Income Shares model: <a href="/florida-child-support-calculator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Florida child support calculator</a></p>
 				<p>→ Calculate California child support with timeshare weighting: <a href="/california-child-support-calculator/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">California child support calculator</a></p>
 			</div>
+		</section>
+
+		<section class="container-shell">
+			<CalendarUpsellCard lead="While you're planning your child support numbers, get your parenting schedule locked in too." />
+			<TwoHomeUpsellCard />
 		</section>
 	</main>
 	<Footer />
