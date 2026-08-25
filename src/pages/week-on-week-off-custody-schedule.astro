@@ -210,7 +210,7 @@ const schema = [
 				{parkingLotSchedule.scenes.map((item) => (
 					<article class="rounded-xl border-l-2 border-accent/40 bg-page/50 py-3 pl-4 pr-3">
 						<h3 class="text-base font-semibold text-primary">{item.heading}</h3>
-						<p class="mt-2 text-sm leading-6 text-secondary">{item.body}</p>
+						<p class="mt-2 text-sm leading-6 text-secondary" set:html={item.body} />
 					</article>
 				))}
 			</div>

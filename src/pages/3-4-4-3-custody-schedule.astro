@@ -275,7 +275,7 @@ const schema = [
 					{characterExample.details.map((item) => (
 						<article class="rounded-xl bg-surface/60 p-4 shadow-[inset_0_0_0_1px_var(--border-subtle)]">
 							<h3 class="text-base font-semibold text-primary">{item.heading}</h3>
-							<p class="mt-2 text-sm leading-6 text-secondary">{item.body}</p>
+							<p class="mt-2 text-sm leading-6 text-secondary" set:html={item.body} />
 						</article>
 					))}
 				</div>

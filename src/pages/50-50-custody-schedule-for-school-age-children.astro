@@ -220,7 +220,7 @@ const schema = [
 				{ownershipMistakes.map((item) => (
 					<li class="border-l-2 border-rose-500/30 pl-4">
 						<h3 class="text-base font-semibold text-primary">{item.mistake}</h3>
-						<p class="mt-2 text-sm leading-6 text-secondary">{item.detail}</p>
+						<p class="mt-2 text-sm leading-6 text-secondary" set:html={item.detail} />
 					</li>
 				))}
 			</ul>
