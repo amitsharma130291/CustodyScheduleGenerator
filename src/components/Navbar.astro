@@ -84,8 +84,7 @@ const navItems: NavItem[] = navigationConfig.map((item) => {
 					{item.label}
 				</a>
 			))}
-			<!-- Shown only for customers who own the calendar or the Two-Home add-on — hidden by default, revealed and pointed at the right destination by the entitlement check below. -->
-			<a href="/two-home-offer/" class="site-nav-link hidden shrink-0 whitespace-nowrap rounded-full px-3.5 py-2 text-sm font-medium transition-colors duration-200 xl:px-4" data-two-home-nav-link>
+			<a href="/two-home-checklist/" class="site-nav-link shrink-0 whitespace-nowrap rounded-full px-3.5 py-2 text-sm font-medium transition-colors duration-200 xl:px-4">
 				Two-Home Checklist
 			</a>
 		</div>
@@ -129,53 +128,14 @@ const navItems: NavItem[] = navigationConfig.map((item) => {
 			</>
 		))}
 		<a
-			href="/two-home-offer/"
-			class="site-nav-link hidden min-h-12 w-full items-center rounded-2xl px-[18px] py-3.5 text-left text-base font-semibold transition-colors duration-200"
+			href="/two-home-checklist/"
+			class="site-nav-link flex min-h-12 w-full items-center rounded-2xl px-[18px] py-3.5 text-left text-base font-semibold transition-colors duration-200"
 			data-mobile-menu-link
-			data-two-home-nav-link
 		>
 			Two-Home Checklist
 		</a>
 	</div>
 	<script>
-		import { ENTITLEMENT_UPDATED_EVENT, getEntitlement } from '../lib/payments/dodoCheckout';
-
-		// The Two-Home Checklist nav link only appears once a customer owns
-		// something — never for a brand-new visitor. Which product they own
-		// decides the destination: own the calendar but not the checklist yet
-		// → the $7 sales page (nothing to download there without paying); own
-		// the checklist → straight to the form/download page, since there's no
-		// reason to re-pitch someone who already bought it.
-		function updateTwoHomeNavLinks() {
-			const links = Array.from(document.querySelectorAll('[data-two-home-nav-link]'));
-			if (!links.length) return;
-
-			const ownsTwoHome = Boolean(getEntitlement('two-home'));
-			const ownsCalendar = Boolean(getEntitlement('calendar'));
-
-			if (!ownsCalendar && !ownsTwoHome) {
-				links.forEach((link) => {
-					link.classList.add('hidden');
-					link.classList.remove('flex');
-				});
-				return;
-			}
-
-			const href = ownsTwoHome ? '/two-home-checklist/' : '/two-home-offer/';
-			const label = ownsTwoHome ? 'My Two-Home Checklist' : 'Two-Home Checklist';
-
-			links.forEach((link) => {
-				if (!(link instanceof HTMLAnchorElement)) return;
-				link.href = href;
-				link.textContent = label;
-				link.classList.remove('hidden');
-				if (link.hasAttribute('data-mobile-menu-link')) link.classList.add('flex');
-			});
-		}
-
-		updateTwoHomeNavLinks();
-		window.addEventListener(ENTITLEMENT_UPDATED_EVENT, updateTwoHomeNavLinks);
-
 		const button = document.querySelector('[data-mobile-menu-button]');
 		const menu = document.querySelector('[data-mobile-menu]');
 		const links = Array.from(document.querySelectorAll('[data-mobile-menu-link]'));

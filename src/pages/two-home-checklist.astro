@@ -1,60 +1,67 @@
 ---
 // Dedicated page for the $7 Two-Home Transition Pack: the questionnaire,
-// checkout, and post-payment download/email all live here now, as their
-// own destination rather than a section embedded (and entitlement-hidden)
-// inside my-custody-calendar.astro. That embedding was the root cause of a
-// real bug: Dodo's return_url landed the customer back on the calendar
-// page, and if THIS browser didn't currently have a 'calendar' entitlement
-// in localStorage (a different device/browser than the original calendar
-// purchase, cleared storage, etc.), the whole section — form AND the
-// post-payment success/download state — was hidden, so a customer who had
-// genuinely just paid saw nothing and got no PDF.
+// checkout, and post-payment download/email all live here as their own
+// standalone destination, indexed and promoted on its own — not gated
+// behind owning My Custody Calendar. The checkout backend never required
+// a calendar purchase either (calendarPaymentId is optional metadata, see
+// create-two-home.ts); the old block on this page was a front-end-only
+// business decision to sell it purely as an add-on, since reversed. The
+// cross-sell in the other direction (build a calendar too) is now just a
+// plain link near checkout, not a requirement.
 //
-// Fix: this page resolves a pending checkout FIRST, unconditionally, before
-// checking anything about calendar entitlement — a successful payment
-// always produces a visible success state and a download, no matter what
-// else is or isn't in this browser's storage. The calendar-entitlement
-// check only gates whether the QUESTIONNAIRE FORM (for a new purchase) is
-// shown; it never gates the post-payment result.
+// This page resolves a pending checkout FIRST, unconditionally, before
+// anything else — a successful payment always produces a visible success
+// state and a download, no matter what else is or isn't in this browser's
+// storage (see the earlier bug this fixed: Dodo's return_url landing here
+// with no prior state in a fresh/different browser used to show nothing).
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
+import JsonLd from '../components/seo/JsonLd.astro';
+import { getCanonicalUrl } from '../lib/seo/metadata';
+import { buildWebPageSchema } from '../lib/seo/schema';
+
+const canonical = '/two-home-checklist/';
+const canonicalUrl = getCanonicalUrl(canonical);
+const title = 'Two-Home Transition Checklist — $7 Printable Packing & Switch-Day Guide';
+const description =
+	"A personalized, printable checklist for what stays at each home, what travels, and what to pack on switch day — built from your own answers. $7 once, works on its own or alongside My Custody Calendar.";
+const schema = [buildWebPageSchema({ name: title, description, url: canonicalUrl })];
 ---
 
-<BaseLayout
-	title="Your Two-Home Transition Checklist | CustodyBuilder"
-	description="Answer a few quick questions and get your personalized, printable Two-Home Transition Checklist."
-	robots="noindex, follow"
->
+<BaseLayout title={`${title} | CustodyBuilder`} description={description} canonical={canonical}>
+	<JsonLd slot="head" data={schema} />
 	<Navbar />
 	<main class="pb-28 lg:pb-20">
 		<section class="container-shell py-8 lg:py-10">
-			<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Two-Home Transition Checklist</p>
+			<div class="flex flex-wrap items-center gap-2">
+				<p class="text-xs font-semibold uppercase tracking-[0.18em] text-muted">Two-Home Transition Checklist</p>
+				<span class="rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-[0.14em]" style="background: var(--cal-parent-b-soft); color: var(--cal-parent-b)">$7 once · yours for life</span>
+			</div>
 			<h1 class="mt-2 max-w-2xl text-4xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary sm:text-5xl">
-				Your personalized checklist
+				Never forget what travels between homes
 			</h1>
 			<p class="mt-4 max-w-xl text-base leading-7 text-secondary">
-				What stays at each home, what travels, and what to pack — built from your own answers.
+				Answer a few quick questions and get a personalized, printable checklist — what stays at each home, what travels, a switch-day list, and a kid-friendly version. Works on its own, or as a companion to My Custody Calendar.
 			</p>
+			<ul class="mt-5 grid max-w-xl gap-2">
+				<li class="flex items-start gap-2.5 text-sm leading-6 text-primary">
+					<svg class="mt-0.5 h-[18px] w-[18px] shrink-0" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="10" fill="var(--cal-parent-b)" opacity="0.14" /><path d="M6 10.2 8.6 13 14 7" stroke="var(--cal-parent-b)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+					<span>Personalized to your family — ages, activities, school, comfort items</span>
+				</li>
+				<li class="flex items-start gap-2.5 text-sm leading-6 text-primary">
+					<svg class="mt-0.5 h-[18px] w-[18px] shrink-0" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="10" fill="var(--cal-parent-b)" opacity="0.14" /><path d="M6 10.2 8.6 13 14 7" stroke="var(--cal-parent-b)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+					<span>Print-ready PDF: what stays, what travels, switch-day list, kid-friendly page</span>
+				</li>
+				<li class="flex items-start gap-2.5 text-sm leading-6 text-primary">
+					<svg class="mt-0.5 h-[18px] w-[18px] shrink-0" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="10" fill="var(--cal-parent-b)" opacity="0.14" /><path d="M6 10.2 8.6 13 14 7" stroke="var(--cal-parent-b)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></svg>
+					<span>One-time $7 — no account, no subscription, download anytime after</span>
+				</li>
+			</ul>
 		</section>
 
 		<section class="container-shell pb-12">
 			<div class="mx-auto max-w-xl">
-				<!-- State: no calendar entitlement in this browser. The $7 add-on is billed as an extra on top of the calendar, so a customer landing here without one probably purchased on a different device/browser (or cleared storage) — send them to buy/recover the calendar rather than showing a dead-end. -->
-				<div class="soft-card hidden rounded-[1.5rem] p-5 sm:p-6" data-needs-calendar-state>
-					<h2 class="text-xl font-semibold tracking-[-0.04em] text-primary">You'll need your custody calendar first</h2>
-					<p class="mt-2 text-sm leading-6 text-secondary">
-						The Two-Home Transition Checklist is an add-on to My Custody Calendar. We didn't find a calendar
-						purchase in this browser — if you bought it on a different device or browser, activate your license key
-						below. Otherwise, build your calendar first.
-					</p>
-					<a
-						href="/my-custody-calendar/#build-your-schedule"
-						class="btn-primary mt-4 flex h-14 w-full min-w-0 items-center justify-center gap-2.5 whitespace-nowrap rounded-full px-5 text-center text-[15px] font-semibold leading-none transition-all duration-150 ease-out hover:-translate-y-px active:translate-y-0 active:scale-[0.99]"
-					>
-						Go to My Custody Calendar
-					</a>
-				</div>
 
 				<!-- State: questionnaire + checkout (calendar entitlement present, two-home not yet purchased). -->
 				<div class="soft-card hidden rounded-[1.5rem] p-5 sm:p-6" data-two-home-form-state>
@@ -170,6 +177,9 @@ import Footer from '../components/Footer.astro';
 						</button>
 						<p class="text-center text-[11px] leading-4 text-muted">One-time $7 payment · no subscription. Every question is optional — answer what you know.</p>
 					</form>
+					<p class="mt-4 text-center text-xs leading-5 text-muted">
+						Don't have a custody calendar yet? <a href="/my-custody-calendar/#build-your-schedule" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">Build one for $14.99</a> — this checklist works great on its own or alongside it.
+					</p>
 				</div>
 
 				<!-- State: paid (two-home entitlement present, or just resolved from a pending checkout). -->
@@ -221,7 +231,6 @@ import Footer from '../components/Footer.astro';
 	import { generateTransitionPlan } from '../lib/twoHome/generatePlan';
 	import { buildTransitionFilename, buildTransitionPdf, downloadTransitionBytes } from '../lib/twoHome/transitionPdfExport';
 
-	const needsCalendarState = document.querySelector('[data-needs-calendar-state]');
 	const formState = document.querySelector('[data-two-home-form-state]');
 	const successState = document.querySelector('[data-two-home-success-state]');
 	const form = document.querySelector('[data-two-home-form]');
@@ -336,21 +345,19 @@ import Footer from '../components/Footer.astro';
 	}
 
 	function showState(state) {
-		needsCalendarState?.classList.toggle('hidden', state !== 'needs-calendar');
 		formState?.classList.toggle('hidden', state !== 'form');
 		successState?.classList.toggle('hidden', state !== 'success');
 	}
 
 	function render() {
 		// A just-confirmed payment always wins — never re-hide the success
-		// state behind a calendar-entitlement check that may be stale or
-		// simply doesn't apply in this browser (see the file-level comment).
+		// state behind stale storage (see the file-level comment). Otherwise
+		// this is a standalone product now — no calendar entitlement required
+		// to see the form; startTwoHomeCheckout still passes along a calendar
+		// paymentId when one exists, so the two are still linked for anyone
+		// who does own both.
 		if (justPaid || getEntitlement('two-home')) {
 			showState('success');
-			return;
-		}
-		if (!getEntitlement('calendar')) {
-			showState('needs-calendar');
 			return;
 		}
 		showState('form');

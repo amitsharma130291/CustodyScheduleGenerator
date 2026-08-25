@@ -53,6 +53,13 @@ export const startWithTool = {
 			detail: 'Cover page, year overview, 12 monthly pages, important dates, kid-friendly page — $14.99 once, yours for life',
 			accent: 'premium',
 		},
+		{
+			label: 'Build a two-home transition checklist',
+			question: 'What actually needs to travel between homes on switch day?',
+			href: '/two-home-checklist/',
+			detail: 'Personalized packing list, switch-day checklist, kid-friendly page — $7 once, works alone or with your calendar',
+			accent: 'log',
+		},
 	],
 };
 
@@ -117,9 +124,10 @@ export const popularGuides = {
 
 export const planningDocuments = {
 	title: 'Planning Documents And Templates',
-	intro: 'Five document pages — each owns a different output. Generator mechanics stay on the tool page.',
+	intro: 'Six document pages — each owns a different output. Generator mechanics stay on the tool page.',
 	documents: [
 		{ label: 'My Custody Calendar (full year PDF)', href: '/my-custody-calendar/#build-your-schedule', detail: 'Personalized 12-month calendar, important dates, kid-friendly page — $14.99 once, yours for life' },
+		{ label: 'Two-Home Transition Checklist', href: '/two-home-checklist/', detail: 'Packing list, switch-day checklist, kid-friendly page — $7 once, works alone or with your calendar' },
 		{ label: 'Custody schedule template', href: '/custody-schedule-template/', detail: 'Rotation rules, exchanges, summer placeholders' },
 		{ label: 'Custody calendar template', href: '/custody-calendar-template/', detail: 'Printable month grid and parent color coding' },
 		{ label: 'Parenting plan template', href: '/parenting-plan-template/', detail: 'Agreement sections and clause hierarchy' },

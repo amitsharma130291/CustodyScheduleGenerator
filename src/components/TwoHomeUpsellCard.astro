@@ -1,31 +1,30 @@
 ---
-// Compact, static promo card for the $7 Two-Home Transition Checklist —
-// the add-on to My Custody Calendar. Mirrors CalendarUpsellCard.astro's
-// shape (no client-side state, safe on any page) but in the product's own
-// teal identity (matching two-home-offer.astro) so the two upsells read as
-// related-but-distinct products, not one card with two prices.
+// Compact, static promo card for the $7 Two-Home Transition Checklist — a
+// standalone product in its own right, that also pairs with My Custody
+// Calendar. Mirrors CalendarUpsellCard.astro's shape (no client-side
+// state, safe on any page) but in the product's own teal identity
+// (matching two-home-offer.astro) so the two read as related-but-distinct
+// products, not one card with two prices.
 //
-// The checklist is only ever sold as an add-on (checkout requires a
-// calendar entitlement first — see two-home-checklist.astro's own
-// data-needs-calendar-state fallback), so this CTA links straight to that
-// page rather than re-implementing the gate here: a visitor without the
-// calendar yet lands on that page's existing "build your calendar first"
-// prompt instead of a dead end.
+// Checkout never required a calendar purchase server-side (calendarPaymentId
+// is optional metadata) — the old "add-on only" framing was a front-end
+// decision on two-home-checklist.astro, since reversed. This CTA links
+// straight to that page, which now shows the questionnaire to everyone.
 interface Props {
 	/** Tailoring the lead-in line to the page it's dropped on reads less like a repeated ad unit. Keep to one sentence. */
 	lead?: string;
 }
-const { lead = "Buying the calendar solves the schedule. This solves the suitcase." } = Astro.props;
+const { lead = "Whether or not you've built a calendar here, this solves the suitcase." } = Astro.props;
 ---
 
-<aside class="two-home-upsell-card" aria-label="Two-Home Transition Checklist — $7 add-on">
+<aside class="two-home-upsell-card" aria-label="Two-Home Transition Checklist — $7 standalone or bundled">
 	<div class="two-home-upsell-card__text">
-		<p class="text-[11px] font-bold uppercase tracking-[0.16em]" style="color: var(--cal-parent-b)">Add-on · $7 once · Pairs with your calendar</p>
-		<p class="mt-1.5 text-base font-semibold leading-6 text-primary">{lead} Add the Two-Home Transition Checklist.</p>
+		<p class="text-[11px] font-bold uppercase tracking-[0.16em]" style="color: var(--cal-parent-b)">$7 once · works alone or with your calendar</p>
+		<p class="mt-1.5 text-base font-semibold leading-6 text-primary">{lead} Get the Two-Home Transition Checklist.</p>
 		<p class="mt-1 text-sm leading-6 text-secondary">What stays at each home, what travels between them, and a switch-day list — so nothing gets left behind, and nobody has to text "did you pack the retainer?" again.</p>
 	</div>
 	<a href="/two-home-checklist/" class="btn-primary btn-primary--wrap flex min-h-12 w-full shrink-0 items-center justify-center gap-2 rounded-full px-6 text-center text-sm font-semibold sm:w-auto sm:whitespace-nowrap">
-		Add the $7 Two-Home Checklist
+		Get the $7 Two-Home Checklist
 	</a>
 </aside>
 
