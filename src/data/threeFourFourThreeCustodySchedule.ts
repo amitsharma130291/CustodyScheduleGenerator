@@ -119,7 +119,7 @@ export const characterExample = {
 		},
 		{
 			heading: 'Three-day block adjustment',
-			body: 'On the short blocks, Sofia packs a smaller bag — three nights, not four. Dad learned to keep school shoes at his house year-round so a missing sneaker on a short block does not become a Wednesday morning crisis.',
+			body: 'On the short blocks, Sofia packs a smaller bag — three nights, not four. Dad learned to keep school shoes at his house year-round so a missing sneaker on a short block does not become a Wednesday morning crisis. A <a href="/two-home-checklist/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">two-home transition checklist</a> makes that "keep it at both houses" list explicit instead of learned the hard way.',
 		},
 		{
 			heading: 'Why the rotation stuck',

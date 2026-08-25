@@ -164,7 +164,7 @@ export const involvedParents = {
 		},
 		{
 			heading: 'Stock a real second home',
-			body: 'Clothes that fit, homework supplies, and charger cables at Parent B\'s house signal this is a home — not a hotel. The child stops treating visits as packing emergencies.',
+			body: 'Clothes that fit, homework supplies, and charger cables at Parent B\'s house signal this is a home — not a hotel. The child stops treating visits as packing emergencies. A <a href="/two-home-checklist/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">personalized transition checklist</a> is a fast way to settle exactly what belongs on that list.',
 		},
 		{
 			heading: 'Use the calendar tool before arguing',

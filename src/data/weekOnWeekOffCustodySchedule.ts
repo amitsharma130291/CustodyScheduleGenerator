@@ -128,7 +128,7 @@ export const parkingLotSchedule = {
 	scenes: [
 		{
 			heading: 'Friday dismissal',
-			body: 'One pickup; the other parent\'s week starts at the curb. Backpack and instrument transfer once — no second handoff before Monday homeroom.',
+			body: 'One pickup; the other parent\'s week starts at the curb. Backpack and instrument transfer once — no second handoff before Monday homeroom. With only one exchange a week, a <a href="/two-home-checklist/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">printable transition checklist</a> is worth having on hand — miss something on Friday and it is gone for seven days, not two.',
 		},
 		{
 			heading: 'Sunday at 6:00 p.m.',

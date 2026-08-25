@@ -155,7 +155,7 @@ export const problemsFixes = {
 			title: 'The child leaves essentials at the other home',
 			stakes:
 				'Marcus shows up at Dad\'s Tuesday without gym shoes because they lived under Mom\'s stairs. Dad buys a backup pair in October, then again in January because nobody labeled which house owns the "real" pair. Marcus starts saying "I can\'t go — my stuff is at Mom\'s."',
-			fix: 'Duplicate essentials at both homes: cleats, charger, inhaler, snow boots. Use a printed transition checklist on the fridge — lunch, folder, medication, uniform — both parents initial the same list.',
+			fix: 'Duplicate essentials at both homes: cleats, charger, inhaler, snow boots. Use a <a href="/two-home-checklist/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">printed transition checklist</a> on the fridge — lunch, folder, medication, uniform — both parents initial the same list.',
 		},
 		{
 			title: 'The primary home carries all school communication',

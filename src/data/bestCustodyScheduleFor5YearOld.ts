@@ -221,7 +221,7 @@ export const faqItems = [
 	{
 		question: 'Should the backpack move with the child or stay at school?',
 		answer:
-			'Either works if written down. Traveling backpack: pack homework folder, lunchbox, and gym shoes every exchange. School-locker model: duplicates at both homes plus a checklist inside the bag. The failure mode is assuming both parents know the system without putting it in the parenting plan.',
+			'Either works if written down. Traveling backpack: pack homework folder, lunchbox, and gym shoes every exchange. School-locker model: duplicates at both homes plus a <a href="/two-home-checklist/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">printed checklist</a> inside the bag. The failure mode is assuming both parents know the system without putting it in the parenting plan.',
 	},
 	{
 		question: 'What should parents write about school pickup?',

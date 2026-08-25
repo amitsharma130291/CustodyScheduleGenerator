@@ -141,7 +141,7 @@ export const tradeOff = {
 		},
 		{
 			heading: 'Duplicate gear beats perfect packing',
-			body: 'Lucas has two toothbrushes, two lunchboxes, and swim goggles in both closets because Mom once forgot the blue bag on a Wednesday and he sat out free swim. 2-2-3 punishes "we\'ll grab it next time" — there is always a next time in forty-eight hours.',
+			body: 'Lucas has two toothbrushes, two lunchboxes, and swim goggles in both closets because Mom once forgot the blue bag on a Wednesday and he sat out free swim. 2-2-3 punishes "we\'ll grab it next time" — there is always a next time in forty-eight hours. A <a href="/two-home-checklist/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">personalized packing checklist</a> for what stays at each home and what travels catches this before the first missed swim day, not after.',
 		},
 		{
 			heading: 'Bedtime rules must match enough to sleep',

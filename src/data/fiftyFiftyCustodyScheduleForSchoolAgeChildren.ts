@@ -146,7 +146,7 @@ export const ownershipMistakes = [
 	},
 	{
 		mistake: 'Activity gear assumed to travel automatically',
-		detail: 'Thursday violin at Mom’s when Thursday belongs to Dad on the calendar. Pack the night before or duplicate gear.',
+		detail: 'Thursday violin at Mom’s when Thursday belongs to Dad on the calendar. Pack the night before or duplicate gear — a <a href="/two-home-checklist/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">two-home checklist</a> built around your actual activity schedule catches this before Thursday, not during it.',
 	},
 ];
 

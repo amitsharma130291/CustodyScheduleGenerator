@@ -216,7 +216,7 @@ export const mistakes = {
 			title: 'No clothing or supplies at the 30% home',
 			stakes:
 				'Every Friday, Emma arrives at Dad\'s with a duffel Mom packed in a rush. When Mom travels for work, Emma has no spare inhaler at Dad\'s and misses soccer Saturday while they drive back across town. Dad handles weekends but never stocked Tuesday practice gear at his house.',
-			fix: 'Dad keeps a labeled bin: gym shoes, inhaler, charger, snow boots, next-size jeans. Friday pickup should not require a suitcase from Mom\'s every week.',
+			fix: 'Dad keeps a labeled bin: gym shoes, inhaler, charger, snow boots, next-size jeans. Friday pickup should not require a suitcase from Mom\'s every week — a <a href="/two-home-checklist/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">two-home checklist</a> makes the "what stays here" list explicit instead of rebuilt from memory every Friday.',
 		},
 		{
 			title: 'Every missed weekend becomes a fight',
