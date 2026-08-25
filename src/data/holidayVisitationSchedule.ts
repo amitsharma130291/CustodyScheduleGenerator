@@ -14,7 +14,7 @@ export const editorialReview = {
 		'travel-time examples',
 		'parenting-plan clause clarity',
 	],
-	reviewer: 'CustodyBuilder Editorial Team',
+	reviewer: 'Amit Sharma',
 	reviewerHref: '/about/',
 	methodologyLabel: 'How CustodyBuilder Works',
 	methodologyHref: '/how-custodybuilder-works/',

@@ -8,7 +8,7 @@ export const meta = {
 
 export const editorialReview = {
 	reviewedFor: ['month-grid rendering', 'parent color coding', 'school-year vs summer layers', 'print/PDF export'],
-	reviewer: 'CustodyBuilder Editorial Team',
+	reviewer: 'Amit Sharma',
 	reviewerHref: '/about/',
 	methodologyLabel: 'How CustodyBuilder Works',
 	methodologyHref: '/how-custodybuilder-works/',

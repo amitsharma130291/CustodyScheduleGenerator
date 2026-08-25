@@ -13,7 +13,7 @@ export const editorialReview = {
 		'calendar flexibility vs rigid rotation',
 		'calendar-generation accuracy',
 	],
-	reviewer: 'CustodyBuilder Editorial Team',
+	reviewer: 'Amit Sharma',
 	reviewerHref: '/about/',
 	methodologyLabel: 'How CustodyBuilder Works',
 	methodologyHref: '/how-custodybuilder-works/',

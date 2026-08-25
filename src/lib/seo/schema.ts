@@ -69,7 +69,7 @@ export function buildArticleSchema({
 	url,
 	datePublished,
 	dateModified,
-	authorName = 'CustodyBuilder Editorial Team',
+	authorName = 'Amit Sharma',
 }: {
 	headline: string;
 	description: string;
@@ -88,8 +88,9 @@ export function buildArticleSchema({
 		datePublished,
 		dateModified,
 		author: {
-			'@type': 'Organization',
+			'@type': 'Person',
 			name: authorName,
+			jobTitle: 'Founder, CustodyBuilder',
 			url: 'https://custodybuilder.com/about/',
 		},
 		publisher: {

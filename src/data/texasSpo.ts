@@ -13,7 +13,7 @@ export const editorialReview = {
 		'2026 holiday year (even-year) possession assignments',
 		'Distance threshold rules (50-mile and 100-mile)',
 	],
-	reviewer: 'CustodyBuilder Editorial Team',
+	reviewer: 'Amit Sharma',
 	reviewerHref: '/about/',
 	methodologyLabel: 'How CustodyBuilder Works',
 	methodologyHref: '/how-custodybuilder-works/',

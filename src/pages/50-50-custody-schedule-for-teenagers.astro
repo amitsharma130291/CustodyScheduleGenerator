@@ -82,7 +82,7 @@ const schema = [
 ];
 ---
 
-<BaseLayout title={meta.title} description={meta.description} canonical={canonical}>
+<BaseLayout title={meta.title} description={meta.description} canonical={canonical} robots="noindex, follow">
 	<JsonLd slot="head" data={schema} />
 	<Navbar />
 	<Breadcrumbs items={breadcrumbs} />

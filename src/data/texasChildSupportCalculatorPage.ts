@@ -16,7 +16,7 @@ export const hero = {
 
 export const editorialReview = {
 	reviewedFor: ['Texas guideline percentage table', 'net resources calculation', 'income cap logic', 'deduction field accuracy', 'educational clarity'],
-	reviewer: 'CustodyBuilder Editorial Team',
+	reviewer: 'Amit Sharma',
 	reviewerHref: '/about/',
 	methodologyLabel: 'How CustodyBuilder Works',
 	methodologyHref: '/how-custodybuilder-works/',

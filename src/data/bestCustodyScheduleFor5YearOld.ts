@@ -13,7 +13,7 @@ export const editorialReview = {
 		'calendar-generation accuracy',
 		'school pickup and backpack examples',
 	],
-	reviewer: 'CustodyBuilder Editorial Team',
+	reviewer: 'Amit Sharma',
 	reviewerHref: '/about/',
 	methodologyLabel: 'How CustodyBuilder Works',
 	methodologyHref: '/how-custodybuilder-works/',

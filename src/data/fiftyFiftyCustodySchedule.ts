@@ -8,7 +8,7 @@ export const meta = {
 
 export const editorialReview = {
 	lastReviewed: 'June 2026',
-	reviewer: 'CustodyBuilder Editorial Team',
+	reviewer: 'Amit Sharma',
 	reviewerHref: '/about/',
 	body: 'Educational use only. Not legal advice.',
 };

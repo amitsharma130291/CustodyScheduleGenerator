@@ -13,7 +13,7 @@ export const editorialReview = {
 		'calendar-generation accuracy',
 		'high-school activity examples',
 	],
-	reviewer: 'CustodyBuilder Editorial Team',
+	reviewer: 'Amit Sharma',
 	reviewerHref: '/about/',
 	methodologyLabel: 'How CustodyBuilder Works',
 	methodologyHref: '/how-custodybuilder-works/',

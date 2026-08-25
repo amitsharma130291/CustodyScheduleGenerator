@@ -32,7 +32,7 @@ export const editorialReview = {
 		'Honest, use-case-based picks (no single rigged winner)',
 		'Transparent disclosure that CustodyBuilder is a free scheduling tool, not a full app',
 	],
-	reviewer: 'CustodyBuilder Editorial Team',
+	reviewer: 'Amit Sharma',
 	reviewerHref: '/about/',
 	methodologyLabel: 'How CustodyBuilder Works',
 	methodologyHref: '/how-custodybuilder-works/',

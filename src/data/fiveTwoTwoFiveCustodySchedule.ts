@@ -8,7 +8,7 @@ export const meta = {
 
 export const editorialReview = {
 	lastReviewed: 'June 2026',
-	reviewer: 'CustodyBuilder Editorial Team',
+	reviewer: 'Amit Sharma',
 	reviewerHref: '/about/',
 	body: 'Updated for school-age families comparing 5-2-2-5 against frequent-exchange and longer-block 50/50 patterns — with emphasis on school-week ownership, homework continuity, and what breaks when block handoffs miss project deadlines. Educational planning content only; not legal advice.',
 };

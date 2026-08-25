@@ -8,7 +8,7 @@ export const meta = {
 
 export const editorialReview = {
 	lastReviewed: 'June 2026',
-	reviewer: 'CustodyBuilder Editorial Team',
+	reviewer: 'Amit Sharma',
 	reviewerHref: '/about/',
 	body: 'This guide explains how 70/30 parenting time works in practice and how the 30% parent stays part of recurring school-week routines. Schedule methodology is described on <a href="/how-custodybuilder-works/" class="font-semibold text-accent underline decoration-line underline-offset-4 hover:text-primary">How CustodyBuilder Works</a>. Educational planning content only — not legal advice.',
 };

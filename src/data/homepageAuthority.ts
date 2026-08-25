@@ -141,7 +141,7 @@ export const whyDifferent = {
 
 export const editorialBlock = {
 	title: 'Editorial Review & Methodology',
-	intro: 'The CustodyBuilder Editorial Team reviews tools and guides before and after publish updates.',
+	intro: 'The Amit Sharma reviews tools and guides before and after publish updates.',
 	reviewItems: [
 		'Calendar generation — exchange days match the selected rotation ID and start date',
 		'Calculator parity — generator overnight summaries align with percentage calculator inputs',

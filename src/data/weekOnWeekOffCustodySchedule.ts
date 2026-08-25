@@ -8,11 +8,11 @@ export const meta = {
 
 export const editorialReview = {
 	lastReviewed: 'June 2026',
-	reviewer: 'CustodyBuilder Editorial Team',
+	reviewer: 'Amit Sharma',
 	reviewerHref: '/about/',
 	methodologyHref: '/how-custodybuilder-works/',
 	trustLine:
-		'Reviewed June 2026 by <a href="/about/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">CustodyBuilder Editorial Team</a> for schedule math, exchange frequency, calendar examples, and educational clarity. Schedule methodology is described on <a href="/how-custodybuilder-works/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">How CustodyBuilder Works</a>. This page is educational only and is not legal advice.',
+		'Reviewed June 2026 by <a href="/about/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">Amit Sharma</a> for schedule math, exchange frequency, calendar examples, and educational clarity. Schedule methodology is described on <a href="/how-custodybuilder-works/" class="font-semibold text-secondary underline decoration-line underline-offset-4 hover:text-primary">How CustodyBuilder Works</a>. This page is educational only and is not legal advice.',
 };
 
 export const hero = {

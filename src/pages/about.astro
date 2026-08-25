@@ -9,6 +9,7 @@ import { buildAboutPageSchema, buildArticleSchema, buildBreadcrumbSchema, buildW
 import {
 	editorialStandards,
 	educationalBoundary,
+	founder,
 	hero,
 	meta,
 	nextLinks,
@@ -32,7 +33,7 @@ const schema = [
 		url: canonicalUrl,
 		datePublished: meta.datePublished,
 		dateModified: meta.dateModified,
-		authorName: 'CustodyBuilder Editorial Team',
+		authorName: 'Amit Sharma',
 	}),
 	buildBreadcrumbSchema(breadcrumbs),
 	buildAboutPageSchema({ name: meta.title, description: meta.description, url: canonicalUrl }),
@@ -48,7 +49,21 @@ const schema = [
 			<div class="max-w-3xl">
 				<h1 class="text-4xl font-semibold leading-[0.98] tracking-[-0.055em] text-primary sm:text-5xl">{hero.headline}</h1>
 				<p class="mt-5 text-lg leading-8 text-secondary">{hero.intro}</p>
-				<p class="mt-4 text-sm text-muted">Reviewed by CustodyBuilder Editorial Team · Updated {meta.dateModified}</p>
+				<p class="mt-4 text-sm text-muted">Reviewed by Amit Sharma · Updated {meta.dateModified}</p>
+			</div>
+		</section>
+
+		<section class="container-shell scroll-mt-24 border-t border-line-subtle py-10 lg:py-12">
+			<h2 class="text-2xl font-semibold text-primary sm:text-3xl">{founder.title}</h2>
+			<div class="mt-4 flex max-w-3xl items-start gap-4">
+				<div class="grid h-14 w-14 shrink-0 place-items-center rounded-full bg-accent/10 text-lg font-semibold text-accent" aria-hidden="true">
+					{founder.name.split(' ').map((part) => part[0]).join('')}
+				</div>
+				<div>
+					<p class="font-semibold text-primary">{founder.name}</p>
+					<p class="text-sm text-muted">{founder.role}</p>
+					<p class="mt-3 text-secondary">{founder.bio}</p>
+				</div>
 			</div>
 		</section>
 

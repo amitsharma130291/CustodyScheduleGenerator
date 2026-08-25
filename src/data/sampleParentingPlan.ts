@@ -22,7 +22,7 @@ export const editorialReview = {
 		'YMYL accuracy: hedged, state-varies framing, fictional illustrative families',
 		'Clear boundary: examples link out to the template, schedule, and definition pages',
 	],
-	reviewer: 'CustodyBuilder Editorial Team',
+	reviewer: 'Amit Sharma',
 	reviewerHref: '/about/',
 	methodologyLabel: 'How CustodyBuilder Works',
 	methodologyHref: '/how-custodybuilder-works/',

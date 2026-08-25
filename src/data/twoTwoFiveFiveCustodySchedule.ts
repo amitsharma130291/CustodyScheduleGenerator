@@ -8,7 +8,7 @@ export const meta = {
 
 export const editorialReview = {
 	lastReviewed: 'June 2026',
-	reviewer: 'CustodyBuilder Editorial Team',
+	reviewer: 'Amit Sharma',
 	reviewerHref: '/about/',
 	body: 'Updated for families comparing 2-2-5-5 against school-week-block and frequent-exchange 50/50 patterns — with emphasis on permanently fixed weekday duties, recurring activities, and what breaks when written plans treat Tuesday as flexible. Educational planning content only; not legal advice.',
 };

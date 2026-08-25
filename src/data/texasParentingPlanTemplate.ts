@@ -8,7 +8,7 @@ export const meta = {
 
 export const editorialReview = {
 	reviewedFor: ['Texas SPO calendar sequencing', 'expanded possession interaction', 'summer notice deadlines', 'Texas filing clause language'],
-	reviewer: 'CustodyBuilder Editorial Team',
+	reviewer: 'Amit Sharma',
 	reviewerHref: '/about/',
 	methodologyLabel: 'How CustodyBuilder Works',
 	methodologyHref: '/how-custodybuilder-works/',

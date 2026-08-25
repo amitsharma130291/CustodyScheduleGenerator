@@ -8,7 +8,7 @@ export const meta = {
 
 export const editorialReview = {
 	reviewedFor: ['recurring rotation structure', 'exchange timing fields', 'summer and holiday placeholders', 'calendar export accuracy'],
-	reviewer: 'CustodyBuilder Editorial Team',
+	reviewer: 'Amit Sharma',
 	reviewerHref: '/about/',
 	methodologyLabel: 'How CustodyBuilder Works',
 	methodologyHref: '/how-custodybuilder-works/',

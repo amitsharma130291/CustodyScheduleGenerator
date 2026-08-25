@@ -12,6 +12,13 @@ export const hero = {
 		'CustodyBuilder publishes custody calendar tools and educational guides for parents who need dated exchange grids, overnight counts, and parenting-plan outlines before mediation or attorney review.',
 };
 
+export const founder = {
+	title: 'Who Writes This',
+	name: 'Amit Sharma',
+	role: 'Founder, CustodyBuilder',
+	bio: 'Amit Sharma built and maintains CustodyBuilder — the calendar tools, the schedule generator, and the guides on this site. CustodyBuilder is not a law firm and does not claim attorney review; where a page cites a specific statute or court resource, the source is linked so you can verify it yourself.',
+};
+
 export const whoWeServe = {
 	title: 'Who CustodyBuilder Serves',
 	body: 'Separated and divorced parents comparing parenting schedules, co-parents drafting plan exhibits, and mediators who need printable calendar previews. The tools translate rotation rules into month cells — not court strategy.',

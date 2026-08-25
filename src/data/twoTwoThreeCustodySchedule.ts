@@ -8,7 +8,7 @@ export const meta = {
 
 export const editorialReview = {
 	lastReviewed: 'June 2026',
-	reviewer: 'CustodyBuilder Editorial Team',
+	reviewer: 'Amit Sharma',
 	reviewerHref: '/about/',
 	body: 'Updated for parents weighing 2-2-3 against longer-block 50/50 schedules — with emphasis on how often a young child sees each parent, exchange load, and what breaks when kindergarten adds homework and fixed activities. Educational planning content only; not legal advice and not a substitute for a court order or attorney review.',
 };

@@ -8,7 +8,7 @@ export const meta = {
 
 export const editorialReview = {
 	reviewedFor: ['calendar generation accuracy', 'exchange-day rendering', 'PDF export parity', 'schedule pattern mapping', 'educational clarity'],
-	reviewer: 'CustodyBuilder Editorial Team',
+	reviewer: 'Amit Sharma',
 	reviewerHref: '/about/',
 	methodologyLabel: 'How CustodyBuilder Works',
 	methodologyHref: '/how-custodybuilder-works/',

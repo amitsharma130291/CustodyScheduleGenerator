@@ -14,7 +14,7 @@ export const editorialReview = {
 		'parenting-time percentages',
 		'printable calendar examples',
 	],
-	reviewer: 'CustodyBuilder Editorial Team',
+	reviewer: 'Amit Sharma',
 	reviewerHref: '/about/',
 	methodologyLabel: 'How CustodyBuilder Works',
 	methodologyHref: '/how-custodybuilder-works/',

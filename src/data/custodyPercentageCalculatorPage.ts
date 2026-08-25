@@ -8,7 +8,7 @@ export const meta = {
 
 export const editorialReview = {
 	reviewedFor: ['overnight percentage formula', 'annual total arithmetic', '50/50 split examples', 'calculator output accuracy', 'educational clarity'],
-	reviewer: 'CustodyBuilder Editorial Team',
+	reviewer: 'Amit Sharma',
 	reviewerHref: '/about/',
 	methodologyLabel: 'How CustodyBuilder Works',
 	methodologyHref: '/how-custodybuilder-works/',

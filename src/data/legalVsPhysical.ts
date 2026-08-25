@@ -13,7 +13,7 @@ export const editorialReview = {
 		'The four legal/physical custody combinations',
 		'YMYL accuracy: hedged, state-varies framing, not legal advice',
 	],
-	reviewer: 'CustodyBuilder Editorial Team',
+	reviewer: 'Amit Sharma',
 	reviewerHref: '/about/',
 	methodologyLabel: 'How CustodyBuilder Works',
 	methodologyHref: '/how-custodybuilder-works/',

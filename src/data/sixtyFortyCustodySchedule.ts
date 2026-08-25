@@ -8,7 +8,7 @@ export const meta = {
 
 export const editorialReview = {
 	lastReviewed: 'June 2026',
-	reviewer: 'CustodyBuilder Editorial Team',
+	reviewer: 'Amit Sharma',
 	reviewerHref: '/about/',
 	body: 'Updated for families weighing 60/40 against equal-time and 70/30 plans — with emphasis on exchange load, school-week blocks, and what fails when the percentage label outruns the written plan. Educational planning content only; not legal advice and not a substitute for a court order or attorney review.',
 };
