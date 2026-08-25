@@ -22,14 +22,9 @@ export default defineConfig({
           '/parenting-time-calculator',
           '/holiday-custody-planner',
           '/schedule-comparison-tool',
-          // Noindexed in favor of a stronger, less-overlapping page covering the
-          // same search intent — see the content-inventory notes for the pairing.
+          // Noindexed: near-total overlap with /ourfamilywizard-alternative/
+          // (same competitor, same "genuinely free" pitch, no distinct angle).
           '/free-ourfamilywizard-alternative',
-          '/holiday-visitation-schedule',
-          '/relocation-custody-schedule',
-          '/best-custody-schedule-for-toddler',
-          '/50-50-custody-schedule-for-teenagers',
-          '/50-50-custody-schedule-for-babies',
         ]);
 
         return !excludedPaths.has(pathname) && !pathname.startsWith('/schedules/');
