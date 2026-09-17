@@ -30,6 +30,21 @@ const siteUrl = 'https://custodybuilder.com/';
 const canonicalUrl = getCanonicalUrl(canonical, siteUrl);
 const defaultImageUrl = new URL('/og/custodybuilder-og.png', siteUrl).toString();
 const shouldLoadAnalytics = import.meta.env.PROD;
+const adSenseEligiblePaths = new Set([
+	'/',
+	'/2-2-3-custody-schedule/',
+	'/2-2-5-5-custody-schedule/',
+	'/3-4-4-3-custody-schedule/',
+	'/5-2-2-5-custody-schedule/',
+	'/custody-percentage-calculator/',
+	'/custody-schedule-by-age/',
+	'/custody-schedule-generator/',
+	'/every-other-weekend-custody-schedule/',
+	'/holiday-custody-schedule/',
+	'/sample-parenting-plan/',
+	'/visitation-calculator/',
+	'/week-on-week-off-custody-schedule/',
+]);
 // Keep the verification/Auto Ads loader off pages that are intentionally outside the
 // searchable content inventory. If Auto Ads is enabled in AdSense later, loading the
 // script on 404s, checkout flows, or thin placeholder pages can create policy-risky
@@ -38,7 +53,9 @@ const isNoIndex = robots
 	.split(',')
 	.map((directive) => directive.trim().toLowerCase())
 	.includes('noindex');
-const shouldLoadAdSense = import.meta.env.PROD && loadAdSense && !isNoIndex;
+const normalizedPath = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
+const shouldLoadAdSense =
+	import.meta.env.PROD && loadAdSense && !isNoIndex && adSenseEligiblePaths.has(normalizedPath);
 ---
 
 <!doctype html>

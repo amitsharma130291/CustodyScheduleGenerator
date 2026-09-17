@@ -3,7 +3,7 @@ export const meta = {
 	description:
 		'Who CustodyBuilder serves, what the editorial team reviews, educational boundaries, and why the site exists — no legal credentials claimed.',
 	datePublished: '2026-06-01',
-	dateModified: '2026-06-25',
+	dateModified: '2026-09-17',
 };
 
 export const hero = {
@@ -17,6 +17,7 @@ export const founder = {
 	name: 'Amit Sharma',
 	role: 'Founder, CustodyBuilder',
 	bio: 'Amit Sharma built and maintains CustodyBuilder — the calendar tools, the schedule generator, and the guides on this site. CustodyBuilder is not a law firm and does not claim attorney review; where a page cites a specific statute or court resource, the source is linked so you can verify it yourself.',
+	sourceUrl: 'https://github.com/amitsharma130291/CustodyScheduleGenerator',
 };
 
 export const whoWeServe = {
