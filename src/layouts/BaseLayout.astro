@@ -12,6 +12,7 @@ interface Props {
 	ogTitle?: string;
 	ogDescription?: string;
 	robots?: string;
+	loadAdSense?: boolean;
 }
 
 const {
@@ -22,12 +23,22 @@ const {
 	ogTitle = title,
 	ogDescription = description,
 	robots = 'index, follow',
+	loadAdSense = true,
 } = Astro.props;
 
 const siteUrl = 'https://custodybuilder.com/';
 const canonicalUrl = getCanonicalUrl(canonical, siteUrl);
 const defaultImageUrl = new URL('/og/custodybuilder-og.png', siteUrl).toString();
 const shouldLoadAnalytics = import.meta.env.PROD;
+// Keep the verification/Auto Ads loader off pages that are intentionally outside the
+// searchable content inventory. If Auto Ads is enabled in AdSense later, loading the
+// script on 404s, checkout flows, or thin placeholder pages can create policy-risky
+// inventory even though those pages are not in the sitemap.
+const isNoIndex = robots
+	.split(',')
+	.map((directive) => directive.trim().toLowerCase())
+	.includes('noindex');
+const shouldLoadAdSense = import.meta.env.PROD && loadAdSense && !isNoIndex;
 ---
 
 <!doctype html>
@@ -146,8 +157,8 @@ const shouldLoadAnalytics = import.meta.env.PROD;
 				</script>
 			</>
 		)}
-		{/* Google AdSense verification — publisher ID only; no ad units, no Auto ads */}
-		{shouldLoadAnalytics && (
+		{/* Google AdSense verification. Restricted to indexable publisher-content pages. */}
+		{shouldLoadAdSense && (
 			<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6726234905496938" crossorigin="anonymous"></script>
 		)}
 		<slot name="head" />

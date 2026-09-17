@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "audit:adsense": "node scripts/validate-adsense.mjs",
     "test": "vitest run",
     "preview": "astro preview",
     "astro": "astro"

@@ -29,7 +29,7 @@ const description =
 const schema = [buildWebPageSchema({ name: title, description, url: canonicalUrl })];
 ---
 
-<BaseLayout title={`${title} | CustodyBuilder`} description={description} canonical={canonical}>
+<BaseLayout title={`${title} | CustodyBuilder`} description={description} canonical={canonical} loadAdSense={false}>
 	<JsonLd slot="head" data={schema} />
 	<Navbar />
 	<main class="pb-28 lg:pb-20">
