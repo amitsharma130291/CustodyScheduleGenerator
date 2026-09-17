@@ -22,6 +22,10 @@ export default defineConfig({
           '/parenting-time-calculator',
           '/holiday-custody-planner',
           '/schedule-comparison-tool',
+          '/my-custody-calendar',
+          '/reactivate-license',
+          '/two-home-checklist',
+          '/two-home-offer',
           // Noindexed: near-total overlap with /ourfamilywizard-alternative/
           // (same competitor, same "genuinely free" pitch, no distinct angle).
           '/free-ourfamilywizard-alternative',

@@ -92,6 +92,7 @@ export function buildArticleSchema({
 			name: authorName,
 			jobTitle: 'Founder, CustodyBuilder',
 			url: 'https://custodybuilder.com/about/',
+			sameAs: ['https://github.com/amitsharma130291'],
 		},
 		publisher: {
 			'@type': 'Organization',
